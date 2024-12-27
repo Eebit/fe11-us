@@ -2,6 +2,7 @@
 #define UNKNOWN_DATA_H
 
 #include "types.h"
+#include "unknown_types.h"
 
 #include "proc.h"
 
@@ -13,5 +14,7 @@ extern struct ProcCmd ProcScr_020ce6f0[];
 extern struct ProcCmd ProcScr_020ce710[];
 extern struct ProcCmd ProcScr_020ce730[];
 extern struct ProcCmd ProcScr_020ce750[];
+
+extern struct Unknown_02197254 * data_02197254; // FE11 database
 
 #endif // UNKNOWN_DATA_H

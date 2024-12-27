@@ -9,3 +9,6 @@ src/proc.c:
     complete
     .text       start:0x02018c58 end:0x02019bd4
     .bss        start:0x02190ce0 end:0x02194b28
+
+src/unit.c:
+    .text       start:0x0203a94c end:0x0203df78
