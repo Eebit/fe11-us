@@ -21,9 +21,9 @@ args = parser.parse_args()
 
 # Config
 GAME = "fe11"
-DSD_VERSION = 'v0.6.0'
+DSD_VERSION = 'v0.8.1'
 WIBO_VERSION = '0.6.16'
-OBJDIFF_VERSION = 'v2.7.1'
+OBJDIFF_VERSION = 'v3.0.0-beta.7'
 MWCC_VERSION = "2.0/sp2p2"
 DECOMP_ME_COMPILER = "mwcc_30_131"
 CC_FLAGS = " ".join([
