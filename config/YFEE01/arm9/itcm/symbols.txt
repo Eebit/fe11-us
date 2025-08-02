@@ -55,6 +55,7 @@ func_01ffb9bc kind:function(arm,size=0x84) addr:0x01ffb9bc
 func_01ffba40 kind:function(arm,size=0xac) addr:0x01ffba40
 func_01ffbaec kind:function(arm,size=0xa4) addr:0x01ffbaec
 func_01ffbb90 kind:function(arm,size=0x68) addr:0x01ffbb90
+gProcessCmdTable kind:data(any) addr:0x01ffbbf8
 func_01ffbc90 kind:function(arm,size=0x10) addr:0x01ffbc90
 IsRootProcess kind:function(arm,size=0x10) addr:0x01ffbca0
 RunProcessScript kind:function(arm,size=0x8c) addr:0x01ffbcb0
@@ -96,4 +97,3 @@ func_01ffcb44 kind:function(arm,size=0x70) addr:0x01ffcb44
 func_01ffcbb4 kind:function(arm,size=0x24) addr:0x01ffcbb4
 func_01ffcbd8 kind:function(arm,size=0x64) addr:0x01ffcbd8
 func_01ffcc3c kind:function(arm,size=0x94) addr:0x01ffcc3c
-gProcessCmdTable kind:data(any) addr:0x01ffbbf8

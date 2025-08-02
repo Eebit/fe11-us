@@ -548,8 +548,10 @@ func_ov002_021f9190 kind:function(arm,size=0x1bc) addr:0x021f9190
 func_ov002_021f934c kind:function(arm,size=0x48) addr:0x021f934c
 func_ov002_021f9394 kind:function(arm,size=0x60) addr:0x021f9394
 func_ov002_021f93f4 kind:function(arm,size=0x150) addr:0x021f93f4
-func_ov002_021f9544 kind:function(arm,size=0x18) addr:0x021f9544
-func_ov002_021f955c kind:function(arm,size=0x30) addr:0x021f955c
+__sinit_ov002_021f9544 kind:function(arm,size=0x18) addr:0x021f9544
+__sinit_ov002_021f955c kind:function(arm,size=0x30) addr:0x021f955c
+.p__sinit_ov002_021f9544 kind:data(word) addr:0x021f958c
+.p__sinit_ov002_021f955c kind:data(word) addr:0x021f9590
 data_ov002_021f95a0 kind:data(any) addr:0x021f95a0
 data_ov002_021f95a4 kind:data(any) addr:0x021f95a4
 data_ov002_021f95ac kind:data(any) addr:0x021f95ac

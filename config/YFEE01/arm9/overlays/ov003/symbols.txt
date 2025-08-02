@@ -929,7 +929,8 @@ func_ov003_021fc0d4 kind:function(arm,size=0x494) addr:0x021fc0d4
 func_ov003_021fc568 kind:function(arm,size=0x84) addr:0x021fc568
 func_ov003_021fc5ec kind:function(arm,size=0x7c) addr:0x021fc5ec
 data_ov003_021fc668 kind:data(any) addr:0x021fc668
-func_ov003_021fc674 kind:function(arm,size=0x54) addr:0x021fc674
+__sinit_ov003_021fc674 kind:function(arm,size=0x54) addr:0x021fc674
+.p__sinit_ov003_021fc674 kind:data(word) addr:0x021fc6c8
 data_ov003_021fc6e0 kind:data(any) addr:0x021fc6e0
 data_ov003_021fc6f8 kind:data(any) addr:0x021fc6f8
 __typeinfo__N4link11ProcCollectE kind:data(any) addr:0x021fc704
