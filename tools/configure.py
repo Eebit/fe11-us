@@ -15,7 +15,7 @@ DEFAULT_WIBO_PATH = "./wibo"
 
 parser = argparse.ArgumentParser(description="Generates build.ninja")
 parser.add_argument('-w', type=str, default=DEFAULT_WIBO_PATH, dest="wine", required=False, help="Path to Wine/Wibo (linux only)")
-parser.add_argument("--compiler", type=Path, required=False, help="Path to compiler root directory")
+parser.add_argument("--compiler", type=Path, required=False, help="Path to pre-installed compiler root directory")
 parser.add_argument("--no-extract", action="store_true", help="Skip extract step")
 parser.add_argument("--dsd", type=Path, required=False, help="Path to pre-installed dsd CLI")
 parser.add_argument('version', help='Game version')
@@ -26,7 +26,7 @@ args = parser.parse_args()
 GAME = "fe11"
 DSD_VERSION = 'v0.10.2'
 WIBO_VERSION = '0.6.16'
-OBJDIFF_VERSION = 'v3.0.0-beta.13'
+OBJDIFF_VERSION = 'v3.0.0'
 MWCC_VERSION = "2.0/sp2p2"
 DECOMP_ME_COMPILER = "mwcc_30_131"
 CC_FLAGS = " ".join([
@@ -170,20 +170,8 @@ class Project:
             files.append(str(src_obj_path.with_suffix(".o")))
         return files
 
-    def arm9_lcf(self) -> Path:
-        return self.game_build / "linker_script.lcf"
-
-    def arm9_objects_txt(self) -> Path:
-        return self.game_build / "objects.txt"
-
-    def arm9_delink_yaml(self) -> Path:
-        return self.game_build / "delinks" / "delink.yaml"
-
     def arm9_o(self) -> Path:
         return self.game_build / "arm9.o"
-
-    def arm9_delinks(self) -> Path:
-        return self.game_build / "delinks"
 
     def arm9_disassembly_dir(self) -> Path:
         return self.game_build / "asm"
@@ -217,7 +205,6 @@ def check_can_run_dsd() -> bool:
         if not version.startswith("v"):
             version = "v" + version
 
-
         # If it's not the correct version, Ninja will download it and then rerun this script
         return version == DSD_VERSION or args.dsd is not None
     except subprocess.CalledProcessError:
@@ -248,12 +235,6 @@ def main():
 
     with build_ninja_path.open("w") as file:
         n = ninja_syntax.Writer(file)
-
-        configure_script = Path(os.path.relpath(os.path.abspath(sys.argv[0])))
-        python_lib_dir = configure_script.parent
-        n.comment("The arguments passed to configure.py, for rerunning it.")
-        n.variable("configure_args", sys.argv[1:])
-        n.variable("python", f'"{PYTHON}"')
 
         n.rule(
             name="download_tool",
@@ -310,7 +291,8 @@ def main():
 
         n.rule(
             name="mwld",
-            command=f'{WINE} "{LD}" {LD_FLAGS} $extra_ld_flags @$objects_file $lcf_file -o $out'        )
+            command=f'{WINE} "{LD}" {LD_FLAGS} $extra_ld_flags @$objects_file $lcf_file -o $out'
+        )
         n.newline()
 
         n.rule(
@@ -324,7 +306,7 @@ def main():
             command=f"{DSD} {DSD_BASE_FLAGS} rom build --config $in --rom $out $arm7_bios_flag"
         )
         n.newline()
-        
+
         n.rule(
             name="objdiff",
             command=f"{DSD} {DSD_BASE_FLAGS} objdiff --config-path $config_path {DSD_OBJDIFF_ARGS}"
@@ -553,7 +535,7 @@ def add_mwcc_builds(n: ninja_syntax.Writer, project: Project, mwcc_implicit: lis
             },
         )
         n.newline()
-        
+
         extension = source_file.suffix
         ctx_file = str(src_obj_path.with_suffix(f".ctx{extension}"))
         n.build(
@@ -653,7 +635,7 @@ def add_check_builds(n: ninja_syntax.Writer, project: Project):
     n.newline()
 
     n.build(
-        inputs=["check_modules", "check_symbols", "sha1"],
+        inputs=["check_modules", "check_symbols"],
         rule="phony",
         outputs="check",
     )
@@ -681,7 +663,7 @@ def add_objdiff_builds(n: ninja_syntax.Writer, project: Project):
     delink_files = project.delink_files()
     n.build(
         inputs=["objdiff.json"],
-        implicit=[OBJDIFF, "arm9", "check"] + delink_files + project.source_object_files(),
+        implicit=[OBJDIFF] + delink_files + project.source_object_files(),
         rule="objdiff_report",
         outputs=str(project.objdiff_report()),
     )
@@ -701,6 +683,9 @@ def add_configure_build(n: ninja_syntax.Writer, project: Project):
         rule="configure",
         implicit=[
             this_file,
+            # Require dsd to exist when rerunning configure.py
+            DSD,
+            *project.dsd_configs(),
         ]
     )
 
