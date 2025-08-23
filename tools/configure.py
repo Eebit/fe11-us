@@ -677,7 +677,7 @@ def add_objdiff_builds(n: ninja_syntax.Writer, project: Project):
     n.newline()
 
 def add_configure_build(n: ninja_syntax.Writer, project: Project):
-    this_file = str(Path(__file__).resolve())
+    this_file = os.path.relpath(__file__, start=os.getcwd())
     n.build(
         outputs="build.ninja",
         rule="configure",
