@@ -815,11 +815,11 @@ void func_ov000_021d86e0(struct ArenaProc * proc)
         kind = 2;
     }
 
-    proc->unk_60 = (void *)func_02011574(0x40);
+    proc->unk_60 = (void *)_Znwm(0x40);
 
     func_ov000_021c8b28(proc->unk_60, proc->unk_38, proc->unk_3c, kind);
 
-    unk_5c = (void *)func_02011574(0x34);
+    unk_5c = (void *)_Znwm(0x34);
     if (unk_5c != NULL)
     {
         unk_5c->unk_00 = proc->unk_60;
@@ -938,7 +938,7 @@ void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
     }
     else
     {
-        func_020115a4(proc->unk_60);
+        _ZdlPv(proc->unk_60);
 
         unk_5c = proc->unk_5c;
 
@@ -946,10 +946,10 @@ void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
         {
             if (unk_5c->unk_24 != 0)
             {
-                func_020115a4(unk_5c->unk_24);
+                _ZdlPv(unk_5c->unk_24);
             }
 
-            func_020115a4(unk_5c);
+            _ZdlPv(unk_5c);
         }
     }
 }
@@ -1025,7 +1025,7 @@ void func_ov000_021d8ccc(struct ArenaProc * proc)
 
     if (proc->unk_58 != 0)
     {
-        func_020115a4(proc->unk_60);
+        _ZdlPv(proc->unk_60);
 
         unk_5c = proc->unk_5c;
 
@@ -1033,10 +1033,10 @@ void func_ov000_021d8ccc(struct ArenaProc * proc)
         {
             if (unk_5c->unk_24 != 0)
             {
-                func_020115a4(unk_5c->unk_24);
+                _ZdlPv(unk_5c->unk_24);
             }
 
-            func_020115a4(unk_5c);
+            _ZdlPv(unk_5c);
         }
 
         proc->unk_60 = 0;
@@ -1081,7 +1081,7 @@ void func_ov000_021d8d68(struct ArenaProc * proc)
 
     func_02039f40(0, proc->unk_54);
 
-    puVar2 = (void *)func_02011574(0x5c);
+    puVar2 = (void *)_Znwm(0x5c);
 
     if (puVar2 != NULL)
     {
@@ -1115,7 +1115,7 @@ void func_ov000_021d8e28(struct ArenaProc * proc)
     }
 
     // TODO: Probably not right type
-    puVar4 = (void *)func_02011574(0x5c);
+    puVar4 = (void *)_Znwm(0x5c);
 
     if (puVar4 != NULL)
     {

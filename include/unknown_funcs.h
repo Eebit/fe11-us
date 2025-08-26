@@ -43,8 +43,8 @@ EC void UnloadOverlay(u32 overlayId);
 EC void func_0200f28c(u32 arg_0);
 EC BOOL IsOverlayLoaded(u32 overlayId);
 
-EC void * func_02011574(s32);
-EC void func_020115bc(void *);
+EC void * _Znwm(s32);
+EC void _ZdaPv(void *);
 EC void func_020115a4(void *);
 EC s32 func_02012190(void);
 EC BOOL func_02012298(void);
@@ -59,6 +59,7 @@ EC void func_02018f54(struct Proc *, void *);
 
 EC s32 func_0201bce4(void);
 EC s32 func_0201bcf4(void);
+EC BOOL func_0201bd6c(void);
 
 EC void func_0201d728(struct Proc * proc, u16 data, u32 flag);
 EC void func_0201d778(struct Proc * proc, u16 data, u32 flag);
@@ -72,6 +73,7 @@ EC void func_0201d9a0(struct Proc * proc, u16 data, u32 flag);
 EC void func_0201d9f4(struct Proc * proc, u16 data, u32 flag);
 EC void func_0201da48(struct Proc * proc, u16 data, u32 flag);
 EC void func_0201da98(struct Proc * proc, u16 data, u32 flag);
+EC BOOL func_0201dae8(void);
 
 EC BOOL func_0201f690(void);
 EC BOOL func_0201f760(s32);
@@ -115,6 +117,7 @@ EC s32 func_020357e8(void);
 //EC void * func_02035b98(void *);
 EC char * GetEventStr(void *, u16);
 EC void func_02035c7c(void *, s32);
+EC void func_02035ccc(void *);
 EC void func_02035dc4(void *, void *);
 EC void func_02035e5c(void *, void *);
 EC void func_02035f20(void *);
@@ -186,7 +189,7 @@ EC void func_020424ac(void);
 EC BOOL func_020424b8(char *);
 
 EC void RegisterEventFunctions(void);
-EC BOOL func_02047708(char *, void *);
+EC BOOL StartEventByName(char *, void *);
 EC void func_020476a0(void);
 EC BOOL func_020479b0(void);
 BOOL TryStartVisitEvent(ProcPtr parent, u32 arg_1, u32 arg_2, u32 arg_3);
@@ -202,6 +205,7 @@ EC void func_020493b8(struct UnkStruct_02196f0c_04 *, char *);
 EC void func_020494a0(struct UnkStruct_02196f0c_04 *, char *, s32);
 EC void func_02049528(struct UnkStruct_02196f0c_04 *);
 //EC void func_02049a2c(struct UnkStruct_02196f0c_04 *, char *, s32);
+EC BOOL func_0204a66c(void);
 EC void func_0204a9e0(s32);
 EC void func_0204abe4(void);
 EC BOOL func_0204b1f8(u32);
@@ -244,12 +248,12 @@ EC void func_020a341c(void *);
 EC void func_020a36ac(void (*)(void *, void *));
 EC void func_020a374c(void *, void (*)(void *));
 
-//EC void func_020a5780(void *, void *, s32);
+EC void func_020a5780(void *, void *, s32);
 EC void func_020a5824(void * buf, int a, int b);
 
 EC void func_020a8f40(char *);
 
-EC void * func_020c3bfc(s32, s32, s32, s32, s32);
+EC void * __cxa_vec_new(s32, s32, s32, s32, s32);
 
 EC void func_020ad244(int a);
 
@@ -269,6 +273,7 @@ EC void func_ov000_021a3ee4(struct Unit *, s32);
 EC void func_ov000_021a43e8(void);
 EC void func_ov000_021a4694(void);
 EC void func_ov000_021a46b8(void);
+EC void func_ov000_021a4718(void);
 EC BOOL func_ov000_021a471c(void);
 EC BOOL func_ov000_021a478c(void);
 EC BOOL func_ov000_021a47e4(void);

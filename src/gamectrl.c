@@ -479,28 +479,28 @@ void func_020217b4(void)
 
     if (data_02197254 == NULL)
     {
-        data_02197254 = (struct Unknown_02197254 *)func_02011574(0x4c);
+        data_02197254 = (struct Unknown_02197254 *)_Znwm(0x4c);
     }
 
     func_02037a04(data_02197254);
 
     if (data_020e3ca0 == NULL)
     {
-        data_020e3ca0 = (struct UnkStruct_020e3ca0 *)func_02011574(0x14);
+        data_020e3ca0 = (struct UnkStruct_020e3ca0 *)_Znwm(0x14);
     }
 
     func_02002058(data_020e3ca0);
 
     if (data_02196f0c == NULL)
     {
-        data_02196f0c = (struct UnkStruct_02196f0c *)func_02011574(0x18);
+        data_02196f0c = (struct UnkStruct_02196f0c *)_Znwm(0x18);
     }
 
     func_02021014();
 
     if (data_02196f10 == NULL)
     {
-        struct UnkStruct_02196f10 * puVar3 = (struct UnkStruct_02196f10 *)func_02011574(0x18);
+        struct UnkStruct_02196f10 * puVar3 = (struct UnkStruct_02196f10 *)_Znwm(0x18);
 
         if (puVar3 != NULL)
         {
@@ -516,28 +516,28 @@ void func_020217b4(void)
 
     if (data_02196f24 == NULL)
     {
-        data_02196f24 = (struct UnkStruct_02196f24 *)func_02011574(0x10);
+        data_02196f24 = (struct UnkStruct_02196f24 *)_Znwm(0x10);
     }
 
     func_02024c74();
 
     if (data_02196f20 == NULL)
     {
-        data_02196f20 = (struct UnkStruct_02196f20 *)func_02011574(0x1a4);
+        data_02196f20 = (struct UnkStruct_02196f20 *)_Znwm(0x1a4);
     }
 
     func_02024d28();
 
     if (data_02196f1c == NULL)
     {
-        data_02196f1c = (struct UnkStruct_02196f1c *)func_02011574(0x10);
+        data_02196f1c = (struct UnkStruct_02196f1c *)_Znwm(0x10);
     }
 
     func_02024e70();
 
     if (data_02196f18 == NULL)
     {
-        data_02196f18 = (struct UnkStruct_02196f18 *)func_02011574(0x600);
+        data_02196f18 = (struct UnkStruct_02196f18 *)_Znwm(0x600);
     }
 
     func_02024f34();
@@ -750,7 +750,7 @@ void func_02021f5c(void)
 
     if (data_ov000_021e3324.unk_00 == NULL)
     {
-        struct UnkStruct_021E3324_00 * puVar2 = (struct UnkStruct_021E3324_00 *)func_02011574(0x20);
+        struct UnkStruct_021E3324_00 * puVar2 = (struct UnkStruct_021E3324_00 *)_Znwm(0x20);
 
         if (puVar2 != NULL)
         {
@@ -828,7 +828,7 @@ void func_0202214c(ProcPtr proc)
     struct Unit ** pUnitStack;
     struct Unit * unit;
 
-    func_02047708("MapBegin\0\0\0", proc);
+    StartEventByName("MapBegin\0\0\0", proc);
 
     if (!(data_02196f0c->unk_0c & 0x10000))
     {
@@ -859,7 +859,7 @@ void func_020221e4(void)
 {
     if (data_021974fc == 0)
     {
-        data_021974fc = (struct UnkStruct_021974fc *)func_02011574(0x1c);
+        data_021974fc = (struct UnkStruct_021974fc *)_Znwm(0x1c);
     }
 
     func_0204a9e0(data_02196f20->unk_19b);
@@ -938,7 +938,7 @@ void func_02022364(ProcPtr proc)
     }
 
     func_02039eac("suppliance\0");
-    func_02047708("SallyTalk\0\0", proc);
+    StartEventByName("SallyTalk\0\0", proc);
 
     return;
 }
@@ -959,7 +959,7 @@ void func_020223cc(ProcPtr proc)
         return;
     }
 
-    func_02047708("Opening", proc);
+    StartEventByName("Opening", proc);
 
     return;
 }
@@ -1000,7 +1000,7 @@ void func_020224a8(ProcPtr proc)
         return;
     }
 
-    func_02047708("Ending\0", proc);
+    StartEventByName("Ending\0", proc);
 
     return;
 }
@@ -1018,7 +1018,7 @@ void func_020224fc(void)
 
     func_0204ac00();
 
-    func_020115a4(data_021974fc);
+    _ZdlPv(data_021974fc);
     data_021974fc = NULL;
 
     return;
@@ -1026,13 +1026,13 @@ void func_020224fc(void)
 
 void func_0202254c(ProcPtr proc)
 {
-    func_02047708("MapEnd\0", proc);
+    StartEventByName("MapEnd\0", proc);
     return;
 }
 
 void func_02022564(void)
 {
-    func_020115a4(data_ov000_021e3324.unk_00);
+    _ZdlPv(data_ov000_021e3324.unk_00);
     data_ov000_021e3324.unk_00 = NULL;
     return;
 }
@@ -1143,7 +1143,7 @@ void func_02022588(void)
 
 void func_0202272c(ProcPtr proc)
 {
-    func_02047708("ChapterNext", proc);
+    StartEventByName("ChapterNext", proc);
 
     if (!(data_02196f0c->unk_0c & 1))
     {
