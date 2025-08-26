@@ -1,5 +1,9 @@
 #include "global.h"
 
+#include "unknown_data.h"
+#include "unknown_funcs.h"
+#include "unit.h"
+
 extern struct ProcCmd data_ov000_021dbe58[];
 extern struct ProcCmd data_ov000_021dc190[];
 extern struct ProcFuncTable data_ov000_021dbd94;

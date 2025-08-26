@@ -1,66 +1,68 @@
 #include "global.h"
 
 #include "proc.h"
+#include "unknown_funcs.h"
+#include "unknown_data.h"
 
 // TODO: Not actually data?
 extern void data_ov010_02209e54(ProcPtr);
 
-void func_020136bc(ProcPtr);
-void func_0201fd44(ProcPtr);
+EC void func_020136bc(ProcPtr);
+EC void func_0201fd44(ProcPtr);
 
-void func_0204b1e0(ProcPtr);
+EC void func_0204b1e0(ProcPtr);
 
-void func_02021b00(void);
-void func_02021b14(void);
-void func_02021d70(void);
-void func_02021dd4(void);
-void func_02021e6c(void);
-void func_02021f08(ProcPtr);
-void func_02021f2c(ProcPtr);
-void func_02021f5c(void);
-void func_0202214c(ProcPtr);
-void func_020221bc(void);
-void func_020221e4(void);
-void func_0202225c(void);
-void func_02022324(void);
-void func_02022364(ProcPtr);
-void func_020223b4(void);
-void func_020223cc(ProcPtr);
-void func_02022414(void);
-void func_02022458(void);
-void func_02022480(void);
-void func_020224a8(ProcPtr);
-void func_020224d4(void);
-void func_020224fc(void);
-void func_0202254c(ProcPtr);
-void func_02022564(void);
-void func_02022588(void);
-void func_0202272c(ProcPtr);
-void func_02022814(void);
-void func_0202284c(ProcPtr);
-void func_020228ac(ProcPtr);
-void func_020228ec(ProcPtr);
-BOOL func_02022988(void);
-void func_020229a8(void);
-void func_020229f0(void);
-BOOL func_02022b10(void);
-BOOL func_02022b30(void);
-BOOL func_02022b50(void);
-void func_02022b70(ProcPtr);
-void func_02022bb0(ProcPtr);
-void func_02022c54(ProcPtr);
-void func_02022c78(ProcPtr);
-void func_02022cb0(ProcPtr);
-void func_02022cdc(ProcPtr);
-void func_02022db8(void);
-void func_02022dc8(void);
-void func_02022dfc(void);
-void func_02022e14(void);
-BOOL func_02022e34(void);
-void func_02022e54(void);
-BOOL func_02022eb8(void);
-BOOL func_02022ed4(void);
-BOOL func_02022ef4(void);
+EC void func_02021b00(void);
+EC void func_02021b14(void);
+EC void func_02021d70(void);
+EC void func_02021dd4(void);
+EC void func_02021e6c(void);
+EC void func_02021f08(ProcPtr);
+EC void func_02021f2c(ProcPtr);
+EC void func_02021f5c(void);
+EC void func_0202214c(ProcPtr);
+EC void func_020221bc(void);
+EC void func_020221e4(void);
+EC void func_0202225c(void);
+EC void func_02022324(void);
+EC void func_02022364(ProcPtr);
+EC void func_020223b4(void);
+EC void func_020223cc(ProcPtr);
+EC void func_02022414(void);
+EC void func_02022458(void);
+EC void func_02022480(void);
+EC void func_020224a8(ProcPtr);
+EC void func_020224d4(void);
+EC void func_020224fc(void);
+EC void func_0202254c(ProcPtr);
+EC void func_02022564(void);
+EC void func_02022588(void);
+EC void func_0202272c(ProcPtr);
+EC void func_02022814(void);
+EC void func_0202284c(ProcPtr);
+EC void func_020228ac(ProcPtr);
+EC void func_020228ec(ProcPtr);
+EC BOOL func_02022988(void);
+EC void func_020229a8(void);
+EC void func_020229f0(void);
+EC BOOL func_02022b10(void);
+EC BOOL func_02022b30(void);
+EC BOOL func_02022b50(void);
+EC void func_02022b70(ProcPtr);
+EC void func_02022bb0(ProcPtr);
+EC void func_02022c54(ProcPtr);
+EC void func_02022c78(ProcPtr);
+EC void func_02022cb0(ProcPtr);
+EC void func_02022cdc(ProcPtr);
+EC void func_02022db8(void);
+EC void func_02022dc8(void);
+EC void func_02022dfc(void);
+EC void func_02022e14(void);
+EC BOOL func_02022e34(void);
+EC void func_02022e54(void);
+EC BOOL func_02022eb8(void);
+EC BOOL func_02022ed4(void);
+EC BOOL func_02022ef4(void);
 
 // clang-format off
 

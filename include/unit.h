@@ -1,6 +1,10 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include "global.h"
+
+EXTERN_C
+
 struct PersonData
 {
     STRUCT_PAD(0x00, 0x0C);
@@ -138,5 +142,7 @@ inline struct Unit * func_0203c378(struct Unit * unit)
 
     return unit;
 }
+
+EXTERN_C_END
 
 #endif // UNIT_H

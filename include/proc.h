@@ -1,7 +1,10 @@
 #ifndef PROC_H
 #define PROC_H
 
+#include "global.h"
 #include "types.h"
+
+EXTERN_C
 
 enum
 {
@@ -235,5 +238,7 @@ extern struct Proc gProcArray[0x80];
 extern struct Proc * gProcAllocList[0x80 + 1];
 extern struct Proc * gProcTreeRootArray[14];
 extern struct Unknown02190ce0 data_02190ce0;
+
+EXTERN_C_END
 
 #endif // PROC_H

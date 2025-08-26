@@ -1,6 +1,7 @@
 #include "global.h"
 
 #include "unit.h"
+#include "unknown_data.h"
 
 #define GetPos(x, y) ((x) | ((y) << 5))
 

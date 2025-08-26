@@ -1,9 +1,14 @@
 #ifndef UNKNOWN_DATA_H
 #define UNKNOWN_DATA_H
 
+#include "global.h"
 #include "types.h"
 
+#include "unknown_types.h"
+
 #include "proc.h"
+
+EXTERN_C
 
 extern struct Unknown_027e1268 * data_027e1268;
 extern u8 data_027e1b9c[];
@@ -51,5 +56,7 @@ extern struct UnkStruct_021e3508 data_ov000_021e3508[];
 // Overlay 002:
 
 extern struct UnkStruct_021faf8c data_ov002_021faf8c;
+
+EXTERN_C_END
 
 #endif // UNKNOWN_DATA_H

@@ -33,7 +33,7 @@ struct UnkStruct_021974e8
 
 extern struct UnkStruct_021974e8 data_021974e8;
 
-struct EventProc_unk_38
+struct EventInfo
 {
     /* 00 */ char unk_00[0xc]; // Length unknown?
     /* 0C */ s8 type;
@@ -49,7 +49,7 @@ struct EventFuncInput
     STRUCT_PAD(0x0C, 0x20);
 };
 
-typedef BOOL (*EventFunc)(struct EventProc_unk_38 *, struct EventFuncInput *);
+typedef BOOL (*EventFunc)(struct EventInfo *, struct EventFuncInput *);
 
 struct EventProc
 {
@@ -192,7 +192,7 @@ void func_020475b0(ProcPtr proc)
     return;
 }
 
-BOOL func_020475cc(struct EventProc_unk_38 * arg_0, ProcPtr parent)
+BOOL func_020475cc(struct EventInfo * arg_0, ProcPtr parent)
 {
     struct EventProc * proc;
     struct UnkStruct_021974e8_00 * r6;
@@ -452,7 +452,7 @@ BOOL func_020479b0(void)
 
 BOOL CheckEventTrigger(int type, EventFunc func, struct EventFuncInput * input)
 {
-    struct EventProc_unk_38 * it;
+    struct EventInfo * it;
     BOOL ret;
 
     for (it = func_02035b98(NULL); it != NULL; it = func_02035b98(it))
@@ -475,7 +475,7 @@ BOOL CheckEventTrigger(int type, EventFunc func, struct EventFuncInput * input)
 
 int CountEventsByType(int arg_0)
 {
-    struct EventProc_unk_38 * it;
+    struct EventInfo * it;
 
     int count = 0;
 
@@ -549,7 +549,7 @@ BOOL func_02047b3c(char * arg_0, char * arg_1)
     return arg_0 == arg_1;
 }
 
-BOOL CheckTurnEventTrigger(struct EventProc_unk_38 * arg_0, struct EventFuncInput * unused)
+BOOL CheckTurnEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * unused)
 {
     if ((arg_0->args[2] >= 0) && (arg_0->args[2] != data_ov000_021e3324.unk_00->phase))
     {
@@ -670,7 +670,7 @@ _exit:
     return TRUE;
 }
 
-BOOL CheckReinforcementEventTrigger(struct EventProc_unk_38 * arg_0, struct EventFuncInput * unused)
+BOOL CheckReinforcementEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * unused)
 {
     if (arg_0->args[2] >= 0)
     {
@@ -753,7 +753,7 @@ _exit:
     return TRUE;
 }
 
-BOOL CheckVisitEventTrigger(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_1)
+BOOL CheckVisitEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * arg_1)
 {
     if ((s32)arg_1->unk_00 >= 0)
     {
@@ -849,7 +849,7 @@ BOOL func_02048078(u32 arg_0, u32 arg_1, u32 arg_2)
     return CheckEventTrigger(5, CheckVisitEventTrigger, &input);
 }
 
-BOOL CheckAreaEventTrigger(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_1)
+BOOL CheckAreaEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * arg_1)
 {
     int unk_14;
     int unk_16;
@@ -967,7 +967,7 @@ BOOL func_02048278(u32 arg_0, u32 arg_1)
     return CheckEventTrigger(4, CheckAreaEventTrigger, &input);
 }
 
-BOOL CheckTalkEventTrigger(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_1)
+BOOL CheckTalkEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * arg_1)
 {
     void * uVar2;
     void * uVar3;
@@ -1074,7 +1074,7 @@ void func_020484b0(void)
     char * pcVar4;
     struct UnkStruct_021974e8_04_00 * r7;
     struct UnkStruct_021974e8_04 * r8;
-    struct EventProc_unk_38 * r9;
+    struct EventInfo * r9;
     int sl;
 
     r8 = (struct UnkStruct_021974e8_04 *)func_02011574(8);
@@ -1217,7 +1217,7 @@ BOOL func_02048610(void * arg_0, void * arg_1)
     return FALSE;
 }
 
-BOOL func_020486f4(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_1)
+BOOL func_020486f4(struct EventInfo * arg_0, struct EventFuncInput * arg_1)
 {
     void * uVar2;
     void * uVar3;
@@ -1308,7 +1308,7 @@ _exit:
     return TRUE;
 }
 
-BOOL CheckBattleTalkEventTrigger(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_1)
+BOOL CheckBattleTalkEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * arg_1)
 {
     void * uVar2;
     void * uVar3;
@@ -1409,7 +1409,7 @@ BOOL func_02048aac(u32 arg_0, u32 arg_1)
     return CheckEventTrigger(9, CheckBattleTalkEventTrigger, &input) & 0xFF;
 }
 
-BOOL CheckDeathEventTrigger(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_1)
+BOOL CheckDeathEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * arg_1)
 {
     if (!func_02047aec(GetEventStr(arg_0, arg_0->args[0]), (char *)arg_1->unk_00))
     {
@@ -1557,7 +1557,7 @@ BOOL func_02048d3c(int arg_0)
     return FALSE;
 }
 
-BOOL func_02048da0(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_1)
+BOOL func_02048da0(struct EventInfo * arg_0, struct EventFuncInput * arg_1)
 {
     if (arg_1->unk_00 != arg_0->args[0])
     {
@@ -1574,7 +1574,7 @@ BOOL func_02048da0(struct EventProc_unk_38 * arg_0, struct EventFuncInput * arg_
 
 BOOL func_02048dd4(u32 arg_0)
 {
-    struct EventProc_unk_38 * it;
+    struct EventInfo * it;
     struct EventFuncInput input;
 
     input.unk_00 = arg_0;

@@ -30,7 +30,11 @@ typedef s32 BOOL;
 #define TRUE 1
 #define FALSE 0
 
-#define NULL ((void *)0)
+#ifdef __cplusplus
+#  define NULL 0
+#else // #ifndef __cplusplus
+#  define NULL ((void *)0)
+#endif
 
 struct ProcCmd;
 

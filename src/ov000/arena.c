@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include "unknown_data.h"
+#include "unknown_funcs.h"
 #include "unit.h"
 
 struct ArenaProc_unk_60
