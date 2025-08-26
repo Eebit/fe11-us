@@ -1,66 +1,68 @@
 #include "global.h"
 
 #include "proc.h"
+#include "unknown_funcs.h"
+#include "unknown_data.h"
 
 // TODO: Not actually data?
 extern void data_ov010_02209e54(ProcPtr);
 
-void func_020136bc(ProcPtr);
-void func_0201fd44(ProcPtr);
+EC void func_020136bc(ProcPtr);
+EC void func_0201fd44(ProcPtr);
 
-void func_0204b1e0(ProcPtr);
+EC void func_0204b1e0(ProcPtr);
 
-void func_02021b00(void);
-void func_02021b14(void);
-void func_02021d70(void);
-void func_02021dd4(void);
-void func_02021e6c(void);
-void func_02021f08(ProcPtr);
-void func_02021f2c(ProcPtr);
-void func_02021f5c(void);
-void func_0202214c(ProcPtr);
-void func_020221bc(void);
-void func_020221e4(void);
-void func_0202225c(void);
-void func_02022324(void);
-void func_02022364(ProcPtr);
-void func_020223b4(void);
-void func_020223cc(ProcPtr);
-void func_02022414(void);
-void func_02022458(void);
-void func_02022480(void);
-void func_020224a8(ProcPtr);
-void func_020224d4(void);
-void func_020224fc(void);
-void func_0202254c(ProcPtr);
-void func_02022564(void);
-void func_02022588(void);
-void func_0202272c(ProcPtr);
-void func_02022814(void);
-void func_0202284c(ProcPtr);
-void func_020228ac(ProcPtr);
-void func_020228ec(ProcPtr);
-BOOL func_02022988(void);
-void func_020229a8(void);
-void func_020229f0(void);
-BOOL func_02022b10(void);
-BOOL func_02022b30(void);
-BOOL func_02022b50(void);
-void func_02022b70(ProcPtr);
-void func_02022bb0(ProcPtr);
-void func_02022c54(ProcPtr);
-void func_02022c78(ProcPtr);
-void func_02022cb0(ProcPtr);
-void func_02022cdc(ProcPtr);
-void func_02022db8(void);
-void func_02022dc8(void);
-void func_02022dfc(void);
-void func_02022e14(void);
-BOOL func_02022e34(void);
-void func_02022e54(void);
-BOOL func_02022eb8(void);
-BOOL func_02022ed4(void);
-BOOL func_02022ef4(void);
+EC void func_02021b00(void);
+EC void func_02021b14(void);
+EC void func_02021d70(void);
+EC void func_02021dd4(void);
+EC void func_02021e6c(void);
+EC void func_02021f08(ProcPtr);
+EC void func_02021f2c(ProcPtr);
+EC void func_02021f5c(void);
+EC void func_0202214c(ProcPtr);
+EC void func_020221bc(void);
+EC void func_020221e4(void);
+EC void func_0202225c(void);
+EC void func_02022324(void);
+EC void func_02022364(ProcPtr);
+EC void func_020223b4(void);
+EC void func_020223cc(ProcPtr);
+EC void func_02022414(void);
+EC void func_02022458(void);
+EC void func_02022480(void);
+EC void func_020224a8(ProcPtr);
+EC void func_020224d4(void);
+EC void func_020224fc(void);
+EC void func_0202254c(ProcPtr);
+EC void func_02022564(void);
+EC void func_02022588(void);
+EC void func_0202272c(ProcPtr);
+EC void func_02022814(void);
+EC void func_0202284c(ProcPtr);
+EC void func_020228ac(ProcPtr);
+EC void func_020228ec(ProcPtr);
+EC BOOL func_02022988(void);
+EC void func_020229a8(void);
+EC void func_020229f0(void);
+EC BOOL func_02022b10(void);
+EC BOOL func_02022b30(void);
+EC BOOL func_02022b50(void);
+EC void func_02022b70(ProcPtr);
+EC void func_02022bb0(ProcPtr);
+EC void func_02022c54(ProcPtr);
+EC void func_02022c78(ProcPtr);
+EC void func_02022cb0(ProcPtr);
+EC void func_02022cdc(ProcPtr);
+EC void func_02022db8(void);
+EC void func_02022dc8(void);
+EC void func_02022dfc(void);
+EC void func_02022e14(void);
+EC BOOL func_02022e34(void);
+EC void func_02022e54(void);
+EC BOOL func_02022eb8(void);
+EC BOOL func_02022ed4(void);
+EC BOOL func_02022ef4(void);
 
 // clang-format off
 
@@ -477,28 +479,28 @@ void func_020217b4(void)
 
     if (data_02197254 == NULL)
     {
-        data_02197254 = (struct Unknown_02197254 *)func_02011574(0x4c);
+        data_02197254 = (struct Unknown_02197254 *)_Znwm(0x4c);
     }
 
     func_02037a04(data_02197254);
 
     if (data_020e3ca0 == NULL)
     {
-        data_020e3ca0 = (struct UnkStruct_020e3ca0 *)func_02011574(0x14);
+        data_020e3ca0 = (struct UnkStruct_020e3ca0 *)_Znwm(0x14);
     }
 
     func_02002058(data_020e3ca0);
 
     if (data_02196f0c == NULL)
     {
-        data_02196f0c = (struct UnkStruct_02196f0c *)func_02011574(0x18);
+        data_02196f0c = (struct UnkStruct_02196f0c *)_Znwm(0x18);
     }
 
     func_02021014();
 
     if (data_02196f10 == NULL)
     {
-        struct UnkStruct_02196f10 * puVar3 = (struct UnkStruct_02196f10 *)func_02011574(0x18);
+        struct UnkStruct_02196f10 * puVar3 = (struct UnkStruct_02196f10 *)_Znwm(0x18);
 
         if (puVar3 != NULL)
         {
@@ -514,28 +516,28 @@ void func_020217b4(void)
 
     if (data_02196f24 == NULL)
     {
-        data_02196f24 = (struct UnkStruct_02196f24 *)func_02011574(0x10);
+        data_02196f24 = (struct UnkStruct_02196f24 *)_Znwm(0x10);
     }
 
     func_02024c74();
 
     if (data_02196f20 == NULL)
     {
-        data_02196f20 = (struct UnkStruct_02196f20 *)func_02011574(0x1a4);
+        data_02196f20 = (struct UnkStruct_02196f20 *)_Znwm(0x1a4);
     }
 
     func_02024d28();
 
     if (data_02196f1c == NULL)
     {
-        data_02196f1c = (struct UnkStruct_02196f1c *)func_02011574(0x10);
+        data_02196f1c = (struct UnkStruct_02196f1c *)_Znwm(0x10);
     }
 
     func_02024e70();
 
     if (data_02196f18 == NULL)
     {
-        data_02196f18 = (struct UnkStruct_02196f18 *)func_02011574(0x600);
+        data_02196f18 = (struct UnkStruct_02196f18 *)_Znwm(0x600);
     }
 
     func_02024f34();
@@ -748,7 +750,7 @@ void func_02021f5c(void)
 
     if (data_ov000_021e3324.unk_00 == NULL)
     {
-        struct UnkStruct_021E3324_00 * puVar2 = (struct UnkStruct_021E3324_00 *)func_02011574(0x20);
+        struct UnkStruct_021E3324_00 * puVar2 = (struct UnkStruct_021E3324_00 *)_Znwm(0x20);
 
         if (puVar2 != NULL)
         {
@@ -826,7 +828,7 @@ void func_0202214c(ProcPtr proc)
     struct Unit ** pUnitStack;
     struct Unit * unit;
 
-    func_02047708("MapBegin\0\0\0", proc);
+    StartEventByName("MapBegin\0\0\0", proc);
 
     if (!(data_02196f0c->unk_0c & 0x10000))
     {
@@ -857,7 +859,7 @@ void func_020221e4(void)
 {
     if (data_021974fc == 0)
     {
-        data_021974fc = (struct UnkStruct_021974fc *)func_02011574(0x1c);
+        data_021974fc = (struct UnkStruct_021974fc *)_Znwm(0x1c);
     }
 
     func_0204a9e0(data_02196f20->unk_19b);
@@ -936,7 +938,7 @@ void func_02022364(ProcPtr proc)
     }
 
     func_02039eac("suppliance\0");
-    func_02047708("SallyTalk\0\0", proc);
+    StartEventByName("SallyTalk\0\0", proc);
 
     return;
 }
@@ -957,7 +959,7 @@ void func_020223cc(ProcPtr proc)
         return;
     }
 
-    func_02047708("Opening", proc);
+    StartEventByName("Opening", proc);
 
     return;
 }
@@ -998,7 +1000,7 @@ void func_020224a8(ProcPtr proc)
         return;
     }
 
-    func_02047708("Ending\0", proc);
+    StartEventByName("Ending\0", proc);
 
     return;
 }
@@ -1016,7 +1018,7 @@ void func_020224fc(void)
 
     func_0204ac00();
 
-    func_020115a4(data_021974fc);
+    _ZdlPv(data_021974fc);
     data_021974fc = NULL;
 
     return;
@@ -1024,13 +1026,13 @@ void func_020224fc(void)
 
 void func_0202254c(ProcPtr proc)
 {
-    func_02047708("MapEnd\0", proc);
+    StartEventByName("MapEnd\0", proc);
     return;
 }
 
 void func_02022564(void)
 {
-    func_020115a4(data_ov000_021e3324.unk_00);
+    _ZdlPv(data_ov000_021e3324.unk_00);
     data_ov000_021e3324.unk_00 = NULL;
     return;
 }
@@ -1141,7 +1143,7 @@ void func_02022588(void)
 
 void func_0202272c(ProcPtr proc)
 {
-    func_02047708("ChapterNext", proc);
+    StartEventByName("ChapterNext", proc);
 
     if (!(data_02196f0c->unk_0c & 1))
     {

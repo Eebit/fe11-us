@@ -28,8 +28,9 @@ src/item.c:
 src/event_funcs.c:
     .text       start:0x02044974 end:0x020449bc
 
-src/event_trigger.c:
-    .text       start:0x02047450 end:0x02048ef8
+src/event.cpp:
+    .text       start:0x0204745c end:0x020492a0
+    .data       start:0x020d5db8 end:0x020d5eb0
 
 src/code_02078808.c:
     .text       start:0x02078808 end:0x02078878

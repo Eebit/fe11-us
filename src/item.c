@@ -1,6 +1,8 @@
 #include "global.h"
 
 #include "unit.h"
+#include "unknown_funcs.h"
+#include "unknown_data.h"
 
 enum
 {

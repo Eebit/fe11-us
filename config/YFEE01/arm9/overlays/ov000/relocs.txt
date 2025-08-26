@@ -623,7 +623,7 @@ from:0x021a83a0 kind:arm_call to:0x0201bce4 module:main
 from:0x021a83a8 kind:arm_call to:0x0201bcf4 module:main
 from:0x021a83c0 kind:load to:0x021e3344 module:overlay(0)
 from:0x021a83c4 kind:load to:0x021e332c module:overlay(0)
-from:0x021a83c8 kind:load to:0x020d5e18 module:main
+from:0x021a83c8 kind:load to:0x020d5e10 module:main add:8
 from:0x021a83cc kind:load to:0x021dbb90 module:overlay(0)
 from:0x021a83dc kind:arm_call to:0x020115a4 module:main
 from:0x021a83f4 kind:arm_call to:0x020115a4 module:main

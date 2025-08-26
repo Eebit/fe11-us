@@ -1,0 +1,11 @@
+#ifndef __NEW_H
+#define __NEW_H
+
+#include <stddef.h>
+
+inline void * operator new(size_t size, void * place)
+{
+    return place;
+}
+
+#endif // __NEW_H

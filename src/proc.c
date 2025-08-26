@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include "unknown_funcs.h"
+#include "unknown_data.h"
 #include "proc.h"
 
 // .bss

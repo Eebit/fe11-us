@@ -4,6 +4,8 @@
 #include "global.h"
 #include "types.h"
 
+EXTERN_C
+
 struct Unknown_027e1268_unk_00 {
     STRUCT_PAD(0x00, 0x12);
     u16 unk_12_0 : 1;
@@ -452,5 +454,7 @@ struct UnkStruct_021faf8c
     STRUCT_PAD(0x00, 0x08);
     u8 unk_08;
 };
+
+EXTERN_C_END
 
 #endif // UNKNOWN_TYPES_H
