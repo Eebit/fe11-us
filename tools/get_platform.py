@@ -13,7 +13,7 @@ class Platform:
 def get_platform() -> Platform | None:
     exe = ""
     system = platform.system()
-    if system == "Windows":
+    if system == "Windows" or system.startswith("MINGW"):
         system = "windows"
         exe = ".exe"
     elif system == "Linux":
