@@ -15,6 +15,7 @@ EC void func_01ff8d88(void *, struct Unit *, s32, s32, s32, s32);
 EC void func_01ff8db8(void *, struct Unit *, s32, s32, s32, s32);
 EC void func_01ff9300(void *, s32, s32, s32, s32);
 EC void * func_01ffb934(void *, s32);
+EC void func_01ffbb90(void *, void *);
 
 EC void func_02000d14(struct UnkStruct_Func_2000C7C * buf, s32 a);
 
@@ -22,8 +23,6 @@ EC int func_020016e8(struct UnkStruct_Func_2000D2C * unk1, struct Unit * unit, i
 EC int func_02001770(struct UnkStruct_Func_2000D2C * buf, int a, int b);
 EC int func_02001820(struct UnkStruct_Func_2000D2C * buf, int a, int b, int c);
 EC int func_02001bac(struct UnkStruct_Func_2000D2C * buf, int a);
-EC BOOL func_0201f6a0(void);
-EC void func_0201f8a0(void);
 
 EC void func_02002058(struct UnkStruct_020e3ca0 *);
 EC BOOL func_020020e0(struct UnkStruct_020e3ca0 *);
@@ -45,6 +44,7 @@ EC BOOL IsOverlayLoaded(u32 overlayId);
 
 EC void * _Znwm(s32);
 EC void _ZdaPv(void *);
+EC int func_020114dc(void *, void *);
 EC void func_020115a4(void *);
 EC s32 func_02012190(void);
 EC BOOL func_02012298(void);
@@ -76,7 +76,9 @@ EC void func_0201da98(struct Proc * proc, u16 data, u32 flag);
 EC BOOL func_0201dae8(void);
 
 EC BOOL func_0201f690(void);
+EC BOOL func_0201f6a0(void);
 EC BOOL func_0201f760(s32);
+EC void func_0201f8a0(void);
 EC s32 func_0201ffc0(void);
 EC u32 func_0201ffd0(void);
 
@@ -256,6 +258,8 @@ EC void func_020a8f40(char *);
 EC void * __cxa_vec_new(s32, s32, s32, s32, s32);
 
 EC void func_020ad244(int a);
+
+EC int func_020b6e2c(char *, char *);
 
 // Overlay 000:
 
