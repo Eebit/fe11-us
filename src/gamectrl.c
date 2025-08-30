@@ -574,14 +574,14 @@ void func_020219a4(int param_1, int param_2)
         func_02003f88();
     }
 
-    func_020494a0(data_02196f0c->unk_04, "gf_canceled", 0);
-    func_020494a0(data_02196f0c->unk_04, "gf_gameover", 0);
-    func_020494a0(data_02196f0c->unk_04, "gf_complete", 0);
-    func_020494a0(data_02196f0c->unk_04, "gf_reserved2\0\0\0", 0);
-    func_020494a0(data_02196f0c->unk_04, "gf_reserved3\0\0\0", 0);
-    func_020494a0(data_02196f0c->unk_04, "gf_reserved4\0\0\0", 0);
-    func_020494a0(data_02196f0c->unk_04, "gf_reserved5\0\0\0", 0);
-    func_020494a0(data_02196f0c->unk_04, "gf_reserved6\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_canceled", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_gameover", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_complete", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved2\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved3\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved4\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved5\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved6\0\0\0", 0);
 
     InitOnlineShopItemFlags();
     InitOnlineShopItemAmounts();
@@ -611,32 +611,32 @@ void func_02021b14(void)
 
 void InitOnlineShopItemFlags(void)
 {
-    func_020494a0((void *)data_02196f0c->unk_08, "os_BraveSword\0\0", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_BraveLance\0\0", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_BraveAxe", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_BraveBow", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_Wato", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_MasterProof\0", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_LongBow\0", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_EmpyreadWhip", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_reserved1\0\0\0", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_reserved2\0\0\0", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_reserved3\0\0\0", 0);
-    func_020494a0((void *)data_02196f0c->unk_08, "os_reserved4\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveSword\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveLance\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveAxe", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveBow", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_Wato", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_MasterProof\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_LongBow\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_EmpyreadWhip", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved1\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved2\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved3\0\0\0", 0);
+    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved4\0\0\0", 0);
 
     return;
 }
 
 void InitOnlineShopItemAmounts(void)
 {
-    func_02049a2c(data_02196f0c->unk_08, "os_BraveSword\0\0", 3);
-    func_02049a2c(data_02196f0c->unk_08, "os_BraveLance\0\0", 3);
-    func_02049a2c(data_02196f0c->unk_08, "os_BraveAxe", 3);
-    func_02049a2c(data_02196f0c->unk_08, "os_BraveBow", 3);
-    func_02049a2c(data_02196f0c->unk_08, "os_Wato", 5);
-    func_02049a2c(data_02196f0c->unk_08, "os_MasterProof\0", 15);
-    func_02049a2c(data_02196f0c->unk_08, "os_LongBow\0", 5);
-    func_02049a2c(data_02196f0c->unk_08, "os_EmpyreadWhip", 3);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveSword\0\0", 3);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveLance\0\0", 3);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveAxe", 3);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveBow", 3);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_Wato", 5);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_MasterProof\0", 15);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_LongBow\0", 5);
+    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_EmpyreadWhip", 3);
     return;
 }
 
@@ -703,11 +703,13 @@ void func_02021e6c(void)
 {
     func_020485d0();
     func_020424ac();
-    func_02049528(data_02196f0c->unk_04);
+
+    _ZN11FlagManager9RemoveAllEv(data_02196f0c->unk_04);
+
     data_02196f0c->unk_04->unk_00->unk_04(data_02196f0c->unk_04, "gf_complete");
     data_02196f0c->unk_04->unk_00->unk_04(data_02196f0c->unk_04, "gf_gameover");
 
-    func_02049528((void *)data_02196f0c->unk_08);
+    _ZN11FlagManager9RemoveAllEv((void *)data_02196f0c->unk_08);
 
     if (data_02196f14 == NULL)
     {
@@ -1313,7 +1315,7 @@ void func_020229f0(void)
     {
         random = RollRN(1, data_02197254->pDBFE11Footer->unk_14 - 1);
         data_02196f10->unk_11 = random;
-        func_0204939c((void *)data_02196f18->unk_00, random);
+        _ZN11FlagManager7SetByIdEm((void *)data_02196f18->unk_00, random);
 
         if (data_02196f10->unk_0b != 0 && func_02021410(data_02196f10->unk_06)->unk_756 == 0x14)
         {
@@ -1326,7 +1328,7 @@ void func_020229f0(void)
 
             data_02196f10->unk_12 = random;
 
-            func_0204939c((void *)data_02196f18->unk_00, random);
+            _ZN11FlagManager7SetByIdEm((void *)data_02196f18->unk_00, random);
         }
     }
 

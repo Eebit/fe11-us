@@ -3,95 +3,7 @@
 #include "unknown_data.h"
 #include "unknown_funcs.h"
 
-struct UnkBuf_Func_02049564
-{
-    u32 unk_00;
-    u8 * unk_04;
-
-    inline u8 ReadByte()
-    {
-        u8 tmp = *unk_04;
-        unk_04++;
-        return tmp;
-    }
-
-    inline u16 ReadShort()
-    {
-        u8 a = ReadByte();
-        u8 b = ReadByte();
-        return a | b << 8;
-    }
-
-    inline u32 ReadWord()
-    {
-        u16 a = ReadShort();
-        u16 b = ReadShort();
-
-        return a | b << 16;
-    }
-
-    void inline WriteByte(u8 byte)
-    {
-        *this->unk_04 = byte;
-        this->unk_04++;
-    }
-
-    void inline WriteShort(u16 halfword)
-    {
-        WriteByte(halfword);
-        WriteByte(halfword >> 8);
-    }
-
-    void inline WriteWord(u32 word)
-    {
-        WriteShort(word);
-        WriteShort(word >> 16);
-    }
-};
-
-class FlagManager
-{
-public:
-    /* 00 (vtable) */
-    /* 04 */ char ** unk_04;
-    /* 08 */ u8 * unk_08;
-    /* 0C */ u32 unk_0c;
-
-    /* 00 */ virtual void func_020493e0(u32);
-    /* 04 */ virtual void func_02049408(char *);
-    /* 08 */ virtual ~FlagManager();
-
-    void func_020492a0(void);
-    s32 func_020492f4(char *);
-    BOOL func_02049350(u32);
-    BOOL func_02049370(char *);
-    void func_0204939c(u32);
-    void func_020493b8(char *);
-    BOOL func_02049438(void);
-    void func_0204947c(void);
-    void func_020494a0(char *, BOOL);
-    void func_02049508(u32);
-    void func_02049528(void);
-    void func_02049564(struct UnkBuf_Func_02049564 *);
-    void func_0204961c(struct UnkBuf_Func_02049564 *);
-    void func_02049824(struct UnkBuf_Func_02049564 *, s32);
-};
-
-class ValueManager : public FlagManager
-{
-public:
-    /* 00 */ virtual void func_020493e0(u32);
-    /* 04 */ virtual void func_02049408(char *);
-    /* 08 */ virtual ~ValueManager();
-
-    s32 func_020499e8(s32);
-    s32 func_020499f4(char *);
-    void func_02049a20(s32, s32);
-    void func_02049a2c(char *, s32);
-    void func_02049a9c(struct UnkBuf_Func_02049564 *);
-    void func_02049b90(struct UnkBuf_Func_02049564 *);
-    void func_02049dc8(struct UnkBuf_Func_02049564 *, s32);
-};
+#include "state_manager.hpp"
 
 static inline u8 TestFlag(u8 * arr, u32 i)
 {
@@ -117,7 +29,7 @@ void FlagManager::func_020492a0(void)
     return;
 }
 
-s32 FlagManager::func_020492f4(char * str)
+s32 FlagManager::FindIdByName(char * str)
 {
     char ** it;
     s32 i;
@@ -142,7 +54,7 @@ s32 FlagManager::func_020492f4(char * str)
     return -1;
 }
 
-BOOL FlagManager::func_02049350(u32 flagId)
+BOOL FlagManager::GetById(u32 flagId)
 {
     if (TestFlag(this->unk_08, flagId))
     {
@@ -152,49 +64,49 @@ BOOL FlagManager::func_02049350(u32 flagId)
     return FALSE;
 }
 
-BOOL FlagManager::func_02049370(char * flagName)
+BOOL FlagManager::GetByName(char * flagName)
 {
-    s32 id = this->func_020492f4(flagName);
+    s32 id = this->FindIdByName(flagName);
 
     if (id != -1)
     {
-        return this->func_02049350(id);
+        return this->GetById(id);
     }
 
     return FALSE;
 }
 
-void FlagManager::func_0204939c(u32 flagId)
+void FlagManager::SetById(u32 flagId)
 {
     this->unk_08[flagId / 8] |= (1 << (flagId & 7));
     return;
 }
 
-void FlagManager::func_020493b8(char * flagName)
+void FlagManager::SetByName(char * flagName)
 {
-    s32 id = this->func_020492f4(flagName);
+    s32 id = this->FindIdByName(flagName);
 
     if (id != -1)
     {
-        this->func_0204939c(id);
+        this->SetById(id);
     }
 
     return;
 }
 
-void FlagManager::func_020493e0(u32 flagId)
+void FlagManager::ClearById(u32 flagId)
 {
     this->unk_08[flagId / 8] &= (-1 ^ (1 << (flagId & 7)));
     return;
 }
 
-void FlagManager::func_02049408(char * flagName)
+void FlagManager::ClearByName(char * flagName)
 {
-    s32 id = this->func_020492f4(flagName);
+    s32 id = this->FindIdByName(flagName);
 
     if (id != -1)
     {
-        this->func_020493e0(id);
+        this->ClearById(id);
     }
 
     return;
@@ -217,11 +129,11 @@ BOOL FlagManager::func_02049438(void)
 
 void FlagManager::func_0204947c(void)
 {
-    func_020a5824(this->unk_08, 0xff, ((this->unk_0c + 7) & ~7) / 8);
+    func_020a5824(this->unk_08, 0xff, Align(this->unk_0c, 8) / 8);
     return;
 }
 
-void FlagManager::func_020494a0(char * str, BOOL arg_1)
+void FlagManager::RegisterName(char * str, BOOL arg_1)
 {
     s32 i;
 
@@ -251,14 +163,14 @@ void FlagManager::func_020494a0(char * str, BOOL arg_1)
     return;
 }
 
-void FlagManager::func_02049508(u32 id)
+void FlagManager::RemoveById(u32 id)
 {
     this->unk_04[id] = NULL;
-    this->func_020493e0(id);
+    this->ClearById(id);
     return;
 }
 
-void FlagManager::func_02049528(void)
+void FlagManager::RemoveAll(void)
 {
     s32 i;
 
@@ -269,7 +181,7 @@ void FlagManager::func_02049528(void)
             return;
         }
 
-        this->func_02049508(i);
+        this->RemoveById(i);
     }
 
     return;
@@ -289,7 +201,7 @@ void FlagManager::func_02049564(struct UnkBuf_Func_02049564 * buf)
     return;
 }
 
-void FlagManager::func_0204961c(UnkBuf_Func_02049564 * buf)
+void FlagManager::func_0204961c(struct UnkBuf_Func_02049564 * buf)
 {
     s32 flagCount = buf->ReadWord();
     u32 byteCount;
@@ -333,7 +245,7 @@ void FlagManager::func_0204961c(UnkBuf_Func_02049564 * buf)
 
             if (TestFlag(temp, j))
             {
-                this->func_0204939c(j);
+                this->SetById(j);
             }
         }
 
@@ -346,7 +258,7 @@ void FlagManager::func_0204961c(UnkBuf_Func_02049564 * buf)
 
             if (TestFlag(temp, flagCount - i - 1))
             {
-                this->func_0204939c(this->unk_0c - i - 1);
+                this->SetById(this->unk_0c - i - 1);
             }
         }
     }
@@ -361,7 +273,7 @@ void FlagManager::func_0204961c(UnkBuf_Func_02049564 * buf)
 
             if (TestFlag(temp, i))
             {
-                this->func_0204939c(i);
+                this->SetById(i);
             }
         }
     }
@@ -414,7 +326,7 @@ void FlagManager::func_02049824(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
 
             if (TestFlag(arr, j))
             {
-                this->func_0204939c(j);
+                this->SetById(j);
             }
         }
 
@@ -427,7 +339,7 @@ void FlagManager::func_02049824(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
 
             if (TestFlag(arr, arg_1 - i - 1))
             {
-                this->func_0204939c(this->unk_0c - i - 1);
+                this->SetById(this->unk_0c - i - 1);
             }
         }
     }
@@ -442,7 +354,7 @@ void FlagManager::func_02049824(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
 
             if (TestFlag(arr, i))
             {
-                this->func_0204939c(i);
+                this->SetById(i);
             }
         }
     }
@@ -452,57 +364,57 @@ void FlagManager::func_02049824(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
     return;
 }
 
-s32 ValueManager::func_020499e8(s32 valueId)
+s32 ValueManager::GetById(s32 valueId)
 {
     u32 * values = reinterpret_cast<u32 *>(this->unk_08);
     return values[valueId];
 }
 
-s32 ValueManager::func_020499f4(char * valueName)
+s32 ValueManager::GetByName(char * valueName)
 {
-    s32 id = this->func_020492f4(valueName);
+    s32 id = this->FindIdByName(valueName);
 
     if (id != -1)
     {
-        return this->func_020499e8(id);
+        return this->GetById(id);
     }
 
     return 0;
 }
 
-void ValueManager::func_02049a20(s32 valueId, s32 value)
+void ValueManager::SetById(s32 valueId, s32 value)
 {
     u32 * values = reinterpret_cast<u32 *>(this->unk_08);
     values[valueId] = value;
     return;
 }
 
-void ValueManager::func_02049a2c(char * valueName, s32 value)
+void ValueManager::SetByName(char * valueName, s32 value)
 {
-    s32 id = this->func_020492f4(valueName);
+    s32 id = this->FindIdByName(valueName);
 
     if (id != -1)
     {
-        this->func_02049a20(id, value);
+        this->SetById(id, value);
     }
 
     return;
 }
 
-void ValueManager::func_020493e0(u32 valueId)
+void ValueManager::ClearById(u32 valueId)
 {
     u32 * values = reinterpret_cast<u32 *>(this->unk_08);
     values[valueId] = 0;
     return;
 }
 
-void ValueManager::func_02049408(char * valueName)
+void ValueManager::ClearByName(char * valueName)
 {
-    s32 id = this->func_020492f4(valueName);
+    s32 id = this->FindIdByName(valueName);
 
     if (id != -1)
     {
-        this->func_020493e0(id);
+        this->ClearById(id);
     }
 
     return;
@@ -564,7 +476,7 @@ void ValueManager::func_02049b90(struct UnkBuf_Func_02049564 * buf)
                 break;
             }
 
-            this->func_02049a20(j, arr[j]);
+            this->SetById(j, arr[j]);
         }
 
         for (i = 0; i < count - j; i++)
@@ -574,7 +486,7 @@ void ValueManager::func_02049b90(struct UnkBuf_Func_02049564 * buf)
                 break;
             }
 
-            this->func_02049a20(this->unk_0c - i - 1, arr[count - i - 1]);
+            this->SetById(this->unk_0c - i - 1, arr[count - i - 1]);
         }
     }
     else
@@ -586,7 +498,7 @@ void ValueManager::func_02049b90(struct UnkBuf_Func_02049564 * buf)
                 break;
             }
 
-            this->func_02049a20(i, arr[i]);
+            this->SetById(i, arr[i]);
         }
     }
 
@@ -631,7 +543,7 @@ void ValueManager::func_02049dc8(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
             if (this->unk_04[j] == NULL)
                 break;
 
-            this->func_02049a20(j, arr[j]);
+            this->SetById(j, arr[j]);
         }
 
         for (i = 0; i < arg_1 - j; i++)
@@ -639,7 +551,7 @@ void ValueManager::func_02049dc8(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
             if (i >= (s32)this->unk_0c)
                 break;
 
-            this->func_02049a20(this->unk_0c - i - 1, arr[arg_1 - i - 1]);
+            this->SetById(this->unk_0c - i - 1, arr[arg_1 - i - 1]);
         }
     }
     else
@@ -649,7 +561,7 @@ void ValueManager::func_02049dc8(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
             if (i >= (s32)this->unk_0c)
                 break;
 
-            this->func_02049a20(i, arr[i]);
+            this->SetById(i, arr[i]);
         }
     }
 
