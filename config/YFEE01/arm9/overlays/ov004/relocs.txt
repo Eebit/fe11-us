@@ -2049,9 +2049,9 @@ from:0x02217960 kind:load to:0x02217da8 module:overlay(4)
 from:0x02217c0c kind:load to:0x02217c18 module:overlay(4)
 from:0x02217c10 kind:load to:0x02217c00 module:overlay(4)
 from:0x02217c14 kind:load to:0x02217c02 module:overlay(4)
-from:0x02217d1c kind:load to:0x020e3c04 module:main
+from:0x02217d1c kind:load to:0x020e3bfc module:main add:8
 from:0x02217d20 kind:load to:0x0221801c module:overlay(4)
-from:0x02217fdc kind:load to:0x020e3bf4 module:main
+from:0x02217fdc kind:load to:0x020e3bec module:main add:8
 from:0x02217fe0 kind:load to:0x0221802c module:overlay(4)
 from:0x02217fe4 kind:load to:0x020c9d60 module:main
 from:0x02218010 kind:load to:0x02217d1c module:overlay(4)
@@ -2075,7 +2075,7 @@ from:0x02218128 kind:load to:0x0220a33c module:overlay(4)
 from:0x02218138 kind:load to:0x0220a698 module:overlay(4)
 from:0x0221814c kind:load to:0x02218154 module:overlay(4)
 from:0x02218150 kind:load to:0x02218144 module:overlay(4)
-from:0x02218160 kind:load to:0x020e3c04 module:main
+from:0x02218160 kind:load to:0x020e3bfc module:main add:8
 from:0x02218164 kind:load to:0x02218168 module:overlay(4)
 from:0x0221817c kind:load to:0x02218160 module:overlay(4)
 from:0x02218180 kind:load to:0x0220b088 module:overlay(4)
@@ -2098,10 +2098,10 @@ from:0x02218284 kind:load to:0x02218304 module:overlay(4)
 from:0x02218288 kind:load to:0x02218314 module:overlay(4)
 from:0x02218298 kind:load to:0x0220b108 module:overlay(4)
 from:0x022182b0 kind:load to:0x0220b4a8 module:overlay(4)
-from:0x022182bc kind:load to:0x020e3bf4 module:main
+from:0x022182bc kind:load to:0x020e3bec module:main add:8
 from:0x022182c0 kind:load to:0x022182e4 module:overlay(4)
 from:0x022182c4 kind:load to:0x020c9d60 module:main
-from:0x022182c8 kind:load to:0x020e3bf4 module:main
+from:0x022182c8 kind:load to:0x020e3bec module:main add:8
 from:0x022182cc kind:load to:0x02218240 module:overlay(4)
 from:0x022182d0 kind:load to:0x020c9d60 module:main
 from:0x02218328 kind:load to:0x022182bc module:overlay(4)
