@@ -416,7 +416,7 @@ void func_ov000_021ac218(void)
 
     func_ov000_021a9a48();
 
-    if (func_02049370(data_02196f0c->unk_04, "gf_gameover") != 0)
+    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_gameover") != 0)
     {
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
         data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -427,7 +427,7 @@ void func_ov000_021ac218(void)
         return;
     }
 
-    if (func_02049370(data_02196f0c->unk_04, "gf_complete") != 0)
+    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_complete") != 0)
     {
         pUnit->state2 &= 0xfffffffe;
 
@@ -1040,7 +1040,7 @@ void func_ov000_021ad6ec(struct PlayerPhaseProc * proc)
 
 void func_ov000_021ad740(void)
 {
-    if (func_02049370(data_02196f0c->unk_04, "gf_gameover") != 0)
+    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_gameover") != 0)
     {
         func_ov000_021a46b8();
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
@@ -1050,7 +1050,7 @@ void func_ov000_021ad740(void)
         return;
     }
 
-    if (func_02049370(data_02196f0c->unk_04, "gf_complete") != 0)
+    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_complete") != 0)
     {
         func_ov000_021a46b8();
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
@@ -1380,7 +1380,7 @@ void func_ov000_021ae018(void)
     data_ov000_021e332c.unk_14->unk_02 = 0;
     data_ov000_021e332c.unk_14->unk_03 = 0;
 
-    func_020493b8(data_02196f0c->unk_04, "gf_gameover");
+    _ZN11FlagManager9SetByNameEPc(data_02196f0c->unk_04, "gf_gameover");
 
     func_ov000_021a969c(9);
 

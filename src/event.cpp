@@ -338,11 +338,11 @@ BOOL EventCaller::CheckEventFlag(char * arg_0)
 
     if (arg_0 != NULL && *arg_0 != 0)
     {
-        flag = func_020492f4(data_02196f0c->unk_04, arg_0);
+        flag = _ZN11FlagManager12FindIdByNameEPc(data_02196f0c->unk_04, arg_0);
 
         if (flag >= 0)
         {
-            if (func_02049350(data_02196f0c->unk_04, flag))
+            if (_ZN11FlagManager7GetByIdEm(data_02196f0c->unk_04, flag))
             {
                 return FALSE;
             }
