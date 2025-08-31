@@ -17,9 +17,9 @@ struct UnkBuf_Func_02049564
 
     inline u16 ReadShort()
     {
-        u8 a = ReadByte();
-        u8 b = ReadByte();
-        return a | b << 8;
+        u16 a = ReadByte();
+        a |= (ReadByte() << 8);
+        return a;
     }
 
     inline u32 ReadWord()
@@ -30,19 +30,19 @@ struct UnkBuf_Func_02049564
         return a | b << 16;
     }
 
-    void inline WriteByte(u8 byte)
+    inline void WriteByte(u8 byte)
     {
         *this->unk_04 = byte;
         this->unk_04++;
     }
 
-    void inline WriteShort(u16 halfword)
+    inline void WriteShort(u16 halfword)
     {
         WriteByte(halfword);
         WriteByte(halfword >> 8);
     }
 
-    void inline WriteWord(u32 word)
+    inline void WriteWord(u32 word)
     {
         WriteShort(word);
         WriteShort(word >> 16);
