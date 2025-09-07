@@ -17,8 +17,8 @@ class UnkStruct_021e334c
 public:
     /* 00 */ STRUCT_PAD(0x00, 0x24);
 
-    UnkStruct_021e334c(); // func_ov000_021b0f60
-    ~UnkStruct_021e334c(); // func_ov000_021b1054
+    UnkStruct_021e334c();
+    ~UnkStruct_021e334c();
 };
 
 extern struct UnkStruct_021e334c * data_ov000_021e334c;
@@ -182,23 +182,21 @@ public:
     /* EB8 */ u8 unk_eb8;
     /* EB9 */ STRUCT_PAD(0xEB9, 0xEBC);
 
-    UnkStruct_021E3324_04(); // func_ov000_021a2620
-    ~UnkStruct_021E3324_04(); // func_ov000_021a26e8
+    UnkStruct_021E3324_04();
+    ~UnkStruct_021E3324_04();
+
+    void func_ov000_021a276c(char *);
+    void func_ov000_021a28cc();
+    void func_ov000_021a2918();
+    void func_ov000_021a29f4();
 };
 
 extern struct UnkStruct_021974fc * data_021974fc;
 
-EC struct UnkStruct_021E3324_04 * func_ov000_021a2620(struct UnkStruct_021E3324_04 *);
-EC void func_ov000_021a276c(struct UnkStruct_021E3324_04 *, char *);
-
-EC struct UnkStruct_021e334c * func_ov000_021b0f60(struct UnkStruct_021e334c *);
 EC void func_ov000_021d4874(void);
-EC void func_ov000_021a28cc(struct UnkStruct_021E3324_04 *);
 EC void func_0204f080(struct UnkStruct_021974fc *);
 
-EC void func_ov000_021a2918(struct UnkStruct_021E3324_04 *);
 EC void func_ov000_021a2eb0(struct UnkBuf_Func_02049564 *, s32);
-EC void func_ov000_021a29f4(struct UnkStruct_021E3324_04 *);
 
 EC void func_ov000_021a4a7c(UnkStruct_021E3324_04_00 *);
 EC void func_ov000_021a5318(UnkStruct_021E3324_04_0C *);
@@ -273,8 +271,6 @@ EC void func_ov000_021b9bac(struct UnkStruct_021E3324_04_14 *);
 
 EC void func_ov000_021d4094(void);
 EC void func_ov000_021b9bec(struct UnkStruct_021E3324_04_14 *);
-EC void func_ov000_021b1054(struct UnkStruct_021e334c *);
-EC struct UnkStruct_021E3324_04 * func_ov000_021a26e8(struct UnkStruct_021E3324_04 *);
 EC void func_ov000_021d492c(void);
 EC void func_0204000c(void);
 
@@ -386,7 +382,7 @@ EC void func_ov000_021a23e0(char * mapName)
         data_ov000_021e3324.unk_04 = new UnkStruct_021E3324_04;
     }
 
-    func_ov000_021a276c(data_ov000_021e3324.unk_04, mapName);
+    data_ov000_021e3324.unk_04->func_ov000_021a276c(mapName);
     func_0204246c(mapName);
 
     if (data_ov000_021e334c == NULL)
@@ -395,7 +391,7 @@ EC void func_ov000_021a23e0(char * mapName)
     }
 
     func_ov000_021d4874();
-    func_ov000_021a28cc(data_ov000_021e3324.unk_04);
+    data_ov000_021e3324.unk_04->func_ov000_021a28cc();
 
     if (data_021974fc != NULL)
     {
@@ -418,10 +414,10 @@ EC void func_ov000_021a2540(void * arg_0, s32 arg_1)
     }
     else
     {
-        func_ov000_021a2918(data_ov000_021e3324.unk_04);
+        data_ov000_021e3324.unk_04->func_ov000_021a2918();
     }
 
-    func_ov000_021a29f4(data_ov000_021e3324.unk_04);
+    data_ov000_021e3324.unk_04->func_ov000_021a29f4();
 
     return;
 }
@@ -457,7 +453,6 @@ EC void func_ov000_021a2574(void)
     return;
 }
 
-// func_ov000_021a2620
 UnkStruct_021E3324_04::UnkStruct_021E3324_04()
 {
     func_ov000_021a8304();
@@ -476,7 +471,6 @@ UnkStruct_021E3324_04::UnkStruct_021E3324_04()
     func_ov002_021f212c();
 }
 
-// func_ov000_021a26e8
 UnkStruct_021E3324_04::~UnkStruct_021E3324_04()
 {
     func_ov002_021f2160();
@@ -505,7 +499,7 @@ UnkStruct_021E3324_04::~UnkStruct_021E3324_04()
 }
 
 /* NONMATCHING: https://decomp.me/scratch/caqO6 */
-EC void func_ov000_021a276c(struct UnkStruct_021E3324_04 * self, char * mapName)
+void UnkStruct_021E3324_04::func_ov000_021a276c(char * mapName)
 {
     struct MapData * pMapData;
     s32 i;
@@ -516,21 +510,21 @@ EC void func_ov000_021a276c(struct UnkStruct_021E3324_04 * self, char * mapName)
 
     pMapData = func_020379e0(mapName, 0);
 
-    self->unk_20 = pMapData->unk_0c;
-    self->unk_22 = pMapData->unk_0d;
+    this->unk_20 = pMapData->unk_0c;
+    this->unk_22 = pMapData->unk_0d;
 
-    self->unk_24 = 1;
-    self->unk_25 = 1;
+    this->unk_24 = 1;
+    this->unk_25 = 1;
 
-    self->unk_26 = self->unk_20 - 1;
-    self->unk_27 = self->unk_22 - 1;
+    this->unk_26 = this->unk_20 - 1;
+    this->unk_27 = this->unk_22 - 1;
 
-    self->unk_eb8 = 0;
+    this->unk_eb8 = 0;
 
     for (i = 0; i < 4; i++)
     {
-        self->unk_eb0[i] = -1;
-        self->unk_eb4[i] = -1;
+        this->unk_eb0[i] = -1;
+        this->unk_eb4[i] = -1;
     }
 
     data_ov000_021e3324.unk_04->unk_828 = pMapData->unk_10;
@@ -551,7 +545,7 @@ EC void func_ov000_021a276c(struct UnkStruct_021E3324_04 * self, char * mapName)
 
     if (func_0201160c(mapName) != 0)
     {
-        self->unk_18 = func_020379e0(mapName, 1);
+        this->unk_18 = func_020379e0(mapName, 1);
     }
 
     func_ov000_021b95e8(data_ov000_021e3324.unk_04->unk_14);
@@ -559,7 +553,7 @@ EC void func_ov000_021a276c(struct UnkStruct_021E3324_04 * self, char * mapName)
     return;
 }
 
-EC void func_ov000_021a28cc(struct UnkStruct_021E3324_04 * self)
+void UnkStruct_021E3324_04::func_ov000_021a28cc(void)
 {
     func_ov000_021a4a7c(data_ov000_021e3324.unk_04->unk_00);
     func_ov000_021a5318(data_ov000_021e3324.unk_04->unk_0c);
@@ -568,7 +562,7 @@ EC void func_ov000_021a28cc(struct UnkStruct_021E3324_04 * self)
     return;
 }
 
-EC void func_ov000_021a2918(struct UnkStruct_021E3324_04 * self)
+void UnkStruct_021E3324_04::func_ov000_021a2918(void)
 {
     s32 i;
 
@@ -621,7 +615,7 @@ EC void func_ov000_021a2918(struct UnkStruct_021E3324_04 * self)
     return;
 }
 
-EC void func_ov000_021a29f4(struct UnkStruct_021E3324_04 * self)
+void UnkStruct_021E3324_04::func_ov000_021a29f4(void)
 {
     struct Unit ** pUnitStack;
     struct Unit * it;
@@ -1802,21 +1796,18 @@ EC BOOL func_ov000_021a491c(struct Unit * unit)
     return data_ov000_021e3320[unit->unk_4c->unk_08] == 1;
 }
 
-// func_ov000_021a4974
 void ProcMapEnd::Init(void)
 {
     func_ov000_021b9bec(data_ov000_021e3324.unk_04->unk_14);
     return;
 }
 
-// func_ov000_021a4990
 void ProcMapDraw::Init(void)
 {
     func_ov000_021b9c3c(data_ov000_021e3324.unk_04->unk_14);
     return;
 }
 
-// func_ov000_021a49ac
 void ProcMapLow::Init(void)
 {
     func_ov000_021a6e68(data_ov000_021e3324.unk_04->unk_10);
@@ -1833,36 +1824,27 @@ void ProcMapLow::Init(void)
     return;
 }
 
-// func_ov000_021a4a00
 void ProcMapBegin::Init(void)
 {
     func_ov000_021b9bac(data_ov000_021e3324.unk_04->unk_14);
     return;
 }
 
-// func_ov000_021a4a1c
-// func_ov000_021a4a20
 ProcMapBegin::~ProcMapBegin()
 {
     return;
 }
 
-// func_ov000_021a4a34
-// func_ov000_021a4a38
 ProcMapLow::~ProcMapLow()
 {
     return;
 }
 
-// func_ov000_021a4a4c
-// func_ov000_021a4a50
 ProcMapDraw::~ProcMapDraw()
 {
     return;
 }
 
-// func_ov000_021a4a64
-// func_ov000_021a4a68
 ProcMapEnd::~ProcMapEnd()
 {
     return;
