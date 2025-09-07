@@ -23,6 +23,8 @@ EXTERN_C
 #define STRUCT_PAD(from, to) unsigned char _pad_ ## from[(to) - (from)]
 
 #define ABS(val) ((val) >= 0 ? (val) : -(val))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 #pragma define_section force_text ".text"
 

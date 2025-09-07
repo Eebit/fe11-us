@@ -4,6 +4,8 @@
 #include "unknown_funcs.h"
 #include "unit.h"
 
+extern struct Unknown_020efcc8 * data_020efcc8;
+
 struct ArenaProc_unk_60
 {
     STRUCT_PAD(0x00, 0x40);

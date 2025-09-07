@@ -33,7 +33,6 @@ extern struct UnkStruct_021E3328 * data_ov000_021e3328;
 extern int data_027e00e0;
 
 extern struct UnkStruct_020ca61c * data_020ca61c;
-extern struct Unknown_020efcc8 * data_020efcc8;
 
 extern struct UnkStruct_02196f20 * data_02196f20;
 extern struct UnkStruct_02196f24 * data_02196f24;
