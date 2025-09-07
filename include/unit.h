@@ -7,7 +7,8 @@ EXTERN_C
 
 struct PersonData
 {
-    STRUCT_PAD(0x00, 0x0C);
+    char * unk_00;
+    STRUCT_PAD(0x04, 0x0C);
     /* 0C */ s8 bases[8];
     s8 unk_14[8]; // growths
     /* 1C */ u8 enemyGrowths[8];

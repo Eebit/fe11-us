@@ -16,10 +16,10 @@ from:0x021a251c kind:load to:0x021e3324 module:overlay(0)
 from:0x021a2524 kind:load to:0x021e334c module:overlay(0)
 from:0x021a2528 kind:load to:0x021974fc module:main
 from:0x021a252c kind:load to:0x020ce750 module:main
-from:0x021a2530 kind:load to:0x021db784 module:overlay(0)
-from:0x021a2534 kind:load to:0x021db7b4 module:overlay(0)
-from:0x021a2538 kind:load to:0x021db79c module:overlay(0)
-from:0x021a253c kind:load to:0x021db7cc module:overlay(0)
+from:0x021a2530 kind:load to:0x021db77c module:overlay(0) add:8
+from:0x021a2534 kind:load to:0x021db7ac module:overlay(0) add:8
+from:0x021a2538 kind:load to:0x021db794 module:overlay(0) add:8
+from:0x021a253c kind:load to:0x021db7c4 module:overlay(0) add:8
 from:0x021a254c kind:arm_call to:0x021a2eb0 module:overlay(0)
 from:0x021a255c kind:arm_call to:0x021a2918 module:overlay(0)
 from:0x021a2568 kind:arm_call to:0x021a29f4 module:overlay(0)

@@ -14,9 +14,13 @@ EC void func_01ff8000(void * unk1, u8 a, u8 b, s32 c, u8 d, s32 e);
 EC void func_01ff8d88(void *, struct Unit *, s32, s32, s32, s32);
 EC void func_01ff8db8(void *, struct Unit *, s32, s32, s32, s32);
 EC void func_01ff9300(void *, s32, s32, s32, s32);
+EC void func_01ff9758(void *, void *);
+EC void func_01ff976c(void *, void *);
 EC void * func_01ffb934(void *, s32);
 EC void func_01ffbb90(void *, void *);
 
+EC void * func_02000c70(void);
+EC void func_02000c7c(void *);
 EC void func_02000d14(struct UnkStruct_Func_2000C7C * buf, s32 a);
 
 EC int func_020016e8(struct UnkStruct_Func_2000D2C * unk1, struct Unit * unit, int a, int b);
@@ -43,11 +47,16 @@ EC void func_0200f28c(u32 arg_0);
 EC BOOL IsOverlayLoaded(u32 overlayId);
 
 EC void * _Znwm(s32);
+EC void _ZdlPv(void *);
 EC void _ZdaPv(void *);
 EC int func_020114dc(void *, void *);
 EC void func_020115a4(void *);
+EC BOOL func_0201160c(char *);
+
 EC s32 func_02012190(void);
 EC BOOL func_02012298(void);
+EC s32 func_02012478(void);
+EC BOOL func_02012584(void);
 EC void func_02012680(void *);
 EC void func_02012b64(void *, s32);
 EC void func_02012bbc(void);
@@ -74,6 +83,8 @@ EC void func_0201d9f4(struct Proc * proc, u16 data, u32 flag);
 EC void func_0201da48(struct Proc * proc, u16 data, u32 flag);
 EC void func_0201da98(struct Proc * proc, u16 data, u32 flag);
 EC BOOL func_0201dae8(void);
+EC void func_0201db38(void *, s32, s32, s32, s32);
+EC BOOL func_0201dc30(s32);
 
 EC BOOL func_0201f690(void);
 EC BOOL func_0201f6a0(void);
@@ -89,6 +100,7 @@ EC void func_02021014(void);
 EC void func_02021178(s32);
 EC void func_0202118c(void);
 EC char * GetBattleMapNameMaybe(void);
+EC struct UnkStruct_Func_02021410_Ret * func_02021410(u32);
 EC void func_02021430(struct UnkStruct_02196f10 *, s32, s32);
 EC void func_02021790(struct UnkStruct_02196f10 *);
 
@@ -127,12 +139,15 @@ EC void func_02035f20(void *);
 EC void func_020377c8(void);
 EC BOOL func_020377e8(char *);
 EC void * func_02037800(char *);
+EC void func_020379c0(void);
+EC struct MapData * func_020379e0(char *, u32);
 EC void func_02037a04(struct Unknown_02197254 *);
 EC struct PersonData * GetPersonByPidStr(char *);
 EC struct JobData * GetJobByJidStr(char *);
 EC s32 func_02037fd8(struct JobData *);
 
 EC s32 func_02038108(struct UnkStruct_02196f0c_00 *);
+EC u32 func_02038248(s8 *);
 EC s32 func_0203826c(void *, u8);
 EC s32 func_02038348(struct ItemData *);
 EC s32 GetItemMaxRange(struct ItemData *, struct Unit *);
@@ -156,6 +171,7 @@ EC s32 func_0203c610(struct Unit * unit, struct ItemData * item, BOOL unused);
 EC s32 func_0203c660(struct Unit * unit, struct ItemData * item, BOOL unused);
 EC s32 func_0203c6c0(struct Unit * unit, u32 arg_1, struct ItemData * item, s32 arg_3);
 EC s32 func_0203c77c(struct Unit * unit);
+EC s32 func_0203c790(struct Unit * unit);
 EC s32 func_0203c7ac(struct Unit * unit, u32 arg_1);
 EC s32 func_0203c7e4(struct Unit * unit, u32 arg_1);
 EC s32 CheckUnitAttribute(struct Unit * unit, int attribute);
@@ -172,6 +188,7 @@ EC void func_0203fafc(void);
 EC struct Unit * func_0203fcb8(s32);
 EC void func_0203fb68(void);
 EC void func_0203fc88(void);
+EC struct Unit * func_0203fff4(s32, s32);
 
 s32 func_02040c74(struct Unit **);
 void func_02040cb0(struct Unit **, s32, s32);
@@ -187,6 +204,7 @@ EC void func_020421c4(struct Unit *, s32);
 EC void func_020423fc(void);
 EC void func_02042420(const char *);
 EC void func_02042460(char *);
+EC void func_0204246c(char *);
 EC void func_020424ac(void);
 EC BOOL func_020424b8(char *);
 
@@ -194,11 +212,13 @@ EC void RegisterEventFunctions(void);
 EC BOOL StartEventByName(char *, void *);
 EC void func_020476a0(void);
 EC BOOL func_020479b0(void);
+EC BOOL _ZN11EventCaller13func_02048610EPcS0_(char *, char *);
 BOOL TryStartVisitEvent(ProcPtr parent, u32 arg_1, u32 arg_2, u32 arg_3);
 
 EC void func_020484b0(void);
 EC void func_020485d0(void);
 EC void func_02049024(void *, ProcPtr);
+EC s32 func_02049370(void *, void *);
 EC s32 _ZN11FlagManager12FindIdByNameEPc(struct UnkStruct_02196f0c_04 *, char *);
 EC BOOL _ZN11FlagManager7GetByIdEm(struct UnkStruct_02196f0c_04 *, u32);
 EC BOOL _ZN11FlagManager9GetByNameEPc(struct UnkStruct_02196f0c_04 *, char *);
@@ -250,8 +270,10 @@ EC void func_020a341c(void *);
 EC void func_020a36ac(void (*)(void *, void *));
 EC void func_020a374c(void *, void (*)(void *));
 
+EC void func_020a5734(s32, void *, s32);
 EC void func_020a5780(void *, void *, s32);
 EC void func_020a5824(void * buf, int a, int b);
+EC void func_020a58b8(void *, void *, s32);
 
 EC void func_020a8f40(char *);
 
@@ -264,14 +286,14 @@ EC int func_020b6e2c(char *, char *);
 // Overlay 000:
 
 EC void func_ov000_021a340c(void);
-EC void func_ov000_021a3498(struct Unit *, s32, s32, s32);
+EC void func_ov000_021a3498(struct Unit *, BOOL, u32, u32);
 EC void func_ov000_021a354c(struct Unit *, s32, s32);
-EC BOOL func_ov000_021a35a0(void);
+EC void func_ov000_021a35a0(void);
 EC void func_ov000_021a378c(void);
 EC BOOL func_ov000_021a37b4(void);
 EC void func_ov000_021a38b4(void);
 EC void func_ov000_021a3c20(u8 *, s32, struct Unit *);
-EC void func_ov000_021a3c84(u8 *, s32, s32, s32, s32, s32, void *, s32);
+EC void func_ov000_021a3c84(u8 *, s32, s32, s16, s16, s32, s32, u8 *);
 EC BOOL func_ov000_021a3da0(struct Unit *);
 EC void func_ov000_021a3ee4(struct Unit *, s32);
 EC void func_ov000_021a43e8(void);
@@ -282,9 +304,8 @@ EC BOOL func_ov000_021a471c(void);
 EC BOOL func_ov000_021a478c(void);
 EC BOOL func_ov000_021a47e4(void);
 EC s32 func_ov000_021a4854(struct Unit *);
-EC BOOL func_ov000_021a48d8(void);
+EC void func_ov000_021a48d8(void);
 EC void func_ov000_021a4cec(void *, s32, s32, s32, s32, s32);
-EC BOOL func_ov000_021a4e84(s32, s32, s32, s32);
 EC void func_ov000_021a516c(s32);
 EC BOOL func_ov000_021a5650(void *, u32);
 EC BOOL func_ov000_021a5768(void *, u32);

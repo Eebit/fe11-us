@@ -208,6 +208,7 @@ struct UnkStruct_021E3324_00
 struct UnkStruct_021E3324
 {
     struct UnkStruct_021E3324_00 * unk_00;
+    struct UnkStruct_021E3324_04 * unk_04;
 };
 
 struct UnkStruct_Func_2000D2C {
@@ -285,13 +286,20 @@ struct Unknown_020efcc8_unk_a8_unk_00
     STRUCT_PAD(0x2C, 0x38);
     void (*unk_38)(void *, u32);
     void (*unk_3c)(void *, u32, u32, u32);
-    STRUCT_PAD(0x40, 0x6c);
+    STRUCT_PAD(0x40, 0x4C);
+    void (*unk_4c)(void *, s32);
+    BOOL (*unk_50)(void *);
+    BOOL (*unk_54)(void *);
+    BOOL (*unk_58)(void *);
+    STRUCT_PAD(0x5C, 0x6c);
     void (*unk_6c)(void *, u32);
 };
 
 struct Unknown_020efcc8_unk_a8
 {
     struct Unknown_020efcc8_unk_a8_unk_00 * unk_00;
+    STRUCT_PAD(0x04, 0x08);
+    u32 unk_08;
 };
 
 struct Unknown_020efcc8
@@ -348,6 +356,8 @@ struct UnkStruct_02196f0c_00
 {
     STRUCT_PAD(0x00, 0x0A);
     s8 unk_0a;
+    STRUCT_PAD(0x0B, 0x18);
+    u8 unk_18[2];
 };
 
 struct UnkStruct_02196f0c_04_00
@@ -425,6 +435,16 @@ struct VmMap_Common
     u16 unk_04;
     u8 unk_06;
     u8 unk_07;
+};
+
+struct MapData
+{
+    /* 00 */ STRUCT_PAD(0x00, 0x0C);
+    /* 0C */ s8 unk_0c;
+    /* 0D */ s8 unk_0d;
+    /* 0E */ STRUCT_PAD(0x0E, 0x10);
+    /* 10 */ u8 * unk_10;
+    /* 14 */ u8 * unk_14;
 };
 
 // Overlay 000:

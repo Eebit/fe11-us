@@ -7,7 +7,7 @@
 extern struct ProcCmd data_ov000_021dbe58[];
 extern struct ProcCmd data_ov000_021dc190[];
 extern struct ProcFuncTable data_ov000_021dbd94;
-
+extern struct Unknown_020efcc8 * data_020efcc8;
 struct UnkStruct_021e332c_14
 {
     u8 unk_00;
