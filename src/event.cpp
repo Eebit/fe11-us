@@ -4,6 +4,10 @@
 
 #include "unknown_funcs.h"
 #include "unknown_data.h"
+#include "unknown_types.hpp"
+
+#include "map.hpp"
+#include "sound_manager.hpp"
 
 #include "event.hpp"
 
@@ -338,11 +342,11 @@ BOOL EventCaller::CheckEventFlag(char * arg_0)
 
     if (arg_0 != NULL && *arg_0 != 0)
     {
-        flag = _ZN11FlagManager12FindIdByNameEPc(data_02196f0c->unk_04, arg_0);
+        flag = data_02196f0c->flagMgr->FindIdByName(arg_0);
 
         if (flag >= 0)
         {
-            if (_ZN11FlagManager7GetByIdEm(data_02196f0c->unk_04, flag))
+            if (data_02196f0c->flagMgr->GetById(flag))
             {
                 return FALSE;
             }
@@ -391,7 +395,7 @@ BOOL EventCaller::func_02047b3c(char * arg_0, char * arg_1)
 
 BOOL EventCaller::CheckTurnEventTrigger(struct EventInfo * arg_0, struct EventFuncInput * unused)
 {
-    if ((arg_0->args[2] >= 0) && (arg_0->args[2] != data_ov000_021e3324.unk_00->phase))
+    if ((arg_0->args[2] >= 0) && (arg_0->args[2] != data_ov000_021e3324->phase))
     {
         return FALSE;
     }
@@ -401,12 +405,12 @@ BOOL EventCaller::CheckTurnEventTrigger(struct EventInfo * arg_0, struct EventFu
         return TRUE;
     }
 
-    if (arg_0->args[0] > data_ov000_021e3324.unk_00->turn)
+    if (arg_0->args[0] > data_ov000_021e3324->turn)
     {
         return FALSE;
     }
 
-    if (arg_0->args[1] < data_ov000_021e3324.unk_00->turn)
+    if (arg_0->args[1] < data_ov000_021e3324->turn)
     {
         return FALSE;
     }
@@ -442,12 +446,12 @@ BOOL EventCaller::CheckReinforcementEventTrigger(struct EventInfo * arg_0, struc
     {
         if (data_02196f20->unk_199 != 0)
         {
-            if (arg_0->args[2] != data_ov000_021e3324.unk_00->phase)
+            if (arg_0->args[2] != data_ov000_021e3324->phase)
             {
                 return FALSE;
             }
         }
-        else if (data_ov000_021e3324.unk_00->phase != 0)
+        else if (data_ov000_021e3324->phase != 0)
         {
             return FALSE;
         }
@@ -458,12 +462,12 @@ BOOL EventCaller::CheckReinforcementEventTrigger(struct EventInfo * arg_0, struc
         return TRUE;
     }
 
-    if (arg_0->args[0] > data_ov000_021e3324.unk_00->turn)
+    if (arg_0->args[0] > data_ov000_021e3324->turn)
     {
         return FALSE;
     }
 
-    if (arg_0->args[1] < data_ov000_021e3324.unk_00->turn)
+    if (arg_0->args[1] < data_ov000_021e3324->turn)
     {
         return FALSE;
     }
@@ -583,7 +587,7 @@ BOOL EventCaller::CheckAreaEventTrigger(struct EventInfo * arg_0, struct EventFu
         return FALSE;
     }
 
-    if ((arg_0->args[4] >= 0) && (arg_0->args[4] != data_ov000_021e3324.unk_00->phase))
+    if ((arg_0->args[4] >= 0) && (arg_0->args[4] != data_ov000_021e3324->phase))
     {
         return FALSE;
     }

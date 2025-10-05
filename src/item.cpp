@@ -1,8 +1,10 @@
 #include "global.h"
 
 #include "unit.h"
+#include "unknown_types.hpp"
 #include "unknown_funcs.h"
 #include "unknown_data.h"
+#include "map.hpp"
 
 enum
 {
@@ -23,21 +25,21 @@ extern struct Unit * gUnitList;
 
 // Forward declarations
 
-s32 func_02038e34(struct ItemData * item);
-s32 func_02038e3c(struct ItemData * item, struct Unit * unit);
-BOOL func_02038f94(struct Item * item);
+EC s32 func_02038e34(struct ItemData * item);
+EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit);
+EC BOOL func_02038f94(struct Item * item);
 
-const char * func_02038328(struct ItemData * item)
+EC const char * func_02038328(struct ItemData * item)
 {
     return func_02039e10(item->id);
 }
 
-const char * func_02038338(struct ItemData * item)
+EC const char * func_02038338(struct ItemData * item)
 {
     return func_02039e10(item->pName);
 }
 
-BOOL func_02038348(struct ItemData * item)
+EC BOOL func_02038348(struct ItemData * item)
 {
     if (item->type == ITYPE_STAFF || item->type == ITYPE_MAGIC)
     {
@@ -58,13 +60,12 @@ static inline BOOL CheckItemAttr(struct ItemData * item, u32 attr)
     return item->attributes & attr;
 }
 
-BOOL func_02038384(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 {
     struct ItemData * pItem;
     int iVar5;
     struct JobData * job;
     u8 * pWeaponLevel;
-    int wlvl;
     int hp;
     int type;
     int level;
@@ -182,7 +183,7 @@ BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->unk_0c & 0x40)
+            if (data_02196f0c->state & 0x40)
             {
                 return FALSE;
             }
@@ -213,12 +214,12 @@ BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->unk_0c & 0x40)
+            if (data_02196f0c->state & 0x40)
             {
                 return FALSE;
             }
 
-            if (data_ov000_021e3324.unk_00->unk_02 == 0)
+            if (data_ov000_021e3324->unk_02 == 0)
             {
                 return FALSE;
             }
@@ -226,7 +227,7 @@ BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             return TRUE;
 
         case 5:
-            if (func_ov000_021a47e4() && !(data_02196f0c->unk_0c & 0x40))
+            if (func_ov000_021a47e4() && !(data_02196f0c->state & 0x40))
             {
                 return FALSE;
             }
@@ -277,7 +278,7 @@ BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->unk_0c & 0x40)
+            if (data_02196f0c->state & 0x40)
             {
                 return FALSE;
             }
@@ -288,7 +289,8 @@ BOOL func_02038384(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-void func_02038708(struct ItemData * item, struct Unit * unit)
+/* NONMATCHING: https://decomp.me/scratch/D8kjb */
+EC void func_02038708(struct ItemData * item, struct Unit * unit)
 {
     switch (item->unk_11)
     {
@@ -423,7 +425,7 @@ void func_02038708(struct ItemData * item, struct Unit * unit)
     return;
 }
 
-BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
+EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 {
     struct Unit ** ppUVar2;
     int i;
@@ -454,7 +456,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                     return FALSE;
                 }
 
-                ppUVar2 = func_02040c98(data_ov000_021e3324.unk_00->phase);
+                ppUVar2 = func_02040c98(data_ov000_021e3324->phase);
 
                 for (pUnit = *ppUVar2; pUnit != 0; pUnit = pUnit->unk_3c)
                 {
@@ -483,7 +485,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_28[(x | y << 5)];
+            unitId = data_ov000_021e3328->unk_028[(x | y << 5)];
 
             if (unitId != 0)
             {
@@ -495,7 +497,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324.unk_00->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -521,7 +523,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_28[(x | y << 5)];
+            unitId = data_ov000_021e3328->unk_028[(x | y << 5)];
 
             if (unitId == 0)
             {
@@ -537,7 +539,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324.unk_00->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -578,7 +580,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_28[(x | (y << 5))];
+            unitId = data_ov000_021e3328->unk_028[(x | (y << 5))];
 
             if (unitId == 0)
             {
@@ -594,7 +596,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324.unk_00->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -607,7 +609,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_28[(x | (y << 5))];
+            unitId = data_ov000_021e3328->unk_028[(x | (y << 5))];
 
             if (unitId == 0)
             {
@@ -623,7 +625,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324.unk_00->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -671,7 +673,7 @@ BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
     return FALSE;
 }
 
-void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit * unitB)
+EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit * unitB)
 {
     struct Unit ** ppUVar3;
     int hp;
@@ -684,7 +686,7 @@ void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit * un
         case 0:
             if (item->attributes & 0x10)
             {
-                ppUVar3 = func_02040c98(data_ov000_021e3324.unk_00->phase);
+                ppUVar3 = func_02040c98(data_ov000_021e3324->phase);
                 pUnit = *ppUVar3;
 
                 for (; pUnit != NULL; pUnit = pUnit->unk_3c)
@@ -747,7 +749,7 @@ void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit * un
     return;
 }
 
-s32 GetItemMaxRange(struct ItemData * item, struct Unit * unit)
+EC s32 GetItemMaxRange(struct ItemData * item, struct Unit * unit)
 {
     if (item->maxRange != 0xfe)
     {
@@ -757,12 +759,12 @@ s32 GetItemMaxRange(struct ItemData * item, struct Unit * unit)
     return GetUnitMag(unit, NULL, TRUE) >> 1;
 }
 
-s32 func_02038e34(struct ItemData * item)
+EC s32 func_02038e34(struct ItemData * item)
 {
     return item->unk_1c[0];
 }
 
-s32 func_02038e3c(struct ItemData * item, struct Unit * unit)
+EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit)
 {
     s32 var = item->unk_1c[0];
 
@@ -774,7 +776,7 @@ s32 func_02038e3c(struct ItemData * item, struct Unit * unit)
     return var;
 }
 
-BOOL func_02038e80(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038e80(struct ItemData * item, struct Unit * unit)
 {
     if (item->attributes & 0x100000)
     {
@@ -792,7 +794,7 @@ BOOL func_02038e80(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-BOOL func_02038edc(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038edc(struct ItemData * item, struct Unit * unit)
 {
     if (item->attributes & 0x200000)
     {
@@ -810,7 +812,7 @@ BOOL func_02038edc(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-BOOL func_02038f38(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038f38(struct ItemData * item, struct Unit * unit)
 {
     if (item->attributes & 0x80000)
     {
@@ -828,7 +830,7 @@ BOOL func_02038f38(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-BOOL func_02038f94(struct Item * item)
+EC BOOL func_02038f94(struct Item * item)
 {
     s32 uses;
     struct ItemData * itemData = GetItemData(item);
@@ -853,7 +855,7 @@ BOOL func_02038f94(struct Item * item)
     return FALSE;
 }
 
-struct JobData * GetJInfoFromItem(struct ItemData * item, struct Unit * unit)
+EC struct JobData * GetJInfoFromItem(struct ItemData * item, struct Unit * unit)
 {
     if (item->type != ITYPE_DRAGONSTONE)
     {
