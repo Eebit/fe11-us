@@ -1,13 +1,29 @@
 #include "global.h"
 
-#include "unknown_data.h"
+#include <new>
+
+//#include "unknown_data.h"
 #include "unknown_funcs.h"
+#include "unknown_types.hpp"
+
+#include "map.hpp"
+#include "proc_ex.hpp"
+#include "sound_manager.hpp"
 #include "unit.h"
 
 extern struct ProcCmd data_ov000_021dbe58[];
 extern struct ProcCmd data_ov000_021dc190[];
 extern struct ProcFuncTable data_ov000_021dbd94;
-extern struct Unknown_020efcc8 * data_020efcc8;
+
+extern UnkStruct_021E3324_00 * data_ov000_021e3324;
+extern UnkStruct_021E3324_04 * data_ov000_021e3328;
+
+extern struct UnkStruct_020ca61c * data_020ca61c;
+extern struct Unknown_02197254 * data_02197254; // FE11 database
+extern struct UnkStruct_02196f20 * data_02196f20;
+extern struct UnkStruct_02196f24 * data_02196f24;
+extern struct UnkStruct_021974fc * data_021974fc;
+
 struct UnkStruct_021e332c_14
 {
     u8 unk_00;
@@ -71,17 +87,35 @@ extern struct UnkStruct_020ca620 * data_020ca620;
 
 extern vu32 data_027e1264;
 
-struct PlayerPhaseProc * func_ov000_021ae1bc(void);
-BOOL func_ov000_021a6ab8(void *, s16, s16);
-BOOL func_ov000_021ac0c0(void);
-void func_ov000_021aa278(s32);
+namespace map
+{
+
+    class ProcPL : public ProcEx
+    {
+    public:
+        ProcPL()
+        {
+            data_ov000_021e332c.unk_00[4] = this;
+            data_ov000_021e3328->unk_14->unk_27 = 1;
+        }
+
+        // func_ov000_021b0964 d1
+        // func_ov000_021b0904 d0
+    };
+
+};
+
+EC struct PlayerPhaseProc * func_ov000_021ae1bc(void);
+EC BOOL func_ov000_021a6ab8(void *, s16, s16);
+EC BOOL func_ov000_021ac0c0(void);
+EC void func_ov000_021aa278(s32);
 
 static inline BOOL UNK_18_CHECK()
 {
     return (data_ov000_021e3328->unk_00->unk_18 >= 2) ? TRUE : FALSE;
 }
 
-void func_ov000_021aa210(void)
+EC void func_ov000_021aa210(void)
 {
     data_ov000_021e3328->unk_10->unk_0a = 1;
 
@@ -107,7 +141,7 @@ void func_ov000_021aa210(void)
 
 // #func_ov000_021ab768
 
-void func_ov000_021abbc8(void)
+EC void func_ov000_021abbc8(void)
 {
     struct Unit * pUnitA;
     int unitId;
@@ -148,7 +182,7 @@ void func_ov000_021abbc8(void)
                 continue;
             }
 
-            unitId = data_ov000_021e3328->unk_28[(ix | iy << 5)];
+            unitId = data_ov000_021e3328->unk_028[(ix | iy << 5)];
 
             if (unitId != 0)
             {
@@ -178,7 +212,7 @@ void func_ov000_021abbc8(void)
     return;
 }
 
-void func_ov000_021abd58(void)
+EC void func_ov000_021abd58(void)
 {
     func_ov000_021abbc8();
     func_ov000_021bc994(data_ov000_021e3328->unk_14->unk_04, 0, 0, 7);
@@ -186,7 +220,7 @@ void func_ov000_021abd58(void)
     return;
 }
 
-void func_ov000_021abd9c(void)
+EC void func_ov000_021abd9c(void)
 {
     func_ov000_021a5d5c(data_ov000_021e3328->unk_0c, 2);
 
@@ -200,15 +234,15 @@ void func_ov000_021abd9c(void)
          (func_ov000_021a5650(data_ov000_021e3328->unk_0c, 2) != 0)) &&
         (func_ov000_021a9cac() != 0))
     {
-        if (data_ov000_021e3324.unk_00->unk_03 != '\0')
+        if (data_ov000_021e3324->unk_03 != 0)
         {
-            data_ov000_021e3324.unk_00->unk_03 = 0;
-            data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x0001001C, 0, 0);
+            data_ov000_021e3324->unk_03 = 0;
+            data_020efcc8->unk_b0->vfunc_28(0x0001001C, 0, 0);
         }
         else
         {
-            data_ov000_021e3324.unk_00->unk_03 = 1;
-            data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x0001001B, 0, 0);
+            data_ov000_021e3324->unk_03 = 1;
+            data_020efcc8->unk_b0->vfunc_28(0x0001001B, 0, 0);
         }
 
         func_ov000_021a3498(
@@ -244,7 +278,7 @@ void func_ov000_021abd9c(void)
 
 // #func_ov000_021abf30
 
-BOOL func_ov000_021ac0c0(void)
+EC BOOL func_ov000_021ac0c0(void)
 {
     u32 uVar7;
 
@@ -252,7 +286,7 @@ BOOL func_ov000_021ac0c0(void)
     data_ov000_021e332c.unk_14->unk_02 = 0;
     data_ov000_021e332c.unk_14->unk_03 = 0;
 
-    data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x00010017, 0, 0);
+    data_020efcc8->unk_b0->vfunc_28(0x00010017, 0, 0);
 
     if (data_ov000_021e332c.unk_14->unk_05 == 1)
     {
@@ -306,7 +340,7 @@ static inline BOOL TEMP(struct Unit * unit)
     return (data_ov000_021e3328->unk_d30[pos] & (1 << (unit->xPos & 7))) & 0xFF;
 }
 
-void func_ov000_021ac218(void)
+EC void func_ov000_021ac218(void)
 {
     BOOL bVar5;
     struct Unit * pUnit;
@@ -323,13 +357,13 @@ void func_ov000_021ac218(void)
 
     data_ov000_021e3328->unk_04[1].unk_00 = NULL;
 
-    pUnit->state2 &= 0xfffdffff;
+    pUnit->state2 &= ~0x20000;
 
     if ((pUnit->state2 & 0x48) == 0)
     {
         pUnit->state2 |= 1;
 
-        if ((data_ov000_021e3324.unk_00->unk_02 != 0) && (func_ov000_021a3da0(pUnit) == 0))
+        if ((data_ov000_021e3324->unk_02 != 0) && (func_ov000_021a3da0(pUnit) == 0))
         {
             if (TEMP(pUnit) != 0)
             {
@@ -342,9 +376,9 @@ void func_ov000_021ac218(void)
         pUnit->state2 |= 0x1000;
     }
 
-    if (data_ov000_021e3324.unk_00->unk_02 != 0)
+    if (data_ov000_021e3324->unk_02 != 0)
     {
-        if (data_ov000_021e3324.unk_00->phase == pUnit->unk_4c->unk_08)
+        if (data_ov000_021e3324->phase == pUnit->unk_4c->unk_08)
         {
             void * sp_0c;
             s32 sp_08;
@@ -361,16 +395,17 @@ void func_ov000_021ac218(void)
             sp_04 = data_ov000_021e3344->unk_2e;
             sp_00 = data_ov000_021e3344->unk_2d;
 
-            func_ov000_021a3c84(
-                data_ov000_021e3328->unk_db0, data_ov000_021e3324.unk_00->phase, fp, sp_00, sp_04, sp_08, sp_0c, sp_10);
-            func_ov000_021a3c84(
-                data_ov000_021e3328->unk_d30, data_ov000_021e3324.unk_00->unk_01, fp, sp_00, sp_04, sp_08, sp_0c,
-                sp_10);
+            // FIXME: Function signature issues
+            // func_ov000_021a3c84(
+            //     data_ov000_021e3328->unk_db0, data_ov000_021e3324->phase, fp, sp_00, sp_04, sp_08, sp_0c, sp_10);
+            // func_ov000_021a3c84(
+            //     data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01, fp, sp_00, sp_04, sp_08, sp_0c,
+            //     sp_10);
         }
         else
         {
             func_ov000_021a3c20(data_ov000_021e3328->unk_db0, uVar8, pUnit);
-            func_ov000_021a3c20(data_ov000_021e3328->unk_d30, data_ov000_021e3324.unk_00->unk_01, pUnit);
+            func_ov000_021a3c20(data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01, pUnit);
         }
 
         if (func_ov000_021a3da0(pUnit) == 0)
@@ -416,7 +451,7 @@ void func_ov000_021ac218(void)
 
     func_ov000_021a9a48();
 
-    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_gameover") != 0)
+    if (data_02196f0c->flagMgr->GetByName("gf_gameover"))
     {
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
         data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -427,7 +462,7 @@ void func_ov000_021ac218(void)
         return;
     }
 
-    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_complete") != 0)
+    if (data_02196f0c->flagMgr->GetByName("gf_complete"))
     {
         pUnit->state2 &= 0xfffffffe;
 
@@ -463,7 +498,7 @@ void func_ov000_021ac218(void)
     return;
 }
 
-void func_ov000_021ac644(void)
+EC void func_ov000_021ac644(void)
 {
     if (func_ov000_021a478c() != 0)
     {
@@ -473,12 +508,12 @@ void func_ov000_021ac644(void)
 
     func_ov000_021a9ce4();
 
-    data_ov000_021e3324.unk_00->unk_10 = data_027e1264;
+    data_ov000_021e3324->unk_10 = data_027e1264;
 
     return;
 }
 
-void func_ov000_021ac6a0(void)
+EC void func_ov000_021ac6a0(void)
 {
     func_ov000_021a48d8();
 
@@ -497,14 +532,14 @@ void func_ov000_021ac6a0(void)
                 {
                     if (func_0204b260(0) != 0)
                     {
-                        data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x00010018, 0, 0);
+                        data_020efcc8->unk_b0->vfunc_28(0x00010018, 0, 0);
                     }
                 }
                 else
                 {
                     if (func_0204ad38(0, 0, 0) != 0)
                     {
-                        data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x00010018, 0, 0);
+                        data_020efcc8->unk_b0->vfunc_28(0x00010018, 0, 0);
                     }
                 }
             }
@@ -530,7 +565,7 @@ void func_ov000_021ac6a0(void)
     return;
 }
 
-BOOL func_ov000_021ac80c(void)
+EC BOOL func_ov000_021ac80c(void)
 {
     if (data_ov000_021e332c.unk_14->unk_01 != 0)
     {
@@ -560,7 +595,7 @@ BOOL func_ov000_021ac80c(void)
     return 0;
 }
 
-void func_ov000_021ac8b4(void)
+EC void func_ov000_021ac8b4(void)
 {
     int unitId;
     struct Unit * pUnit;
@@ -570,7 +605,7 @@ void func_ov000_021ac8b4(void)
         return;
     }
 
-    unitId = data_ov000_021e3328->unk_28[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
+    unitId = data_ov000_021e3328->unk_028[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
 
     if (unitId != 0)
     {
@@ -583,7 +618,7 @@ void func_ov000_021ac8b4(void)
 
     if (pUnit != NULL)
     {
-        if (pUnit->unk_4c->unk_08 == data_ov000_021e3324.unk_00->phase)
+        if (pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase)
         {
             func_01ff8db8(data_ov000_021e3328->unk_08, pUnit, -1, 6, 1, 1);
         }
@@ -596,7 +631,7 @@ void func_ov000_021ac8b4(void)
     data_ov000_021e3328->unk_10->unk_0a = 1;
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
 
-    if ((data_02196f0c->unk_0c & 0x40) != 0)
+    if ((data_02196f0c->state & 0x40) != 0)
     {
         Proc_Goto(data_ov000_021e332c.unk_00[4], 1, 0);
         data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -614,7 +649,7 @@ void func_ov000_021ac8b4(void)
     return;
 }
 
-void func_ov000_021aca18(void)
+EC void func_ov000_021aca18(void)
 {
     if (data_ov000_021e3328->unk_10->unk_0b == 2)
     {
@@ -625,9 +660,9 @@ void func_ov000_021aca18(void)
     return;
 }
 
-void func_ov000_021aca50(void)
+EC void func_ov000_021aca50(void)
 {
-    data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x10017, 0, 0);
+    data_020efcc8->unk_b0->vfunc_28(0x10017, 0, 0);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x19, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -639,7 +674,7 @@ void func_ov000_021aca50(void)
     return;
 }
 
-void func_ov000_021acac4(void)
+EC void func_ov000_021acac4(void)
 {
     func_ov000_021aa1d0();
     func_ov000_021bc9e4(data_ov000_021e3328->unk_14->unk_04);
@@ -655,7 +690,7 @@ void func_ov000_021acac4(void)
     return;
 }
 
-void func_ov000_021acb34(void)
+EC void func_ov000_021acb34(void)
 {
     if (func_ov000_021ac80c() != 0)
     {
@@ -671,13 +706,13 @@ void func_ov000_021acb34(void)
     return;
 }
 
-void func_ov000_021acb78(ProcPtr proc)
+EC void func_ov000_021acb78(ProcPtr proc)
 {
     func_ov000_021d6f1c(proc, 0);
     return;
 }
 
-void func_ov000_021acb88(void)
+EC void func_ov000_021acb88(void)
 {
     if (func_ov000_021ac80c() != 0)
     {
@@ -693,13 +728,13 @@ void func_ov000_021acb88(void)
     return;
 }
 
-void func_ov000_021acbc8(void)
+EC void func_ov000_021acbc8(void)
 {
     func_ov000_021abd58();
     return;
 }
 
-void func_ov000_021acbd4(void)
+EC void func_ov000_021acbd4(void)
 {
     if (data_ov000_021e3328->unk_10->unk_0b != 2)
     {
@@ -715,7 +750,7 @@ static inline BOOL CHECK_54()
     return (data_ov000_021e3328->unk_04->unk_04->unk_54 & 1);
 }
 
-void func_ov000_021acc08(ProcPtr proc)
+EC void func_ov000_021acc08(ProcPtr proc)
 {
     if ((!CHECK_54() ? TRUE : FALSE) & 0xFF)
     {
@@ -725,7 +760,7 @@ void func_ov000_021acc08(ProcPtr proc)
     return;
 }
 
-void func_ov000_021acc44(void)
+EC void func_ov000_021acc44(void)
 {
     Proc_Goto(data_ov000_021e332c.unk_00[4], 11, 1);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -738,27 +773,27 @@ static inline BOOL CHECK_02(void)
     return (data_ov000_021e332c.unk_14->unk_02 != -1) ? TRUE : FALSE;
 }
 
-void func_ov000_021acc7c(ProcPtr proc)
+EC void func_ov000_021acc7c(ProcPtr proc)
 {
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0x8b);
     func_ov000_021bec24(proc);
 
     if (CHECK_02())
     {
-        data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x00010003, 0, 0);
+        data_020efcc8->unk_b0->vfunc_28(0x00010003, 0, 0);
     }
 
     return;
 }
 
-void func_ov000_021accfc(ProcPtr proc)
+EC void func_ov000_021accfc(ProcPtr proc)
 {
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0x8b);
     func_ov000_021bfb80(proc);
 
     if (CHECK_02())
     {
-        data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x00010003, 0, 0);
+        data_020efcc8->unk_b0->vfunc_28(0x00010003, 0, 0);
     }
 
     func_ov000_021b799c(3, -1, -1);
@@ -766,9 +801,9 @@ void func_ov000_021accfc(ProcPtr proc)
     return;
 }
 
-void func_ov000_021acd8c(void)
+EC void func_ov000_021acd8c(void)
 {
-    struct UnkStruct_021E3328_14_04 * ptr;
+    struct UnkStruct_021E3324_04_14_04 * ptr;
     struct Unit * pUnit = data_ov000_021e3328->unk_04->unk_00;
 
     func_ov000_021b79f8();
@@ -801,7 +836,7 @@ void func_ov000_021acd8c(void)
     return;
 }
 
-void func_ov000_021acef4(ProcPtr proc)
+EC void func_ov000_021acef4(ProcPtr proc)
 {
     struct Unit * pUnit;
     u8 unitId = data_ov000_021e332c.unk_14->unk_03;
@@ -824,7 +859,7 @@ void func_ov000_021acef4(ProcPtr proc)
     return;
 }
 
-void func_ov000_021acf64(ProcPtr proc)
+EC void func_ov000_021acf64(ProcPtr proc)
 {
     struct Unit * pUnit;
     u8 unitId = data_ov000_021e332c.unk_14->unk_02;
@@ -847,7 +882,7 @@ void func_ov000_021acf64(ProcPtr proc)
     return;
 }
 
-void func_ov000_021acfd0(void)
+EC void func_ov000_021acfd0(void)
 {
     func_ov000_021d609c();
 
@@ -858,7 +893,7 @@ void func_ov000_021acfd0(void)
     return;
 }
 
-void func_ov000_021ad00c(void)
+EC void func_ov000_021ad00c(void)
 {
     func_ov000_021c63f8();
 
@@ -869,7 +904,7 @@ void func_ov000_021ad00c(void)
     return;
 }
 
-void func_ov000_021ad048(void)
+EC void func_ov000_021ad048(void)
 {
     func_ov000_021b799c(data_ov000_021e332c.unk_14->unk_02, data_ov000_021e332c.unk_14->unk_03, -1);
 
@@ -880,7 +915,7 @@ void func_ov000_021ad048(void)
     return;
 }
 
-void func_ov000_021ad098(void)
+EC void func_ov000_021ad098(void)
 {
     func_ov000_021b799c(data_ov000_021e332c.unk_14->unk_07, data_ov000_021e3344->unk_37, data_ov000_021e3344->unk_34);
 
@@ -893,7 +928,7 @@ void func_ov000_021ad098(void)
 
 // #func_ov000_021ad0f4
 
-void func_ov000_021ad388(void)
+EC void func_ov000_021ad388(void)
 {
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0xb, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -901,18 +936,9 @@ void func_ov000_021ad388(void)
     return;
 }
 
-void func_ov000_021ad3c0(ProcPtr proc)
+EC void func_ov000_021ad3c0(ProcPtr proc)
 {
-    struct UnkStruct_021E3328_00_04_04 * ptr;
-
-    ptr = data_ov000_021e3328->unk_04->unk_04;
-    ptr->unk_5f = 0;
-
-    if (ptr->unk_61 != 0)
-    {
-        ptr->unk_61 = 0;
-        ptr->unk_60 = -1;
-    }
+    data_ov000_021e3328->unk_04->unk_04->ClearValues();
 
     func_0205633c();
 
@@ -937,7 +963,7 @@ void func_ov000_021ad3c0(ProcPtr proc)
     return;
 }
 
-void func_ov000_021ad49c(void)
+EC void func_ov000_021ad49c(void)
 {
     if (func_020563fc() != 0)
     {
@@ -965,24 +991,14 @@ void func_ov000_021ad49c(void)
     return;
 }
 
-void func_ov000_021ad580(ProcPtr proc)
+EC void func_ov000_021ad580(ProcPtr proc)
 {
-    struct UnkStruct_021E3328_00_04_04 * ptr = data_ov000_021e3328->unk_04->unk_04;
-
-    ptr->unk_5f = 0;
-
-    if (ptr->unk_61 != 0)
-    {
-        ptr->unk_61 = 0;
-        ptr->unk_60 = -1;
-    }
-
+    data_ov000_021e3328->unk_04->unk_04->ClearValues();
     func_ov000_021d95ec(proc);
-
     return;
 }
 
-void func_ov000_021ad5bc(void)
+EC void func_ov000_021ad5bc(void)
 {
     if ((data_ov000_021e332c.unk_14->unk_06 & 8) != 0)
     {
@@ -1002,14 +1018,14 @@ void func_ov000_021ad5bc(void)
     return;
 }
 
-void func_ov000_021ad674(ProcPtr proc)
+EC void func_ov000_021ad674(ProcPtr proc)
 {
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
     func_ov000_021b06d4(proc);
     return;
 }
 
-void func_ov000_021ad6a0(struct PlayerPhaseProc * proc)
+EC void func_ov000_021ad6a0(struct PlayerPhaseProc * proc)
 {
     if (UNK_18_CHECK())
     {
@@ -1026,7 +1042,7 @@ void func_ov000_021ad6a0(struct PlayerPhaseProc * proc)
     return;
 }
 
-void func_ov000_021ad6ec(struct PlayerPhaseProc * proc)
+EC void func_ov000_021ad6ec(struct PlayerPhaseProc * proc)
 {
     if (func_ov000_021a98ec(data_ov000_021e3344->unk_30, data_ov000_021e3344->unk_31) != 0)
     {
@@ -1038,9 +1054,9 @@ void func_ov000_021ad6ec(struct PlayerPhaseProc * proc)
     return;
 }
 
-void func_ov000_021ad740(void)
+EC void func_ov000_021ad740(void)
 {
-    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_gameover") != 0)
+    if (data_02196f0c->flagMgr->GetByName("gf_gameover"))
     {
         func_ov000_021a46b8();
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
@@ -1050,7 +1066,7 @@ void func_ov000_021ad740(void)
         return;
     }
 
-    if (_ZN11FlagManager9GetByNameEPc(data_02196f0c->unk_04, "gf_complete") != 0)
+    if (data_02196f0c->flagMgr->GetByName("gf_complete"))
     {
         func_ov000_021a46b8();
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
@@ -1077,7 +1093,7 @@ void func_ov000_021ad740(void)
     return;
 }
 
-void func_ov000_021ad884(struct PlayerPhaseProc * proc)
+EC void func_ov000_021ad884(struct PlayerPhaseProc * proc)
 {
     if (func_02012298() != 0)
     {
@@ -1096,7 +1112,7 @@ void func_ov000_021ad884(struct PlayerPhaseProc * proc)
     return;
 }
 
-void func_ov000_021ad8c4(struct PlayerPhaseProc * proc)
+EC void func_ov000_021ad8c4(struct PlayerPhaseProc * proc)
 {
     if (func_02014b20(proc, 1) != 0)
     {
@@ -1124,7 +1140,7 @@ void func_ov000_021ad8c4(struct PlayerPhaseProc * proc)
     return;
 }
 
-void func_ov000_021ad97c(ProcPtr proc)
+EC void func_ov000_021ad97c(ProcPtr proc)
 {
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
@@ -1136,7 +1152,7 @@ void func_ov000_021ad97c(ProcPtr proc)
     return;
 }
 
-void func_ov000_021ad9d4(ProcPtr proc)
+EC void func_ov000_021ad9d4(ProcPtr proc)
 {
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
     func_ov000_021d604c(0x1b, proc);
@@ -1146,7 +1162,7 @@ void func_ov000_021ad9d4(ProcPtr proc)
     return;
 }
 
-void func_ov000_021ada34(ProcPtr proc)
+EC void func_ov000_021ada34(ProcPtr proc)
 {
     func_ov000_021d604c(0x1c, proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x23, 0);
@@ -1155,7 +1171,7 @@ void func_ov000_021ada34(ProcPtr proc)
     return;
 }
 
-void func_ov000_021ada78(ProcPtr proc)
+EC void func_ov000_021ada78(ProcPtr proc)
 {
     func_ov000_021d604c(0x1d, proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x24, 0);
@@ -1164,7 +1180,7 @@ void func_ov000_021ada78(ProcPtr proc)
     return;
 }
 
-BOOL func_ov000_021adabc(int arg_0, int arg_1)
+EC BOOL func_ov000_021adabc(int arg_0, int arg_1)
 {
     if (func_ov000_021ae1bc() == 0)
     {
@@ -1181,7 +1197,7 @@ BOOL func_ov000_021adabc(int arg_0, int arg_1)
         return FALSE;
     }
 
-    if (!func_ov000_021a995c(arg_0, data_ov000_021e3324.unk_00->phase))
+    if (!func_ov000_021a995c(arg_0, data_ov000_021e3324->phase))
     {
         return TRUE;
     }
@@ -1189,7 +1205,7 @@ BOOL func_ov000_021adabc(int arg_0, int arg_1)
     return FALSE;
 }
 
-void func_ov000_021adb48(void)
+EC void func_ov000_021adb48(void)
 {
     if (func_ov000_021adabc(0, 0) == 0)
     {
@@ -1211,11 +1227,11 @@ void func_ov000_021adb48(void)
     return;
 }
 
-void func_ov000_021adbf0(void)
+EC void func_ov000_021adbf0(void)
 {
     data_ov000_021e3328->unk_10->unk_0a = 1;
 
-    if (data_02196f0c->unk_0c & 0x40)
+    if (data_02196f0c->state & 0x40)
     {
         Proc_Goto(data_ov000_021e332c.unk_00[4], 1, 1);
         data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1234,11 +1250,11 @@ void func_ov000_021adbf0(void)
     return;
 }
 
-void func_ov000_021adc98(u32 arg_0)
+EC void func_ov000_021adc98(u32 arg_0)
 {
     func_0203fc88();
 
-    data_021974fc->unk_00 = func_0203fcb8(1 << data_ov000_021e3324.unk_00->phase);
+    data_021974fc->unk_00 = func_0203fcb8(1 << data_ov000_021e3324->phase);
     data_021974fc->unk_08 = 0;
 
     func_0204ae60(0, 1);
@@ -1251,12 +1267,12 @@ void func_ov000_021adc98(u32 arg_0)
     return;
 }
 
-void func_ov000_021add1c(void)
+EC void func_ov000_021add1c(void)
 {
     int unitId;
     struct Unit * pUnit;
 
-    unitId = data_ov000_021e3328->unk_28[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
+    unitId = data_ov000_021e3328->unk_028[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
 
     if (unitId != 0)
     {
@@ -1273,12 +1289,12 @@ void func_ov000_021add1c(void)
     }
 
     func_0204b194(data_ov000_021e3328->unk_10->unk_08, data_ov000_021e3328->unk_10->unk_09);
-    func_0204ae9c(0, (pUnit != NULL) & 0xFF ? TRUE : FALSE);
+    func_0204ae9c(0, (pUnit != NULL) & 0xFF);
     func_0204eb24();
     return;
 }
 
-void func_ov000_021addb4(void)
+EC void func_ov000_021addb4(void)
 {
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x24, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1286,7 +1302,7 @@ void func_ov000_021addb4(void)
     return;
 }
 
-void func_ov000_021addec(void)
+EC void func_ov000_021addec(void)
 {
     func_ov000_021c669c();
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0xa, 0);
@@ -1295,14 +1311,14 @@ void func_ov000_021addec(void)
     return;
 }
 
-void func_ov000_021ade2c(void)
+EC void func_ov000_021ade2c(void)
 {
     func_02067510();
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
     return;
 }
 
-void func_ov000_021ade50(void)
+EC void func_ov000_021ade50(void)
 {
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x24, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1310,7 +1326,7 @@ void func_ov000_021ade50(void)
     return;
 }
 
-void func_ov000_021ade88(ProcPtr proc)
+EC void func_ov000_021ade88(ProcPtr proc)
 {
     struct Unit * pUnit = data_ov000_021e3328->unk_04->unk_00;
 
@@ -1324,7 +1340,7 @@ void func_ov000_021ade88(ProcPtr proc)
     return;
 }
 
-void func_ov000_021adeec(void)
+EC void func_ov000_021adeec(void)
 {
     func_0204b194(data_ov000_021e3328->unk_10->unk_08, data_ov000_021e3328->unk_10->unk_09);
     func_0204ae9c(0, 0);
@@ -1332,7 +1348,7 @@ void func_ov000_021adeec(void)
     return;
 }
 
-void func_ov000_021adf20(void)
+EC void func_ov000_021adf20(void)
 {
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0xb, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1340,7 +1356,7 @@ void func_ov000_021adf20(void)
     return;
 }
 
-void func_ov000_021adf58(void)
+EC void func_ov000_021adf58(void)
 {
     if ((func_ov000_021a478c() == 0) && (func_0204b1f8(0) == 0))
     {
@@ -1367,7 +1383,7 @@ void func_ov000_021adf58(void)
     return;
 }
 
-void func_ov000_021ae018(void)
+EC void func_ov000_021ae018(void)
 {
     if (func_ov000_021a478c() != 0)
     {
@@ -1380,60 +1396,42 @@ void func_ov000_021ae018(void)
     data_ov000_021e332c.unk_14->unk_02 = 0;
     data_ov000_021e332c.unk_14->unk_03 = 0;
 
-    _ZN11FlagManager9SetByNameEPc(data_02196f0c->unk_04, "gf_gameover");
+    data_02196f0c->flagMgr->SetByName("gf_gameover");
 
     func_ov000_021a969c(9);
 
     return;
 }
 
-void func_ov000_021ae0a8(ProcPtr proc)
+EC void func_ov000_021ae0a8(ProcPtr proc)
 {
-    struct UnkStruct_021E3328_10 * ptr;
     s32 phase;
-    u32 r12;
-    u32 r2;
+
     func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
 
-    phase = data_ov000_021e3324.unk_00->phase;
+    phase = data_ov000_021e3324->phase;
 
-    ptr = data_ov000_021e3328->unk_10;
-    r12 = ptr->unk_09;
-    r2 = ptr->unk_08;
-
-    ptr->unk_00[phase] = r12;
-    ptr->unk_02[phase] = r2;
+    data_ov000_021e3328->unk_10->SetUnk00And02(phase, data_ov000_021e3328->unk_10->unk_08, data_ov000_021e3328->unk_10->unk_09);
 
     Proc_End(proc);
 
     return;
 }
 
-void func_ov000_021ae104(ProcPtr proc)
+EC void func_ov000_021ae104(ProcPtr proc)
 {
     Proc_Goto(Proc_Find(data_ov000_021dbe58), 0, 0);
     Proc_End(proc);
     return;
 }
 
-void func_ov000_021ae130(ProcPtr parent)
+EC void func_ov000_021ae130(ProcPtr parent)
 {
-    struct Proc * proc = Proc_StartBlocking(data_ov000_021dc190, parent);
-
-    if (proc == NULL)
-    {
-        return;
-    }
-
-    proc->proc_funcTable = &data_ov000_021dbd94;
-
-    data_ov000_021e332c.unk_00[4] = proc;
-    data_ov000_021e3328->unk_14->unk_27 = 1;
-
+    new (Proc_StartBlocking(data_ov000_021dc190, parent)) map::ProcPL();
     return;
 }
 
-void func_ov000_021ae180(int label, int arg_1, int arg_2)
+EC void func_ov000_021ae180(int label, int arg_1, int arg_2)
 {
     Proc_Goto(func_ov000_021ae1bc(), label, 0);
     data_ov000_021e332c.unk_14->unk_02 = arg_1;
@@ -1441,12 +1439,12 @@ void func_ov000_021ae180(int label, int arg_1, int arg_2)
     return;
 }
 
-struct PlayerPhaseProc * func_ov000_021ae1bc(void)
+EC struct PlayerPhaseProc * func_ov000_021ae1bc(void)
 {
-    return Proc_Find(data_ov000_021dc190);
+    return static_cast<struct PlayerPhaseProc *>(Proc_Find(data_ov000_021dc190));
 }
 
-void func_ov000_021ae1d0(void)
+EC void func_ov000_021ae1d0(void)
 {
     if (func_ov000_021ae1bc() == NULL)
     {
@@ -1458,14 +1456,14 @@ void func_ov000_021ae1d0(void)
     return;
 }
 
-void func_ov000_021ae1fc(void)
+EC void func_ov000_021ae1fc(void)
 {
     func_ov000_021b9960(data_ov000_021e3328->unk_14);
     func_ov000_021a6bd0(data_ov000_021e3328->unk_10);
     return;
 }
 
-void func_ov000_021ae228(void)
+EC void func_ov000_021ae228(void)
 {
     func_ov000_021b9960(data_ov000_021e3328->unk_14);
     func_ov000_021aa1d0();
@@ -1474,14 +1472,14 @@ void func_ov000_021ae228(void)
     return;
 }
 
-void func_ov000_021ae26c(void)
+EC void func_ov000_021ae26c(void)
 {
     func_ov000_021b95e8(data_ov000_021e3328->unk_14);
     func_ov000_021b9978(data_ov000_021e3328->unk_14);
     return;
 }
 
-void func_ov000_021ae298(void)
+EC void func_ov000_021ae298(void)
 {
     if (func_ov000_021ae1bc() == NULL)
     {
@@ -1496,12 +1494,12 @@ void func_ov000_021ae298(void)
 extern struct ProcCmd data_ov000_021dbc24[];
 extern struct ProcCmd data_ov000_021dbc4c[];
 
-ProcPtr func_ov000_021ae2c4(ProcPtr parent)
+EC ProcPtr func_ov000_021ae2c4(ProcPtr parent)
 {
     return func_01ffc030(data_ov000_021dbc24, parent);
 }
 
-ProcPtr func_ov000_021ae2dc(ProcPtr parent)
+EC ProcPtr func_ov000_021ae2dc(ProcPtr parent)
 {
     return func_01ffc030(data_ov000_021dbc4c, parent);
 }

@@ -1,22 +1,58 @@
 #include "global.h"
 
+#include <new>
+
 #include "unknown_data.h"
 #include "unknown_funcs.h"
+#include "unknown_types.hpp"
+
+#include "proc_ex.hpp"
+#include "sound_manager.hpp"
 #include "unit.h"
 
-extern struct Unknown_020efcc8 * data_020efcc8;
+EC void func_0200ac20(char *, ProcPtr, s32);
+EC void func_02010f98(u32, s32, s32);
+EC void func_02017518(void *, void *, s32, s32, s32);
+EC void func_01ff9948(u8);
+EC void func_0201177c(char *, u32);
+EC void func_02011a70(char *, u32, u32, u32);
+EC void func_02011a30(char *, u32, u32, u32);
 
-struct ArenaProc_unk_60
+class ArenaProc_unk_60
 {
+public:
     STRUCT_PAD(0x00, 0x40);
+
+    ArenaProc_unk_60() {};
+    ~ArenaProc_unk_60() {};
 };
 
-struct ArenaProc_unk_5c
+class ArenaProc_unk_5c_24
 {
+public:
+    STRUCT_PAD(0x00, 0x24);
+
+    ~ArenaProc_unk_5c_24() {};
+};
+
+class ArenaProc_unk_5c
+{
+public:
     struct ArenaProc_unk_60 * unk_00;
     STRUCT_PAD(0x04, 0x24);
-    void * unk_24;
+    struct ArenaProc_unk_5c_24 * unk_24;
     STRUCT_PAD(0x28, 0x34);
+
+    ArenaProc_unk_5c(ArenaProc_unk_60 * unk_60)
+    {
+        this->unk_00 = unk_60;
+        this->unk_24 = NULL;
+    }
+
+    ~ArenaProc_unk_5c()
+    {
+        delete this->unk_24;
+    }
 };
 
 struct ArenaProc
@@ -40,6 +76,92 @@ struct ArenaProc
     s8 unk_6e;
 };
 
+class ArenaBGMCont : public ProcEx
+{
+public:
+    ArenaBGMCont() {};
+
+    virtual ~ArenaBGMCont() {};
+};
+
+
+EC void func_ov000_021d8ed4(struct ArenaProc * proc);
+EC void func_ov000_021d9078(struct ArenaProc * proc);
+EC void func_ov000_021d9120(struct ArenaProc * proc);
+EC void func_ov000_021d9024(struct ArenaProc * proc);
+
+namespace arena
+{
+class Arena : public ProcEx
+{
+public:
+    /* 38 */ struct Unit * unk_38;
+    /* 3C */ struct Unit * unk_3c;
+    /* 40 */ struct Item unk_40[1];
+    /* 44 */ STRUCT_PAD(0x44, 0x54);
+    /* 54 */ s32 unk_54;
+    /* 58 */ u8 unk_58;
+    /* 59 */ u8 unk_59;
+    /* 5A */ u8 unk_5a;
+    /* 5B */ u8 unk_5b;
+    /* 5C */ struct ArenaProc_unk_5c * unk_5c;
+    /* 60 */ struct ArenaProc_unk_60 * unk_60;
+    /* 64 */ s32 unk_64;
+    /* 68 */ u32 unk_68;
+    /* 6C */ s8 unk_6c;
+    /* 6D */ s8 unk_6d;
+    /* 6E */ s8 unk_6e;
+
+    Arena(struct Unit * unit)
+    {
+        func_02039eac("shop");
+
+        this->unk_38 = unit;
+        this->unk_60 = NULL;
+        this->unk_5c = 0;
+        this->unk_5b = 0;
+
+        func_ov000_021d8ed4((struct ArenaProc *)this);
+
+        data_027e1268->unk_00->unk_12_67 = 1;
+
+        data_027e1268->unk_00->unk_51 = 0xe;
+        data_027e1268->unk_00->unk_52 = 2;
+
+        data_027e1268->unk_00->unk_12_0 = 0;
+        data_027e1268->unk_00->unk_12_1 = 0;
+        data_027e1268->unk_00->unk_12_2 = 1;
+        data_027e1268->unk_00->unk_12_3 = 0;
+        data_027e1268->unk_00->unk_12_4 = 0;
+        data_027e1268->unk_00->unk_12_5 = 0;
+
+        data_027e1268->unk_00->unk_12_8 = 1;
+        data_027e1268->unk_00->unk_12_9 = 0;
+        data_027e1268->unk_00->unk_12_A = 0;
+        data_027e1268->unk_00->unk_12_B = 0;
+        data_027e1268->unk_00->unk_12_C = 0;
+        data_027e1268->unk_00->unk_12_D = 1;
+
+        func_ov000_021a5810(data_ov000_021e3328->unk_0c, 1);
+        func_ov000_021d9078((struct ArenaProc *)this);
+    }
+
+    virtual ~Arena()
+    {
+        data_027e1268->unk_00->unk_12_67 = 0;
+
+        func_ov000_021a57e4(data_ov000_021e3328->unk_0c, 1);
+        func_ov000_021d9120((struct ArenaProc *)this);
+        func_ov000_021d9024((struct ArenaProc *)this);
+
+        delete this->unk_60;
+        delete this->unk_5c;
+
+        func_02039f00("shop", 0);
+    }
+};
+}; // namespace arena
+
 struct ArenaEnemy
 {
     /* 00 */ u16 pid;
@@ -47,60 +169,60 @@ struct ArenaEnemy
     /* 03 */ u8 chance;
 };
 
-extern void func_ov000_021c8b28(struct ArenaProc_unk_60 *, struct Unit *, struct Unit *, s32);
-extern void func_ov000_021c97ec(struct ArenaProc_unk_5c *);
-extern void func_ov000_021c9b1c(struct ArenaProc_unk_5c *);
-extern void func_ov000_021c9f8c(struct ArenaProc_unk_5c *, u32);
-extern struct Unit * func_ov000_021ca0b8(struct ArenaProc_unk_5c *);
-extern void * func_ov000_021cf59c(struct ArenaProc *);
-extern void func_ov000_021d3b00(struct Unit *, struct ArenaProc *, s32, s32);
-extern void func_ov002_021ef134(struct ArenaProc *, struct ArenaProc_unk_5c *);
+EC void func_ov000_021c8b28(struct ArenaProc_unk_60 *, struct Unit *, struct Unit *, s32);
+EC void func_ov000_021c97ec(struct ArenaProc_unk_5c *);
+EC void func_ov000_021c9b1c(struct ArenaProc_unk_5c *);
+EC void func_ov000_021c9f8c(struct ArenaProc_unk_5c *, u32);
+EC struct Unit * func_ov000_021ca0b8(struct ArenaProc_unk_5c *);
+EC void * func_ov000_021cf59c(struct ArenaProc *);
+EC void func_ov000_021d3b00(struct Unit *, struct ArenaProc *, s32, s32);
+EC void func_ov002_021ef134(struct ArenaProc *, struct ArenaProc_unk_5c *);
 
-struct ArenaEnemy * func_ov000_021d7c90(u32);
-void func_ov000_021d7d98(struct ArenaProc * proc);
-void func_ov000_021d7e1c(struct ArenaProc * proc);
-void func_ov000_021d8014(struct ArenaProc * proc);
-void func_ov000_021d8064(struct ArenaProc * proc);
-void func_ov000_021d8104(struct ArenaProc * proc);
-void func_ov000_021d8ed4(struct ArenaProc * proc);
+EC struct ArenaEnemy * func_ov000_021d7c90(u32);
+EC void func_ov000_021d7d98(struct ArenaProc * proc);
+EC void func_ov000_021d7e1c(struct ArenaProc * proc);
+EC void func_ov000_021d8014(struct ArenaProc * proc);
+EC void func_ov000_021d8064(struct ArenaProc * proc);
+EC void func_ov000_021d8104(struct ArenaProc * proc);
+EC void func_ov000_021d8ed4(struct ArenaProc * proc);
 
-void func_ov000_021d8604(struct ArenaProc * proc);
-void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1);
+EC void func_ov000_021d8604(struct ArenaProc * proc);
+EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1);
 
-void func_ov000_021d915c(struct ArenaProc *);
-void func_ov000_021d91a0(struct ArenaProc *);
-void func_ov000_021d91e4(struct ArenaProc *);
-void func_ov000_021d91f0(struct ArenaProc *);
-void func_ov000_021d920c(struct ArenaProc *);
-void func_ov000_021d9228(struct ArenaProc *);
-void func_ov000_021d9244(struct ArenaProc *);
-void func_ov000_021d9250(struct ArenaProc *);
-void func_ov000_021d9310(struct ArenaProc *);
-void func_ov000_021d932c(struct ArenaProc *);
-void func_ov000_021d9348(struct ArenaProc *);
-void func_ov000_021d9364(struct ArenaProc *);
-void func_ov000_021d93d0(struct ArenaProc *);
-void func_ov000_021d93ec(struct ArenaProc *);
-void func_ov000_021d9408(struct ArenaProc *);
-void func_ov000_021d9424(struct ArenaProc *);
-void func_ov000_021d9440(struct ArenaProc *);
-void func_ov000_021d945c(struct ArenaProc *);
-void func_ov000_021d94f4(struct ArenaProc *);
-void func_ov000_021d9478(struct ArenaProc *);
-void func_ov000_021d9484(struct ArenaProc *);
-void func_ov000_021d9490(struct ArenaProc *);
-void func_ov000_021d949c(struct ArenaProc *);
-void func_ov000_021d94ac(struct ArenaProc *);
-void func_ov000_021d94b8(struct ArenaProc *);
-void func_ov000_021d94c4(struct ArenaProc *);
-void func_ov000_021d94d0(struct ArenaProc *);
-void func_ov000_021d94dc(struct ArenaProc *);
-void func_ov000_021d94e8(struct ArenaProc *);
-void func_ov000_021d9500(struct ArenaProc *);
-void func_ov000_021d9520(struct ArenaProc *);
-void func_ov000_021d9538(struct ArenaProc *);
-void func_ov000_021d95b0(struct ArenaProc *);
-void func_ov000_021d95d8(struct ArenaProc *);
+EC void func_ov000_021d915c(struct ArenaProc *);
+EC void func_ov000_021d91a0(struct ArenaProc *);
+EC void func_ov000_021d91e4(struct ArenaProc *);
+EC void func_ov000_021d91f0(struct ArenaProc *);
+EC void func_ov000_021d920c(struct ArenaProc *);
+EC void func_ov000_021d9228(struct ArenaProc *);
+EC void func_ov000_021d9244(struct ArenaProc *);
+EC void func_ov000_021d9250(struct ArenaProc *);
+EC void func_ov000_021d9310(struct ArenaProc *);
+EC void func_ov000_021d932c(struct ArenaProc *);
+EC void func_ov000_021d9348(struct ArenaProc *);
+EC void func_ov000_021d9364(struct ArenaProc *);
+EC void func_ov000_021d93d0(struct ArenaProc *);
+EC void func_ov000_021d93ec(struct ArenaProc *);
+EC void func_ov000_021d9408(struct ArenaProc *);
+EC void func_ov000_021d9424(struct ArenaProc *);
+EC void func_ov000_021d9440(struct ArenaProc *);
+EC void func_ov000_021d945c(struct ArenaProc *);
+EC void func_ov000_021d94f4(struct ArenaProc *);
+EC void func_ov000_021d9478(struct ArenaProc *);
+EC void func_ov000_021d9484(struct ArenaProc *);
+EC void func_ov000_021d9490(struct ArenaProc *);
+EC void func_ov000_021d949c(struct ArenaProc *);
+EC void func_ov000_021d94ac(struct ArenaProc *);
+EC void func_ov000_021d94b8(struct ArenaProc *);
+EC void func_ov000_021d94c4(struct ArenaProc *);
+EC void func_ov000_021d94d0(struct ArenaProc *);
+EC void func_ov000_021d94dc(struct ArenaProc *);
+EC void func_ov000_021d94e8(struct ArenaProc *);
+EC void func_ov000_021d9500(struct ArenaProc *);
+EC void func_ov000_021d9520(struct ArenaProc *);
+EC void func_ov000_021d9538(struct ArenaProc *);
+EC void func_ov000_021d95b0(struct ArenaProc *);
+EC void func_ov000_021d95d8(void);
 
 // clang-format off
 
@@ -225,9 +347,9 @@ static inline struct PersonData * GetPersonData()
     return data_02197254->pPerson;
 }
 
-struct ArenaEnemy * func_ov000_021d7c90(u32 count)
+EC struct ArenaEnemy * func_ov000_021d7c90(u32 count)
 {
-    struct ArenaEnemy * arenaEnemy = func_02037800("ArenaEnemy\0");
+    struct ArenaEnemy * arenaEnemy = (struct ArenaEnemy *)func_02037800("ArenaEnemy\0");
 
     while (count > 0)
     {
@@ -243,9 +365,9 @@ struct ArenaEnemy * func_ov000_021d7c90(u32 count)
     return arenaEnemy;
 }
 
-u8 * func_ov000_021d7cd8(u32 count)
+EC u8 * func_ov000_021d7cd8(u32 count)
 {
-    u8 * arenaWeapon = func_02037800("ArenaWeapon");
+    u8 * arenaWeapon = (u8 *)func_02037800("ArenaWeapon");
 
     while (count > 0)
     {
@@ -261,7 +383,7 @@ u8 * func_ov000_021d7cd8(u32 count)
     return arenaWeapon;
 }
 
-void func_ov000_021d7d1c(struct ArenaProc * proc)
+EC void func_ov000_021d7d1c(struct ArenaProc * proc)
 {
     struct Unit ** pUnit;
     struct Unit * unit;
@@ -278,7 +400,7 @@ void func_ov000_021d7d1c(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d7d50(struct ArenaProc * proc)
+EC void func_ov000_021d7d50(struct ArenaProc * proc)
 {
     if ((proc->unk_38->state2 & 8) != 0)
     {
@@ -291,7 +413,7 @@ void func_ov000_021d7d50(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d7d98(struct ArenaProc * proc)
+EC void func_ov000_021d7d98(struct ArenaProc * proc)
 {
     func_ov000_021d7e1c(proc);
     func_ov000_021d8104(proc);
@@ -299,7 +421,7 @@ void func_ov000_021d7d98(struct ArenaProc * proc)
     return;
 }
 
-s32 func_ov000_021d7db8(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
+EC s32 func_ov000_021d7db8(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
 {
     s32 wpnLevel;
     s32 bestWpnType;
@@ -335,7 +457,7 @@ s32 func_ov000_021d7db8(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
     return bestWpnType;
 }
 
-void func_ov000_021d7e1c(struct ArenaProc * proc)
+EC void func_ov000_021d7e1c(struct ArenaProc * proc)
 {
     s32 set;
     s32 rng;
@@ -470,7 +592,7 @@ void func_ov000_021d7e1c(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d8014(struct ArenaProc * proc)
+EC void func_ov000_021d8014(struct ArenaProc * proc)
 {
     s32 i;
 
@@ -483,8 +605,8 @@ void func_ov000_021d8014(struct ArenaProc * proc)
     return;
 }
 
-/* https://decomp.me/scratch/SlQqe */
-void func_ov000_021d8064(struct ArenaProc * proc)
+/* NONMATCHING: https://decomp.me/scratch/SlQqe */
+EC void func_ov000_021d8064(struct ArenaProc * proc)
 {
     s32 i;
 
@@ -496,7 +618,7 @@ void func_ov000_021d8064(struct ArenaProc * proc)
     return;
 }
 
-u8 * func_ov000_021d80a4(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
+EC u8 * func_ov000_021d80a4(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
 {
     u32 uVar1;
 
@@ -535,8 +657,8 @@ u8 * func_ov000_021d80a4(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
     return func_ov000_021d7cd8(uVar1);
 }
 
-/* https://decomp.me/scratch/BcOxD */
-void func_ov000_021d8104(struct ArenaProc * proc)
+/* NONMATCHING: https://decomp.me/scratch/BcOxD */
+EC void func_ov000_021d8104(struct ArenaProc * proc)
 {
     s32 r0;
     s32 r4;
@@ -765,7 +887,7 @@ void func_ov000_021d8104(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d8604(struct ArenaProc * proc)
+EC void func_ov000_021d8604(struct ArenaProc * proc)
 {
     s32 iVar1;
     s32 iVar5;
@@ -791,9 +913,9 @@ void func_ov000_021d8604(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d8694(struct ArenaProc * proc)
+EC void func_ov000_021d8694(struct ArenaProc * proc)
 {
-    data_020efcc8->unk_a8->unk_00->unk_3c(data_020efcc8->unk_a8, 0x10, 9, 0);
+    data_020efcc8->unk_a8->vfunc_3c(0x10, 9, 0);
 
     proc->unk_64 = 0;
     proc->unk_68 = 0;
@@ -803,7 +925,7 @@ void func_ov000_021d8694(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d86e0(struct ArenaProc * proc)
+EC void func_ov000_021d86e0(struct ArenaProc * proc)
 {
     struct ArenaProc_unk_5c * unk_5c;
     u32 kind;
@@ -817,18 +939,11 @@ void func_ov000_021d86e0(struct ArenaProc * proc)
         kind = 2;
     }
 
-    proc->unk_60 = (void *)_Znwm(0x40);
+    proc->unk_60 = new ArenaProc_unk_60();
 
     func_ov000_021c8b28(proc->unk_60, proc->unk_38, proc->unk_3c, kind);
 
-    unk_5c = (void *)_Znwm(0x34);
-    if (unk_5c != NULL)
-    {
-        unk_5c->unk_00 = proc->unk_60;
-        unk_5c->unk_24 = 0;
-    }
-
-    proc->unk_5c = unk_5c;
+    proc->unk_5c = new ArenaProc_unk_5c(proc->unk_60);
 
     func_ov000_021c97ec(proc->unk_5c);
 
@@ -837,7 +952,7 @@ void func_ov000_021d86e0(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d87a4(struct ArenaProc * proc)
+EC void func_ov000_021d87a4(struct ArenaProc * proc)
 {
     u8 tmp;
 
@@ -857,7 +972,7 @@ void func_ov000_021d87a4(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d881c(struct ArenaProc * proc)
+EC void func_ov000_021d881c(struct ArenaProc * proc)
 {
     func_ov002_021ef134(proc, proc->unk_5c);
     return;
@@ -865,8 +980,8 @@ void func_ov000_021d881c(struct ArenaProc * proc)
 
 // TODO: FIXME - need to resolve the inline issue with "func_0203c378"
 
-/* https://decomp.me/scratch/eLqmo */
-void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
+/* NONMATCHING: https://decomp.me/scratch/eLqmo */
+EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
 {
     struct Unit * pUnit;
     s32 uVar6;
@@ -928,11 +1043,11 @@ void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
         {
             if (uVar6 != -1)
             {
-                data_020efcc8->unk_a8->unk_00->unk_3c(data_020efcc8->unk_a8, 0x10, -2, 0);
+                data_020efcc8->unk_a8->vfunc_3c(0x10, -2, 0);
             }
             else
             {
-                data_020efcc8->unk_a8->unk_00->unk_38(data_020efcc8->unk_a8, 0x10);
+                data_020efcc8->unk_a8->vfunc_38(0x10);
             }
         }
 
@@ -940,23 +1055,12 @@ void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
     }
     else
     {
-        _ZdlPv(proc->unk_60);
-
-        unk_5c = proc->unk_5c;
-
-        if (unk_5c != 0)
-        {
-            if (unk_5c->unk_24 != 0)
-            {
-                _ZdlPv(unk_5c->unk_24);
-            }
-
-            _ZdlPv(unk_5c);
-        }
+        delete proc->unk_60;
+        delete proc->unk_5c;
     }
 }
 
-struct ArenaProc_unk_5c * func_ov000_021d8bbc(struct ArenaProc * proc)
+EC struct ArenaProc_unk_5c * func_ov000_021d8bbc(struct ArenaProc * proc)
 {
     if ((proc->unk_59 != 0) || (proc->unk_64 >= 6))
     {
@@ -969,7 +1073,7 @@ struct ArenaProc_unk_5c * func_ov000_021d8bbc(struct ArenaProc * proc)
     return proc->unk_5c;
 }
 
-void * func_ov000_021d8bfc(struct ArenaProc * proc)
+EC void * func_ov000_021d8bfc(struct ArenaProc * proc)
 {
     func_ov000_021c9f8c(proc->unk_5c, proc->unk_68);
 
@@ -981,7 +1085,7 @@ void * func_ov000_021d8bfc(struct ArenaProc * proc)
     return func_ov000_021cf59c(proc);
 }
 
-void func_ov000_021d8c2c(struct ArenaProc * proc)
+EC void func_ov000_021d8c2c(struct ArenaProc * proc)
 {
     s32 iVar1 = proc->unk_54;
     iVar1 = (u32)data_02196f20->unk_190 + iVar1;
@@ -997,12 +1101,12 @@ void func_ov000_021d8c2c(struct ArenaProc * proc)
 
     func_ov000_021d8ed4(proc);
 
-    data_020efcc8->unk_b0->unk_00->unk_28(data_020efcc8->unk_b0, 0x0A0A0000, 0, 0);
+    data_020efcc8->unk_b0->vfunc_28(0x0A0A0000, 0, 0);
 
     return;
 }
 
-void func_ov000_021d8c90(struct ArenaProc * proc)
+EC void func_ov000_021d8c90(struct ArenaProc * proc)
 {
     s32 iVar1 = -proc->unk_54;
     iVar1 = (u32)data_02196f20->unk_190 + iVar1;
@@ -1021,28 +1125,15 @@ void func_ov000_021d8c90(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d8ccc(struct ArenaProc * proc)
+EC void func_ov000_021d8ccc(struct ArenaProc * proc)
 {
-    struct ArenaProc_unk_5c * unk_5c;
-
     if (proc->unk_58 != 0)
     {
-        _ZdlPv(proc->unk_60);
+        delete proc->unk_60;
+        delete proc->unk_5c;
 
-        unk_5c = proc->unk_5c;
-
-        if (unk_5c != 0)
-        {
-            if (unk_5c->unk_24 != 0)
-            {
-                _ZdlPv(unk_5c->unk_24);
-            }
-
-            _ZdlPv(unk_5c);
-        }
-
-        proc->unk_60 = 0;
-        proc->unk_5c = 0;
+        proc->unk_60 = NULL;
+        proc->unk_5c = NULL;
 
         func_0203a94c(proc->unk_3c);
         func_ov000_021d7d98(proc);
@@ -1056,14 +1147,14 @@ void func_ov000_021d8ccc(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d8d4c(s32 arg_0)
+EC void func_ov000_021d8d4c(s32 arg_0)
 {
-    struct ArenaProc * proc = Proc_Find(data_ov000_021e2f38);
+    struct ArenaProc * proc = static_cast<ArenaProc *>(Proc_Find(data_ov000_021e2f38));
     proc->unk_58 = arg_0;
     return;
 }
 
-void func_ov000_021d8d68(struct ArenaProc * proc)
+EC void func_ov000_021d8d68(struct ArenaProc * proc)
 {
     u32 * puVar1;
     struct UnkStruct_Func_020302e0_Arg * puVar2;
@@ -1083,7 +1174,7 @@ void func_ov000_021d8d68(struct ArenaProc * proc)
 
     func_02039f40(0, proc->unk_54);
 
-    puVar2 = (void *)_Znwm(0x5c);
+    puVar2 = (UnkStruct_Func_020302e0_Arg *)_Znwm(0x5c);
 
     if (puVar2 != NULL)
     {
@@ -1096,7 +1187,7 @@ void func_ov000_021d8d68(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d8e28(struct ArenaProc * proc)
+EC void func_ov000_021d8e28(struct ArenaProc * proc)
 {
     u32 * puVar1;
     int iVar2;
@@ -1117,7 +1208,7 @@ void func_ov000_021d8e28(struct ArenaProc * proc)
     }
 
     // TODO: Probably not right type
-    puVar4 = (void *)_Znwm(0x5c);
+    puVar4 = (UnkStruct_Func_020302e0_Arg *)_Znwm(0x5c);
 
     if (puVar4 != NULL)
     {
@@ -1130,8 +1221,8 @@ void func_ov000_021d8e28(struct ArenaProc * proc)
     return;
 }
 
-/* https://decomp.me/scratch/KlfJk */
-void func_ov000_021d8ed4(struct ArenaProc * proc)
+/* NONMATCHING: https://decomp.me/scratch/KlfJk */
+EC void func_ov000_021d8ed4(struct ArenaProc * proc)
 {
     u8 bVar1;
     u16 uVar2;
@@ -1142,7 +1233,7 @@ void func_ov000_021d8ed4(struct ArenaProc * proc)
     int iVar7;
     int iVar8;
 
-    pUVar3 = func_02037800("VmMap_Font\0");
+    pUVar3 = (struct VmMap_Common *)func_02037800("VmMap_Font\0");
     uVar6 = pUVar3->unk_07;
     uVar2 = pUVar3->unk_04;
     bVar1 = pUVar3->unk_06;
@@ -1165,10 +1256,10 @@ void func_ov000_021d8ed4(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d9024(struct ArenaProc * proc)
+EC void func_ov000_021d9024(struct ArenaProc * proc)
 {
     u8 bVar1;
-    struct VmMap_Common * pUVar2 = func_02037800("VmMap_Font\0");
+    struct VmMap_Common * pUVar2 = (struct VmMap_Common *)func_02037800("VmMap_Font\0");
 
     bVar1 = pUVar2->unk_07;
     func_02010f98(data_027e1268->unk_20[bVar1] + 0xa8, 0xb, 2);
@@ -1177,13 +1268,13 @@ void func_ov000_021d9024(struct ArenaProc * proc)
     return;
 }
 
-/* https://decomp.me/scratch/LWUIx */
-void func_ov000_021d9078(struct ArenaProc * proc)
+/* NONMATCHING: https://decomp.me/scratch/LWUIx */
+EC void func_ov000_021d9078(struct ArenaProc * proc)
 {
     u32 uVar4;
     u16 uVar2;
     u8 bVar1;
-    struct VmMap_Common * pUVar4 = func_02037800("VmMap_BG2Free\0\0");
+    struct VmMap_Common * pUVar4 = (struct VmMap_Common *)func_02037800("VmMap_BG2Free\0\0");
 
     uVar4 = pUVar4->unk_07;
     uVar2 = pUVar4->unk_04;
@@ -1200,10 +1291,10 @@ void func_ov000_021d9078(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d9120(struct ArenaProc * proc)
+EC void func_ov000_021d9120(struct ArenaProc * proc)
 {
     u8 bVar1;
-    struct VmMap_Common * pUVar2 = (void *)func_02037800("VmMap_BG2Free\0\0");
+    struct VmMap_Common * pUVar2 = (struct VmMap_Common *)func_02037800("VmMap_BG2Free\0\0");
     bVar1 = pUVar2->unk_07;
 
     func_01ff9948(bVar1);
@@ -1212,7 +1303,7 @@ void func_ov000_021d9120(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d915c(struct ArenaProc * proc)
+EC void func_ov000_021d915c(struct ArenaProc * proc)
 {
     if (data_02196f24->unk_07 == 0)
     {
@@ -1224,7 +1315,7 @@ void func_ov000_021d915c(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d91a0(struct ArenaProc * unused)
+EC void func_ov000_021d91a0(struct ArenaProc * unused)
 {
     if (data_02196f24->unk_07 == 0)
     {
@@ -1242,42 +1333,38 @@ void func_ov000_021d91a0(struct ArenaProc * unused)
     return;
 }
 
-void func_ov000_021d91e4(struct ArenaProc * proc)
+EC void func_ov000_021d91e4(struct ArenaProc * proc)
 {
     func_ov000_021d7d1c(proc);
     return;
 }
 
-extern void func_0200ac20(char *, ProcPtr, s32);
-
-void func_ov000_021d91f0(struct ArenaProc * proc)
+EC void func_ov000_021d91f0(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_WELCOME", proc, 0);
     return;
 }
 
-void func_ov000_021d920c(struct ArenaProc * proc)
+EC void func_ov000_021d920c(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_PRICE\0\0", proc, 0);
     return;
 }
 
-void func_ov000_021d9228(struct ArenaProc * proc)
+EC void func_ov000_021d9228(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_CHALLENGE\0\0", proc, 0);
     return;
 }
 
-void func_ov000_021d9244(struct ArenaProc * proc)
+EC void func_ov000_021d9244(struct ArenaProc * proc)
 {
     func_ov000_021d8d68(proc);
     return;
 }
 
-void func_ov000_021d9250(struct ArenaProc * proc)
+EC void func_ov000_021d9250(struct ArenaProc * proc)
 {
-    struct UnkStruct_021E3328_00_04_04 * r2;
-
     if (proc->unk_58 != 0)
     {
         if (data_02196f20->unk_190 < proc->unk_54)
@@ -1287,17 +1374,7 @@ void func_ov000_021d9250(struct ArenaProc * proc)
         }
 
         data_ov000_021e3340->unk_06 |= 8;
-
-        r2 = data_ov000_021e3328->unk_04->unk_04;
-        r2->unk_5f = 0;
-
-        if (r2->unk_61 == 0)
-        {
-            return;
-        }
-
-        r2->unk_61 = 0;
-        r2->unk_60 = -1;
+        data_ov000_021e3328->unk_04->unk_04->ClearValues();
 
         return;
     }
@@ -1313,25 +1390,25 @@ void func_ov000_021d9250(struct ArenaProc * proc)
     return;
 }
 
-void func_ov000_021d9310(struct ArenaProc * proc)
+EC void func_ov000_021d9310(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_BATTLE\0", proc, 0);
     return;
 }
 
-void func_ov000_021d932c(struct ArenaProc * proc)
+EC void func_ov000_021d932c(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_GETOUT\0", proc, 0);
     return;
 }
 
-void func_ov000_021d9348(struct ArenaProc * proc)
+EC void func_ov000_021d9348(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_POOR\0\0\0", proc, 0);
     return;
 }
 
-void func_ov000_021d9364(struct ArenaProc * proc)
+EC void func_ov000_021d9364(struct ArenaProc * proc)
 {
     func_02039f40(0, proc->unk_54);
     func_0200ac20("M闘技場_WIN", proc, 0);
@@ -1341,147 +1418,147 @@ void func_ov000_021d9364(struct ArenaProc * proc)
         return;
     }
 
-    data_020efcc8->unk_a8->unk_00->unk_3c(data_020efcc8->unk_a8, 0x10, 0x35, 0);
+    data_020efcc8->unk_a8->vfunc_3c(0x10, 0x35, 0);
 
     return;
 }
 
-void func_ov000_021d93d0(struct ArenaProc * proc)
+EC void func_ov000_021d93d0(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_LOSE\0\0\0", proc, 0);
     return;
 }
 
-void func_ov000_021d93ec(struct ArenaProc * proc)
+EC void func_ov000_021d93ec(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_DRAW\0\0\0", proc, 0);
     return;
 }
 
-void func_ov000_021d9408(struct ArenaProc * proc)
+EC void func_ov000_021d9408(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_STOP\0\0\0", proc, 0);
     return;
 }
 
-void func_ov000_021d9424(struct ArenaProc * proc)
+EC void func_ov000_021d9424(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_FORFEIT", proc, 0);
     return;
 }
 
-void func_ov000_021d9440(struct ArenaProc * proc)
+EC void func_ov000_021d9440(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_RETRY\0\0", proc, 0);
     return;
 }
 
-void func_ov000_021d945c(struct ArenaProc * proc)
+EC void func_ov000_021d945c(struct ArenaProc * proc)
 {
     func_0200ac20("M闘技場_BYE", proc, 0);
     return;
 }
 
-void func_ov000_021d9478(struct ArenaProc * proc)
+EC void func_ov000_021d9478(struct ArenaProc * proc)
 {
     func_ov000_021d8694(proc);
     return;
 }
 
-void func_ov000_021d9484(struct ArenaProc * proc)
+EC void func_ov000_021d9484(struct ArenaProc * proc)
 {
     func_ov000_021d86e0(proc);
     return;
 }
 
-void func_ov000_021d9490(struct ArenaProc * proc)
+EC void func_ov000_021d9490(struct ArenaProc * proc)
 {
     func_ov000_021d881c(proc);
     return;
 }
 
-void func_ov000_021d949c(struct ArenaProc * proc)
+EC void func_ov000_021d949c(struct ArenaProc * proc)
 {
     func_ov000_021d882c(proc, 0);
     return;
 }
 
-void func_ov000_021d94ac(struct ArenaProc * proc)
+EC void func_ov000_021d94ac(struct ArenaProc * proc)
 {
     func_ov000_021d87a4(proc);
     return;
 }
 
-void func_ov000_021d94b8(struct ArenaProc * proc)
+EC void func_ov000_021d94b8(struct ArenaProc * proc)
 {
     func_ov000_021d8bfc(proc);
     return;
 }
 
-void func_ov000_021d94c4(struct ArenaProc * proc)
+EC void func_ov000_021d94c4(struct ArenaProc * proc)
 {
     func_ov000_021d8c2c(proc);
     return;
 }
 
-void func_ov000_021d94d0(struct ArenaProc * proc)
+EC void func_ov000_021d94d0(struct ArenaProc * proc)
 {
     func_ov000_021d8c90(proc);
     return;
 }
 
-void func_ov000_021d94dc(struct ArenaProc * proc)
+EC void func_ov000_021d94dc(struct ArenaProc * proc)
 {
     func_ov000_021d8e28(proc);
     return;
 }
 
-void func_ov000_021d94e8(struct ArenaProc * proc)
+EC void func_ov000_021d94e8(struct ArenaProc * proc)
 {
     func_ov000_021d8ccc(proc);
     return;
 }
 
-void func_ov000_021d94f4(struct ArenaProc * proc)
+EC void func_ov000_021d94f4(struct ArenaProc * proc)
 {
     func_ov000_021d7d50(proc);
     return;
 }
 
-void func_ov000_021d9500(struct ArenaProc * unused)
+EC void func_ov000_021d9500(struct ArenaProc * unused)
 {
     func_ov000_021a57e4(data_ov000_021e3328->unk_0c, 0);
     return;
 }
 
-void func_ov000_021d9520(struct ArenaProc * proc)
+EC void func_ov000_021d9520(struct ArenaProc * proc)
 {
     func_ov000_021d9078(proc);
     func_ov000_021d8ed4(proc);
     return;
 }
 
-void func_ov000_021d9538(struct ArenaProc * proc)
+EC void func_ov000_021d9538(struct ArenaProc * proc)
 {
     func_ov000_021d9120(proc);
     func_ov000_021d9024(proc);
     return;
 }
 
-void func_ov000_021d9550(struct ArenaProc * proc)
+EC void func_ov000_021d9550(struct ArenaProc * proc)
 {
     proc->proc_funcTable->unk_08(proc);
     return;
 }
 
-void func_ov000_021d9564(struct ArenaProc * proc)
+EC void func_ov000_021d9564(struct ArenaProc * proc)
 {
     if (func_02016250(0x35))
     {
         return;
     }
 
-    data_020efcc8->unk_a8->unk_00->unk_28(data_020efcc8->unk_a8, 0x34, 0, 0);
+    data_020efcc8->unk_a8->vfunc_28(0x34, 0, 0);
 
     Proc_End(proc);
 
@@ -1489,27 +1566,18 @@ void func_ov000_021d9564(struct ArenaProc * proc)
 }
 
 extern struct ProcCmd data_ov000_021e2cb8[];
-extern struct ProcFuncTable __vt__12ArenaBGMCont;
 
-void func_ov000_021d95b0(struct ArenaProc * parent)
+EC void func_ov000_021d95b0(struct ArenaProc * parent)
 {
-    struct ArenaProc * proc = Proc_Start(data_ov000_021e2cb8, parent);
-
-    if (proc != NULL)
-    {
-        proc->proc_funcTable = &__vt__12ArenaBGMCont;
-    }
-
+    new (Proc_Start(data_ov000_021e2cb8, parent)) ArenaBGMCont();
     return;
 }
 
-void func_ov000_021d95d8(struct ArenaProc * unused)
+EC void func_ov000_021d95d8(void)
 {
     Proc_EndEach(data_ov000_021e2cb8);
     return;
 }
-
-extern struct ProcFuncTable __vt__N5arena5ArenaE;
 
 extern struct Unit * gUnitList;
 
@@ -1529,11 +1597,10 @@ struct Unknown_021e3320
 
 extern u8 data_ov000_021e3320[];
 
-void func_ov000_021d95ec(ProcPtr parent)
+EC void func_ov000_021d95ec(ProcPtr parent)
 {
     struct ArenaProc * proc;
     struct Unit * iVar4;
-    struct Unit * uVar5;
 
     if (data_ov000_021e3344->unk_32 == 0)
     {
@@ -1550,60 +1617,20 @@ void func_ov000_021d95ec(ProcPtr parent)
         func_0204b194(iVar4->xPos, iVar4->yPos);
     }
 
-    proc = Proc_StartBlocking(data_ov000_021e2f38, parent);
-
-    if (proc == NULL)
-    {
-        return;
-    }
-
-    uVar5 = data_ov000_021e3328->unk_04->unk_00;
-
-    proc->proc_funcTable = &__vt__N5arena5ArenaE;
-
-    func_02039eac("shop");
-
-    proc->unk_38 = uVar5;
-    proc->unk_60 = NULL;
-    proc->unk_5c = 0;
-    proc->unk_5b = 0;
-
-    func_ov000_021d8ed4(proc);
-
-    data_027e1268->unk_00->unk_12_67 = 1;
-
-    data_027e1268->unk_00->unk_51 = 0xe;
-    data_027e1268->unk_00->unk_52 = 2;
-
-    data_027e1268->unk_00->unk_12_0 = 0;
-    data_027e1268->unk_00->unk_12_1 = 0;
-    data_027e1268->unk_00->unk_12_2 = 1;
-    data_027e1268->unk_00->unk_12_3 = 0;
-    data_027e1268->unk_00->unk_12_4 = 0;
-    data_027e1268->unk_00->unk_12_5 = 0;
-
-    data_027e1268->unk_00->unk_12_8 = 1;
-    data_027e1268->unk_00->unk_12_9 = 0;
-    data_027e1268->unk_00->unk_12_A = 0;
-    data_027e1268->unk_00->unk_12_B = 0;
-    data_027e1268->unk_00->unk_12_C = 0;
-    data_027e1268->unk_00->unk_12_D = 1;
-
-    func_ov000_021a5810(data_ov000_021e3328->unk_0c, 1);
-    func_ov000_021d9078(proc);
+    new (Proc_StartBlocking(data_ov000_021e2f38, parent)) arena::Arena(data_ov000_021e3328->unk_04->unk_00);
 
     return;
 }
 
-void func_ov000_021d98ec(void)
+EC void func_ov000_021d98ec(void)
 {
-    func_ov000_021d8bbc(Proc_Find(data_ov000_021e2f38));
+    func_ov000_021d8bbc(static_cast<struct ArenaProc *>(Proc_Find(data_ov000_021e2f38)));
     return;
 }
 
-u32 func_ov000_021d9904(void)
+EC u32 func_ov000_021d9904(void)
 {
-    struct ArenaProc * proc = Proc_Find(data_ov000_021e2f38);
+    struct ArenaProc * proc = static_cast<struct ArenaProc *>(Proc_Find(data_ov000_021e2f38));
 
     if (proc != NULL)
     {
@@ -1611,4 +1638,21 @@ u32 func_ov000_021d9904(void)
     }
 
     return 0;
+}
+
+EC s32 func_ov000_021d9924(void)
+{
+    func_ov000_021d8d4c(0);
+    return 0x81;
+}
+
+EC s32 func_ov000_021d9938(void)
+{
+    return 0;
+}
+
+EC s32 func_ov000_021d9940(void)
+{
+    func_ov000_021d8d4c(1);
+    return 0x41;
 }

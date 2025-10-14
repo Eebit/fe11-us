@@ -4,8 +4,15 @@
 #include "unknown_funcs.h"
 #include "unknown_data.h"
 
+#include "unknown_types.hpp"
+#include "event.hpp"
+#include "map.hpp"
+#include "sound_manager.hpp"
+#include "state_manager.hpp"
+
 // TODO: Not actually data?
 extern void data_ov010_02209e54(ProcPtr);
+EC void func_ov000_021a4e84(void *, s32, s32, s32);
 
 EC void func_020136bc(ProcPtr);
 EC void func_0201fd44(ProcPtr);
@@ -434,7 +441,7 @@ extern struct UnkStruct_021e3528 data_ov000_021e3528;
 
 extern struct UnkStruct_021974fc * data_021974fc;
 
-extern struct Unknown_020efcc8 * data_020efcc8;
+// extern struct Unknown_020efcc8 * data_020efcc8;
 
 struct UnkStruct_Func_02021410_Ret * func_02021410(u32);
 
@@ -459,11 +466,11 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 extern struct UnkStruct_02196f24 * data_02196f24;
 
 // Forward declarations
-extern void InitOnlineShopItemFlags(void);
-extern void InitOnlineShopItemAmounts(void);
-extern void func_02022f28(u32 label);
+EC void InitOnlineShopItemFlags(void);
+EC void InitOnlineShopItemAmounts(void);
+EC void func_02022f28(u32 label);
 
-void func_020217b4(void)
+EC void func_020217b4(void)
 {
     int random;
 
@@ -479,65 +486,57 @@ void func_020217b4(void)
 
     if (data_02197254 == NULL)
     {
-        data_02197254 = (struct Unknown_02197254 *)_Znwm(0x4c);
+        data_02197254 = new Unknown_02197254;
     }
 
     func_02037a04(data_02197254);
 
     if (data_020e3ca0 == NULL)
     {
-        data_020e3ca0 = (struct UnkStruct_020e3ca0 *)_Znwm(0x14);
+        data_020e3ca0 = new UnkStruct_020e3ca0;
     }
 
     func_02002058(data_020e3ca0);
 
     if (data_02196f0c == NULL)
     {
-        data_02196f0c = (struct UnkStruct_02196f0c *)_Znwm(0x18);
+        data_02196f0c = new UnkStruct_02196f0c;
     }
 
     func_02021014();
 
     if (data_02196f10 == NULL)
     {
-        struct UnkStruct_02196f10 * puVar3 = (struct UnkStruct_02196f10 *)_Znwm(0x18);
-
-        if (puVar3 != NULL)
-        {
-            puVar3->unk_00 = 0;
-            puVar3->unk_06 = 0;
-        }
-
-        data_02196f10 = puVar3;
+        data_02196f10 = new UnkStruct_02196f10;
     }
 
     func_020423fc();
-    func_020476a0();
+    Event::func_020476a0();
 
     if (data_02196f24 == NULL)
     {
-        data_02196f24 = (struct UnkStruct_02196f24 *)_Znwm(0x10);
+        data_02196f24 = new UnkStruct_02196f24;
     }
 
     func_02024c74();
 
     if (data_02196f20 == NULL)
     {
-        data_02196f20 = (struct UnkStruct_02196f20 *)_Znwm(0x1a4);
+        data_02196f20 = new UnkStruct_02196f20;
     }
 
     func_02024d28();
 
     if (data_02196f1c == NULL)
     {
-        data_02196f1c = (struct UnkStruct_02196f1c *)_Znwm(0x10);
+        data_02196f1c = new UnkStruct_02196f1c;
     }
 
     func_02024e70();
 
     if (data_02196f18 == NULL)
     {
-        data_02196f18 = (struct UnkStruct_02196f18 *)_Znwm(0x600);
+        data_02196f18 = new UnkStruct_02196f18;
     }
 
     func_02024f34();
@@ -559,7 +558,7 @@ void func_020217b4(void)
     return;
 }
 
-void func_020219a4(int param_1, int param_2)
+EC void func_020219a4(int param_1, int param_2)
 {
     func_020210d0(data_02196f0c->unk_00, param_1);
     func_02024c80();
@@ -574,14 +573,14 @@ void func_020219a4(int param_1, int param_2)
         func_02003f88();
     }
 
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_canceled", 0);
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_gameover", 0);
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_complete", 0);
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved2\0\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved3\0\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved4\0\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved5\0\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl(data_02196f0c->unk_04, "gf_reserved6\0\0\0", 0);
+    data_02196f0c->flagMgr->RegisterName("gf_canceled", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_gameover", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_complete", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved2\0\0\0", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved3\0\0\0", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved4\0\0\0", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved5\0\0\0", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved6\0\0\0", FALSE);
 
     InitOnlineShopItemFlags();
     InitOnlineShopItemAmounts();
@@ -597,56 +596,56 @@ void func_020219a4(int param_1, int param_2)
     return;
 }
 
-void func_02021b00(void)
+EC void func_02021b00(void)
 {
     func_020219a4(0, 0);
     return;
 }
 
-void func_02021b14(void)
+EC void func_02021b14(void)
 {
     func_020219a4(1, 0);
     return;
 }
 
-void InitOnlineShopItemFlags(void)
+EC void InitOnlineShopItemFlags(void)
 {
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveSword\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveLance\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveAxe", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_BraveBow", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_Wato", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_MasterProof\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_LongBow\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_EmpyreadWhip", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved1\0\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved2\0\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved3\0\0\0", 0);
-    _ZN11FlagManager12RegisterNameEPcl((void *)data_02196f0c->unk_08, "os_reserved4\0\0\0", 0);
+    data_02196f0c->valueMgr->RegisterName("os_BraveSword\0\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_BraveLance\0\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_BraveAxe", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_BraveBow", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_Wato", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_MasterProof\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_LongBow\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_EmpyreadWhip", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved1\0\0\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved2\0\0\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved3\0\0\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved4\0\0\0", FALSE);
 
     return;
 }
 
-void InitOnlineShopItemAmounts(void)
+EC void InitOnlineShopItemAmounts(void)
 {
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveSword\0\0", 3);
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveLance\0\0", 3);
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveAxe", 3);
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_BraveBow", 3);
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_Wato", 5);
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_MasterProof\0", 15);
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_LongBow\0", 5);
-    _ZN12ValueManager9SetByNameEPcl(data_02196f0c->unk_08, "os_EmpyreadWhip", 3);
+    data_02196f0c->valueMgr->SetByName("os_BraveSword\0\0", 3);
+    data_02196f0c->valueMgr->SetByName("os_BraveLance\0\0", 3);
+    data_02196f0c->valueMgr->SetByName("os_BraveAxe", 3);
+    data_02196f0c->valueMgr->SetByName("os_BraveBow", 3);
+    data_02196f0c->valueMgr->SetByName("os_Wato", 5);
+    data_02196f0c->valueMgr->SetByName("os_MasterProof\0", 15);
+    data_02196f0c->valueMgr->SetByName("os_LongBow\0", 5);
+    data_02196f0c->valueMgr->SetByName("os_EmpyreadWhip", 3);
     return;
 }
 
-void func_02021d70(void)
+EC void func_02021d70(void)
 {
     int r3;
     int lr;
     int r1;
 
-    if (data_02196f0c->unk_0c & 0x2000000)
+    if (data_02196f0c->state & 0x2000000)
     {
         return;
     }
@@ -670,7 +669,7 @@ void func_02021d70(void)
     return;
 }
 
-void func_02021dd4(void)
+EC void func_02021dd4(void)
 {
     data_02196f14 = GetBattleMapNameMaybe();
 
@@ -694,22 +693,22 @@ void func_02021dd4(void)
 
     func_02042460(GetBattleMapNameMaybe());
     func_020424b8("RegistLocalFlags\0\0\0");
-    func_020484b0();
+    EventCaller::func_020484b0();
 
     return;
 }
 
-void func_02021e6c(void)
+EC void func_02021e6c(void)
 {
-    func_020485d0();
+    EventCaller::func_020485d0();
     func_020424ac();
+    
+    data_02196f0c->flagMgr->RemoveAll();
+    
+    data_02196f0c->flagMgr->ClearByName("gf_complete");
+    data_02196f0c->flagMgr->ClearByName("gf_gameover");
 
-    _ZN11FlagManager9RemoveAllEv(data_02196f0c->unk_04);
-
-    data_02196f0c->unk_04->unk_00->unk_04(data_02196f0c->unk_04, "gf_complete");
-    data_02196f0c->unk_04->unk_00->unk_04(data_02196f0c->unk_04, "gf_gameover");
-
-    _ZN11FlagManager9RemoveAllEv((void *)data_02196f0c->unk_08);
+    data_02196f0c->valueMgr->RemoveAll();
 
     if (data_02196f14 == NULL)
     {
@@ -722,7 +721,7 @@ void func_02021e6c(void)
     return;
 }
 
-void func_02021f08(ProcPtr proc)
+EC void func_02021f08(ProcPtr proc)
 {
     if (func_0201f690())
     {
@@ -734,7 +733,7 @@ void func_02021f08(ProcPtr proc)
     return;
 }
 
-void func_02021f2c(ProcPtr proc)
+EC void func_02021f2c(ProcPtr proc)
 {
     if (func_020020e0(data_020e3ca0))
     {
@@ -746,39 +745,13 @@ void func_02021f2c(ProcPtr proc)
     return;
 }
 
-void func_02021f5c(void)
+EC void func_02021f5c(void)
 {
     int i;
 
-    if (data_ov000_021e3324.unk_00 == NULL)
+    if (data_ov000_021e3324 == NULL)
     {
-        struct UnkStruct_021E3324_00 * puVar2 = (struct UnkStruct_021E3324_00 *)_Znwm(0x20);
-
-        if (puVar2 != NULL)
-        {
-            int j;
-
-            puVar2->phase = 0;
-            puVar2->unk_01 = 0;
-            puVar2->turn = 1;
-            puVar2->unk_06 = 0;
-            puVar2->unk_08 = 0;
-            puVar2->unk_0c = 0;
-            puVar2->unk_02 = 0;
-            puVar2->unk_03 = 0;
-            puVar2->unk_14 = 0x1f;
-            puVar2->unk_15 = 0x1f;
-            puVar2->unk_16 = 0x1f;
-
-            for (j = 0; j < 4; j++)
-            {
-                puVar2->unk_18[j] = 0;
-            }
-
-            puVar2->unk_1c = 0;
-        }
-
-        data_ov000_021e3324.unk_00 = puVar2;
+        data_ov000_021e3324 = new UnkStruct_021E3324_00;
     }
 
     for (i = 0; i < 0x2e; i++)
@@ -789,7 +762,7 @@ void func_02021f5c(void)
     data_ov000_021e3528.unk_2e = 0;
     data_ov000_021e3528.unk_2f = 0;
 
-    if ((data_02196f0c->unk_00->unk_0a != 0) && ((data_02196f0c->unk_0c & 1) != 0))
+    if ((data_02196f0c->unk_00->unk_0a != 0) && ((data_02196f0c->state & 1) != 0))
     {
         int n = func_02040c74(func_02040c98(0)) + func_02040c74(func_02040c98(2));
 
@@ -810,29 +783,29 @@ void func_02021f5c(void)
                 func_0203bd34(pUnit, 2, 1);
                 func_020421c4(pUnit, uVar4);
 
-                data_02196f0c->unk_0c |= 0x20000;
+                data_02196f0c->state |= 0x20000;
             }
         }
     }
 
-    if (data_02196f0c->unk_0c & 0x10000)
+    if (data_02196f0c->state & 0x10000)
     {
-        data_ov000_021e3324.unk_00->unk_02 = data_02196f10->unk_09;
-        data_ov000_021e3324.unk_00->unk_0c = data_02196f10->unk_0c * 0x3c;
-        data_ov000_021e3324.unk_00->unk_06 = data_02196f10->unk_0a;
+        data_ov000_021e3324->unk_02 = data_02196f10->unk_09;
+        data_ov000_021e3324->unk_0c = data_02196f10->unk_0c * 60;
+        data_ov000_021e3324->unk_06 = data_02196f10->unk_0a;
     }
 
     return;
 }
 
-void func_0202214c(ProcPtr proc)
+EC void func_0202214c(ProcPtr proc)
 {
     struct Unit ** pUnitStack;
     struct Unit * unit;
 
-    StartEventByName("MapBegin\0\0\0", proc);
+    Event::StartEventByName("MapBegin\0\0\0", proc);
 
-    if (!(data_02196f0c->unk_0c & 0x10000))
+    if (!(data_02196f0c->state & 0x10000))
     {
         return;
     }
@@ -845,23 +818,23 @@ void func_0202214c(ProcPtr proc)
         return;
     }
 
-    func_ov000_021a4e84((s32)data_ov000_021e3328->unk_00, unit->xPos, unit->yPos, 1);
+    func_ov000_021a4e84((void *)data_ov000_021e3328->unk_00, unit->xPos, unit->yPos, 1);
 
     return;
 }
 
-void func_020221bc(void)
+EC void func_020221bc(void)
 {
     data_ov000_021e3528.unk_2f = 1;
     data_02196f20->unk_188 = data_02196f20->unk_184;
     return;
 }
 
-void func_020221e4(void)
+EC void func_020221e4(void)
 {
-    if (data_021974fc == 0)
+    if (data_021974fc == NULL)
     {
-        data_021974fc = (struct UnkStruct_021974fc *)_Znwm(0x1c);
+        data_021974fc = new UnkStruct_021974fc;
     }
 
     func_0204a9e0(data_02196f20->unk_19b);
@@ -878,7 +851,7 @@ void func_020221e4(void)
     return;
 }
 
-void func_0202225c(void)
+EC void func_0202225c(void)
 {
     struct Unit * pUnit;
     int unitId;
@@ -886,7 +859,7 @@ void func_0202225c(void)
     func_0204b790();
 
     unitId =
-        data_ov000_021e3328->unk_28[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
+        data_ov000_021e3328->unk_028[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
 
     if (unitId == 0)
     {
@@ -913,11 +886,11 @@ void func_0202225c(void)
     return;
 }
 
-void func_02022324(void)
+EC void func_02022324(void)
 {
     data_02196f1c->unk_09 = data_02196f0c->unk_10;
 
-    if (!(data_02196f0c->unk_0c & 0x40))
+    if (!(data_02196f0c->state & 0x40))
     {
         return;
     }
@@ -927,9 +900,9 @@ void func_02022324(void)
     return;
 }
 
-void func_02022364(ProcPtr proc)
+EC void func_02022364(ProcPtr proc)
 {
-    if (data_02196f0c->unk_0c & 0x40)
+    if (data_02196f0c->state & 0x40)
     {
         return;
     }
@@ -940,18 +913,18 @@ void func_02022364(ProcPtr proc)
     }
 
     func_02039eac("suppliance\0");
-    StartEventByName("SallyTalk\0\0", proc);
+    Event::StartEventByName("SallyTalk\0\0", proc);
 
     return;
 }
 
-void func_020223b4(void)
+EC void func_020223b4(void)
 {
     func_02039f00("suppliance\0", 1);
     return;
 }
 
-void func_020223cc(ProcPtr proc)
+EC void func_020223cc(ProcPtr proc)
 {
     data_021974fc->unk_00 = 0;
     data_021974fc->unk_08 = 0;
@@ -961,21 +934,21 @@ void func_020223cc(ProcPtr proc)
         return;
     }
 
-    StartEventByName("Opening", proc);
+    Event::StartEventByName("Opening", proc);
 
     return;
 }
 
-void func_02022414(void)
+EC void func_02022414(void)
 {
-    data_020efcc8->unk_a4->unk_00->unk_6c(data_020efcc8->unk_a4, 0x7f);
-    data_020efcc8->unk_a8->unk_00->unk_6c(data_020efcc8->unk_a8, 0x7f);
+    data_020efcc8->unk_a4->vfunc_6c(0x7f);
+    data_020efcc8->unk_a8->vfunc_6c(0x7f);
     return;
 }
 
-void func_02022458(void)
+EC void func_02022458(void)
 {
-    if (!(data_02196f0c->unk_0c & 0x800))
+    if (!(data_02196f0c->state & 0x800))
     {
         return;
     }
@@ -985,7 +958,7 @@ void func_02022458(void)
     return;
 }
 
-void func_02022480(void)
+EC void func_02022480(void)
 {
     data_021974fc->unk_00 = 0;
     data_021974fc->unk_08 = 0;
@@ -995,56 +968,56 @@ void func_02022480(void)
     return;
 }
 
-void func_020224a8(ProcPtr proc)
+EC void func_020224a8(ProcPtr proc)
 {
     if (!func_020377e8("Ending\0"))
     {
         return;
     }
 
-    StartEventByName("Ending\0", proc);
+    Event::StartEventByName("Ending\0", proc);
 
     return;
 }
 
-void func_020224d4(void)
+EC void func_020224d4(void)
 {
-    data_020efcc8->unk_a4->unk_00->unk_38(data_020efcc8->unk_a4, 0x10);
+    data_020efcc8->unk_a4->vfunc_38(0x10);
     return;
 }
 
-void func_020224fc(void)
+EC void func_020224fc(void)
 {
     data_02196f20->unk_19b = data_021974fc->unk_10;
     data_02196f20->unk_19c = 0xff;
 
     func_0204ac00();
 
-    _ZdlPv(data_021974fc);
+    delete data_021974fc;
     data_021974fc = NULL;
 
     return;
 }
 
-void func_0202254c(ProcPtr proc)
+EC void func_0202254c(ProcPtr proc)
 {
-    StartEventByName("MapEnd\0", proc);
+    Event::StartEventByName("MapEnd\0", proc);
     return;
 }
 
-void func_02022564(void)
+EC void func_02022564(void)
 {
-    _ZdlPv(data_ov000_021e3324.unk_00);
-    data_ov000_021e3324.unk_00 = NULL;
+    delete data_ov000_021e3324;
+    data_ov000_021e3324 = NULL;
     return;
 }
 
-void func_02022588(void)
+EC void func_02022588(void)
 {
     struct Unit * pUnit;
     int i;
 
-    if ((data_02196f0c->unk_0c & 0x00010020) != 0)
+    if ((data_02196f0c->state & 0x00010020) != 0)
     {
         return;
     }
@@ -1073,14 +1046,14 @@ void func_02022588(void)
             func_0203c19c(pUnit);
         }
 
-        pUnit->state2 &= 0xfffffeff;
+        pUnit->state2 &= ~0x100;
 
         if ((pUnit->state2 & 0x80) != 0)
         {
             int j;
             struct Item * pUnitItem;
 
-            pUnit->state2 &= 0xffffff7f;
+            pUnit->state2 &= ~0x80;
             pUnit->unk_34 = func_02038108(data_02196f0c->unk_00);
 
             for (j = 0, pUnitItem = pUnit->items; j < 5; j++, pUnitItem++)
@@ -1133,7 +1106,7 @@ void func_02022588(void)
         func_0203bd34(pUnit, 2, 1);
     }
 
-    if (data_02196f0c->unk_0c & 0x800)
+    if (data_02196f0c->state & 0x800)
     {
         return;
     }
@@ -1143,35 +1116,35 @@ void func_02022588(void)
     return;
 }
 
-void func_0202272c(ProcPtr proc)
+EC void func_0202272c(ProcPtr proc)
 {
-    StartEventByName("ChapterNext", proc);
+    Event::StartEventByName("ChapterNext", proc);
 
-    if (!(data_02196f0c->unk_0c & 1))
+    if (!(data_02196f0c->state & 1))
     {
-        if (!(data_02196f0c->unk_0c & 0x800))
+        if (!(data_02196f0c->state & 0x800))
         {
-            data_02196f0c->unk_0c |= 1;
+            data_02196f0c->state |= 1;
         }
 
         data_02196f1c->unk_09 = 0;
     }
 
-    data_02196f0c->unk_0c &= ~0x100;
-    data_02196f0c->unk_0c &= ~0x200;
-    data_02196f0c->unk_0c &= ~0x800;
-    data_02196f0c->unk_0c &= ~0x1000;
-    data_02196f0c->unk_0c &= ~0x400;
-    data_02196f0c->unk_0c &= ~0x4000;
-    data_02196f0c->unk_0c &= ~0x20000;
-    data_02196f0c->unk_0c &= ~0x100000;
+    data_02196f0c->state &= ~0x100;
+    data_02196f0c->state &= ~0x200;
+    data_02196f0c->state &= ~0x800;
+    data_02196f0c->state &= ~0x1000;
+    data_02196f0c->state &= ~0x400;
+    data_02196f0c->state &= ~0x4000;
+    data_02196f0c->state &= ~0x20000;
+    data_02196f0c->state &= ~0x100000;
 
     data_02196f20->unk_194 = func_0201ffc0();
 
     return;
 }
 
-void func_02022814(void)
+EC void func_02022814(void)
 {
     if (IsOverlayLoaded(10))
     {
@@ -1186,7 +1159,7 @@ void func_02022814(void)
     return;
 }
 
-void func_0202284c(ProcPtr proc)
+EC void func_0202284c(ProcPtr proc)
 {
     switch (data_02196f10->unk_04)
     {
@@ -1210,7 +1183,7 @@ void func_0202284c(ProcPtr proc)
     return;
 }
 
-void func_020228ac(ProcPtr proc)
+EC void func_020228ac(ProcPtr proc)
 {
     switch (data_02196f10->unk_04)
     {
@@ -1232,16 +1205,16 @@ inline BOOL _func_02022988(void)
     return data_02196f10->unk_04 == 1 ? TRUE : FALSE;
 }
 
-void func_020228ec(ProcPtr unused)
+EC void func_020228ec(ProcPtr unused)
 {
     if (data_02196f10->unk_04 != 3)
     {
-        data_02196f0c->unk_0c |= 0x20;
+        data_02196f0c->state |= 0x20;
     }
 
-    data_02196f0c->unk_0c |= 0x10000;
-    data_02196f0c->unk_0c |= 0x4000;
-    data_02196f0c->unk_0c |= 1;
+    data_02196f0c->state |= 0x10000;
+    data_02196f0c->state |= 0x4000;
+    data_02196f0c->state |= 1;
 
     if (_func_02022988())
     {
@@ -1254,12 +1227,12 @@ void func_020228ec(ProcPtr unused)
     return;
 }
 
-/* inline */ BOOL func_02022988(void)
+EC /* inline */ BOOL func_02022988(void)
 {
     return _func_02022988();
 }
 
-void func_020229a8(void)
+EC void func_020229a8(void)
 {
     switch (data_02196f10->unk_04)
     {
@@ -1297,7 +1270,7 @@ inline BOOL _func_02022b50(void)
     return data_02196f10->unk_07 == 0 ? TRUE : FALSE;
 }
 
-void func_020229f0(void)
+EC void func_020229f0(void)
 {
     int random;
 
@@ -1315,7 +1288,7 @@ void func_020229f0(void)
     {
         random = RollRN(1, data_02197254->pDBFE11Footer->unk_14 - 1);
         data_02196f10->unk_11 = random;
-        _ZN11FlagManager7SetByIdEm((void *)data_02196f18->unk_00, random);
+        data_02196f18->unk_000->SetById(random);
 
         if (data_02196f10->unk_0b != 0 && func_02021410(data_02196f10->unk_06)->unk_756 == 0x14)
         {
@@ -1328,7 +1301,7 @@ void func_020229f0(void)
 
             data_02196f10->unk_12 = random;
 
-            _ZN11FlagManager7SetByIdEm((void *)data_02196f18->unk_00, random);
+            data_02196f18->unk_000->SetById(random);
         }
     }
 
@@ -1340,36 +1313,36 @@ void func_020229f0(void)
 
 // TODO: Figure out inlines
 
-/* inline */ BOOL func_02022b10(void)
+EC /* inline */ BOOL func_02022b10(void)
 {
     return _func_02022b10();
 }
 
-/* inline */ BOOL func_02022b30(void)
+EC /* inline */ BOOL func_02022b30(void)
 {
     return _func_02022b30();
 }
 
-/* inline */ BOOL func_02022b50(void)
+EC /* inline */ BOOL func_02022b50(void)
 {
     return _func_02022b50();
 }
 
-void func_02022b70(ProcPtr proc)
+EC void func_02022b70(ProcPtr proc)
 {
     if (_func_02022b50())
     {
-        func_0201d950(proc, 0x10, 1);
+        func_0201d950((struct Proc *)proc, 0x10, 1);
     }
     else
     {
-        func_0201d814(proc, 0x10, 1);
+        func_0201d814((struct Proc *)proc, 0x10, 1);
     }
 
     return;
 }
 
-void func_02022bb0(ProcPtr proc)
+EC void func_02022bb0(ProcPtr proc)
 {
     u32 var;
 
@@ -1391,7 +1364,7 @@ void func_02022bb0(ProcPtr proc)
         func_020228ec(proc);
         func_02022f28(30);
 
-        data_020efcc8->unk_a4->unk_00->unk_3c(data_020efcc8->unk_a4, 0x10, 0x48, 0);
+        data_020efcc8->unk_a4->vfunc_3c(0x10, 0x48, 0);
     }
 
     func_0201ffd0();
@@ -1399,27 +1372,27 @@ void func_02022bb0(ProcPtr proc)
     return;
 }
 
-void func_02022c54(ProcPtr proc)
+EC void func_02022c54(ProcPtr proc)
 {
     func_020240a0(data_02196f0c->unk_10 + 0x0d, proc);
     return;
 }
 
-void func_02022c78(ProcPtr proc)
+EC void func_02022c78(ProcPtr proc)
 {
     func_020240a0(data_02196f0c->unk_10 + 0x10, proc);
-    data_02196f0c->unk_0c |= 4;
+    data_02196f0c->state |= 4;
     return;
 }
 
-void func_02022cb0(ProcPtr proc)
+EC void func_02022cb0(ProcPtr proc)
 {
     func_020240a0(11, proc);
-    data_02196f0c->unk_0c |= 4;
+    data_02196f0c->state |= 4;
     return;
 }
 
-void func_02022cdc(ProcPtr proc)
+EC void func_02022cdc(ProcPtr proc)
 {
     if (!func_0201f760(11))
     {
@@ -1431,12 +1404,12 @@ void func_02022cdc(ProcPtr proc)
     return;
 }
 
-void func_02022d00(ProcPtr proc)
+EC void func_02022d00(ProcPtr proc)
 {
     struct Unit * pUnit;
     int i;
 
-    if (data_02196f0c->unk_0c & 0x2000)
+    if (data_02196f0c->state & 0x2000)
     {
         for (i = 0, pUnit = gUnitList; i < 0x8c; i++, pUnit++)
         {
@@ -1458,44 +1431,44 @@ void func_02022d00(ProcPtr proc)
             func_0203c19c(pUnit);
         }
 
-        data_02196f0c->unk_0c &= 0xffffdfff;
+        data_02196f0c->state &= ~0x2000;
         func_02022f28(13);
 
         return;
     }
 
-    if (data_02196f0c->unk_0c & 0x10000)
+    if (data_02196f0c->state & 0x10000)
     {
-        data_02196f0c->unk_0c &= 0xfffeffff;
+        data_02196f0c->state &= ~0x10000;
         func_02022f28(54);
 
         return;
     }
 
-    if (!(data_02196f0c->unk_0c & 0x80))
+    if (!(data_02196f0c->state & 0x80))
     {
         func_ov006_0221bdbc(proc);
         return;
     }
 
-    data_02196f0c->unk_0c &= 0xffffff7f;
+    data_02196f0c->state &= ~0x80;
 
     return;
 }
 
-void func_02022db8(void)
+EC void func_02022db8(void)
 {
     func_020ad244(4);
     return;
 }
 
-void func_02022dc8(void)
+EC void func_02022dc8(void)
 {
-    func_020ad244(0x14);
+    func_020ad244(20);
     return;
 }
 
-void func_02022dd8(void)
+EC void func_02022dd8(void)
 {
     if (!func_0201f6a0())
     {
@@ -1508,24 +1481,24 @@ void func_02022dd8(void)
     return;
 }
 
-void func_02022dfc(void)
+EC void func_02022dfc(void)
 {
     func_02021790(data_02196f10);
     return;
 }
 
-void func_02022e14(void)
+EC void func_02022e14(void)
 {
     func_02021430(data_02196f10, 0, 0);
     return;
 }
 
-BOOL func_02022e34(void)
+EC BOOL func_02022e34(void)
 {
     return data_02196f0c->unk_14 == 1 ? TRUE : FALSE;
 }
 
-void func_02022e54(void)
+EC void func_02022e54(void)
 {
     data_02196f10->unk_09 = 1;
     data_02196f10->unk_0c = 300;
@@ -1540,28 +1513,28 @@ void func_02022e54(void)
     return;
 }
 
-BOOL func_02022eb8(void)
+EC BOOL func_02022eb8(void)
 {
     return data_020efcb4 == 2 ? TRUE : FALSE;
 }
 
-BOOL func_02022ed4(void)
+EC BOOL func_02022ed4(void)
 {
     return data_02196f0c->unk_14 == 2 ? TRUE : FALSE;
 }
 
-BOOL func_02022ef4(void)
+EC BOOL func_02022ef4(void)
 {
     return data_020efcb4 == 1 ? TRUE : FALSE;
 }
 
-void StartGame(void)
+EC void StartGame(void)
 {
     Proc_Start(ProcScr_GameCtrl, PROC_TREE_9);
     return;
 }
 
-void func_02022f28(u32 label)
+EC void func_02022f28(u32 label)
 {
     Proc_Goto(Proc_Find(ProcScr_GameCtrl), label, 0);
     return;

@@ -186,30 +186,30 @@ struct UnkStruct_021E3328 {
     u8 unk_db0[0x80];
 };
 
-struct UnkStruct_021E3324_00
-{
-    /* 00 */ u8 phase;
-    /* 01 */ u8 unk_01;
-    /* 02 */ u8 unk_02;
-    /* 03 */ u8 unk_03;
-    /* 04 */ u16 turn;
-    /* 06 */ u16 unk_06;
-    /* 08 */ u32 unk_08;
-    /* 0C */ u32 unk_0c;
-    /* 10 */ u32 unk_10;
-    /* 14 */ u8 unk_14;
-    /* 15 */ u8 unk_15;
-    /* 16 */ u8 unk_16;
-    /* 17 */ u8 unk_17;
-    /* 18 */ u8 unk_18[4];
-    /* 1C */ u8 unk_1c;
-};
+// struct UnkStruct_021E3324_00
+// {
+//     /* 00 */ u8 phase;
+//     /* 01 */ u8 unk_01;
+//     /* 02 */ u8 unk_02;
+//     /* 03 */ u8 unk_03;
+//     /* 04 */ u16 turn;
+//     /* 06 */ u16 unk_06;
+//     /* 08 */ u32 unk_08;
+//     /* 0C */ u32 unk_0c;
+//     /* 10 */ u32 unk_10;
+//     /* 14 */ u8 unk_14;
+//     /* 15 */ u8 unk_15;
+//     /* 16 */ u8 unk_16;
+//     /* 17 */ u8 unk_17;
+//     /* 18 */ u8 unk_18[4];
+//     /* 1C */ u8 unk_1c;
+// };
 
-struct UnkStruct_021E3324
-{
-    struct UnkStruct_021E3324_00 * unk_00;
-    struct UnkStruct_021E3324_04 * unk_04;
-};
+// struct UnkStruct_021E3324
+// {
+//     struct UnkStruct_021E3324_00 * unk_00;
+//     struct UnkStruct_021E3324_04 * unk_04;
+// };
 
 struct UnkStruct_Func_2000D2C {
     /* 00 */ u8 unk_00[0x42];
@@ -248,20 +248,20 @@ struct DBFE11Footer
 };
 
 // FE11 Database, in RAM
-struct Unknown_02197254
-{
-    void * unk_00;
-    void * unk_04;
-    /* 08 */ struct PersonData * pPerson;
-    /* 0C */ struct JobData * pJob;
-    /* 10 */ struct ItemData * pItem;
-    STRUCT_PAD(0x14, 0x20);
-    /* 20 */ struct TerrainData * pTerrain;
-    STRUCT_PAD(0x24, 0x2C);
-    /* 2C */ u8 * pWeaponLevel;
-    STRUCT_PAD(0x30, 0x48);
-    /* 48 */ struct DBFE11Footer * pDBFE11Footer;
-};
+// struct Unknown_02197254
+// {
+//     void * unk_00;
+//     void * unk_04;
+//     /* 08 */ struct PersonData * pPerson;
+//     /* 0C */ struct JobData * pJob;
+//     /* 10 */ struct ItemData * pItem;
+//     STRUCT_PAD(0x14, 0x20);
+//     /* 20 */ struct TerrainData * pTerrain;
+//     STRUCT_PAD(0x24, 0x2C);
+//     /* 2C */ u8 * pWeaponLevel;
+//     STRUCT_PAD(0x30, 0x48);
+//     /* 48 */ struct DBFE11Footer * pDBFE11Footer;
+// };
 
 struct UnkStruct_021e3528
 {
@@ -270,14 +270,14 @@ struct UnkStruct_021e3528
     u8 unk_2f;
 };
 
-struct UnkStruct_021974fc
-{
-    struct Unit * unk_00;
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0c;
-    u8 unk_10;
-};
+// struct UnkStruct_021974fc
+// {
+//     struct Unit * unk_00;
+//     u32 unk_04;
+//     u32 unk_08;
+//     u32 unk_0c;
+//     u8 unk_10;
+// };
 
 struct Unknown_020efcc8_unk_a8_unk_00
 {
@@ -317,40 +317,40 @@ struct UnkStruct_Func_02021410_Ret
     u8 unk_756;
 };
 
-struct UnkStruct_02196f18
-{
-    u32 unk_00;
-};
+// struct UnkStruct_02196f18
+// {
+//     u32 unk_00;
+// };
 
-struct UnkStruct_020e3ca0
-{
-    STRUCT_PAD(0x00, 0x24);
-};
+// struct UnkStruct_020e3ca0
+// {
+//     STRUCT_PAD(0x00, 0x24);
+// };
 
-struct UnkStruct_02196f1c
-{
-    STRUCT_PAD(0x00, 0x09);
-    u8 unk_09;
-};
+// struct UnkStruct_02196f1c
+// {
+//     STRUCT_PAD(0x00, 0x09);
+//     u8 unk_09;
+// };
 
-struct UnkStruct_02196f10
-{
-    u32 unk_00;
-    s8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    s8 unk_07;
-    u8 unk_08;
-    u8 unk_09;
-    u8 unk_0a;
-    u8 unk_0b;
-    u32 unk_0c;
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    STRUCT_PAD(0x13, 0x17);
-    u8 unk_17;
-};
+// struct UnkStruct_02196f10
+// {
+//     u32 unk_00;
+//     s8 unk_04;
+//     u8 unk_05;
+//     u8 unk_06;
+//     s8 unk_07;
+//     u8 unk_08;
+//     u8 unk_09;
+//     u8 unk_0a;
+//     u8 unk_0b;
+//     u32 unk_0c;
+//     u8 unk_10;
+//     u8 unk_11;
+//     u8 unk_12;
+//     STRUCT_PAD(0x13, 0x17);
+//     u8 unk_17;
+// };
 
 struct UnkStruct_02196f0c_00
 {
@@ -382,39 +382,39 @@ struct UnkStruct_02196f0c_08
     u32 unk_0c;
 };
 
-struct UnkStruct_02196f0c
-{
-    struct UnkStruct_02196f0c_00 * unk_00;
-    struct UnkStruct_02196f0c_04 * unk_04;
-    struct UnkStruct_02196f0c_08 * unk_08;
-    u32 unk_0c;
-    u32 unk_10;
-    u32 unk_14;
-};
+// struct UnkStruct_02196f0c
+// {
+//     struct UnkStruct_02196f0c_00 * unk_00;
+//     struct UnkStruct_02196f0c_04 * unk_04;
+//     struct UnkStruct_02196f0c_08 * unk_08;
+//     u32 unk_0c;
+//     u32 unk_10;
+//     u32 unk_14;
+// };
 
-struct UnkStruct_02196f20
-{
-    STRUCT_PAD(0x000, 0x184);
-    s32 unk_184;
-    u32 unk_188;
-    u32 unk_18c;
-    s32 unk_190;
-    u32 unk_194;
-    u8 unk_198;
-    u8 unk_199;
-    u8 unk_19a;
-    u8 unk_19b;
-    s8 unk_19c;
-};
+// struct UnkStruct_02196f20
+// {
+//     STRUCT_PAD(0x000, 0x184);
+//     s32 unk_184;
+//     u32 unk_188;
+//     u32 unk_18c;
+//     s32 unk_190;
+//     u32 unk_194;
+//     u8 unk_198;
+//     u8 unk_199;
+//     u8 unk_19a;
+//     u8 unk_19b;
+//     s8 unk_19c;
+// };
 
-struct UnkStruct_02196f24
-{
-    STRUCT_PAD(0x00, 0x03);
-    u8 unk_03;
-    STRUCT_PAD(0x04, 0x07);
-    u8 unk_07;
-    STRUCT_PAD(0x08, 0x10);
-};
+// struct UnkStruct_02196f24
+// {
+//     STRUCT_PAD(0x00, 0x03);
+//     u8 unk_03;
+//     STRUCT_PAD(0x04, 0x07);
+//     u8 unk_07;
+//     STRUCT_PAD(0x08, 0x10);
+// };
 
 struct UnkStruct_020ca61c
 {

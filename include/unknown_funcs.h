@@ -5,6 +5,10 @@
 #include "types.h"
 #include "unknown_types.h"
 
+#ifdef __cplusplus
+#include "map.hpp"
+#endif
+
 #include "proc.h"
 #include "unit.h"
 
@@ -20,8 +24,8 @@ EC void * func_01ffb934(void *, s32);
 EC void func_01ffbb90(void *, void *);
 
 EC void * func_02000c70(void);
-EC void func_02000c7c(void *);
-EC void func_02000d14(struct UnkStruct_Func_2000C7C * buf, s32 a);
+EC void func_02000c7c(struct UnkStruct_021E3324_04_08 *);
+EC void func_02000d14(struct UnkStruct_021E3324_04_08 * buf, s32 a);
 
 EC int func_020016e8(struct UnkStruct_Func_2000D2C * unk1, struct Unit * unit, int a, int b);
 EC int func_02001770(struct UnkStruct_Func_2000D2C * buf, int a, int b);
