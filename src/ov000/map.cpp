@@ -22,10 +22,9 @@ EC void func_0204f080(struct UnkStruct_021974fc *);
 
 EC void func_ov000_021a2eb0(struct UnkBuf_Func_02049564 *, s32);
 
-EC void func_ov000_021a4a7c(UnkStruct_021E3324_04_00 *);
-EC void func_ov000_021a5318(UnkStruct_021E3324_04_0C *);
-EC void func_ov000_021a68c0(UnkStruct_021E3324_04_10 *);
-EC void func_ov000_021b9a10(UnkStruct_021E3324_04_14 *);
+EC void func_ov000_021a5318(MapStateManager_0C *);
+EC void func_ov000_021a68c0(MapStateManager_10 *);
+EC void func_ov000_021b9a10(MapStateManager_14 *);
 EC void func_ov000_021a37c4(void);
 
 EC void func_ov000_021a3364(void);
@@ -40,11 +39,10 @@ EC void func_ov000_021a340c(void);
 EC void func_ov000_021a35a0(void);
 EC void func_ov000_021a37c4(void);
 EC void func_ov000_021a48b0(u32);
-EC void func_ov000_021a52c8(void *, s16, s16, u32);
 EC void func_ov000_021d4004(s8, s8);
 EC void func_ov000_021d5528(void *, s32);
-EC void func_02040094(struct UnkStruct_021E3324_04_1C *, s32);
-EC void func_020401d8(struct UnkStruct_021E3324_04_1C *, u8);
+EC void func_02040094(struct MapStateManager_1C *, s32);
+EC void func_020401d8(struct MapStateManager_1C *, u8);
 EC void func_ov000_021a37c4(void);
 EC void func_ov000_021babf4(void *);
 
@@ -70,8 +68,7 @@ EC void func_02017b40(void *, void *, int);
 
 EC BOOL func_ov000_021adabc(struct Unit *, u32);
 
-EC void func_ov000_021a6ab8(struct UnkStruct_021E3324_04_10 *, s32, s32);
-EC void func_ov000_021a4e84(struct UnkStruct_021E3324_04_00 *, s32, s32, s32);
+EC void func_ov000_021a6ab8(struct MapStateManager_10 *, s32, s32);
 
 EC BOOL func_ov000_021a475c(void);
 EC BOOL func_ov000_021a47ac(void);
@@ -83,18 +80,17 @@ extern vu32 data_027e1264;
 
 extern u8 data_ov000_021e3320[];
 
-EC void func_ov000_021b9bec(struct UnkStruct_021E3324_04_14 *);
+EC void func_ov000_021b9bec(struct MapStateManager_14 *);
 
-EC void func_ov000_021b9c3c(struct UnkStruct_021E3324_04_14 *);
+EC void func_ov000_021b9c3c(struct MapStateManager_14 *);
 
-EC void func_ov000_021a6e68(struct UnkStruct_021E3324_04_10 *);
-EC void func_ov000_021b9bc4(struct UnkStruct_021E3324_04_14 *);
-EC void func_ov000_021a5128(struct UnkStruct_021E3324_04_00 *);
+EC void func_ov000_021a6e68(struct MapStateManager_10 *);
+EC void func_ov000_021b9bc4(struct MapStateManager_14 *);
 
-EC void func_ov000_021b9bac(struct UnkStruct_021E3324_04_14 *);
+EC void func_ov000_021b9bac(struct MapStateManager_14 *);
 
 EC void func_ov000_021d4094(void);
-EC void func_ov000_021b9bec(struct UnkStruct_021E3324_04_14 *);
+EC void func_ov000_021b9bec(struct MapStateManager_14 *);
 EC void func_ov000_021d492c(void);
 EC void func_0204000c(void);
 
@@ -194,8 +190,8 @@ u32 data_ov000_021db75c[] =
 
 // clang-format on
 
-UnkStruct_021E3324_00 * data_ov000_021e3324 = NULL;
-UnkStruct_021E3324_04 * data_ov000_021e3328 = NULL;
+UnkStruct_021E3324 * data_ov000_021e3324 = NULL;
+MapStateManager * gMapStateManager = NULL;
 
 EC void func_ov000_021a23e0(char * mapName)
 {
@@ -204,12 +200,12 @@ EC void func_ov000_021a23e0(char * mapName)
         mapName = GetBattleMapNameMaybe();
     }
 
-    if (data_ov000_021e3328 == NULL)
+    if (gMapStateManager == NULL)
     {
-        data_ov000_021e3328 = new UnkStruct_021E3324_04;
+        gMapStateManager = new MapStateManager;
     }
 
-    data_ov000_021e3328->func_ov000_021a276c(mapName);
+    gMapStateManager->func_ov000_021a276c(mapName);
     func_0204246c(mapName);
 
     if (data_ov000_021e334c == NULL)
@@ -218,7 +214,7 @@ EC void func_ov000_021a23e0(char * mapName)
     }
 
     func_ov000_021d4874();
-    data_ov000_021e3328->func_ov000_021a28cc();
+    gMapStateManager->func_ov000_021a28cc();
 
     if (data_021974fc != NULL)
     {
@@ -241,10 +237,10 @@ EC void func_ov000_021a2540(void * arg_0, s32 arg_1)
     }
     else
     {
-        data_ov000_021e3328->func_ov000_021a2918();
+        gMapStateManager->func_ov000_021a2918();
     }
 
-    data_ov000_021e3328->func_ov000_021a29f4();
+    gMapStateManager->func_ov000_021a29f4();
 
     return;
 }
@@ -254,7 +250,7 @@ EC void func_ov000_021a2574(void)
     func_ov000_021a4718();
     func_ov000_021d4094();
 
-    func_ov000_021b9bec(data_ov000_021e3328->unk_14);
+    func_ov000_021b9bec(gMapStateManager->unk_14);
 
     Proc_EndEachMarked(PROC_MARK_6);
 
@@ -267,11 +263,11 @@ EC void func_ov000_021a2574(void)
     func_ov000_021d492c();
     func_020424ac();
 
-    if (data_ov000_021e3328 != NULL)
+    if (gMapStateManager != NULL)
     {
-        delete data_ov000_021e3328;
+        delete gMapStateManager;
     }
-    data_ov000_021e3328 = NULL;
+    gMapStateManager = NULL;
 
     func_0204000c();
 
@@ -280,25 +276,25 @@ EC void func_ov000_021a2574(void)
     return;
 }
 
-UnkStruct_021E3324_04::UnkStruct_021E3324_04()
+MapStateManager::MapStateManager()
 {
     func_ov000_021a8304();
 
-    this->unk_00 = new UnkStruct_021E3324_04_00;
-    this->unk_04 = new UnkStruct_021E3324_04_04;
+    this->camera = new Camera;
+    this->unk_04 = new MapStateManager_04;
 
-    this->unk_08 = (UnkStruct_021E3324_04_08 *)func_02000c70();
-    this->unk_0c = new struct UnkStruct_021E3324_04_0C;
-    this->unk_10 = new struct UnkStruct_021E3324_04_10;
+    this->unk_08 = (MapStateManager_08 *)func_02000c70();
+    this->unk_0c = new struct MapStateManager_0C;
+    this->unk_10 = new struct MapStateManager_10;
 
-    this->unk_14 = new UnkStruct_021E3324_04_14;
+    this->unk_14 = new MapStateManager_14;
     this->unk_18 = NULL;
     this->unk_1c = NULL;
 
     func_ov002_021f212c();
 }
 
-UnkStruct_021E3324_04::~UnkStruct_021E3324_04()
+MapStateManager::~MapStateManager()
 {
     func_ov002_021f2160();
 
@@ -314,7 +310,7 @@ UnkStruct_021E3324_04::~UnkStruct_021E3324_04()
 
     func_ov000_021a83d0();
 
-    delete this->unk_00;
+    delete this->camera;
     delete this->unk_04;
     delete this->unk_0c;
     delete this->unk_10;
@@ -326,7 +322,7 @@ UnkStruct_021E3324_04::~UnkStruct_021E3324_04()
 }
 
 /* NONMATCHING: https://decomp.me/scratch/caqO6 */
-void UnkStruct_021E3324_04::func_ov000_021a276c(char * mapName)
+void MapStateManager::func_ov000_021a276c(char * mapName)
 {
     struct MapData * pMapData;
     s32 i;
@@ -354,16 +350,16 @@ void UnkStruct_021E3324_04::func_ov000_021a276c(char * mapName)
         this->unk_eb4[i] = -1;
     }
 
-    data_ov000_021e3328->unk_828 = pMapData->unk_10;
-    data_ov000_021e3328->unk_82c = pMapData->unk_14;
+    gMapStateManager->unk_828 = pMapData->unk_10;
+    gMapStateManager->unk_82c = pMapData->unk_14;
 
-    for (y = data_ov000_021e3328->unk_25; y < data_ov000_021e3328->unk_27; y++)
+    for (y = gMapStateManager->unk_25; y < gMapStateManager->unk_27; y++)
     {
-        for (x = data_ov000_021e3328->unk_24; x < data_ov000_021e3328->unk_26; x++)
+        for (x = gMapStateManager->unk_24; x < gMapStateManager->unk_26; x++)
         {
-            if (data_ov000_021e3328->unk_82c[x | y << 5] != 0)
+            if (gMapStateManager->unk_82c[x | y << 5] != 0)
             {
-                data_ov000_021e3328->unk_82c[x | y << 5] |= 0x80;
+                gMapStateManager->unk_82c[x | y << 5] |= 0x80;
             }
         }
     }
@@ -375,21 +371,21 @@ void UnkStruct_021E3324_04::func_ov000_021a276c(char * mapName)
         this->unk_18 = func_020379e0(mapName, 1);
     }
 
-    func_ov000_021b95e8(data_ov000_021e3328->unk_14);
+    func_ov000_021b95e8(gMapStateManager->unk_14);
 
     return;
 }
 
-void UnkStruct_021E3324_04::func_ov000_021a28cc(void)
+void MapStateManager::func_ov000_021a28cc(void)
 {
-    func_ov000_021a4a7c(data_ov000_021e3328->unk_00);
-    func_ov000_021a5318(data_ov000_021e3328->unk_0c);
-    func_ov000_021a68c0(data_ov000_021e3328->unk_10);
-    func_ov000_021b9a10(data_ov000_021e3328->unk_14);
+    gMapStateManager->camera->func_ov000_021a4a7c();
+    func_ov000_021a5318(gMapStateManager->unk_0c);
+    func_ov000_021a68c0(gMapStateManager->unk_10);
+    func_ov000_021b9a10(gMapStateManager->unk_14);
     return;
 }
 
-void UnkStruct_021E3324_04::func_ov000_021a2918(void)
+void MapStateManager::func_ov000_021a2918(void)
 {
     s32 i;
 
@@ -434,7 +430,7 @@ void UnkStruct_021E3324_04::func_ov000_021a2918(void)
     }
 
     func_ov000_021a3364();
-    func_02000c7c(data_ov000_021e3328->unk_08);
+    func_02000c7c(gMapStateManager->unk_08);
     func_ov000_021a37c4();
     func_ov000_021a340c();
     func_ov000_021a35a0();
@@ -442,7 +438,7 @@ void UnkStruct_021E3324_04::func_ov000_021a2918(void)
     return;
 }
 
-void UnkStruct_021E3324_04::func_ov000_021a29f4(void)
+void MapStateManager::func_ov000_021a29f4(void)
 {
     struct Unit ** pUnitStack;
     struct Unit * it;
@@ -454,14 +450,14 @@ void UnkStruct_021E3324_04::func_ov000_021a29f4(void)
 
         for (it = *pUnitStack; it != NULL; it = (struct Unit *)it->unk_3c)
         {
-            func_ov000_021baafc(data_ov000_021e3328->unk_14->unk_00, it, 1);
+            func_ov000_021baafc(gMapStateManager->unk_14->unk_00, it, 1);
         }
     }
 
     return;
 }
 
-EC BOOL func_ov000_021a2a50(struct UnkStruct_021E3324_00 * self)
+EC BOOL func_ov000_021a2a50(struct UnkStruct_021E3324 * self)
 {
     BOOL flag;
     s32 i;
@@ -522,26 +518,26 @@ EC void func_ov000_021a2b08(struct UnkBuf_Func_02049564 * buf)
     buf->WriteByte(data_ov000_021e3324->unk_02);
     buf->WriteByte(data_ov000_021e3324->unk_03);
 
-    func_020a58b8(data_ov000_021e3328->unk_db0, buf->unk_04, 0x80);
+    func_020a58b8(gMapStateManager->unk_db0, buf->unk_04, 0x80);
     buf->unk_04 += 0x80;
-    func_020a58b8(data_ov000_021e3328->unk_d30, buf->unk_04, 0x80);
+    func_020a58b8(gMapStateManager->unk_d30, buf->unk_04, 0x80);
     buf->unk_04 += 0x80;
 
-    buf->WriteShort(data_ov000_021e3328->unk_00->unk_14);
-    buf->WriteShort(data_ov000_021e3328->unk_00->unk_16);
-    buf->WriteByte(data_ov000_021e3328->unk_10->unk_08);
-    buf->WriteByte(data_ov000_021e3328->unk_10->unk_09);
+    buf->WriteShort(gMapStateManager->camera->unk_14);
+    buf->WriteShort(gMapStateManager->camera->unk_16);
+    buf->WriteByte(gMapStateManager->unk_10->unk_08);
+    buf->WriteByte(gMapStateManager->unk_10->unk_09);
 
     for (i = 0; i < 2; i++)
     {
-        buf->WriteByte(data_ov000_021e3328->unk_10->unk_00[i]);
-        buf->WriteByte(data_ov000_021e3328->unk_10->unk_02[i]);
+        buf->WriteByte(gMapStateManager->unk_10->unk_00[i]);
+        buf->WriteByte(gMapStateManager->unk_10->unk_02[i]);
     }
 
     for (i = 0; i < 4; i++)
     {
-        buf->WriteByte(data_ov000_021e3328->unk_eb0[i]);
-        buf->WriteByte(data_ov000_021e3328->unk_eb4[i]);
+        buf->WriteByte(gMapStateManager->unk_eb0[i]);
+        buf->WriteByte(gMapStateManager->unk_eb4[i]);
     }
 
     func_ov000_021d537c(buf);
@@ -587,29 +583,28 @@ EC void func_ov000_021a2eb0(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
 
     func_ov000_021a37c4();
 
-    func_020a58b8(buf->unk_04, data_ov000_021e3328->unk_db0, 0x80);
+    func_020a58b8(buf->unk_04, gMapStateManager->unk_db0, 0x80);
     buf->unk_04 += 0x80;
 
-    func_020a58b8(buf->unk_04, data_ov000_021e3328->unk_d30, 0x80);
+    func_020a58b8(buf->unk_04, gMapStateManager->unk_d30, 0x80);
     buf->unk_04 += 0x80;
 
     unk_14 = buf->ReadShort();
     unk_16 = buf->ReadShort();
-    data_ov000_021e3328->unk_00->unk_14 = unk_14;
-    data_ov000_021e3328->unk_00->unk_16 = unk_16;
+    gMapStateManager->camera->unk_14 = unk_14;
+    gMapStateManager->camera->unk_16 = unk_16;
 
-    func_ov000_021a52c8(
-        data_ov000_021e3328->unk_00, data_ov000_021e3328->unk_00->unk_14,
-        data_ov000_021e3328->unk_00->unk_16, 0);
+    gMapStateManager->camera->func_ov000_021a52c8(
+        gMapStateManager->camera->unk_14, gMapStateManager->camera->unk_16, 0);
 
-    func_ov000_021a6ab8(data_ov000_021e3328->unk_10, buf->ReadByte(), buf->ReadByte());
+    func_ov000_021a6ab8(gMapStateManager->unk_10, buf->ReadByte(), buf->ReadByte());
 
     for (i = 0; i < 2; i++)
     {
         s32 tmp = buf->ReadByte();
         s32 tmp2 = buf->ReadByte();
-        data_ov000_021e3328->unk_10->unk_00[i] = tmp;
-        data_ov000_021e3328->unk_10->unk_02[i] = tmp2;
+        gMapStateManager->unk_10->unk_00[i] = tmp;
+        gMapStateManager->unk_10->unk_02[i] = tmp2;
     }
 
     if (arg_1 >= 4)
@@ -627,7 +622,7 @@ EC void func_ov000_021a2eb0(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
 
     func_ov000_021d5528(buf, arg_1);
     func_ov000_021a3364();
-    func_02000c7c(data_ov000_021e3328->unk_08);
+    func_02000c7c(gMapStateManager->unk_08);
     func_ov000_021a340c();
     func_ov000_021a35a0();
 
@@ -656,38 +651,38 @@ EC void func_ov000_021a2eb0(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
 
 EC void func_ov000_021a323c(void)
 {
-    if (data_ov000_021e3328->unk_1c != NULL)
+    if (gMapStateManager->unk_1c != NULL)
     {
         return;
     }
 
     func_ov000_021a4718();
 
-    data_ov000_021e3328->unk_1c = new UnkStruct_021E3324_04_1C;
+    gMapStateManager->unk_1c = new MapStateManager_1C;
 
-    func_02040094(data_ov000_021e3328->unk_1c, -1);
-    data_ov000_021e3328->unk_1c->unk_04 = data_ov000_021e3328->unk_1c->unk_00;
+    func_02040094(gMapStateManager->unk_1c, -1);
+    gMapStateManager->unk_1c->unk_04 = gMapStateManager->unk_1c->unk_00;
 
     return;
 }
 
 EC void func_ov000_021a32c8(void)
 {
-    if (data_ov000_021e3328->unk_1c == NULL)
+    if (gMapStateManager->unk_1c == NULL)
     {
         return;
     }
 
     func_ov000_021a4718();
 
-    func_020401d8(data_ov000_021e3328->unk_1c, -1);
+    func_020401d8(gMapStateManager->unk_1c, -1);
 
-    delete data_ov000_021e3328->unk_1c;
-    data_ov000_021e3328->unk_1c = NULL;
+    delete gMapStateManager->unk_1c;
+    gMapStateManager->unk_1c = NULL;
 
     func_ov000_021a37c4();
     func_ov000_021a340c();
-    func_ov000_021babf4(data_ov000_021e3328->unk_14->unk_00);
+    func_ov000_021babf4(gMapStateManager->unk_14->unk_00);
 
     return;
 }
@@ -697,12 +692,12 @@ EC void func_ov000_021a3364(void)
     s16 x;
     s16 y;
 
-    for (y = 0; y < data_ov000_021e3328->unk_22; y++)
+    for (y = 0; y < gMapStateManager->unk_22; y++)
     {
-        for (x = 0; x < data_ov000_021e3328->unk_20; x++)
+        for (x = 0; x < gMapStateManager->unk_20; x++)
         {
-            u8 tile = data_ov000_021e3328->unk_828[x | (y << 5)];
-            data_ov000_021e3328->unk_830[x | (y << 5)] = func_02038248(data_02197254->pTerrain[tile].unk_08);
+            u8 tile = gMapStateManager->unk_828[x | (y << 5)];
+            gMapStateManager->unk_830[x | (y << 5)] = func_02038248(data_02197254->pTerrain[tile].unk_08);
         }
     }
 }
@@ -713,8 +708,8 @@ EC void func_ov000_021a340c(void)
     s32 i;
     struct Unit * it;
 
-    func_020a5734(0, data_ov000_021e3328->unk_028, 0x400);
-    func_020a5734(0, data_ov000_021e3328->unk_428, 0x400);
+    func_020a5734(0, gMapStateManager->unk_028, 0x400);
+    func_020a5734(0, gMapStateManager->unk_428, 0x400);
 
     for (i = 0; i < 2; i++)
     {
@@ -748,14 +743,14 @@ EC void func_ov000_021a3498(struct Unit * unit, BOOL arg_1, u32 x, u32 y)
     if (!(unit->state2 & 0x20))
     {
         u32 pos = (x | (y << 5));
-        if (((data_ov000_021e3328->unk_d30[pos >> 3] & (1 << (pos & 7))) & 0xFF) || (unit->state2 & 0x4000) ||
+        if (((gMapStateManager->unk_d30[pos >> 3] & (1 << (pos & 7))) & 0xFF) || (unit->state2 & 0x4000) ||
             (((unit->unk_4c->unk_08 == data_ov000_021e3324->unk_01) & 0xFF) != 0))
         {
-            data_ov000_021e3328->unk_028[x | y << 5] = unit->unk_68;
+            gMapStateManager->unk_028[x | y << 5] = unit->unk_68;
         }
     }
 
-    data_ov000_021e3328->unk_428[x | y << 5] = unit->unk_68;
+    gMapStateManager->unk_428[x | y << 5] = unit->unk_68;
 
     return;
 }
@@ -773,10 +768,10 @@ EC void func_ov000_021a354c(struct Unit * unit, s32 x, s32 y)
         y = unit->yPos;
     }
 
-    if (data_ov000_021e3328->unk_428[x | y << 5] == unit->unk_68)
+    if (gMapStateManager->unk_428[x | y << 5] == unit->unk_68)
     {
-        data_ov000_021e3328->unk_028[x | y << 5] = 0;
-        data_ov000_021e3328->unk_428[x | y << 5] = 0;
+        gMapStateManager->unk_028[x | y << 5] = 0;
+        gMapStateManager->unk_428[x | y << 5] = 0;
     }
 
     return;
@@ -805,8 +800,8 @@ EC void func_ov000_021a35a0(void)
     s32 i;
     u32 phase = data_ov000_021e3324->unk_01;
 
-    func_020a5734(0, data_ov000_021e3328->unk_c30, 0x80);
-    func_020a5734(0, data_ov000_021e3328->unk_cb0, 0x80);
+    func_020a5734(0, gMapStateManager->unk_c30, 0x80);
+    func_020a5734(0, gMapStateManager->unk_cb0, 0x80);
 
     for (i = 0; i < 2; i++)
     {
@@ -816,7 +811,7 @@ EC void func_ov000_021a35a0(void)
         {
             if (!TestPhaseAndState(it, phase))
             {
-                if ((data_ov000_021e3328->unk_d30[(it->xPos | it->yPos << 5) >> 3] & (1 << (it->xPos & 7))) &
+                if ((gMapStateManager->unk_d30[(it->xPos | it->yPos << 5) >> 3] & (1 << (it->xPos & 7))) &
                     0xFF)
                 {
                     continue;
@@ -842,15 +837,15 @@ EC void func_ov000_021a35a0(void)
         }
     }
 
-    data_ov000_021e3328->unk_14->unk_04->unk_17 = 1;
-    data_ov000_021e3328->unk_eb8 = 0;
+    gMapStateManager->unk_14->unk_04->unk_17 = 1;
+    gMapStateManager->unk_eb8 = 0;
 
     return;
 }
 
 EC void func_ov000_021a36e0(void)
 {
-    data_ov000_021e3328->unk_eb8 = 1;
+    gMapStateManager->unk_eb8 = 1;
     return;
 }
 
@@ -858,15 +853,15 @@ EC void func_ov000_021a36f8(struct Unit * unit, BOOL arg_1, BOOL arg_2)
 {
     if (arg_1 != 0)
     {
-        func_01ff8d88(data_ov000_021e3328->unk_08, unit, -1, 2, 1, 1);
+        func_01ff8d88(gMapStateManager->unk_08, unit, -1, 2, 1, 1);
     }
 
-    func_01ff9758(data_ov000_021e3328->unk_08, data_ov000_021e3328->unk_c30);
-    func_01ff976c(data_ov000_021e3328->unk_08, data_ov000_021e3328->unk_cb0);
+    func_01ff9758(gMapStateManager->unk_08, gMapStateManager->unk_c30);
+    func_01ff976c(gMapStateManager->unk_08, gMapStateManager->unk_cb0);
 
     if (arg_2 != 0)
     {
-        data_ov000_021e3328->unk_14->unk_04->unk_17 = 1;
+        gMapStateManager->unk_14->unk_04->unk_17 = 1;
     }
 
     return;
@@ -887,25 +882,25 @@ EC void func_ov000_021a37c4(void)
 {
     if (data_ov000_021e3324->unk_02 == 0)
     {
-        func_020a5824(data_ov000_021e3328->unk_db0, 0xff, 0x80);
-        func_020a5824(data_ov000_021e3328->unk_d30, 0xff, 0x80);
+        func_020a5824(gMapStateManager->unk_db0, 0xff, 0x80);
+        func_020a5824(gMapStateManager->unk_d30, 0xff, 0x80);
         return;
     }
 
-    func_020a5824(data_ov000_021e3328->unk_db0, 0, 0x80);
-    func_020a5824(data_ov000_021e3328->unk_d30, 0, 0x80);
+    func_020a5824(gMapStateManager->unk_db0, 0, 0x80);
+    func_020a5824(gMapStateManager->unk_d30, 0, 0x80);
 
     if (data_02196f0c->state & 0x40)
     {
-        func_ov000_021a3a30(data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01);
+        func_ov000_021a3a30(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
     else
     {
-        func_ov000_021a3974(data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01);
+        func_ov000_021a3974(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
 
-    func_ov000_021a3974(data_ov000_021e3328->unk_db0, data_ov000_021e3324->phase);
-    data_ov000_021e3328->unk_14->unk_04->unk_18 = 1;
+    func_ov000_021a3974(gMapStateManager->unk_db0, data_ov000_021e3324->phase);
+    gMapStateManager->unk_14->unk_04->unk_18 = 1;
 
     return;
 }
@@ -914,23 +909,23 @@ EC void func_ov000_021a38b4(void)
 {
     if (data_ov000_021e3324->unk_02 == 0)
     {
-        func_020a5824(data_ov000_021e3328->unk_d30, 0xff, 0x80);
+        func_020a5824(gMapStateManager->unk_d30, 0xff, 0x80);
         return;
     }
 
-    func_020a5824(data_ov000_021e3328->unk_d30, 0, 0x80);
+    func_020a5824(gMapStateManager->unk_d30, 0, 0x80);
 
     if (data_02196f0c->state & 0x40)
     {
-        func_ov000_021a3a30(data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01);
+        func_ov000_021a3a30(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
     else
     {
-        func_ov000_021a3974(data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01);
+        func_ov000_021a3974(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
 
-    func_ov000_021a3974(data_ov000_021e3328->unk_db0, data_ov000_021e3324->phase);
-    data_ov000_021e3328->unk_14->unk_04->unk_18 = 1;
+    func_ov000_021a3974(gMapStateManager->unk_db0, data_ov000_021e3324->phase);
+    gMapStateManager->unk_14->unk_04->unk_18 = 1;
 
     return;
 }
@@ -964,9 +959,9 @@ EC void func_ov000_021a3974(u8 * arg_0, s32 arg_1)
         }
     }
 
-    if (arg_0 == data_ov000_021e3328->unk_d30)
+    if (arg_0 == gMapStateManager->unk_d30)
     {
-        data_ov000_021e3328->unk_14->unk_04->unk_18 = 1;
+        gMapStateManager->unk_14->unk_04->unk_18 = 1;
         return;
     }
 
@@ -1058,12 +1053,12 @@ EC void func_ov000_021a3a30(u8 * arg_0, u32 arg_1)
         } while (i < data_ov000_021e3528.unk_2e);
     }
 
-    if (arg_0 != data_ov000_021e3328->unk_d30)
+    if (arg_0 != gMapStateManager->unk_d30)
     {
         return;
     }
 
-    data_ov000_021e3328->unk_14->unk_04->unk_18 = 1;
+    gMapStateManager->unk_14->unk_04->unk_18 = 1;
 
     return;
 }
@@ -1082,11 +1077,11 @@ EC void func_ov000_021a3ad0(u8 * arg_0, s16 x, s16 y, s32 range)
         return;
     }
 
-    xMin = MAX(x - range, data_ov000_021e3328->unk_24);
-    yMin = MAX(y - range, data_ov000_021e3328->unk_25);
+    xMin = MAX(x - range, gMapStateManager->unk_24);
+    yMin = MAX(y - range, gMapStateManager->unk_25);
 
-    xMax = MIN(x + range, data_ov000_021e3328->unk_26 - 1);
-    yMax = MIN(y + range, data_ov000_021e3328->unk_27 - 1);
+    xMax = MIN(x + range, gMapStateManager->unk_26 - 1);
+    yMax = MIN(y + range, gMapStateManager->unk_27 - 1);
 
     for (iy = yMin; iy <= yMax; iy++)
     {
@@ -1103,9 +1098,9 @@ EC void func_ov000_021a3ad0(u8 * arg_0, s16 x, s16 y, s32 range)
         }
     }
 
-    if (arg_0 == data_ov000_021e3328->unk_d30)
+    if (arg_0 == gMapStateManager->unk_d30)
     {
-        data_ov000_021e3328->unk_14->unk_04->unk_18 = 1;
+        gMapStateManager->unk_14->unk_04->unk_18 = 1;
     }
 }
 
@@ -1152,11 +1147,11 @@ EC BOOL func_ov000_021a3db4(s16 x, s16 y, BOOL arg_2)
     s16 ix;
     s16 iy;
 
-    xMin = MAX(x - 1, data_ov000_021e3328->unk_24);
-    yMin = MAX(y - 1, data_ov000_021e3328->unk_25);
+    xMin = MAX(x - 1, gMapStateManager->unk_24);
+    yMin = MAX(y - 1, gMapStateManager->unk_25);
 
-    xMax = MIN(x + 1, data_ov000_021e3328->unk_26 - 1);
-    yMax = MIN(y + 1, data_ov000_021e3328->unk_27 - 1);
+    xMax = MIN(x + 1, gMapStateManager->unk_26 - 1);
+    yMax = MIN(y + 1, gMapStateManager->unk_27 - 1);
 
     for (iy = yMin; iy <= yMax; iy++)
     {
@@ -1168,14 +1163,14 @@ EC BOOL func_ov000_021a3db4(s16 x, s16 y, BOOL arg_2)
             {
                 if (arg_2)
                 {
-                    if (data_ov000_021e3328->unk_08->unk_0854[ix | (iy << 5)] != 0 &&
-                        data_ov000_021e3328->unk_028[ix | (iy << 5)] != 0)
+                    if (gMapStateManager->unk_08->unk_0854[ix | (iy << 5)] != 0 &&
+                        gMapStateManager->unk_028[ix | (iy << 5)] != 0)
                     {
                         continue;
                     }
                 }
 
-                if (data_ov000_021e3328->unk_08->unk_0854[ix | (iy << 5)] >= 0)
+                if (gMapStateManager->unk_08->unk_0854[ix | (iy << 5)] >= 0)
                 {
                     return TRUE;
                 }
@@ -1195,7 +1190,7 @@ EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
     struct PersonData * pPersonDataA;
     struct Unit * it;
 
-    func_020a5734(0, data_ov000_021e3328->unk_e30, 0x80);
+    func_020a5734(0, gMapStateManager->unk_e30, 0x80);
 
     if (func_ov000_021a47e4() != 0)
     {
@@ -1207,7 +1202,7 @@ EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
         pUnitStack = func_02040c98(i);
         for (it = *pUnitStack; it != NULL; it = (struct Unit *)it->unk_3c)
         {
-            if (data_ov000_021e3328->unk_db0[(it->xPos | it->yPos << 5) >> 3] & ((1 << it->xPos) & 7))
+            if (gMapStateManager->unk_db0[(it->xPos | it->yPos << 5) >> 3] & ((1 << it->xPos) & 7))
             {
                 pPersonDataA = func_0203c378(it)->pPersonData;
                 pPersonDataB = func_0203c378(unit)->pPersonData;
@@ -1222,7 +1217,7 @@ EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
                     continue;
                 }
 
-                data_ov000_021e3328->unk_e30[(it->xPos | it->yPos << 5) >> 3] |= ((1 << it->xPos) & 7);
+                gMapStateManager->unk_e30[(it->xPos | it->yPos << 5) >> 3] |= ((1 << it->xPos) & 7);
             }
         }
     }
@@ -1242,12 +1237,12 @@ static inline BOOL IsOutOfBounds(s32 x, s32 y)
         return TRUE;
     }
 
-    if (x >= data_ov000_021e3328->unk_20)
+    if (x >= gMapStateManager->unk_20)
     {
         return TRUE;
     }
 
-    if (y >= data_ov000_021e3328->unk_22)
+    if (y >= gMapStateManager->unk_22)
     {
         return TRUE;
     }
@@ -1259,7 +1254,7 @@ EC void * func_ov000_021a418c(s32 arg_0)
 {
     struct Unit * unit;
 
-    if (data_ov000_021e3328 == NULL)
+    if (gMapStateManager == NULL)
     {
         return NULL;
     }
@@ -1280,7 +1275,7 @@ EC void * func_ov000_021a418c(s32 arg_0)
 
     if (!IsOutOfBounds(unit->xPos, unit->yPos))
     {
-        u8 tile = data_ov000_021e3328->unk_828[unit->xPos | (unit->yPos << 5)];
+        u8 tile = gMapStateManager->unk_828[unit->xPos | (unit->yPos << 5)];
         return data_02197254->pTerrain[tile].unk_04;
     }
 
@@ -1445,7 +1440,7 @@ EC void func_ov000_021a45cc(struct Unit * unit, u32 arg_1)
 
 EC void func_ov000_021a4694(void)
 {
-    func_ov000_021a45cc(data_ov000_021e3328->unk_04->unk_00, 1);
+    func_ov000_021a45cc(gMapStateManager->unk_04->unk_00, 1);
     return;
 }
 
@@ -1458,8 +1453,8 @@ EC void func_ov000_021a46b8(void)
 /* NONMATCHING: https://decomp.me/scratch/DvhHi */
 EC void func_ov000_021a46cc(struct Unit * unit, u32 arg_1)
 {
-    func_ov000_021a6ab8(data_ov000_021e3328->unk_10, unit->xPos, unit->yPos);
-    func_ov000_021a4e84(data_ov000_021e3328->unk_00, unit->xPos, unit->yPos, arg_1);
+    func_ov000_021a6ab8(gMapStateManager->unk_10, unit->xPos, unit->yPos);
+    gMapStateManager->camera->func_ov000_021a4e84(unit->xPos, unit->yPos, arg_1);
     return;
 }
 
@@ -1470,7 +1465,7 @@ EC void func_ov000_021a4718(void)
 
 EC BOOL func_ov000_021a471c(void)
 {
-    if (data_ov000_021e3328 == 0)
+    if (gMapStateManager == 0)
     {
         return FALSE;
     }
@@ -1625,23 +1620,23 @@ EC BOOL func_ov000_021a491c(struct Unit * unit)
 
 void ProcMapEnd::Init(void)
 {
-    func_ov000_021b9bec(data_ov000_021e3328->unk_14);
+    func_ov000_021b9bec(gMapStateManager->unk_14);
     return;
 }
 
 void ProcMapDraw::Init(void)
 {
-    func_ov000_021b9c3c(data_ov000_021e3328->unk_14);
+    func_ov000_021b9c3c(gMapStateManager->unk_14);
     return;
 }
 
 void ProcMapLow::Init(void)
 {
-    func_ov000_021a6e68(data_ov000_021e3328->unk_10);
-    func_ov000_021b9bc4(data_ov000_021e3328->unk_14);
-    func_ov000_021a5128(data_ov000_021e3328->unk_00);
+    func_ov000_021a6e68(gMapStateManager->unk_10);
+    func_ov000_021b9bc4(gMapStateManager->unk_14);
+    gMapStateManager->camera->func_ov000_021a5128();
 
-    if (data_ov000_021e3328->unk_eb8 == 0)
+    if (gMapStateManager->unk_eb8 == 0)
     {
         return;
     }
@@ -1653,7 +1648,7 @@ void ProcMapLow::Init(void)
 
 void ProcMapBegin::Init(void)
 {
-    func_ov000_021b9bac(data_ov000_021e3328->unk_14);
+    func_ov000_021b9bac(gMapStateManager->unk_14);
     return;
 }
 

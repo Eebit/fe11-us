@@ -12,7 +12,6 @@
 
 // TODO: Not actually data?
 extern void data_ov010_02209e54(ProcPtr);
-EC void func_ov000_021a4e84(void *, s32, s32, s32);
 
 EC void func_020136bc(ProcPtr);
 EC void func_0201fd44(ProcPtr);
@@ -751,7 +750,7 @@ EC void func_02021f5c(void)
 
     if (data_ov000_021e3324 == NULL)
     {
-        data_ov000_021e3324 = new UnkStruct_021E3324_00;
+        data_ov000_021e3324 = new UnkStruct_021E3324;
     }
 
     for (i = 0; i < 0x2e; i++)
@@ -818,7 +817,7 @@ EC void func_0202214c(ProcPtr proc)
         return;
     }
 
-    func_ov000_021a4e84((void *)data_ov000_021e3328->unk_00, unit->xPos, unit->yPos, 1);
+    gMapStateManager->camera->func_ov000_021a4e84(unit->xPos, unit->yPos, 1);
 
     return;
 }
@@ -859,7 +858,7 @@ EC void func_0202225c(void)
     func_0204b790();
 
     unitId =
-        data_ov000_021e3328->unk_028[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
+        gMapStateManager->unk_028[gMapStateManager->unk_10->unk_08 | gMapStateManager->unk_10->unk_09 << 5];
 
     if (unitId == 0)
     {
@@ -871,7 +870,7 @@ EC void func_0202225c(void)
     }
 
     func_0204e1a4(pUnit, 0, 1);
-    func_0204eab8(data_ov000_021e3328->unk_10->unk_08, data_ov000_021e3328->unk_10->unk_09, 0);
+    func_0204eab8(gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09, 0);
     func_0204f6d0();
 
     func_0204ad38(data_02196f20->unk_19b, 0, 0);

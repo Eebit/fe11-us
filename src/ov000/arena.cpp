@@ -142,7 +142,7 @@ public:
         data_027e1268->unk_00->unk_12_C = 0;
         data_027e1268->unk_00->unk_12_D = 1;
 
-        func_ov000_021a5810(data_ov000_021e3328->unk_0c, 1);
+        func_ov000_021a5810(gMapStateManager->unk_0c, 1);
         func_ov000_021d9078((struct ArenaProc *)this);
     }
 
@@ -150,7 +150,7 @@ public:
     {
         data_027e1268->unk_00->unk_12_67 = 0;
 
-        func_ov000_021a57e4(data_ov000_021e3328->unk_0c, 1);
+        func_ov000_021a57e4(gMapStateManager->unk_0c, 1);
         func_ov000_021d9120((struct ArenaProc *)this);
         func_ov000_021d9024((struct ArenaProc *)this);
 
@@ -956,7 +956,7 @@ EC void func_ov000_021d87a4(struct ArenaProc * proc)
 {
     u8 tmp;
 
-    if (((data_020ca61c->unk_00 & 2) != 0) || (func_ov000_021a5650(data_ov000_021e3328->unk_0c, 0) != 0))
+    if (((data_020ca61c->unk_00 & 2) != 0) || (func_ov000_021a5650(gMapStateManager->unk_0c, 0) != 0))
     {
         proc->unk_59 = 1;
     }
@@ -1006,7 +1006,7 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
 
         if (func_ov000_021ca0b8(proc->unk_5c) == proc->unk_3c)
         {
-            func_ov000_021a5810(data_ov000_021e3328->unk_0c, 0);
+            func_ov000_021a5810(gMapStateManager->unk_0c, 0);
             Proc_Goto(proc, 6, 0);
             pUnit = func_0203c378(proc->unk_38);
 
@@ -1021,19 +1021,19 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
         {
             if (func_ov000_021ca0b8(proc->unk_5c) == proc->unk_38)
             {
-                func_ov000_021a57e4(data_ov000_021e3328->unk_0c, 0);
+                func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
                 Proc_Goto(proc, 7, 0);
                 uVar6 = -1;
             }
             else if (proc->unk_59 != 0)
             {
-                func_ov000_021a57e4(data_ov000_021e3328->unk_0c, 0);
+                func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
                 Proc_Goto(proc, 8, 0);
                 uVar6 = -1;
             }
             else
             {
-                func_ov000_021a57e4(data_ov000_021e3328->unk_0c, 0);
+                func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
                 Proc_Goto(proc, 9, 0);
                 uVar6 = -1;
             }
@@ -1374,7 +1374,7 @@ EC void func_ov000_021d9250(struct ArenaProc * proc)
         }
 
         data_ov000_021e3340->unk_06 |= 8;
-        data_ov000_021e3328->unk_04->unk_04->ClearValues();
+        gMapStateManager->unk_04->unk_04->ClearValues();
 
         return;
     }
@@ -1527,7 +1527,7 @@ EC void func_ov000_021d94f4(struct ArenaProc * proc)
 
 EC void func_ov000_021d9500(struct ArenaProc * unused)
 {
-    func_ov000_021a57e4(data_ov000_021e3328->unk_0c, 0);
+    func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
     return;
 }
 
@@ -1617,7 +1617,7 @@ EC void func_ov000_021d95ec(ProcPtr parent)
         func_0204b194(iVar4->xPos, iVar4->yPos);
     }
 
-    new (Proc_StartBlocking(data_ov000_021e2f38, parent)) arena::Arena(data_ov000_021e3328->unk_04->unk_00);
+    new (Proc_StartBlocking(data_ov000_021e2f38, parent)) arena::Arena(gMapStateManager->unk_04->unk_00);
 
     return;
 }

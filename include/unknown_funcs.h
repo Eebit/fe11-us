@@ -24,8 +24,8 @@ EC void * func_01ffb934(void *, s32);
 EC void func_01ffbb90(void *, void *);
 
 EC void * func_02000c70(void);
-EC void func_02000c7c(struct UnkStruct_021E3324_04_08 *);
-EC void func_02000d14(struct UnkStruct_021E3324_04_08 * buf, s32 a);
+EC void func_02000c7c(struct MapStateManager_08 *);
+EC void func_02000d14(struct MapStateManager_08 * buf, s32 a);
 
 EC int func_020016e8(struct UnkStruct_Func_2000D2C * unk1, struct Unit * unit, int a, int b);
 EC int func_02001770(struct UnkStruct_Func_2000D2C * buf, int a, int b);
@@ -98,6 +98,10 @@ EC s32 func_0201ffc0(void);
 EC u32 func_0201ffd0(void);
 
 EC s32 RollRN(s32, s32);
+EC s32 IntSys_Div(s32, s32);
+EC u16 IntSys_Sqrt(u32);
+EC s32 Interpolate(s32, s32, s32, s32, s32);
+EC BOOL func_020252fc(void);
 
 EC void func_020210d0(struct UnkStruct_02196f0c_00 *, s32);
 EC void func_02021014(void);
@@ -188,6 +192,7 @@ EC void func_0203de10(struct Unit *);
 EC void func_0203e02c(struct Item *);
 EC void func_0203e008(struct Item *, u8);
 EC void func_0203e040(struct Item *, struct Item *);
+EC s32 GetTileSize(void);
 EC void func_0203fafc(void);
 EC struct Unit * func_0203fcb8(s32);
 EC void func_0203fb68(void);
@@ -287,6 +292,8 @@ EC void func_020ad244(int a);
 
 EC int func_020b6e2c(char *, char *);
 
+EC s32 _s32_div_f(s32, s32);
+
 // Overlay 000:
 
 EC void func_ov000_021a340c(void);
@@ -309,8 +316,8 @@ EC BOOL func_ov000_021a478c(void);
 EC BOOL func_ov000_021a47e4(void);
 EC s32 func_ov000_021a4854(struct Unit *);
 EC void func_ov000_021a48d8(void);
-EC void func_ov000_021a4cec(void *, s32, s32, s32, s32, s32);
-EC void func_ov000_021a516c(s32);
+EC void _ZN6Camera19func_ov000_021a4cecEllllh(void *, s32, s32, s32, s32, s32);
+EC void _ZN6Camera19func_ov000_021a516cEv(s32);
 EC BOOL func_ov000_021a5650(void *, u32);
 EC BOOL func_ov000_021a5768(void *, u32);
 EC void func_ov000_021a5774(void *, u32);
