@@ -178,7 +178,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             return TRUE;
 
         case 3:
-            if (data_ov000_021e3328 == 0)
+            if (gMapStateManager == 0)
             {
                 return FALSE;
             }
@@ -209,7 +209,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             return FALSE;
 
         case 4:
-            if (data_ov000_021e3328 == 0)
+            if (gMapStateManager == 0)
             {
                 return FALSE;
             }
@@ -268,7 +268,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             break;
 
         case 10:
-            if (data_ov000_021e3328 == 0)
+            if (gMapStateManager == 0)
             {
                 return FALSE;
             }
@@ -434,7 +434,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
     struct Unit * pUnit;
     struct Item * it;
 
-    if (data_ov000_021e3328 == 0)
+    if (gMapStateManager == 0)
     {
         return FALSE;
     }
@@ -485,7 +485,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_028[(x | y << 5)];
+            unitId = gMapStateManager->unk_028[(x | y << 5)];
 
             if (unitId != 0)
             {
@@ -523,7 +523,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_028[(x | y << 5)];
+            unitId = gMapStateManager->unk_028[(x | y << 5)];
 
             if (unitId == 0)
             {
@@ -580,7 +580,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_028[(x | (y << 5))];
+            unitId = gMapStateManager->unk_028[(x | (y << 5))];
 
             if (unitId == 0)
             {
@@ -609,7 +609,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = data_ov000_021e3328->unk_028[(x | (y << 5))];
+            unitId = gMapStateManager->unk_028[(x | (y << 5))];
 
             if (unitId == 0)
             {

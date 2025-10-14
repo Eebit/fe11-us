@@ -1,17 +1,11 @@
 #include "global.h"
 
 #include "map.hpp"
-
-EC s32 func_02020838(s32, s32); // Div
-EC s32 func_020c1bd8(s32, s32); // _s32_div_f
-EC s32 func_0203e298(void); // GetTileSize
-EC u16 func_020209fc(u32); // Sqrt
-EC BOOL func_020252fc(void);
-EC s32 func_02020a2c(s32, s32, s32, s32, s32); // Interpolate
+#include "unknown_funcs.h"
 
 // TODO: Constants for screen height, width, and tile size
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4a7c(void)
+void Camera::func_ov000_021a4a7c(void)
 {
     this->unk_0c = 24;
     this->unk_0e = 0x100 / this->unk_0c;
@@ -27,7 +21,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4a7c(void)
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4ae0(s32 x, s32 y, BOOL snapToCenter)
+void Camera::func_ov000_021a4ae0(s32 x, s32 y, BOOL snapToCenter)
 {
     if (snapToCenter)
     {
@@ -65,7 +59,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4ae0(s32 x, s32 y, BOOL snapToCent
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4ba0(s32 x, s32 y, BOOL snapToCenter)
+void Camera::func_ov000_021a4ba0(s32 x, s32 y, BOOL snapToCenter)
 {
     if (snapToCenter)
     {
@@ -103,7 +97,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4ba0(s32 x, s32 y, BOOL snapToCent
     return;
 }
 
-BOOL UnkStruct_021E3324_04_00::func_ov000_021a4c30(s32 x, s32 y)
+BOOL Camera::func_ov000_021a4c30(s32 x, s32 y)
 {
     s16 sVar1 = this->unk_14;
     s16 sVar2 = this->unk_16;
@@ -163,10 +157,10 @@ static inline s32 SQRT_WRAPPER(s32 a, s32 b, s32 c, s32 d)
     s32 iVar5 = ABS(a - b);
     s32 iVar3 = ABS(c - d);
 
-    return func_020209fc(iVar5 * iVar5 + iVar3 * iVar3);
+    return IntSys_Sqrt(iVar5 * iVar5 + iVar3 * iVar3);
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCenter, s32 duration, u8 flag)
+void Camera::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCenter, s32 duration, u8 flag)
 {
     s32 d;
     s32 c;
@@ -193,7 +187,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCent
 
         sqrt = SQRT_WRAPPER(a, b, c, d);
 
-        this->unk_20 = func_02020838(sqrt, this->unk_12);
+        this->unk_20 = IntSys_Div(sqrt, this->unk_12);
 
         if (this->unk_20 < 4)
         {
@@ -227,7 +221,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCent
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4dc0(s32 x, s32 y, s32 snapToCenter, s32 duration, s32 interpolateKind, u8 flag)
+void Camera::func_ov000_021a4dc0(s32 x, s32 y, s32 snapToCenter, s32 duration, s32 interpolateKind, u8 flag)
 {
     if (duration == -1)
     {
@@ -266,7 +260,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4dc0(s32 x, s32 y, s32 snapToCente
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4e84(s32 x, s32 y, BOOL snapToCenter)
+void Camera::func_ov000_021a4e84(s32 x, s32 y, BOOL snapToCenter)
 {
     this->func_ov000_021a4ae0(x, y, snapToCenter);
     this->func_ov000_021a52c8(this->unk_14, this->unk_16, 0);
@@ -274,35 +268,35 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4e84(s32 x, s32 y, BOOL snapToCent
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4ea8(void)
+void Camera::func_ov000_021a4ea8(void)
 {
     s32 iVar3;
 
     s32 sVar1 = this->unk_14;
     s32 sVar2 = this->unk_16;
 
-    iVar3 = data_ov000_021e3328->unk_24 * 0x18;
+    iVar3 = gMapStateManager->unk_24 * 0x18;
 
     if (sVar1 < iVar3 - 0x18)
     {
         this->unk_14 = iVar3 - 0x18;
     }
 
-    iVar3 = data_ov000_021e3328->unk_26 * 0x18;
+    iVar3 = gMapStateManager->unk_26 * 0x18;
 
     if (sVar1 + 0x100 > iVar3 + 0x18)
     {
         this->unk_14 = iVar3 - 0xe8;
     }
 
-    iVar3 = data_ov000_021e3328->unk_25 * 0x18;
+    iVar3 = gMapStateManager->unk_25 * 0x18;
 
     if (sVar2 < iVar3 - 0x18)
     {
         this->unk_16 = iVar3 - 0x18;
     }
 
-    iVar3 = data_ov000_021e3328->unk_27 * 0x18;
+    iVar3 = gMapStateManager->unk_27 * 0x18;
 
     if (sVar2 + 0xc0 > iVar3 + 0x18)
     {
@@ -312,9 +306,9 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4ea8(void)
     return;
 }
 
-BOOL UnkStruct_021E3324_04_00::func_ov000_021a4f4c(void)
+BOOL Camera::func_ov000_021a4f4c(void)
 {
-    s32 val = data_ov000_021e3328->unk_25 * 0x18;
+    s32 val = gMapStateManager->unk_25 * 0x18;
 
     if (this->unk_04 > val - 0x18)
     {
@@ -324,7 +318,7 @@ BOOL UnkStruct_021E3324_04_00::func_ov000_021a4f4c(void)
     return FALSE;
 }
 
-BOOL UnkStruct_021E3324_04_00::func_ov000_021a4f7c(s32 x, s32 y, BOOL snapToCenter)
+BOOL Camera::func_ov000_021a4f7c(s32 x, s32 y, BOOL snapToCenter)
 {
     s32 sVar1 = this->unk_14;
     s32 sVar2 = this->unk_16;
@@ -342,7 +336,7 @@ BOOL UnkStruct_021E3324_04_00::func_ov000_021a4f7c(s32 x, s32 y, BOOL snapToCent
     return TRUE;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a4fb4(void)
+void Camera::func_ov000_021a4fb4(void)
 {
     s32 x;
     s32 xclamp;
@@ -355,7 +349,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4fb4(void)
 
     range = this->unk_12;
 
-    if (data_ov000_021e3328->unk_0c->unk_24)
+    if (gMapStateManager->unk_0c->unk_24)
     {
         range *= 2;
     }
@@ -394,7 +388,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a4fb4(void)
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a5030(BOOL boostSpeed)
+void Camera::func_ov000_021a5030(BOOL boostSpeed)
 {
     s32 x;
     s32 y;
@@ -408,13 +402,13 @@ void UnkStruct_021E3324_04_00::func_ov000_021a5030(BOOL boostSpeed)
 
     if (this->unk_20 <= 4)
     {
-        x = func_02020a2c(0, this->unk_1c, this->unk_14, this->unk_22, this->unk_20);
-        y = func_02020a2c(0, this->unk_1e, this->unk_16, this->unk_22, this->unk_20);
+        x = Interpolate(0, this->unk_1c, this->unk_14, this->unk_22, this->unk_20);
+        y = Interpolate(0, this->unk_1e, this->unk_16, this->unk_22, this->unk_20);
     }
     else
     {
-        x = func_02020a2c(this->unk_1a, this->unk_1c, this->unk_14, this->unk_22, this->unk_20);
-        y = func_02020a2c(this->unk_1a, this->unk_1e, this->unk_16, this->unk_22, this->unk_20);
+        x = Interpolate(this->unk_1a, this->unk_1c, this->unk_14, this->unk_22, this->unk_20);
+        y = Interpolate(this->unk_1a, this->unk_1e, this->unk_16, this->unk_22, this->unk_20);
     }
 
     this->func_ov000_021a52c8(x, y, 0);
@@ -431,7 +425,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a5030(BOOL boostSpeed)
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a5128(void)
+void Camera::func_ov000_021a5128(void)
 {
     switch (this->unk_18)
     {
@@ -451,7 +445,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a5128(void)
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a516c(void)
+void Camera::func_ov000_021a516c(void)
 {
     if (this->unk_18 == 1)
     {
@@ -473,7 +467,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a516c(void)
     return;
 }
 
-BOOL UnkStruct_021E3324_04_00::func_ov000_021a51b8(s32 x, s32 y, struct Vec3 * pos)
+BOOL Camera::func_ov000_021a51b8(s32 x, s32 y, struct Vec3 * pos)
 {
     pos->x = x * this->unk_0c - this->unk_00;
     pos->y = y * this->unk_0c - this->unk_04;
@@ -486,7 +480,7 @@ BOOL UnkStruct_021E3324_04_00::func_ov000_021a51b8(s32 x, s32 y, struct Vec3 * p
     return TRUE;
 }
 
-BOOL UnkStruct_021E3324_04_00::func_ov000_021a5228(s32 x, s32 y, struct Vec3 * pos)
+BOOL Camera::func_ov000_021a5228(s32 x, s32 y, struct Vec3 * pos)
 {
     struct Vec3 local;
 
@@ -494,28 +488,28 @@ BOOL UnkStruct_021E3324_04_00::func_ov000_021a5228(s32 x, s32 y, struct Vec3 * p
 
     if (local.x < 0)
     {
-        local.x -= (func_0203e298() - 1);
+        local.x -= (GetTileSize() - 1);
     }
 
     if (local.y < 0)
     {
-        local.y -= (func_0203e298() - 1);
+        local.y -= (GetTileSize() - 1);
     }
 
-    pos->x = func_02020838(local.x, func_0203e298());
-    pos->y = func_02020838(local.y, func_0203e298());
+    pos->x = IntSys_Div(local.x, GetTileSize());
+    pos->y = IntSys_Div(local.y, GetTileSize());
 
     return 1;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a52b0(void)
+void Camera::func_ov000_021a52b0(void)
 {
     this->func_ov000_021a52c8(0, 0, 0);
 
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a52c8(s32 x, s32 y, s32 z)
+void Camera::func_ov000_021a52c8(s32 x, s32 y, s32 z)
 {
     this->unk_00 = x;
     this->unk_04 = y;
@@ -524,7 +518,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a52c8(s32 x, s32 y, s32 z)
     return;
 }
 
-void UnkStruct_021E3324_04_00::func_ov000_021a52d0(s32 x, s32 y, s32 z)
+void Camera::func_ov000_021a52d0(s32 x, s32 y, s32 z)
 {
     this->unk_00 += x;
     this->unk_04 += y;
@@ -533,7 +527,7 @@ void UnkStruct_021E3324_04_00::func_ov000_021a52d0(s32 x, s32 y, s32 z)
     return;
 }
 
-BOOL UnkStruct_021E3324_04_00::func_ov000_021a52f8(s32 x, s32 y, struct Vec3 * pos)
+BOOL Camera::func_ov000_021a52f8(s32 x, s32 y, struct Vec3 * pos)
 {
     pos->x = x + this->unk_00;
     pos->y = y + this->unk_04;

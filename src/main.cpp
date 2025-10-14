@@ -25,23 +25,23 @@ EC void * func_02000c70(void)
     return &data_027e00e0;
 }
 
-EC void func_02000c7c(struct UnkStruct_021E3324_04_08 * buf)
+EC void func_02000c7c(struct MapStateManager_08 * buf)
 {
-    buf->unk_086e = data_ov000_021e3328->unk_20;
-    buf->unk_086f = data_ov000_021e3328->unk_22;
-    buf->unk_0870 = data_ov000_021e3328->unk_24;
-    buf->unk_0871 = data_ov000_021e3328->unk_25;
-    buf->unk_0872 = data_ov000_021e3328->unk_26;
-    buf->unk_0873 = data_ov000_021e3328->unk_27;
+    buf->unk_086e = gMapStateManager->unk_20;
+    buf->unk_086f = gMapStateManager->unk_22;
+    buf->unk_0870 = gMapStateManager->unk_24;
+    buf->unk_0871 = gMapStateManager->unk_25;
+    buf->unk_0872 = gMapStateManager->unk_26;
+    buf->unk_0873 = gMapStateManager->unk_27;
     buf->unk_0874 = data_ov000_021e3324->phase;
 
     buf->unk_0854 = buf->unk_0878;
     buf->unk_0858 = buf->unk_1078;
     buf->unk_085c = buf->unk_10f8;
-    buf->unk_0860 = data_ov000_021e3328->unk_028;
+    buf->unk_0860 = gMapStateManager->unk_028;
 }
 
-EC void func_02000d14(struct UnkStruct_021E3324_04_08 * buf, s32 a)
+EC void func_02000d14(struct MapStateManager_08 * buf, s32 a)
 {
     func_020a5824(buf->unk_0854, a & 0xFF, 0x400);
 }
@@ -49,7 +49,7 @@ EC void func_02000d14(struct UnkStruct_021E3324_04_08 * buf, s32 a)
 EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
 {
     s32 tmp1, tmp2;
-    struct Unit * unit = data_ov000_021e3328->unk_04->unk_00;
+    struct Unit * unit = gMapStateManager->unk_04->unk_00;
 
     tmp1 = func_0203c77c(unit);
     if (CheckUnitAttribute(unit, 0x8000000))
@@ -91,10 +91,10 @@ EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
         }
     }
 
-    data_ov000_021e3328->unk_08->unk_0854 = data_ov000_021e3328->unk_08->unk_0c78;
+    gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0c78;
 
     func_01ff8000(
-        data_ov000_021e3328->unk_08,
+        gMapStateManager->unk_08,
         buf->unk_42,
         buf->unk_43,
         unit->pJobData->unk_28,
@@ -102,14 +102,14 @@ EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
         0xA
     );
 
-    if (data_ov000_021e3328->unk_08->unk_0854[GetPos(a, b)] >= 0)
+    if (gMapStateManager->unk_08->unk_0854[GetPos(a, b)] >= 0)
     {
         func_02001820(buf, a, b, 1);
-        data_ov000_021e3328->unk_08->unk_0854 = data_ov000_021e3328->unk_08->unk_0878;
+        gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0878;
     }
     else
     {
-        data_ov000_021e3328->unk_08->unk_0854 = data_ov000_021e3328->unk_08->unk_0878;
+        gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0878;
         buf->unk_47 = 0;
         buf->unk_46 = 0;
         func_02001820(buf, a, b, 1);
@@ -119,9 +119,9 @@ EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
 EC BOOL func_02000f18(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b, s32 c)
 {
     s32 tmp4;
-    struct Unit * unit = data_ov000_021e3328->unk_04->unk_00;
+    struct Unit * unit = gMapStateManager->unk_04->unk_00;
 
-    if (data_ov000_021e3328->unk_028[GetPos(buf->unk_42, buf->unk_43)] != 0)
+    if (gMapStateManager->unk_028[GetPos(buf->unk_42, buf->unk_43)] != 0)
         return FALSE;
 
     tmp4 = ABS(a - buf->unk_42) + ABS(b - buf->unk_43);
@@ -159,7 +159,7 @@ EC s32 func_02000fec(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
     }
     else
     {
-        struct UnkStruct_021E3324_04_08 * r2 = data_ov000_021e3328->unk_08;
+        struct MapStateManager_08 * r2 = gMapStateManager->unk_08;
         s8 * unk_0c78 = r2->unk_0c78;
 
         // The temp variable seems to be required
@@ -177,11 +177,11 @@ EC s32 func_02000fec(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
     }
 
     // The temp variable seems to be required
-    terrainId = data_ov000_021e3328->unk_828[GetPos(a, b)];
+    terrainId = gMapStateManager->unk_828[GetPos(a, b)];
 
     tmp_r4 += (data_02197254->pTerrain[terrainId].unk_08[0] << 8);
-    tmp_r4 += (data_02197254->pTerrain[data_ov000_021e3328->unk_828[GetPos(a, b)]].unk_08[1] << 4);
-    tmp_r4 += (data_02197254->pTerrain[data_ov000_021e3328->unk_828[GetPos(a, b)]].unk_08[2]);
+    tmp_r4 += (data_02197254->pTerrain[gMapStateManager->unk_828[GetPos(a, b)]].unk_08[1] << 4);
+    tmp_r4 += (data_02197254->pTerrain[gMapStateManager->unk_828[GetPos(a, b)]].unk_08[2]);
 
     return tmp_r4;
 }

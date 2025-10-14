@@ -14,7 +14,7 @@ public:
 
 extern struct UnkStruct_021e334c * data_ov000_021e334c;
 
-class UnkStruct_021E3324_00
+class UnkStruct_021E3324
 {
 public:
     /* 00 */ u8 phase;
@@ -33,7 +33,7 @@ public:
     /* 18 */ u8 unk_18[4];
     /* 1C */ u8 unk_1c;
 
-    UnkStruct_021E3324_00()
+    UnkStruct_021E3324()
     {
             s32 j;
 
@@ -65,7 +65,7 @@ struct Vec3
     /* 08 */ s32 z;
 };
 
-class UnkStruct_021E3324_04_00
+class Camera
 {
 public:
     /* 00 */ s32 unk_00; // camera x
@@ -107,7 +107,7 @@ public:
     BOOL func_ov000_021a52f8(s32, s32, struct Vec3 *);
 };
 
-class UnkStruct_021E3324_04_04_04
+class MapStateManager_04_04
 {
 public:
     STRUCT_PAD(0x00, 0x54);
@@ -129,14 +129,14 @@ public:
     }
 };
 
-class UnkStruct_021E3324_04_04
+class MapStateManager_04
 {
 public:
     /* 00 */ struct Unit * unk_00;
-    /* 04 */ struct UnkStruct_021E3324_04_04_04 * unk_04;
+    /* 04 */ struct MapStateManager_04_04 * unk_04;
     /* 08 */ u32 unk_08;
 
-    UnkStruct_021E3324_04_04()
+    MapStateManager_04()
     {
         this->unk_00 = 0;
         this->unk_04 = 0;
@@ -144,7 +144,7 @@ public:
     }
 };
 
-struct UnkStruct_021E3324_04_08
+struct MapStateManager_08
 {
     STRUCT_PAD(0x0000, 0x0854);
 
@@ -171,7 +171,7 @@ struct UnkStruct_021E3324_04_08
     /* 10F8 */ s8 unk_10f8[0x80];
 };
 
-struct UnkStruct_021E3324_04_0C
+struct MapStateManager_0C
 {
 // +0x10 contains last touch coords
 // +0x14 contains current touch coords
@@ -192,7 +192,7 @@ struct UnkStruct_021E3324_04_0C
     STRUCT_PAD(0x25, 0x28);
 };
 
-class UnkStruct_021E3324_04_10
+class MapStateManager_10
 {
 public:
     /* 00 */ s8 unk_00[2];
@@ -211,9 +211,9 @@ public:
     }
 };
 
-EC void func_ov000_021b9a1c(struct UnkStruct_021E3324_04_14 *);
+EC void func_ov000_021b9a1c(struct MapStateManager_14 *);
 
-class UnkStruct_021E3324_04_14_04
+class MapStateManager_14_04
 {
 public:
     STRUCT_PAD(0x00, 0x10);
@@ -227,11 +227,11 @@ public:
     u8 unk_19;
 };
 
-class UnkStruct_021E3324_04_14
+class MapStateManager_14
 {
 public:
     /* 00 */ void * unk_00;
-    /* 04 */ UnkStruct_021E3324_04_14_04 * unk_04;
+    /* 04 */ MapStateManager_14_04 * unk_04;
     /* 08 */ u32 unk_08;
     /* 0C */ u32 unk_0c;
     /* 10 */ u32 unk_10;
@@ -249,7 +249,7 @@ public:
     /* 2B */ u8 unk_2b;
     /* 2C */ u32 unk_2c;
 
-    UnkStruct_021E3324_04_14()
+    MapStateManager_14()
     {
         this->unk_00 = 0;
         this->unk_04 = 0;
@@ -268,7 +268,7 @@ public:
         this->unk_2c = 0;
     }
 
-    ~UnkStruct_021E3324_04_14()
+    ~MapStateManager_14()
     {
         func_ov000_021b9a1c(this);
     }
@@ -278,7 +278,7 @@ extern u8 data_027e1b9c[];
 EC void * func_01ffb934(void *, s32);
 EC void func_01ffbb90(void *, void *);
 
-class UnkStruct_021E3324_04_1C
+class MapStateManager_1C
 {
 public:
     /* 00 */ void * unk_00;
@@ -286,7 +286,7 @@ public:
     /* 08 */ u32 unk_08;
     /* 0C */ u8 unk_0c;
 
-    UnkStruct_021E3324_04_1C()
+    MapStateManager_1C()
     {
         void * ret = func_01ffb934(data_027e1b9c, 0x4000);
         this->unk_04 = ret;
@@ -295,7 +295,7 @@ public:
         this->unk_0c = 1;
     }
 
-    ~UnkStruct_021E3324_04_1C()
+    ~MapStateManager_1C()
     {
         if (this->unk_0c != 0)
         {
@@ -304,17 +304,17 @@ public:
     }
 };
 
-class UnkStruct_021E3324_04
+class MapStateManager
 {
 public:
-    /* 000 */ struct UnkStruct_021E3324_04_00 * unk_00;
-    /* 004 */ struct UnkStruct_021E3324_04_04 * unk_04;
-    /* 008 */ struct UnkStruct_021E3324_04_08 * unk_08;
-    /* 00C */ struct UnkStruct_021E3324_04_0C * unk_0c;
-    /* 010 */ struct UnkStruct_021E3324_04_10 * unk_10;
-    /* 014 */ struct UnkStruct_021E3324_04_14 * unk_14;
+    /* 000 */ struct Camera * camera;
+    /* 004 */ struct MapStateManager_04 * unk_04;
+    /* 008 */ struct MapStateManager_08 * unk_08;
+    /* 00C */ struct MapStateManager_0C * unk_0c;
+    /* 010 */ struct MapStateManager_10 * unk_10;
+    /* 014 */ struct MapStateManager_14 * unk_14;
     /* 018 */ void * unk_18;
-    /* 01C */ struct UnkStruct_021E3324_04_1C * unk_1c;
+    /* 01C */ struct MapStateManager_1C * unk_1c;
     /* 020 */ u16 unk_20;
     /* 022 */ u16 unk_22;
     /* 024 */ u8 unk_24;
@@ -336,8 +336,8 @@ public:
     /* EB8 */ u8 unk_eb8;
     /* EB9 */ STRUCT_PAD(0xEB9, 0xEBC);
 
-    UnkStruct_021E3324_04();
-    ~UnkStruct_021E3324_04();
+    MapStateManager();
+    ~MapStateManager();
 
     void func_ov000_021a276c(char *);
     void func_ov000_021a28cc();
@@ -345,7 +345,7 @@ public:
     void func_ov000_021a29f4();
 };
 
-extern UnkStruct_021E3324_00 * data_ov000_021e3324;
-extern UnkStruct_021E3324_04 * data_ov000_021e3328;
+extern UnkStruct_021E3324 * data_ov000_021e3324;
+extern MapStateManager * gMapStateManager;
 
 #endif // MAP_HPP

@@ -15,8 +15,8 @@ extern struct ProcCmd data_ov000_021dbe58[];
 extern struct ProcCmd data_ov000_021dc190[];
 extern struct ProcFuncTable data_ov000_021dbd94;
 
-extern UnkStruct_021E3324_00 * data_ov000_021e3324;
-extern UnkStruct_021E3324_04 * data_ov000_021e3328;
+extern UnkStruct_021E3324 * data_ov000_021e3324;
+extern MapStateManager * gMapStateManager;
 
 extern struct UnkStruct_020ca61c * data_020ca61c;
 extern struct Unknown_02197254 * data_02197254; // FE11 database
@@ -96,7 +96,7 @@ namespace map
         ProcPL()
         {
             data_ov000_021e332c.unk_00[4] = this;
-            data_ov000_021e3328->unk_14->unk_27 = 1;
+            gMapStateManager->unk_14->unk_27 = 1;
         }
 
         // func_ov000_021b0964 d1
@@ -112,19 +112,19 @@ EC void func_ov000_021aa278(s32);
 
 static inline BOOL UNK_18_CHECK()
 {
-    return (data_ov000_021e3328->unk_00->unk_18 >= 2) ? TRUE : FALSE;
+    return (gMapStateManager->camera->unk_18 >= 2) ? TRUE : FALSE;
 }
 
 EC void func_ov000_021aa210(void)
 {
-    data_ov000_021e3328->unk_10->unk_0a = 1;
+    gMapStateManager->unk_10->unk_0a = 1;
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
     data_ov000_021e332c.unk_14->unk_03 = 0;
 
     func_ov000_021d6e30(0);
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
 
     return;
 }
@@ -159,11 +159,11 @@ EC void func_ov000_021abbc8(void)
         pUnitA = NULL;
     }
 
-    func_02000d14(data_ov000_021e3328->unk_08, -1);
+    func_02000d14(gMapStateManager->unk_08, -1);
 
-    for (iy = data_ov000_021e3328->unk_25; iy < data_ov000_021e3328->unk_27; iy++)
+    for (iy = gMapStateManager->unk_25; iy < gMapStateManager->unk_27; iy++)
     {
-        for (ix = data_ov000_021e3328->unk_24; ix < data_ov000_021e3328->unk_26; ix++)
+        for (ix = gMapStateManager->unk_24; ix < gMapStateManager->unk_26; ix++)
         {
             struct Unit * pUnitB;
 
@@ -172,17 +172,17 @@ EC void func_ov000_021abbc8(void)
                 continue;
             }
 
-            if ((data_ov000_021e3328->unk_82c[(ix | iy << 5)] & 0x80) != 0)
+            if ((gMapStateManager->unk_82c[(ix | iy << 5)] & 0x80) != 0)
             {
                 continue;
             }
 
-            if ((data_ov000_021e3328->unk_d30[((ix | iy << 5)) >> 3] & (1 << (ix & 7))) == 0)
+            if ((gMapStateManager->unk_d30[((ix | iy << 5)) >> 3] & (1 << (ix & 7))) == 0)
             {
                 continue;
             }
 
-            unitId = data_ov000_021e3328->unk_028[(ix | iy << 5)];
+            unitId = gMapStateManager->unk_028[(ix | iy << 5)];
 
             if (unitId != 0)
             {
@@ -199,13 +199,13 @@ EC void func_ov000_021abbc8(void)
             }
 
             if (func_0203826c(
-                    data_02197254->pTerrain[data_ov000_021e3328->unk_828[(ix | iy << 5)]].unk_08,
+                    data_02197254->pTerrain[gMapStateManager->unk_828[(ix | iy << 5)]].unk_08,
                     pUnitA->pJobData->unk_28) < 0)
             {
                 continue;
             }
 
-            data_ov000_021e3328->unk_08->unk_0854[(ix | iy << 5)] = 0;
+            gMapStateManager->unk_08->unk_0854[(ix | iy << 5)] = 0;
         }
     }
 
@@ -215,14 +215,14 @@ EC void func_ov000_021abbc8(void)
 EC void func_ov000_021abd58(void)
 {
     func_ov000_021abbc8();
-    func_ov000_021bc994(data_ov000_021e3328->unk_14->unk_04, 0, 0, 7);
-    data_ov000_021e3328->unk_04->unk_08 = 2;
+    func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 0, 0, 7);
+    gMapStateManager->unk_04->unk_08 = 2;
     return;
 }
 
 EC void func_ov000_021abd9c(void)
 {
-    func_ov000_021a5d5c(data_ov000_021e3328->unk_0c, 2);
+    func_ov000_021a5d5c(gMapStateManager->unk_0c, 2);
 
     if (func_ov000_021a471c() != 0)
     {
@@ -230,8 +230,8 @@ EC void func_ov000_021abd9c(void)
         return;
     }
 
-    if ((((data_ov000_021e3328->unk_0c->unk_1c & 0x400) != 0) ||
-         (func_ov000_021a5650(data_ov000_021e3328->unk_0c, 2) != 0)) &&
+    if ((((gMapStateManager->unk_0c->unk_1c & 0x400) != 0) ||
+         (func_ov000_021a5650(gMapStateManager->unk_0c, 2) != 0)) &&
         (func_ov000_021a9cac() != 0))
     {
         if (data_ov000_021e3324->unk_03 != 0)
@@ -246,15 +246,15 @@ EC void func_ov000_021abd9c(void)
         }
 
         func_ov000_021a3498(
-            data_ov000_021e3328->unk_04->unk_00, 1, data_ov000_021e3344->unk_2c, data_ov000_021e3344->unk_2d);
+            gMapStateManager->unk_04->unk_00, 1, data_ov000_021e3344->unk_2c, data_ov000_021e3344->unk_2d);
         func_ov000_021a35a0();
 
         func_ov000_021a354c(
-            data_ov000_021e3328->unk_04->unk_00, data_ov000_021e3344->unk_2c, data_ov000_021e3344->unk_2d);
+            gMapStateManager->unk_04->unk_00, data_ov000_021e3344->unk_2c, data_ov000_021e3344->unk_2d);
         func_ov000_021abbc8();
     }
 
-    if (data_ov000_021e3328->unk_0c->unk_21_0 != 0)
+    if (gMapStateManager->unk_0c->unk_21_0 != 0)
     {
         if (func_ov000_021abf30())
         {
@@ -262,9 +262,9 @@ EC void func_ov000_021abd9c(void)
         }
     }
 
-    if (data_ov000_021e3328->unk_0c->unk_21_4 == 0)
+    if (gMapStateManager->unk_0c->unk_21_4 == 0)
     {
-        if (!func_ov000_021a5650(data_ov000_021e3328->unk_0c, 0))
+        if (!func_ov000_021a5650(gMapStateManager->unk_0c, 0))
         {
             return;
         }
@@ -299,10 +299,10 @@ EC BOOL func_ov000_021ac0c0(void)
         int r6;
         int sp_00;
 
-        r9 = data_ov000_021e3328->unk_08;
-        r5 = data_ov000_021e3328->unk_04->unk_00;
-        r4 = GetItemData(data_ov000_021e3328->unk_04->unk_00->items + data_ov000_021e3344->unk_37);
-        r6_ = GetItemData(data_ov000_021e3328->unk_04->unk_00->items + data_ov000_021e3344->unk_37);
+        r9 = gMapStateManager->unk_08;
+        r5 = gMapStateManager->unk_04->unk_00;
+        r4 = GetItemData(gMapStateManager->unk_04->unk_00->items + data_ov000_021e3344->unk_37);
+        r6_ = GetItemData(gMapStateManager->unk_04->unk_00->items + data_ov000_021e3344->unk_37);
         r7 = data_ov000_021e3344->unk_31;
         r8 = data_ov000_021e3344->unk_30;
         r6 = r6_->minRange;
@@ -310,7 +310,7 @@ EC BOOL func_ov000_021ac0c0(void)
 
         func_01ff9300(r9, r8, r7, r6, sp_00);
 
-        if (data_ov000_021e3328->unk_14->unk_04->unk_10 != 0)
+        if (gMapStateManager->unk_14->unk_04->unk_10 != 0)
         {
             uVar7 = 2;
         }
@@ -319,10 +319,10 @@ EC BOOL func_ov000_021ac0c0(void)
             uVar7 = 1;
         }
 
-        func_ov000_021bc994(data_ov000_021e3328->unk_14->unk_04, 0, uVar7, 2);
+        func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 0, uVar7, 2);
     }
 
-    data_ov000_021e3328->unk_04->unk_08 = 1;
+    gMapStateManager->unk_04->unk_08 = 1;
 
     return 1;
 }
@@ -337,7 +337,7 @@ static inline BOOL TEMP(struct Unit * unit)
     }
 
     pos = (unit->xPos | unit->yPos << 5) >> 3;
-    return (data_ov000_021e3328->unk_d30[pos] & (1 << (unit->xPos & 7))) & 0xFF;
+    return (gMapStateManager->unk_d30[pos] & (1 << (unit->xPos & 7))) & 0xFF;
 }
 
 EC void func_ov000_021ac218(void)
@@ -349,13 +349,13 @@ EC void func_ov000_021ac218(void)
     s32 uVar8;
 
     bVar5 = TRUE;
-    pUnit = data_ov000_021e3328->unk_04->unk_00;
+    pUnit = gMapStateManager->unk_04->unk_00;
     x = pUnit->xPos;
     y = pUnit->yPos;
 
     func_ov000_021a7284();
 
-    data_ov000_021e3328->unk_04[1].unk_00 = NULL;
+    gMapStateManager->unk_04[1].unk_00 = NULL;
 
     pUnit->state2 &= ~0x20000;
 
@@ -387,7 +387,7 @@ EC void func_ov000_021ac218(void)
             int sp_04;
             int sp_10;
 
-            sp_0c = data_ov000_021e3328->unk_08;
+            sp_0c = gMapStateManager->unk_08;
             sp_08 = func_ov000_021a4854(pUnit);
 
             fp = pUnit->unk_4c->unk_08;
@@ -397,15 +397,15 @@ EC void func_ov000_021ac218(void)
 
             // FIXME: Function signature issues
             // func_ov000_021a3c84(
-            //     data_ov000_021e3328->unk_db0, data_ov000_021e3324->phase, fp, sp_00, sp_04, sp_08, sp_0c, sp_10);
+            //     gMapStateManager->unk_db0, data_ov000_021e3324->phase, fp, sp_00, sp_04, sp_08, sp_0c, sp_10);
             // func_ov000_021a3c84(
-            //     data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01, fp, sp_00, sp_04, sp_08, sp_0c,
+            //     gMapStateManager->unk_d30, data_ov000_021e3324->unk_01, fp, sp_00, sp_04, sp_08, sp_0c,
             //     sp_10);
         }
         else
         {
-            func_ov000_021a3c20(data_ov000_021e3328->unk_db0, uVar8, pUnit);
-            func_ov000_021a3c20(data_ov000_021e3328->unk_d30, data_ov000_021e3324->unk_01, pUnit);
+            func_ov000_021a3c20(gMapStateManager->unk_db0, uVar8, pUnit);
+            func_ov000_021a3c20(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01, pUnit);
         }
 
         if (func_ov000_021a3da0(pUnit) == 0)
@@ -476,8 +476,8 @@ EC void func_ov000_021ac218(void)
     }
 
     func_ov000_021a378c();
-    func_ov000_021a4cec(data_ov000_021e3328->unk_00, x, y, 0, 0x20, 0);
-    func_ov000_021a6ab8(data_ov000_021e3328->unk_10, (s16)x, (s16)y);
+    gMapStateManager->camera->func_ov000_021a4cec(x, y, 0, 0x20, 0);
+    func_ov000_021a6ab8(gMapStateManager->unk_10, (s16)x, (s16)y);
 
     if (bVar5)
     {
@@ -526,7 +526,7 @@ EC void func_ov000_021ac6a0(void)
     {
         if (func_02050474() == 0)
         {
-            if ((data_020ca61c->unk_00 & 0x100) != 0 || (func_ov000_021a5650(data_ov000_021e3328->unk_0c, 1) != 0))
+            if ((data_020ca61c->unk_00 & 0x100) != 0 || (func_ov000_021a5650(gMapStateManager->unk_0c, 1) != 0))
             {
                 if (func_0204b1f8(0) != 0)
                 {
@@ -546,7 +546,7 @@ EC void func_ov000_021ac6a0(void)
         }
     }
 
-    if (func_ov000_021a5768(data_ov000_021e3328->unk_0c, -1) == 0)
+    if (func_ov000_021a5768(gMapStateManager->unk_0c, -1) == 0)
     {
         return;
     }
@@ -574,7 +574,7 @@ EC BOOL func_ov000_021ac80c(void)
 
     if (data_ov000_021e332c.unk_14->unk_08 != 0)
     {
-        if (data_ov000_021e3328->unk_10->unk_0b == 2)
+        if (gMapStateManager->unk_10->unk_0b == 2)
         {
             return TRUE;
         }
@@ -605,7 +605,7 @@ EC void func_ov000_021ac8b4(void)
         return;
     }
 
-    unitId = data_ov000_021e3328->unk_028[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
+    unitId = gMapStateManager->unk_028[gMapStateManager->unk_10->unk_08 | gMapStateManager->unk_10->unk_09 << 5];
 
     if (unitId != 0)
     {
@@ -620,16 +620,16 @@ EC void func_ov000_021ac8b4(void)
     {
         if (pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase)
         {
-            func_01ff8db8(data_ov000_021e3328->unk_08, pUnit, -1, 6, 1, 1);
+            func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
         }
         else
         {
-            func_01ff8db8(data_ov000_021e3328->unk_08, pUnit, -1, 2, 1, 1);
+            func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
         }
     }
 
-    data_ov000_021e3328->unk_10->unk_0a = 1;
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
+    gMapStateManager->unk_10->unk_0a = 1;
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
 
     if ((data_02196f0c->state & 0x40) != 0)
     {
@@ -651,7 +651,7 @@ EC void func_ov000_021ac8b4(void)
 
 EC void func_ov000_021aca18(void)
 {
-    if (data_ov000_021e3328->unk_10->unk_0b == 2)
+    if (gMapStateManager->unk_10->unk_0b == 2)
     {
         return;
     }
@@ -677,9 +677,9 @@ EC void func_ov000_021aca50(void)
 EC void func_ov000_021acac4(void)
 {
     func_ov000_021aa1d0();
-    func_ov000_021bc9e4(data_ov000_021e3328->unk_14->unk_04);
+    func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
-    data_ov000_021e3328->unk_14->unk_04->unk_19 = 0;
+    gMapStateManager->unk_14->unk_04->unk_19 = 0;
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -697,7 +697,7 @@ EC void func_ov000_021acb34(void)
         return;
     }
 
-    if (data_ov000_021e3328->unk_10->unk_0b != 2)
+    if (gMapStateManager->unk_10->unk_0b != 2)
     {
         return;
     }
@@ -719,7 +719,7 @@ EC void func_ov000_021acb88(void)
         return;
     }
 
-    if (data_ov000_021e3328->unk_10->unk_0b != 2)
+    if (gMapStateManager->unk_10->unk_0b != 2)
     {
         return;
     }
@@ -736,7 +736,7 @@ EC void func_ov000_021acbc8(void)
 
 EC void func_ov000_021acbd4(void)
 {
-    if (data_ov000_021e3328->unk_10->unk_0b != 2)
+    if (gMapStateManager->unk_10->unk_0b != 2)
     {
         return;
     }
@@ -747,7 +747,7 @@ EC void func_ov000_021acbd4(void)
 
 static inline BOOL CHECK_54()
 {
-    return (data_ov000_021e3328->unk_04->unk_04->unk_54 & 1);
+    return (gMapStateManager->unk_04->unk_04->unk_54 & 1);
 }
 
 EC void func_ov000_021acc08(ProcPtr proc)
@@ -775,7 +775,7 @@ static inline BOOL CHECK_02(void)
 
 EC void func_ov000_021acc7c(ProcPtr proc)
 {
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0x8b);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0x8b);
     func_ov000_021bec24(proc);
 
     if (CHECK_02())
@@ -788,7 +788,7 @@ EC void func_ov000_021acc7c(ProcPtr proc)
 
 EC void func_ov000_021accfc(ProcPtr proc)
 {
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0x8b);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0x8b);
     func_ov000_021bfb80(proc);
 
     if (CHECK_02())
@@ -803,32 +803,32 @@ EC void func_ov000_021accfc(ProcPtr proc)
 
 EC void func_ov000_021acd8c(void)
 {
-    struct UnkStruct_021E3324_04_14_04 * ptr;
-    struct Unit * pUnit = data_ov000_021e3328->unk_04->unk_00;
+    struct MapStateManager_14_04 * ptr;
+    struct Unit * pUnit = gMapStateManager->unk_04->unk_00;
 
     func_ov000_021b79f8();
 
-    func_ov000_021a6ab8(data_ov000_021e3328->unk_10, pUnit->xPos, pUnit->yPos);
-    func_ov000_021a4cec(data_ov000_021e3328->unk_00, pUnit->xPos, pUnit->yPos, 0, 0x20, 0);
+    func_ov000_021a6ab8(gMapStateManager->unk_10, pUnit->xPos, pUnit->yPos);
+    gMapStateManager->camera->func_ov000_021a4cec(pUnit->xPos, pUnit->yPos, 0, 0x20, 0);
 
     data_ov000_021e332c.unk_14->unk_09 = 1;
 
-    func_ov000_021bc540(data_ov000_021e3328->unk_04->unk_04);
-    func_01ff8d88(data_ov000_021e3328->unk_08, pUnit, -1, 6, 1, 1);
+    func_ov000_021bc540(gMapStateManager->unk_04->unk_04);
+    func_01ff8d88(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
     func_ov000_021a3ee4(pUnit, 1);
 
-    data_ov000_021e3328->unk_10->unk_0a = 1;
+    gMapStateManager->unk_10->unk_0a = 1;
 
-    func_ov000_021bc994(data_ov000_021e3328->unk_14->unk_04, 0, 0, 0);
+    func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 0, 0, 0);
 
-    ptr = data_ov000_021e3328->unk_14->unk_04;
+    ptr = gMapStateManager->unk_14->unk_04;
     ptr->unk_14 = 1;
     ptr->unk_16 = 0;
 
-    data_ov000_021e3328->unk_14->unk_04->unk_15 = 1;
+    gMapStateManager->unk_14->unk_04->unk_15 = 1;
 
     func_ov000_021d3fa8();
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0x8f);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0x8f);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 6, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -938,27 +938,27 @@ EC void func_ov000_021ad388(void)
 
 EC void func_ov000_021ad3c0(ProcPtr proc)
 {
-    data_ov000_021e3328->unk_04->unk_04->ClearValues();
+    gMapStateManager->unk_04->unk_04->ClearValues();
 
     func_0205633c();
 
     TryStartVisitEvent(
-        proc, data_ov000_021e3328->unk_04->unk_00->xPos, data_ov000_021e3328->unk_04->unk_00->yPos,
+        proc, gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos,
         data_ov000_021e3344->unk_33);
 
     if (data_ov000_021e3344->unk_33 == 0xa)
     {
-        func_02054870(data_ov000_021e3328->unk_04->unk_00, proc);
+        func_02054870(gMapStateManager->unk_04->unk_00, proc);
         return;
     }
 
     if (data_ov000_021e3344->unk_33 == 0xb)
     {
-        func_02055224(data_ov000_021e3328->unk_04->unk_00, proc);
+        func_02055224(gMapStateManager->unk_04->unk_00, proc);
         return;
     }
 
-    func_02055ab0(data_ov000_021e3328->unk_04->unk_00, proc);
+    func_02055ab0(gMapStateManager->unk_04->unk_00, proc);
 
     return;
 }
@@ -973,7 +973,7 @@ EC void func_ov000_021ad49c(void)
     if ((data_ov000_021e332c.unk_14->unk_06 & 4) != 0)
     {
         func_ov000_021b0de8(
-            data_ov000_021e3328->unk_04->unk_00->xPos, data_ov000_021e3328->unk_04->unk_00->yPos,
+            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos,
             data_ov000_021e3344->unk_33, 0);
 
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x28, 0);
@@ -982,7 +982,7 @@ EC void func_ov000_021ad49c(void)
         return;
     }
 
-    func_ov000_021bc5a8(data_ov000_021e3328->unk_04->unk_04);
+    func_ov000_021bc5a8(gMapStateManager->unk_04->unk_04);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0xb, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -993,7 +993,7 @@ EC void func_ov000_021ad49c(void)
 
 EC void func_ov000_021ad580(ProcPtr proc)
 {
-    data_ov000_021e3328->unk_04->unk_04->ClearValues();
+    gMapStateManager->unk_04->unk_04->ClearValues();
     func_ov000_021d95ec(proc);
     return;
 }
@@ -1003,14 +1003,14 @@ EC void func_ov000_021ad5bc(void)
     if ((data_ov000_021e332c.unk_14->unk_06 & 8) != 0)
     {
         func_ov000_021b0de8(
-            data_ov000_021e3328->unk_04->unk_00->xPos, data_ov000_021e3328->unk_04->unk_00->yPos, 0xd, 0);
+            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xd, 0);
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x28, 0);
         data_ov000_021e332c.unk_14->unk_02 = 0;
         data_ov000_021e332c.unk_14->unk_03 = 0;
         return;
     }
 
-    func_ov000_021bc5a8(data_ov000_021e3328->unk_04->unk_04);
+    func_ov000_021bc5a8(gMapStateManager->unk_04->unk_04);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0xb, 0);
 
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1020,7 +1020,7 @@ EC void func_ov000_021ad5bc(void)
 
 EC void func_ov000_021ad674(ProcPtr proc)
 {
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
     func_ov000_021b06d4(proc);
     return;
 }
@@ -1142,7 +1142,7 @@ EC void func_ov000_021ad8c4(struct PlayerPhaseProc * proc)
 
 EC void func_ov000_021ad97c(ProcPtr proc)
 {
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
     data_ov000_021e332c.unk_14->unk_03 = 0;
@@ -1154,7 +1154,7 @@ EC void func_ov000_021ad97c(ProcPtr proc)
 
 EC void func_ov000_021ad9d4(ProcPtr proc)
 {
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
     func_ov000_021d604c(0x1b, proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x1a, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1209,12 +1209,12 @@ EC void func_ov000_021adb48(void)
 {
     if (func_ov000_021adabc(0, 0) == 0)
     {
-        data_ov000_021e3328->unk_10->unk_0a = 1;
+        gMapStateManager->unk_10->unk_0a = 1;
         Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 1);
         data_ov000_021e332c.unk_14->unk_02 = 0;
         data_ov000_021e332c.unk_14->unk_03 = 0;
 
-        func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
+        func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
         func_ov000_021d6e30(0);
 
         return;
@@ -1229,7 +1229,7 @@ EC void func_ov000_021adb48(void)
 
 EC void func_ov000_021adbf0(void)
 {
-    data_ov000_021e3328->unk_10->unk_0a = 1;
+    gMapStateManager->unk_10->unk_0a = 1;
 
     if (data_02196f0c->state & 0x40)
     {
@@ -1245,7 +1245,7 @@ EC void func_ov000_021adbf0(void)
         func_ov000_021d6e30(0);
     }
 
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
 
     return;
 }
@@ -1262,7 +1262,7 @@ EC void func_ov000_021adc98(u32 arg_0)
     func_0204eb24();
     func_02062a54(arg_0);
 
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
 
     return;
 }
@@ -1272,7 +1272,7 @@ EC void func_ov000_021add1c(void)
     int unitId;
     struct Unit * pUnit;
 
-    unitId = data_ov000_021e3328->unk_028[data_ov000_021e3328->unk_10->unk_08 | data_ov000_021e3328->unk_10->unk_09 << 5];
+    unitId = gMapStateManager->unk_028[gMapStateManager->unk_10->unk_08 | gMapStateManager->unk_10->unk_09 << 5];
 
     if (unitId != 0)
     {
@@ -1288,7 +1288,7 @@ EC void func_ov000_021add1c(void)
         data_021974fc->unk_00 = pUnit;
     }
 
-    func_0204b194(data_ov000_021e3328->unk_10->unk_08, data_ov000_021e3328->unk_10->unk_09);
+    func_0204b194(gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09);
     func_0204ae9c(0, (pUnit != NULL) & 0xFF);
     func_0204eb24();
     return;
@@ -1314,7 +1314,7 @@ EC void func_ov000_021addec(void)
 EC void func_ov000_021ade2c(void)
 {
     func_02067510();
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0xf);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
     return;
 }
 
@@ -1328,7 +1328,7 @@ EC void func_ov000_021ade50(void)
 
 EC void func_ov000_021ade88(ProcPtr proc)
 {
-    struct Unit * pUnit = data_ov000_021e3328->unk_04->unk_00;
+    struct Unit * pUnit = gMapStateManager->unk_04->unk_00;
 
     data_021974fc->unk_00 = pUnit;
     data_021974fc->unk_08 = 0;
@@ -1342,7 +1342,7 @@ EC void func_ov000_021ade88(ProcPtr proc)
 
 EC void func_ov000_021adeec(void)
 {
-    func_0204b194(data_ov000_021e3328->unk_10->unk_08, data_ov000_021e3328->unk_10->unk_09);
+    func_0204b194(gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09);
     func_0204ae9c(0, 0);
     func_0204eb24();
     return;
@@ -1407,11 +1407,11 @@ EC void func_ov000_021ae0a8(ProcPtr proc)
 {
     s32 phase;
 
-    func_ov000_021a5774(data_ov000_021e3328->unk_0c, 0);
+    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
 
     phase = data_ov000_021e3324->phase;
 
-    data_ov000_021e3328->unk_10->SetUnk00And02(phase, data_ov000_021e3328->unk_10->unk_08, data_ov000_021e3328->unk_10->unk_09);
+    gMapStateManager->unk_10->SetUnk00And02(phase, gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09);
 
     Proc_End(proc);
 
@@ -1458,24 +1458,24 @@ EC void func_ov000_021ae1d0(void)
 
 EC void func_ov000_021ae1fc(void)
 {
-    func_ov000_021b9960(data_ov000_021e3328->unk_14);
-    func_ov000_021a6bd0(data_ov000_021e3328->unk_10);
+    func_ov000_021b9960(gMapStateManager->unk_14);
+    func_ov000_021a6bd0(gMapStateManager->unk_10);
     return;
 }
 
 EC void func_ov000_021ae228(void)
 {
-    func_ov000_021b9960(data_ov000_021e3328->unk_14);
+    func_ov000_021b9960(gMapStateManager->unk_14);
     func_ov000_021aa1d0();
-    func_ov000_021bc9e4(data_ov000_021e3328->unk_14->unk_04);
-    func_ov000_021a6bd0(data_ov000_021e3328->unk_10);
+    func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+    func_ov000_021a6bd0(gMapStateManager->unk_10);
     return;
 }
 
 EC void func_ov000_021ae26c(void)
 {
-    func_ov000_021b95e8(data_ov000_021e3328->unk_14);
-    func_ov000_021b9978(data_ov000_021e3328->unk_14);
+    func_ov000_021b95e8(gMapStateManager->unk_14);
+    func_ov000_021b9978(gMapStateManager->unk_14);
     return;
 }
 

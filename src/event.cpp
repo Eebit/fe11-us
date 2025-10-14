@@ -85,16 +85,16 @@ void Event::func_0204745c(void)
 {
     Proc_EndEachMarked(PROC_MARK_A);
 
-    if (data_ov000_021e3328 != NULL)
+    if (gMapStateManager != NULL)
     {
-        func_ov000_021a516c((s32)data_ov000_021e3328->unk_00);
+        gMapStateManager->camera->func_ov000_021a516c();
     }
 
     func_ov000_021db624();
 
-    if (data_ov000_021e3328 != NULL)
+    if (gMapStateManager != NULL)
     {
-        func_ov000_021bb318(data_ov000_021e3328->unk_14->unk_00);
+        func_ov000_021bb318(gMapStateManager->unk_14->unk_00);
     }
 
     return;
@@ -559,12 +559,12 @@ BOOL EventCaller::CheckAreaEventTrigger(struct EventInfo * arg_0, struct EventFu
 
     if (unk_18 <= 0)
     {
-        unk_18 = (data_ov000_021e3328->unk_20 - 1) - unk_18;
+        unk_18 = (gMapStateManager->unk_20 - 1) - unk_18;
     }
 
     if (unk_1a <= 0)
     {
-        unk_1a = (data_ov000_021e3328->unk_22 - 1) - unk_1a;
+        unk_1a = (gMapStateManager->unk_22 - 1) - unk_1a;
     }
 
     if (unk_14 > (s32)arg_1->unk_00)
