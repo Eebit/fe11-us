@@ -136,12 +136,7 @@ inline struct Unit * func_0203c378(struct Unit * unit)
 {
     BOOL m = (unit->unk_a0 && func_0203b714(unit, 0x48000));
 
-    if (m)
-    {
-        return func_0203c378(unit->unk_a0);
-    }
-
-    return unit;
+    return m ? func_0203c378(unit->unk_a0) : unit;
 }
 
 EXTERN_C_END
