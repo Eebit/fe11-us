@@ -123,7 +123,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 }
 
                 cap = unit->pJobData->caps[i];
-                if (func_0203c6c0(unit, i, NULL, 1) >= cap)
+                if (GetUnitStat(unit, i, NULL, 1) >= cap)
                 {
                     continue;
                 }
@@ -198,7 +198,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 }
 
                 cap = unit->pJobData->caps[i];
-                if (func_0203c6c0(unit, i, NULL, 1) >= cap)
+                if (GetUnitStat(unit, i, NULL, 1) >= cap)
                 {
                     continue;
                 }
@@ -349,10 +349,10 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
 
                     cap = unit->pJobData->caps[i];
 
-                    if (func_0203c6c0(unit, i, NULL, 1) < cap)
+                    if (GetUnitStat(unit, i, NULL, 1) < cap)
                     {
                         cap = unit->pJobData->caps[i];
-                        r2 = cap - func_0203c6c0(unit, i, NULL, 1);
+                        r2 = cap - GetUnitStat(unit, i, NULL, 1);
 
                         if (r2 > item->unk_1c[i])
                         {
@@ -555,7 +555,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
                 cap = pUnit->pJobData->caps[i];
 
-                if (func_0203c6c0(pUnit, i, NULL, 1) >= cap)
+                if (GetUnitStat(pUnit, i, NULL, 1) >= cap)
                 {
                     continue;
                 }

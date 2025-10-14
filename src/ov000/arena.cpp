@@ -568,7 +568,7 @@ EC void func_ov000_021d7e1c(struct ArenaProc * proc)
 
     level = level + RollRN(-4, 4);
 
-    iVar7 = func_02037fd8(pJobData);
+    iVar7 = GetJobMaxLevel(pJobData);
 
     // TODO: Clamp macro
     level = (level > iVar7) ? iVar7 : (level >= 1) ? level : 1;
@@ -778,13 +778,13 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         {
             playerMight = data_02197254->pItem[*sp_04].might;
             playerAttack = GetUnitMag(proc->unk_38, NULL, TRUE);
-            opponentDefense = func_0203c660(proc->unk_3c, NULL, TRUE);
+            opponentDefense = GetUnitRes(proc->unk_3c, NULL, TRUE);
         }
         else
         {
             playerMight = data_02197254->pItem[*sp_04].might;
-            playerAttack = func_0203c480(proc->unk_38, NULL, TRUE);
-            opponentDefense = func_0203c610(proc->unk_3c, NULL, TRUE);
+            playerAttack = GetUnitStr(proc->unk_38, NULL, TRUE);
+            opponentDefense = GetUnitDef(proc->unk_3c, NULL, TRUE);
         }
 
         playerMight = ((playerMight + playerAttack) - opponentDefense);
@@ -793,13 +793,13 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         {
             opponentMight = data_02197254->pItem[*r5].might;
             opponentAttack = GetUnitMag(proc->unk_3c, NULL, TRUE);
-            playerDefense = func_0203c660(proc->unk_38, NULL, TRUE);
+            playerDefense = GetUnitRes(proc->unk_38, NULL, TRUE);
         }
         else
         {
             opponentMight = data_02197254->pItem[*r5].might;
-            opponentAttack = func_0203c480(proc->unk_3c, NULL, TRUE);
-            playerDefense = func_0203c610(proc->unk_38, NULL, TRUE);
+            opponentAttack = GetUnitStr(proc->unk_3c, NULL, TRUE);
+            playerDefense = GetUnitDef(proc->unk_38, NULL, TRUE);
         }
 
         opponentMight = ((opponentMight + opponentAttack) - playerDefense);
@@ -808,7 +808,7 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         {
             if (r6 != 0)
             {
-                if (func_0203c660(proc->unk_3c, 0, TRUE) > 0)
+                if (GetUnitRes(proc->unk_3c, 0, TRUE) > 0)
                 {
                     proc->unk_3c->unk_50[7]--;
                     proc->unk_6e--;
@@ -816,7 +816,7 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
             }
             else
             {
-                if (func_0203c610(proc->unk_3c, 0, TRUE) > 0)
+                if (GetUnitDef(proc->unk_3c, 0, TRUE) > 0)
                 {
                     proc->unk_3c->unk_50[6]--;
                     proc->unk_6e--;

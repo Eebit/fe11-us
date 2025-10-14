@@ -6,39 +6,6 @@
 
 #include "unit.h"
 
-EC s32 GetUnitMaxHp(struct Unit * unit);
-EC void func_0203bf68(struct Unit * unit, u32 arg_1, u32 arg_2, u32 arg_3);
-EC struct JobData * GetJInfoFromItem(struct ItemData *, struct Unit *);
-EC void func_0203e040(struct Item *, struct Item *);
-EC BOOL func_0203cb6c(struct Unit *, s32, s32);
-EC struct ItemData * GetItemData(struct Item *);
-EC void func_0203df18(struct Unit * unit);
-//EC u32 CheckUnitAttribute(struct Unit * unit, u32 arg_1);
-
-EC void func_02040c14(struct Unit_unk_4c *, struct Unit *);
-//EC void * func_02040c98(s32);
-EC void func_02040bd0(void *, struct Unit *);
-EC void func_02040bf4(void *, struct Unit *);
-EC void func_020423e4(s32);
-EC void func_02037eb8(struct PersonData *);
-//EC void func_0203e008(struct Item *, s32);
-EC s32 func_02037ffc(struct ItemData *);
-EC BOOL func_02038e80(struct ItemData *, struct Unit *);
-EC BOOL func_02038edc(struct ItemData *, struct Unit *);
-EC BOOL func_02038f38(struct ItemData *, struct Unit *);
-EC BOOL func_02038348(struct ItemData *);
-EC s32 func_0203d2e4(struct Unit *, struct ItemData *);
-EC s32 func_0203d45c(struct Unit *, struct ItemData *);\
-EC s32 func_02037fd8(struct JobData *);
-
-EC s32 IntSys_Div(s32, s32);
-EC s32 func_0203dbc0(void);
-
-inline struct Unit * func_0203c378(struct Unit * unit);
-
-EC void func_0203e02c(struct Item *);
-EC void func_0203df78(u16 *);
-
 EC void func_0203a94c(struct Unit * unit)
 {
     s32 i;
@@ -271,7 +238,7 @@ EC struct Unit * func_0203bdd0(struct Unit * unit, u8 arg_1)
             continue;
         }
 
-        it = (struct Unit **)func_02040c98(i);
+        it = func_02040c98(i);
 
         if (*it != NULL)
         {
@@ -284,15 +251,12 @@ EC struct Unit * func_0203bdd0(struct Unit * unit, u8 arg_1)
 
 EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
 {
-    u8 bVar1;
     struct Unit ** ppUVar2;
     s32 i;
     s32 hp;
     struct Unit * pUVar5;
-    struct Item * pUVar6;
-    struct Item * pUVar7;
 
-    ppUVar2 = (struct Unit **)func_02040c98(4);
+    ppUVar2 = func_02040c98(4);
     pUVar5 = *ppUVar2;
 
     func_0203bd34(pUVar5, 5, 1);
@@ -407,7 +371,7 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
 {
     s32 i;
 
-    struct Unit ** ppUVar3 = (struct Unit **)func_02040c98(4);
+    struct Unit ** ppUVar3 = func_02040c98(4);
     struct Unit * pUVar7 = *ppUVar3;
 
     func_0203bd34(pUVar7, 5, 1);
@@ -539,7 +503,7 @@ EC s32 GetUnitMaxHp(struct Unit * unit)
     return hp;
 }
 
-EC s32 func_0203c480(struct Unit * unit, struct ItemData * item, BOOL unused)
+EC s32 GetUnitStr(struct Unit * unit, struct ItemData * item, BOOL unused)
 {
     struct JobData * job;
     s32 str;
@@ -599,7 +563,7 @@ EC s32 GetUnitMag(struct Unit * unit, struct ItemData * item, BOOL unused)
     return mag;
 }
 
-EC s32 func_0203c520(struct Unit * unit, struct ItemData * item, BOOL unused)
+EC s32 GetUnitSkl(struct Unit * unit, struct ItemData * item, BOOL unused)
 {
     struct JobData * job;
     s32 skl;
@@ -629,7 +593,7 @@ EC s32 func_0203c520(struct Unit * unit, struct ItemData * item, BOOL unused)
     return skl;
 }
 
-EC s32 func_0203c570(struct Unit * unit, struct ItemData * item, BOOL unused)
+EC s32 GetUnitSpd(struct Unit * unit, struct ItemData * item, BOOL unused)
 {
     struct JobData * job;
     s32 spd;
@@ -659,7 +623,7 @@ EC s32 func_0203c570(struct Unit * unit, struct ItemData * item, BOOL unused)
     return spd;
 }
 
-EC s32 func_0203c5c0(struct Unit * unit, struct ItemData * item, BOOL unused)
+EC s32 GetUnitLuk(struct Unit * unit, struct ItemData * item, BOOL unused)
 {
     struct JobData * job;
     s32 luk;
@@ -689,7 +653,7 @@ EC s32 func_0203c5c0(struct Unit * unit, struct ItemData * item, BOOL unused)
     return luk;
 }
 
-EC s32 func_0203c610(struct Unit * unit, struct ItemData * item, BOOL unused)
+EC s32 GetUnitDef(struct Unit * unit, struct ItemData * item, BOOL unused)
 {
     struct JobData * job;
     s32 def;
@@ -719,7 +683,7 @@ EC s32 func_0203c610(struct Unit * unit, struct ItemData * item, BOOL unused)
     return def;
 }
 
-EC s32 func_0203c660(struct Unit * unit, struct ItemData * item, BOOL arg_2)
+EC s32 GetUnitRes(struct Unit * unit, struct ItemData * item, BOOL arg_2)
 {
     struct JobData * job;
     s32 res;
@@ -754,7 +718,7 @@ EC s32 func_0203c660(struct Unit * unit, struct ItemData * item, BOOL arg_2)
     return res;
 }
 
-EC s32 func_0203c6c0(struct Unit * unit, u32 arg_1, struct ItemData * item, s32 arg_3)
+EC s32 GetUnitStat(struct Unit * unit, u32 arg_1, struct ItemData * item, s32 arg_3)
 {
     struct JobData * job;
     s32 stat;
@@ -1359,7 +1323,7 @@ EC BOOL func_0203d1f4(struct Unit * unit)
     return func_0203d10c(unit) != -1;
 }
 
-EC s32 func_0203d22c(struct Unit * unit, struct ItemData * item, BOOL arg_2)
+EC s32 ComputeMight(struct Unit * unit, struct ItemData * item, BOOL arg_2)
 {
     s32 might;
 
@@ -1372,7 +1336,7 @@ EC s32 func_0203d22c(struct Unit * unit, struct ItemData * item, BOOL arg_2)
 
     if (!func_02038348(item))
     {
-        s32 str = func_0203c480(unit, item, TRUE);
+        s32 str = GetUnitStr(unit, item, TRUE);
         might += str;
     }
     else
@@ -1392,7 +1356,6 @@ EC s32 func_0203d22c(struct Unit * unit, struct ItemData * item, BOOL arg_2)
 
 EC s32 func_0203d294(struct Unit * unit, s32 slot, BOOL arg_2)
 {
-
     if (slot == -1)
     {
         slot = GetUnitEquippedWeaponSlot(unit);
@@ -1400,7 +1363,7 @@ EC s32 func_0203d294(struct Unit * unit, s32 slot, BOOL arg_2)
 
     if (slot != -1)
     {
-        return func_0203d22c(unit, GetItemData(unit->items + slot), arg_2);
+        return ComputeMight(unit, GetItemData(unit->items + slot), arg_2);
     }
 
     return 0;
@@ -1408,7 +1371,7 @@ EC s32 func_0203d294(struct Unit * unit, s32 slot, BOOL arg_2)
 
 // #func_0203d2e4
 
-EC s32 func_0203d374(struct Unit * unit, struct ItemData * item, BOOL arg_2)
+EC s32 ComputeHitRate(struct Unit * unit, struct ItemData * item, BOOL arg_2)
 {
     s32 hit;
 
@@ -1418,8 +1381,8 @@ EC s32 func_0203d374(struct Unit * unit, struct ItemData * item, BOOL arg_2)
     }
 
     hit = item->hit;
-    hit += func_0203c520(unit, item, TRUE);
-    hit += (func_0203c5c0(unit, item, TRUE) >> 1);
+    hit += GetUnitSkl(unit, item, TRUE);
+    hit += (GetUnitLuk(unit, item, TRUE) >> 1);
 
     if (arg_2 != 0)
     {
@@ -1451,7 +1414,7 @@ EC s32 func_0203d40c(struct Unit * unit, s32 slot, BOOL arg_2)
 
     if (slot != -1)
     {
-        return func_0203d374(unit, GetItemData(unit->items + slot), arg_2);
+        return ComputeHitRate(unit, GetItemData(unit->items + slot), arg_2);
     }
 
     return 0;
@@ -1459,7 +1422,7 @@ EC s32 func_0203d40c(struct Unit * unit, s32 slot, BOOL arg_2)
 
 // #func_0203d45c
 
-EC s32 func_0203d4ec(struct Unit * unit, struct ItemData * item)
+EC s32 ComputeCritRate(struct Unit * unit, struct ItemData * item)
 {
     s32 critical;
 
@@ -1469,7 +1432,7 @@ EC s32 func_0203d4ec(struct Unit * unit, struct ItemData * item)
     }
 
     critical = item->critical;
-    critical += func_0203c520(unit, item, 1) >> 1;
+    critical += GetUnitSkl(unit, item, 1) >> 1;
 
     if (CheckUnitAttribute(unit, 0xc0000) != 0)
     {
@@ -1496,13 +1459,13 @@ EC s32 func_0203d554(struct Unit * unit, s32 slot)
 
     if (slot != -1)
     {
-        return func_0203d4ec(unit, GetItemData(unit->items + slot));
+        return ComputeCritRate(unit, GetItemData(unit->items + slot));
     }
 
     return 0;
 }
 
-EC s32 func_0203d59c(struct Unit * unit, struct ItemData * item)
+EC s32 ComputeAttackSpeed(struct Unit * unit, struct ItemData * item)
 {
     s32 attackSpeed;
     s32 weight;
@@ -1516,7 +1479,7 @@ EC s32 func_0203d59c(struct Unit * unit, struct ItemData * item)
         weight = item->weight;
     }
 
-    attackSpeed = func_0203c480(unit, item, TRUE);
+    attackSpeed = GetUnitStr(unit, item, TRUE);
     attackSpeed -= weight;
 
     if (attackSpeed > 0)
@@ -1524,7 +1487,7 @@ EC s32 func_0203d59c(struct Unit * unit, struct ItemData * item)
         attackSpeed = 0;
     }
 
-    attackSpeed += func_0203c570(unit, item, TRUE);
+    attackSpeed += GetUnitSpd(unit, item, TRUE);
 
     if (attackSpeed < 0)
     {
@@ -1534,10 +1497,10 @@ EC s32 func_0203d59c(struct Unit * unit, struct ItemData * item)
     return attackSpeed;
 }
 
-EC s32 func_0203d5ec(struct Unit * unit, struct ItemData * item)
+EC s32 ComputeAvoid(struct Unit * unit, struct ItemData * item)
 {
-    s32 attackSpeed = func_0203d59c(unit, item);
-    return attackSpeed + (func_0203c5c0(unit, item, TRUE) >> 1);
+    s32 attackSpeed = ComputeAttackSpeed(unit, item);
+    return attackSpeed + (GetUnitLuk(unit, item, TRUE) >> 1);
 }
 
 EC s32 func_0203d618(struct Unit * unit, s32 arg_1)
@@ -1558,12 +1521,12 @@ EC s32 func_0203d618(struct Unit * unit, s32 arg_1)
         item = GetItemData(unit->items + arg_1);
     }
 
-    return func_0203d5ec(unit, item);
+    return ComputeAvoid(unit, item);
 }
 
 EC s32 func_0203d660(struct Unit * unit, struct ItemData * item)
 {
-    return func_0203c5c0(unit, item, TRUE);
+    return GetUnitLuk(unit, item, TRUE);
 }
 
 EC s32 func_0203d670(struct Unit * unit, s32 exp)
@@ -1575,14 +1538,14 @@ EC s32 func_0203d670(struct Unit * unit, s32 exp)
         exp = 100;
     }
 
-    if (level >= func_02037fd8(unit->pJobData))
+    if (level >= GetJobMaxLevel(unit->pJobData))
     {
         exp = 0;
     }
     else if (exp + unit->exp >= 100)
     {
         level = unit->level;
-        if (level + 1 >= func_02037fd8(unit->pJobData))
+        if (level + 1 >= GetJobMaxLevel(unit->pJobData))
         {
             exp = (exp < 100 - unit->exp) ? exp : 100 - unit->exp;
         }
@@ -1618,7 +1581,7 @@ EC void func_0203d6dc(struct Unit * unit)
         {
             bVar1 = unit->pJobData->caps[i];
             iVar4 -= 100;
-            iVar2 = func_0203c6c0(unit, i, NULL, 0);
+            iVar2 = GetUnitStat(unit, i, NULL, 0);
             if (iVar2 < bVar1)
             {
                 iVar3 = iVar6 + 1;
@@ -1627,14 +1590,14 @@ EC void func_0203d6dc(struct Unit * unit)
 
         unit->unk_50[i] = iVar3;
 
-        if ((func_0203dbc0() < iVar4) && func_0203c6c0(unit, i, NULL, 0) < unit->pJobData->caps[i])
+        if ((func_0203dbc0() < iVar4) && GetUnitStat(unit, i, NULL, 0) < unit->pJobData->caps[i])
         {
             iVar3 += 1;
         }
 
         unit->unk_50[i] = iVar3;
 
-        if ((iVar6 < iVar3) || (func_0203c6c0(unit, i, NULL, 0) < unit->pJobData->caps[i]))
+        if ((iVar6 < iVar3) || (GetUnitStat(unit, i, NULL, 0) < unit->pJobData->caps[i]))
         {
             iVar3 = unit->pPersonData->unk_14[i] + unit->pJobData->unk_10[i];
 
@@ -1702,7 +1665,7 @@ EC void func_0203de10(struct Unit * unit)
         {
             iVar4 -= 100;
 
-            if (func_0203c6c0(unit, i, NULL, 0) < unit->pJobData->caps[i])
+            if (GetUnitStat(unit, i, NULL, 0) < unit->pJobData->caps[i])
             {
                 iVar3 -= 1;
             }
@@ -1710,7 +1673,7 @@ EC void func_0203de10(struct Unit * unit)
 
         unit->unk_50[i] = iVar3;
 
-        if ((func_0203dbc0() < iVar4) && func_0203c6c0(unit, i, NULL, 0) < unit->pJobData->caps[i])
+        if ((func_0203dbc0() < iVar4) && GetUnitStat(unit, i, NULL, 0) < unit->pJobData->caps[i])
         {
             iVar3 -= 1;
         }
