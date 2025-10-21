@@ -6,6 +6,7 @@
 #include "unknown_data.h"
 #include "unknown_types.hpp"
 
+#include "hardware.hpp"
 #include "map.hpp"
 #include "sound_manager.hpp"
 
@@ -1110,11 +1111,9 @@ BOOL Skip::vfunc_04()
     return FALSE;
 }
 
-extern Unknown_027e1268 * data_027e0004;
-
 void Skip::func_02049024(ProcPtr proc)
 {
-    Unknown_027e1268 * temp_r9;
+    AbstCtrl_04 * temp_r9;
     s32 var_r9;
 
     if ((this->unk_06 == 0) && (this->vfunc_00() != 0))

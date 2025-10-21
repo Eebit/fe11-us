@@ -10,7 +10,6 @@
 
 EXTERN_C
 
-extern struct Unknown_027e1268 * data_027e1268;
 extern u8 data_027e1b9c[];
 
 

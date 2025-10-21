@@ -6,38 +6,6 @@
 
 EXTERN_C
 
-struct Unknown_027e1268_unk_00 {
-    STRUCT_PAD(0x00, 0x12);
-    u16 unk_12_0 : 1;
-    u16 unk_12_1 : 1;
-    u16 unk_12_2 : 1;
-    u16 unk_12_3 : 1;
-    u16 unk_12_4 : 1;
-    u16 unk_12_5 : 1;
-    u16 unk_12_67 : 2;
-
-    u16 unk_12_8 : 1;
-    u16 unk_12_9 : 1;
-    u16 unk_12_A : 1;
-    u16 unk_12_B : 1;
-    u16 unk_12_C : 1;
-    u16 unk_12_D : 1;
-    STRUCT_PAD(0x14, 0x51);
-    u8 unk_51;
-    u8 unk_52;
-};
-
-struct Unknown_027e1268
-{
-    struct Unknown_027e1268_unk_00 * volatile unk_00;
-    STRUCT_PAD(0x04, 0x0C);
-    u32 unk_0c[1];
-    STRUCT_PAD(0x10, 0x20);
-    u32 unk_20[1];
-    STRUCT_PAD(0x24, 0x3E);
-    u8 unk_3e;
-};
-
 struct UnkStruct_Func_2000C7C {
     STRUCT_PAD(0x0000, 0x0854);
 

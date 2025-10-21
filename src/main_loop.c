@@ -1,7 +1,8 @@
 #include "global.h"
 
 #include "proc.h"
-#include "unknown_data.h"
+
+extern void * data_027e1268;
 
 extern void * data_027e0000;
 extern void * data_027e0004;

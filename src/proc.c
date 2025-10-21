@@ -4,6 +4,9 @@
 #include "unknown_data.h"
 #include "proc.h"
 
+// TODO: Fix declaration; included via "hardware.hpp"
+extern void * data_027e1268;
+
 // .bss
 
 extern struct Proc gProcArray[0x80];

@@ -9,6 +9,9 @@
 extern void * func_020a4a38(void);
 extern void func_020a4a4c(void *);
 
+// TODO: Fix declaration; included via "hardware.hpp"
+extern void * data_027e1268;
+
 extern u8 data_027e1258;
 extern u8 data_027e125c;
 
