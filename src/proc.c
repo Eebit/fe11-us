@@ -923,11 +923,11 @@ BOOL func_02019968(ProcPtr proc)
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        func_0201d9a0(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeIn_0201d9a0(proc, p->proc_scrCur->dataImm, flag);
     }
     else
     {
-        func_0201da48(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeIn_0201da48(proc, p->proc_scrCur->dataImm, flag);
     }
 
     p->proc_scrCur++;
@@ -942,11 +942,11 @@ BOOL func_020199b8(ProcPtr proc)
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        func_0201d9f4(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeOut_0201d9f4(proc, p->proc_scrCur->dataImm, flag);
     }
     else
     {
-        func_0201da98(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeOut_0201da98(proc, p->proc_scrCur->dataImm, flag);
     }
 
     p->proc_scrCur++;
@@ -961,11 +961,11 @@ BOOL func_02019a08(ProcPtr proc)
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        func_0201d728(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeIn(proc, p->proc_scrCur->dataImm, flag);
     }
     else
     {
-        func_0201d7c8(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeIn(proc, p->proc_scrCur->dataImm, flag);
     }
 
     p->proc_scrCur++;
@@ -980,11 +980,11 @@ BOOL func_02019a58(ProcPtr proc)
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        func_0201d778(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeOut(proc, p->proc_scrCur->dataImm, flag);
     }
     else
     {
-        func_0201d814(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeOut(proc, p->proc_scrCur->dataImm, flag);
     }
 
     p->proc_scrCur++;
@@ -999,11 +999,11 @@ BOOL func_02019aa8(ProcPtr proc)
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        func_0201d860(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeIn_0201d860(proc, p->proc_scrCur->dataImm, flag);
     }
     else
     {
-        func_0201d900(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeIn_0201d900(proc, p->proc_scrCur->dataImm, flag);
     }
 
     p->proc_scrCur++;
@@ -1018,11 +1018,11 @@ BOOL func_02019af8(ProcPtr proc)
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        func_0201d8b0(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeOut_0201d8b0(proc, p->proc_scrCur->dataImm, flag);
     }
     else
     {
-        func_0201d950(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeOut_0201d950(proc, p->proc_scrCur->dataImm, flag);
     }
 
     p->proc_scrCur++;

@@ -1331,11 +1331,11 @@ EC void func_02022b70(ProcPtr proc)
 {
     if (_func_02022b50())
     {
-        func_0201d950((struct Proc *)proc, 0x10, 1);
+        StartBlockingFadeOut_0201d950((struct Proc *)proc, 0x10, 1);
     }
     else
     {
-        func_0201d814((struct Proc *)proc, 0x10, 1);
+        StartBlockingFadeOut((struct Proc *)proc, 0x10, 1);
     }
 
     return;

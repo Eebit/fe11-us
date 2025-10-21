@@ -5,20 +5,39 @@
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 
+EC s32 Interpolate(s32, s32, s32, s32, s32);
+
+enum
+{
+    FADE_KIND_0 = 0,
+    FADE_KIND_1 = 1,
+    FADE_KIND_2 = 2,
+    FADE_KIND_3 = 3,
+    FADE_KIND_4 = 4,
+};
+
+enum
+{
+    FADE_TARGET_CURRENT = 0,
+    FADE_TARGET_BOTH = 1,
+    FADE_TARGET_MAIN = 2,
+    FADE_TARGET_SUB = 3,
+};
+
 class ProcFade : public ProcEx
 {
 public:
-    /* 38 */ u32 unk_38;
-    /* 3C */ u16 unk_3c;
-    /* 3E */ u16 unk_3e;
-    /* 40 */ u32 unk_40;
+    /* 38 */ u32 kind;
+    /* 3C */ u16 timer;
+    /* 3E */ u16 duration;
+    /* 40 */ u32 target;
 
-    ProcFade(u32 param_1, u32 param_2, u32 param_3)
+    ProcFade(u32 kind, u32 duration, u32 target)
     {
-        this->unk_38 = param_1;
-        this->unk_3c = 0;
-        this->unk_3e = param_2;
-        this->unk_40 = param_3;
+        this->kind = kind;
+        this->timer = 0;
+        this->duration = duration;
+        this->target = target;
     }
 
     virtual ~ProcFade() {};
@@ -26,8 +45,6 @@ public:
 
 EC void func_0201bc80(s32);
 EC void func_0201bd44(s32);
-
-EC s32 Interpolate(s32, s32, s32, s32, s32);
 
 extern u8 data_02194b28[];
 extern u8 data_02194b2a[];
@@ -141,19 +158,19 @@ EC s32 func_0201bd6c(void)
     return data_02194b2a[idx];
 }
 
-EC BOOL func_0201bdac(ProcFade * param_1)
+EC BOOL func_0201bdac(ProcFade * proc)
 {
-    if (param_1->unk_40 == 0)
+    if (proc->target == FADE_TARGET_CURRENT)
     {
         if (func_0201bca4() == 0)
         {
-            Proc_End(param_1);
-            return 0;
+            Proc_End(proc);
+            return FALSE;
         }
 
         func_0201bc40(0);
 
-        param_1->unk_40 = 0;
+        proc->target = FADE_TARGET_CURRENT;
     }
     else
     {
@@ -161,43 +178,43 @@ EC BOOL func_0201bdac(ProcFade * param_1)
         {
             if (func_0201bcf4() == 0)
             {
-                Proc_End(param_1);
+                Proc_End(proc);
                 return 0;
             }
 
-            param_1->unk_40 = 3;
+            proc->target = FADE_TARGET_SUB;
         }
         else
         {
             if (func_0201bcf4() == 0)
             {
-                param_1->unk_40 = 2;
+                proc->target = FADE_TARGET_MAIN;
             }
             else
             {
-                param_1->unk_40 = 1;
+                proc->target = FADE_TARGET_BOTH;
             }
         }
 
         func_0201bc80(0);
     }
 
-    return 1;
+    return TRUE;
 }
 
-EC BOOL func_0201be4c(ProcFade * param_1)
+EC BOOL func_0201be4c(ProcFade * proc)
 {
-    if (param_1->unk_40 == 0)
+    if (proc->target == FADE_TARGET_CURRENT)
     {
         if (func_0201bca4() == 1)
         {
-            Proc_End(param_1);
-            return 0;
+            Proc_End(proc);
+            return FALSE;
         }
 
         func_0201bc40(1);
 
-        param_1->unk_40 = 0;
+        proc->target = FADE_TARGET_CURRENT;
     }
     else
     {
@@ -205,28 +222,28 @@ EC BOOL func_0201be4c(ProcFade * param_1)
         {
             if (func_0201bcf4() == 1)
             {
-                Proc_End(param_1);
-                return 0;
+                Proc_End(proc);
+                return FALSE;
             }
 
-            param_1->unk_40 = 3;
+            proc->target = FADE_TARGET_SUB;
         }
         else
         {
             if (func_0201bcf4() == 1)
             {
-                param_1->unk_40 = 2;
+                proc->target = FADE_TARGET_MAIN;
             }
             else
             {
-                param_1->unk_40 = 1;
+                proc->target = FADE_TARGET_BOTH;
             }
         }
 
         func_0201bc80(1);
     }
 
-    return 1;
+    return TRUE;
 }
 
 EC void func_0201beec(void)
@@ -382,61 +399,61 @@ EC void func_0201c5dc(s32 arg0, s32 arg1)
     return;
 }
 
-EC void func_0201c664(ProcFade * arg0)
+EC void func_0201c664(ProcFade * proc)
 {
     AbstCtrl_04 * temp_r4;
 
-    if (func_0201bdac(arg0) == 0)
+    if (func_0201bdac(proc) == 0)
     {
         return;
     }
 
-    if (arg0->unk_3e == 0)
+    if (proc->duration == 0)
     {
-        arg0->unk_3e = 1U;
+        proc->duration = 1;
     }
 
-    arg0->unk_3c = 0;
+    proc->timer = 0;
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 2:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_MAIN:
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     func_0201c204();
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     func_0201c234();
                     break;
 
-                case 2:
+                case FADE_KIND_2:
                     func_0201c28c();
                     break;
 
-                case 3:
+                case FADE_KIND_3:
                     func_0201c3f0();
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201c264();
                     break;
             }
 
-            if (arg0->unk_38 != 4)
+            if (proc->kind != FADE_KIND_4)
             {
                 func_0201bc40(0);
 
@@ -447,44 +464,44 @@ EC void func_0201c664(ProcFade * arg0)
             data_027e1268 = temp_r4;
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 3:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_SUB:
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0004;
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     func_0201c204();
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     func_0201c234();
                     break;
 
-                case 2:
+                case FADE_KIND_2:
                     func_0201c28c();
                     break;
 
-                case 3:
+                case FADE_KIND_3:
                     func_0201c3f0();
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201c264();
                     break;
             }
 
-            if (arg0->unk_38 != 4)
+            if (proc->kind != FADE_KIND_4)
             {
                 func_0201bc40(0);
 
@@ -498,92 +515,94 @@ EC void func_0201c664(ProcFade * arg0)
     return;
 }
 
-EC void func_0201c8a0(ProcFade * arg0)
+EC void func_0201c8a0(ProcFade * proc)
 {
     s32 var_r4;
     s32 var_r5;
     s32 var_r6;
     AbstCtrl_04 * temp_r7;
 
-    arg0->unk_3c++;
+    proc->timer++;
 
-    if (arg0->unk_38 != 4)
+    if (proc->kind != FADE_KIND_4)
     {
-        var_r4 = Interpolate(0, 0x10, 0, arg0->unk_3c, arg0->unk_3e);
+        var_r4 = Interpolate(0, 0x10, 0, proc->timer, proc->duration);
     }
     else
     {
-        var_r5 = Interpolate(0, 0, 0x100, arg0->unk_3c, arg0->unk_3e);
-        var_r6 = Interpolate(0, 0, 0xC0, arg0->unk_3c, arg0->unk_3e);
+        var_r5 = Interpolate(0, 0, 0x100, proc->timer, proc->duration);
+        var_r6 = Interpolate(0, 0, 0xC0, proc->timer, proc->duration);
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 2:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_MAIN:
             temp_r7 = data_027e1268;
             data_027e1268 = data_027e0000;
-            switch (arg0->unk_38)
+
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     data_027e0000->unk_00->unk_50 = (0 - var_r4);
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     data_027e0000->unk_00->unk_50 = var_r4;
                     break;
 
-                case 2:
-                case 3:
+                case FADE_KIND_2:
+                case FADE_KIND_3:
                     data_027e0000->unk_00->blend_y = var_r4;
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201c554(var_r5, var_r6);
                     break;
             }
+
             data_027e1268 = temp_r7;
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 3:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_SUB:
             temp_r7 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     data_027e0004->unk_00->unk_50 = (0 - var_r4);
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     data_027e0004->unk_00->unk_50 = var_r4;
                     break;
 
-                case 2:
-                case 3:
+                case FADE_KIND_2:
+                case FADE_KIND_3:
                     data_027e0004->unk_00->blend_y = var_r4;
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201c554(var_r5, var_r6);
                     break;
             }
@@ -591,47 +610,47 @@ EC void func_0201c8a0(ProcFade * arg0)
             data_027e1268 = temp_r7;
     }
 
-    if (arg0->unk_3c < arg0->unk_3e)
+    if (proc->timer < proc->duration)
     {
         return;
     }
 
-    switch (arg0->unk_38)
+    switch (proc->kind)
     {
-        case 2:
-        case 3:
-            switch (arg0->unk_40)
+        case FADE_KIND_2:
+        case FADE_KIND_3:
+            switch (proc->target)
             {
-                case 0:
+                case FADE_TARGET_CURRENT:
                     data_027e1268->unk_00->bldcnt.effect = 0;
                     break;
 
-                case 1:
+                case FADE_TARGET_BOTH:
                     data_027e0008->bldcnt.effect = 0;
                     data_027e000c->bldcnt.effect = 0;
                     break;
 
-                case 2:
+                case FADE_TARGET_MAIN:
                     data_027e0008->bldcnt.effect = 0;
                     break;
 
-                case 3:
+                case FADE_TARGET_SUB:
                     data_027e000c->bldcnt.effect = 0;
                     break;
             }
 
             break;
 
-        case 4:
-            switch (arg0->unk_40)
+        case FADE_KIND_4:
+            switch (proc->target)
             {
-                case 0:
+                case FADE_TARGET_CURRENT:
                     data_027e1268->unk_00->dispcnt.win0_on = 0;
                     data_027e1268->unk_00->dispcnt.win1_on = 0;
 
                     break;
 
-                case 1:
+                case FADE_TARGET_BOTH:
                     data_027e0008->dispcnt.win0_on = 0;
                     data_027e0008->dispcnt.win1_on = 0;
 
@@ -640,13 +659,13 @@ EC void func_0201c8a0(ProcFade * arg0)
 
                     break;
 
-                case 2:
+                case FADE_TARGET_MAIN:
                     data_027e0008->dispcnt.win0_on = 0;
                     data_027e0008->dispcnt.win1_on = 0;
 
                     break;
 
-                case 3:
+                case FADE_TARGET_SUB:
                     data_027e000c->dispcnt.win0_on = 0;
                     data_027e000c->dispcnt.win1_on = 0;
 
@@ -656,57 +675,57 @@ EC void func_0201c8a0(ProcFade * arg0)
             break;
     }
 
-    Proc_Break(arg0, 0);
+    Proc_Break(proc, 0);
 
     return;
 }
 
-EC void func_0201cc84(ProcFade * arg0)
+EC void func_0201cc84(ProcFade * proc)
 {
     AbstCtrl_04 * temp_r4;
 
-    if (func_0201be4c(arg0) == 0)
+    if (func_0201be4c(proc) == 0)
     {
         return;
     }
 
-    if (arg0->unk_3e == 0)
+    if (proc->duration == 0)
     {
-        arg0->unk_3e = 1;
+        proc->duration = 1;
     }
 
-    arg0->unk_3c = 0;
+    proc->timer = 0;
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 2:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_MAIN:
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     data_027e0000->unk_00->unk_50 = 0;
                     func_0201bd04(0);
 
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     data_027e0000->unk_00->unk_50 = 0;
                     func_0201bd04(1);
 
                     break;
 
-                case 2:
+                case FADE_KIND_2:
                     data_027e0000->unk_00->bldcnt.effect = 3;
                     data_027e1268->unk_00->blend_y = 0;
 
@@ -721,7 +740,7 @@ EC void func_0201cc84(ProcFade * arg0)
 
                     break;
 
-                case 3:
+                case FADE_KIND_3:
                     data_027e0000->unk_00->bldcnt.effect = 2;
                     data_027e1268->unk_00->blend_y = 0;
 
@@ -736,7 +755,7 @@ EC void func_0201cc84(ProcFade * arg0)
 
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201beec();
                     func_0201bd04(0);
                     data_027e1268->unk_00->unk_48 = 0;
@@ -755,36 +774,36 @@ EC void func_0201cc84(ProcFade * arg0)
             data_027e1268 = temp_r4;
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 3:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_SUB:
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     data_027e0004->unk_00->unk_50 = 0;
                     func_0201bd04(0);
 
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     data_027e0004->unk_00->unk_50 = 0;
                     func_0201bd04(1);
 
                     break;
 
-                case 2:
+                case FADE_KIND_2:
                     data_027e0004->unk_00->bldcnt.effect = 3;
                     data_027e1268->unk_00->blend_y = 0;
 
@@ -798,7 +817,7 @@ EC void func_0201cc84(ProcFade * arg0)
                     func_0201bd04(0);
                     break;
 
-                case 3:
+                case FADE_KIND_3:
                     data_027e0004->unk_00->bldcnt.effect = 2;
                     data_027e1268->unk_00->blend_y = 0;
 
@@ -813,7 +832,7 @@ EC void func_0201cc84(ProcFade * arg0)
 
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201beec();
                     func_0201bd04(0);
 
@@ -829,60 +848,61 @@ EC void func_0201cc84(ProcFade * arg0)
 
                     break;
             }
+
             data_027e1268 = temp_r4;
     }
 }
 
-EC void func_0201d370(ProcFade * arg0)
+EC void func_0201d370(ProcFade * proc)
 {
     s32 var_r5;
     s32 var_r6;
     s32 var_r7;
     AbstCtrl_04 * temp_r8;
 
-    arg0->unk_3c++;
+    proc->timer++;
 
-    if (arg0->unk_38 != 4)
+    if (proc->kind != 4)
     {
-        var_r5 = Interpolate(0, 0, 0x10, arg0->unk_3c, arg0->unk_3e);
+        var_r5 = Interpolate(0, 0, 0x10, proc->timer, proc->duration);
     }
     else
     {
-        var_r6 = Interpolate(0, 0, 0x100, arg0->unk_3c, arg0->unk_3e);
-        var_r7 = Interpolate(0, 0, 0xC0, arg0->unk_3c, arg0->unk_3e);
+        var_r6 = Interpolate(0, 0, 0x100, proc->timer, proc->duration);
+        var_r7 = Interpolate(0, 0, 0xC0, proc->timer, proc->duration);
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 2:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_MAIN:
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     data_027e0000->unk_00->unk_50 = 0 - var_r5;
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     data_027e0000->unk_00->unk_50 = var_r5;
                     break;
 
-                case 2:
-                case 3:
+                case FADE_KIND_2:
+                case FADE_KIND_3:
                     data_027e0000->unk_00->blend_y = var_r5;
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201c5dc(var_r6, var_r7);
                     break;
             }
@@ -890,148 +910,149 @@ EC void func_0201d370(ProcFade * arg0)
             data_027e1268 = temp_r8;
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 3:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_SUB:
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
+                case FADE_KIND_0:
                     data_027e0004->unk_00->unk_50 = 0 - var_r5;
                     break;
 
-                case 1:
+                case FADE_KIND_1:
                     data_027e0004->unk_00->unk_50 = var_r5;
                     break;
 
-                case 2:
-                case 3:
+                case FADE_KIND_2:
+                case FADE_KIND_3:
                     data_027e0004->unk_00->blend_y = var_r5;
                     break;
 
-                case 4:
+                case FADE_KIND_4:
                     func_0201c5dc(var_r6, var_r7);
                     break;
             }
+
             data_027e1268 = temp_r8;
     }
 
-    if (arg0->unk_3c < arg0->unk_3e)
+    if (proc->timer < proc->duration)
     {
         return;
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 2:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_MAIN:
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
-                case 2:
+                case FADE_KIND_0:
+                case FADE_KIND_2:
                     func_0201c204();
                     break;
 
-                case 1:
-                case 3:
+                case FADE_KIND_1:
+                case FADE_KIND_3:
                     func_0201c234();
                     break;
             }
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 2:
-                case 3:
+                case FADE_KIND_2:
+                case FADE_KIND_3:
                     data_027e1268->unk_00->bldcnt.effect = 0;
             }
 
             data_027e1268 = temp_r8;
     }
 
-    switch (arg0->unk_40)
+    switch (proc->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || arg0->unk_40 != 0)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
 
             // fallthrough
 
-        case 1:
-        case 3:
+        case FADE_TARGET_BOTH:
+        case FADE_TARGET_SUB:
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 0:
-                case 2:
+                case FADE_KIND_0:
+                case FADE_KIND_2:
                     func_0201c204();
                     break;
 
-                case 1:
-                case 3:
+                case FADE_KIND_1:
+                case FADE_KIND_3:
                     func_0201c234();
                     break;
             }
 
-            switch (arg0->unk_38)
+            switch (proc->kind)
             {
-                case 2:
-                case 3:
+                case FADE_KIND_2:
+                case FADE_KIND_3:
                     data_027e1268->unk_00->bldcnt.effect = 0;
             }
 
             data_027e1268 = temp_r8;
     }
 
-    Proc_Break(arg0, 0);
+    Proc_Break(proc, 0);
 
     return;
 }
 
-EC void func_0201d6f8(ProcFade * proc)
+EC void ProcFadeIn_Loop(ProcFade * proc)
 {
     func_0201c8a0(proc);
     return;
 }
 
-EC void func_0201d704(ProcFade * proc)
+EC void ProcFadeIn_Init(ProcFade * proc)
 {
     func_0201c664(proc);
     return;
 }
 
-EC void func_0201d710(ProcFade * proc)
+EC void ProcFadeOut_Loop(ProcFade * proc)
 {
     func_0201d370(proc);
     return;
 }
 
-EC void func_0201d71c(ProcFade * proc)
+EC void ProcFadeOut_Init(ProcFade * proc)
 {
     func_0201cc84(proc);
     return;
@@ -1039,138 +1060,138 @@ EC void func_0201d71c(ProcFade * proc)
 
 // clang-format off
 
-struct ProcCmd data_020ce924[] =
+struct ProcCmd ProcScr_FadeOut[] =
 {
     PROC_NAME,
     PROC_SLEEP(0),
-    PROC_CALL(func_0201d71c),
-    PROC_REPEAT(func_0201d710),
+    PROC_CALL(ProcFadeOut_Init),
+    PROC_REPEAT(ProcFadeOut_Loop),
     PROC_END,
 };
 
-struct ProcCmd data_020ce94c[] =
+struct ProcCmd ProcScr_FadeIn[] =
 {
     PROC_NAME,
     PROC_SLEEP(0),
-    PROC_CALL(func_0201d704),
-    PROC_REPEAT(func_0201d6f8),
+    PROC_CALL(ProcFadeIn_Init),
+    PROC_REPEAT(ProcFadeIn_Loop),
     PROC_END,
 };
 
 // clang-format on
 
-EC void func_0201d728(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartFadeIn(ProcEx * parent, u32 duration, u32 target)
 {
     if (parent == NULL)
     {
         parent = static_cast<ProcEx *>(PROC_TREE_9);
     }
 
-    new (Proc_Start(data_020ce94c, parent)) ProcFade(0, param_2, param_3);
+    new (Proc_Start(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_0, duration, target);
 
     return;
 }
 
-EC void func_0201d778(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartFadeOut(ProcEx * parent, u32 duration, u32 target)
 {
     if (parent == NULL)
     {
         parent = static_cast<ProcEx *>(PROC_TREE_9);
     }
 
-    new (Proc_Start(data_020ce924, parent)) ProcFade(0, param_2, param_3);
+    new (Proc_Start(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_0, duration, target);
 
     return;
 }
 
-EC void func_0201d7c8(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartBlockingFadeIn(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_StartBlocking(data_020ce94c, parent)) ProcFade(0, param_2, param_3);
+    new (Proc_StartBlocking(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_0, duration, target);
 
     return;
 }
 
-EC void func_0201d814(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartBlockingFadeOut(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_StartBlocking(data_020ce924, parent)) ProcFade(0, param_2, param_3);
+    new (Proc_StartBlocking(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_0, duration, target);
 
     return;
 }
 
-EC void func_0201d860(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartFadeIn_0201d860(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_Start(data_020ce94c, parent)) ProcFade(1, param_2, param_3);
+    new (Proc_Start(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_1, duration, target);
 
     return;
 }
 
-EC void func_0201d8b0(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartFadeOut_0201d8b0(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_Start(data_020ce924, parent)) ProcFade(1, param_2, param_3);
+    new (Proc_Start(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_1, duration, target);
 
     return;
 }
 
-EC void func_0201d900(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartBlockingFadeIn_0201d900(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_StartBlocking(data_020ce94c, parent)) ProcFade(1, param_2, param_3);
+    new (Proc_StartBlocking(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_1, duration, target);
 
     return;
 }
 
-EC void func_0201d950(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartBlockingFadeOut_0201d950(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_StartBlocking(data_020ce924, parent)) ProcFade(1, param_2, param_3);
+    new (Proc_StartBlocking(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_1, duration, target);
 
     return;
 }
 
-EC void func_0201d9a0(ProcEx * parent, u32 param_2, u32 param_3)
-{
-    if (parent == NULL)
-    {
-        parent = static_cast<ProcEx *>(PROC_TREE_9);
-    }
-
-    new (Proc_Start(data_020ce94c, parent)) ProcFade(4, param_2, param_3);
-
-    return;
-}
-
-EC void func_0201d9f4(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartFadeIn_0201d9a0(ProcEx * parent, u32 duration, u32 target)
 {
     if (parent == NULL)
     {
         parent = static_cast<ProcEx *>(PROC_TREE_9);
     }
 
-    new (Proc_Start(data_020ce924, parent)) ProcFade(4, param_2, param_3);
+    new (Proc_Start(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_4, duration, target);
 
     return;
 }
 
-EC void func_0201da48(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartFadeOut_0201d9f4(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_StartBlocking(data_020ce94c, parent)) ProcFade(4, param_2, param_3);
+    if (parent == NULL)
+    {
+        parent = static_cast<ProcEx *>(PROC_TREE_9);
+    }
+
+    new (Proc_Start(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_4, duration, target);
 
     return;
 }
 
-EC void func_0201da98(ProcEx * parent, u32 param_2, u32 param_3)
+EC void StartBlockingFadeIn_0201da48(ProcEx * parent, u32 duration, u32 target)
 {
-    new (Proc_StartBlocking(data_020ce924, parent)) ProcFade(4, param_2, param_3);
+    new (Proc_StartBlocking(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_4, duration, target);
 
     return;
 }
 
-EC BOOL func_0201dae8(void)
+EC void StartBlockingFadeOut_0201da98(ProcEx * parent, u32 duration, u32 target)
 {
-    if (Proc_Find(data_020ce94c) != NULL)
+    new (Proc_StartBlocking(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_4, duration, target);
+
+    return;
+}
+
+EC BOOL IsFadeActive(void)
+{
+    if (Proc_Find(ProcScr_FadeIn) != NULL)
     {
         return TRUE;
     }
 
-    if (Proc_Find(data_020ce924) != NULL)
+    if (Proc_Find(ProcScr_FadeOut) != NULL)
     {
         return TRUE;
     }
