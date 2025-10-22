@@ -9,6 +9,9 @@
 extern void * func_020a4a38(void);
 extern void func_020a4a4c(void *);
 
+// TODO: Fix declaration; included via "hardware.hpp"
+extern void * data_027e1268;
+
 extern u8 data_027e1258;
 extern u8 data_027e125c;
 
@@ -50,10 +53,10 @@ BOOL (* gProcessCmdTable[])(ProcPtr) =
     [PROC_CMD_NOP_1D] = func_02019954,
     [PROC_CMD_1E] = func_02019968,
     [PROC_CMD_1F] = func_020199b8,
-    [PROC_CMD_20] = func_02019a08,
-    [PROC_CMD_21] = func_02019a58,
-    [PROC_CMD_22] = func_02019aa8,
-    [PROC_CMD_23] = func_02019af8,
+    [PROC_CMD_FADE_FROM_BLACK] = ProcCmd_FadeInFromBlack,
+    [PROC_CMD_FADE_TO_BLACK] = ProcCmd_FadeOutToBlack,
+    [PROC_CMD_FADE_FROM_WHITE] = ProcCmd_FadeInFromWhite,
+    [PROC_CMD_FADE_TO_WHITE] = ProcCmd_FadeOutToWhite,
     [PROC_CMD_OVERLAY] = ProcCmd_Overlay,
     [PROC_CMD_25] = func_02019b84,
 };

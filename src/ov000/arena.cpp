@@ -6,6 +6,7 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 #include "unit.h"
@@ -123,24 +124,24 @@ public:
 
         func_ov000_021d8ed4((struct ArenaProc *)this);
 
-        data_027e1268->unk_00->unk_12_67 = 1;
+        data_027e1268->unk_00->bldcnt.effect = 1;
 
-        data_027e1268->unk_00->unk_51 = 0xe;
-        data_027e1268->unk_00->unk_52 = 2;
+        data_027e1268->unk_00->blend_coeff_a = 0xe;
+        data_027e1268->unk_00->blend_coeff_b = 2;
 
-        data_027e1268->unk_00->unk_12_0 = 0;
-        data_027e1268->unk_00->unk_12_1 = 0;
-        data_027e1268->unk_00->unk_12_2 = 1;
-        data_027e1268->unk_00->unk_12_3 = 0;
-        data_027e1268->unk_00->unk_12_4 = 0;
-        data_027e1268->unk_00->unk_12_5 = 0;
+        data_027e1268->unk_00->bldcnt.target1_bg0_on = 0;
+        data_027e1268->unk_00->bldcnt.target1_bg1_on = 0;
+        data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
+        data_027e1268->unk_00->bldcnt.target1_bg3_on = 0;
+        data_027e1268->unk_00->bldcnt.target1_obj_on = 0;
+        data_027e1268->unk_00->bldcnt.target1_bd_on = 0;
 
-        data_027e1268->unk_00->unk_12_8 = 1;
-        data_027e1268->unk_00->unk_12_9 = 0;
-        data_027e1268->unk_00->unk_12_A = 0;
-        data_027e1268->unk_00->unk_12_B = 0;
-        data_027e1268->unk_00->unk_12_C = 0;
-        data_027e1268->unk_00->unk_12_D = 1;
+        data_027e1268->unk_00->bldcnt.target2_bg0_on = 1;
+        data_027e1268->unk_00->bldcnt.target2_bg1_on = 0;
+        data_027e1268->unk_00->bldcnt.target2_bg2_on = 0;
+        data_027e1268->unk_00->bldcnt.target2_bg3_on = 0;
+        data_027e1268->unk_00->bldcnt.target2_obj_on = 0;
+        data_027e1268->unk_00->bldcnt.target2_bd_on = 1;
 
         func_ov000_021a5810(gMapStateManager->unk_0c, 1);
         func_ov000_021d9078((struct ArenaProc *)this);
@@ -148,7 +149,7 @@ public:
 
     virtual ~Arena()
     {
-        data_027e1268->unk_00->unk_12_67 = 0;
+        data_027e1268->unk_00->bldcnt.effect = 0;
 
         func_ov000_021a57e4(gMapStateManager->unk_0c, 1);
         func_ov000_021d9120((struct ArenaProc *)this);

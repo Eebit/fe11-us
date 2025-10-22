@@ -40,10 +40,10 @@ enum
     PROC_CMD_NOP_1D = 0x1D, // maybe PROC_CMD_NAME?
     PROC_CMD_1E = 0x1E,
     PROC_CMD_1F = 0x1F,
-    PROC_CMD_20 = 0x20,
-    PROC_CMD_21 = 0x21,
-    PROC_CMD_22 = 0x22,
-    PROC_CMD_23 = 0x23,
+    PROC_CMD_FADE_FROM_BLACK = 0x20,
+    PROC_CMD_FADE_TO_BLACK = 0x21,
+    PROC_CMD_FADE_FROM_WHITE = 0x22,
+    PROC_CMD_FADE_TO_WHITE = 0x23,
     PROC_CMD_OVERLAY = 0x24,
     PROC_CMD_25 = 0x25,
 };
@@ -73,8 +73,8 @@ struct ProcCmd
 #define PROC_GOTO_IF_NO(func, label)      { PROC_CMD_GOTO_IF_NO, (label), (func) }
 #define PROC_SLEEP(duration)              { PROC_CMD_SLEEP, (duration), 0 }
 #define PROC_NAME                         { PROC_CMD_NOP_1D, 0, 0 }
-#define PROC_20(flag, arg)                { PROC_CMD_20, (arg), ((void *)(flag)) }
-#define PROC_21(flag, arg)                { PROC_CMD_21, (arg), ((void *)(flag)) }
+#define PROC_FADE_FROM_BLACK(duration, target, blocking)    { PROC_CMD_FADE_FROM_BLACK, (duration), ((void *)(((target) << 1) | (blocking) << 0)) }
+#define PROC_FADE_TO_BLACK(duration, target, blocking)      { PROC_CMD_FADE_TO_BLACK, (duration), ((void *)(((target) << 1) | (blocking) << 0)) }
 #define PROC_OVERLAY(overlayId, op)       { PROC_CMD_OVERLAY, (overlayId), (op) }
 #define PROC_25(sarg, larg)               { PROC_CMD_25, (sarg), (larg) }
 
@@ -230,10 +230,10 @@ BOOL func_0201992c(ProcPtr proc);
 BOOL func_02019954(ProcPtr proc);
 BOOL func_02019968(ProcPtr proc);
 BOOL func_020199b8(ProcPtr proc);
-BOOL func_02019a08(ProcPtr proc);
-BOOL func_02019a58(ProcPtr proc);
-BOOL func_02019aa8(ProcPtr proc);
-BOOL func_02019af8(ProcPtr proc);
+BOOL ProcCmd_FadeInFromBlack(ProcPtr proc);
+BOOL ProcCmd_FadeOutToBlack(ProcPtr proc);
+BOOL ProcCmd_FadeInFromWhite(ProcPtr proc);
+BOOL ProcCmd_FadeOutToWhite(ProcPtr proc);
 BOOL ProcCmd_Overlay(ProcPtr proc);
 BOOL func_02019b84(ProcPtr proc);
 void func_02019bac(ProcPtr proc);

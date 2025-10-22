@@ -6,6 +6,7 @@
 #include "unknown_data.h"
 #include "unknown_types.hpp"
 
+#include "hardware.hpp"
 #include "map.hpp"
 #include "sound_manager.hpp"
 
@@ -1110,11 +1111,9 @@ BOOL Skip::vfunc_04()
     return FALSE;
 }
 
-extern Unknown_027e1268 * data_027e0004;
-
 void Skip::func_02049024(ProcPtr proc)
 {
-    Unknown_027e1268 * temp_r9;
+    AbstCtrl_04 * temp_r9;
     s32 var_r9;
 
     if ((this->unk_06 == 0) && (this->vfunc_00() != 0))
@@ -1140,11 +1139,11 @@ void Skip::func_02049024(ProcPtr proc)
                 break;
 
             case 2:
-                if ((func_0201dae8() == 0) && (this->vfunc_04() == 0))
+                if (!IsFadeActive() && (this->vfunc_04() == 0))
                 {
                     this->unk_04 = func_0201bce4();
                     this->unk_05 = func_0201bcf4();
-                    func_0201d814((struct Proc *)proc, 8, 1);
+                    StartBlockingFadeOutToBlack((struct Proc *)proc, 8, 1);
                     Proc_Lock((struct Proc *)proc);
                     this->unk_06 = 3U;
                     var_r9 = 1;
@@ -1153,7 +1152,7 @@ void Skip::func_02049024(ProcPtr proc)
                 break;
 
             case 3:
-                if (func_0201dae8() == 0)
+                if (!IsFadeActive())
                 {
                     Proc_Release((struct Proc *)proc);
                     this->vfunc_08();
@@ -1184,11 +1183,11 @@ void Skip::func_02049024(ProcPtr proc)
                     {
                         if (func_0201bd6c() == 0)
                         {
-                            func_0201d7c8((struct Proc *)proc, 8, 0);
+                            StartBlockingFadeInFromBlack((struct Proc *)proc, 8, 0);
                         }
                         else
                         {
-                            func_0201d900((struct Proc *)proc, 8, 0);
+                            StartBlockingFadeInFromWhite((struct Proc *)proc, 8, 0);
                         }
                     }
 
@@ -1199,11 +1198,11 @@ void Skip::func_02049024(ProcPtr proc)
 
                         if (func_0201bd6c() == 0)
                         {
-                            func_0201d7c8((struct Proc *)proc, 8, 0);
+                            StartBlockingFadeInFromBlack((struct Proc *)proc, 8, 0);
                         }
                         else
                         {
-                            func_0201d900((struct Proc *)proc, 8, 0);
+                            StartBlockingFadeInFromWhite((struct Proc *)proc, 8, 0);
                         }
 
                         data_027e1268 = temp_r9;
@@ -1220,7 +1219,7 @@ void Skip::func_02049024(ProcPtr proc)
 
             case 7:
             case 8:
-                if (func_0201dae8() == 0)
+                if (!IsFadeActive())
                 {
                     Proc_Release((struct Proc *)proc);
 
