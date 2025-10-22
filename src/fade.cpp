@@ -41,6 +41,12 @@ public:
     }
 
     virtual ~ProcFade() {};
+
+    void InitFadeIn(void);
+    void LoopFadeIn(void);
+
+    void InitFadeOut(void);
+    void LoopFadeOut(void);
 };
 
 EC void func_0201bc80(s32);
@@ -56,7 +62,7 @@ EC void func_0201bc28(void)
     return;
 }
 
-EC void func_0201bc40(s32 param_1)
+EC void func_0201bc40(s32 value)
 {
     s32 idx;
 
@@ -69,18 +75,18 @@ EC void func_0201bc40(s32 param_1)
         idx = 0;
     }
 
-    data_02194b28[idx] = param_1;
+    data_02194b28[idx] = value;
 
     return;
 }
 
-EC void func_0201bc80(s32 param_1)
+EC void func_0201bc80(s32 value)
 {
     s32 i;
 
     for (i = 0; i < 2; i++)
     {
-        data_02194b28[i] = param_1;
+        data_02194b28[i] = value;
     }
 
     return;
@@ -112,7 +118,7 @@ EC s32 func_0201bcf4(void)
     return data_02194b28[1];
 }
 
-EC void func_0201bd04(s32 param_1)
+EC void func_0201bd04(s32 value)
 {
     s32 idx;
 
@@ -125,18 +131,18 @@ EC void func_0201bd04(s32 param_1)
         idx = 0;
     }
 
-    data_02194b2a[idx] = param_1;
+    data_02194b2a[idx] = value;
 
     return;
 }
 
-EC void func_0201bd44(s32 param_1)
+EC void func_0201bd44(s32 value)
 {
     s32 i;
 
     for (i = 0; i < 2; i++)
     {
-        data_02194b28[i + 2] = param_1;
+        data_02194b28[i + 2] = value;
     }
 
     return;
@@ -179,7 +185,7 @@ EC BOOL func_0201bdac(ProcFade * proc)
             if (func_0201bcf4() == 0)
             {
                 Proc_End(proc);
-                return 0;
+                return FALSE;
             }
 
             proc->target = FADE_TARGET_SUB;
@@ -399,26 +405,26 @@ EC void func_0201c5dc(s32 arg0, s32 arg1)
     return;
 }
 
-EC void func_0201c664(ProcFade * proc)
+void ProcFade::InitFadeIn(void)
 {
     AbstCtrl_04 * temp_r4;
 
-    if (func_0201bdac(proc) == 0)
+    if (func_0201bdac(this) == 0)
     {
         return;
     }
 
-    if (proc->duration == 0)
+    if (this->duration == 0)
     {
-        proc->duration = 1;
+        this->duration = 1;
     }
 
-    proc->timer = 0;
+    this->timer = 0;
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -430,7 +436,7 @@ EC void func_0201c664(ProcFade * proc)
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     func_0201c204();
@@ -453,7 +459,7 @@ EC void func_0201c664(ProcFade * proc)
                     break;
             }
 
-            if (proc->kind != FADE_KIND_4)
+            if (this->kind != FADE_KIND_4)
             {
                 func_0201bc40(0);
 
@@ -464,10 +470,10 @@ EC void func_0201c664(ProcFade * proc)
             data_027e1268 = temp_r4;
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -478,7 +484,7 @@ EC void func_0201c664(ProcFade * proc)
         case FADE_TARGET_SUB:
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0004;
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     func_0201c204();
@@ -501,7 +507,7 @@ EC void func_0201c664(ProcFade * proc)
                     break;
             }
 
-            if (proc->kind != FADE_KIND_4)
+            if (this->kind != FADE_KIND_4)
             {
                 func_0201bc40(0);
 
@@ -515,29 +521,29 @@ EC void func_0201c664(ProcFade * proc)
     return;
 }
 
-EC void func_0201c8a0(ProcFade * proc)
+void ProcFade::LoopFadeIn(void)
 {
     s32 var_r4;
     s32 var_r5;
     s32 var_r6;
     AbstCtrl_04 * temp_r7;
 
-    proc->timer++;
+    this->timer++;
 
-    if (proc->kind != FADE_KIND_4)
+    if (this->kind != FADE_KIND_4)
     {
-        var_r4 = Interpolate(0, 0x10, 0, proc->timer, proc->duration);
+        var_r4 = Interpolate(0, 0x10, 0, this->timer, this->duration);
     }
     else
     {
-        var_r5 = Interpolate(0, 0, 0x100, proc->timer, proc->duration);
-        var_r6 = Interpolate(0, 0, 0xC0, proc->timer, proc->duration);
+        var_r5 = Interpolate(0, 0, 0x100, this->timer, this->duration);
+        var_r6 = Interpolate(0, 0, 0xC0, this->timer, this->duration);
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -549,7 +555,7 @@ EC void func_0201c8a0(ProcFade * proc)
             temp_r7 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     data_027e0000->unk_00->unk_50 = (0 - var_r4);
@@ -572,10 +578,10 @@ EC void func_0201c8a0(ProcFade * proc)
             data_027e1268 = temp_r7;
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -587,7 +593,7 @@ EC void func_0201c8a0(ProcFade * proc)
             temp_r7 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     data_027e0004->unk_00->unk_50 = (0 - var_r4);
@@ -610,16 +616,16 @@ EC void func_0201c8a0(ProcFade * proc)
             data_027e1268 = temp_r7;
     }
 
-    if (proc->timer < proc->duration)
+    if (this->timer < this->duration)
     {
         return;
     }
 
-    switch (proc->kind)
+    switch (this->kind)
     {
         case FADE_KIND_2:
         case FADE_KIND_3:
-            switch (proc->target)
+            switch (this->target)
             {
                 case FADE_TARGET_CURRENT:
                     data_027e1268->unk_00->bldcnt.effect = 0;
@@ -642,7 +648,7 @@ EC void func_0201c8a0(ProcFade * proc)
             break;
 
         case FADE_KIND_4:
-            switch (proc->target)
+            switch (this->target)
             {
                 case FADE_TARGET_CURRENT:
                     data_027e1268->unk_00->dispcnt.win0_on = 0;
@@ -675,31 +681,31 @@ EC void func_0201c8a0(ProcFade * proc)
             break;
     }
 
-    Proc_Break(proc, 0);
+    Proc_Break(this, 0);
 
     return;
 }
 
-EC void func_0201cc84(ProcFade * proc)
+void ProcFade::InitFadeOut(void)
 {
     AbstCtrl_04 * temp_r4;
 
-    if (func_0201be4c(proc) == 0)
+    if (func_0201be4c(this) == 0)
     {
         return;
     }
 
-    if (proc->duration == 0)
+    if (this->duration == 0)
     {
-        proc->duration = 1;
+        this->duration = 1;
     }
 
-    proc->timer = 0;
+    this->timer = 0;
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -711,7 +717,7 @@ EC void func_0201cc84(ProcFade * proc)
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     data_027e0000->unk_00->unk_50 = 0;
@@ -774,10 +780,10 @@ EC void func_0201cc84(ProcFade * proc)
             data_027e1268 = temp_r4;
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -789,7 +795,7 @@ EC void func_0201cc84(ProcFade * proc)
             temp_r4 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     data_027e0004->unk_00->unk_50 = 0;
@@ -853,29 +859,29 @@ EC void func_0201cc84(ProcFade * proc)
     }
 }
 
-EC void func_0201d370(ProcFade * proc)
+void ProcFade::LoopFadeOut(void)
 {
     s32 var_r5;
     s32 var_r6;
     s32 var_r7;
     AbstCtrl_04 * temp_r8;
 
-    proc->timer++;
+    this->timer++;
 
-    if (proc->kind != 4)
+    if (this->kind != FADE_KIND_4)
     {
-        var_r5 = Interpolate(0, 0, 0x10, proc->timer, proc->duration);
+        var_r5 = Interpolate(0, 0, 0x10, this->timer, this->duration);
     }
     else
     {
-        var_r6 = Interpolate(0, 0, 0x100, proc->timer, proc->duration);
-        var_r7 = Interpolate(0, 0, 0xC0, proc->timer, proc->duration);
+        var_r6 = Interpolate(0, 0, 0x100, this->timer, this->duration);
+        var_r7 = Interpolate(0, 0, 0xC0, this->timer, this->duration);
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -887,7 +893,7 @@ EC void func_0201d370(ProcFade * proc)
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     data_027e0000->unk_00->unk_50 = 0 - var_r5;
@@ -910,10 +916,10 @@ EC void func_0201d370(ProcFade * proc)
             data_027e1268 = temp_r8;
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -925,7 +931,7 @@ EC void func_0201d370(ProcFade * proc)
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                     data_027e0004->unk_00->unk_50 = 0 - var_r5;
@@ -948,15 +954,15 @@ EC void func_0201d370(ProcFade * proc)
             data_027e1268 = temp_r8;
     }
 
-    if (proc->timer < proc->duration)
+    if (this->timer < this->duration)
     {
         return;
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -968,7 +974,7 @@ EC void func_0201d370(ProcFade * proc)
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0000;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                 case FADE_KIND_2:
@@ -981,7 +987,7 @@ EC void func_0201d370(ProcFade * proc)
                     break;
             }
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_2:
                 case FADE_KIND_3:
@@ -991,10 +997,10 @@ EC void func_0201d370(ProcFade * proc)
             data_027e1268 = temp_r8;
     }
 
-    switch (proc->target)
+    switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || proc->target != FADE_TARGET_CURRENT)
+            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -1006,7 +1012,7 @@ EC void func_0201d370(ProcFade * proc)
             temp_r8 = data_027e1268;
             data_027e1268 = data_027e0004;
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_0:
                 case FADE_KIND_2:
@@ -1019,7 +1025,7 @@ EC void func_0201d370(ProcFade * proc)
                     break;
             }
 
-            switch (proc->kind)
+            switch (this->kind)
             {
                 case FADE_KIND_2:
                 case FADE_KIND_3:
@@ -1029,32 +1035,32 @@ EC void func_0201d370(ProcFade * proc)
             data_027e1268 = temp_r8;
     }
 
-    Proc_Break(proc, 0);
+    Proc_Break(this, 0);
 
     return;
 }
 
 EC void ProcFadeIn_Loop(ProcFade * proc)
 {
-    func_0201c8a0(proc);
+    proc->LoopFadeIn();
     return;
 }
 
 EC void ProcFadeIn_Init(ProcFade * proc)
 {
-    func_0201c664(proc);
+    proc->InitFadeIn();
     return;
 }
 
 EC void ProcFadeOut_Loop(ProcFade * proc)
 {
-    func_0201d370(proc);
+    proc->LoopFadeOut();
     return;
 }
 
 EC void ProcFadeOut_Init(ProcFade * proc)
 {
-    func_0201cc84(proc);
+    proc->InitFadeOut();
     return;
 }
 
@@ -1080,7 +1086,7 @@ struct ProcCmd ProcScr_FadeIn[] =
 
 // clang-format on
 
-EC void StartFadeIn(ProcEx * parent, u32 duration, u32 target)
+EC void StartFadeInFromBlack(ProcEx * parent, u32 duration, u32 target)
 {
     if (parent == NULL)
     {
@@ -1092,7 +1098,7 @@ EC void StartFadeIn(ProcEx * parent, u32 duration, u32 target)
     return;
 }
 
-EC void StartFadeOut(ProcEx * parent, u32 duration, u32 target)
+EC void StartFadeOutToBlack(ProcEx * parent, u32 duration, u32 target)
 {
     if (parent == NULL)
     {
@@ -1104,42 +1110,42 @@ EC void StartFadeOut(ProcEx * parent, u32 duration, u32 target)
     return;
 }
 
-EC void StartBlockingFadeIn(ProcEx * parent, u32 duration, u32 target)
+EC void StartBlockingFadeInFromBlack(ProcEx * parent, u32 duration, u32 target)
 {
     new (Proc_StartBlocking(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_0, duration, target);
 
     return;
 }
 
-EC void StartBlockingFadeOut(ProcEx * parent, u32 duration, u32 target)
+EC void StartBlockingFadeOutToBlack(ProcEx * parent, u32 duration, u32 target)
 {
     new (Proc_StartBlocking(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_0, duration, target);
 
     return;
 }
 
-EC void StartFadeIn_0201d860(ProcEx * parent, u32 duration, u32 target)
+EC void StartFadeInFromWhite(ProcEx * parent, u32 duration, u32 target)
 {
     new (Proc_Start(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_1, duration, target);
 
     return;
 }
 
-EC void StartFadeOut_0201d8b0(ProcEx * parent, u32 duration, u32 target)
+EC void StartFadeOutToWhite(ProcEx * parent, u32 duration, u32 target)
 {
     new (Proc_Start(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_1, duration, target);
 
     return;
 }
 
-EC void StartBlockingFadeIn_0201d900(ProcEx * parent, u32 duration, u32 target)
+EC void StartBlockingFadeInFromWhite(ProcEx * parent, u32 duration, u32 target)
 {
     new (Proc_StartBlocking(ProcScr_FadeIn, parent)) ProcFade(FADE_KIND_1, duration, target);
 
     return;
 }
 
-EC void StartBlockingFadeOut_0201d950(ProcEx * parent, u32 duration, u32 target)
+EC void StartBlockingFadeOutToWhite(ProcEx * parent, u32 duration, u32 target)
 {
     new (Proc_StartBlocking(ProcScr_FadeOut, parent)) ProcFade(FADE_KIND_1, duration, target);
 

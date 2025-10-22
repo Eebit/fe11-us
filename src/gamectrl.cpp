@@ -153,7 +153,7 @@ PROC_LABEL(10),
     PROC_CALL(func_020224a8),
     PROC_CALL(func_02022414),
     PROC_CALL(func_020224d4),
-    PROC_21(3, 16),
+    PROC_FADE_TO_BLACK(16, 1, TRUE),
     PROC_CALL(func_020224fc),
 
     // fallthrough
@@ -169,7 +169,7 @@ PROC_LABEL(11),
     PROC_GOTO(6),
 
 PROC_LABEL(12),
-    PROC_21(3, 64),
+    PROC_FADE_TO_BLACK(64, 1, TRUE),
     PROC_CALL(func_020224fc),
     PROC_CALL(func_0202254c),
     PROC_CALL(func_02022564),
@@ -206,7 +206,7 @@ PROC_LABEL(15),
     PROC_CALL(func_02022cdc),
     PROC_CALL(func_020221e4),
     PROC_CALL(func_0202225c),
-    PROC_20(3, 8),
+    PROC_FADE_FROM_BLACK(8, 1, TRUE),
 
     PROC_GOTO(9),
 
@@ -216,13 +216,13 @@ PROC_LABEL(16),
     PROC_CALL(func_02022cdc),
     PROC_CALL(func_020221e4),
     PROC_CALL(func_0202225c),
-    PROC_20(3, 8),
+    PROC_FADE_FROM_BLACK(8, 1, TRUE),
 
     PROC_GOTO(9),
 
 PROC_LABEL(39),
     PROC_WHILE(func_0204b1e0),
-    PROC_21(3, 32),
+    PROC_FADE_TO_BLACK(32, 1, TRUE),
     PROC_CALL(func_020224fc),
     PROC_CALL(func_0202254c),
     PROC_CALL(func_02022564),
@@ -396,7 +396,7 @@ PROC_LABEL(35),
     PROC_CALL(func_0202214c),
     PROC_CALL(func_020221bc),
     PROC_CALL(func_020221e4),
-    PROC_20(3, 8),
+    PROC_FADE_FROM_BLACK(8, 1, TRUE),
     PROC_CALL(func_ov000_021a9714),
     PROC_CALL(func_020229f0),
     PROC_CALL(func_020224d4),
@@ -1331,11 +1331,11 @@ EC void func_02022b70(ProcPtr proc)
 {
     if (_func_02022b50())
     {
-        StartBlockingFadeOut_0201d950((struct Proc *)proc, 0x10, 1);
+        StartBlockingFadeOutToWhite((struct Proc *)proc, 16, 1);
     }
     else
     {
-        StartBlockingFadeOut((struct Proc *)proc, 0x10, 1);
+        StartBlockingFadeOutToBlack((struct Proc *)proc, 16, 1);
     }
 
     return;

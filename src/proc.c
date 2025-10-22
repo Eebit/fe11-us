@@ -954,18 +954,18 @@ BOOL func_020199b8(ProcPtr proc)
     return TRUE;
 }
 
-BOOL func_02019a08(ProcPtr proc)
+BOOL ProcCmd_FadeInFromBlack(ProcPtr proc)
 {
     struct Proc * p = proc;
-    u8 flag = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
+    u8 target = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        StartFadeIn(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeInFromBlack(proc, p->proc_scrCur->dataImm, target);
     }
     else
     {
-        StartBlockingFadeIn(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeInFromBlack(proc, p->proc_scrCur->dataImm, target);
     }
 
     p->proc_scrCur++;
@@ -973,18 +973,18 @@ BOOL func_02019a08(ProcPtr proc)
     return TRUE;
 }
 
-BOOL func_02019a58(ProcPtr proc)
+BOOL ProcCmd_FadeOutToBlack(ProcPtr proc)
 {
     struct Proc * p = proc;
-    u8 flag = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
+    u8 target = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        StartFadeOut(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeOutToBlack(proc, p->proc_scrCur->dataImm, target);
     }
     else
     {
-        StartBlockingFadeOut(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeOutToBlack(proc, p->proc_scrCur->dataImm, target);
     }
 
     p->proc_scrCur++;
@@ -992,18 +992,18 @@ BOOL func_02019a58(ProcPtr proc)
     return TRUE;
 }
 
-BOOL func_02019aa8(ProcPtr proc)
+BOOL ProcCmd_FadeInFromWhite(ProcPtr proc)
 {
     struct Proc * p = proc;
-    u8 flag = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
+    u8 target = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        StartFadeIn_0201d860(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeInFromWhite(proc, p->proc_scrCur->dataImm, target);
     }
     else
     {
-        StartBlockingFadeIn_0201d900(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeInFromWhite(proc, p->proc_scrCur->dataImm, target);
     }
 
     p->proc_scrCur++;
@@ -1011,18 +1011,18 @@ BOOL func_02019aa8(ProcPtr proc)
     return TRUE;
 }
 
-BOOL func_02019af8(ProcPtr proc)
+BOOL ProcCmd_FadeOutToWhite(ProcPtr proc)
 {
     struct Proc * p = proc;
-    u8 flag = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
+    u8 target = ((u32)p->proc_scrCur->dataPtr) & 2 ? 1 : 0;
 
     if (!(((u32)p->proc_scrCur->dataPtr) & 1))
     {
-        StartFadeOut_0201d8b0(proc, p->proc_scrCur->dataImm, flag);
+        StartFadeOutToWhite(proc, p->proc_scrCur->dataImm, target);
     }
     else
     {
-        StartBlockingFadeOut_0201d950(proc, p->proc_scrCur->dataImm, flag);
+        StartBlockingFadeOutToWhite(proc, p->proc_scrCur->dataImm, target);
     }
 
     p->proc_scrCur++;
