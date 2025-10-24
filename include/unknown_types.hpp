@@ -20,7 +20,9 @@ struct Unknown_02197254
     /* 20 */ struct TerrainData * pTerrain;
     STRUCT_PAD(0x24, 0x2C);
     /* 2C */ u8 * pWeaponLevel;
-    STRUCT_PAD(0x30, 0x48);
+    STRUCT_PAD(0x30, 0x38);
+    /* 38 */ struct Unit_unk_a4 ** unk_38;
+    STRUCT_PAD(0x3C, 0x48);
     /* 48 */ struct DBFE11Footer * pDBFE11Footer;
 };
 

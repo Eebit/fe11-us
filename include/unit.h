@@ -77,6 +77,12 @@ struct Unit_unk_4c
     s32 unk_08;
 };
 
+struct Unit_unk_a4
+{
+    STRUCT_PAD(0x00, 0x04);
+    u16 unk_04;
+};
+
 struct Unit
 {
     u16 unk_00;
@@ -124,7 +130,7 @@ struct Unit
     /* 98 */ s32 state1;
     /* 9C */ s32 state2;
     /* A0 */ struct Unit * unk_a0;
-    u32 unk_a4;
+    struct Unit_unk_a4 * unk_a4;
 };
 
 inline BOOL func_0203b714(struct Unit * unit, s32 state)

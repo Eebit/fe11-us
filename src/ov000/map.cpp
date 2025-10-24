@@ -10,6 +10,7 @@
 #include "hashtable.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
+#include "save.hpp"
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
 
@@ -21,7 +22,7 @@ extern struct UnkStruct_021974fc * data_021974fc;
 EC void func_ov000_021d4874(void);
 EC void func_0204f080(struct UnkStruct_021974fc *);
 
-EC void func_ov000_021a2eb0(struct UnkBuf_Func_02049564 *, s32);
+EC void func_ov000_021a2eb0(struct SaveBuffer *, s32);
 
 EC void func_ov000_021a5318(MapStateManager_0C *);
 EC void func_ov000_021a68c0(MapStateManager_10 *);
@@ -234,7 +235,7 @@ EC void func_ov000_021a2540(void * arg_0, s32 arg_1)
 {
     if (arg_0 != 0)
     {
-        func_ov000_021a2eb0((struct UnkBuf_Func_02049564 *)arg_0, arg_1);
+        func_ov000_021a2eb0((struct SaveBuffer *)arg_0, arg_1);
     }
     else
     {
@@ -501,7 +502,7 @@ EC BOOL func_ov000_021a2a50(struct UnkStruct_021E3324 * self)
 }
 
 /* NONMATCHING: https://decomp.me/scratch/NXh8g */
-EC void func_ov000_021a2b08(struct UnkBuf_Func_02049564 * buf)
+EC void func_ov000_021a2b08(struct SaveBuffer * buf)
 {
     s32 i;
 
@@ -554,7 +555,7 @@ EC void func_ov000_021a2b08(struct UnkBuf_Func_02049564 * buf)
 }
 
 /* NONMATCHING: https://decomp.me/scratch/xLJJS */
-EC void func_ov000_021a2eb0(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
+EC void func_ov000_021a2eb0(struct SaveBuffer * buf, s32 arg_1)
 {
     s32 i;
 

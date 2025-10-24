@@ -187,7 +187,7 @@ void FlagManager::RemoveAll(void)
     return;
 }
 
-void FlagManager::func_02049564(struct UnkBuf_Func_02049564 * buf)
+void FlagManager::SaveFlags(struct SaveBuffer * buf)
 {
     s32 i;
 
@@ -201,7 +201,7 @@ void FlagManager::func_02049564(struct UnkBuf_Func_02049564 * buf)
     return;
 }
 
-void FlagManager::func_0204961c(struct UnkBuf_Func_02049564 * buf)
+void FlagManager::LoadFlags(struct SaveBuffer * buf)
 {
     s32 flagCount = buf->ReadWord();
     u32 byteCount;
@@ -283,7 +283,7 @@ void FlagManager::func_0204961c(struct UnkBuf_Func_02049564 * buf)
     return;
 }
 
-void FlagManager::func_02049824(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
+void FlagManager::LoadFlags(struct SaveBuffer * buf, s32 arg_1)
 {
     u8 * arr;
     u32 byteCount;
@@ -420,7 +420,7 @@ void ValueManager::ClearByName(char * valueName)
     return;
 }
 
-void ValueManager::func_02049a9c(struct UnkBuf_Func_02049564 * buf)
+void ValueManager::SaveValues(struct SaveBuffer * buf)
 {
     u32 * arr = reinterpret_cast<u32 *>(this->unk_08);
     s32 i;
@@ -435,7 +435,7 @@ void ValueManager::func_02049a9c(struct UnkBuf_Func_02049564 * buf)
     return;
 }
 
-void ValueManager::func_02049b90(struct UnkBuf_Func_02049564 * buf)
+void ValueManager::LoadValues(struct SaveBuffer * buf)
 {
     u32 * r4 = reinterpret_cast<u32 *>(this->unk_08);
     s32 count = buf->ReadWord();
@@ -507,7 +507,7 @@ void ValueManager::func_02049b90(struct UnkBuf_Func_02049564 * buf)
     return;
 }
 
-void ValueManager::func_02049dc8(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
+void ValueManager::LoadValues(struct SaveBuffer * buf, s32 arg_1)
 {
     u32 * r4 = reinterpret_cast<u32 *>(this->unk_08);
     u32 * arr;
@@ -567,24 +567,5 @@ void ValueManager::func_02049dc8(struct UnkBuf_Func_02049564 * buf, s32 arg_1)
 
     func_01ffbb90(data_027e1b9c, arr);
 
-    return;
-}
-
-inline FlagManager::~FlagManager()
-{
-    if (this->unk_04 != NULL)
-    {
-        func_01ffbb90(data_027e1b9c, this->unk_04);
-    }
-    else
-    {
-        func_01ffbb90(data_027e1b9c, this->unk_08);
-    }
-
-    return;
-}
-
-ValueManager::~ValueManager()
-{
     return;
 }
