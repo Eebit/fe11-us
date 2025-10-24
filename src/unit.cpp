@@ -1,8 +1,10 @@
 #include "global.h"
 
-#include "unknown_types.hpp"
 #include "unknown_data.h"
 #include "unknown_funcs.h"
+#include "unknown_types.hpp"
+
+#include "save.hpp"
 
 #include "unit.h"
 
@@ -161,12 +163,240 @@ EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src)
     return dst;
 }
 
-// #func_0203ac4c
+EC s32 GetPersonDBIndex(struct PersonData *);
+EC s32 GetJobDBIndex(struct JobData *);
+EC void func_020a58b8(void *, void *, s32);
 
-// #func_0203b1b8
+EC void SaveItem(struct Item *, struct SaveBuffer *);
+EC void LoadItem(struct Item *, struct SaveBuffer *, s32);
 
-//! TODO: Included via "unit.h"
-// inline func_0203b714
+extern struct Unit * gUnitList;
+
+EC void SaveUnit(struct Unit * unit, struct SaveBuffer * buf)
+{
+    s32 i;
+    s16 * c;
+
+    buf->WriteShort(GetPersonDBIndex(unit->pPersonData));
+    buf->WriteShort(GetJobDBIndex(unit->pJobData));
+
+    func_020a58b8(unit->unk_50, buf->unk_04, sizeof(unit->unk_50));
+    buf->unk_04 += sizeof(unit->unk_50);
+
+    func_020a58b8(unit->unk_58, buf->unk_04, sizeof(unit->unk_58));
+    buf->unk_04 += sizeof(unit->unk_58);
+
+    buf->WriteByte(unit->unk_69);
+    buf->WriteByte(unit->level);
+    buf->WriteByte(unit->exp);
+    buf->WriteByte(unit->hp);
+    buf->WriteByte(unit->unk_6d);
+    buf->WriteByte(unit->xPos);
+    buf->WriteByte(unit->yPos);
+
+    for (i = 0; i < 5; i++)
+    {
+        SaveItem(&unit->items[i], buf);
+    }
+
+    for (i = 0; i < 6; i++)
+    {
+        buf->WriteByte(unit->unk_84[i]);
+    }
+
+    for (i = 0; i < 5; i++)
+    {
+        buf->WriteByte(unit->unk_8a[i]);
+    }
+
+    buf->WriteByte(unit->alpha);
+    buf->WriteByte(unit->unk_90);
+    buf->WriteByte(unit->unk_91);
+    buf->WriteByte(unit->unk_92);
+    buf->WriteByte(unit->unk_93);
+    buf->WriteByte(unit->unk_94);
+    buf->WriteByte(unit->unk_96);
+    buf->WriteWord(unit->state1);
+    buf->WriteWord(unit->state2);
+
+    if (unit->unk_a0 != NULL)
+    {
+        buf->WriteByte(unit->unk_a0->unk_68);
+    }
+    else
+    {
+        buf->WriteByte(0);
+    }
+
+    if (unit->unk_a4 != 0)
+    {
+        buf->WriteShort(unit->unk_a4->unk_04);
+    }
+    else
+    {
+        buf->WriteShort(-1);
+    }
+
+    if (unit->unk_4c->unk_08 == 1)
+    {
+        buf->WriteShort(unit->unk_00);
+        buf->WriteByte(unit->unk_05);
+        buf->WriteByte(unit->unk_04);
+        buf->WriteByte(unit->unk_08);
+        buf->WriteShort(unit->unk_0a);
+        buf->WriteByte(unit->unk_07);
+        buf->WriteByte(unit->unk_06);
+
+        for (i = 0; i < 4; i++)
+        {
+            buf->WriteByte(unit->unk_0c[i]);
+        }
+
+        for (i = 0, c = unit->unk_10; i < 16; i++, c++)
+        {
+            buf->WriteShort(*c);
+        }
+
+        buf->WriteByte(unit->unk_02);
+        buf->WriteByte(unit->unk_03);
+    }
+    else
+    {
+        buf->WriteShort(unit->unk_30);
+        buf->WriteShort(unit->unk_32);
+        buf->WriteShort(unit->unk_34);
+    }
+
+    return;
+}
+
+EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
+{
+    s32 i;
+    s32 x;
+    s32 y;
+    s32 unk;
+    u32 unk2;
+    s16 * c;
+
+    unit->pPersonData = data_02197254->pPerson + buf->ReadShort();
+    unit->pJobData = data_02197254->pJob + buf->ReadShort();
+
+    func_020a58b8(buf->unk_04, unit->unk_50, sizeof(unit->unk_50));
+    buf->unk_04 += sizeof(unit->unk_50);
+
+    func_020a58b8(buf->unk_04, unit->unk_58, sizeof(unit->unk_58));
+    buf->unk_04 += sizeof(unit->unk_58);
+
+    unit->unk_69 = buf->ReadByte();
+    unit->level = buf->ReadByte();
+    unit->exp = buf->ReadByte();
+    unit->hp = buf->ReadByte();
+    unit->unk_6d = buf->ReadByte();
+
+    x = buf->ReadByte();
+    y = buf->ReadByte();
+    unit->xPos = x;
+    unit->yPos = y;
+
+    for (i = 0; i < 5; i++)
+    {
+        LoadItem(&unit->items[i], buf, param_3);
+    }
+
+    for (i = 0; i < 6; i++)
+    {
+        unit->unk_84[i] = buf->ReadByte();
+    }
+
+    for (i = 0; i < 5; i++)
+    {
+        unit->unk_8a[i] = buf->ReadByte();
+    }
+
+    unit->alpha = buf->ReadByte();
+    unit->unk_90 = buf->ReadByte();
+    unit->unk_91 = buf->ReadByte();
+    unit->unk_92 = buf->ReadByte();
+    unit->unk_93 = buf->ReadByte();
+    unit->unk_94 = buf->ReadByte();
+
+    if (param_3 >= 2)
+    {
+        unit->unk_96 = buf->ReadByte();
+    }
+
+    unit->state1 = buf->ReadWord();
+    unit->state2 = buf->ReadWord();
+
+    if ((param_3 < 5) && func_0203b714(unit, 0x10000))
+    {
+        unit->state2 &= ~0x10000;
+        unit->state1 |= 0x20000000;
+    }
+
+    unk = buf->ReadByte();
+
+    if (unk != 0)
+    {
+        struct Unit * unk_a0;
+
+        if (unk == 0)
+        {
+            unk_a0 = NULL;
+        }
+        else
+        {
+            unk_a0 = gUnitList + unk - 1;
+        }
+
+        unit->unk_a0 = unk_a0;
+    }
+    else
+    {
+        unit->unk_a0 = NULL;
+    }
+
+    unk2 = buf->ReadShort();
+    unit->unk_a4 = (unk2 != 0xffff) ? data_02197254->unk_38[unk2] : NULL;
+
+    if (unit->unk_4c->unk_08 == 1)
+    {
+        unit->unk_00 = buf->ReadShort();
+        unit->unk_05 = buf->ReadByte();
+        unit->unk_04 = buf->ReadByte();
+        unit->unk_08 = buf->ReadByte();
+        unit->unk_0a = buf->ReadShort();
+        unit->unk_07 = buf->ReadByte();
+        unit->unk_06 = buf->ReadByte();
+
+        for (i = 0; i < 4; i++)
+        {
+            unit->unk_0c[i] = buf->ReadByte();
+        }
+
+        for (i = 0, c = unit->unk_10; i < 16; i++, c++)
+        {
+            *c = buf->ReadShort();
+        }
+
+        if (param_3 >= 1)
+        {
+            s32 unk_02 = buf->ReadByte();
+            s32 unk_03 = buf->ReadByte();
+            unit->unk_02 = unk_02;
+            unit->unk_03 = unk_03;
+        }
+    }
+    else
+    {
+        unit->unk_30 = buf->ReadShort();
+        unit->unk_32 = buf->ReadShort();
+        unit->unk_34 = buf->ReadShort();
+    }
+
+    return;
+}
 
 // #func_0203b720
 
@@ -1344,7 +1574,6 @@ EC s32 ComputeMight(struct Unit * unit, struct ItemData * item, BOOL arg_2)
         s32 mag = GetUnitMag(unit, item, TRUE);
         might += mag;
     }
-
 
     if (arg_2)
     {
