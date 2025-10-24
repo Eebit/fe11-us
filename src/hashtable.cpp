@@ -23,7 +23,6 @@ public:
         this->buckets = NULL;
     };
 
-    // func_02037850
     ~HashTable()
     {
         if (this->buckets)
@@ -38,11 +37,29 @@ public:
             this->pool = NULL;
         }
     };
+
+    static void Init(void);
+    static void * Get1(char * key);
+    static void * Get2(char * key);
+    static void Put(char * key, void * value);
+    static BOOL Remove(char * key);
+
+private:
+    static HashTable gHashTable;
+
+    s32 ComputeHash(char * key);
+    void ComputeBucketAndHash(char * key, u32 * hash1, u32 * hash2);
+    void _Init(s32 poolSize, s32 numBuckets);
+    struct HashNode * _Insert(char * key, void * value);
+    void * _Get1(char * key);
+    void * _Get2(char * key);
+    void _Put(char * key, void * value);
+    BOOL _Remove(char * key);
 };
 
-HashTable data_02197240;
+HashTable HashTable::gHashTable;
 
-EC s32 func_02037460(void * self, char * key)
+s32 HashTable::ComputeHash(char * key)
 {
     s32 hash = 0;
     signed char * it = (signed char *)key;
@@ -55,7 +72,7 @@ EC s32 func_02037460(void * self, char * key)
     return hash;
 }
 
-EC void func_0203748c(struct HashTable * self, char * key, u32 * hash1, u32 * hash2)
+void HashTable::ComputeBucketAndHash(char * key, u32 * hash1, u32 * hash2)
 {
     signed char * it = (signed char *)key;
 
@@ -69,47 +86,47 @@ EC void func_0203748c(struct HashTable * self, char * key, u32 * hash1, u32 * ha
         it++;
     }
 
-    *hash1 %= self->numBuckets;
+    *hash1 %= this->numBuckets;
 }
 
-EC void func_020374f4(HashTable * self, s32 poolSize, s32 numBuckets)
+void HashTable::_Init(s32 poolSize, s32 numBuckets)
 {
     s32 i;
 
-    self->nextIdx = 0;
-    self->poolSize = poolSize;
-    self->numBuckets = numBuckets;
-    self->pool = new struct HashNode[poolSize];
-    self->buckets = new struct HashNode *[numBuckets];
+    this->nextIdx = 0;
+    this->poolSize = poolSize;
+    this->numBuckets = numBuckets;
+    this->pool = new struct HashNode[poolSize];
+    this->buckets = new struct HashNode *[numBuckets];
 
     for (i = 0; i < poolSize; i++)
     {
-        self->pool[i].next = NULL;
-        self->pool[i].hash = 0;
-        self->pool[i].key = NULL;
-        self->pool[i].value = NULL;
+        this->pool[i].next = NULL;
+        this->pool[i].hash = 0;
+        this->pool[i].key = NULL;
+        this->pool[i].value = NULL;
     }
 
     for (i = 0; i < numBuckets; i++)
     {
-        self->buckets[i] = NULL;
+        this->buckets[i] = NULL;
     }
 
     return;
 }
 
-EC struct HashNode * func_02037598(struct HashTable * self, char * key, void * value)
+struct HashNode * HashTable::_Insert(char * key, void * value)
 {
     struct HashNode * node;
     s32 size;
     s32 i;
 
-    size = self->poolSize;
+    size = this->poolSize;
 
     for (i = 0; i < size; i++)
     {
-        node = &self->pool[self->nextIdx++];
-        self->nextIdx %= self->poolSize;
+        node = &this->pool[this->nextIdx++];
+        this->nextIdx %= this->poolSize;
 
         if (node->key == NULL)
         {
@@ -118,14 +135,14 @@ EC struct HashNode * func_02037598(struct HashTable * self, char * key, void * v
     }
 
     node->next = NULL;
-    node->hash = func_02037460(self, key);
+    node->hash = this->ComputeHash(key);
     node->key = key;
     node->value = value;
 
     return node;
 }
 
-EC void * func_02037614(struct HashTable * self, char * key)
+void * HashTable::_Get1(char * key)
 {
     u32 sp4;
     u32 sp0;
@@ -136,9 +153,9 @@ EC void * func_02037614(struct HashTable * self, char * key)
         return NULL;
     }
 
-    func_0203748c(self, key, &sp4, &sp0);
+    this->ComputeBucketAndHash(key, &sp4, &sp0);
 
-    for (node = self->buckets[sp4]; node != NULL; node = node->next)
+    for (node = this->buckets[sp4]; node != NULL; node = node->next)
     {
         if (sp0 == node->hash)
         {
@@ -149,25 +166,25 @@ EC void * func_02037614(struct HashTable * self, char * key)
     return NULL;
 }
 
-EC void * func_02037680(struct HashTable * self, char * key)
+void * HashTable::_Get2(char * key)
 {
-    return func_02037614(self, key);
+    return this->_Get1(key);
 }
 
-EC void func_0203768c(struct HashTable * self, char * key, void * value)
+void HashTable::_Put(char * key, void * value)
 {
     u32 sp4;
     u32 unused;
     struct HashNode * var_r0;
     struct HashNode * var_r4;
 
-    func_0203748c(self, key, &sp4, &unused);
+    this->ComputeBucketAndHash(key, &sp4, &unused);
 
-    var_r0 = self->buckets[sp4];
+    var_r0 = this->buckets[sp4];
 
     if (var_r0 == NULL)
     {
-        self->buckets[sp4] = func_02037598(self, key, value);
+        this->buckets[sp4] = this->_Insert(key, value);
         return;
     }
 
@@ -177,21 +194,21 @@ EC void func_0203768c(struct HashTable * self, char * key, void * value)
         var_r0 = var_r0->next;
     }
 
-    var_r4->next = func_02037598(self, key, value);
+    var_r4->next = this->_Insert(key, value);
 
     return;
 }
 
-EC BOOL func_02037714(struct HashTable * self, char * key)
+BOOL HashTable::_Remove(char * key)
 {
     u32 sp4;
     u32 sp0;
     struct HashNode * it;
     struct HashNode * var_lr;
 
-    func_0203748c(self, key, &sp4, &sp0);
+    this->ComputeBucketAndHash(key, &sp4, &sp0);
 
-    var_lr = self->buckets[sp4];
+    var_lr = this->buckets[sp4];
 
     for (it = var_lr; it != NULL; it = it->next)
     {
@@ -204,7 +221,7 @@ EC BOOL func_02037714(struct HashTable * self, char * key)
 
         if (var_lr == it)
         {
-            self->buckets[sp4] = it->next;
+            this->buckets[sp4] = it->next;
             it->key = 0;
             return TRUE;
         }
@@ -228,29 +245,29 @@ EC BOOL func_02037714(struct HashTable * self, char * key)
     return FALSE;
 }
 
-EC void func_020377c8(void)
+void HashTable::Init(void)
 {
-    func_020374f4(&data_02197240, 3400, 61);
+    HashTable::gHashTable._Init(3400, 61);
     return;
 }
 
-EC void * func_020377e8(char * key)
+void * HashTable::Get1(char * key)
 {
-    return func_02037614(&data_02197240, key);
+    return HashTable::gHashTable._Get1(key);
 }
 
-EC void * func_02037800(char * key)
+void * HashTable::Get2(char * key)
 {
-    return func_02037680(&data_02197240, key);
+    return HashTable::gHashTable._Get2(key);
 }
 
-EC void func_02037818(char * key, void * value)
+void HashTable::Put(char * key, void * value)
 {
-    func_0203768c(&data_02197240, key, value);
+    HashTable::gHashTable._Put(key, value);
     return;
 }
 
-EC BOOL func_02037838(char * key)
+BOOL HashTable::Remove(char * key)
 {
-    return func_02037714(&data_02197240, key);
+    return HashTable::gHashTable._Remove(key);
 }

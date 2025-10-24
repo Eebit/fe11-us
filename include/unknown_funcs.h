@@ -144,9 +144,9 @@ EC void func_02035dc4(void *, void *);
 EC void func_02035e5c(void *, void *);
 EC void func_02035f20(void *);
 
-EC void func_020377c8(void);
-EC BOOL func_020377e8(char *);
-EC void * func_02037800(char *);
+EC void _ZN9HashTable4InitEv(void);
+EC BOOL _ZN9HashTable4Get1EPc(char *);
+EC void * _ZN9HashTable4Get2EPc(char *);
 EC void func_020379c0(void);
 EC struct MapData * func_020379e0(char *, u32);
 EC void func_02037a04(struct Unknown_02197254 *);

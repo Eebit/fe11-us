@@ -317,7 +317,7 @@ MapStateManager::~MapStateManager()
 
     delete this->unk_14;
 
-    func_020377e8("Map");
+    _ZN9HashTable4Get1EPc("Map");
     func_020379c0();
 }
 
