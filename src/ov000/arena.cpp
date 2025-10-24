@@ -6,6 +6,7 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "hashtable.hpp"
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -350,7 +351,7 @@ static inline struct PersonData * GetPersonData()
 
 EC struct ArenaEnemy * func_ov000_021d7c90(u32 count)
 {
-    struct ArenaEnemy * arenaEnemy = (struct ArenaEnemy *)func_02037800("ArenaEnemy\0");
+    struct ArenaEnemy * arenaEnemy = static_cast<struct ArenaEnemy *>(HashTable::Get2("ArenaEnemy\0"));
 
     while (count > 0)
     {
@@ -368,7 +369,7 @@ EC struct ArenaEnemy * func_ov000_021d7c90(u32 count)
 
 EC u8 * func_ov000_021d7cd8(u32 count)
 {
-    u8 * arenaWeapon = (u8 *)func_02037800("ArenaWeapon");
+    u8 * arenaWeapon = static_cast<u8 *>(HashTable::Get2("ArenaWeapon"));
 
     while (count > 0)
     {
@@ -1234,7 +1235,7 @@ EC void func_ov000_021d8ed4(struct ArenaProc * proc)
     int iVar7;
     int iVar8;
 
-    pUVar3 = (struct VmMap_Common *)func_02037800("VmMap_Font\0");
+    pUVar3 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font\0"));
     uVar6 = pUVar3->unk_07;
     uVar2 = pUVar3->unk_04;
     bVar1 = pUVar3->unk_06;
@@ -1260,7 +1261,7 @@ EC void func_ov000_021d8ed4(struct ArenaProc * proc)
 EC void func_ov000_021d9024(struct ArenaProc * proc)
 {
     u8 bVar1;
-    struct VmMap_Common * pUVar2 = (struct VmMap_Common *)func_02037800("VmMap_Font\0");
+    struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font\0"));
 
     bVar1 = pUVar2->unk_07;
     func_02010f98(data_027e1268->unk_20[bVar1] + 0xa8, 0xb, 2);
@@ -1275,7 +1276,7 @@ EC void func_ov000_021d9078(struct ArenaProc * proc)
     u32 uVar4;
     u16 uVar2;
     u8 bVar1;
-    struct VmMap_Common * pUVar4 = (struct VmMap_Common *)func_02037800("VmMap_BG2Free\0\0");
+    struct VmMap_Common * pUVar4 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free\0\0"));
 
     uVar4 = pUVar4->unk_07;
     uVar2 = pUVar4->unk_04;
@@ -1295,7 +1296,7 @@ EC void func_ov000_021d9078(struct ArenaProc * proc)
 EC void func_ov000_021d9120(struct ArenaProc * proc)
 {
     u8 bVar1;
-    struct VmMap_Common * pUVar2 = (struct VmMap_Common *)func_02037800("VmMap_BG2Free\0\0");
+    struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free\0\0"));
     bVar1 = pUVar2->unk_07;
 
     func_01ff9948(bVar1);

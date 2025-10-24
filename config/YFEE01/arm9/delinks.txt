@@ -25,6 +25,12 @@ src/gamectrl.cpp:
     .text       start:0x020217b4 end:0x02022f4c
     .data       start:0x020cec44 end:0x020cf650
 
+src/hashtable.cpp:
+    .text       start:0x02037460 end:0x02037890
+    .init       start:0x020c5088 end:0x020c50c0
+    .ctor       start:0x020c9b34 end:0x020c9b38
+    .bss        start:0x02197234 end:0x02197254
+
 src/item.cpp:
     .text       start:0x02038328 end:0x02039088
     .data       start:0x020d4900 end:0x020d4958

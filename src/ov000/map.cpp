@@ -7,8 +7,9 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
-#include "proc_ex.hpp"
+#include "hashtable.hpp"
 #include "map.hpp"
+#include "proc_ex.hpp"
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
 
@@ -317,7 +318,7 @@ MapStateManager::~MapStateManager()
 
     delete this->unk_14;
 
-    func_020377e8("Map");
+    HashTable::Get1("Map");
     func_020379c0();
 }
 

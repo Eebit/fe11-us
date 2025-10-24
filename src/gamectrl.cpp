@@ -6,6 +6,7 @@
 
 #include "unknown_types.hpp"
 #include "event.hpp"
+#include "hashtable.hpp"
 #include "map.hpp"
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
@@ -476,7 +477,7 @@ EC void func_020217b4(void)
     LoadOverlay(0);
     LoadOverlay(2);
 
-    func_020377c8();
+    HashTable::Init();
     func_02028c68();
     func_020355e4();
 
@@ -906,7 +907,7 @@ EC void func_02022364(ProcPtr proc)
         return;
     }
 
-    if (!func_020377e8("SallyTalk\0\0"))
+    if (!HashTable::Get1("SallyTalk\0\0"))
     {
         return;
     }
@@ -928,7 +929,7 @@ EC void func_020223cc(ProcPtr proc)
     data_021974fc->unk_00 = 0;
     data_021974fc->unk_08 = 0;
 
-    if (!func_020377e8("Opening"))
+    if (!HashTable::Get1("Opening"))
     {
         return;
     }
@@ -969,7 +970,7 @@ EC void func_02022480(void)
 
 EC void func_020224a8(ProcPtr proc)
 {
-    if (!func_020377e8("Ending\0"))
+    if (!HashTable::Get1("Ending\0"))
     {
         return;
     }
