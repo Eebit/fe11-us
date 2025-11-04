@@ -46,7 +46,7 @@ public:
     /* 20 */ virtual void vfunc_20(); // func_020170a8
     /* 24 */ virtual void vfunc_24(); // func_020164d0
     /* 28 */ virtual void vfunc_28(u32, u32, u32); // func_0201670c
-    /* 2C */ virtual void vfunc_2c(); // func_02016804
+    /* 2C */ virtual void vfunc_2c(u32, u32, u32); // func_02016804
     /* 30 */ virtual void vfunc_30(u32, u32, u32); // func_02016848
     /* 34 */ virtual void vfunc_34(u32, u32, u32); // func_020169e4
     /* 38 */ virtual void vfunc_38(u32); // func_02016a48

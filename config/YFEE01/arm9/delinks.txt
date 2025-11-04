@@ -17,6 +17,10 @@ src/proc.c:
     complete
     .text       start:0x02018c58 end:0x02019bd4
 
+src/anime.cpp:
+    .text       start:0x02019d80 end:0x0201bc28
+    .data       start:0x020ce770 end:0x020ce8f4
+
 src/fade.cpp:
     .text       start:0x0201bc28 end:0x0201db38
     .data       start:0x020ce8f4 end:0x020ce974
