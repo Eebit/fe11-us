@@ -1284,7 +1284,7 @@ EC void func_ov000_021d9078(struct ArenaProc * proc)
 
     func_020a8f40("/shop\0\0");
 
-    func_0201177c("money.cg\0\0\0", data_027e1268->unk_0c[uVar4] + uVar2 * 0x20);
+    func_0201177c("money.cg\0\0\0", ((u32)(data_027e1268->unk_0c[uVar4])) + uVar2 * 0x20);
     func_02011a70("money.cl\0\0\0", bVar1 * 0x20, 0, 0);
     func_02011a30("money.rect\0", data_027e1268->unk_20[uVar4] + 0x20, uVar2, bVar1);
 

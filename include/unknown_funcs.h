@@ -128,8 +128,8 @@ EC void func_0202511c(void);
 EC void func_02025344(void);
 EC void func_02028c68(void);
 
-EC s32 func_020295ec(u16 *, char *, u32, u32, u32, u32, u32, u32, u32, u32);
-EC void func_02029850(u16 *, s32, u32, u32, u32, u32, u32, u32, u32);
+EC s32 func_020295ec(u16 *, char *, void *, u32, u32, u32, u32, u32, u32, u32);
+EC void func_02029850(u16 *, s32, void *, u32, u32, u32, u32, u32, u32);
 
 EC void func_020302e0(void *);
 EC void func_020303bc(void *, char *, u32 *, ProcPtr, s32, s32);
