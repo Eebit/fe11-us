@@ -48,8 +48,8 @@ class Anime;
 
 struct AnimeCmd
 {
-    /* 00 */ u16 unk_00;
-    /* 02 */ u8 unk_02;
+    /* 00 */ u16 frameCount;
+    /* 02 */ u8 opcode;
     /* 03 */ u8 unk_03;
     /* 04 */ u8 unk_04;
     /* 05 */ u8 unk_05;
@@ -65,44 +65,44 @@ struct AnimeCmd
 class AnimeInterpreter
 {
 public:
-    /* 00 */ Anime * unk_00;
-    /* 04 */ AnimeInterpreter * unk_04;
-    /* 08 */ AnimeInterpreter * unk_08;
+    /* 00 */ Anime * owner;
+    /* 04 */ AnimeInterpreter * prev;
+    /* 08 */ AnimeInterpreter * next;
     /* 0C */ s32 * unk_0c;
-    /* 10 */ struct AnimeCmd * unk_10;
+    /* 10 */ struct AnimeCmd * cmd;
     /* 14 */ s32 unk_14; // TODO: probably a pointer?
     /* 18 */ s32 unk_18; // TODO: probably a pointer?
-    /* 1C */ struct AnimeCmd * unk_1c;
-    /* 20 */ s32 unk_20;
-    /* 24 */ s16 unk_24;
-    /* 26 */ s16 unk_26;
+    /* 1C */ struct AnimeCmd * lastCmd;
+    /* 20 */ s32 delayTimer;
+    /* 24 */ s16 xPos;
+    /* 26 */ s16 yPos;
     /* 28 */ u16 unk_28;
     /* 2A */ u16 unk_2a;
     /* 2C */ u32 unk_2c;
     /* 30 */ u16 unk_30;
     /* 32 */ u8 unk_32;
-    /* 33 */ u8 unk_33;
+    /* 33 */ u8 alpha;
     /* 34 */ u16 unk_34;
     /* 36 */ u8 unk_36;
     /* 37 */ u8 unk_37;
     /* 38 */ u8 unk_38;
-    /* 39 */ u8 unk_39;
-    /* 3A */ u8 unk_3a;
+    /* 39 */ u8 flags;
+    /* 3A */ u8 affineId;
     /* 3B */ STRUCT_PAD(0x3B, 0x3C);
 
     AnimeInterpreter(Anime *, void *, u16, u16, u16, u16, s32);
     AnimeInterpreter(AnimeInterpreter *, u32);
 
     void func_02019f40(u8 arg2);
-    void SetPosition(u32 arg2, u32 arg3);
-    void SetVisible(BOOL arg2);
+    void SetPosition(u32 x, u32 y);
+    void SetVisible(BOOL isVisible);
     void SetFlag2(BOOL arg2);
     void SetFlag4(BOOL arg2);
-    void SetAffineId(s32 arg2);
+    void SetAffineId(s32 id);
     void SetRotScale(s32 arg2, s32 arg3, s32 arg4, s32 arg5, u8 arg6);
     void func_0201a078(s32 arg2);
-    void SetAlpha(s32 arg2);
-    void SetLoopingEnabled(BOOL arg2);
+    void SetAlpha(s32 alpha);
+    void SetLoopingEnabled(BOOL isEnabled);
     void SetFlag16(BOOL arg2);
     void SetFlag32(BOOL arg2);
     void SetUnk34(s32 arg2);
@@ -111,18 +111,18 @@ public:
     void Execute(void);
     void func_0201a5b0(void);
     void Draw(void);
-    void DrawInternal(s32 arg1, s32 arg2);
+    void DrawInternal(s32 x, s32 y);
 };
 
 class Anime : public ProcEx
 {
 public:
-    /* 38 */ void (*unk_38)(Anime *);
-    /* 3C */ AnimeInterpreter * unk_3c;
-    /* 40 */ anime::Effect * unk_40;
-    /* 44 */ void * unk_44;
+    /* 38 */ void (*onDestroy)(Anime *);
+    /* 3C */ AnimeInterpreter * interpreter;
+    /* 40 */ anime::Effect * effect;
+    /* 44 */ void * file;
     /* 48 */ s32 unk_48;
-    /* 4C */ u8 unk_4c;
+    /* 4C */ u8 ownsFile;
 
     Anime(void *, u16, u16, u16, u16, s32, u8);
 
@@ -138,9 +138,9 @@ class Effect
 {
 public:
     /* 00 */ // vtable
-    /* 04 */ Anime * unk_04;
-    /* 08 */ Effect * unk_08;
-    /* 0C */ Effect * unk_0c;
+    /* 04 */ Anime * parent;
+    /* 08 */ Effect * prev;
+    /* 0C */ Effect * next;
 
     Effect(Anime *);
 
@@ -156,12 +156,12 @@ public:
 class EffectAlpha3D : public Effect
 {
 public:
-    /* 10 */ s32 unk_10;
-    /* 14 */ s32 unk_14;
-    /* 18 */ s32 unk_18;
-    /* 1C */ s32 unk_1c;
+    /* 10 */ s32 initial;
+    /* 14 */ s32 target;
+    /* 18 */ s32 currentFrame;
+    /* 1C */ s32 duration;
 
-    EffectAlpha3D(Anime * anime, s32 b, s32 c);
+    EffectAlpha3D(Anime * anime, s32 targetAlpha, s32 duration);
 
     s32 GetAlpha(void);
     void SetAlpha(s32);
@@ -173,12 +173,12 @@ public:
 class EffectBright : public Effect
 {
 public:
-    /* 10 */ u32 unk_10;
-    /* 14 */ u32 unk_14;
-    /* 18 */ u32 unk_18;
-    /* 1C */ u32 unk_1c;
+    /* 10 */ u32 initialBrightness;
+    /* 14 */ u32 targetBrightness;
+    /* 18 */ u32 currentFrame;
+    /* 1C */ u32 duration;
 
-    EffectBright(Anime * anime, s32 b, s32 c);
+    EffectBright(Anime * anime, s32 targetBrightness, s32 duration);
 
     s32 GetBrightness(void);
     void SetBrightness(s32 arg2);
@@ -190,14 +190,14 @@ public:
 class EffectBlend : public Effect
 {
 public:
-    /* 10 */ s32 unk_10;
-    /* 14 */ s32 unk_14;
-    /* 18 */ s32 unk_18;
-    /* 1C */ s32 unk_1c;
-    /* 20 */ s32 unk_20;
-    /* 24 */ s32 unk_24;
+    /* 10 */ s32 initialBldA;
+    /* 14 */ s32 initialBldB;
+    /* 18 */ s32 targetBldA;
+    /* 1C */ s32 targetBldB;
+    /* 20 */ s32 currentFrame;
+    /* 24 */ s32 duration;
 
-    EffectBlend(Anime * anime, s32 b, s32 c, s32 d);
+    EffectBlend(Anime * anime, s32 targetBldA, s32 targetBldB, s32 duration);
 
     s32 GetBlendCoeffA(void);
     s32 GetBlendCoeffB(void);
@@ -210,14 +210,14 @@ public:
 class EffectBGBlend : public Effect
 {
 public:
-    /* 10 */ s32 unk_10;
-    /* 14 */ s32 unk_14;
-    /* 18 */ s32 unk_18;
-    /* 1C */ s32 unk_1c;
-    /* 20 */ s32 unk_20;
-    /* 24 */ s32 unk_24;
+    /* 10 */ s32 initialBldA;
+    /* 14 */ s32 initialBldB;
+    /* 18 */ s32 targetBldA;
+    /* 1C */ s32 targetBldB;
+    /* 20 */ s32 currentFrame;
+    /* 24 */ s32 duration;
 
-    EffectBGBlend(Anime * anime, s32 b, s32 c, s32 d);
+    EffectBGBlend(Anime * anime, s32 targetBldA, s32 targetBldB, s32 duration);
 
     s32 GetBlendCoeffA(void);
     s32 GetBlendCoeffB(void);
@@ -235,20 +235,20 @@ AnimeInterpreter::AnimeInterpreter(Anime * arg0, void * arg1, u16 arg2, u16 arg3
     this->unk_38 = arg2;
     this->unk_14 = (s32)arg1 + this->unk_0c[0];
     this->unk_18 = (s32)arg1 + this->unk_0c[1];
-    this->unk_10 = (struct AnimeCmd *)((u8 *)this->unk_0c + (this->unk_0c + this->unk_38)[2]);
+    this->cmd = (struct AnimeCmd *)((u8 *)this->unk_0c + (this->unk_0c + this->unk_38)[2]);
 
-    this->unk_24 = arg3 & 0x1ff;
+    this->xPos = arg3 & 0x1ff;
 
     if ((arg3 & 0x100) != 0)
     {
-        this->unk_24 |= 0xfe00;
+        this->xPos |= 0xfe00;
     }
 
-    this->unk_26 = arg4 & 0xff;
+    this->yPos = arg4 & 0xff;
 
     if (arg4 >= 0xc0)
     {
-        this->unk_26 |= 0xff00;
+        this->yPos |= 0xff00;
     }
 
     this->unk_28 = arg3 & 0xfe00;
@@ -258,18 +258,18 @@ AnimeInterpreter::AnimeInterpreter(Anime * arg0, void * arg1, u16 arg2, u16 arg3
     this->unk_2c = 0;
     this->unk_30 = 0;
     this->unk_32 = 0;
-    this->unk_33 = 0x1f;
+    this->alpha = 0x1f;
     this->unk_36 = arg6;
     this->unk_37 = 0;
-    this->unk_39 = 0;
-    this->unk_3a = 0;
-    this->unk_1c = 0;
-    this->unk_20 = 0;
-    this->unk_00 = arg0;
-    this->unk_04 = 0;
-    this->unk_08 = 0;
+    this->flags = 0;
+    this->affineId = 0;
+    this->lastCmd = 0;
+    this->delayTimer = 0;
+    this->owner = arg0;
+    this->prev = 0;
+    this->next = 0;
 
-    arg0->unk_3c = this;
+    arg0->interpreter = this;
 }
 
 AnimeInterpreter::AnimeInterpreter(AnimeInterpreter * other, u32 arg2)
@@ -277,9 +277,9 @@ AnimeInterpreter::AnimeInterpreter(AnimeInterpreter * other, u32 arg2)
     AnimeInterpreter * it;
     AnimeInterpreter * next;
 
-    next = other->unk_08;
+    next = other->next;
 
-    for (it = next; it != NULL; it = it->unk_08)
+    for (it = next; it != NULL; it = it->next)
     {
         other = it;
     }
@@ -287,33 +287,33 @@ AnimeInterpreter::AnimeInterpreter(AnimeInterpreter * other, u32 arg2)
     this->unk_0c = other->unk_0c;
     this->unk_38 = arg2;
     this->unk_14 = (s32)((u8 *)this->unk_0c + this->unk_0c[0]);
-    this->unk_10 = (struct AnimeCmd *)((u8 *)this->unk_0c + (this->unk_0c + this->unk_38)[2]);
-    this->unk_24 = other->unk_24;
-    this->unk_26 = other->unk_26;
+    this->cmd = (struct AnimeCmd *)((u8 *)this->unk_0c + (this->unk_0c + this->unk_38)[2]);
+    this->xPos = other->xPos;
+    this->yPos = other->yPos;
     this->unk_28 = other->unk_28;
     this->unk_2a = other->unk_2a;
     this->unk_34 = other->unk_34;
     this->unk_2c = other->unk_2c;
     this->unk_30 = other->unk_30;
     this->unk_32 = other->unk_32;
-    this->unk_33 = other->unk_33;
+    this->alpha = other->alpha;
     this->unk_36 = other->unk_36;
-    this->unk_39 = other->unk_39;
-    this->unk_3a = other->unk_3a;
-    this->unk_1c = 0;
-    this->unk_20 = 0;
-    this->unk_00 = other->unk_00;
+    this->flags = other->flags;
+    this->affineId = other->affineId;
+    this->lastCmd = 0;
+    this->delayTimer = 0;
+    this->owner = other->owner;
 
-    this->unk_04 = other;
-    next = other->unk_08;
-    this->unk_08 = next;
+    this->prev = other;
+    next = other->next;
+    this->next = next;
 
     if (next != NULL)
     {
-        next->unk_04 = this;
+        next->prev = this;
     }
 
-    other->unk_08 = this;
+    other->next = this;
 
     return;
 }
@@ -321,19 +321,19 @@ AnimeInterpreter::AnimeInterpreter(AnimeInterpreter * other, u32 arg2)
 void AnimeInterpreter::func_02019f40(u8 arg2)
 {
     this->unk_38 = arg2;
-    this->unk_10 = (struct AnimeCmd *)((u8 *)this->unk_0c + (this->unk_0c + this->unk_38)[2]);
-    this->unk_20 = 0;
+    this->cmd = (struct AnimeCmd *)((u8 *)this->unk_0c + (this->unk_0c + this->unk_38)[2]);
+    this->delayTimer = 0;
     return;
 }
 
 void AnimeInterpreter::SetPosition(u32 x, u32 y)
 {
-    this->unk_24 = x;
-    this->unk_26 = y;
+    this->xPos = x;
+    this->yPos = y;
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetPosition(x, y);
+        this->next->SetPosition(x, y);
     }
 
     return;
@@ -343,11 +343,11 @@ void AnimeInterpreter::SetVisible(BOOL isVisible)
 {
     if (isVisible)
     {
-        this->unk_39 |= 1;
+        this->flags |= 1;
     }
     else
     {
-        this->unk_39 &= ~1;
+        this->flags &= ~1;
     }
 
     return;
@@ -357,16 +357,16 @@ void AnimeInterpreter::SetFlag2(BOOL isFlag2)
 {
     if (isFlag2)
     {
-        this->unk_39 |= 2;
+        this->flags |= 2;
     }
     else
     {
-        this->unk_39 &= ~2;
+        this->flags &= ~2;
     }
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetFlag2(isFlag2);
+        this->next->SetFlag2(isFlag2);
     }
 
     return;
@@ -376,16 +376,16 @@ void AnimeInterpreter::SetFlag4(BOOL isFlag4)
 {
     if (isFlag4)
     {
-        this->unk_39 |= 4;
+        this->flags |= 4;
     }
     else
     {
-        this->unk_39 &= ~4;
+        this->flags &= ~4;
     }
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetFlag4(isFlag4);
+        this->next->SetFlag4(isFlag4);
     }
 
     return;
@@ -393,33 +393,33 @@ void AnimeInterpreter::SetFlag4(BOOL isFlag4)
 
 void AnimeInterpreter::SetAffineId(s32 id)
 {
-    this->unk_3a = id;
+    this->affineId = id;
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetAffineId(id);
+        this->next->SetAffineId(id);
     }
 
     return;
 }
 
-void AnimeInterpreter::SetRotScale(s32 arg2, s32 arg3, s32 arg4, s32 arg5, u8 arg6)
+void AnimeInterpreter::SetRotScale(s32 arg2, s32 arg3, s32 arg4, s32 alpha, u8 arg6)
 {
-    this->unk_39 |= 0x40;
+    this->flags |= 0x40;
 
     if (arg6 != 0)
     {
-        this->unk_39 |= 0x80;
+        this->flags |= 0x80;
     }
 
     this->unk_2c = arg2;
     this->unk_30 = arg3;
     this->unk_32 = arg4;
-    this->unk_33 = arg5;
+    this->alpha = alpha;
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetRotScale(arg2, arg3, arg4, arg5, 0);
+        this->next->SetRotScale(arg2, arg3, arg4, alpha, 0);
     }
 
     return;
@@ -429,21 +429,21 @@ void AnimeInterpreter::func_0201a078(s32 arg2)
 {
     this->unk_30 = arg2;
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->func_0201a078(arg2);
+        this->next->func_0201a078(arg2);
     }
 
     return;
 }
 
-void AnimeInterpreter::SetAlpha(s32 arg2)
+void AnimeInterpreter::SetAlpha(s32 alpha)
 {
-    this->unk_33 = arg2;
+    this->alpha = alpha;
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetAlpha(arg2);
+        this->next->SetAlpha(alpha);
     }
 
     return;
@@ -453,17 +453,17 @@ void AnimeInterpreter::SetLoopingEnabled(BOOL isEnabled)
 {
     if (isEnabled)
     {
-        this->unk_39 |= 8;
+        this->flags |= 8;
     }
     else
     {
-        this->unk_39 &= ~8;
+        this->flags &= ~8;
     }
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
         // BUG: Should this call `SetLoopingEnabled`?
-        this->unk_08->SetFlag16(isEnabled);
+        this->next->SetFlag16(isEnabled);
     }
 
     return;
@@ -473,16 +473,16 @@ void AnimeInterpreter::SetFlag16(BOOL arg2)
 {
     if (arg2)
     {
-        this->unk_39 |= 0x10;
+        this->flags |= 0x10;
     }
     else
     {
-        this->unk_39 &= ~0x10;
+        this->flags &= ~0x10;
     }
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetFlag16(arg2);
+        this->next->SetFlag16(arg2);
     }
 
     return;
@@ -492,16 +492,16 @@ void AnimeInterpreter::SetFlag32(BOOL arg2)
 {
     if (arg2)
     {
-        this->unk_39 |= 0x20;
+        this->flags |= 0x20;
     }
     else
     {
-        this->unk_39 &= ~0x20;
+        this->flags &= ~0x20;
     }
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetFlag32(arg2);
+        this->next->SetFlag32(arg2);
     }
 
     return;
@@ -511,9 +511,9 @@ void AnimeInterpreter::SetUnk34(s32 arg2)
 {
     this->unk_34 = arg2;
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->SetUnk34(arg2);
+        this->next->SetUnk34(arg2);
     }
 
     return;
@@ -521,13 +521,13 @@ void AnimeInterpreter::SetUnk34(s32 arg2)
 
 void AnimeInterpreter::UnlinkAndDestroy(void)
 {
-    if (this->unk_04 != NULL)
+    if (this->prev != NULL)
     {
-        this->unk_04->unk_08 = this->unk_08;
+        this->prev->next = this->next;
 
-        if (this->unk_08 != NULL)
+        if (this->next != NULL)
         {
-            this->unk_08->unk_04 = this->unk_04;
+            this->next->prev = this->prev;
         }
 
         if (this != NULL)
@@ -538,11 +538,11 @@ void AnimeInterpreter::UnlinkAndDestroy(void)
     }
     else
     {
-        this->unk_00->unk_3c = this->unk_08;
+        this->owner->interpreter = this->next;
 
-        if (this->unk_08 != NULL)
+        if (this->next != NULL)
         {
-            this->unk_08->unk_04 = NULL;
+            this->next->prev = NULL;
         }
 
         if (this != NULL)
@@ -566,35 +566,35 @@ void AnimeInterpreter::DestroyAll(void)
 
     for (; it != NULL; it = next)
     {
-        next = it->unk_08;
+        next = it->next;
         if (it != NULL)
         {
             delete it;
         }
     }
 
-    this->unk_00->unk_3c = NULL;
+    this->owner->interpreter = NULL;
 
     return;
 }
 
 void AnimeInterpreter::Execute(void)
 {
-    AnimeInterpreter * child = this->unk_08;
+    AnimeInterpreter * child = this->next;
 
-    if (this->unk_20 == 0)
+    if (this->delayTimer == 0)
     {
-        while (this->unk_10->unk_03 != 0 || this->unk_10->unk_00 == 0)
+        while (this->cmd->unk_03 != 0 || this->cmd->frameCount == 0)
         {
-            if (this->unk_10->unk_03 != 0)
+            if (this->cmd->unk_03 != 0)
             {
-                switch (this->unk_10->unk_02)
+                switch (this->cmd->opcode)
                 {
                     case 0x00:
                     case 0xFF:
-                        if ((this->unk_39 & 8) != 0)
+                        if ((this->flags & 8) != 0)
                         {
-                            this->unk_10 = (AnimeCmd *)((int)this->unk_0c + this->unk_0c[this->unk_38 + 2]);
+                            this->cmd = (AnimeCmd *)((int)this->unk_0c + this->unk_0c[this->unk_38 + 2]);
                         }
                         else
                         {
@@ -605,7 +605,7 @@ void AnimeInterpreter::Execute(void)
                         continue;
 
                     case 0x01:
-                        this->unk_10 = (AnimeCmd *)((int)this->unk_0c + this->unk_0c[this->unk_38 + 2]);
+                        this->cmd = (AnimeCmd *)((int)this->unk_0c + this->unk_0c[this->unk_38 + 2]);
                         continue;
 
                     case 0x02:
@@ -619,60 +619,60 @@ void AnimeInterpreter::Execute(void)
                     {
                         AnimeCmd * p = (AnimeCmd *)((int)this->unk_0c + this->unk_0c[this->unk_38 + 2]);
 
-                        while (p->unk_03 == 0 || p->unk_02 != 0xFF)
+                        while (p->unk_03 == 0 || p->opcode != 0xFF)
                         {
                             if (p->unk_03 != 0)
                             {
-                                if (p->unk_02 == 0x03)
+                                if (p->opcode == 0x03)
                                 {
-                                    if (p->unk_06 == this->unk_10->unk_06)
+                                    if (p->unk_06 == this->cmd->unk_06)
                                     {
-                                        this->unk_10 = p;
+                                        this->cmd = p;
                                         break;
                                     }
                                 }
                             }
 
-                            this->unk_10++;
+                            this->cmd++;
                         }
 
                         continue;
                     }
 
                     case 0x10:
-                        if (this->unk_10->unk_06 > 0)
+                        if (this->cmd->unk_06 > 0)
                         {
-                            child = new AnimeInterpreter(this, this->unk_10->unk_06 - 1);
-                            child = this->unk_08;
+                            child = new AnimeInterpreter(this, this->cmd->unk_06 - 1);
+                            child = this->next;
                         }
 
                         break;
 
                     case 0x11:
-                        this->unk_37 = this->unk_10->unk_06 & 0xFFFF;
+                        this->unk_37 = this->cmd->unk_06 & 0xFFFF;
                         break;
 
                     case 0x12:
-                        this->unk_33 = this->unk_10->unk_06 & 0xFFFF;
-                        new anime::EffectAlpha3D(this->unk_00, this->unk_10->unk_06, this->unk_10->unk_08);
+                        this->alpha = this->cmd->unk_06 & 0xFFFF;
+                        new anime::EffectAlpha3D(this->owner, this->cmd->unk_06, this->cmd->unk_08);
                         break;
 
                     case 0x20:
-                        new anime::EffectBright(this->unk_00, this->unk_10->unk_06, this->unk_10->unk_08);
+                        new anime::EffectBright(this->owner, this->cmd->unk_06, this->cmd->unk_08);
                         break;
 
                     case 0x21:
                         new anime::EffectBlend(
-                            this->unk_00, this->unk_10->unk_06, this->unk_10->unk_08, this->unk_10->unk_0a);
+                            this->owner, this->cmd->unk_06, this->cmd->unk_08, this->cmd->unk_0a);
                         break;
 
                     case 0x22:
-                        this->unk_00->unk_40->DestroyBlendEffects();
+                        this->owner->effect->DestroyBlendEffects();
                         data_027e1268->unk_00->bldcnt.effect = 0;
                         break;
 
                     case 0x23:
-                        func_0201b9b4((char *)this->unk_00->unk_48, (char *)(this->unk_18 + this->unk_10->unk_06));
+                        func_0201b9b4((char *)this->owner->unk_48, (char *)(this->unk_18 + this->cmd->unk_06));
                         break;
 
                     case 0x24:
@@ -681,12 +681,12 @@ void AnimeInterpreter::Execute(void)
 
                     case 0x25:
                         new anime::EffectBGBlend(
-                            this->unk_00, this->unk_10->unk_06, this->unk_10->unk_08, this->unk_10->unk_0a);
+                            this->owner, this->cmd->unk_06, this->cmd->unk_08, this->cmd->unk_0a);
                         break;
 
                     case 0x26:
                     {
-                        s32 v = this->unk_10->unk_06;
+                        s32 v = this->cmd->unk_06;
                         if (v == 0)
                         {
                             v = -1;
@@ -700,30 +700,30 @@ void AnimeInterpreter::Execute(void)
                         break;
 
                     case 0x30:
-                        if ((this->unk_39 & 0x10) == 0)
+                        if ((this->flags & 0x10) == 0)
                         {
                             s32 arg = 0;
-                            if (this->unk_39 & 0x20)
+                            if (this->flags & 0x20)
                             {
-                                arg = func_ov000_021d6f7c(this->unk_24);
+                                arg = func_ov000_021d6f7c(this->xPos);
                             }
 
-                            data_020efcc8->unk_b0->vfunc_2c(this->unk_18 + this->unk_10->unk_06, 0, arg);
+                            data_020efcc8->unk_b0->vfunc_2c(this->unk_18 + this->cmd->unk_06, 0, arg);
                         }
 
                         break;
                 }
             }
 
-            this->unk_10++;
+            this->cmd++;
         }
 
-        this->unk_20 = this->unk_10->unk_00;
-        this->unk_1c = this->unk_10;
-        this->unk_10++;
+        this->delayTimer = this->cmd->frameCount;
+        this->lastCmd = this->cmd;
+        this->cmd++;
     }
 
-    this->unk_20--;
+    this->delayTimer--;
 
 _0201a58c:
     if (child != NULL)
@@ -734,18 +734,18 @@ _0201a58c:
 
 void AnimeInterpreter::func_0201a5b0(void)
 {
-    AnimeInterpreter * child = this->unk_08;
+    AnimeInterpreter * child = this->next;
 
-    if (this->unk_00->unk_40 != NULL)
+    if (this->owner->effect != NULL)
     {
-        this->unk_00->unk_40->DestroyAll();
+        this->owner->effect->DestroyAll();
     }
 
-    while (this->unk_10->unk_03 != 0 || this->unk_10->unk_00 == 0)
+    while (this->cmd->unk_03 != 0 || this->cmd->frameCount == 0)
     {
-        if (this->unk_10->unk_03 != 0)
+        if (this->cmd->unk_03 != 0)
         {
-            switch (this->unk_10->unk_02)
+            switch (this->cmd->opcode)
             {
                 case 0x00:
                 case 0x01:
@@ -756,49 +756,49 @@ void AnimeInterpreter::func_0201a5b0(void)
                 {
                     AnimeCmd * p = (AnimeCmd *)((int)this->unk_0c + this->unk_0c[this->unk_38 + 2]);
 
-                    while (p->unk_03 == 0 || p->unk_02 != 0xFF)
+                    while (p->unk_03 == 0 || p->opcode != 0xFF)
                     {
                         if (p->unk_03 != 0)
                         {
-                            if (p->unk_02 == 0x03)
+                            if (p->opcode == 0x03)
                             {
-                                if (p->unk_06 == this->unk_10->unk_06)
+                                if (p->unk_06 == this->cmd->unk_06)
                                 {
-                                    this->unk_10 = p;
+                                    this->cmd = p;
                                     break;
                                 }
                             }
                         }
 
-                        this->unk_10++;
+                        this->cmd++;
                     }
 
                     continue;
                 }
 
                 case 0x10:
-                    if (this->unk_10->unk_06 > 0)
+                    if (this->cmd->unk_06 > 0)
                     {
-                        child = new AnimeInterpreter(this, this->unk_10->unk_06 - 1);
-                        child = this->unk_08;
+                        child = new AnimeInterpreter(this, this->cmd->unk_06 - 1);
+                        child = this->next;
                     }
 
                     break;
 
                 case 0x20:
-                    new anime::EffectBright(this->unk_00, this->unk_10->unk_06, this->unk_10->unk_08);
-                    if (this->unk_00->unk_40 != NULL)
+                    new anime::EffectBright(this->owner, this->cmd->unk_06, this->cmd->unk_08);
+                    if (this->owner->effect != NULL)
                     {
-                        this->unk_00->unk_40->DestroyAll();
+                        this->owner->effect->DestroyAll();
                     }
                     break;
 
                 case 0x21:
                     new anime::EffectBlend(
-                        this->unk_00, this->unk_10->unk_06, this->unk_10->unk_08, this->unk_10->unk_0a);
-                    if (this->unk_00->unk_40 != NULL)
+                        this->owner, this->cmd->unk_06, this->cmd->unk_08, this->cmd->unk_0a);
+                    if (this->owner->effect != NULL)
                     {
-                        this->unk_00->unk_40->DestroyAll();
+                        this->owner->effect->DestroyAll();
                     }
                     break;
 
@@ -812,16 +812,16 @@ void AnimeInterpreter::func_0201a5b0(void)
 
                 case 0x25:
                     new anime::EffectBGBlend(
-                        this->unk_00, this->unk_10->unk_06, this->unk_10->unk_08, this->unk_10->unk_0a);
-                    if (this->unk_00->unk_40 != NULL)
+                        this->owner, this->cmd->unk_06, this->cmd->unk_08, this->cmd->unk_0a);
+                    if (this->owner->effect != NULL)
                     {
-                        this->unk_00->unk_40->DestroyAll();
+                        this->owner->effect->DestroyAll();
                     }
                     break;
 
                 case 0x26:
                 {
-                    s32 v = this->unk_10->unk_06;
+                    s32 v = this->cmd->unk_06;
                     if (v == 0)
                     {
                         v = -1;
@@ -839,10 +839,10 @@ void AnimeInterpreter::func_0201a5b0(void)
             }
         }
 
-        this->unk_10++;
+        this->cmd++;
     }
 
-    this->unk_10++;
+    this->cmd++;
 
 _0201a854:
     if (child != NULL)
@@ -853,9 +853,9 @@ _0201a854:
 
 void AnimeInterpreter::Draw(void)
 {
-    if (!(this->unk_39 & 1))
+    if (!(this->flags & 1))
     {
-        this->DrawInternal(this->unk_24, this->unk_26);
+        this->DrawInternal(this->xPos, this->yPos);
     }
 
     return;
@@ -903,27 +903,27 @@ void AnimeInterpreter::DrawInternal(s32 arg1, s32 arg2)
     s32 temp_r5;
     u16 var_r4;
 
-    struct AnimeCmd * temp_r0 = this->unk_1c;
+    struct AnimeCmd * temp_r0 = this->lastCmd;
 
     if (temp_r0 != NULL)
     {
-        temp_r5 = this->unk_0c[this->unk_14 + temp_r0->unk_02];
+        temp_r5 = this->unk_0c[this->unk_14 + temp_r0->opcode];
 
-        if (this->unk_39 & 0x40)
+        if (this->flags & 0x40)
         {
-            if (this->unk_33 != 0)
+            if (this->alpha != 0)
             {
                 func_0206ce8c(this->unk_32);
                 func_0206d2e8(
                     arg1, arg2, this->unk_36 + this->unk_37, this->unk_2c + (this->unk_34 >> 5),
                     this->unk_30 + ((this->unk_34 >> 0xC) << 5), temp_r5,
-                    ((this->unk_39 & 0x80) ? TRUE : FALSE) & 0xFF);
+                    ((this->flags & 0x80) ? TRUE : FALSE) & 0xFF);
             }
         }
         else
         {
             var_r4 = this->unk_28;
-            if (this->unk_3a != 0)
+            if (this->affineId != 0)
             {
                 s32 xScale = clamp(abs(temp_r0->unk_08), -2, 2);
                 s32 c = cos(temp_r0->unk_04);
@@ -932,24 +932,24 @@ void AnimeInterpreter::DrawInternal(s32 arg1, s32 arg2)
 
                 // clang-format off
                 func_01ffb574(
-                    this->unk_3a,
+                    this->affineId,
                     IntSys_Div(+c * 0x10, xScale),
                     IntSys_Div(-s * 0x10, yScale),
                     IntSys_Div(+s * 0x10, xScale),
                     IntSys_Div(+c * 0x10, yScale)
                 );
                 // clang-format on
-                var_r4 |= (u32)(this->unk_3a << 0x1B) >> 0x12;
+                var_r4 |= (u32)(this->affineId << 0x1B) >> 0x12;
             }
 
-            if (this->unk_39 & 2)
+            if (this->flags & 2)
             {
                 func_01ffc614(
                     arg1, arg2, var_r4, this->unk_2a, this->unk_34, temp_r5, (this->unk_36 + this->unk_37) & 0xff);
             }
             else
             {
-                if (this->unk_39 & 4)
+                if (this->flags & 4)
                 {
                     func_01ffc668(
                         arg1, arg2, var_r4, this->unk_2a, this->unk_34, temp_r5, (this->unk_36 + this->unk_37) & 0xff);
@@ -963,9 +963,9 @@ void AnimeInterpreter::DrawInternal(s32 arg1, s32 arg2)
         }
     }
 
-    if (this->unk_08 != NULL)
+    if (this->next != NULL)
     {
-        this->unk_08->DrawInternal(arg1, arg2);
+        this->next->DrawInternal(arg1, arg2);
     }
 
     return;
@@ -976,54 +976,54 @@ anime::Effect::Effect(Anime * anime)
     anime::Effect * it;
     anime::Effect * next;
 
-    this->unk_04 = anime;
-    next = anime->unk_40;
+    this->parent = anime;
+    next = anime->effect;
 
     if (next == NULL)
     {
-        this->unk_08 = NULL;
-        this->unk_0c = NULL;
-        anime->unk_40 = this;
+        this->prev = NULL;
+        this->next = NULL;
+        anime->effect = this;
         return;
     }
 
-    for (it = next->unk_0c; it != NULL; it = it->unk_0c)
+    for (it = next->next; it != NULL; it = it->next)
     {
         next = it;
     }
 
-    this->unk_08 = next;
-    it = next->unk_0c;
-    this->unk_0c = it;
+    this->prev = next;
+    it = next->next;
+    this->next = it;
 
     if (it != NULL)
     {
-        it->unk_08 = this;
+        it->prev = this;
     }
 
-    next->unk_0c = this;
+    next->next = this;
 }
 
 void anime::Effect::UnlinkAndDestroy(void)
 {
-    if (this->unk_08 != NULL)
+    if (this->prev != NULL)
     {
-        this->unk_08->unk_0c = this->unk_0c;
+        this->prev->next = this->next;
 
-        if (this->unk_0c != NULL)
+        if (this->next != NULL)
         {
-            this->unk_0c->unk_08 = this->unk_08;
+            this->next->prev = this->prev;
         }
 
         delete this;
     }
     else
     {
-        this->unk_04->unk_40 = this->unk_0c;
+        this->parent->effect = this->next;
 
-        if (this->unk_0c != NULL)
+        if (this->next != NULL)
         {
-            this->unk_0c->unk_08 = NULL;
+            this->next->prev = NULL;
         }
 
         delete this;
@@ -1044,11 +1044,11 @@ void anime::Effect::DestroyAll(void)
 
     for (; it != NULL; it = next)
     {
-        next = it->unk_0c;
+        next = it->next;
         delete it;
     }
 
-    this->unk_04->unk_40 = NULL;
+    this->parent->effect = NULL;
 
     return;
 }
@@ -1061,7 +1061,7 @@ void anime::Effect::DestroyBlendEffects(void)
 
     for (; it != NULL; it = next)
     {
-        next = it->unk_0c;
+        next = it->next;
 
         if (dynamic_cast<anime::EffectBlend *>(it) != NULL)
         {
@@ -1081,9 +1081,9 @@ void anime::Effect::TickAll(void)
 {
     this->Tick();
 
-    if (this->unk_0c != NULL)
+    if (this->next != NULL)
     {
-        this->unk_0c->TickAll();
+        this->next->TickAll();
     }
 
     return;
@@ -1096,11 +1096,11 @@ void anime::Effect::Tick(void)
 
 Anime::Anime(void * file, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, u8 arg7)
 {
-    this->unk_44 = file;
-    this->unk_3c = NULL;
-    this->unk_40 = 0;
-    this->unk_38 = 0;
-    this->unk_4c = arg7;
+    this->file = file;
+    this->interpreter = NULL;
+    this->effect = 0;
+    this->onDestroy = 0;
+    this->ownsFile = arg7;
 
     new AnimeInterpreter(this, file, arg2, arg3, arg4, arg5, arg6);
 }
@@ -1109,40 +1109,40 @@ extern u8 data_027e1b9c[];
 
 Anime::~Anime()
 {
-    if (this->unk_3c != NULL)
+    if (this->interpreter != NULL)
     {
-        this->unk_3c->DestroyAll();
+        this->interpreter->DestroyAll();
     }
 
-    if (this->unk_40 != NULL)
+    if (this->effect != NULL)
     {
-        this->unk_40->DestroyAll();
+        this->effect->DestroyAll();
     }
 
-    if (this->unk_38 != NULL)
+    if (this->onDestroy != NULL)
     {
-        this->unk_38(this);
+        this->onDestroy(this);
     }
 
-    if (this->unk_4c != 0)
+    if (this->ownsFile != 0)
     {
-        func_01ffbb90(data_027e1b9c, this->unk_44);
+        func_01ffbb90(data_027e1b9c, this->file);
     }
 }
 
 void Anime::Update(void)
 {
-    if (this->unk_3c != NULL)
+    if (this->interpreter != NULL)
     {
-        this->unk_3c->Execute();
+        this->interpreter->Execute();
     }
 
-    if (this->unk_40 != NULL)
+    if (this->effect != NULL)
     {
-        this->unk_40->TickAll();
+        this->effect->TickAll();
     }
 
-    if (this->unk_3c == NULL && this->unk_40 == NULL)
+    if (this->interpreter == NULL && this->effect == NULL)
     {
         Proc_End(this);
     }
@@ -1152,9 +1152,9 @@ void Anime::Update(void)
 
 void Anime::Draw(void)
 {
-    if (this->unk_3c != NULL)
+    if (this->interpreter != NULL)
     {
-        this->unk_3c->Draw();
+        this->interpreter->Draw();
     }
 
     return;
@@ -1193,14 +1193,14 @@ EC void StartAnimByName(char * animName, u16 arg2, u16 arg3, u16 arg4, u16 arg5,
     return;
 }
 
-anime::EffectBright::EffectBright(Anime * anime, s32 b, s32 c) : Effect(anime)
+anime::EffectBright::EffectBright(Anime * anime, s32 targetBrightness, s32 duration) : Effect(anime)
 {
-    this->unk_10 = this->GetBrightness();
-    this->unk_14 = b;
-    this->unk_1c = c;
-    this->unk_18 = 0;
+    this->initialBrightness = this->GetBrightness();
+    this->targetBrightness = targetBrightness;
+    this->duration = duration;
+    this->currentFrame = 0;
 
-    if (c <= 0)
+    if (duration <= 0)
     {
         this->UnlinkAndDestroy();
     }
@@ -1208,7 +1208,7 @@ anime::EffectBright::EffectBright(Anime * anime, s32 b, s32 c) : Effect(anime)
 
 anime::EffectBright::~EffectBright()
 {
-    this->SetBrightness(this->unk_14);
+    this->SetBrightness(this->targetBrightness);
 }
 
 s32 anime::EffectBright::GetBrightness(void)
@@ -1233,12 +1233,12 @@ void anime::EffectBright::SetBrightness(s32 arg2)
 
 void anime::EffectBright::Tick()
 {
-    this->unk_18++;
+    this->currentFrame++;
 
-    Interpolate(0, this->unk_10, this->unk_14, this->unk_18, this->unk_1c);
-    this->SetBrightness(Interpolate(0, this->unk_10, this->unk_14, this->unk_18, this->unk_1c));
+    Interpolate(0, this->initialBrightness, this->targetBrightness, this->currentFrame, this->duration);
+    this->SetBrightness(Interpolate(0, this->initialBrightness, this->targetBrightness, this->currentFrame, this->duration));
 
-    if (this->unk_18 == this->unk_1c)
+    if (this->currentFrame == this->duration)
     {
         this->UnlinkAndDestroy();
     }
@@ -1246,16 +1246,16 @@ void anime::EffectBright::Tick()
     return;
 }
 
-anime::EffectBlend::EffectBlend(Anime * anime, s32 b, s32 c, s32 d) : Effect(anime)
+anime::EffectBlend::EffectBlend(Anime * anime, s32 targetBldA, s32 targetBldB, s32 duration) : Effect(anime)
 {
-    this->unk_10 = this->GetBlendCoeffA();
-    this->unk_14 = this->GetBlendCoeffB();
-    this->unk_18 = b;
-    this->unk_1c = c;
-    this->unk_24 = d;
-    this->unk_20 = 0;
+    this->initialBldA = this->GetBlendCoeffA();
+    this->initialBldB = this->GetBlendCoeffB();
+    this->targetBldA = targetBldA;
+    this->targetBldB = targetBldB;
+    this->duration = duration;
+    this->currentFrame = 0;
 
-    if (d <= 0)
+    if (duration <= 0)
     {
         this->UnlinkAndDestroy();
     }
@@ -1263,7 +1263,7 @@ anime::EffectBlend::EffectBlend(Anime * anime, s32 b, s32 c, s32 d) : Effect(ani
 
 anime::EffectBlend::~EffectBlend()
 {
-    this->SetBlend(this->unk_18, this->unk_1c);
+    this->SetBlend(this->targetBldA, this->targetBldB);
 }
 
 s32 anime::EffectBlend::GetBlendCoeffA(void)
@@ -1313,13 +1313,13 @@ void anime::EffectBlend::SetBlend(s32 bldA, s32 bldB)
 
 void anime::EffectBlend::Tick()
 {
-    this->unk_20++;
+    this->currentFrame++;
 
     this->SetBlend(
-        Interpolate(0, this->unk_10, this->unk_18, this->unk_20, this->unk_24),
-        Interpolate(0, this->unk_14, this->unk_1c, this->unk_20, this->unk_24));
+        Interpolate(0, this->initialBldA, this->targetBldA, this->currentFrame, this->duration),
+        Interpolate(0, this->initialBldB, this->targetBldB, this->currentFrame, this->duration));
 
-    if (this->unk_20 == this->unk_24)
+    if (this->currentFrame == this->duration)
     {
         this->UnlinkAndDestroy();
     }
@@ -1327,16 +1327,16 @@ void anime::EffectBlend::Tick()
     return;
 }
 
-anime::EffectBGBlend::EffectBGBlend(Anime * anime, s32 b, s32 c, s32 d) : Effect(anime)
+anime::EffectBGBlend::EffectBGBlend(Anime * anime, s32 targetBldA, s32 targetBldB, s32 duration) : Effect(anime)
 {
-    this->unk_10 = this->GetBlendCoeffA();
-    this->unk_14 = this->GetBlendCoeffB();
-    this->unk_18 = b;
-    this->unk_1c = c;
-    this->unk_24 = d;
-    this->unk_20 = 0;
+    this->initialBldA = this->GetBlendCoeffA();
+    this->initialBldB = this->GetBlendCoeffB();
+    this->targetBldA = targetBldA;
+    this->targetBldB = targetBldB;
+    this->duration = duration;
+    this->currentFrame = 0;
 
-    if (d <= 0)
+    if (duration <= 0)
     {
         this->UnlinkAndDestroy();
     }
@@ -1344,7 +1344,7 @@ anime::EffectBGBlend::EffectBGBlend(Anime * anime, s32 b, s32 c, s32 d) : Effect
 
 anime::EffectBGBlend::~EffectBGBlend()
 {
-    this->SetBGBlend(this->unk_18, this->unk_1c);
+    this->SetBGBlend(this->targetBldA, this->targetBldB);
 }
 
 s32 anime::EffectBGBlend::GetBlendCoeffA(void)
@@ -1394,13 +1394,13 @@ void anime::EffectBGBlend::SetBGBlend(s32 bldA, s32 bldB)
 
 void anime::EffectBGBlend::Tick()
 {
-    this->unk_20++;
+    this->currentFrame++;
 
     this->SetBGBlend(
-        Interpolate(0, this->unk_10, this->unk_18, this->unk_20, this->unk_24),
-        Interpolate(0, this->unk_14, this->unk_1c, this->unk_20, this->unk_24));
+        Interpolate(0, this->initialBldA, this->targetBldA, this->currentFrame, this->duration),
+        Interpolate(0, this->initialBldB, this->targetBldB, this->currentFrame, this->duration));
 
-    if (this->unk_20 == this->unk_24)
+    if (this->currentFrame == this->duration)
     {
         this->UnlinkAndDestroy();
     }
@@ -1460,14 +1460,14 @@ EC void func_0201ba90(void)
     return;
 }
 
-anime::EffectAlpha3D::EffectAlpha3D(Anime * anime, s32 b, s32 c) : Effect(anime)
+anime::EffectAlpha3D::EffectAlpha3D(Anime * anime, s32 targetAlpha, s32 duration) : Effect(anime)
 {
-    this->unk_10 = this->GetAlpha();
-    this->unk_14 = b;
-    this->unk_1c = c;
-    this->unk_18 = 0;
+    this->initial = this->GetAlpha();
+    this->target = targetAlpha;
+    this->duration = duration;
+    this->currentFrame = 0;
 
-    if (c <= 0)
+    if (duration <= 0)
     {
         this->UnlinkAndDestroy();
     }
@@ -1475,16 +1475,16 @@ anime::EffectAlpha3D::EffectAlpha3D(Anime * anime, s32 b, s32 c) : Effect(anime)
 
 anime::EffectAlpha3D::~EffectAlpha3D()
 {
-    this->SetAlpha(this->unk_14);
+    this->SetAlpha(this->target);
 }
 
 s32 anime::EffectAlpha3D::GetAlpha(void)
 {
-    AnimeInterpreter * interpreter = this->unk_04->unk_3c;
+    AnimeInterpreter * interpreter = this->parent->interpreter;
 
     if (interpreter != NULL)
     {
-        return interpreter->unk_33;
+        return interpreter->alpha;
     }
 
     return 31;
@@ -1492,7 +1492,7 @@ s32 anime::EffectAlpha3D::GetAlpha(void)
 
 void anime::EffectAlpha3D::SetAlpha(s32 alpha)
 {
-    AnimeInterpreter * interpreter = this->unk_04->unk_3c;
+    AnimeInterpreter * interpreter = this->parent->interpreter;
 
     if (interpreter != NULL)
     {
@@ -1504,13 +1504,13 @@ void anime::EffectAlpha3D::SetAlpha(s32 alpha)
 
 void anime::EffectAlpha3D::Tick(void)
 {
-    this->unk_18++;
+    this->currentFrame++;
 
-    Interpolate(0, this->unk_10, this->unk_14, this->unk_18, this->unk_1c);
+    Interpolate(0, this->initial, this->target, this->currentFrame, this->duration);
 
-    this->SetAlpha(Interpolate(0, this->unk_10, this->unk_14, this->unk_18, this->unk_1c));
+    this->SetAlpha(Interpolate(0, this->initial, this->target, this->currentFrame, this->duration));
 
-    if (this->unk_18 == this->unk_1c)
+    if (this->currentFrame == this->duration)
     {
         this->UnlinkAndDestroy();
     }
