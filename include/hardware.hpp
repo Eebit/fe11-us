@@ -16,8 +16,8 @@ struct DispCnt
     /* bit 10 */ u16 win1_on : 1;
     /* bit 11 */ u16 objWin_on : 1;
     /* bit 12 */ u16 bit_12 : 1;
-    /* bit 13 */ u16 bit_13 : 1;
-    /* bit 14 */ u16 bit_14 : 2;
+    /* bit 13 */ u16 bit_13_14 : 2;
+    /* bit 15 */ u16 bit_15 : 1;
     u16 unk_02_bit_0 : 3;
     u16 unk_02_bit_4 : 3;
 };
@@ -125,8 +125,7 @@ struct LCDControlBuffer
     /* 12 */ struct BlendCnt bldcnt;
     /* 14 */ struct BgAffineDstData bg2affin;
     /* 24 */ struct BgAffineDstData bg3affin;
-    STRUCT_PAD(0x34, 0x38);
-    // +34 ??
+    u32 unk_34;
     u16 unk_38;
     u16 unk_3a;
     u16 unk_3c;
@@ -157,7 +156,7 @@ public:
     struct LCDControlBuffer * volatile unk_00;
     void * unk_04;
     STRUCT_PAD(0x08, 0x0C);
-    s32 unk_0c[4];
+    void * unk_0c[4];
     s32 unk_1c;
     s32 unk_20[4];
     void * unk_30;
