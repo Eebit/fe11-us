@@ -127,9 +127,9 @@ public:
     Anime(void *, u16, u16, u16, u16, s32, u8);
 
     virtual ~Anime();
+    virtual void Loop();
 
     void Update(void);
-    void Draw(void);
 };
 
 namespace anime
@@ -1150,7 +1150,7 @@ void Anime::Update(void)
     return;
 }
 
-void Anime::Draw(void)
+void Anime::Loop(void)
 {
     if (this->interpreter != NULL)
     {
@@ -1172,7 +1172,20 @@ EC void Anime_Loop(Anime * proc)
     return;
 }
 
-extern struct ProcCmd ProcScr_Anime[];
+// clang-format off
+
+struct ProcCmd ProcScr_Anime[] =
+{
+    PROC_NAME,
+    PROC_SLEEP(0),
+
+    PROC_06(0, Anime_Loop),
+    PROC_REPEAT(Anime_Update),
+
+    PROC_END,
+};
+
+// clang-format on
 
 EC void StartAnimFromFile(void * file, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, u8 arg7, ProcEx * parent)
 {
