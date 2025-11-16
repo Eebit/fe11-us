@@ -6,24 +6,30 @@
 #include "proc_ex.hpp"
 #include "unit.h"
 
-struct astruct_27;
+struct DisposGroupProcessor;
 
 class Disposition : public ProcEx
 {
 public:
-    /* 38 */ astruct_27 * unk_38;
-    /* 3C */ astruct_27 * unk_3c;
+    /* 38 */ DisposGroupProcessor * head;
+    /* 3C */ DisposGroupProcessor * tail;
     /* 40 */ s32 unk_40;
 
     Disposition()
     {
-        this->unk_38 = NULL;
-        this->unk_3c = NULL;
+        this->head = NULL;
+        this->tail = NULL;
     }
 
     virtual ~Disposition()
     {
     }
+
+    virtual void Loop(void); // func_ov000_021db09c
+
+    void func_ov000_021d9d7c(DisposGroupProcessor *);
+    void func_ov000_021d9da8(DisposGroupProcessor *);
+    void func_ov000_021db3c4(void);
 };
 
 struct SpawnItem
@@ -40,7 +46,7 @@ struct Spawn
     /* 05 */ s8 yLoad;
     /* 06 */ s8 unk_06;
     /* 07 */ s8 unk_07;
-    /* 08 */ u8 unk_08;
+    /* 08 */ u8 faction;
     /* 09 */ u8 unk_09;
     /* 0A */ u8 startingLevel;
     /* 0B */ u8 unk_0b;
@@ -58,55 +64,54 @@ struct Spawn
     /* 4C */ u8 unk_4c;
     /* 4D */ u8 unk_4d;
     /* 4E */ STRUCT_PAD(0x4e, 0x50);
+
+    void func_ov000_021d9adc(struct JobData * job);
+    void func_ov000_021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags);
+    void func_ov000_021d9c94(struct Unit * unit);
+    void func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y);
 };
 
-// DisposGroup
 struct DisposGroup
 {
-    /* 00 */ char * unk_00; // label
-    /* 04 */ struct Spawn * unk_04; // spawns
-    /* 08 */ s32 unk_08; // count
+    /* 00 */ char * label;
+    /* 04 */ struct Spawn * spawns;
+    /* 08 */ s32 count;
 };
 
-struct astruct_27_18
+struct SpawnState
 {
-    /* 00 */ u8 unk_00;
-    /* 01 */ u8 unk_01;
-    /* 02 */ s8 unk_02;
-    /* 03 */ s8 unk_03;
+    /* 00 */ u8 unitId;
+    /* 01 */ u8 flags;
+    /* 02 */ s8 xPos;
+    /* 03 */ s8 yPos;
 
-    astruct_27_18();
+    SpawnState();
 };
-
-EC void func_ov000_021d9d7c(Disposition *, astruct_27 *);
-EC void func_ov000_021d9e38(astruct_27 *);
-EC void func_ov000_021daac8(astruct_27 *);
-EC void func_ov000_021d9da8(Disposition *, astruct_27 *);
 
 EC s32 func_020b6e2c(char *, char *);
 
-struct astruct_27
+struct DisposGroupProcessor
 {
-    /* 00 */ Disposition * unk_00;
-    /* 04 */ astruct_27 * unk_04;
-    /* 08 */ astruct_27 * unk_08;
-    /* 0C */ char * unk_0c;
-    /* 10 */ struct DisposGroup * unk_10;
-    /* 14 */ struct Spawn * unk_14;
-    /* 18 */ struct astruct_27_18 * unk_18;
+    /* 00 */ Disposition * proc;
+    /* 04 */ DisposGroupProcessor * prev;
+    /* 08 */ DisposGroupProcessor * next;
+    /* 0C */ char * label;
+    /* 10 */ struct DisposGroup * disposGroup;
+    /* 14 */ struct Spawn * spawns;
+    /* 18 */ struct SpawnState * spawnStates;
     /* 1C */ u16 unk_1c;
     /* 1E */ u16 unk_1e;
-    /* 20 */ u32 unk_20;
+    /* 20 */ u32 flags;
 
-    astruct_27(Disposition * proc, char * label, u32 param_2)
+    DisposGroupProcessor(Disposition * proc, char * label, u32 flags)
     {
         DisposGroup * group;
 
-        this->unk_18 = 0;
-        this->unk_20 = param_2;
-        this->unk_0c = label;
-        this->unk_00 = proc;
-        func_ov000_021d9d7c(proc, this);
+        this->spawnStates = NULL;
+        this->flags = flags;
+        this->label = label;
+        this->proc = proc;
+        proc->func_ov000_021d9d7c(this);
         this->unk_1c = 0;
 
         group = static_cast<DisposGroup *>(gMapStateManager->unk_18);
@@ -119,13 +124,13 @@ struct astruct_27
         {
             while (TRUE)
             {
-                if (group->unk_00 == NULL)
+                if (group->label == NULL)
                 {
                     group = NULL;
                     break;
                 }
 
-                if (func_020b6e2c(label, group->unk_00) == 0)
+                if (func_020b6e2c(label, group->label) == 0)
                 {
                     break;
                 }
@@ -133,7 +138,7 @@ struct astruct_27
                 group++;
             }
 
-            this->unk_10 = group;
+            this->disposGroup = group;
 
             if (group == NULL)
             {
@@ -141,17 +146,36 @@ struct astruct_27
             }
             else
             {
-                this->unk_14 = group->unk_04;
-                func_ov000_021daac8(this);
+                this->spawns = group->spawns;
+                this->func_ov000_021daac8();
             }
         }
     }
 
-    ~astruct_27()
+    ~DisposGroupProcessor()
     {
-        func_ov000_021d9e38(this);
-        func_ov000_021d9da8(this->unk_00, this);
+        this->func_ov000_021d9e38();
+        this->proc->func_ov000_021d9da8(this);
     }
+
+    void func_ov000_021d9df0(void);
+    void func_ov000_021d9e38(void);
+    struct Unit * func_ov000_021d9e50(s32 pid, s32 faction);
+    struct Unit * func_ov000_021d9e7c(s32 faction);
+    struct Unit * func_ov000_021d9ebc(s32 index, BOOL param_3);
+    BOOL func_ov000_021da030(s32 x, s32 y);
+    BOOL func_ov000_021da088(s32 x, s32 y);
+    void func_ov000_021da0fc(s32 index);
+    void func_ov000_021da230(s32 index, s32 param_3);
+    void func_ov000_021da3c0(s32 index, s32 param_3);
+    void func_ov000_021da7e4(void);
+    void func_ov000_021da8f4(void);
+    void func_ov000_021daac8(void);
+    void func_ov000_021dab34(BOOL param_2, BOOL param_3);
+    void func_ov000_021dac48(void);
+    void func_ov000_021dad04(void);
+    void func_ov000_021db160(void);
+    void func_ov000_021db1f4(void);
 };
 
 struct TMP
@@ -210,19 +234,9 @@ EC BOOL func_0203fd60(s32, s32);
 
 EC BOOL func_ov000_021a47e4(void);
 
-EC struct Unit * func_ov000_021d9e50(astruct_27 *, s32, s32);
-
 EC BOOL func_ov000_021bb5d4(void *, s32, s32);
-EC void func_ov000_021dab34(astruct_27 *, BOOL, BOOL);
-
-EC void func_ov000_021db160(astruct_27 *);
-EC void func_ov000_021da8f4(astruct_27 *);
-EC void func_ov000_021db1f4(astruct_27 *);
 
 EC void func_0204bf74(void);
-
-EC void func_ov000_021da0fc(astruct_27 *, s32);
-EC void func_ov000_021da3c0(astruct_27 *, s32, s32);
 
 struct UnkStruct_021e3528
 {
@@ -301,7 +315,7 @@ static inline struct Unit * GetUnit(s32 id)
     }
 }
 
-EC void func_ov000_021d9adc(Spawn * spawn, struct JobData * job)
+void Spawn::func_ov000_021d9adc(struct JobData * job)
 {
     u32 flags;
 
@@ -309,57 +323,57 @@ EC void func_ov000_021d9adc(Spawn * spawn, struct JobData * job)
 
     if (job == NULL)
     {
-        job = &data_02197254->pJob[spawn->jid];
+        job = &data_02197254->pJob[this->jid];
     }
 
     flags = 2;
 
-    if (gMapStateManager->tst(spawn->xLoad, spawn->yLoad) || gMapStateManager->tst(spawn->unk_06, spawn->unk_07))
+    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->unk_06, this->unk_07))
     {
         flags |= 0x200;
     }
 
-    gMapStateManager->unk_08->unk_0874 = spawn->unk_08;
-    func_01ff8204(gMapStateManager->unk_08, spawn->xLoad, spawn->yLoad, job->unk_28, 100, flags);
+    gMapStateManager->unk_08->unk_0874 = this->faction;
+    func_01ff8204(gMapStateManager->unk_08, this->xLoad, this->yLoad, job->unk_28, 100, flags);
     gMapStateManager->unk_08->unk_0874 = uVar1;
 
     return;
 }
 
-EC void func_ov000_021d9bb0(Spawn * spawn, struct JobData * job, s32 x, s32 y, s32 flags)
+void Spawn::func_ov000_021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags)
 {
     u8 uVar1 = gMapStateManager->unk_08->unk_0874;
 
     if (job == NULL)
     {
-        job = &data_02197254->pJob[spawn->jid];
+        job = &data_02197254->pJob[this->jid];
     }
 
-    if (gMapStateManager->tst(spawn->xLoad, spawn->yLoad) || gMapStateManager->tst(spawn->unk_06, spawn->unk_07))
+    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->unk_06, this->unk_07))
     {
         flags |= 0x200;
     }
 
-    gMapStateManager->unk_08->unk_0874 = spawn->unk_08;
+    gMapStateManager->unk_08->unk_0874 = this->faction;
     func_01ff8204(gMapStateManager->unk_08, x, y, job->unk_28, 100, flags);
     gMapStateManager->unk_08->unk_0874 = uVar1;
 
     return;
 }
 
-EC void func_ov000_021d9c94(Spawn * spawn, struct Unit * unit)
+void Spawn::func_ov000_021d9c94(struct Unit * unit)
 {
-    return func_ov000_021d9ca8(spawn, unit, spawn->xLoad, spawn->yLoad);
+    return this->func_ov000_021d9ca8(unit, this->xLoad, this->yLoad);
 }
 
-EC void func_ov000_021d9ca8(Spawn * spawn, struct Unit * unit, s8 x, s8 y)
+void Spawn::func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y)
 {
     if (unit->unk_4c->unk_08 == 4)
     {
-        func_02039ff8(unit, spawn);
+        func_02039ff8(unit, this);
     }
 
-    if ((GetPersonDBIndex(unit->pPersonData) == spawn->pid) && ((spawn->flags & 8) != 0))
+    if ((GetPersonDBIndex(unit->pPersonData) == this->pid) && ((this->flags & 8) != 0))
     {
         unit->state2 |= 0x200;
     }
@@ -367,9 +381,9 @@ EC void func_ov000_021d9ca8(Spawn * spawn, struct Unit * unit, s8 x, s8 y)
     unit->xPos = x;
     unit->yPos = y;
 
-    unit->unk_69 = spawn - static_cast<DisposGroup *>(gMapStateManager->unk_18)->unk_04;
+    unit->unk_69 = this - static_cast<DisposGroup *>(gMapStateManager->unk_18)->spawns;
 
-    if ((spawn->flags & 0x20) != 0)
+    if ((this->flags & 0x20) != 0)
     {
         unit->state1 |= 0x1000;
     }
@@ -378,7 +392,7 @@ EC void func_ov000_021d9ca8(Spawn * spawn, struct Unit * unit, s8 x, s8 y)
         unit->state1 &= ~0x1000;
     }
 
-    if ((spawn->flags & 0x40) != 0)
+    if ((this->flags & 0x40) != 0)
     {
         unit->state1 |= 0x8000000;
     }
@@ -387,104 +401,104 @@ EC void func_ov000_021d9ca8(Spawn * spawn, struct Unit * unit, s8 x, s8 y)
         unit->state1 &= ~0x8000000;
     }
 
-    func_0203bd34(unit, spawn->unk_08, 1);
+    func_0203bd34(unit, this->faction, 1);
 
     return;
 }
 
-EC void func_ov000_021d9d7c(Disposition * self, astruct_27 * param_2)
+void Disposition::func_ov000_021d9d7c(DisposGroupProcessor * processor)
 {
-    if (self->unk_38 == NULL)
+    if (this->head == NULL)
     {
-        self->unk_38 = param_2;
+        this->head = processor;
     }
     else
     {
-        self->unk_3c->unk_08 = param_2;
+        this->tail->next = processor;
     }
 
-    param_2->unk_04 = self->unk_3c;
-    param_2->unk_08 = NULL;
+    processor->prev = this->tail;
+    processor->next = NULL;
 
-    self->unk_3c = param_2;
+    this->tail = processor;
 
     return;
 }
 
-EC void func_ov000_021d9da8(Disposition * self, astruct_27 * param_2)
+void Disposition::func_ov000_021d9da8(DisposGroupProcessor * processor)
 {
-    if (param_2->unk_04 == NULL)
+    if (processor->prev == NULL)
     {
-        self->unk_38 = param_2->unk_08;
+        this->head = processor->next;
     }
     else
     {
-        param_2->unk_04->unk_08 = param_2->unk_08;
+        processor->prev->next = processor->next;
     }
 
-    if (param_2->unk_08 == NULL)
+    if (processor->next == NULL)
     {
-        self->unk_3c = param_2->unk_04;
+        this->tail = processor->prev;
     }
     else
     {
-        param_2->unk_08->unk_04 = param_2->unk_04;
+        processor->next->prev = processor->prev;
     }
 
-    if (self->unk_38 == NULL && self->unk_3c == NULL)
+    if (this->head == NULL && this->tail == NULL)
     {
-        Proc_End(self);
+        Proc_End(this);
     }
 
     return;
 }
 
-EC void func_ov000_021d9df0(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021d9df0(void)
 {
-    self->unk_18 = new astruct_27_18[self->unk_10->unk_08];
+    this->spawnStates = new SpawnState[this->disposGroup->count];
     return;
 }
 
 // func_ov000_021d9e28
-astruct_27_18::astruct_27_18()
+SpawnState::SpawnState()
 {
-    this->unk_00 = 0;
-    this->unk_01 = 0;
+    this->unitId = 0;
+    this->flags = 0;
 }
 
-EC void func_ov000_021d9e38(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021d9e38(void)
 {
-    if (self->unk_18 != NULL)
+    if (this->spawnStates != NULL)
     {
-        delete[] self->unk_18;
+        delete[] this->spawnStates;
     }
 
     return;
 }
 
-EC struct Unit * func_ov000_021d9e50(astruct_27 * param_1, s32 param_2, s32 param_3)
+struct Unit * DisposGroupProcessor::func_ov000_021d9e50(s32 pid, s32 faction)
 {
     if (func_ov000_021a47e4() == 0)
     {
-        param_3 = 0;
+        faction = 0;
     }
 
-    return func_02040d44(func_02040c98(param_3 + 2), param_2);
+    return func_02040d44(func_02040c98(faction + 2), pid);
 }
 
-EC struct Unit * func_ov000_021d9e7c(astruct_27 * param_1, s32 param_2)
+EC struct Unit * DisposGroupProcessor::func_ov000_021d9e7c(s32 faction)
 {
-    struct Unit ** puVar3;
+    struct Unit ** pUnitStack;
     struct Unit * pUnit;
 
     if (func_ov000_021a47e4() == 0)
     {
-        param_2 = 0;
+        faction = 0;
     }
 
-    puVar3 = func_02040c98(param_2 + 2);
+    pUnitStack = func_02040c98(faction + 2);
 
-    for (pUnit = *puVar3; pUnit != NULL; pUnit = pUnit->unk_3c)
+    for (pUnit = *pUnitStack; pUnit != NULL; pUnit = pUnit->unk_3c)
     {
         if (!(pUnit->state2 & 0x800))
         {
@@ -495,22 +509,22 @@ EC struct Unit * func_ov000_021d9e7c(astruct_27 * param_1, s32 param_2)
     return pUnit;
 }
 
-EC struct Unit * func_ov000_021d9ebc(astruct_27 * self, s32 param_2, BOOL param_3)
+EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param_3)
 {
     struct Unit ** pUnitStack;
     struct Unit * unit;
     Spawn * spawn;
-    astruct_27_18 * paVar2;
+    SpawnState * paVar2;
 
-    spawn = self->unk_14 + param_2;
-    paVar2 = self->unk_18 + param_2;
+    spawn = this->spawns + index;
+    paVar2 = this->spawnStates + index;
 
     if (((spawn->flags & 0xe) != 0) && ((data_02196f0c->state & 0x40) != 0))
     {
         return NULL;
     }
 
-    if ((paVar2->unk_01 & 3) != 0)
+    if ((paVar2->flags & 3) != 0)
     {
         return NULL;
     }
@@ -520,9 +534,9 @@ EC struct Unit * func_ov000_021d9ebc(astruct_27 * self, s32 param_2, BOOL param_
         return NULL;
     }
 
-    if (func_02040c74(func_02040c98(spawn->unk_08)) >= 0x32)
+    if (func_02040c74(func_02040c98(spawn->faction)) >= 50)
     {
-        paVar2->unk_01 |= 1;
+        paVar2->flags |= 1;
         return NULL;
     }
 
@@ -532,34 +546,34 @@ EC struct Unit * func_ov000_021d9ebc(astruct_27 * self, s32 param_2, BOOL param_
     {
         if (param_3 != 0)
         {
-            unit = func_ov000_021d9e50(self, spawn->pid, spawn->unk_08);
+            unit = this->func_ov000_021d9e50(spawn->pid, spawn->faction);
         }
         else
         {
-            unit = func_ov000_021d9e7c(self, spawn->unk_08);
+            unit = this->func_ov000_021d9e7c(spawn->faction);
 
             if (unit == NULL)
             {
-                paVar2->unk_01 |= 1;
+                paVar2->flags |= 1;
             }
         }
     }
     else
     {
-        if (spawn->unk_08 == 0)
+        if (spawn->faction == 0)
         {
             unit = func_02040d44(func_02040c98(2), spawn->pid);
 
             if ((unit == NULL) && func_0203fd60(spawn->pid, ~2))
             {
-                paVar2->unk_01 |= 1;
+                paVar2->flags |= 1;
                 return NULL;
             }
         }
 
         if (unit == NULL)
         {
-            if ((spawn->flags & 0x80) || spawn->unk_08 != 0)
+            if ((spawn->flags & 0x80) || spawn->faction != 0)
             {
                 pUnitStack = func_02040c98(4);
                 unit = *pUnitStack;
@@ -568,26 +582,26 @@ EC struct Unit * func_ov000_021d9ebc(astruct_27 * self, s32 param_2, BOOL param_
 
         if (unit == NULL)
         {
-            paVar2->unk_01 |= 1;
+            paVar2->flags |= 1;
         }
     }
 
     return unit;
 }
 
-EC BOOL func_ov000_021da030(astruct_27 * self, s32 param_2, s32 param_3)
+BOOL DisposGroupProcessor::func_ov000_021da030(s32 x, s32 y)
 {
     s32 i;
-    astruct_27_18 * it = self->unk_18;
+    SpawnState * it = this->spawnStates;
 
-    for (i = 0; i < self->unk_10->unk_08; i++, it++)
+    for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if (!(it->unk_01 & 2))
+        if (!(it->flags & 2))
         {
             continue;
         }
 
-        if (param_2 == it->unk_02 && param_3 == it->unk_03)
+        if (x == it->xPos && y == it->yPos)
         {
             return TRUE;
         }
@@ -596,28 +610,28 @@ EC BOOL func_ov000_021da030(astruct_27 * self, s32 param_2, s32 param_3)
     return FALSE;
 }
 
-EC BOOL func_ov000_021da088(astruct_27 * self, s32 param_2, s32 param_3)
+BOOL DisposGroupProcessor::func_ov000_021da088(s32 x, s32 y)
 {
-    astruct_27 * it;
+    DisposGroupProcessor * it;
 
-    for (it = self->unk_00->unk_38; it != NULL; it = it->unk_08)
+    for (it = this->proc->head; it != NULL; it = it->next)
     {
-        if (func_ov000_021da030(it, param_2, param_3) != 0)
+        if (it->func_ov000_021da030(x, y) != 0)
         {
             return TRUE;
         }
     }
 
-    return func_ov000_021bb5d4(gMapStateManager->unk_14->unk_00, param_2, param_3) != 0;
+    return func_ov000_021bb5d4(gMapStateManager->unk_14->unk_00, x, y) != 0;
 }
 
-EC void func_ov000_021da0fc(astruct_27 * self, s32 index)
+EC void DisposGroupProcessor::func_ov000_021da0fc(s32 index)
 {
     struct Unit ** pUnitStack;
     Spawn * spawn;
     struct Unit * unit;
 
-    spawn = self->unk_14 + index;
+    spawn = this->spawns + index;
 
     if ((spawn->flags & 0xe) == 0)
     {
@@ -641,7 +655,7 @@ EC void func_ov000_021da0fc(astruct_27 * self, s32 index)
         return;
     }
 
-    if (func_02040d44(func_02040c98(spawn->unk_08), spawn->pid) != 0)
+    if (func_02040d44(func_02040c98(spawn->faction), spawn->pid) != 0)
     {
         return;
     }
@@ -661,32 +675,32 @@ EC void func_ov000_021da0fc(astruct_27 * self, s32 index)
 
     if (unit == NULL)
     {
-        self->unk_18->unk_01 |= 1;
+        this->spawnStates->flags |= 1;
         return;
     }
 
-    func_0203bd34(unit, spawn->unk_08 + 2, 1);
+    func_0203bd34(unit, spawn->faction + 2, 1);
     func_02039ff8(unit, spawn);
 
     return;
 }
 
-EC void func_ov000_021da230(astruct_27 * self, s32 index, s32 param_3)
+void DisposGroupProcessor::func_ov000_021da230(s32 index, s32 param_3)
 {
     struct Unit * unit;
     Spawn * spawn;
-    astruct_27_18 * paVar7;
+    SpawnState * paVar7;
     BOOL bVar6;
 
-    unit = func_ov000_021d9ebc(self, index, param_3);
+    unit = this->func_ov000_021d9ebc(index, param_3);
 
     if (unit == NULL)
     {
         return;
     }
 
-    spawn = self->unk_14 + index;
-    paVar7 = self->unk_18 + index;
+    spawn = this->spawns + index;
+    paVar7 = this->spawnStates + index;
 
     if (spawn->unk_06 < 0)
     {
@@ -714,34 +728,34 @@ EC void func_ov000_021da230(astruct_27 * self, s32 index, s32 param_3)
 
     if (bVar6)
     {
-        paVar7->unk_01 |= 1;
+        paVar7->flags |= 1;
         return;
     }
 
     if ((gMapStateManager->unk_428[spawn->unk_06 | spawn->unk_07 << 5] == 0) &&
-        (func_ov000_021da088(self, spawn->unk_06, spawn->unk_07) == 0))
+        (this->func_ov000_021da088(spawn->unk_06, spawn->unk_07) == 0))
     {
         if (spawn->xLoad == spawn->unk_06 && spawn->yLoad == spawn->unk_07)
         {
-            paVar7->unk_02 = spawn->unk_06;
-            paVar7->unk_03 = spawn->unk_07;
-            paVar7->unk_01 |= 2;
+            paVar7->xPos = spawn->unk_06;
+            paVar7->yPos = spawn->unk_07;
+            paVar7->flags |= 2;
         }
         else
         {
-            func_ov000_021d9adc(spawn, unit->pJobData);
+            spawn->func_ov000_021d9adc(unit->pJobData);
 
             if (gMapStateManager->unk_08->unk_0854[spawn->unk_06 | spawn->unk_07 << 5] >= 0)
             {
-                paVar7->unk_02 = spawn->unk_06;
-                paVar7->unk_03 = spawn->unk_07;
-                paVar7->unk_01 |= 2;
+                paVar7->xPos = spawn->unk_06;
+                paVar7->yPos = spawn->unk_07;
+                paVar7->flags |= 2;
             }
             else
             {
                 if ((spawn->flags & 1) == 0)
                 {
-                    paVar7->unk_01 |= 1;
+                    paVar7->flags |= 1;
                 }
 
                 return;
@@ -750,25 +764,25 @@ EC void func_ov000_021da230(astruct_27 * self, s32 index, s32 param_3)
 
         if ((spawn->flags & 1) == 0)
         {
-            paVar7->unk_01 |= 1;
+            paVar7->flags |= 1;
         }
 
         return;
     }
 
-    func_ov000_021d9c94(spawn, unit);
-    paVar7->unk_00 = unit->unk_68;
-    self->unk_1e++;
+    spawn->func_ov000_021d9c94(unit);
+    paVar7->unitId = unit->unk_68;
+    this->unk_1e++;
 
     return;
 }
 
-EC void func_ov000_021da3c0(astruct_27 * self, s32 index, s32 param_3)
+void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
 {
     struct Unit * unit;
     Spawn * spawn;
     u16 ix;
-    astruct_27_18 * paVar6;
+    SpawnState * paVar6;
     u8 cVar9;
     u8 cVar8;
     s32 iVar9;
@@ -777,16 +791,16 @@ EC void func_ov000_021da3c0(astruct_27 * self, s32 index, s32 param_3)
     u32 iStack_3c;
     u32 uStack_38;
 
-    unit = func_ov000_021d9ebc(self, index, param_3);
+    unit = this->func_ov000_021d9ebc(index, param_3);
 
     if (unit == NULL)
     {
         return;
     }
 
-    spawn = self->unk_14 + index;
+    spawn = this->spawns + index;
     uStack_38 = spawn->xLoad;
-    paVar6 = self->unk_18 + index;
+    paVar6 = this->spawnStates + index;
     iStack_3c = spawn->yLoad;
 
     if (spawn->unk_06 < 0)
@@ -815,14 +829,14 @@ EC void func_ov000_021da3c0(astruct_27 * self, s32 index, s32 param_3)
 
     if (bVar11)
     {
-        paVar6->unk_01 |= 1;
+        paVar6->flags |= 1;
         return;
     }
 
     gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0c78;
-    func_ov000_021d9bb0(spawn, unit->pJobData, spawn->unk_06, spawn->unk_07, 0);
+    spawn->func_ov000_021d9bb0(unit->pJobData, spawn->unk_06, spawn->unk_07, 0);
     gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0878;
-    func_ov000_021d9adc(spawn, unit->pJobData);
+    spawn->func_ov000_021d9adc(unit->pJobData);
     cVar8 = 100;
 
     for (iy = 0; iy < gMapStateManager->unk_22; iy++)
@@ -849,15 +863,15 @@ EC void func_ov000_021da3c0(astruct_27 * self, s32 index, s32 param_3)
                 continue;
             }
 
-            if (func_ov000_021da088(self, ix, iVar9) == 0)
+            if (this->func_ov000_021da088(ix, iVar9) == 0)
             {
-                if ((self->unk_20 & 8) != 0)
+                if ((this->flags & 8) != 0)
                 {
                     if (BoundsCheck(ix, iy))
                     {
-                        paVar6->unk_02 = ix;
-                        paVar6->unk_03 = iy;
-                        paVar6->unk_01 |= 2;
+                        paVar6->xPos = ix;
+                        paVar6->yPos = iy;
+                        paVar6->flags |= 2;
                         cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
                     }
                 }
@@ -865,7 +879,7 @@ EC void func_ov000_021da3c0(astruct_27 * self, s32 index, s32 param_3)
         }
     }
 
-    if ((paVar6->unk_01 & 2) == 0)
+    if ((paVar6->flags & 2) == 0)
     {
         if (param_3 != 0)
         {
@@ -898,15 +912,15 @@ EC void func_ov000_021da3c0(astruct_27 * self, s32 index, s32 param_3)
                     continue;
                 }
 
-                if (func_ov000_021da088(self, ix, iVar9) == 0)
+                if (this->func_ov000_021da088(ix, iVar9) == 0)
                 {
-                    if ((self->unk_20 & 8) != 0)
+                    if ((this->flags & 8) != 0)
                     {
                         if (BoundsCheck(ix, iy))
                         {
-                            paVar6->unk_02 = ix;
-                            paVar6->unk_03 = iy;
-                            paVar6->unk_01 |= 2;
+                            paVar6->xPos = ix;
+                            paVar6->yPos = iy;
+                            paVar6->flags |= 2;
                             cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
                             uStack_38 = ix;
                             iStack_3c = iy;
@@ -917,81 +931,74 @@ EC void func_ov000_021da3c0(astruct_27 * self, s32 index, s32 param_3)
         }
     }
 
-    if ((paVar6->unk_01 & 2) == 0)
+    if ((paVar6->flags & 2) == 0)
     {
-        paVar6->unk_01 |= 1;
+        paVar6->flags |= 1;
         return;
     }
 
     func_ov000_021d9ca8(spawn, unit, uStack_38, iStack_3c);
-    paVar6->unk_00 = unit->unk_68;
-    self->unk_1e++;
+    paVar6->unitId = unit->unk_68;
+    this->unk_1e++;
 
     return;
 }
 
-EC void func_ov000_021da7e4(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021da7e4(void)
 {
     s32 i;
 
-    for (i = 0; i < self->unk_10->unk_08; i++)
+    for (i = 0; i < this->disposGroup->count; i++)
     {
-        func_ov000_021da0fc(self, i);
+        this->func_ov000_021da0fc(i);
     }
 
-    for (i = 0; i < self->unk_10->unk_08; i++)
+    for (i = 0; i < this->disposGroup->count; i++)
     {
-        func_ov000_021da230(self, i, 1);
+        this->func_ov000_021da230(i, 1);
     }
 
-    for (i = 0; i < self->unk_10->unk_08; i++)
+    for (i = 0; i < this->disposGroup->count; i++)
     {
-        func_ov000_021da3c0(self, i, 1);
+        this->func_ov000_021da3c0(i, 1);
     }
 
-    for (i = 0; i < self->unk_10->unk_08; i++)
+    for (i = 0; i < this->disposGroup->count; i++)
     {
-        func_ov000_021da230(self, i, 0);
+        this->func_ov000_021da230(i, 0);
     }
 
-    for (i = 0; i < self->unk_10->unk_08; i++)
+    for (i = 0; i < this->disposGroup->count; i++)
     {
-        func_ov000_021da3c0(self, i, 0);
+        this->func_ov000_021da3c0(i, 0);
     }
 
     return;
 }
 
-EC void func_ov000_021da8f4(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021da8f4(void)
 {
     u32 yTmp;
-    astruct_27_18 * paVar3;
+    SpawnState * it;
     s32 i;
     struct Unit * unit;
 
-    paVar3 = self->unk_18;
+    it = this->spawnStates;
 
-    self->unk_1e = 0;
+    this->unk_1e = 0;
 
-    for (i = 0; i < self->unk_10->unk_08; i++, paVar3++)
+    for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if ((paVar3->unk_01 & 2) != 0)
+        if ((it->flags & 2) != 0)
         {
-            if (paVar3->unk_00 != 0)
-            {
-                unit = gUnitList + paVar3->unk_00 - 1;
-            }
-            else
-            {
-                unit = NULL;
-            }
+            unit = GetUnit(it->unitId);
 
-            if ((self->unk_20 & 1) != 0)
+            if ((this->flags & 1) != 0)
             {
                 func_ov000_021baafc(gMapStateManager->unk_14->unk_00, unit, 1);
 
-                yTmp = paVar3->unk_03;
-                unit->xPos = paVar3->unk_02;
+                yTmp = it->yPos;
+                unit->xPos = it->xPos;
                 unit->yPos = yTmp;
                 unit->alpha = 0x1f;
 
@@ -1002,9 +1009,9 @@ EC void func_ov000_021da8f4(astruct_27 * self)
             }
             else
             {
-                if (paVar3->unk_02 == unit->xPos && paVar3->unk_03 == unit->yPos)
+                if (it->xPos == unit->xPos && it->yPos == unit->yPos)
                 {
-                    paVar3->unk_01 |= 0x10;
+                    it->flags |= 0x10;
 
                     if (gMapStateManager->tst(unit->xPos, unit->yPos))
                     {
@@ -1014,7 +1021,7 @@ EC void func_ov000_021da8f4(astruct_27 * self)
                 else
                 {
                     unit->state2 |= 0x1000;
-                    self->unk_1e++;
+                    this->unk_1e++;
                 }
 
                 unit->alpha = 0;
@@ -1022,7 +1029,7 @@ EC void func_ov000_021da8f4(astruct_27 * self)
         }
     }
 
-    if (((self->unk_20 & 2) == 0) || ((self->unk_20 & 1) != 0))
+    if (((this->flags & 2) == 0) || ((this->flags & 1) != 0))
     {
         func_ov000_021a3974(gMapStateManager->unk_db0, data_ov000_021e3324->phase);
         func_ov000_021a3974(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
@@ -1030,7 +1037,7 @@ EC void func_ov000_021da8f4(astruct_27 * self)
 
     func_ov000_021a340c();
 
-    if (((self->unk_20 & 2) != 0) && ((self->unk_20 & 1) == 0))
+    if (((this->flags & 2) != 0) && ((this->flags & 1) == 0))
     {
         return;
     }
@@ -1040,43 +1047,43 @@ EC void func_ov000_021da8f4(astruct_27 * self)
     return;
 }
 
-EC void func_ov000_021daac8(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021daac8(void)
 {
-    func_ov000_021d9df0(self);
-    func_ov000_021da7e4(self);
-    func_ov000_021da8f4(self);
+    this->func_ov000_021d9df0();
+    this->func_ov000_021da7e4();
+    this->func_ov000_021da8f4();
 
-    if ((self->unk_20 & 1) == 0)
+    if ((this->flags & 1) == 0)
     {
         return;
     }
 
-    if ((self->unk_20 & 2) != 0)
+    if ((this->flags & 2) != 0)
     {
-        func_ov000_021dab34(self, 1, 0);
+        this->func_ov000_021dab34(1, 0);
     }
 
     func_0204bf74();
 
-    delete self;
+    delete this;
 
     return;
 }
 
-EC void func_ov000_021dab34(astruct_27 * self, BOOL param_2, BOOL param_3)
+void DisposGroupProcessor::func_ov000_021dab34(BOOL param_2, BOOL param_3)
 {
     s32 uVar2;
     s32 uVar1;
 
-    astruct_27_18 * it = self->unk_18;
+    SpawnState * it = this->spawnStates;
     s32 iVar7 = 0;
     s32 i = 0;
     s32 x = 0;
     s32 y = 0;
 
-    for (; i < self->unk_10->unk_08; i++, it++)
+    for (; i < this->disposGroup->count; i++, it++)
     {
-        if (!(it->unk_01 & 2))
+        if (!(it->flags & 2))
         {
             continue;
         }
@@ -1084,8 +1091,8 @@ EC void func_ov000_021dab34(astruct_27 * self, BOOL param_2, BOOL param_3)
         if (!param_3 || ((gMapStateManager->unk_d30[((x | y << 5) >> 3)] & (1 << (x & 7))) & 0xFF))
         {
             iVar7++;
-            x += it->unk_02;
-            y += it->unk_03;
+            x += it->xPos;
+            y += it->yPos;
         }
     }
 
@@ -1108,51 +1115,44 @@ EC void func_ov000_021dab34(astruct_27 * self, BOOL param_2, BOOL param_3)
     return;
 }
 
-EC void func_ov000_021dac48(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021dac48(void)
 {
     struct Unit * unit;
-    astruct_27_18 * it;
+    SpawnState * it;
     s32 i;
 
-    it = self->unk_18;
+    it = this->spawnStates;
 
-    for (i = 0; i < self->unk_10->unk_08; i++, it++)
+    for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if (self->unk_00->unk_40 >= 1)
+        if (this->proc->unk_40 >= 1)
         {
             return;
         }
 
-        if (!(it->unk_01 & 2))
+        if (!(it->flags & 2))
         {
             continue;
         }
 
-        if (it->unk_00 != 0)
-        {
-            unit = gUnitList + it->unk_00 - 1;
-        }
-        else
-        {
-            unit = NULL;
-        }
+        unit = GetUnit(it->unitId);
 
         if (func_ov000_021baafc(gMapStateManager->unk_14->unk_00, unit, 0))
         {
-            self->unk_00->unk_40++;
+            this->proc->unk_40++;
         }
     }
 
     return;
 }
 
-EC void func_ov000_021dad04(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021dad04(void)
 {
     BOOL bVar3;
     BOOL bVar1;
     BOOL bVar4;
     s32 i;
-    astruct_27_18 * paVar10;
+    SpawnState * state;
     Spawn * spawn;
     s32 uVar8;
 
@@ -1160,19 +1160,19 @@ EC void func_ov000_021dad04(astruct_27 * self)
     bVar1 = FALSE;
     bVar4 = FALSE;
 
-    if (self->unk_1c == 0)
+    if (this->unk_1c == 0)
     {
         return;
     }
 
-    if ((self->unk_20 & 2) != 0)
+    if ((this->flags & 2) != 0)
     {
         if (gMapStateManager->camera->unk_18 >= 2 ? TRUE : FALSE)
         {
             return;
         }
 
-        self->unk_20 &= ~2;
+        this->flags &= ~2;
 
         func_ov000_021a3974(gMapStateManager->unk_db0, data_ov000_021e3324->phase);
         func_ov000_021a3974(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
@@ -1181,43 +1181,37 @@ EC void func_ov000_021dad04(astruct_27 * self)
         func_ov000_021a35a0();
     }
 
-    if (self->unk_1e != 0)
+    if (this->unk_1e != 0)
     {
-        if (self->unk_1e <= func_ov000_021bb518(gMapStateManager->unk_14->unk_00))
+        if (this->unk_1e <= func_ov000_021bb518(gMapStateManager->unk_14->unk_00))
         {
             bVar1 = 1;
         }
-        self->unk_1e = 0;
+
+        this->unk_1e = 0;
     }
 
     if (!func_ov000_021bb560(gMapStateManager->unk_14->unk_00))
     {
-        self->unk_1e = 0;
+        this->unk_1e = 0;
         bVar1 = TRUE;
     }
 
-    spawn = self->unk_14;
-    paVar10 = self->unk_18;
+    spawn = this->spawns;
+    state = this->spawnStates;
 
-    for (i = 0; i < self->unk_10->unk_08; i++, spawn++, paVar10++)
+    for (i = 0; i < this->disposGroup->count; i++, spawn++, state++)
     {
         struct Unit * unit;
 
-        if (!(paVar10->unk_01 & 2))
+        if (!(state->flags & 2))
         {
             continue;
         }
 
-        if (paVar10->unk_00 != 0)
-        {
-            unit = gUnitList + paVar10->unk_00 - 1;
-        }
-        else
-        {
-            unit = NULL;
-        }
+        unit = GetUnit(state->unitId);
 
-        if ((paVar10->unk_01 & 0x18))
+        if ((state->flags & 0x18))
         {
             uVar8 = unit->alpha;
 
@@ -1253,9 +1247,9 @@ EC void func_ov000_021dad04(astruct_27 * self)
 
                 if (iVar7 != NULL)
                 {
-                    paVar10->unk_01 |= 8;
-                    func_ov000_021d9bb0(spawn, unit->pJobData, unit->xPos, unit->yPos, 2);
-                    func_02001ca0(gMapStateManager->unk_08, unit->xPos, unit->yPos, paVar10->unk_02, paVar10->unk_03);
+                    state->flags |= 8;
+                    spawn->func_ov000_021d9bb0(unit->pJobData, unit->xPos, unit->yPos, 2);
+                    func_02001ca0(gMapStateManager->unk_08, unit->xPos, unit->yPos, state->xPos, state->yPos);
                     func_ov000_021bb734(iVar7, unit, 1);
                     iVar7->unk_68 = 0x1000;
                     func_ov000_021bc2b8(iVar7, gMapStateManager->unk_08, 0x800);
@@ -1263,7 +1257,7 @@ EC void func_ov000_021dad04(astruct_27 * self)
             }
         }
 
-        if ((paVar10->unk_01 & 8) != 0)
+        if ((state->flags & 8) != 0)
         {
             struct TMP * iVar7 = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
 
@@ -1276,8 +1270,8 @@ EC void func_ov000_021dad04(astruct_27 * self)
                     func_ov000_021bb944();
                 }
 
-                paVar10->unk_01 &= ~8;
-                paVar10->unk_01 |= 0x10;
+                state->flags &= ~8;
+                state->flags |= 0x10;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
@@ -1304,92 +1298,83 @@ EC void func_ov000_021dad04(astruct_27 * self)
     if (bVar3)
     {
         func_0204bf74();
-        delete self;
+        delete this;
     }
 
     return;
 }
 
-// TODO: virtual function
-EC void func_ov000_021db09c(Disposition * self)
+// func_ov000_021db09c
+void Disposition::Loop(void)
 {
-    astruct_27 * it;
-    astruct_27 * next;
+    DisposGroupProcessor * it;
+    DisposGroupProcessor * next;
 
-    self->unk_40 = 0;
+    this->unk_40 = 0;
 
-    for (it = self->unk_38; it != NULL; it = next)
+    for (it = this->head; it != NULL; it = next)
     {
-        next = it->unk_08;
-        func_ov000_021dac48(it);
+        next = it->next;
+        it->func_ov000_021dac48();
     }
 
-    if (self->unk_40 == 0)
+    if (this->unk_40 == 0)
     {
-        for (it = self->unk_38; it != NULL; it = next)
+        for (it = this->head; it != NULL; it = next)
         {
-            next = it->unk_08;
-            if ((it->unk_1c == 0) && ((it->unk_20 & 2) != 0))
+            next = it->next;
+            if ((it->unk_1c == 0) && ((it->flags & 2) != 0))
             {
-                func_ov000_021dab34(it, 0, ((it->unk_20 & 4) ? TRUE : FALSE) & 0xFF);
+                it->func_ov000_021dab34(0, ((it->flags & 4) ? TRUE : FALSE) & 0xFF);
             }
 
             it->unk_1c = 1;
         }
     }
 
-    for (it = self->unk_38; it != NULL; it = next)
+    for (it = this->head; it != NULL; it = next)
     {
-        next = it->unk_08;
-        func_ov000_021dad04(it);
+        next = it->next;
+        it->func_ov000_021dad04();
     }
 
     return;
 }
 
-EC void func_ov000_021db160(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021db160(void)
 {
-    astruct_27_18 * it;
+    SpawnState * it;
     s32 i;
 
-    it = self->unk_18;
+    it = this->spawnStates;
 
-    for (i = 0; i < self->unk_10->unk_08; i++, it++)
+    for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if (!(it->unk_01 & 2))
+        if (!(it->flags & 2))
         {
             continue;
         }
 
-        func_ov000_021baafc(gMapStateManager->unk_14->unk_00, GetUnit(it->unk_00), 1);
+        func_ov000_021baafc(gMapStateManager->unk_14->unk_00, GetUnit(it->unitId), 1);
     }
 
     return;
 }
 
-EC void func_ov000_021db1f4(astruct_27 * self)
+void DisposGroupProcessor::func_ov000_021db1f4(void)
 {
-    astruct_27_18 * it;
+    SpawnState * it;
     s32 i;
 
-    it = self->unk_18;
+    it = this->spawnStates;
 
-    for (i = 0; i < self->unk_10->unk_08; i++, it++)
+    for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if ((it->unk_01 & 2) != 0)
+        if ((it->flags & 2) != 0)
         {
-            struct Unit * unit;
+            struct Unit * unit = GetUnit(it->unitId);
 
-            if (it->unk_00 != 0)
-            {
-                unit = gUnitList + it->unk_00 - 1;
-            }
-            else
-            {
-                unit = NULL;
-            }
-
-            if ((it->unk_01 & 0x18) != 0)
+            if ((it->flags & 0x18) != 0)
             {
                 if (unit->alpha < 0x1f)
                 {
@@ -1398,13 +1383,13 @@ EC void func_ov000_021db1f4(astruct_27 * self)
             }
             else
             {
-                u32 yTmp = it->unk_03;
-                unit->xPos = it->unk_02;
+                u32 yTmp = it->yPos;
+                unit->xPos = it->xPos;
                 unit->yPos = yTmp;
 
                 unit->state2 &= ~0x1000;
                 unit->alpha = 0x1f;
-                it->unk_01 |= 0x10;
+                it->flags |= 0x10;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
@@ -1412,12 +1397,12 @@ EC void func_ov000_021db1f4(astruct_27 * self)
                 }
             }
 
-            if (((it->unk_01 & 8) != 0) && (func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit) != 0))
+            if (((it->flags & 8) != 0) && (func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit) != 0))
             {
                 unit->state2 &= ~0x1000;
                 func_ov000_021bb944();
-                it->unk_01 &= ~8;
-                it->unk_01 |= 0x10;
+                it->flags &= ~8;
+                it->flags |= 0x10;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
@@ -1433,38 +1418,38 @@ EC void func_ov000_021db1f4(astruct_27 * self)
     func_ov000_021a340c();
     func_ov000_021a36e0();
 
-    delete self;
+    delete this;
 
     return;
 }
 
-EC void func_ov000_021db3c4(Disposition * self)
+void Disposition::func_ov000_021db3c4(void)
 {
-    astruct_27 * it;
-    astruct_27 * next;
+    DisposGroupProcessor * it;
+    DisposGroupProcessor * next;
 
-    for (it = self->unk_38; it != NULL; it = next)
+    for (it = this->head; it != NULL; it = next)
     {
-        next = it->unk_08;
-        func_ov000_021db160(it);
+        next = it->next;
+        it->func_ov000_021db160();
     }
 
-    for (it = self->unk_38; it != NULL; it = next)
+    for (it = this->head; it != NULL; it = next)
     {
-        next = it->unk_08;
+        next = it->next;
 
-        if ((it->unk_1c == 0) && ((it->unk_20 & 2) != 0))
+        if ((it->unk_1c == 0) && ((it->flags & 2) != 0))
         {
-            func_ov000_021dab34(it, 1, ((it->unk_20 & 4) != 0) & 0xff);
+            it->func_ov000_021dab34(1, ((it->flags & 4) != 0) & 0xff);
         }
 
         it->unk_1c = 1;
     }
 
-    for (it = self->unk_38; it != NULL; it = next)
+    for (it = this->head; it != NULL; it = next)
     {
-        next = it->unk_08;
-        func_ov000_021db1f4(it);
+        next = it->next;
+        it->func_ov000_021db1f4();
     }
 
     func_0204bf74();
@@ -1494,12 +1479,19 @@ EC s32 func_ov000_021db48c(void)
     return count;
 }
 
-extern struct ProcCmd data_ov000_021e32f8[];
+// clang-format off
 
-EC BOOL func_ov000_021db4bc(char * label, s32 param_2)
+struct ProcCmd data_ov000_021e32f8[] =
 {
-    astruct_27 * puVar3;
+    PROC_NAME,
+    PROC_REPEAT(func_ov000_021db478),
+    PROC_END,
+};
 
+// clang-format on
+
+EC BOOL func_ov000_021db4bc(char * label, s32 flags)
+{
     s32 count = func_ov000_021db48c();
 
     Disposition * proc = static_cast<Disposition *>(Proc_Find(data_ov000_021e32f8));
@@ -1509,7 +1501,7 @@ EC BOOL func_ov000_021db4bc(char * label, s32 param_2)
         proc = new (Proc_Start(data_ov000_021e32f8, PROC_TREE_9)) Disposition;
     }
 
-    puVar3 = new astruct_27(proc, label, param_2);
+    new DisposGroupProcessor(proc, label, flags);
 
     return count < func_ov000_021db48c();
 }
@@ -1525,7 +1517,7 @@ EC void func_ov000_021db624(void)
 
     if (proc != NULL)
     {
-        func_ov000_021db3c4(proc);
+        proc->func_ov000_021db3c4();
     }
 
     return;
