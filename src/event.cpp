@@ -91,7 +91,7 @@ void Event::func_0204745c(void)
         gMapStateManager->camera->func_ov000_021a516c();
     }
 
-    func_ov000_021db624();
+    Disposition_021db624();
 
     if (gMapStateManager != NULL)
     {
