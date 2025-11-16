@@ -6854,7 +6854,7 @@ from:0x021db5cc kind:arm_call to:0x020115a4 module:main
 from:0x021db5e0 kind:arm_call to:0x021daac8 module:overlay(0)
 from:0x021db5e4 kind:arm_call to:0x021db48c module:overlay(0)
 from:0x021db5f8 kind:load to:0x021e32f8 module:overlay(0)
-from:0x021db5fc kind:load to:0x021e32e8 module:overlay(0)
+from:0x021db5fc kind:load to:0x021e32e0 module:overlay(0) add:8
 from:0x021db600 kind:load to:0x021e3328 module:overlay(0)
 from:0x021db60c kind:arm_call to:0x02018cfc module:main
 from:0x021db620 kind:load to:0x021e32f8 module:overlay(0)

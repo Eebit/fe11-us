@@ -44,8 +44,8 @@ struct Spawn
     /* 02 */ u16 jid;
     /* 04 */ s8 xLoad;
     /* 05 */ s8 yLoad;
-    /* 06 */ s8 unk_06;
-    /* 07 */ s8 unk_07;
+    /* 06 */ s8 xFinal;
+    /* 07 */ s8 yFinal;
     /* 08 */ u8 faction;
     /* 09 */ u8 unk_09;
     /* 0A */ u8 startingLevel;
@@ -294,7 +294,6 @@ EC BOOL func_020252fc(void);
 
 EC BOOL func_ov000_021baafc(void *, struct Unit *, BOOL);
 
-EC void func_ov000_021bb944(void);
 EC void func_ov000_021a340c(void);
 EC void func_ov000_021a36e0(void);
 
@@ -328,7 +327,7 @@ void Spawn::func_ov000_021d9adc(struct JobData * job)
 
     flags = 2;
 
-    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->unk_06, this->unk_07))
+    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->xFinal, this->yFinal))
     {
         flags |= 0x200;
     }
@@ -349,7 +348,7 @@ void Spawn::func_ov000_021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags)
         job = &data_02197254->pJob[this->jid];
     }
 
-    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->unk_06, this->unk_07))
+    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->xFinal, this->yFinal))
     {
         flags |= 0x200;
     }
@@ -689,7 +688,7 @@ void DisposGroupProcessor::func_ov000_021da230(s32 index, s32 param_3)
 {
     struct Unit * unit;
     Spawn * spawn;
-    SpawnState * paVar7;
+    SpawnState * state;
     BOOL bVar6;
 
     unit = this->func_ov000_021d9ebc(index, param_3);
@@ -700,19 +699,19 @@ void DisposGroupProcessor::func_ov000_021da230(s32 index, s32 param_3)
     }
 
     spawn = this->spawns + index;
-    paVar7 = this->spawnStates + index;
+    state = this->spawnStates + index;
 
-    if (spawn->unk_06 < 0)
+    if (spawn->xFinal < 0)
     {
         bVar6 = true;
     }
-    else if (spawn->unk_07 < 0)
+    else if (spawn->yFinal < 0)
     {
         bVar6 = true;
     }
-    else if (spawn->unk_06 < gMapStateManager->unk_20)
+    else if (spawn->xFinal < gMapStateManager->unk_20)
     {
-        if (spawn->unk_07 >= gMapStateManager->unk_22)
+        if (spawn->yFinal >= gMapStateManager->unk_22)
         {
             bVar6 = true;
         }
@@ -728,34 +727,34 @@ void DisposGroupProcessor::func_ov000_021da230(s32 index, s32 param_3)
 
     if (bVar6)
     {
-        paVar7->flags |= 1;
+        state->flags |= 1;
         return;
     }
 
-    if ((gMapStateManager->unk_428[spawn->unk_06 | spawn->unk_07 << 5] == 0) &&
-        (this->func_ov000_021da088(spawn->unk_06, spawn->unk_07) == 0))
+    if ((gMapStateManager->unk_428[spawn->xFinal | spawn->yFinal << 5] == 0) &&
+        (this->func_ov000_021da088(spawn->xFinal, spawn->yFinal) == 0))
     {
-        if (spawn->xLoad == spawn->unk_06 && spawn->yLoad == spawn->unk_07)
+        if (spawn->xLoad == spawn->xFinal && spawn->yLoad == spawn->yFinal)
         {
-            paVar7->xPos = spawn->unk_06;
-            paVar7->yPos = spawn->unk_07;
-            paVar7->flags |= 2;
+            state->xPos = spawn->xFinal;
+            state->yPos = spawn->yFinal;
+            state->flags |= 2;
         }
         else
         {
             spawn->func_ov000_021d9adc(unit->pJobData);
 
-            if (gMapStateManager->unk_08->unk_0854[spawn->unk_06 | spawn->unk_07 << 5] >= 0)
+            if (gMapStateManager->unk_08->unk_0854[spawn->xFinal | spawn->yFinal << 5] >= 0)
             {
-                paVar7->xPos = spawn->unk_06;
-                paVar7->yPos = spawn->unk_07;
-                paVar7->flags |= 2;
+                state->xPos = spawn->xFinal;
+                state->yPos = spawn->yFinal;
+                state->flags |= 2;
             }
             else
             {
                 if ((spawn->flags & 1) == 0)
                 {
-                    paVar7->flags |= 1;
+                    state->flags |= 1;
                 }
 
                 return;
@@ -764,14 +763,14 @@ void DisposGroupProcessor::func_ov000_021da230(s32 index, s32 param_3)
 
         if ((spawn->flags & 1) == 0)
         {
-            paVar7->flags |= 1;
+            state->flags |= 1;
         }
 
         return;
     }
 
     spawn->func_ov000_021d9c94(unit);
-    paVar7->unitId = unit->unk_68;
+    state->unitId = unit->unk_68;
     this->unk_1e++;
 
     return;
@@ -781,11 +780,9 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
 {
     struct Unit * unit;
     Spawn * spawn;
-    u16 ix;
-    SpawnState * paVar6;
-    u8 cVar9;
+    SpawnState * state;
     u8 cVar8;
-    s32 iVar9;
+    u16 ix;
     u16 iy;
     BOOL bVar11;
     u32 iStack_3c;
@@ -800,20 +797,20 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
 
     spawn = this->spawns + index;
     uStack_38 = spawn->xLoad;
-    paVar6 = this->spawnStates + index;
+    state = this->spawnStates + index;
     iStack_3c = spawn->yLoad;
 
-    if (spawn->unk_06 < 0)
+    if (spawn->xFinal < 0)
     {
         bVar11 = true;
     }
-    else if (spawn->unk_07 < 0)
+    else if (spawn->yFinal < 0)
     {
         bVar11 = true;
     }
-    else if (spawn->unk_06 < gMapStateManager->unk_20)
+    else if (spawn->xFinal < gMapStateManager->unk_20)
     {
-        if (spawn->unk_07 < gMapStateManager->unk_22)
+        if (spawn->yFinal < gMapStateManager->unk_22)
         {
             bVar11 = false;
         }
@@ -829,12 +826,12 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
 
     if (bVar11)
     {
-        paVar6->flags |= 1;
+        state->flags |= 1;
         return;
     }
 
     gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0c78;
-    spawn->func_ov000_021d9bb0(unit->pJobData, spawn->unk_06, spawn->unk_07, 0);
+    spawn->func_ov000_021d9bb0(unit->pJobData, spawn->xFinal, spawn->yFinal, 0);
     gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0878;
     spawn->func_ov000_021d9adc(unit->pJobData);
     cVar8 = 100;
@@ -863,15 +860,15 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
                 continue;
             }
 
-            if (this->func_ov000_021da088(ix, iVar9) == 0)
+            if (this->func_ov000_021da088(ix, iy) == 0)
             {
                 if ((this->flags & 8) != 0)
                 {
                     if (BoundsCheck(ix, iy))
                     {
-                        paVar6->xPos = ix;
-                        paVar6->yPos = iy;
-                        paVar6->flags |= 2;
+                        state->xPos = ix;
+                        state->yPos = iy;
+                        state->flags |= 2;
                         cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
                     }
                 }
@@ -879,14 +876,14 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
         }
     }
 
-    if ((paVar6->flags & 2) == 0)
+    if ((state->flags & 2) == 0)
     {
         if (param_3 != 0)
         {
             return;
         }
 
-        cVar9 = 100;
+        cVar8 = 100;
 
         for (iy = 0; iy < gMapStateManager->unk_22; iy++)
         {
@@ -912,15 +909,15 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
                     continue;
                 }
 
-                if (this->func_ov000_021da088(ix, iVar9) == 0)
+                if (this->func_ov000_021da088(ix, iy) == 0)
                 {
                     if ((this->flags & 8) != 0)
                     {
                         if (BoundsCheck(ix, iy))
                         {
-                            paVar6->xPos = ix;
-                            paVar6->yPos = iy;
-                            paVar6->flags |= 2;
+                            state->xPos = ix;
+                            state->yPos = iy;
+                            state->flags |= 2;
                             cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
                             uStack_38 = ix;
                             iStack_3c = iy;
@@ -931,14 +928,14 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
         }
     }
 
-    if ((paVar6->flags & 2) == 0)
+    if ((state->flags & 2) == 0)
     {
-        paVar6->flags |= 1;
+        state->flags |= 1;
         return;
     }
 
     func_ov000_021d9ca8(spawn, unit, uStack_38, iStack_3c);
-    paVar6->unitId = unit->unk_68;
+    state->unitId = unit->unk_68;
     this->unk_1e++;
 
     return;
@@ -1072,11 +1069,11 @@ void DisposGroupProcessor::func_ov000_021daac8(void)
 
 void DisposGroupProcessor::func_ov000_021dab34(BOOL param_2, BOOL param_3)
 {
-    s32 uVar2;
-    s32 uVar1;
+    s32 yCamera;
+    s32 xCamera;
 
     SpawnState * it = this->spawnStates;
-    s32 iVar7 = 0;
+    s32 count = 0;
     s32 i = 0;
     s32 x = 0;
     s32 y = 0;
@@ -1090,27 +1087,27 @@ void DisposGroupProcessor::func_ov000_021dab34(BOOL param_2, BOOL param_3)
 
         if (!param_3 || ((gMapStateManager->unk_d30[((x | y << 5) >> 3)] & (1 << (x & 7))) & 0xFF))
         {
-            iVar7++;
+            count++;
             x += it->xPos;
             y += it->yPos;
         }
     }
 
-    if (iVar7 == 0)
+    if (count == 0)
     {
         return;
     }
 
-    uVar1 = IntSys_Div(x, iVar7);
-    uVar2 = IntSys_Div(y, iVar7);
+    xCamera = IntSys_Div(x, count);
+    yCamera = IntSys_Div(y, count);
 
     if (!param_2)
     {
-        gMapStateManager->camera->func_ov000_021a4cec(uVar1, uVar2, 1, 0x20, 0);
+        gMapStateManager->camera->func_ov000_021a4cec(xCamera, yCamera, 1, 0x20, 0);
         return;
     }
 
-    gMapStateManager->camera->func_ov000_021a4e84(uVar1, uVar2, 1);
+    gMapStateManager->camera->func_ov000_021a4e84(xCamera, yCamera, 1);
 
     return;
 }
@@ -1154,7 +1151,7 @@ void DisposGroupProcessor::func_ov000_021dad04(void)
     s32 i;
     SpawnState * state;
     Spawn * spawn;
-    s32 uVar8;
+    s32 alpha;
 
     bVar3 = TRUE;
     bVar1 = FALSE;
@@ -1213,25 +1210,25 @@ void DisposGroupProcessor::func_ov000_021dad04(void)
 
         if ((state->flags & 0x18))
         {
-            uVar8 = unit->alpha;
+            alpha = unit->alpha;
 
-            if (uVar8 < 0x1f)
+            if (alpha < 0x1f)
             {
-                uVar8 = uVar8 + 2;
+                alpha = alpha + 2;
 
                 if (func_020252fc() != 0)
                 {
-                    uVar8 = uVar8 + 2;
+                    alpha = alpha + 2;
                 }
 
-                if (uVar8 >= 0x1f)
+                if (alpha >= 0x1f)
                 {
-                    uVar8 = 0x1f;
+                    alpha = 0x1f;
                 }
 
-                unit->alpha = uVar8;
+                unit->alpha = alpha;
 
-                if (uVar8 != 0x1f)
+                if (alpha != 0x1f)
                 {
                     bVar3 = FALSE;
                 }
@@ -1263,7 +1260,7 @@ void DisposGroupProcessor::func_ov000_021dad04(void)
 
             if ((iVar7 == NULL) || ((!(iVar7->unk_54 & 1) ? TRUE : FALSE) & 0xFF))
             {
-                unit->state2 &= 0xffffefff;
+                unit->state2 &= ~0x1000;
 
                 if (iVar7 != 0)
                 {
@@ -1457,7 +1454,7 @@ void Disposition::func_ov000_021db3c4(void)
     return;
 }
 
-EC void func_ov000_021db478(Disposition * proc)
+EC void Disposition_Loop(Disposition * proc)
 {
     proc->Loop();
     return;
@@ -1481,24 +1478,24 @@ EC s32 func_ov000_021db48c(void)
 
 // clang-format off
 
-struct ProcCmd data_ov000_021e32f8[] =
+struct ProcCmd ProcScr_Disposition[] =
 {
     PROC_NAME,
-    PROC_REPEAT(func_ov000_021db478),
+    PROC_REPEAT(Disposition_Loop),
     PROC_END,
 };
 
 // clang-format on
 
-EC BOOL func_ov000_021db4bc(char * label, s32 flags)
+EC BOOL StartDisposition(char * label, s32 flags)
 {
     s32 count = func_ov000_021db48c();
 
-    Disposition * proc = static_cast<Disposition *>(Proc_Find(data_ov000_021e32f8));
+    Disposition * proc = static_cast<Disposition *>(Proc_Find(ProcScr_Disposition));
 
     if (proc == NULL)
     {
-        proc = new (Proc_Start(data_ov000_021e32f8, PROC_TREE_9)) Disposition;
+        proc = new (Proc_Start(ProcScr_Disposition, PROC_TREE_9)) Disposition;
     }
 
     new DisposGroupProcessor(proc, label, flags);
@@ -1506,14 +1503,14 @@ EC BOOL func_ov000_021db4bc(char * label, s32 flags)
     return count < func_ov000_021db48c();
 }
 
-EC BOOL func_ov000_021db604(void)
+EC BOOL IsDispositionActive(void)
 {
-    return Proc_Find(data_ov000_021e32f8) != NULL;
+    return Proc_Find(ProcScr_Disposition) != NULL;
 }
 
-EC void func_ov000_021db624(void)
+EC void Disposition_021db624(void)
 {
-    Disposition * proc = static_cast<Disposition *>(Proc_Find(data_ov000_021e32f8));
+    Disposition * proc = static_cast<Disposition *>(Proc_Find(ProcScr_Disposition));
 
     if (proc != NULL)
     {

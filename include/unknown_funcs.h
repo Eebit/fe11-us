@@ -381,7 +381,7 @@ EC void func_ov000_021d6dfc(u32);
 EC void func_ov000_021d6e30(u32);
 EC void func_ov000_021d6f1c(ProcPtr, u32);
 EC void func_ov000_021d95ec(ProcPtr);
-EC void func_ov000_021db624(void);
+EC void Disposition_021db624(void);
 
 // Overlay 002:
 
