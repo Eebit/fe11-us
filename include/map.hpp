@@ -343,6 +343,11 @@ public:
     void func_ov000_021a28cc();
     void func_ov000_021a2918();
     void func_ov000_021a29f4();
+
+    u8 tst(s32 x, s32 y)
+    {
+        return this->unk_82c[x | y << 5] & 0x80;
+    }
 };
 
 extern UnkStruct_021E3324 * data_ov000_021e3324;
