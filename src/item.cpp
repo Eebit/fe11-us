@@ -1,6 +1,6 @@
 #include "global.h"
 
-#include "unit.h"
+#include "unit.hpp"
 #include "unknown_types.hpp"
 #include "unknown_funcs.h"
 #include "unknown_data.h"
@@ -427,7 +427,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
 
 EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 {
-    struct Unit ** ppUVar2;
+    Force * force;
     int i;
     u32 unitId;
     int hp;
@@ -456,9 +456,9 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                     return FALSE;
                 }
 
-                ppUVar2 = func_02040c98(data_ov000_021e3324->phase);
+                force = Force::Get(data_ov000_021e3324->phase);
 
-                for (pUnit = *ppUVar2; pUnit != 0; pUnit = pUnit->unk_3c)
+                for (pUnit = force->head; pUnit != NULL; pUnit = pUnit->unk_3c)
                 {
                     int hp;
 
@@ -497,7 +497,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->force->id == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -539,7 +539,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->force->id == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -596,7 +596,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->force->id == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -625,7 +625,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            if (!((pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
+            if (!((pUnit->force->id == data_ov000_021e3324->phase ? TRUE : FALSE) & 0xff))
             {
                 return FALSE;
             }
@@ -655,9 +655,9 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            ppUVar2 = func_02040c98(3);
+            force = Force::Get(3);
 
-            for (pUnit = *ppUVar2; pUnit != NULL; pUnit = pUnit->unk_3c)
+            for (pUnit = force->head; pUnit != NULL; pUnit = pUnit->unk_3c)
             {
                 if (pUnit->state2 & 0x20000000)
                 {
@@ -675,7 +675,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
 EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit * unitB)
 {
-    struct Unit ** ppUVar3;
+    Force * force;
     int hp;
     int i;
     struct Unit * pUnit;
@@ -686,8 +686,8 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
         case 0:
             if (item->attributes & 0x10)
             {
-                ppUVar3 = func_02040c98(data_ov000_021e3324->phase);
-                pUnit = *ppUVar3;
+                force = Force::Get(data_ov000_021e3324->phase);
+                pUnit = force->head;
 
                 for (; pUnit != NULL; pUnit = pUnit->unk_3c)
                 {

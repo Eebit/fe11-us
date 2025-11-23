@@ -10,7 +10,7 @@
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
-#include "unit.h"
+#include "unit.hpp"
 
 EC void func_0200ac20(char *, ProcPtr, s32);
 EC void func_02010f98(u32, s32, s32);
@@ -387,13 +387,13 @@ EC u8 * func_ov000_021d7cd8(u32 count)
 
 EC void func_ov000_021d7d1c(struct ArenaProc * proc)
 {
-    struct Unit ** pUnit;
+    Force * pUnit;
     struct Unit * unit;
 
     func_ov000_021d8014(proc);
 
-    pUnit = func_02040c98(4);
-    unit = *pUnit;
+    pUnit = Force::Get(4);
+    unit = pUnit->head;
     proc->unk_3c = unit;
     func_0203bd34(unit, 1, 1);
 
@@ -1613,7 +1613,7 @@ EC void func_ov000_021d95ec(ProcPtr parent)
         iVar4 = gUnitList + data_ov000_021e3344->unk_32 - 1;
     }
 
-    if (data_ov000_021e3320[iVar4->unk_4c->unk_08] == 1)
+    if (data_ov000_021e3320[iVar4->force->id] == 1)
     {
         data_021974fc->unk_00 = iVar4;
         func_0204b194(iVar4->xPos, iVar4->yPos);

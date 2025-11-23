@@ -2,7 +2,7 @@
 
 #include <new>
 
-#include "unit.h"
+#include "unit.hpp"
 //#include "unknown_data.h"
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
@@ -442,15 +442,15 @@ void MapStateManager::func_ov000_021a2918(void)
 
 void MapStateManager::func_ov000_021a29f4(void)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     struct Unit * it;
     s32 i;
 
     for (i = 0; i < 2; i++)
     {
-        pUnitStack = func_02040c98(i);
+        force = Force::Get(i);
 
-        for (it = *pUnitStack; it != NULL; it = (struct Unit *)it->unk_3c)
+        for (it = force->head; it != NULL; it = it->unk_3c)
         {
             func_ov000_021baafc(gMapStateManager->unk_14->unk_00, it, 1);
         }
@@ -706,7 +706,7 @@ EC void func_ov000_021a3364(void)
 
 EC void func_ov000_021a340c(void)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     s32 i;
     struct Unit * it;
 
@@ -715,8 +715,8 @@ EC void func_ov000_021a340c(void)
 
     for (i = 0; i < 2; i++)
     {
-        pUnitStack = func_02040c98(i);
-        for (it = *pUnitStack; it != 0; it = (struct Unit *)(it->unk_3c))
+        force = Force::Get(i);
+        for (it = force->head; it != 0; it = it->unk_3c)
         {
             func_ov000_021a3498(it, 0, -1, -1);
         }
@@ -746,7 +746,7 @@ EC void func_ov000_021a3498(struct Unit * unit, BOOL arg_1, u32 x, u32 y)
     {
         u32 pos = (x | (y << 5));
         if (((gMapStateManager->unk_d30[pos >> 3] & (1 << (pos & 7))) & 0xFF) || (unit->state2 & 0x4000) ||
-            (((unit->unk_4c->unk_08 == data_ov000_021e3324->unk_01) & 0xFF) != 0))
+            (((unit->force->id == data_ov000_021e3324->unk_01) & 0xFF) != 0))
         {
             gMapStateManager->unk_028[x | y << 5] = unit->unk_68;
         }
@@ -786,7 +786,7 @@ static inline BOOL TestPhaseAndState(struct Unit * unit, u32 phase)
         return TRUE;
     }
 
-    if (phase == unit->unk_4c->unk_08)
+    if (phase == unit->force->id)
     {
         return TRUE;
     }
@@ -797,7 +797,7 @@ static inline BOOL TestPhaseAndState(struct Unit * unit, u32 phase)
 /* NONMATCHING: https://decomp.me/scratch/Aqu4T */
 EC void func_ov000_021a35a0(void)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     struct Unit * it;
     s32 i;
     u32 phase = data_ov000_021e3324->unk_01;
@@ -807,9 +807,9 @@ EC void func_ov000_021a35a0(void)
 
     for (i = 0; i < 2; i++)
     {
-        pUnitStack = func_02040c98(i);
+        force = Force::Get(i);
 
-        for (it = *pUnitStack; it != NULL; it = (struct Unit *)it->unk_3c)
+        for (it = force->head; it != NULL; it = it->unk_3c)
         {
             if (!TestPhaseAndState(it, phase))
             {
@@ -934,7 +934,7 @@ EC void func_ov000_021a38b4(void)
 
 EC void func_ov000_021a3974(u8 * arg_0, s32 arg_1)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     s32 i;
     struct Unit * it;
 
@@ -950,9 +950,9 @@ EC void func_ov000_021a3974(u8 * arg_0, s32 arg_1)
             continue;
         }
 
-        pUnitStack = func_02040c98(i);
+        force = Force::Get(i);
 
-        for (it = *pUnitStack; it != NULL; it = (struct Unit *)it->unk_3c)
+        for (it = force->head; it != NULL; it = it->unk_3c)
         {
             if ((it->state2 & 0x21020) == 0)
             {
@@ -1116,7 +1116,7 @@ EC void func_ov000_021a3c20(u8 * arg_0, s32 arg_1, struct Unit * unit)
         return;
     }
 
-    if (!((unit->unk_4c->unk_08 == arg_1) & 0xFF))
+    if (!((unit->force->id == arg_1) & 0xFF))
     {
         return;
     }
@@ -1136,7 +1136,7 @@ EC BOOL func_ov000_021a3d7c(u32 faction)
 
 EC BOOL func_ov000_021a3da0(struct Unit * unit)
 {
-    return func_ov000_021a3d7c(unit->unk_4c->unk_08);
+    return func_ov000_021a3d7c(unit->force->id);
 }
 
 /* NONMATCHING: https://decomp.me/scratch/EKthD */
@@ -1187,7 +1187,7 @@ EC BOOL func_ov000_021a3db4(s16 x, s16 y, BOOL arg_2)
 EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
 {
     s32 i;
-    struct Unit ** pUnitStack;
+    Force * force;
     struct PersonData * pPersonDataB;
     struct PersonData * pPersonDataA;
     struct Unit * it;
@@ -1201,8 +1201,8 @@ EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
 
     for (i = 0; i < 2; i++)
     {
-        pUnitStack = func_02040c98(i);
-        for (it = *pUnitStack; it != NULL; it = (struct Unit *)it->unk_3c)
+        force = Force::Get(i);
+        for (it = force->head; it != NULL; it = it->unk_3c)
         {
             if (gMapStateManager->unk_db0[(it->xPos | it->yPos << 5) >> 3] & ((1 << it->xPos) & 7))
             {
@@ -1335,7 +1335,7 @@ EC s32 func_ov000_021a4254(s32 arg_0)
 
 EC BOOL func_ov000_021a4360(u32 arg_0)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     struct Unit * it;
     s32 count = 0;
     s32 i;
@@ -1352,8 +1352,8 @@ EC BOOL func_ov000_021a4360(u32 arg_0)
             continue;
         }
 
-        pUnitStack = func_02040c98(i);
-        for (it = *pUnitStack; it != NULL; it = (struct Unit *)it->unk_3c)
+        force = Force::Get(i);
+        for (it = force->head; it != NULL; it = it->unk_3c)
         {
             count++;
         }
@@ -1612,12 +1612,12 @@ EC BOOL func_ov000_021a491c(struct Unit * unit)
         return FALSE;
     }
 
-    if (unit->unk_4c->unk_08 >= 2)
+    if (unit->force->id >= 2)
     {
         return TRUE;
     }
 
-    return data_ov000_021e3320[unit->unk_4c->unk_08] == 1;
+    return data_ov000_021e3320[unit->force->id] == 1;
 }
 
 void ProcMapEnd::Init(void)

@@ -551,7 +551,7 @@ EC void func_020217b4(void)
 
     func_02042420("startup");
 
-    func_0203fafc();
+    InitUnits();
     func_02040eec();
     func_020411e8();
 
@@ -563,7 +563,7 @@ EC void func_020219a4(int param_1, int param_2)
     func_020210d0(data_02196f0c->unk_00, param_1);
     func_02024c80();
     func_02024d8c();
-    func_0203fb68();
+    ResetAllForces();
     func_02040f28();
     func_02041234();
     func_0200c888();
@@ -764,7 +764,7 @@ EC void func_02021f5c(void)
 
     if ((data_02196f0c->unk_00->unk_0a != 0) && ((data_02196f0c->state & 1) != 0))
     {
-        int n = func_02040c74(func_02040c98(0)) + func_02040c74(func_02040c98(2));
+        int n = Force::Get(0)->Count() + Force::Get(2)->Count();
 
         if (n < data_02196f0c->unk_00->unk_0a)
         {
@@ -772,8 +772,8 @@ EC void func_02021f5c(void)
 
             for (; n < data_02196f0c->unk_00->unk_0a; n++)
             {
-                struct Unit ** pUnitStack = func_02040c98(4);
-                struct Unit * pUnit = *pUnitStack;
+                Force * force = Force::Get(4);
+                struct Unit * pUnit = force->head;
 
                 if (pUnit == NULL)
                 {
@@ -800,7 +800,7 @@ EC void func_02021f5c(void)
 
 EC void func_0202214c(ProcPtr proc)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     struct Unit * unit;
 
     Event::StartEventByName("MapBegin\0\0\0", proc);
@@ -810,8 +810,8 @@ EC void func_0202214c(ProcPtr proc)
         return;
     }
 
-    pUnitStack = func_02040c98(data_02196f10->unk_06);
-    unit = *pUnitStack;
+    force = Force::Get(data_02196f10->unk_06);
+    unit = force->head;
 
     if (unit == NULL)
     {
@@ -1026,17 +1026,17 @@ EC void func_02022588(void)
 
     for (i = 0, pUnit = gUnitList; i < 0x8c; i++, pUnit++)
     {
-        if (pUnit->unk_4c->unk_08 == 4)
+        if (pUnit->force->id == 4)
         {
             continue;
         }
 
-        if (pUnit->unk_4c->unk_08 == 5)
+        if (pUnit->force->id == 5)
         {
             continue;
         }
 
-        if (pUnit->unk_4c->unk_08 != 3)
+        if (pUnit->force->id != 3)
         {
             continue;
         }
@@ -1076,16 +1076,16 @@ EC void func_02022588(void)
         }
     }
 
-    func_02040cb0(func_02040c98(2), 0, 1);
+    Force::Get(2)->MoveAllUnitsTo(0, TRUE);
 
     while (TRUE)
     {
-        struct Unit ** pUnitStack;
+        Force * force;
         struct Unit * it;
         struct Unit * pUnit;
 
-        pUnitStack = func_02040c98(0);
-        pUnit = *pUnitStack;
+        force = Force::Get(0);
+        pUnit = force->head;
 
         if (pUnit == NULL)
         {
@@ -1413,12 +1413,12 @@ EC void func_02022d00(ProcPtr proc)
     {
         for (i = 0, pUnit = gUnitList; i < 0x8c; i++, pUnit++)
         {
-            if (pUnit->unk_4c->unk_08 == 4)
+            if (pUnit->force->id == 4)
             {
                 continue;
             }
 
-            if (pUnit->unk_4c->unk_08 == 5)
+            if (pUnit->force->id == 5)
             {
                 continue;
             }

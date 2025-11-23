@@ -1,5 +1,5 @@
-#ifndef UNIT_H
-#define UNIT_H
+#ifndef UNIT_HPP
+#define UNIT_HPP
 
 #include "global.h"
 
@@ -71,10 +71,29 @@ struct Item
     u8 unk_03;
 };
 
-struct Unit_unk_4c
+class Force
 {
-    STRUCT_PAD(0x00, 0x08);
-    s32 unk_08;
+public:
+    /* 00 */ struct Unit * head;
+    /* 04 */ struct Unit * tail;
+    /* 08 */ s32 id;
+
+    Force() {};
+
+    void Init(s32 factionId);
+    void InsertHead(Unit * unit);
+    void InsertTail(Unit * unit);
+    void Remove(Unit * unit);
+    s32 Count(void);
+
+    static Force * Get(s32);
+
+    void MoveAllUnitsTo(s32 dstFactionId, BOOL append);
+    Unit * FindByPerson(struct PersonData *);
+    Unit * FindByPid(s32 pid);
+    Unit * func_02040d68(struct PersonData *);
+    Unit * FindByPidStr(char * pidStr);
+    Unit * FindByAttribute(u32 attr);
 };
 
 struct Unit_unk_a4
@@ -83,8 +102,9 @@ struct Unit_unk_a4
     u16 unk_04;
 };
 
-struct Unit
+class Unit
 {
+public:
     u16 unk_00;
     s8 unk_02;
     s8 unk_03;
@@ -99,12 +119,13 @@ struct Unit
     u16 unk_30;
     u16 unk_32;
     u16 unk_34;
-    STRUCT_PAD(0x36, 0x3C);
+    STRUCT_PAD(0x36, 0x38);
+    /* 38 */ struct Unit * unk_38;
     /* 3C */ struct Unit * unk_3c;
     /* 40 */ struct PersonData * pPersonData;
     /* 44 */ struct JobData * pJobData;
     STRUCT_PAD(0x48, 0x4C);
-    struct Unit_unk_4c * unk_4c;
+    /* 4C */ Force * force;
     s8 unk_50[8];
     s16 unk_58[8];
     u8 unk_68;
@@ -131,6 +152,8 @@ struct Unit
     /* 9C */ s32 state2;
     /* A0 */ struct Unit * unk_a0;
     struct Unit_unk_a4 * unk_a4;
+
+    Unit() {};
 };
 
 inline BOOL func_0203b714(struct Unit * unit, s32 state)
@@ -147,4 +170,4 @@ inline struct Unit * func_0203c378(struct Unit * unit)
 
 EXTERN_C_END
 
-#endif // UNIT_H
+#endif // UNIT_HPP
