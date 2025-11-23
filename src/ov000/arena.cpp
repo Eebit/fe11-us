@@ -600,8 +600,8 @@ EC void func_ov000_021d8014(struct ArenaProc * proc)
 
     for (i = 0; i < 5; i++)
     {
-        func_0203e040(proc->unk_40 + i, proc->unk_38->items + i);
-        func_0203e02c(proc->unk_38->items + i);
+        proc->unk_40[i] = &proc->unk_38->items[i];
+        proc->unk_38->items[i].Clear();
     }
 
     return;
@@ -614,7 +614,7 @@ EC void func_ov000_021d8064(struct ArenaProc * proc)
 
     for (i = 0; i < 5; i++)
     {
-        func_0203e040(proc->unk_38->items + i, proc->unk_40 + i);
+        proc->unk_38->items[i] = &proc->unk_40[i];
     }
 
     return;
@@ -880,11 +880,11 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         }
     }
 
-    func_0203e008(&proc->unk_38->items[0], *sp_04);
-    proc->unk_38->items[0].unk_03 |= 0x10;
+    proc->unk_38->items[0].InitFromIid(*sp_04);
+    proc->unk_38->items[0].flags |= 0x10;
 
-    func_0203e008(&proc->unk_3c->items[0], *r5);
-    proc->unk_3c->items[0].unk_03 |= 0x10;
+    proc->unk_3c->items[0].InitFromIid(*r5);
+    proc->unk_3c->items[0].flags |= 0x10;
 
     return;
 }
@@ -896,8 +896,8 @@ EC void func_ov000_021d8604(struct ArenaProc * proc)
     u32 uVar3;
     u32 uVar4;
 
-    uVar3 = func_02038348(GetItemData(&proc->unk_38->items[GetUnitEquippedWeaponSlot(proc->unk_38)]));
-    uVar4 = func_02038348(GetItemData(&proc->unk_3c->items[GetUnitEquippedWeaponSlot(proc->unk_3c)]));
+    uVar3 = func_02038348(proc->unk_38->items[GetUnitEquippedWeaponSlot(proc->unk_38)].GetData());
+    uVar4 = func_02038348(proc->unk_3c->items[GetUnitEquippedWeaponSlot(proc->unk_3c)].GetData());
 
     iVar1 = func_0203dbd4(proc->unk_3c, uVar4, uVar3);
     iVar5 = func_0203dbd4(proc->unk_38, uVar3, uVar4);
@@ -932,11 +932,11 @@ EC void func_ov000_021d86e0(struct ArenaProc * proc)
     struct ArenaProc_unk_5c * unk_5c;
     u32 kind;
 
-    proc->unk_38->items[0].unk_02 = GetItemData(&proc->unk_38->items[0])->uses;
-    proc->unk_3c->items[0].unk_02 = GetItemData(&proc->unk_3c->items[0])->uses;
+    proc->unk_38->items[0].uses = proc->unk_38->items[0].GetData()->uses;
+    proc->unk_3c->items[0].uses = proc->unk_3c->items[0].GetData()->uses;
 
     kind = 1;
-    if (GetItemData(&proc->unk_38->items[0])->type == 3 || GetItemData(&proc->unk_3c->items[0])->type == 3)
+    if (proc->unk_38->items[0].GetData()->type == 3 || proc->unk_3c->items[0].GetData()->type == 3)
     {
         kind = 2;
     }
@@ -1001,9 +1001,9 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
     {
         pUnit = func_0203c378(proc->unk_38);
 
-        if (pUnit->unk_30 < 9999)
+        if (pUnit->unk_30.unk_00 < 9999)
         {
-            pUnit->unk_30++;
+            pUnit->unk_30.unk_00++;
         }
 
         if (func_ov000_021ca0b8(proc->unk_5c) == proc->unk_3c)
@@ -1012,9 +1012,9 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
             Proc_Goto(proc, 6, 0);
             pUnit = func_0203c378(proc->unk_38);
 
-            if (pUnit->unk_32 < 9999)
+            if (pUnit->unk_30.unk_02 < 9999)
             {
-                pUnit->unk_32++;
+                pUnit->unk_30.unk_02++;
             }
 
             uVar6 = -2;

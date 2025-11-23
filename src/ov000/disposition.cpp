@@ -969,7 +969,6 @@ void DisposGroupProcessor::func_ov000_021da7e4(void)
 
 void DisposGroupProcessor::func_ov000_021da8f4(void)
 {
-    u32 yTmp;
     SpawnState * it;
     s32 i;
     struct Unit * unit;
@@ -988,9 +987,7 @@ void DisposGroupProcessor::func_ov000_021da8f4(void)
             {
                 func_ov000_021baafc(gMapStateManager->unk_14->unk_00, unit, 1);
 
-                yTmp = it->yPos;
-                unit->xPos = it->xPos;
-                unit->yPos = yTmp;
+                unit->SetPos(it->xPos, it->yPos);
                 unit->alpha = 0x1f;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
@@ -1374,10 +1371,7 @@ void DisposGroupProcessor::func_ov000_021db1f4(void)
             }
             else
             {
-                u32 yTmp = it->yPos;
-                unit->xPos = it->xPos;
-                unit->yPos = yTmp;
-
+                unit->SetPos(it->xPos, it->yPos);
                 unit->state2 &= ~0x1000;
                 unit->alpha = 0x1f;
                 it->flags |= 0x10;

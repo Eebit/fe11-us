@@ -301,8 +301,8 @@ EC BOOL func_ov000_021ac0c0(void)
 
         r9 = gMapStateManager->unk_08;
         r5 = gMapStateManager->unk_04->unk_00;
-        r4 = GetItemData(gMapStateManager->unk_04->unk_00->items + data_ov000_021e3344->unk_37);
-        r6_ = GetItemData(gMapStateManager->unk_04->unk_00->items + data_ov000_021e3344->unk_37);
+        r4 = gMapStateManager->unk_04->unk_00->items[data_ov000_021e3344->unk_37].GetData();
+        r6_ = gMapStateManager->unk_04->unk_00->items[data_ov000_021e3344->unk_37].GetData();
         r7 = data_ov000_021e3344->unk_31;
         r8 = data_ov000_021e3344->unk_30;
         r6 = r6_->minRange;

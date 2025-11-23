@@ -1054,7 +1054,7 @@ EC void func_02022588(void)
             struct Item * pUnitItem;
 
             pUnit->state2 &= ~0x80;
-            pUnit->unk_34 = func_02038108(data_02196f0c->unk_00);
+            pUnit->unk_30.unk_04 = func_02038108(data_02196f0c->unk_00);
 
             for (j = 0, pUnitItem = pUnit->items; j < 5; j++, pUnitItem++)
             {
@@ -1063,10 +1063,10 @@ EC void func_02022588(void)
                     continue;
                 }
 
-                pUnitItem->unk_03 &= ~0x30;
+                pUnitItem->flags &= ~0x30;
 
                 func_02040f5c(pUnitItem);
-                func_0203e02c(pUnitItem);
+                pUnitItem->Clear();
             }
         }
 

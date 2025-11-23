@@ -2,8 +2,11 @@
 #define UNIT_HPP
 
 #include "global.h"
+#include "save.hpp"
 
 EXTERN_C
+
+class Unit;
 
 struct PersonData
 {
@@ -64,11 +67,35 @@ struct ItemData
     u8 unk_3b;
 };
 
-struct Item
+struct Unit_unk_30
 {
-    u16 id;
-    u8 unk_02;
-    u8 unk_03;
+    u16 unk_00;
+    u16 unk_02;
+    u16 unk_04;
+};
+
+class Item
+{
+public:
+    /* 00 */ u16 id;
+    /* 02 */ u8 uses;
+    /* 03 */ u8 flags;
+
+    struct ItemData * GetData(void);
+
+    void InitFromItemData(ItemData *);
+    void InitFromIidStr(char *);
+    void InitFromIid(s32);
+    void Clear(void);
+
+    Item * operator=(Item *);
+    BOOL operator==(Item *);
+
+    BOOL func_0203e09c(Unit *);
+    BOOL func_0203e0f8(Unit *);
+
+    void Save(SaveBuffer *);
+    void Load(SaveBuffer *, s32);
 };
 
 class Force
@@ -116,9 +143,7 @@ public:
     u16 unk_0a;
     u8 unk_0c[4];
     s16 unk_10[0x10];
-    u16 unk_30;
-    u16 unk_32;
-    u16 unk_34;
+    /* 30 */ struct Unit_unk_30 unk_30;
     STRUCT_PAD(0x36, 0x38);
     /* 38 */ struct Unit * unk_38;
     /* 3C */ struct Unit * unk_3c;
@@ -154,6 +179,12 @@ public:
     struct Unit_unk_a4 * unk_a4;
 
     Unit() {};
+
+    inline void SetPos(s32 x, s32 y)
+    {
+        this->xPos = x;
+        this->yPos = y;
+    }
 };
 
 inline BOOL func_0203b714(struct Unit * unit, s32 state)
