@@ -551,7 +551,7 @@ EC void func_020217b4(void)
 
     func_02042420("startup");
 
-    func_0203fafc();
+    InitUnits();
     func_02040eec();
     func_020411e8();
 
@@ -563,7 +563,7 @@ EC void func_020219a4(int param_1, int param_2)
     func_020210d0(data_02196f0c->unk_00, param_1);
     func_02024c80();
     func_02024d8c();
-    func_0203fb68();
+    ResetAllForces();
     func_02040f28();
     func_02041234();
     func_0200c888();

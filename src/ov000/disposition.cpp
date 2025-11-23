@@ -227,7 +227,7 @@ struct UnkStruct_02196f0c
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
-EC BOOL func_0203fd60(s32, s32);
+EC BOOL FindUnitByPidAndFaction(s32, s32);
 
 EC BOOL func_ov000_021a47e4(void);
 
@@ -557,7 +557,7 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param
         {
             unit = Force::Get(2)->FindByPid(spawn->pid);
 
-            if ((unit == NULL) && func_0203fd60(spawn->pid, ~2))
+            if ((unit == NULL) && FindUnitByPidAndFaction(spawn->pid, ~2))
             {
                 paVar2->flags |= 1;
                 return NULL;

@@ -211,9 +211,9 @@ EC void func_0203e02c(struct Item *);
 EC void func_0203e008(struct Item *, u32);
 EC void func_0203e040(struct Item *, struct Item *);
 EC s32 GetTileSize(void);
-EC void func_0203fafc(void);
+EC void InitUnits(void);
 EC struct Unit * func_0203fcb8(s32);
-EC void func_0203fb68(void);
+EC void ResetAllForces(void);
 EC void func_0203fc88(void);
 EC struct Unit * func_0203fff4(s32, s32);
 

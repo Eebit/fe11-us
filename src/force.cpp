@@ -94,42 +94,42 @@ EC void func_02041644(UnkStruct_02196f10_00_348 *, SaveBuffer *, s32);
 EC void func_02039fdc(struct Unit *, s32);
 
 struct Unit * gUnitList = NULL;
-struct Force * data_021974dc = NULL;
+struct Force * gForces = NULL;
 
-EC void func_0203fafc(void)
+EC void InitUnits(void)
 {
     if (gUnitList == NULL)
     {
         gUnitList = new Unit[0x8c];
     }
 
-    if (data_021974dc == NULL)
+    if (gForces == NULL)
     {
-        data_021974dc = new Force[6];
+        gForces = new Force[6];
     }
 
     return;
 }
 
-EC void func_0203fb68(void)
+EC void ResetAllForces(void)
 {
     s32 i;
 
     for (i = 0; i < 6; i++)
     {
-        data_021974dc[i].Init(i);
+        gForces[i].Init(i);
     }
 
     for (i = 0; i < 0x8c; i++)
     {
         func_02039fdc(&gUnitList[i], i + 1);
-        data_021974dc[4].InsertTail(&gUnitList[i]);
+        gForces[4].InsertTail(&gUnitList[i]);
     }
 
     return;
 }
 
-EC struct Unit * func_0203fbe0(s32 factionId)
+EC struct Unit * GetLeaderUnitForFaction(s32 factionId)
 {
     Force * force;
     s32 i;
@@ -159,7 +159,7 @@ EC u32 func_0203fc20(u32 param_1, u32 param_2, u32 param_3)
 
     for (i = 0; i < 3; i++)
     {
-        for (it = data_021974dc[i].head; it != NULL; it = it->unk_3c)
+        for (it = gForces[i].head; it != NULL; it = it->unk_3c)
         {
             if (param_2 != 0)
             {
@@ -211,7 +211,7 @@ EC struct Unit * func_0203fcb8(s32 factionId)
     return unit;
 }
 
-EC struct Unit * func_0203fd10(struct PersonData * person, u32 factionId)
+EC struct Unit * FindUnitByPersonAndFaction(struct PersonData * person, u32 factionId)
 {
     s32 i;
     struct Unit * it;
@@ -234,9 +234,9 @@ EC struct Unit * func_0203fd10(struct PersonData * person, u32 factionId)
     return NULL;
 }
 
-EC struct Unit * func_0203fd60(u32 pid, u32 factionId)
+EC struct Unit * FindUnitByPidAndFaction(u32 pid, u32 factionId)
 {
-    return func_0203fd10(data_02197254->pPerson + pid, factionId);
+    return FindUnitByPersonAndFaction(data_02197254->pPerson + pid, factionId);
 }
 
 EC struct Unit * func_0203fd84(struct PersonData * person)
@@ -261,7 +261,7 @@ EC struct Unit * func_0203fd84(struct PersonData * person)
     return NULL;
 }
 
-EC struct Unit * func_0203feac(char * pidStr)
+EC struct Unit * FindUnitByPidStrAndFaction(char * pidStr)
 {
     return func_0203fd84(GetPersonByPidStr(pidStr));
 }
@@ -294,15 +294,15 @@ EC struct Unit * func_0203febc(struct PersonData * person, u32 factionId)
     return NULL;
 }
 
-EC struct Unit * func_0203fff4(char * pidStr, u32 param_2)
+EC struct Unit * func_0203fff4(char * pidStr, u32 factionId)
 {
-    return func_0203febc(GetPersonByPidStr(pidStr), param_2);
+    return func_0203febc(GetPersonByPidStr(pidStr), factionId);
 }
 
 EC void func_0204000c(void)
 {
-    Force::Get(0)->MoveAllUnitsTo(2, 0);
-    Force::Get(1)->MoveAllUnitsTo(4, 1);
+    Force::Get(0)->MoveAllUnitsTo(2, FALSE);
+    Force::Get(1)->MoveAllUnitsTo(4, TRUE);
     return;
 }
 
@@ -359,7 +359,7 @@ EC void func_02040094(SaveBuffer * save, u32 faction)
             continue;
         }
 
-        force = data_021974dc + i;
+        force = gForces + i;
 
         if (force->Count() == 0)
         {
@@ -385,7 +385,7 @@ EC void func_02040094(SaveBuffer * save, u32 faction)
             continue;
         }
 
-        force = data_021974dc + i;
+        force = gForces + i;
 
         count = force->Count();
 
@@ -418,9 +418,9 @@ EC void func_020401d8(SaveBuffer * save, u32 faction)
     Force * force;
     s32 i;
 
-    func_0203fb68();
+    ResetAllForces();
 
-    force = data_021974dc;
+    force = gForces;
 
     while (TRUE)
     {
@@ -944,7 +944,7 @@ s32 Force::Count(void)
 
 Force * Force::Get(s32 factionId)
 {
-    return data_021974dc + factionId;
+    return gForces + factionId;
 }
 
 void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
