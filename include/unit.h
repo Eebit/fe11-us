@@ -99,7 +99,8 @@ struct Unit
     u16 unk_30;
     u16 unk_32;
     u16 unk_34;
-    STRUCT_PAD(0x36, 0x3C);
+    STRUCT_PAD(0x36, 0x38);
+    /* 38 */ struct Unit * unk_38;
     /* 3C */ struct Unit * unk_3c;
     /* 40 */ struct PersonData * pPersonData;
     /* 44 */ struct JobData * pJobData;

@@ -42,6 +42,10 @@ src/item.cpp:
 src/unit.cpp:
     .text       start:0x0203a94c end:0x0203df78
 
+src/force.cpp:
+    .text       start:0x0203fafc end:0x02040eec
+    .bss        start:0x021974d8 end:0x021974e0
+
 src/event_funcs.c:
     .text       start:0x02044974 end:0x020449bc
 
