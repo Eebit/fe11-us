@@ -64,6 +64,13 @@ struct ItemData
     u8 unk_3b;
 };
 
+struct Unit_unk_30
+{
+    u16 unk_00;
+    u16 unk_02;
+    u16 unk_04;
+};
+
 struct Item
 {
     u16 id;
@@ -116,9 +123,7 @@ public:
     u16 unk_0a;
     u8 unk_0c[4];
     s16 unk_10[0x10];
-    u16 unk_30;
-    u16 unk_32;
-    u16 unk_34;
+    /* 30 */ struct Unit_unk_30 unk_30;
     STRUCT_PAD(0x36, 0x38);
     /* 38 */ struct Unit * unk_38;
     /* 3C */ struct Unit * unk_3c;

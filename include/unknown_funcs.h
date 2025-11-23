@@ -206,7 +206,6 @@ EC s32 func_0203dbd4(struct Unit *, s32, s32);
 EC void func_0203dd48(struct Unit *);
 EC void func_0203de10(struct Unit *);
 EC void func_0203df18(struct Unit * unit);
-EC void func_0203df78(u16 *);
 EC void func_0203e02c(struct Item *);
 EC void func_0203e008(struct Item *, u32);
 EC void func_0203e040(struct Item *, struct Item *);

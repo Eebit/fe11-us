@@ -1001,9 +1001,9 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
     {
         pUnit = func_0203c378(proc->unk_38);
 
-        if (pUnit->unk_30 < 9999)
+        if (pUnit->unk_30.unk_00 < 9999)
         {
-            pUnit->unk_30++;
+            pUnit->unk_30.unk_00++;
         }
 
         if (func_ov000_021ca0b8(proc->unk_5c) == proc->unk_3c)
@@ -1012,9 +1012,9 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
             Proc_Goto(proc, 6, 0);
             pUnit = func_0203c378(proc->unk_38);
 
-            if (pUnit->unk_32 < 9999)
+            if (pUnit->unk_30.unk_02 < 9999)
             {
-                pUnit->unk_32++;
+                pUnit->unk_30.unk_02++;
             }
 
             uVar6 = -2;

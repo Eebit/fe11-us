@@ -8,6 +8,8 @@
 
 #include "unit.hpp"
 
+EC void func_0203df78(struct Unit_unk_30 *);
+
 EC void func_0203a94c(struct Unit * unit)
 {
     s32 i;
@@ -157,9 +159,9 @@ EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src)
         *psVar4++ = *psVar2++;
     }
 
-    dst->unk_30 = src->unk_30;
-    dst->unk_32 = src->unk_32;
-    dst->unk_34 = src->unk_34;
+    dst->unk_30.unk_00 = src->unk_30.unk_00;
+    dst->unk_30.unk_02 = src->unk_30.unk_02;
+    dst->unk_30.unk_04 = src->unk_30.unk_04;
 
     return dst;
 }
@@ -263,9 +265,9 @@ EC void SaveUnit(struct Unit * unit, struct SaveBuffer * buf)
     }
     else
     {
-        buf->WriteShort(unit->unk_30);
-        buf->WriteShort(unit->unk_32);
-        buf->WriteShort(unit->unk_34);
+        buf->WriteShort(unit->unk_30.unk_00);
+        buf->WriteShort(unit->unk_30.unk_02);
+        buf->WriteShort(unit->unk_30.unk_04);
     }
 
     return;
@@ -391,9 +393,9 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     }
     else
     {
-        unit->unk_30 = buf->ReadShort();
-        unit->unk_32 = buf->ReadShort();
-        unit->unk_34 = buf->ReadShort();
+        unit->unk_30.unk_00 = buf->ReadShort();
+        unit->unk_30.unk_02 = buf->ReadShort();
+        unit->unk_30.unk_04 = buf->ReadShort();
     }
 
     return;
@@ -1956,5 +1958,13 @@ EC void func_0203df18(struct Unit * unit)
         unit->unk_10[i] = -1;
     }
 
+    return;
+}
+
+EC void func_0203df78(struct Unit_unk_30 * param_1)
+{
+    param_1->unk_00 = 0;
+    param_1->unk_02 = 0;
+    param_1->unk_04 = 0;
     return;
 }
