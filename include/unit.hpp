@@ -74,11 +74,26 @@ struct Item
 class Force
 {
 public:
-    /* 00 */ struct Unit * unk_00;
-    /* 04 */ struct Unit * unk_04;
-    /* 08 */ s32 unk_08;
+    /* 00 */ struct Unit * head;
+    /* 04 */ struct Unit * tail;
+    /* 08 */ s32 id;
 
     Force() {};
+
+    void Init(s32 factionId);
+    void InsertHead(Unit * unit);
+    void InsertTail(Unit * unit);
+    void Remove(Unit * unit);
+    s32 Count(void);
+
+    static Force * Get(s32);
+
+    void MoveAllUnitsTo(s32 dstFactionId, BOOL append);
+    Unit * FindByPerson(struct PersonData *);
+    Unit * FindByPid(s32 pid);
+    Unit * func_02040d68(struct PersonData *);
+    Unit * FindByPidStr(char * pidStr);
+    Unit * FindByAttribute(u32 attr);
 };
 
 struct Unit_unk_a4
@@ -110,7 +125,7 @@ public:
     /* 40 */ struct PersonData * pPersonData;
     /* 44 */ struct JobData * pJobData;
     STRUCT_PAD(0x48, 0x4C);
-    Force * unk_4c;
+    /* 4C */ Force * force;
     s8 unk_50[8];
     s16 unk_58[8];
     u8 unk_68;

@@ -227,9 +227,6 @@ struct UnkStruct_02196f0c
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
-EC struct Unit ** func_02040c98(s32);
-EC s32 func_02040c74(struct Unit **);
-EC struct Unit * func_02040d44(struct Unit **, s32);
 EC BOOL func_0203fd60(s32, s32);
 
 EC BOOL func_ov000_021a47e4(void);
@@ -296,9 +293,6 @@ EC BOOL func_ov000_021baafc(void *, struct Unit *, BOOL);
 
 EC void func_ov000_021a340c(void);
 EC void func_ov000_021a36e0(void);
-
-EC struct Unit ** func_02040c98(s32);
-EC s32 func_02040c74(struct Unit **);
 
 EC void func_ov000_021d9ca8(Spawn *, struct Unit *, s8, s8);
 
@@ -367,7 +361,7 @@ void Spawn::func_ov000_021d9c94(struct Unit * unit)
 
 void Spawn::func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y)
 {
-    if (unit->unk_4c->unk_08 == 4)
+    if (unit->force->id == 4)
     {
         func_02039ff8(unit, this);
     }
@@ -482,12 +476,12 @@ struct Unit * DisposGroupProcessor::func_ov000_021d9e50(s32 pid, s32 faction)
         faction = 0;
     }
 
-    return func_02040d44(func_02040c98(faction + 2), pid);
+    return Force::Get(faction + 2)->FindByPid(pid);
 }
 
 EC struct Unit * DisposGroupProcessor::func_ov000_021d9e7c(s32 faction)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     struct Unit * pUnit;
 
     if (func_ov000_021a47e4() == 0)
@@ -495,9 +489,9 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9e7c(s32 faction)
         faction = 0;
     }
 
-    pUnitStack = func_02040c98(faction + 2);
+    force = Force::Get(faction + 2);
 
-    for (pUnit = *pUnitStack; pUnit != NULL; pUnit = pUnit->unk_3c)
+    for (pUnit = force->head; pUnit != NULL; pUnit = pUnit->unk_3c)
     {
         if (!(pUnit->state2 & 0x800))
         {
@@ -510,7 +504,7 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9e7c(s32 faction)
 
 EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param_3)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     struct Unit * unit;
     Spawn * spawn;
     SpawnState * paVar2;
@@ -533,7 +527,7 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param
         return NULL;
     }
 
-    if (func_02040c74(func_02040c98(spawn->faction)) >= 50)
+    if (Force::Get(spawn->faction)->Count() >= 50)
     {
         paVar2->flags |= 1;
         return NULL;
@@ -561,7 +555,7 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param
     {
         if (spawn->faction == 0)
         {
-            unit = func_02040d44(func_02040c98(2), spawn->pid);
+            unit = Force::Get(2)->FindByPid(spawn->pid);
 
             if ((unit == NULL) && func_0203fd60(spawn->pid, ~2))
             {
@@ -574,8 +568,8 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param
         {
             if ((spawn->flags & 0x80) || spawn->faction != 0)
             {
-                pUnitStack = func_02040c98(4);
-                unit = *pUnitStack;
+                force = Force::Get(4);
+                unit = force->head;
             }
         }
 
@@ -626,7 +620,7 @@ BOOL DisposGroupProcessor::func_ov000_021da088(s32 x, s32 y)
 
 EC void DisposGroupProcessor::func_ov000_021da0fc(s32 index)
 {
-    struct Unit ** pUnitStack;
+    Force * force;
     Spawn * spawn;
     struct Unit * unit;
 
@@ -654,23 +648,23 @@ EC void DisposGroupProcessor::func_ov000_021da0fc(s32 index)
         return;
     }
 
-    if (func_02040d44(func_02040c98(spawn->faction), spawn->pid) != 0)
+    if (Force::Get(spawn->faction)->FindByPid(spawn->pid) != NULL)
     {
         return;
     }
 
-    if (func_02040d44(func_02040c98(2), spawn->pid) != 0)
+    if (Force::Get(2)->FindByPid(spawn->pid) != NULL)
     {
         return;
     }
 
-    if (func_02040d44(func_02040c98(3), spawn->pid) != 0)
+    if (Force::Get(3)->FindByPid(spawn->pid) != NULL)
     {
         return;
     }
 
-    pUnitStack = func_02040c98(4);
-    unit = *pUnitStack;
+    force = Force::Get(4);
+    unit = force->head;
 
     if (unit == NULL)
     {
@@ -1469,8 +1463,8 @@ EC s32 func_ov000_021db48c(void)
 
     for (i = 0; i < 2; i++)
     {
-        struct Unit ** pUnitStack = func_02040c98(i);
-        count += func_02040c74(pUnitStack);
+        Force * force = Force::Get(i);
+        count += force->Count();
     }
 
     return count;

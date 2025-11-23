@@ -217,13 +217,7 @@ EC void func_0203fb68(void);
 EC void func_0203fc88(void);
 EC struct Unit * func_0203fff4(s32, s32);
 
-EC void func_02040bd0(void *, struct Unit *);
-EC void func_02040bf4(void *, struct Unit *);
-EC void func_02040c14(void *, struct Unit *);
-EC s32 func_02040c74(struct Unit **);
-EC void func_02040cb0(struct Unit **, s32, s32);
 EC void func_02040f5c(struct Item *);
-EC struct Unit ** func_02040c98(s32);
 EC void func_02040eec(void);
 EC void func_02040f28(void);
 EC void func_020411e8(void);

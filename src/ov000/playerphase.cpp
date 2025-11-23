@@ -378,7 +378,7 @@ EC void func_ov000_021ac218(void)
 
     if (data_ov000_021e3324->unk_02 != 0)
     {
-        if (data_ov000_021e3324->phase == pUnit->unk_4c->unk_08)
+        if (data_ov000_021e3324->phase == pUnit->force->id)
         {
             void * sp_0c;
             s32 sp_08;
@@ -390,7 +390,7 @@ EC void func_ov000_021ac218(void)
             sp_0c = gMapStateManager->unk_08;
             sp_08 = func_ov000_021a4854(pUnit);
 
-            fp = pUnit->unk_4c->unk_08;
+            fp = pUnit->force->id;
             sp_10 = data_ov000_021e3344->unk_2c;
             sp_04 = data_ov000_021e3344->unk_2e;
             sp_00 = data_ov000_021e3344->unk_2d;
@@ -427,7 +427,7 @@ EC void func_ov000_021ac218(void)
     {
         bVar5 = FALSE;
 
-        if (pUnit->unk_4c->unk_08 == 0)
+        if (pUnit->force->id == 0)
         {
             func_0203bd34(pUnit, 3, 1);
         }
@@ -442,7 +442,7 @@ EC void func_ov000_021ac218(void)
         {
             bVar5 = FALSE;
 
-            if (pUnit->unk_4c->unk_08 != 0)
+            if (pUnit->force->id != 0)
             {
                 func_0203bd34(pUnit, 4, 1);
             }
@@ -618,7 +618,7 @@ EC void func_ov000_021ac8b4(void)
 
     if (pUnit != NULL)
     {
-        if (pUnit->unk_4c->unk_08 == data_ov000_021e3324->phase)
+        if (pUnit->force->id == data_ov000_021e3324->phase)
         {
             func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
         }

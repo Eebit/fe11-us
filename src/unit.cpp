@@ -238,7 +238,7 @@ EC void SaveUnit(struct Unit * unit, struct SaveBuffer * buf)
         buf->WriteShort(-1);
     }
 
-    if (unit->unk_4c->unk_08 == 1)
+    if (unit->force->id == 1)
     {
         buf->WriteShort(unit->unk_00);
         buf->WriteByte(unit->unk_05);
@@ -361,7 +361,7 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     unk2 = buf->ReadShort();
     unit->unk_a4 = (unk2 != 0xffff) ? data_02197254->unk_38[unk2] : NULL;
 
-    if (unit->unk_4c->unk_08 == 1)
+    if (unit->force->id == 1)
     {
         unit->unk_00 = buf->ReadShort();
         unit->unk_05 = buf->ReadByte();
@@ -423,9 +423,9 @@ EC void func_0203bcf4(struct Unit * unit)
     return;
 }
 
-EC void func_0203bd34(struct Unit * unit, s32 arg_1, s32 arg_2)
+EC void func_0203bd34(struct Unit * unit, s32 factionId, BOOL append)
 {
-    if (((unit->unk_4c->unk_08 < 2) && (arg_1 >= 2)) && (arg_1 != 5))
+    if (((unit->force->id < 2) && (factionId >= 2)) && (factionId != 5))
     {
         unit->xPos = 0xff;
         unit->yPos = 0xff;
@@ -434,46 +434,47 @@ EC void func_0203bd34(struct Unit * unit, s32 arg_1, s32 arg_2)
         func_0203bcf4(unit);
     }
 
-    func_02040c14(unit->unk_4c, unit);
+    unit->force->Remove(unit);
 
-    if (arg_1 == 4)
+    if (factionId == 4)
     {
         func_0203a94c(unit);
     }
 
-    if (arg_2 == 0)
+    if (!append)
     {
-        func_02040bd0(func_02040c98(arg_1), unit);
+        Force::Get(factionId)->InsertHead(unit);
         return;
     }
-
-    func_02040bf4(func_02040c98(arg_1), unit);
-
-    return;
+    else
+    {
+        Force::Get(factionId)->InsertTail(unit);
+        return;
+    }
 }
 
 EC struct Unit * func_0203bdd0(struct Unit * unit, u8 arg_1)
 {
     s32 i;
-    struct Unit ** it;
+    Force * force;
 
     if (unit->unk_3c != NULL)
     {
         return unit->unk_3c;
     }
 
-    for (i = unit->unk_4c->unk_08 + 1; i < 6; i++)
+    for (i = unit->force->id + 1; i < 6; i++)
     {
         if ((arg_1 & (1 << i)) == 0)
         {
             continue;
         }
 
-        it = func_02040c98(i);
+        force = Force::Get(i);
 
-        if (*it != NULL)
+        if (force->head != NULL)
         {
-            return *it;
+            return force->head;
         }
     }
 
@@ -482,13 +483,13 @@ EC struct Unit * func_0203bdd0(struct Unit * unit, u8 arg_1)
 
 EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
 {
-    struct Unit ** ppUVar2;
+    Force * force;
     s32 i;
     s32 hp;
     struct Unit * pUVar5;
 
-    ppUVar2 = func_02040c98(4);
-    pUVar5 = *ppUVar2;
+    force = Force::Get(4);
+    pUVar5 = force->head;
 
     func_0203bd34(pUVar5, 5, 1);
 
@@ -602,8 +603,8 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
 {
     s32 i;
 
-    struct Unit ** ppUVar3 = func_02040c98(4);
-    struct Unit * pUVar7 = *ppUVar3;
+    Force * force = Force::Get(4);
+    struct Unit * pUVar7 = force->head;
 
     func_0203bd34(pUVar7, 5, 1);
 
