@@ -1063,10 +1063,10 @@ EC void func_02022588(void)
                     continue;
                 }
 
-                pUnitItem->unk_03 &= ~0x30;
+                pUnitItem->flags &= ~0x30;
 
                 func_02040f5c(pUnitItem);
-                func_0203e02c(pUnitItem);
+                pUnitItem->Clear();
             }
         }
 

@@ -146,7 +146,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            pItem = GetItemData(unit->items + slot);
+            pItem = unit->items[slot].GetData();
 
             type = pItem->type;
 
@@ -375,7 +375,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             int iVar5;
             int type;
             int req;
-            struct ItemData * pEquippedItem = GetItemData(unit->items + GetUnitEquippedWeaponSlot(unit));
+            struct ItemData * pEquippedItem = unit->items[GetUnitEquippedWeaponSlot(unit)].GetData();
             type = pEquippedItem->type;
 
             iVar5 = func_0203c7ac(unit, type);
@@ -833,7 +833,7 @@ EC BOOL func_02038f38(struct ItemData * item, struct Unit * unit)
 EC BOOL func_02038f94(struct Item * item)
 {
     s32 uses;
-    struct ItemData * itemData = GetItemData(item);
+    struct ItemData * itemData = item->GetData();
 
     if (itemData->type == 8)
     {
@@ -847,7 +847,7 @@ EC BOOL func_02038f94(struct Item * item)
 
     uses = itemData->uses;
 
-    if (uses != 0 && item->unk_02 < uses)
+    if (uses != 0 && item->uses < uses)
     {
         return TRUE;
     }

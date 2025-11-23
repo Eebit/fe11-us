@@ -33,14 +33,13 @@ EC void func_0203a94c(struct Unit * unit)
     unit->level = 1;
     unit->exp = 0;
     unit->hp = 0;
-    unit->xPos = 0;
-    unit->yPos = 0;
+    unit->SetPos(0, 0);
 
     unit->unk_6d = 0;
 
     for (j = 0; j < 5; j++)
     {
-        func_0203e02c(&unit->items[j]);
+        unit->items[j].Clear();
     }
 
     for (i = 0; i < 6; i++)
@@ -77,11 +76,10 @@ EC void func_0203a94c(struct Unit * unit)
 
 EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src)
 {
-    u8 bVar1;
     s16 * psVar2;
-    s32 iVar3;
     s16 * psVar4;
     s32 i;
+    s32 j;
 
     dst->pPersonData = src->pPersonData;
     dst->pJobData = src->pJobData;
@@ -104,12 +102,11 @@ EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src)
     dst->hp = src->hp;
     dst->unk_6d = src->unk_6d;
 
-    dst->xPos = src->xPos;
-    dst->yPos = src->yPos;
+    dst->SetPos(src->xPos, src->yPos);
 
-    for (i = 0; i < 5; i++)
+    for (j = 0; j < 5; j++)
     {
-        func_0203e040(&dst->items[i], &src->items[i]);
+        dst->items[j] = &src->items[j];
     }
 
     for (i = 0; i < 6; i++)
@@ -170,9 +167,6 @@ EC s32 GetPersonDBIndex(struct PersonData *);
 EC s32 GetJobDBIndex(struct JobData *);
 EC void func_020a58b8(void *, void *, s32);
 
-EC void SaveItem(struct Item *, struct SaveBuffer *);
-EC void LoadItem(struct Item *, struct SaveBuffer *, s32);
-
 extern struct Unit * gUnitList;
 
 EC void SaveUnit(struct Unit * unit, struct SaveBuffer * buf)
@@ -199,7 +193,7 @@ EC void SaveUnit(struct Unit * unit, struct SaveBuffer * buf)
 
     for (i = 0; i < 5; i++)
     {
-        SaveItem(&unit->items[i], buf);
+        unit->items[i].Save(buf);
     }
 
     for (i = 0; i < 6; i++)
@@ -299,12 +293,11 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
 
     x = buf->ReadByte();
     y = buf->ReadByte();
-    unit->xPos = x;
-    unit->yPos = y;
+    unit->SetPos(x, y);
 
     for (i = 0; i < 5; i++)
     {
-        LoadItem(&unit->items[i], buf, param_3);
+        unit->items[i].Load(buf, param_3);
     }
 
     for (i = 0; i < 6; i++)
@@ -429,8 +422,7 @@ EC void func_0203bd34(struct Unit * unit, s32 factionId, BOOL append)
 {
     if (((unit->force->id < 2) && (factionId >= 2)) && (factionId != 5))
     {
-        unit->xPos = 0xff;
-        unit->yPos = 0xff;
+        unit->SetPos(0xff, 0xff);
         unit->hp = GetUnitMaxHp(unit);
         unit->alpha = 0x1f;
         func_0203bcf4(unit);
@@ -485,26 +477,23 @@ EC struct Unit * func_0203bdd0(struct Unit * unit, u8 arg_1)
 
 EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
 {
-    Force * force;
     s32 i;
     s32 hp;
     struct Unit * pUVar5;
 
-    force = Force::Get(4);
-    pUVar5 = force->head;
+    pUVar5 = Force::Get(4)->head;
 
-    func_0203bd34(pUVar5, 5, 1);
+    func_0203bd34(pUVar5, 5, TRUE);
 
     func_0203aa4c(pUVar5, arg_0);
     func_0203aa4c(arg_0, arg_1);
 
-    arg_0->xPos = pUVar5->xPos;
-    arg_0->yPos = pUVar5->yPos;
+    arg_0->SetPos(pUVar5->xPos, pUVar5->yPos);
 
     hp = pUVar5->hp;
     arg_0->hp = hp;
 
-    if (hp >= GetUnitMaxHp(arg_0))
+    if (hp > GetUnitMaxHp(arg_0))
     {
         arg_0->hp = GetUnitMaxHp(arg_0);
     }
@@ -519,11 +508,11 @@ EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
 
     for (i = 0; i < 5; i++)
     {
-        struct Item * src = &arg_1->items[i];
-        struct Item * dst = &arg_0->items[i];
-        func_0203e040(dst, src);
+        struct Item * dst;
+        arg_0->items[i] = &pUVar5->items[i];
+        dst = &arg_0->items[i];
 
-        if (!(dst->unk_03 & 0x10))
+        if (!(dst->flags & 0x10))
         {
             continue;
         }
@@ -533,10 +522,10 @@ EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
             continue;
         }
 
-        dst->unk_03 &= ~0x10;
+        dst->flags &= ~0x10;
     }
 
-    arg_0->state1 &= 0xFFFFEFFD;
+    arg_0->state1 &= ~0x1002;
     arg_0->unk_a0 = pUVar5;
     arg_0->state2 |= 0x8000;
     arg_0->unk_93 = 5;
@@ -546,13 +535,13 @@ EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
 
 EC void func_0203bf68(struct Unit * srcUnit, u32 arg_1, u32 arg_2, u32 arg_3)
 {
+    struct Unit * dstUnit;
     s32 i;
     s32 hp;
 
-    struct Unit * dstUnit = srcUnit->unk_a0;
+    dstUnit = srcUnit->unk_a0;
 
-    dstUnit->xPos = srcUnit->xPos;
-    dstUnit->yPos = srcUnit->yPos;
+    dstUnit->SetPos(srcUnit->xPos, srcUnit->yPos);
 
     hp = srcUnit->hp;
     dstUnit->hp = hp;
@@ -574,12 +563,12 @@ EC void func_0203bf68(struct Unit * srcUnit, u32 arg_1, u32 arg_2, u32 arg_3)
 
     for (i = 0; i < 5; i++)
     {
-        struct Item * src = srcUnit->items + i;
-        struct Item * dst = dstUnit->items + i;
+        struct Item * dst;
+        dstUnit->items[i] = &srcUnit->items[i];
 
-        func_0203e040(dst, src);
+        dst = &dstUnit->items[i];
 
-        if (!(dst->unk_03 & 0x10))
+        if (!(dst->flags & 0x10))
         {
             continue;
         }
@@ -589,14 +578,14 @@ EC void func_0203bf68(struct Unit * srcUnit, u32 arg_1, u32 arg_2, u32 arg_3)
             continue;
         }
 
-        dst->unk_03 &= ~0x10;
+        dst->flags &= ~0x10;
     }
 
     func_0203aa4c(srcUnit, dstUnit);
 
     srcUnit->state2 &= ~0x8000;
 
-    func_0203bd34(dstUnit, 4, 1);
+    func_0203bd34(dstUnit, 4, TRUE);
 
     return;
 }
@@ -605,16 +594,14 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
 {
     s32 i;
 
-    Force * force = Force::Get(4);
-    struct Unit * pUVar7 = force->head;
+    struct Unit * pUVar7 = Force::Get(4)->head;
 
-    func_0203bd34(pUVar7, 5, 1);
+    func_0203bd34(pUVar7, 5, TRUE);
 
     func_0203aa4c(pUVar7, arg_0);
     func_0203aa4c(arg_0, arg_1);
 
-    arg_0->xPos = pUVar7->xPos;
-    arg_0->yPos = pUVar7->yPos;
+    arg_0->SetPos(pUVar7->xPos, pUVar7->yPos);
 
     arg_0->hp = GetUnitMaxHp(arg_0);
     arg_0->exp = pUVar7->exp;
@@ -628,12 +615,11 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
 
     for (i = 0; i < 5; i++)
     {
-        struct Item * pUVar9 = arg_0->items + i;
-        struct Item * pUVar8 = pUVar7->items + i;
+        struct Item * pUVar9;
+        arg_0->items[i] = &pUVar7->items[i];
+        pUVar9 = &arg_0->items[i];
 
-        func_0203e040(pUVar9, pUVar8);
-
-        if (!(pUVar9->unk_03 & 0x10))
+        if (!(pUVar9->flags & 0x10))
         {
             continue;
         }
@@ -643,10 +629,10 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
             continue;
         }
 
-        pUVar9->unk_03 &= ~0x10;
+        pUVar9->flags &= ~0x10;
     }
 
-    arg_0->state1 &= 0xFFFFEFFD;
+    arg_0->state1 &= ~0x1002;
     arg_0->state1 |= CheckUnitAttribute(pUVar7, 0x00001002);
 
     arg_0->unk_a0 = pUVar7;
@@ -657,12 +643,12 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
 
 EC void func_0203c19c(struct Unit * srcUnit)
 {
+    struct Unit * dstUnit;
     s32 i;
 
-    struct Unit * dstUnit = srcUnit->unk_a0;
+    dstUnit = srcUnit->unk_a0;
 
-    dstUnit->xPos = srcUnit->xPos;
-    dstUnit->yPos = srcUnit->yPos;
+    dstUnit->SetPos(srcUnit->xPos, srcUnit->yPos);
 
     dstUnit->hp = GetUnitMaxHp(dstUnit);
     dstUnit->exp = srcUnit->exp;
@@ -678,12 +664,12 @@ EC void func_0203c19c(struct Unit * srcUnit)
 
     for (i = 0; i < 5; i++)
     {
-        struct Item * src = srcUnit->items + i;
-        struct Item * dst = dstUnit->items + i;
+        struct Item * dst;
+        dstUnit->items[i] = &srcUnit->items[i];
 
-        func_0203e040(dst, src);
+        dst = &dstUnit->items[i];
 
-        if (!(dst->unk_03 & 0x10))
+        if (!(dst->flags & 0x10))
         {
             continue;
         }
@@ -693,14 +679,14 @@ EC void func_0203c19c(struct Unit * srcUnit)
             continue;
         }
 
-        dst->unk_03 &= ~0x10;
+        dst->flags &= ~0x10;
     }
 
     func_0203aa4c(srcUnit, dstUnit);
 
     srcUnit->state2 &= ~0x40000;
 
-    func_0203bd34(dstUnit, 4, 1);
+    func_0203bd34(dstUnit, 4, TRUE);
 
     return;
 }
@@ -1157,7 +1143,7 @@ EC BOOL func_0203c834(struct Unit * unit, struct ItemData * item, s32 arg_2)
 
 EC BOOL func_0203cb6c(struct Unit * unit, s32 slot, s32 arg_2)
 {
-    return func_0203c834(unit, GetItemData(unit->items + slot), arg_2);
+    return func_0203c834(unit, unit->items[slot].GetData(), arg_2);
 }
 
 EC s32 GetUnitEquippedWeaponSlot(struct Unit * unit)
@@ -1167,7 +1153,7 @@ EC s32 GetUnitEquippedWeaponSlot(struct Unit * unit)
 
     for (i = 0; i < 5; i++, item++)
     {
-        if (!(item->unk_03 & 0x10))
+        if (!(item->flags & 0x10))
         {
             continue;
         }
@@ -1191,7 +1177,7 @@ EC u64 func_0203cbc4(struct Unit * unit, u64 arg_1)
 
     for (i = 0; i < 5; i++, it++)
     {
-        item = GetItemData(it);
+        item = it->GetData();
         ret |= item->attributes & arg_1;
     }
 
@@ -1216,37 +1202,35 @@ EC u64 func_0203cc1c(struct Unit * unit, u64 arg_1)
             continue;
         }
 
-        item = GetItemData(it);
+        item = it->GetData();
         uVar2 |= item->attributes & arg_1;
     }
 
     return uVar2;
 }
 
-EC void func_0203cc94(struct Unit * unit, s32 slot, s32 arg_2)
+EC void func_0203cc94(Unit * unit, s32 slot, s32 arg_2)
 {
     struct Item tmp;
 
-    struct Item * it = unit->items + slot;
-
-    func_0203e040(&tmp, it);
+    tmp = &unit->items[slot];
 
     if (slot >= arg_2)
     {
-        for (; slot > arg_2; slot--, it--)
+        for (; slot > arg_2; slot--)
         {
-            func_0203e040(it, &unit->items[slot - 1]);
+            unit->items[slot] = &unit->items[slot - 1];
         }
     }
     else if (slot < arg_2)
     {
-        for (; slot < arg_2; slot++, it++)
+        for (; slot < arg_2; slot++)
         {
-            func_0203e040(it, &unit->items[slot + 1]);
+            unit->items[slot] = &unit->items[slot + 1];
         }
     }
 
-    func_0203e040(unit->items + arg_2, &tmp);
+    unit->items[arg_2] = &tmp;
 
     return;
 }
@@ -1282,11 +1266,11 @@ EC BOOL func_0203cd30(struct Unit * unit, s32 arg_1)
     if (slot != -1)
     {
         struct Item * item = unit->items + slot;
-        item->unk_03 &= ~0x10;
+        item->flags &= ~0x10;
     }
 
     func_0203cc94(unit, arg_1, 0);
-    unit->items[0].unk_03 |= 0x10;
+    unit->items[0].flags |= 0x10;
 
     return 1;
 }
@@ -1294,7 +1278,7 @@ EC BOOL func_0203cd30(struct Unit * unit, s32 arg_1)
 EC void func_0203cdf0(struct Unit * unit, s32 slot)
 {
     struct Item * item = unit->items + slot;
-    item->unk_03 &= ~0x10;
+    item->flags &= ~0x10;
     return;
 }
 
@@ -1304,15 +1288,15 @@ EC void func_0203ce08(struct Unit * unit, s32 slot, BOOL arg_2)
     {
         for (; slot < 4; slot++)
         {
-            func_0203e040(&unit->items[slot], &unit->items[slot + 1]);
+            unit->items[slot] = &unit->items[slot + 1];
         }
 
         // Required to match, even though it's duplicated below
-        func_0203e02c(unit->items + slot);
+        unit->items[slot].Clear();
         return;
     }
 
-    func_0203e02c(unit->items + slot);
+    unit->items[slot].Clear();
     return;
 }
 
@@ -1344,8 +1328,8 @@ EC BOOL func_0203ce9c(struct Unit * unit, s32 arg_1, u32 arg_2)
     if (i != 5)
     {
         item = unit->items + i;
-        func_0203e008(item, arg_1);
-        item->unk_03 |= arg_2;
+        item->InitFromIid(arg_1);
+        item->flags |= arg_2;
         return TRUE;
     }
 
@@ -1354,7 +1338,7 @@ EC BOOL func_0203ce9c(struct Unit * unit, s32 arg_1, u32 arg_2)
 
 EC BOOL func_0203cef8(struct Unit * unit, struct ItemData * item, BOOL arg_2)
 {
-    return func_0203ce9c(unit, func_02037ffc(item), arg_2);
+    return func_0203ce9c(unit, GetItemDBIndex(item), arg_2);
 }
 
 EC BOOL func_0203cf20(struct Unit * unit, struct Item * item)
@@ -1372,7 +1356,7 @@ EC BOOL func_0203cf20(struct Unit * unit, struct Item * item)
 
     if (i != 5)
     {
-        func_0203e040(&unit->items[i], item);
+        unit->items[i] = item;
         return TRUE;
     }
 
@@ -1385,7 +1369,7 @@ EC void func_0203cf68(struct Unit * unit)
     s32 i;
     struct Item * unitItems = unit->items;
 
-    while (1)
+    while (TRUE)
     {
         struct Item * it = unitItems;
         for (i = 0; i < 5; i++, it++)
@@ -1416,8 +1400,8 @@ EC void func_0203cf68(struct Unit * unit)
             return;
         }
 
-        func_0203e040(unitItems + i, unitItems + j);
-        func_0203e02c(unitItems + j);
+        unitItems[i] = &unitItems[j];
+        unitItems[j].Clear();
     }
 }
 
@@ -1449,7 +1433,7 @@ EC s32 func_0203d01c(struct Unit * unit)
 
     for (i = 0; i < 5; i++, it++)
     {
-        struct ItemData * item = GetItemData(it);
+        struct ItemData * item = it->GetData();
 
         if (ret != -1 && !(item->attributes & 0x8000000))
         {
@@ -1479,7 +1463,7 @@ EC s32 func_0203d094(struct Unit * unit)
 
     for (i = 0; i < 5; i++, it++)
     {
-        struct ItemData * item = GetItemData(it);
+        struct ItemData * item = it->GetData();
 
         if (found != -1 && !(item->attributes & 0x8000000))
         {
@@ -1509,7 +1493,7 @@ EC s32 func_0203d10c(struct Unit * unit)
 
     for (i = 0; i < 5; i++, it++)
     {
-        struct ItemData * item = GetItemData(it);
+        struct ItemData * item = it->GetData();
 
         if (found != -1 && !(item->attributes & 0x8000000))
         {
@@ -1596,7 +1580,7 @@ EC s32 func_0203d294(struct Unit * unit, s32 slot, BOOL arg_2)
 
     if (slot != -1)
     {
-        return ComputeMight(unit, GetItemData(unit->items + slot), arg_2);
+        return ComputeMight(unit, unit->items[slot].GetData(), arg_2);
     }
 
     return 0;
@@ -1647,7 +1631,7 @@ EC s32 func_0203d40c(struct Unit * unit, s32 slot, BOOL arg_2)
 
     if (slot != -1)
     {
-        return ComputeHitRate(unit, GetItemData(unit->items + slot), arg_2);
+        return ComputeHitRate(unit, unit->items[slot].GetData(), arg_2);
     }
 
     return 0;
@@ -1692,7 +1676,7 @@ EC s32 func_0203d554(struct Unit * unit, s32 slot)
 
     if (slot != -1)
     {
-        return ComputeCritRate(unit, GetItemData(unit->items + slot));
+        return ComputeCritRate(unit, unit->items[slot].GetData());
     }
 
     return 0;
@@ -1751,7 +1735,7 @@ EC s32 func_0203d618(struct Unit * unit, s32 arg_1)
     }
     else
     {
-        item = GetItemData(unit->items + arg_1);
+        item = unit->items[arg_1].GetData();
     }
 
     return ComputeAvoid(unit, item);

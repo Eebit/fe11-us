@@ -55,8 +55,6 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3);
 EC void func_0203aa4c(struct Unit *, struct Unit *);
 EC void func_020a58b8(void *, void *, u32);
 
-EC struct ItemData * GetItemData(struct Item *);
-
 struct DBFE11Footer
 {
     u32 pidTableLength;
@@ -67,7 +65,7 @@ struct DBFE11Footer
     u32 unk_14;
 };
 
-EC s32 func_02037ffc(struct ItemData *);
+EC s32 GetItemDBIndex(struct ItemData *);
 
 extern struct UnkStruct_02196f10_00_348 data_021974e4[];
 
@@ -519,7 +517,7 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
             for (var_r7 = 0; var_r7 < 5; var_r7++)
             {
                 struct Item * item = &unit->items[var_r7];
-                temp_r0_2 = GetItemData(item);
+                temp_r0_2 = item->GetData();
 
                 if (!(temp_r0_2->attributes & 0x80000000))
                 {
@@ -527,7 +525,7 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
                 }
 
                 func_020a58b8(
-                    &data_021974e4[func_02037ffc(temp_r0_2) - data_02197254->pDBFE11Footer->iidTableLength],
+                    &data_021974e4[GetItemDBIndex(temp_r0_2) - data_02197254->pDBFE11Footer->iidTableLength],
                     &arg0->unk_348[var_r7], 0x28);
                 item->id = data_02197254->pDBFE11Footer->iidTableLength + var_r6;
                 var_r6++;

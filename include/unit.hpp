@@ -2,8 +2,11 @@
 #define UNIT_HPP
 
 #include "global.h"
+#include "save.hpp"
 
 EXTERN_C
+
+class Unit;
 
 struct PersonData
 {
@@ -71,11 +74,28 @@ struct Unit_unk_30
     u16 unk_04;
 };
 
-struct Item
+class Item
 {
-    u16 id;
-    u8 unk_02;
-    u8 unk_03;
+public:
+    /* 00 */ u16 id;
+    /* 02 */ u8 uses;
+    /* 03 */ u8 flags;
+
+    struct ItemData * GetData(void);
+
+    void InitFromItemData(ItemData *);
+    void InitFromIidStr(char *);
+    void InitFromIid(s32);
+    void Clear(void);
+
+    Item * operator=(Item *);
+    BOOL operator==(Item *);
+
+    BOOL func_0203e09c(Unit *);
+    BOOL func_0203e0f8(Unit *);
+
+    void Save(SaveBuffer *);
+    void Load(SaveBuffer *, s32);
 };
 
 class Force
@@ -159,6 +179,12 @@ public:
     struct Unit_unk_a4 * unk_a4;
 
     Unit() {};
+
+    inline void SetPos(s32 x, s32 y)
+    {
+        this->xPos = x;
+        this->yPos = y;
+    }
 };
 
 inline BOOL func_0203b714(struct Unit * unit, s32 state)

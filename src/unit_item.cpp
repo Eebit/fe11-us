@@ -5,73 +5,72 @@
 
 #include "unit.hpp"
 
-EC s32 func_02037ffc(struct ItemData *);
-EC struct ItemData * func_02037c68(char *);
-EC void func_0203e02c(struct Item *);
+EC s32 GetItemDBIndex(struct ItemData *);
+EC struct ItemData * GetItemByIidStr(char *);
 EC u64 func_0203cbc4(Unit *, u64);
 
-EC struct ItemData * GetItemData(struct Item * param_1)
+struct ItemData * Item::GetData(void)
 {
-    return &data_02197254->pItem[param_1->id];
+    return &data_02197254->pItem[this->id];
 }
 
-EC void func_0203dfac(struct Item * param_1, struct ItemData * itemData)
+void Item::InitFromItemData(struct ItemData * itemData)
 {
-    param_1->id = func_02037ffc(itemData);
-    param_1->unk_02 = itemData->uses;
-    param_1->unk_03 = 0;
+    this->id = GetItemDBIndex(itemData);
+    this->uses = itemData->uses;
+    this->flags = 0;
     return;
 }
 
-EC void func_0203dfd8(struct Item * param_1, char * iidStr)
+void Item::InitFromIidStr(char * iidStr)
 {
     if (iidStr != NULL)
     {
-        func_0203dfac(param_1, func_02037c68(iidStr));
+        this->InitFromItemData(GetItemByIidStr(iidStr));
     }
     else
     {
-        func_0203e02c(param_1);
+        this->Clear();
     }
 
     return;
 }
 
-EC void func_0203e008(struct Item * param_1, s32 iid)
+void Item::InitFromIid(s32 iid)
 {
-    func_0203dfac(param_1, data_02197254->pItem + iid);
+    this->InitFromItemData(data_02197254->pItem + iid);
     return;
 }
 
-EC void func_0203e02c(struct Item * param_1)
+void Item::Clear(void)
 {
-    param_1->id = 0;
-    param_1->unk_02 = 0;
-    param_1->unk_03 = 0;
+    this->id = 0;
+    this->uses = 0;
+    this->flags = 0;
     return;
 }
 
-EC void func_0203e040(struct Item * param_1, struct Item * param_2)
+Item * Item::operator=(struct Item * other)
 {
-    param_1->id = param_2->id;
-    param_1->unk_02 = param_2->unk_02;
-    param_1->unk_03 = param_2->unk_03;
-    return;
+    this->id = other->id;
+    this->uses = other->uses;
+    this->flags = other->flags;
+    return this;
 }
 
-EC BOOL func_0203e05c(struct Item * param_1, struct Item * param_2)
+BOOL Item::operator==(struct Item * other)
 {
-    if (param_1->id != param_2->id)
+    if (this->id != other->id)
     {
         return FALSE;
     }
 
-    if (param_1->unk_02 != param_2->unk_02)
+    if (this->uses != other->uses)
     {
         return FALSE;
     }
 
-    if (param_1->unk_03 != param_2->unk_03)
+    if (this->flags != other->flags)
     {
         return FALSE;
     }
@@ -79,80 +78,80 @@ EC BOOL func_0203e05c(struct Item * param_1, struct Item * param_2)
     return TRUE;
 }
 
-EC BOOL func_0203e09c(struct Item * param_1, struct Unit * unit)
+BOOL Item::func_0203e09c(struct Unit * unit)
 {
-    struct ItemData * itemData = GetItemData(param_1);
+    struct ItemData * itemData = this->GetData();
 
     if ((itemData->attributes & 0x8000000) != 0)
     {
-        return 0;
+        return FALSE;
     }
 
     if (unit != NULL)
     {
         if (func_0203cbc4(unit, 0x10000000) != 0)
         {
-            return 0;
+            return FALSE;
         }
     }
 
-    return 1;
+    return TRUE;
 }
 
-EC BOOL func_0203e0f8(struct Item * param_1, struct Unit * unit)
+BOOL Item::func_0203e0f8(struct Unit * unit)
 {
-    if (!func_0203e09c(param_1, unit))
+    if (!this->func_0203e09c(unit))
     {
         return FALSE;
     }
 
-    param_1->unk_02--;
+    this->uses--;
 
-    if (param_1->unk_02 == 0)
+    if (this->uses == 0)
     {
-        return 1;
+        return TRUE;
     }
 
-    return 0;
+    return FALSE;
 }
 
-EC void SaveItem(struct Item * param_1, SaveBuffer * save)
+void Item::Save(SaveBuffer * save)
 {
-    save->WriteShort(param_1->id);
-    save->WriteByte(param_1->unk_02);
-    save->WriteByte(param_1->unk_03);
+    save->WriteShort(this->id);
+    save->WriteByte(this->uses);
+    save->WriteByte(this->flags);
 
     return;
 }
 
-EC void LoadItem(struct Item * param_1, SaveBuffer * save, s32 param_3)
+void Item::Load(SaveBuffer * save, s32 param_3)
 {
-    param_1->id = save->ReadShort();
+    this->id = save->ReadShort();
 
-    if (param_3 < 3 && param_1->id >= 0x67)
+    if (param_3 < 3 && this->id >= 0x67)
     {
-        param_1->id += 0x21;
+        this->id += 0x21;
     }
 
-    if (param_3 < 4 && param_1->id >= 0x88)
+    if (param_3 < 4 && this->id >= 0x88)
     {
-        param_1->id += 0xb;
+        this->id += 0xb;
     }
 
     if (param_3 < 6)
     {
-        if (param_1->id >= 0x93)
+        if (this->id >= 0x93)
         {
-            param_1->id -= 0x2c;
+            this->id -= 0x2c;
         }
-        else if (param_1->id >= 0x67)
+        else if (this->id >= 0x67)
         {
-            param_1->id = 0;
+            this->id = 0;
         }
     }
 
-    param_1->unk_02 = save->ReadByte();
-    param_1->unk_03 = save->ReadByte();
+    this->uses = save->ReadByte();
+    this->flags = save->ReadByte();
 
     return;
 }
