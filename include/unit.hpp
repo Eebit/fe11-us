@@ -1,5 +1,5 @@
-#ifndef UNIT_H
-#define UNIT_H
+#ifndef UNIT_HPP
+#define UNIT_HPP
 
 #include "global.h"
 
@@ -71,10 +71,14 @@ struct Item
     u8 unk_03;
 };
 
-struct Unit_unk_4c
+class Force
 {
-    STRUCT_PAD(0x00, 0x08);
-    s32 unk_08;
+public:
+    /* 00 */ struct Unit * unk_00;
+    /* 04 */ struct Unit * unk_04;
+    /* 08 */ s32 unk_08;
+
+    Force() {};
 };
 
 struct Unit_unk_a4
@@ -83,8 +87,9 @@ struct Unit_unk_a4
     u16 unk_04;
 };
 
-struct Unit
+class Unit
 {
+public:
     u16 unk_00;
     s8 unk_02;
     s8 unk_03;
@@ -105,7 +110,7 @@ struct Unit
     /* 40 */ struct PersonData * pPersonData;
     /* 44 */ struct JobData * pJobData;
     STRUCT_PAD(0x48, 0x4C);
-    struct Unit_unk_4c * unk_4c;
+    Force * unk_4c;
     s8 unk_50[8];
     s16 unk_58[8];
     u8 unk_68;
@@ -132,6 +137,8 @@ struct Unit
     /* 9C */ s32 state2;
     /* A0 */ struct Unit * unk_a0;
     struct Unit_unk_a4 * unk_a4;
+
+    Unit() {};
 };
 
 inline BOOL func_0203b714(struct Unit * unit, s32 state)
@@ -148,4 +155,4 @@ inline struct Unit * func_0203c378(struct Unit * unit)
 
 EXTERN_C_END
 
-#endif // UNIT_H
+#endif // UNIT_HPP

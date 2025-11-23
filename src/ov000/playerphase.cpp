@@ -9,7 +9,7 @@
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
-#include "unit.h"
+#include "unit.hpp"
 
 extern struct ProcCmd data_ov000_021dbe58[];
 extern struct ProcCmd data_ov000_021dc190[];

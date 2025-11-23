@@ -6,11 +6,12 @@
 
 #include "save.hpp"
 
-#include "unit.h"
+#include "unit.hpp"
 
 EC void func_0203a94c(struct Unit * unit)
 {
     s32 i;
+    s32 j;
 
     unit->pPersonData = NULL;
     unit->pJobData = NULL;
@@ -35,9 +36,9 @@ EC void func_0203a94c(struct Unit * unit)
 
     unit->unk_6d = 0;
 
-    for (i = 0; i < 5; i++)
+    for (j = 0; j < 5; j++)
     {
-        func_0203e02c(&unit->items[i]);
+        func_0203e02c(&unit->items[j]);
     }
 
     for (i = 0; i < 6; i++)

@@ -1,7 +1,7 @@
 #include "global.h"
 
 #include "save.hpp"
-#include "unit.h"
+#include "unit.hpp"
 
 // FE11 Database, in RAM
 struct Unknown_02197254
@@ -51,16 +51,6 @@ EC struct PersonData * GetPersonByPidStr(char *);
 EC void SaveUnit(struct Unit *, struct SaveBuffer *);
 EC void func_0203bd34(struct Unit * unit, s32 arg_1, s32 arg_2);
 EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3);
-
-class Force
-{
-public:
-    /* 00 */ struct Unit * unk_00;
-    /* 04 */ struct Unit * unk_04;
-    /* 08 */ s32 unk_08;
-
-    Force() {};
-};
 
 EC void func_0203aa4c(struct Unit *, struct Unit *);
 EC void func_020a58b8(void *, void *, u32);
@@ -147,21 +137,21 @@ EC void func_0203fb68(void)
 
 EC struct Unit * func_0203fbe0(s32 factionId)
 {
-    Force * piVar1;
+    Force * force;
     s32 i;
 
     for (i = 0; i < 6; i++)
     {
-        if ((factionId & (1 << i)) == 0)
+        if (!(factionId & (1 << i)))
         {
             continue;
         }
 
-        piVar1 = func_02040c98(i);
+        force = func_02040c98(i);
 
-        if (piVar1->unk_00 != 0)
+        if (force->unk_00 != NULL)
         {
-            return piVar1->unk_00;
+            return force->unk_00;
         }
     }
 
@@ -468,7 +458,7 @@ EC void func_0204026c(struct UnkStruct_02196f10_00 * arg0, u32 arg1)
     for (i = 0; i < 5; i++)
     {
         func_02039fdc(&arg0->unk_000[i], i);
-        arg0->unk_000[i].unk_4c = (Unit_unk_4c *)func_02040c98(4);
+        arg0->unk_000[i].unk_4c = func_02040c98(4);
     }
 
     for (i = 0; i < 0x19; i++)
@@ -529,7 +519,7 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
             struct Unit * unit = &arg0->unk_000[sp4];
             func_0203aa4c(&arg0->unk_000[sp4], func_0203c378(unit));
 
-            unit->unk_4c = (struct Unit_unk_4c *)func_02040c98(0);
+            unit->unk_4c = func_02040c98(0);
             unit->unk_90 = 0;
 
             for (var_r7 = 0; var_r7 < 5; var_r7++)
@@ -828,7 +818,7 @@ EC void func_02040abc(struct UnkStruct_02196f10_00 * arg0, SaveBuffer * save)
     for (i = 0; i < 5; i++)
     {
         LoadUnit(&arg0->unk_000[i], save, temp_r6);
-        arg0->unk_000[i].unk_4c = (struct Unit_unk_4c *)func_02040c98(save->ReadByte());
+        arg0->unk_000[i].unk_4c = func_02040c98(save->ReadByte());
     }
 
     var_r4_2 = 0;
@@ -869,7 +859,7 @@ EC void func_02040bd0(Force * force, struct Unit * unit)
 {
     struct Unit * head;
 
-    unit->unk_4c = (struct Unit_unk_4c *)force;
+    unit->unk_4c = force;
     head = force->unk_00;
 
     if (head == NULL)
@@ -891,7 +881,7 @@ EC void func_02040bf4(Force * force, struct Unit * unit)
 {
     struct Unit * tail;
 
-    unit->unk_4c = (struct Unit_unk_4c *)force;
+    unit->unk_4c = force;
     tail = force->unk_04;
 
     if (tail == NULL)

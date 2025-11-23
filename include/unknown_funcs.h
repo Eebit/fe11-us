@@ -7,10 +7,18 @@
 
 #ifdef __cplusplus
 #include "map.hpp"
+#include "unit.hpp"
 #endif
 
 #include "proc.h"
-#include "unit.h"
+
+struct Unit;
+struct Item;
+struct ItemData;
+struct MapStateManager_08;
+struct UnkStruct_020e3ca0;
+struct UnkStruct_02196f10;
+struct Unknown_02197254;
 
 EXTERN_C
 
@@ -211,7 +219,7 @@ EC struct Unit * func_0203fff4(s32, s32);
 
 EC void func_02040bd0(void *, struct Unit *);
 EC void func_02040bf4(void *, struct Unit *);
-EC void func_02040c14(struct Unit_unk_4c *, struct Unit *);
+EC void func_02040c14(void *, struct Unit *);
 EC s32 func_02040c74(struct Unit **);
 EC void func_02040cb0(struct Unit **, s32, s32);
 EC void func_02040f5c(struct Item *);

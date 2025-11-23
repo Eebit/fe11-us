@@ -1,6 +1,6 @@
 #include "global.h"
 
-#include "unit.h"
+#include "unit.hpp"
 #include "unknown_types.hpp"
 #include "unknown_funcs.h"
 #include "unknown_data.h"

@@ -4,7 +4,7 @@
 
 #include "map.hpp"
 #include "proc_ex.hpp"
-#include "unit.h"
+#include "unit.hpp"
 
 struct DisposGroupProcessor;
 

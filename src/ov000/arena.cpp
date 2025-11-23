@@ -10,7 +10,7 @@
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
-#include "unit.h"
+#include "unit.hpp"
 
 EC void func_0200ac20(char *, ProcPtr, s32);
 EC void func_02010f98(u32, s32, s32);

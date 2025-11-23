@@ -1,6 +1,6 @@
 #include "global.h"
 
-#include "unit.h"
+#include "unit.hpp"
 
 extern struct Unit * gUnitList;
 
