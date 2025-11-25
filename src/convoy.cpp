@@ -3,34 +3,34 @@
 #include "save.hpp"
 #include "unit.hpp"
 
-EC void func_020410bc(s32);
+EC void ConvoyRemoveItemAtIndex(s32);
 EC void func_020a58b8(void *, void *, s32);
 
-extern Item * data_021974e0;
+extern Item * gConvoy;
 
-EC void func_02040eec(void)
+EC void InitConvoy(void)
 {
-    if (data_021974e0 == NULL)
+    if (gConvoy == NULL)
     {
-        data_021974e0 = new Item[200];
+        gConvoy = new Item[200];
     }
 
     return;
 }
 
-EC void func_02040f28(void)
+EC void ClearConvoyItems(void)
 {
     s32 i;
 
     for (i = 0; i < 200; i++)
     {
-        data_021974e0[i].Clear();
+        gConvoy[i].Clear();
     }
 
     return;
 }
 
-EC void func_02040f5c(struct Item * item)
+EC void AddItemToConvoy(Item * item)
 {
     s32 value;
     Item * it;
@@ -38,26 +38,28 @@ EC void func_02040f5c(struct Item * item)
     s32 bestIdx;
     s32 bestValue;
 
-    for (i = 0, it = data_021974e0; i < 200; i++, it++)
+    for (i = 0, it = gConvoy; i < 200; i++, it++)
     {
         if (!((it->id == 0 ? TRUE : FALSE) & 0xFF))
         {
             continue;
         }
 
-        data_021974e0[i] = item;
-        it = &data_021974e0[i];
+        gConvoy[i] = item;
+        it = &gConvoy[i];
         it->flags &= ~0x30;
 
         return;
     }
+
+    // If full, replace the item with the lowest value...?
 
     bestIdx = -1;
     bestValue = 0x7fffffff;
 
     for (i = 0; i < 200; i++)
     {
-        struct Item * it = &data_021974e0[i];
+        struct Item * it = &gConvoy[i];
         struct ItemData * itemData = it->GetData();
 
         if (itemData->attributes & 0x2000000)
@@ -74,7 +76,7 @@ EC void func_02040f5c(struct Item * item)
 
         if (itemData->uses != 0)
         {
-            value *= data_021974e0[i].uses;
+            value *= gConvoy[i].uses;
         }
 
         if (bestValue >= value)
@@ -89,45 +91,45 @@ EC void func_02040f5c(struct Item * item)
         return;
     }
 
-    func_020410bc(bestIdx);
+    ConvoyRemoveItemAtIndex(bestIdx);
 
-    data_021974e0[199] = item;
-    data_021974e0[199].flags &= ~0x30;
+    gConvoy[199] = item;
+    gConvoy[199].flags &= ~0x30;
 
     return;
 }
 
-EC void func_020410a0(struct ItemData * itemData)
+EC void AddNewItemToConvoy(struct ItemData * itemData)
 {
     struct Item item;
 
     item.InitFromItemData(itemData);
-    func_02040f5c(&item);
+    AddItemToConvoy(&item);
 
     return;
 }
 
-EC void func_020410bc(s32 param_1)
+EC void ConvoyRemoveItemAtIndex(s32 index)
 {
     s32 i;
 
-    for (i = param_1; i < 199; i++)
+    for (i = index; i < 199; i++)
     {
-        data_021974e0[i] = &data_021974e0[i + 1];
+        gConvoy[i] = &gConvoy[i + 1];
     }
 
-    data_021974e0[i].Clear();
+    gConvoy[i].Clear();
 
     return;
 }
 
-EC s32 func_02041110(void)
+EC s32 CountConvoyItems(void)
 {
     s32 i;
     s32 count;
     struct Item * item;
 
-    for (i = 0, item = data_021974e0; i < 200; i++, item++)
+    for (i = 0, item = gConvoy; i < 200; i++, item++)
     {
         if (((item->id == 0 ? TRUE : FALSE) & 0xFF))
         {
@@ -140,24 +142,24 @@ EC s32 func_02041110(void)
     return count;
 }
 
-EC void func_0204115c(SaveBuffer * save)
+EC void SaveConvoy(SaveBuffer * save)
 {
-    func_020a58b8(data_021974e0, save->unk_04, sizeof(Item) * 200);
+    func_020a58b8(gConvoy, save->unk_04, sizeof(Item) * 200);
     save->unk_04 += sizeof(Item) * 200;
 
     return;
 }
 
-EC void func_0204118c(SaveBuffer * save, s32 param_2)
+EC void LoadConvoy(SaveBuffer * save, s32 param_2)
 {
     if (param_2 <= 0)
     {
-        func_020a58b8(save->unk_04, data_021974e0, sizeof(Item) * 100);
+        func_020a58b8(save->unk_04, gConvoy, sizeof(Item) * 100);
         save->unk_04 += sizeof(Item) * 100;
     }
     else
     {
-        func_020a58b8(save->unk_04, data_021974e0, sizeof(Item) * 200);
+        func_020a58b8(save->unk_04, gConvoy, sizeof(Item) * 200);
         save->unk_04 += sizeof(Item) * 200;
     }
 
