@@ -49,6 +49,10 @@ src/force.cpp:
     .text       start:0x0203fafc end:0x02040eec
     .bss        start:0x021974d8 end:0x021974e0
 
+src/convoy.cpp:
+    .text       start:0x02040eec end:0x020411e8
+    .bss        start:0x021974e0 end:0x021974e4
+
 src/event_funcs.cpp:
     .text       start:0x02044974 end:0x020449bc
 

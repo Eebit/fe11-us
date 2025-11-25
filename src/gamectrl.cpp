@@ -552,7 +552,7 @@ EC void func_020217b4(void)
     func_02042420("startup");
 
     InitUnits();
-    func_02040eec();
+    InitConvoy();
     func_020411e8();
 
     return;
@@ -564,7 +564,7 @@ EC void func_020219a4(int param_1, int param_2)
     func_02024c80();
     func_02024d8c();
     ResetAllForces();
-    func_02040f28();
+    ClearConvoyItems();
     func_02041234();
     func_0200c888();
 
@@ -1065,7 +1065,7 @@ EC void func_02022588(void)
 
                 pUnitItem->flags &= ~0x30;
 
-                func_02040f5c(pUnitItem);
+                AddItemToConvoy(pUnitItem);
                 pUnitItem->Clear();
             }
         }

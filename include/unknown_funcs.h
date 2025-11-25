@@ -212,9 +212,9 @@ EC void ResetAllForces(void);
 EC void func_0203fc88(void);
 EC struct Unit * func_0203fff4(s32, s32);
 
-EC void func_02040f5c(struct Item *);
-EC void func_02040eec(void);
-EC void func_02040f28(void);
+EC void AddItemToConvoy(struct Item *);
+EC void InitConvoy(void);
+EC void ClearConvoyItems(void);
 EC void func_020411e8(void);
 EC void func_02041234(void);
 EC void func_02041458(void);

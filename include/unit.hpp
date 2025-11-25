@@ -81,6 +81,8 @@ public:
     /* 02 */ u8 uses;
     /* 03 */ u8 flags;
 
+    Item() {};
+
     struct ItemData * GetData(void);
 
     void InitFromItemData(ItemData *);
