@@ -77,9 +77,9 @@ struct TerrainData
 
 struct DBFE11Footer
 {
-    u32 pidTableLength;
-    u32 jidTableLength;
-    u32 iidTableLength;
+    s32 pidTableLength;
+    s32 jidTableLength;
+    s32 iidTableLength;
     u32 unk_0c;
     u32 unk_10;
     u32 unk_14;
@@ -130,34 +130,15 @@ struct UnkStruct_Func_02021410_Ret
     u8 unk_756;
 };
 
+// current map info (size 0x20)
 struct UnkStruct_02196f0c_00
 {
+    // +0x00 = pointer to "bmap_###" or "arena_###" identifier
+    // +0x04 = pointer to MCT_### string id
     STRUCT_PAD(0x00, 0x0A);
     s8 unk_0a;
     STRUCT_PAD(0x0B, 0x18);
     u8 unk_18[2];
-};
-
-struct UnkStruct_02196f0c_04_00
-{
-    void (*unk_00)(void *, s32);
-    void (*unk_04)(void *, char *);
-};
-
-struct UnkStruct_02196f0c_04
-{
-    struct UnkStruct_02196f0c_04_00 * unk_00;
-    char ** unk_04;
-    u8 * unk_08;
-    u32 unk_0c;
-};
-
-struct UnkStruct_02196f0c_08
-{
-    struct UnkStruct_02196f0c_04_00 * unk_00;
-    char ** unk_04;
-    s32 * unk_08;
-    u32 unk_0c;
 };
 
 struct UnkStruct_020ca61c

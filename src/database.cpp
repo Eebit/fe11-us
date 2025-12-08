@@ -1,0 +1,587 @@
+#include "global.h"
+
+#include "hashtable.hpp"
+#include "unit.hpp"
+
+struct MapData
+{
+    char * unk_00;
+    char * unk_04;
+    STRUCT_PAD(0x08, 0x20);
+};
+
+struct UnkData
+{
+    char * unk_00;
+    STRUCT_PAD(0x04, 0x09);
+    u8 unk_09;
+};
+
+struct TerrainData
+{
+    char * unk_00;
+    s8 * unk_04;
+    s8 * unk_08;
+    s8 * unk_10;
+};
+
+struct TerrainCostData
+{
+    s32 size;
+    s8 * unk_04;
+};
+
+struct CharmData
+{
+    STRUCT_PAD(0x00, 0x04);
+    char * unk_04;
+};
+
+struct DBFE11Footer
+{
+    s32 pidTableLength;
+    s32 jidTableLength;
+    s32 iidTableLength;
+    u32 unk_0c;
+    u32 unk_10;
+    u32 unk_14;
+};
+
+struct FE11Database
+{
+    /* 00 */ void * unk_00;
+    /* 04 */ void * unk_04;
+    /* 08 */ struct PersonData * pPerson;
+    /* 0C */ struct JobData * pJob;
+    /* 10 */ struct ItemData * pItem;
+    /* 14 */ void * unk_14;
+    /* 18 */ void * unk_18;
+    /* 1C */ void * unk_1c;
+    /* 20 */ struct TerrainData * pTerrain;
+    /* 24 */ void * unk_24;
+    /* 28 */ void * unk_28;
+    /* 2C */ u8 * pWeaponLevel;
+    /* 30 */ void * unk_30;
+    /* 34 */ void * unk_34;
+    /* 38 */ struct Unit_unk_a4 * unk_38;
+    /* 3C */ void * unk_3c;
+    /* 40 */ void * unk_40;
+    /* 44 */ void * unk_44;
+    /* 48 */ struct DBFE11Footer * pDBFE11Footer;
+};
+
+EC void func_020a8f40(char *);
+EC void * func_020379e0(char *, u32);
+
+extern s32 data_020eea90;
+EC BOOL CheckUnitAttribute(struct Unit *, s32);
+EC Unit * func_0203fd84(struct PersonData *);
+
+EC char * func_02039e10(char *);
+EC char * func_020076d4(char *);
+
+EC char * func_02038328(struct UnkData *);
+EC char * func_0203802c(struct ItemData *);
+
+EC void func_020a58b8(void *, void *, s32);
+EC void func_020b6c98(char *, char *);
+EC void func_020b6e08(char *, char *);
+EC s32 GetUnitMaxHp(Unit *);
+EC void func_020208b0(s32, s32, s32 *, s32 *);
+
+extern struct FE11Database * data_02197254;
+
+EC void func_02037a04(FE11Database * self)
+{
+    Unit_unk_a4 * puVar4;
+    s32 i;
+
+    func_020a8f40("/data");
+
+    self->unk_00 = func_020379e0("database", 1);
+    self->unk_04 = func_020379e0("tut", 1);
+
+    self->pPerson = static_cast<struct PersonData *>(HashTable::Get2("Person"));
+    self->pJob = static_cast<struct JobData *>(HashTable::Get2("Job"));
+    self->pItem = static_cast<struct ItemData *>(HashTable::Get2("Item"));
+    self->unk_14 = HashTable::Get2("ItemRefine");
+    self->unk_18 = HashTable::Get2("MapTbl");
+    self->unk_1c = HashTable::Get2("Belong");
+    self->pTerrain = static_cast<struct TerrainData *>(HashTable::Get2("Terrain"));
+    self->unk_24 = HashTable::Get2("TerrainCategory");
+    self->unk_28 = HashTable::Get2("TerrainCost");
+    self->pWeaponLevel = static_cast<u8 *>(HashTable::Get2("WeaponLevel"));
+    self->unk_30 = HashTable::Get2("WeaponBonus");
+    self->unk_34 = HashTable::Get2("WeaponDeadlock");
+    self->unk_38 = static_cast<Unit_unk_a4 *>(HashTable::Get2("StringTable"));
+    self->unk_3c = HashTable::Get2("Tutorial");
+    self->unk_40 = HashTable::Get2("TutHelp");
+    self->unk_44 = HashTable::Get2("Charm");
+    self->pDBFE11Footer = static_cast<struct DBFE11Footer *>(HashTable::Get2("DBFE11Footer"));
+
+    for (i = 0; i < data_02197254->pDBFE11Footer->pidTableLength; i++)
+    {
+        HashTable::Put(data_02197254->pPerson[i].unk_00, &data_02197254->pPerson[i]);
+    }
+
+    for (i = 0; i < data_02197254->pDBFE11Footer->jidTableLength; i++)
+    {
+        HashTable::Put(data_02197254->pJob[i].unk_00, &data_02197254->pJob[i]);
+    }
+
+    for (i = 0; i < data_02197254->pDBFE11Footer->iidTableLength; i++)
+    {
+        HashTable::Put(data_02197254->pItem[i].id, &data_02197254->pItem[i]);
+    }
+
+    for (puVar4 = self->unk_38; puVar4->unk_00 != NULL; puVar4++)
+    {
+        HashTable::Put(puVar4->unk_00, puVar4);
+    }
+
+    return;
+}
+
+EC struct PersonData * GetPersonByPidStr(char * pidStr)
+{
+    return static_cast<struct PersonData *>(HashTable::Get2(pidStr));
+}
+
+EC struct JobData * GetJobByJidStr(char * jidStr)
+{
+    return static_cast<struct JobData *>(HashTable::Get2(jidStr));
+}
+
+EC struct ItemData * GetItemByIidStr(char * iidStr)
+{
+    return static_cast<struct ItemData *>(HashTable::Get2(iidStr));
+}
+
+EC struct MapData * func_02037c74(char * midStr)
+{
+    return static_cast<struct MapData *>(HashTable::Get2(midStr));
+}
+
+EC struct MapData * func_02037c80(s32 idx)
+{
+    return func_02037c74("arena01") + idx;
+}
+
+EC void * func_02037c9c(char * str)
+{
+    return HashTable::Get1(str);
+}
+
+EC char * func_02037ca8(s32 param_1, BOOL isCapital)
+{
+    if (isCapital)
+    {
+        switch (param_1)
+        {
+            case 0:
+                return "";
+            case 1:
+                break;
+            case 2:
+                return "A ";
+            case 3:
+                return "An ";
+            case 4:
+                return "The ";
+        }
+    }
+    else
+    {
+        switch (param_1)
+        {
+            case 0:
+                return "";
+            case 1:
+                break;
+            case 2:
+                return "a ";
+            case 3:
+                return "an ";
+            case 4:
+                return "the ";
+        }
+    }
+
+    return "";
+}
+
+EC s32 func_02037d54(s32 arg0, char * arg1)
+{
+    if (arg0 != 1)
+    {
+        return arg0;
+    }
+
+    if (arg1 == NULL)
+    {
+        return 0;
+    }
+
+    switch (*arg1)
+    {
+        case 'A':
+        case 'E':
+        case 'I':
+        case 'O':
+        case 'U':
+
+        case 'a':
+        case 'e':
+        case 'i':
+        case 'o':
+        case 'u':
+            return 3;
+
+        default:
+            return 2;
+    }
+}
+
+EC char * func_02037dfc(struct ItemData * pItem, s32 param_2)
+{
+    if (data_020eea90 == 1)
+    {
+        return func_02037ca8(func_02037d54(pItem->unk_3b, func_0203802c(pItem)), param_2);
+    }
+
+    return "";
+}
+
+EC char * func_02037e44(struct UnkData * param_1, s32 param_2)
+{
+    if (data_020eea90 == 1)
+    {
+        return func_02037ca8(func_02037d54(param_1->unk_09, func_02038328(param_1)), param_2);
+    }
+
+    return "";
+}
+
+EC s32 GetPersonDBIndex(struct PersonData * pPerson)
+{
+    return ((s32)pPerson - (s32)data_02197254->pPerson) / (s32)sizeof(struct PersonData);
+}
+
+EC char * func_02037eb8(struct PersonData * pPerson)
+{
+    if (pPerson->unk_08 != NULL)
+    {
+        return func_02039e10(pPerson->unk_08);
+    }
+
+    if (pPerson->unk_04 != NULL)
+    {
+        return func_020076d4(pPerson->unk_04);
+    }
+
+    return "NoName";
+}
+
+EC char * func_02037ef0(struct PersonData * pPerson, Unit * pUnit)
+{
+    BOOL bVar4 = FALSE;
+
+    if (pUnit != NULL)
+    {
+        if ((func_02037ef0(pUnit->pPersonData, NULL) == 0) && (pUnit->pJobData->unk_48 != NULL))
+        {
+            return pUnit->pJobData->unk_48;
+        }
+
+        if (CheckUnitAttribute(pUnit, 0x4000000) != 0)
+        {
+            bVar4 = TRUE;
+        }
+    }
+    else
+    {
+        if ((pPerson->unk_24 & 0x4000000) != 0)
+        {
+            bVar4 = TRUE;
+        }
+    }
+
+    if ((bVar4) && (func_0203fd84(pPerson) != 0) && (pPerson == GetPersonByPidStr("PID_MARS")))
+    {
+        return "FID_S_MARS";
+    }
+
+    return pPerson->unk_04;
+}
+
+EC void * func_02037f88(struct PersonData * pPerson, Unit * pUnit)
+{
+    return HashTable::Get1(func_02037ef0(pPerson, pUnit));
+}
+
+EC s32 GetJobDBIndex(struct JobData * pJob)
+{
+    return ((s32)pJob - (s32)data_02197254->pJob) / (s32)sizeof(struct JobData);
+}
+
+EC char * func_02037fc8(struct JobData * pJob)
+{
+    return func_02039e10(pJob->unk_04);
+}
+
+EC s32 GetJobMaxLevel(struct JobData * pJob)
+{
+    if ((pJob->attributes & 0x800) != 0)
+    {
+        return 20;
+    }
+
+    if (pJob->pPromoteJob != NULL)
+    {
+        return 20;
+    }
+
+    return 30;
+}
+
+EC s32 GetItemDBIndex(struct ItemData * pItem)
+{
+    return ((s32)pItem - (s32)data_02197254->pItem) / (s32)sizeof(struct ItemData);
+}
+
+EC char * func_0203802c(struct ItemData * pItem)
+{
+    s32 len = data_02197254->pDBFE11Footer->iidTableLength;
+
+    if (GetItemDBIndex(pItem) >= len)
+    {
+        return pItem->pName;
+    }
+
+    return func_02039e10(pItem->pName);
+}
+
+EC char * func_02038060(struct ItemData * pItem)
+{
+    if (pItem->pDescription != NULL)
+    {
+        return func_02039e10(pItem->pDescription);
+    }
+
+    return NULL;
+}
+
+EC void
+func_0203807c(struct ItemData * dst, struct ItemData * src, char * str, s32 might, s32 hit, s32 critical, s32 weight)
+{
+    char * uVar1;
+
+    uVar1 = dst->id;
+    func_020a58b8(src, dst, sizeof(struct ItemData));
+    dst->id = uVar1;
+
+    dst->might += might;
+    dst->hit += hit;
+    dst->critical += critical;
+    dst->weight += weight;
+
+    dst->pName = str;
+
+    dst->attributes |= 0x8000000000000000;
+
+    dst->unk_3b = 4;
+
+    return;
+}
+
+// GetMapDBIndex
+EC s32 func_02038108(struct MapData * pMap)
+{
+    return ((s32)pMap - (s32)data_02197254->unk_18) / (s32)sizeof(struct MapData);
+}
+
+EC char * func_0203812c(struct MapData * pMap)
+{
+    char * mapName = static_cast<char *>(HashTable::Get1(pMap->unk_04));
+
+    if (mapName == NULL)
+    {
+        return pMap->unk_00;
+    }
+
+    return mapName;
+}
+
+EC void * func_02038148(struct MapData * pMap)
+{
+    char * ret;
+    char str[32];
+
+    func_020b6c98(str, pMap->unk_04);
+    func_020b6e08(str, "SM");
+
+    ret = static_cast<char *>(HashTable::Get1(str));
+
+    if (ret == NULL)
+    {
+        return pMap->unk_00;
+    }
+
+    return ret;
+}
+
+EC void * func_02038188(struct MapData * pMap)
+{
+    char * ret;
+    char str[32];
+
+    func_020b6c98(str, pMap->unk_04);
+    func_020b6e08(str, "AF");
+
+    ret = static_cast<char *>(HashTable::Get1(str));
+
+    if (ret == NULL)
+    {
+        return pMap->unk_00;
+    }
+
+    return ret;
+}
+
+EC char * func_020381c8(struct TerrainData * pTerrain)
+{
+    return func_02039e10(pTerrain->unk_00);
+}
+
+static inline s32 min(s32 a, s32 b)
+{
+    if (a < b)
+    {
+        return a;
+    }
+
+    return b;
+}
+
+EC s32 func_020381d8(struct TerrainData * pTerrain, Unit * pUnit, s32 param_3)
+{
+    s32 maxHp;
+    s32 curHp;
+    s32 quotient;
+    s32 remainder;
+
+    curHp = pUnit->hp;
+    maxHp = GetUnitMaxHp(pUnit);
+
+    func_020208b0(maxHp * pTerrain->unk_08[3], 100, &quotient, &remainder);
+
+    if (remainder != 0)
+    {
+        quotient = quotient + 1;
+    }
+
+    return min(maxHp - curHp, quotient = quotient + param_3);
+}
+
+// GetTerrainCategoryDBIndex
+EC s32 func_02038248(void * pTerrainCategory)
+{
+    return ((s32)pTerrainCategory - (s32)data_02197254->unk_24) / 4;
+}
+
+EC s32 func_0203826c(void * pTerrainCategory, s32 b)
+{
+    s32 iVar1 = func_02038248(pTerrainCategory);
+    s32 stride = (((struct TerrainCostData *)data_02197254->unk_28)->size + 3) & ~3;
+
+    return ((struct TerrainCostData *)data_02197254->unk_28)->unk_04[b * stride + iVar1];
+}
+
+EC BOOL func_020382a4(void * param_1)
+{
+    return (!((((s32)param_1 - (s32)data_02197254->unk_34) / 12) & 1) ? TRUE : FALSE) & 0xFF;
+}
+
+// clang-format off
+
+char * data_020d4734[] =
+{
+    "MP_HP",
+    "MP_STR",
+    "MP_MPOW",
+    "MP_TECH",
+    "MP_QUICK",
+    "MP_LUCK",
+    "MP_DEF",
+    "MP_MDEF",
+};
+
+// clang-format on
+
+EC char * func_020382e0(s32 idx)
+{
+    return func_02039e10(data_020d4734[idx]);
+}
+
+// clang-format off
+
+char * data_020d4754[] =
+{
+    "MP_HP_L",
+    "MP_STR_L",
+    "MP_MPOW_L",
+    "MP_TECH_L",
+    "MP_QUICK_L",
+    "MP_LUCK_L",
+    "MP_DEF_L",
+    "MP_MDEF_L",
+};
+
+// clang-format on
+
+EC char * func_020382f8(s32 idx)
+{
+    return func_02039e10(data_020d4754[idx]);
+}
+
+// clang-format off
+
+char * data_020d471c[] =
+{
+    "ML_A",
+    "ML_B",
+    "ML_C",
+    "ML_D",
+    "ML_E",
+    "ML_N",
+};
+
+// clang-format on
+
+EC char * func_02038310(s32 idx)
+{
+    return func_02039e10(data_020d471c[idx]);
+}
+
+// clang-format off
+
+// unused?
+char * data_020d470c[] =
+{
+    "ML_N",
+    "ML_C",
+    "ML_B",
+    "ML_A",
+};
+
+// clang-format on
+
+EC char * func_02038328(struct UnkData * param_1)
+{
+    return func_02039e10(param_1->unk_00);
+}
+
+EC char * func_02038338(struct CharmData * pCharm)
+{
+    return func_02039e10(pCharm->unk_04);
+}

@@ -10,8 +10,9 @@ class Unit;
 
 struct PersonData
 {
-    char * unk_00;
-    STRUCT_PAD(0x04, 0x0C);
+    char * unk_00; // pid string
+    char * unk_04; // fid string
+    char * unk_08;
     /* 0C */ s8 bases[8];
     s8 unk_14[8]; // growths
     /* 1C */ u8 enemyGrowths[8];
@@ -23,7 +24,8 @@ struct PersonData
 
 struct JobData
 {
-    STRUCT_PAD(0x00, 0x08);
+    char * unk_00; // jid string
+    char * unk_04;
     /* 08 */ s8 bases[8];
     s8 unk_10[8];
     u8 unk_18[8];
@@ -38,14 +40,16 @@ struct JobData
     u32 attributes;
     STRUCT_PAD(0x3C, 0x40);
     /* 40 */ struct JobData * pPromoteJob;
-    STRUCT_PAD(0x44, 0x5C);
+    STRUCT_PAD(0x44, 0x48);
+    char * unk_48;
+    STRUCT_PAD(0x4C, 0x5C);
 };
 
 struct ItemData
 {
-    /* 00 */ char * id;
-    /* 04 */ char * pName;
-    /* 08 */ char * pDescription;
+    /* 00 */ char * id; // iid string
+    /* 04 */ char * pName; // miid string
+    /* 08 */ char * pDescription; // mih string
     /* 0C */ u16 weaponIcon;
     /* 0E */ u16 price;
     /* 10 */ u8 type;
@@ -127,7 +131,7 @@ public:
 
 struct Unit_unk_a4
 {
-    STRUCT_PAD(0x00, 0x04);
+    char * unk_00;
     u16 unk_04;
 };
 

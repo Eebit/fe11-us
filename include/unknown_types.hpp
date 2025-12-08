@@ -28,7 +28,7 @@ struct Unknown_02197254
 
 struct UnkStruct_02196f0c
 {
-    /* 00 */ struct UnkStruct_02196f0c_00 * unk_00;
+    /* 00 */ struct UnkStruct_02196f0c_00 * unk_00; // current map info (size 0x20)
     /* 04 */ FlagManager * flagMgr;
     /* 08 */ ValueManager * valueMgr;
     /* 0C */ u32 state;

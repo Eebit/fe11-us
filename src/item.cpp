@@ -29,16 +29,6 @@ EC s32 func_02038e34(struct ItemData * item);
 EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit);
 EC BOOL func_02038f94(struct Item * item);
 
-EC const char * func_02038328(struct ItemData * item)
-{
-    return func_02039e10(item->id);
-}
-
-EC const char * func_02038338(struct ItemData * item)
-{
-    return func_02039e10(item->pName);
-}
-
 EC BOOL func_02038348(struct ItemData * item)
 {
     if (item->type == ITYPE_STAFF || item->type == ITYPE_MAGIC)
