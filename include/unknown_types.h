@@ -120,17 +120,6 @@ struct UnkStruct_Func_02021410_Ret
     u8 unk_756;
 };
 
-// current map info (size 0x20)
-struct UnkStruct_02196f0c_00
-{
-    // +0x00 = pointer to "bmap_###" or "arena_###" identifier
-    // +0x04 = pointer to MCT_### string id
-    STRUCT_PAD(0x00, 0x0A);
-    s8 unk_0a;
-    STRUCT_PAD(0x0B, 0x18);
-    u8 unk_18[2];
-};
-
 struct UnkStruct_020ca61c
 {
     u16 unk_00;

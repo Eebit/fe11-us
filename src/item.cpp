@@ -153,7 +153,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
             iVar5 = func_0203c7ac(unit, type);
 
-            for (i = 0, pWeaponLevel = data_02197254->pWeaponLevel; i < 5; i++)
+            for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
                 if (iVar5 >= pWeaponLevel[i])
                 {
@@ -371,7 +371,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
 
             iVar5 = func_0203c7ac(unit, type);
 
-            for (i = 0, pWeaponLevel = data_02197254->pWeaponLevel; i < 5; i++)
+            for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
                 if (iVar5 >= pWeaponLevel[i])
                 {

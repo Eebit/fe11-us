@@ -110,7 +110,6 @@ EC u16 IntSys_Sqrt(u32);
 EC s32 Interpolate(s32, s32, s32, s32, s32);
 EC BOOL func_020252fc(void);
 
-EC void func_020210d0(struct UnkStruct_02196f0c_00 *, s32);
 EC void func_02021014(void);
 EC void func_02021178(s32);
 EC void func_0202118c(void);
@@ -159,8 +158,7 @@ EC struct JobData * GetJobByJidStr(char *);
 EC s32 GetItemDBIndex(struct ItemData *);
 EC s32 GetJobMaxLevel(struct JobData *);
 
-EC s32 func_02038108(struct UnkStruct_02196f0c_00 *);
-EC u32 func_02038248(s8 *);
+EC u32 GetTerrainCategoryDBIndex(s8 *);
 EC s32 func_0203826c(void *, u8);
 EC BOOL func_02038348(struct ItemData *);
 EC s32 GetItemMaxRange(struct ItemData *, struct Unit *);

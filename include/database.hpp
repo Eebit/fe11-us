@@ -5,9 +5,12 @@
 
 struct MapData
 {
-    char * unk_00;
-    char * unk_04;
-    STRUCT_PAD(0x08, 0x20);
+    char * unk_00; // pointer to "bmap_###" or "arena_###" identifier
+    char * unk_04; // pointer to MCT_### string id
+    STRUCT_PAD(0x08, 0x0A);
+    s8 unk_0a;
+    STRUCT_PAD(0x0B, 0x18);
+    u8 unk_18[2];
 };
 
 struct UnkData
@@ -39,8 +42,9 @@ struct DBFE11Footer
     u32 unk_14;
 };
 
-struct FE11Database
+class FE11Database
 {
+public:
     /* 00 */ void * unk_00;
     /* 04 */ void * unk_04;
     /* 08 */ struct PersonData * pPerson;
@@ -60,10 +64,12 @@ struct FE11Database
     /* 40 */ void * unk_40;
     /* 44 */ void * unk_44;
     /* 48 */ struct DBFE11Footer * pDBFE11Footer;
+
+    void Init(void);
 };
 
-EC void func_02037a04(FE11Database * self);
+extern struct FE11Database * gFE11Database;
 
-extern struct FE11Database * data_02197254;
+EC s32 GetMapDBIndex(struct MapData * pMap);
 
 #endif // DATABASE_HPP

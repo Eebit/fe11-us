@@ -3,14 +3,14 @@
 
 #include "global.h"
 
-#include "unit.hpp"
-
+#include "database.hpp"
 #include "map.hpp"
 #include "state_manager.hpp"
+#include "unit.hpp"
 
 struct UnkStruct_02196f0c
 {
-    /* 00 */ struct UnkStruct_02196f0c_00 * unk_00; // current map info (size 0x20)
+    /* 00 */ struct MapData * unk_00;
     /* 04 */ FlagManager * flagMgr;
     /* 08 */ ValueManager * valueMgr;
     /* 0C */ u32 state;

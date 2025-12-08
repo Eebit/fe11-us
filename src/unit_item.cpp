@@ -9,7 +9,7 @@ EC u64 func_0203cbc4(Unit *, u64);
 
 struct ItemData * Item::GetData(void)
 {
-    return &data_02197254->pItem[this->id];
+    return &gFE11Database->pItem[this->id];
 }
 
 void Item::InitFromItemData(struct ItemData * itemData)
@@ -36,7 +36,7 @@ void Item::InitFromIidStr(char * iidStr)
 
 void Item::InitFromIid(s32 iid)
 {
-    this->InitFromItemData(data_02197254->pItem + iid);
+    this->InitFromItemData(gFE11Database->pItem + iid);
     return;
 }
 

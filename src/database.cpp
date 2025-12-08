@@ -6,10 +6,11 @@
 #include "hashtable.hpp"
 #include "unit.hpp"
 
+extern s32 data_020eea90;
+
 EC void func_020a8f40(char *);
 EC void * func_020379e0(char *, u32);
 
-extern s32 data_020eea90;
 EC BOOL CheckUnitAttribute(struct Unit *, s32);
 EC Unit * func_0203fd84(struct PersonData *);
 
@@ -25,50 +26,50 @@ EC void func_020b6e08(char *, char *);
 EC s32 GetUnitMaxHp(Unit *);
 EC void func_020208b0(s32, s32, s32 *, s32 *);
 
-EC void func_02037a04(FE11Database * self)
+EC void FE11Database::Init(void)
 {
     Unit_unk_a4 * puVar4;
     s32 i;
 
     func_020a8f40("/data");
 
-    self->unk_00 = func_020379e0("database", 1);
-    self->unk_04 = func_020379e0("tut", 1);
+    this->unk_00 = func_020379e0("database", 1);
+    this->unk_04 = func_020379e0("tut", 1);
 
-    self->pPerson = static_cast<struct PersonData *>(HashTable::Get2("Person"));
-    self->pJob = static_cast<struct JobData *>(HashTable::Get2("Job"));
-    self->pItem = static_cast<struct ItemData *>(HashTable::Get2("Item"));
-    self->unk_14 = HashTable::Get2("ItemRefine");
-    self->unk_18 = HashTable::Get2("MapTbl");
-    self->unk_1c = HashTable::Get2("Belong");
-    self->pTerrain = static_cast<struct TerrainData *>(HashTable::Get2("Terrain"));
-    self->unk_24 = HashTable::Get2("TerrainCategory");
-    self->unk_28 = HashTable::Get2("TerrainCost");
-    self->pWeaponLevel = static_cast<u8 *>(HashTable::Get2("WeaponLevel"));
-    self->unk_30 = HashTable::Get2("WeaponBonus");
-    self->unk_34 = HashTable::Get2("WeaponDeadlock");
-    self->unk_38 = static_cast<Unit_unk_a4 *>(HashTable::Get2("StringTable"));
-    self->unk_3c = HashTable::Get2("Tutorial");
-    self->unk_40 = HashTable::Get2("TutHelp");
-    self->unk_44 = HashTable::Get2("Charm");
-    self->pDBFE11Footer = static_cast<struct DBFE11Footer *>(HashTable::Get2("DBFE11Footer"));
+    this->pPerson = static_cast<struct PersonData *>(HashTable::Get2("Person"));
+    this->pJob = static_cast<struct JobData *>(HashTable::Get2("Job"));
+    this->pItem = static_cast<struct ItemData *>(HashTable::Get2("Item"));
+    this->unk_14 = HashTable::Get2("ItemRefine");
+    this->unk_18 = HashTable::Get2("MapTbl");
+    this->unk_1c = HashTable::Get2("Belong");
+    this->pTerrain = static_cast<struct TerrainData *>(HashTable::Get2("Terrain"));
+    this->unk_24 = HashTable::Get2("TerrainCategory");
+    this->unk_28 = HashTable::Get2("TerrainCost");
+    this->pWeaponLevel = static_cast<u8 *>(HashTable::Get2("WeaponLevel"));
+    this->unk_30 = HashTable::Get2("WeaponBonus");
+    this->unk_34 = HashTable::Get2("WeaponDeadlock");
+    this->unk_38 = static_cast<Unit_unk_a4 *>(HashTable::Get2("StringTable"));
+    this->unk_3c = HashTable::Get2("Tutorial");
+    this->unk_40 = HashTable::Get2("TutHelp");
+    this->unk_44 = HashTable::Get2("Charm");
+    this->pDBFE11Footer = static_cast<struct DBFE11Footer *>(HashTable::Get2("DBFE11Footer"));
 
-    for (i = 0; i < data_02197254->pDBFE11Footer->pidTableLength; i++)
+    for (i = 0; i < gFE11Database->pDBFE11Footer->pidTableLength; i++)
     {
-        HashTable::Put(data_02197254->pPerson[i].unk_00, &data_02197254->pPerson[i]);
+        HashTable::Put(gFE11Database->pPerson[i].unk_00, &gFE11Database->pPerson[i]);
     }
 
-    for (i = 0; i < data_02197254->pDBFE11Footer->jidTableLength; i++)
+    for (i = 0; i < gFE11Database->pDBFE11Footer->jidTableLength; i++)
     {
-        HashTable::Put(data_02197254->pJob[i].unk_00, &data_02197254->pJob[i]);
+        HashTable::Put(gFE11Database->pJob[i].unk_00, &gFE11Database->pJob[i]);
     }
 
-    for (i = 0; i < data_02197254->pDBFE11Footer->iidTableLength; i++)
+    for (i = 0; i < gFE11Database->pDBFE11Footer->iidTableLength; i++)
     {
-        HashTable::Put(data_02197254->pItem[i].id, &data_02197254->pItem[i]);
+        HashTable::Put(gFE11Database->pItem[i].id, &gFE11Database->pItem[i]);
     }
 
-    for (puVar4 = self->unk_38; puVar4->unk_00 != NULL; puVar4++)
+    for (puVar4 = this->unk_38; puVar4->unk_00 != NULL; puVar4++)
     {
         HashTable::Put(puVar4->unk_00, puVar4);
     }
@@ -91,14 +92,14 @@ EC struct ItemData * GetItemByIidStr(char * iidStr)
     return static_cast<struct ItemData *>(HashTable::Get2(iidStr));
 }
 
-EC struct MapData * func_02037c74(char * midStr)
+EC struct MapData * GetMapByMidStr(char * midStr)
 {
     return static_cast<struct MapData *>(HashTable::Get2(midStr));
 }
 
 EC struct MapData * func_02037c80(s32 idx)
 {
-    return func_02037c74("arena01") + idx;
+    return GetMapByMidStr("arena01") + idx;
 }
 
 EC void * func_02037c9c(char * str)
@@ -198,7 +199,7 @@ EC char * func_02037e44(struct UnkData * param_1, s32 param_2)
 
 EC s32 GetPersonDBIndex(struct PersonData * pPerson)
 {
-    return ((s32)pPerson - (s32)data_02197254->pPerson) / (s32)sizeof(struct PersonData);
+    return ((s32)pPerson - (s32)gFE11Database->pPerson) / (s32)sizeof(struct PersonData);
 }
 
 EC char * func_02037eb8(struct PersonData * pPerson)
@@ -255,7 +256,7 @@ EC void * func_02037f88(struct PersonData * pPerson, Unit * pUnit)
 
 EC s32 GetJobDBIndex(struct JobData * pJob)
 {
-    return ((s32)pJob - (s32)data_02197254->pJob) / (s32)sizeof(struct JobData);
+    return ((s32)pJob - (s32)gFE11Database->pJob) / (s32)sizeof(struct JobData);
 }
 
 EC char * func_02037fc8(struct JobData * pJob)
@@ -280,12 +281,12 @@ EC s32 GetJobMaxLevel(struct JobData * pJob)
 
 EC s32 GetItemDBIndex(struct ItemData * pItem)
 {
-    return ((s32)pItem - (s32)data_02197254->pItem) / (s32)sizeof(struct ItemData);
+    return ((s32)pItem - (s32)gFE11Database->pItem) / (s32)sizeof(struct ItemData);
 }
 
 EC char * func_0203802c(struct ItemData * pItem)
 {
-    s32 len = data_02197254->pDBFE11Footer->iidTableLength;
+    s32 len = gFE11Database->pDBFE11Footer->iidTableLength;
 
     if (GetItemDBIndex(pItem) >= len)
     {
@@ -328,10 +329,9 @@ func_0203807c(struct ItemData * dst, struct ItemData * src, char * str, s32 migh
     return;
 }
 
-// GetMapDBIndex
-EC s32 func_02038108(struct MapData * pMap)
+EC s32 GetMapDBIndex(struct MapData * pMap)
 {
-    return ((s32)pMap - (s32)data_02197254->unk_18) / (s32)sizeof(struct MapData);
+    return ((s32)pMap - (s32)gFE11Database->unk_18) / (s32)sizeof(struct MapData);
 }
 
 EC char * func_0203812c(struct MapData * pMap)
@@ -417,23 +417,22 @@ EC s32 func_020381d8(struct TerrainData * pTerrain, Unit * pUnit, s32 param_3)
     return min(maxHp - curHp, quotient = quotient + param_3);
 }
 
-// GetTerrainCategoryDBIndex
-EC s32 func_02038248(void * pTerrainCategory)
+EC s32 GetTerrainCategoryDBIndex(void * pTerrainCategory)
 {
-    return ((s32)pTerrainCategory - (s32)data_02197254->unk_24) / 4;
+    return ((s32)pTerrainCategory - (s32)gFE11Database->unk_24) / 4;
 }
 
 EC s32 func_0203826c(void * pTerrainCategory, s32 b)
 {
-    s32 iVar1 = func_02038248(pTerrainCategory);
-    s32 stride = (((struct TerrainCostData *)data_02197254->unk_28)->size + 3) & ~3;
+    s32 iVar1 = GetTerrainCategoryDBIndex(pTerrainCategory);
+    s32 stride = (((struct TerrainCostData *)gFE11Database->unk_28)->size + 3) & ~3;
 
-    return ((struct TerrainCostData *)data_02197254->unk_28)->unk_04[b * stride + iVar1];
+    return ((struct TerrainCostData *)gFE11Database->unk_28)->unk_04[b * stride + iVar1];
 }
 
 EC BOOL func_020382a4(void * param_1)
 {
-    return (!((((s32)param_1 - (s32)data_02197254->unk_34) / 12) & 1) ? TRUE : FALSE) & 0xFF;
+    return (!((((s32)param_1 - (s32)gFE11Database->unk_34) / 12) & 1) ? TRUE : FALSE) & 0xFF;
 }
 
 // clang-format off

@@ -697,7 +697,7 @@ EC void func_ov000_021a3364(void)
         for (x = 0; x < gMapStateManager->unk_20; x++)
         {
             u8 tile = gMapStateManager->unk_828[x | (y << 5)];
-            gMapStateManager->unk_830[x | (y << 5)] = func_02038248(data_02197254->pTerrain[tile].unk_08);
+            gMapStateManager->unk_830[x | (y << 5)] = GetTerrainCategoryDBIndex(gFE11Database->pTerrain[tile].unk_08);
         }
     }
 }
@@ -1276,7 +1276,7 @@ EC void * func_ov000_021a418c(s32 arg_0)
     if (!IsOutOfBounds(unit->xPos, unit->yPos))
     {
         u8 tile = gMapStateManager->unk_828[unit->xPos | (unit->yPos << 5)];
-        return data_02197254->pTerrain[tile].unk_04;
+        return gFE11Database->pTerrain[tile].unk_04;
     }
 
     return NULL;

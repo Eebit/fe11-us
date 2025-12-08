@@ -198,7 +198,7 @@ EC void func_ov000_021abbc8(void)
             }
 
             if (func_0203826c(
-                    data_02197254->pTerrain[gMapStateManager->unk_828[(ix | iy << 5)]].unk_08,
+                    gFE11Database->pTerrain[gMapStateManager->unk_828[(ix | iy << 5)]].unk_08,
                     pUnitA->pJobData->unk_28) < 0)
             {
                 continue;

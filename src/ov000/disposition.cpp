@@ -298,7 +298,7 @@ void Spawn::func_ov000_021d9adc(struct JobData * job)
 
     if (job == NULL)
     {
-        job = &data_02197254->pJob[this->jid];
+        job = &gFE11Database->pJob[this->jid];
     }
 
     flags = 2;
@@ -321,7 +321,7 @@ void Spawn::func_ov000_021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags)
 
     if (job == NULL)
     {
-        job = &data_02197254->pJob[this->jid];
+        job = &gFE11Database->pJob[this->jid];
     }
 
     if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->xFinal, this->yFinal))

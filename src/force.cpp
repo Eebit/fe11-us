@@ -205,7 +205,7 @@ EC struct Unit * FindUnitByPersonAndFaction(struct PersonData * person, u32 fact
 
 EC struct Unit * FindUnitByPidAndFaction(u32 pid, u32 factionId)
 {
-    return FindUnitByPersonAndFaction(data_02197254->pPerson + pid, factionId);
+    return FindUnitByPersonAndFaction(gFE11Database->pPerson + pid, factionId);
 }
 
 EC struct Unit * func_0203fd84(struct PersonData * person)
@@ -496,9 +496,9 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
                 }
 
                 func_020a58b8(
-                    &data_021974e4[GetItemDBIndex(temp_r0_2) - data_02197254->pDBFE11Footer->iidTableLength],
+                    &data_021974e4[GetItemDBIndex(temp_r0_2) - gFE11Database->pDBFE11Footer->iidTableLength],
                     &arg0->unk_348[var_r7], 0x28);
-                item->id = data_02197254->pDBFE11Footer->iidTableLength + var_r6;
+                item->id = gFE11Database->pDBFE11Footer->iidTableLength + var_r6;
                 var_r6++;
             }
         }
@@ -517,7 +517,7 @@ EC void func_02040594(struct UnkStruct_02196f10_00 * arg0, s32 arg1)
     struct Unit * unit;
     struct Item * var_r9;
 
-    temp_r6 = data_02197254->pDBFE11Footer->iidTableLength;
+    temp_r6 = gFE11Database->pDBFE11Footer->iidTableLength;
 
     for (i = 0; i < 5; i++)
     {
@@ -960,7 +960,7 @@ Unit * Force::FindByPerson(struct PersonData * person)
 
 Unit * Force::FindByPid(s32 pid)
 {
-    return this->FindByPerson(data_02197254->pPerson + pid);
+    return this->FindByPerson(gFE11Database->pPerson + pid);
 }
 
 Unit * Force::func_02040d68(struct PersonData * person)
