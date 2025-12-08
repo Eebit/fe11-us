@@ -3,10 +3,10 @@
 #include <new>
 
 #include "unit.hpp"
-//#include "unknown_data.h"
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "database.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
@@ -47,8 +47,6 @@ EC void func_02040094(struct MapStateManager_1C *, s32);
 EC void func_020401d8(struct MapStateManager_1C *, u8);
 EC void func_ov000_021a37c4(void);
 EC void func_ov000_021babf4(void *);
-
-extern struct Unknown_02197254 * data_02197254;
 
 EC void func_ov000_021a36f8(struct Unit *, BOOL, BOOL);
 
@@ -326,17 +324,17 @@ MapStateManager::~MapStateManager()
 /* NONMATCHING: https://decomp.me/scratch/caqO6 */
 void MapStateManager::func_ov000_021a276c(char * mapName)
 {
-    struct MapData * pMapData;
+    struct MapFile * pMapFile;
     s32 i;
     s16 x;
     s16 y;
 
     func_020a8f40("/map\0\0\0");
 
-    pMapData = func_020379e0(mapName, 0);
+    pMapFile = func_020379e0(mapName, 0);
 
-    this->unk_20 = pMapData->unk_0c;
-    this->unk_22 = pMapData->unk_0d;
+    this->unk_20 = pMapFile->unk_0c;
+    this->unk_22 = pMapFile->unk_0d;
 
     this->unk_24 = 1;
     this->unk_25 = 1;
@@ -352,8 +350,8 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
         this->unk_eb4[i] = -1;
     }
 
-    gMapStateManager->unk_828 = pMapData->unk_10;
-    gMapStateManager->unk_82c = pMapData->unk_14;
+    gMapStateManager->unk_828 = pMapFile->unk_10;
+    gMapStateManager->unk_82c = pMapFile->unk_14;
 
     for (y = gMapStateManager->unk_25; y < gMapStateManager->unk_27; y++)
     {
@@ -699,7 +697,7 @@ EC void func_ov000_021a3364(void)
         for (x = 0; x < gMapStateManager->unk_20; x++)
         {
             u8 tile = gMapStateManager->unk_828[x | (y << 5)];
-            gMapStateManager->unk_830[x | (y << 5)] = func_02038248(data_02197254->pTerrain[tile].unk_08);
+            gMapStateManager->unk_830[x | (y << 5)] = GetTerrainCategoryDBIndex(gFE11Database->pTerrain[tile].unk_08);
         }
     }
 }
@@ -1278,7 +1276,7 @@ EC void * func_ov000_021a418c(s32 arg_0)
     if (!IsOutOfBounds(unit->xPos, unit->yPos))
     {
         u8 tile = gMapStateManager->unk_828[unit->xPos | (unit->yPos << 5)];
-        return data_02197254->pTerrain[tile].unk_04;
+        return gFE11Database->pTerrain[tile].unk_04;
     }
 
     return NULL;

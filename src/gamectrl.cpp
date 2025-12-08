@@ -5,11 +5,14 @@
 #include "unknown_data.h"
 
 #include "unknown_types.hpp"
+#include "database.hpp"
 #include "event.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
+
+EC void func_020210d0(struct MapData *, s32);
 
 // TODO: Not actually data?
 extern void data_ov010_02209e54(ProcPtr);
@@ -484,12 +487,12 @@ EC void func_020217b4(void)
     random = RollRN(1, 4) * 4;
     func_01ffb934(data_027e1b9c, random);
 
-    if (data_02197254 == NULL)
+    if (gFE11Database == NULL)
     {
-        data_02197254 = new Unknown_02197254;
+        gFE11Database = new FE11Database;
     }
 
-    func_02037a04(data_02197254);
+    gFE11Database->Init();
 
     if (data_020e3ca0 == NULL)
     {
@@ -1054,7 +1057,7 @@ EC void func_02022588(void)
             struct Item * pUnitItem;
 
             pUnit->state2 &= ~0x80;
-            pUnit->unk_30.unk_04 = func_02038108(data_02196f0c->unk_00);
+            pUnit->unk_30.unk_04 = GetMapDBIndex(data_02196f0c->unk_00);
 
             for (j = 0, pUnitItem = pUnit->items; j < 5; j++, pUnitItem++)
             {
@@ -1286,13 +1289,13 @@ EC void func_020229f0(void)
 
     if (_func_02022b50())
     {
-        random = RollRN(1, data_02197254->pDBFE11Footer->unk_14 - 1);
+        random = RollRN(1, gFE11Database->pDBFE11Footer->unk_14 - 1);
         data_02196f10->unk_11 = random;
         data_02196f18->unk_000->SetById(random);
 
         if (data_02196f10->unk_0b != 0 && func_02021410(data_02196f10->unk_06)->unk_756 == 0x14)
         {
-            random = RollRN(1, data_02197254->pDBFE11Footer->unk_14 - 2);
+            random = RollRN(1, gFE11Database->pDBFE11Footer->unk_14 - 2);
 
             if (random >= data_02196f10->unk_11)
             {

@@ -2,6 +2,7 @@
 
 #include <new>
 
+#include "database.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "unit.hpp"
@@ -194,25 +195,6 @@ EC s32 GetPersonDBIndex(struct PersonData *);
 EC void func_02039ff8(struct Unit *, Spawn *);
 EC void func_0203bd34(struct Unit *, s32, s32);
 
-struct Unknown_02197254
-{
-    void * unk_00;
-    void * unk_04;
-    /* 08 */ struct PersonData * pPerson;
-    /* 0C */ struct JobData * pJob;
-    /* 10 */ struct ItemData * pItem;
-    STRUCT_PAD(0x14, 0x20);
-    /* 20 */ struct TerrainData * pTerrain;
-    STRUCT_PAD(0x24, 0x2C);
-    /* 2C */ u8 * pWeaponLevel;
-    STRUCT_PAD(0x30, 0x38);
-    /* 38 */ struct Unit_unk_a4 ** unk_38;
-    STRUCT_PAD(0x3C, 0x48);
-    /* 48 */ struct DBFE11Footer * pDBFE11Footer;
-};
-
-extern struct Unknown_02197254 * data_02197254; // FE11 database
-
 EC void func_01ff8204(void *, s8, s8, s32, s32, u16);
 
 struct UnkStruct_02196f0c
@@ -316,7 +298,7 @@ void Spawn::func_ov000_021d9adc(struct JobData * job)
 
     if (job == NULL)
     {
-        job = &data_02197254->pJob[this->jid];
+        job = &gFE11Database->pJob[this->jid];
     }
 
     flags = 2;
@@ -339,7 +321,7 @@ void Spawn::func_ov000_021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags)
 
     if (job == NULL)
     {
-        job = &data_02197254->pJob[this->jid];
+        job = &gFE11Database->pJob[this->jid];
     }
 
     if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->xFinal, this->yFinal))

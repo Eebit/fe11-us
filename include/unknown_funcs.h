@@ -18,7 +18,6 @@ struct ItemData;
 struct MapStateManager_08;
 struct UnkStruct_020e3ca0;
 struct UnkStruct_02196f10;
-struct Unknown_02197254;
 
 EXTERN_C
 
@@ -111,7 +110,6 @@ EC u16 IntSys_Sqrt(u32);
 EC s32 Interpolate(s32, s32, s32, s32, s32);
 EC BOOL func_020252fc(void);
 
-EC void func_020210d0(struct UnkStruct_02196f0c_00 *, s32);
 EC void func_02021014(void);
 EC void func_02021178(s32);
 EC void func_0202118c(void);
@@ -153,16 +151,14 @@ EC void func_02035e5c(void *, void *);
 EC void func_02035f20(void *);
 
 EC void func_020379c0(void);
-EC struct MapData * func_020379e0(char *, u32);
-EC void func_02037a04(struct Unknown_02197254 *);
+EC struct MapFile * func_020379e0(char *, u32);
 EC struct PersonData * GetPersonByPidStr(char *);
 EC void func_02037eb8(struct PersonData *);
 EC struct JobData * GetJobByJidStr(char *);
 EC s32 GetItemDBIndex(struct ItemData *);
 EC s32 GetJobMaxLevel(struct JobData *);
 
-EC s32 func_02038108(struct UnkStruct_02196f0c_00 *);
-EC u32 func_02038248(s8 *);
+EC u32 GetTerrainCategoryDBIndex(s8 *);
 EC s32 func_0203826c(void *, u8);
 EC BOOL func_02038348(struct ItemData *);
 EC s32 GetItemMaxRange(struct ItemData *, struct Unit *);
@@ -239,14 +235,6 @@ EC void func_020484b0(void);
 EC void func_020485d0(void);
 EC void func_02049024(void *, ProcPtr);
 EC s32 func_02049370(void *, void *);
-EC s32 _ZN11FlagManager12FindIdByNameEPc(struct UnkStruct_02196f0c_04 *, char *);
-EC BOOL _ZN11FlagManager7GetByIdEm(struct UnkStruct_02196f0c_04 *, u32);
-EC BOOL _ZN11FlagManager9GetByNameEPc(struct UnkStruct_02196f0c_04 *, char *);
-EC void _ZN11FlagManager7SetByIdEm(struct UnkStruct_02196f0c_04 *, u32);
-EC void _ZN11FlagManager9SetByNameEPc(struct UnkStruct_02196f0c_04 *, char *);
-EC void _ZN11FlagManager12RegisterNameEPcl(struct UnkStruct_02196f0c_04 *, char *, s32);
-EC void _ZN11FlagManager9RemoveAllEv(struct UnkStruct_02196f0c_04 *);
-EC void _ZN12ValueManager9SetByNameEPcl(struct UnkStruct_02196f0c_08 *, char *, s32);
 EC BOOL func_0204a66c(void);
 EC void func_0204a9e0(s32);
 EC void func_0204abe4(void);

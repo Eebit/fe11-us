@@ -1,9 +1,8 @@
 #include "global.h"
 
-#include "unknown_data.h"
 #include "unknown_funcs.h"
-#include "unknown_types.hpp"
 
+#include "database.hpp"
 #include "save.hpp"
 
 #include "unit.hpp"
@@ -276,8 +275,8 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     u32 unk2;
     s16 * c;
 
-    unit->pPersonData = data_02197254->pPerson + buf->ReadShort();
-    unit->pJobData = data_02197254->pJob + buf->ReadShort();
+    unit->pPersonData = gFE11Database->pPerson + buf->ReadShort();
+    unit->pJobData = gFE11Database->pJob + buf->ReadShort();
 
     func_020a58b8(buf->unk_04, unit->unk_50, sizeof(unit->unk_50));
     buf->unk_04 += sizeof(unit->unk_50);
@@ -354,7 +353,7 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     }
 
     unk2 = buf->ReadShort();
-    unit->unk_a4 = (unk2 != 0xffff) ? data_02197254->unk_38[unk2] : NULL;
+    unit->unk_a4 = (unk2 != 0xffff) ? &gFE11Database->unk_38[unk2] : NULL;
 
     if (unit->force->id == 1)
     {
@@ -1069,7 +1068,7 @@ EC BOOL func_0203c834(struct Unit * unit, struct ItemData * item, s32 arg_2)
         if (((item->attributes & 0x1000000000000) && CheckUnitAttribute(unit, 0x100)) ||
             ((item->attributes & 0x2000000000000) && CheckUnitAttribute(unit, 0x80)))
         {
-            s32 wlvl = data_02197254->pWeaponLevel[4];
+            s32 wlvl = gFE11Database->pWeaponLevel[4];
             if (wlvl > func_0203c7ac(unit, itemType))
             {
                 return FALSE;

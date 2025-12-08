@@ -3,32 +3,14 @@
 
 #include "global.h"
 
-#include "unit.hpp"
-
+#include "database.hpp"
 #include "map.hpp"
 #include "state_manager.hpp"
-
-// FE11 Database, in RAM
-struct Unknown_02197254
-{
-    void * unk_00;
-    void * unk_04;
-    /* 08 */ struct PersonData * pPerson;
-    /* 0C */ struct JobData * pJob;
-    /* 10 */ struct ItemData * pItem;
-    STRUCT_PAD(0x14, 0x20);
-    /* 20 */ struct TerrainData * pTerrain;
-    STRUCT_PAD(0x24, 0x2C);
-    /* 2C */ u8 * pWeaponLevel;
-    STRUCT_PAD(0x30, 0x38);
-    /* 38 */ struct Unit_unk_a4 ** unk_38;
-    STRUCT_PAD(0x3C, 0x48);
-    /* 48 */ struct DBFE11Footer * pDBFE11Footer;
-};
+#include "unit.hpp"
 
 struct UnkStruct_02196f0c
 {
-    /* 00 */ struct UnkStruct_02196f0c_00 * unk_00;
+    /* 00 */ struct MapData * unk_00;
     /* 04 */ FlagManager * flagMgr;
     /* 08 */ ValueManager * valueMgr;
     /* 0C */ u32 state;

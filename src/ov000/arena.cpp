@@ -6,6 +6,7 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "database.hpp"
 #include "hashtable.hpp"
 #include "hardware.hpp"
 #include "proc_ex.hpp"
@@ -341,12 +342,12 @@ PROC_LABEL(10),
 
 static inline struct JobData * GetJobData()
 {
-    return data_02197254->pJob;
+    return gFE11Database->pJob;
 }
 
 static inline struct PersonData * GetPersonData()
 {
-    return data_02197254->pPerson;
+    return gFE11Database->pPerson;
 }
 
 EC struct ArenaEnemy * func_ov000_021d7c90(u32 count)
@@ -678,8 +679,8 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
     sp_04 = func_ov000_021d80a4(proc, proc->unk_38, 0);
     r5 = func_ov000_021d80a4(proc, proc->unk_3c, 1);
 
-    r6 = func_02038348(&data_02197254->pItem[*sp_04]);
-    r7 = func_02038348(&data_02197254->pItem[*r5]);
+    r6 = func_02038348(&gFE11Database->pItem[*sp_04]);
+    r7 = func_02038348(&gFE11Database->pItem[*r5]);
 
     r8 = func_0203dbd4(proc->unk_38, r6, r7);
 
@@ -742,7 +743,7 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         }
     }
 
-    item = &data_02197254->pItem[*r5];
+    item = &gFE11Database->pItem[*r5];
     wpnType = item->type;
 
     if (wpnType < 6)
@@ -778,13 +779,13 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
 
         if (r6 != 0)
         {
-            playerMight = data_02197254->pItem[*sp_04].might;
+            playerMight = gFE11Database->pItem[*sp_04].might;
             playerAttack = GetUnitMag(proc->unk_38, NULL, TRUE);
             opponentDefense = GetUnitRes(proc->unk_3c, NULL, TRUE);
         }
         else
         {
-            playerMight = data_02197254->pItem[*sp_04].might;
+            playerMight = gFE11Database->pItem[*sp_04].might;
             playerAttack = GetUnitStr(proc->unk_38, NULL, TRUE);
             opponentDefense = GetUnitDef(proc->unk_3c, NULL, TRUE);
         }
@@ -793,13 +794,13 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
 
         if (r7 != 0)
         {
-            opponentMight = data_02197254->pItem[*r5].might;
+            opponentMight = gFE11Database->pItem[*r5].might;
             opponentAttack = GetUnitMag(proc->unk_3c, NULL, TRUE);
             playerDefense = GetUnitRes(proc->unk_38, NULL, TRUE);
         }
         else
         {
-            opponentMight = data_02197254->pItem[*r5].might;
+            opponentMight = gFE11Database->pItem[*r5].might;
             opponentAttack = GetUnitStr(proc->unk_3c, NULL, TRUE);
             playerDefense = GetUnitDef(proc->unk_38, NULL, TRUE);
         }
@@ -846,7 +847,7 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
                 r5++;
             }
 
-            item = &data_02197254->pItem[*r5];
+            item = &gFE11Database->pItem[*r5];
             wpnType = item->type;
 
             if (wpnType >= 6)

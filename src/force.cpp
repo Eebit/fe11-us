@@ -1,27 +1,8 @@
 #include "global.h"
 
+#include "database.hpp"
 #include "save.hpp"
 #include "unit.hpp"
-
-// FE11 Database, in RAM
-struct Unknown_02197254
-{
-    void * unk_00;
-    void * unk_04;
-    /* 08 */ struct PersonData * pPerson;
-    /* 0C */ struct JobData * pJob;
-    /* 10 */ struct ItemData * pItem;
-    STRUCT_PAD(0x14, 0x20);
-    /* 20 */ struct TerrainData * pTerrain;
-    STRUCT_PAD(0x24, 0x2C);
-    /* 2C */ u8 * pWeaponLevel;
-    STRUCT_PAD(0x30, 0x38);
-    /* 38 */ struct Unit_unk_a4 ** unk_38;
-    STRUCT_PAD(0x3C, 0x48);
-    /* 48 */ struct DBFE11Footer * pDBFE11Footer;
-};
-
-extern struct Unknown_02197254 * data_02197254; // FE11 database
 
 struct UnkStruct_02196f10_00_348
 {
@@ -54,16 +35,6 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3);
 
 EC void func_0203aa4c(struct Unit *, struct Unit *);
 EC void func_020a58b8(void *, void *, u32);
-
-struct DBFE11Footer
-{
-    u32 pidTableLength;
-    u32 jidTableLength;
-    u32 iidTableLength;
-    u32 unk_0c;
-    u32 unk_10;
-    u32 unk_14;
-};
 
 EC s32 GetItemDBIndex(struct ItemData *);
 
@@ -234,7 +205,7 @@ EC struct Unit * FindUnitByPersonAndFaction(struct PersonData * person, u32 fact
 
 EC struct Unit * FindUnitByPidAndFaction(u32 pid, u32 factionId)
 {
-    return FindUnitByPersonAndFaction(data_02197254->pPerson + pid, factionId);
+    return FindUnitByPersonAndFaction(gFE11Database->pPerson + pid, factionId);
 }
 
 EC struct Unit * func_0203fd84(struct PersonData * person)
@@ -525,9 +496,9 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
                 }
 
                 func_020a58b8(
-                    &data_021974e4[GetItemDBIndex(temp_r0_2) - data_02197254->pDBFE11Footer->iidTableLength],
+                    &data_021974e4[GetItemDBIndex(temp_r0_2) - gFE11Database->pDBFE11Footer->iidTableLength],
                     &arg0->unk_348[var_r7], 0x28);
-                item->id = data_02197254->pDBFE11Footer->iidTableLength + var_r6;
+                item->id = gFE11Database->pDBFE11Footer->iidTableLength + var_r6;
                 var_r6++;
             }
         }
@@ -546,7 +517,7 @@ EC void func_02040594(struct UnkStruct_02196f10_00 * arg0, s32 arg1)
     struct Unit * unit;
     struct Item * var_r9;
 
-    temp_r6 = data_02197254->pDBFE11Footer->iidTableLength;
+    temp_r6 = gFE11Database->pDBFE11Footer->iidTableLength;
 
     for (i = 0; i < 5; i++)
     {
@@ -989,7 +960,7 @@ Unit * Force::FindByPerson(struct PersonData * person)
 
 Unit * Force::FindByPid(s32 pid)
 {
-    return this->FindByPerson(data_02197254->pPerson + pid);
+    return this->FindByPerson(gFE11Database->pPerson + pid);
 }
 
 Unit * Force::func_02040d68(struct PersonData * person)

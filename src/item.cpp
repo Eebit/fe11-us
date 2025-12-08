@@ -1,10 +1,11 @@
 #include "global.h"
 
-#include "unit.hpp"
 #include "unknown_types.hpp"
 #include "unknown_funcs.h"
-#include "unknown_data.h"
+
+#include "database.hpp"
 #include "map.hpp"
+#include "unit.hpp"
 
 enum
 {
@@ -28,16 +29,6 @@ extern struct Unit * gUnitList;
 EC s32 func_02038e34(struct ItemData * item);
 EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit);
 EC BOOL func_02038f94(struct Item * item);
-
-EC const char * func_02038328(struct ItemData * item)
-{
-    return func_02039e10(item->id);
-}
-
-EC const char * func_02038338(struct ItemData * item)
-{
-    return func_02039e10(item->pName);
-}
 
 EC BOOL func_02038348(struct ItemData * item)
 {
@@ -162,7 +153,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
             iVar5 = func_0203c7ac(unit, type);
 
-            for (i = 0, pWeaponLevel = data_02197254->pWeaponLevel; i < 5; i++)
+            for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
                 if (iVar5 >= pWeaponLevel[i])
                 {
@@ -380,7 +371,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
 
             iVar5 = func_0203c7ac(unit, type);
 
-            for (i = 0, pWeaponLevel = data_02197254->pWeaponLevel; i < 5; i++)
+            for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
                 if (iVar5 >= pWeaponLevel[i])
                 {

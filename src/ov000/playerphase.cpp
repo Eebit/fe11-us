@@ -2,10 +2,10 @@
 
 #include <new>
 
-//#include "unknown_data.h"
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "database.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -19,7 +19,6 @@ extern UnkStruct_021E3324 * data_ov000_021e3324;
 extern MapStateManager * gMapStateManager;
 
 extern struct UnkStruct_020ca61c * data_020ca61c;
-extern struct Unknown_02197254 * data_02197254; // FE11 database
 extern struct UnkStruct_02196f20 * data_02196f20;
 extern struct UnkStruct_02196f24 * data_02196f24;
 extern struct UnkStruct_021974fc * data_021974fc;
@@ -199,7 +198,7 @@ EC void func_ov000_021abbc8(void)
             }
 
             if (func_0203826c(
-                    data_02197254->pTerrain[gMapStateManager->unk_828[(ix | iy << 5)]].unk_08,
+                    gFE11Database->pTerrain[gMapStateManager->unk_828[(ix | iy << 5)]].unk_08,
                     pUnitA->pJobData->unk_28) < 0)
             {
                 continue;

@@ -35,8 +35,12 @@ src/hashtable.cpp:
     .ctor       start:0x020c9b34 end:0x020c9b38
     .bss        start:0x02197234 end:0x02197254
 
+src/database.cpp:
+    .text       start:0x02037a04 end:0x02038348
+    .data       start:0x020d463c end:0x020d4894
+
 src/item.cpp:
-    .text       start:0x02038328 end:0x02039088
+    .text       start:0x02038348 end:0x02039088
     .data       start:0x020d4900 end:0x020d4958
 
 src/unit.cpp:

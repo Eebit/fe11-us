@@ -1,11 +1,11 @@
 #include "global.h"
 
 #include "unknown_data.h"
-#include "unknown_types.hpp"
 #include "unknown_funcs.h"
-#include "unit.hpp"
 
+#include "database.hpp"
 #include "map.hpp"
+#include "unit.hpp"
 
 #define GetPos(x, y) ((x) | ((y) << 5))
 
@@ -179,9 +179,9 @@ EC s32 func_02000fec(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
     // The temp variable seems to be required
     terrainId = gMapStateManager->unk_828[GetPos(a, b)];
 
-    tmp_r4 += (data_02197254->pTerrain[terrainId].unk_08[0] << 8);
-    tmp_r4 += (data_02197254->pTerrain[gMapStateManager->unk_828[GetPos(a, b)]].unk_08[1] << 4);
-    tmp_r4 += (data_02197254->pTerrain[gMapStateManager->unk_828[GetPos(a, b)]].unk_08[2]);
+    tmp_r4 += (gFE11Database->pTerrain[terrainId].unk_08[0] << 8);
+    tmp_r4 += (gFE11Database->pTerrain[gMapStateManager->unk_828[GetPos(a, b)]].unk_08[1] << 4);
+    tmp_r4 += (gFE11Database->pTerrain[gMapStateManager->unk_828[GetPos(a, b)]].unk_08[2]);
 
     return tmp_r4;
 }
