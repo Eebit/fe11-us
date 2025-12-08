@@ -1,11 +1,11 @@
 #include "global.h"
 
 #include "unknown_data.h"
-#include "unknown_types.hpp"
 #include "unknown_funcs.h"
-#include "unit.hpp"
 
+#include "database.hpp"
 #include "map.hpp"
+#include "unit.hpp"
 
 #define GetPos(x, y) ((x) | ((y) << 5))
 

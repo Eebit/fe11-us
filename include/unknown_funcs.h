@@ -18,7 +18,6 @@ struct ItemData;
 struct MapStateManager_08;
 struct UnkStruct_020e3ca0;
 struct UnkStruct_02196f10;
-struct Unknown_02197254;
 
 EXTERN_C
 
@@ -153,8 +152,7 @@ EC void func_02035e5c(void *, void *);
 EC void func_02035f20(void *);
 
 EC void func_020379c0(void);
-EC struct MapData * func_020379e0(char *, u32);
-EC void func_02037a04(struct Unknown_02197254 *);
+EC struct MapFile * func_020379e0(char *, u32);
 EC struct PersonData * GetPersonByPidStr(char *);
 EC void func_02037eb8(struct PersonData *);
 EC struct JobData * GetJobByJidStr(char *);

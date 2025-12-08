@@ -69,20 +69,10 @@ struct Unknown_func_01ffb934_ret
 
 struct TerrainData
 {
-    s8 * unk_00;
+    char * unk_00;
     s8 * unk_04;
     s8 * unk_08;
     s8 * unk_10;
-};
-
-struct DBFE11Footer
-{
-    s32 pidTableLength;
-    s32 jidTableLength;
-    s32 iidTableLength;
-    u32 unk_0c;
-    u32 unk_10;
-    u32 unk_14;
 };
 
 struct UnkStruct_021e3528
@@ -162,7 +152,7 @@ struct VmMap_Common
     u8 unk_07;
 };
 
-struct MapData
+struct MapFile
 {
     /* 00 */ STRUCT_PAD(0x00, 0x0C);
     /* 0C */ s8 unk_0c;

@@ -5,6 +5,7 @@
 #include "unknown_data.h"
 
 #include "unknown_types.hpp"
+#include "database.hpp"
 #include "event.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
@@ -486,7 +487,7 @@ EC void func_020217b4(void)
 
     if (data_02197254 == NULL)
     {
-        data_02197254 = new Unknown_02197254;
+        data_02197254 = new FE11Database;
     }
 
     func_02037a04(data_02197254);

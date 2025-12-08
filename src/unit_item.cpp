@@ -1,8 +1,6 @@
 #include "global.h"
 
-#include "unknown_data.h"
-#include "unknown_types.hpp"
-
+#include "database.hpp"
 #include "unit.hpp"
 
 EC s32 GetItemDBIndex(struct ItemData *);

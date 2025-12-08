@@ -6,6 +6,7 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "database.hpp"
 #include "hashtable.hpp"
 #include "hardware.hpp"
 #include "proc_ex.hpp"

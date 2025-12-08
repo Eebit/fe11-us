@@ -1,10 +1,11 @@
 #include "global.h"
 
-#include "unit.hpp"
 #include "unknown_types.hpp"
 #include "unknown_funcs.h"
-#include "unknown_data.h"
+
+#include "database.hpp"
 #include "map.hpp"
+#include "unit.hpp"
 
 enum
 {

@@ -1,9 +1,8 @@
 #include "global.h"
 
-#include "unknown_data.h"
 #include "unknown_funcs.h"
-#include "unknown_types.hpp"
 
+#include "database.hpp"
 #include "save.hpp"
 
 #include "unit.hpp"
@@ -354,7 +353,7 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     }
 
     unk2 = buf->ReadShort();
-    unit->unk_a4 = (unk2 != 0xffff) ? data_02197254->unk_38[unk2] : NULL;
+    unit->unk_a4 = (unk2 != 0xffff) ? &data_02197254->unk_38[unk2] : NULL;
 
     if (unit->force->id == 1)
     {
