@@ -60,7 +60,7 @@ public:
     /* 58 */ virtual BOOL vfunc_58(); // func_020172a0
     /* 5C */ virtual BOOL vfunc_5c(); // func_020172e0
     /* 60 */ virtual void vfunc_60(); // func_02017338
-    /* 64 */ virtual void vfunc_64(u32); // func_02017418
+    /* 64 */ virtual void vfunc_64(u32, u32); // func_02017418
     /* 68 */ virtual void vfunc_68(u32); // func_02017494
     /* 6C */ virtual void vfunc_6c(u32); // func_02017510
 };
