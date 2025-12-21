@@ -27,6 +27,8 @@ EC void func_01ff8db8(void *, struct Unit *, s32, s32, s32, s32);
 EC void func_01ff9300(void *, s32, s32, s32, s32);
 EC void func_01ff9758(void *, void *);
 EC void func_01ff976c(void *, void *);
+EC void func_01ffa720(void);
+EC void func_01ffa764(void);
 EC void * func_01ffb934(void *, s32);
 EC void func_01ffbb90(void *, void *);
 
@@ -52,16 +54,33 @@ EC void func_0200ef04(void);
 EC void func_0200f028(void);
 EC void func_0200f04c(void);
 
+EC void func_0200edf0(void);
+EC void func_0200eecc(void);
 EC void LoadOverlay(u32 overlayId);
 EC void UnloadOverlay(u32 overlayId);
 EC void func_0200f28c(u32 arg_0);
 EC BOOL IsOverlayLoaded(u32 overlayId);
+EC void func_0200f1e8(void);
+EC void func_0200f350(int a);
+EC void func_0200f3b8(void);
+EC void func_0200fcdc(void);
+EC void func_020100ac(void);
+EC void func_0201032c(void);
+EC void func_0201018c(void);
+EC void func_02010398(void);
+EC void func_0201079c(void);
+EC void func_02010c84(void *);
 
+EC void func_02011458(void);
 EC void * _Znwm(s32);
 EC void _ZdlPv(void *);
 EC void _ZdaPv(void *);
+EC void func_020115d4(void);
+EC void func_020120f4(void);
+EC void func_02012124(void);
 EC int func_020114dc(void *, void *);
 EC void func_020115a4(void *);
+EC void func_02015bd0(void);
 EC BOOL func_0201160c(char *);
 
 EC s32 func_02012190(void);
@@ -74,12 +93,18 @@ EC void func_02012bbc(void);
 EC void func_020146a0(void);
 EC BOOL func_02014b20(ProcPtr, s32);
 EC void func_02015f64(void);
+EC void func_02015fb4(void);
 EC BOOL func_02016250(s32);
+EC void func_020217b4(void);
 EC void func_02018f54(struct Proc *, void *);
+EC void func_02019bd4(void);
+EC void func_02019c30(void);
 
+EC void func_0201bc28(void);
 EC s32 func_0201bce4(void);
 EC s32 func_0201bcf4(void);
 EC BOOL func_0201bd6c(void);
+EC void func_0201c204(void);
 
 EC void StartFadeInFromBlack(struct Proc * proc, u16 data, u32 flag);
 EC void StartFadeOutToBlack(struct Proc * proc, u16 data, u32 flag);
@@ -96,11 +121,12 @@ EC void StartBlockingFadeOut_0201da98(struct Proc * proc, u16 data, u32 flag);
 EC BOOL IsFadeActive(void);
 EC void func_0201db38(void *, s32, s32, s32, s32);
 EC BOOL func_0201dc30(s32);
-
+EC void func_0201f3dc(void);
 EC BOOL func_0201f690(void);
 EC BOOL func_0201f6a0(void);
 EC BOOL func_0201f760(s32);
 EC void func_0201f8a0(void);
+EC void func_0201ff20(void);
 EC s32 func_0201ffc0(void);
 EC u32 func_0201ffd0(void);
 
@@ -272,11 +298,19 @@ EC void func_02062a54(u32);
 EC void func_02067510(void);
 EC void func_0206ecbc(void);
 
+EC void func_02070468(void);
+EC void func_02070480(void);
+
+void OS_WaitIrq(BOOL clear, u32 irqFlags);
+EC void func_020a341c(void *);
 EC void func_020a3080(void *, void *, void *, void *, s32, s32);
 EC BOOL func_020a3350(void *);
 EC void func_020a341c(void *);
 EC void func_020a36ac(void (*)(void *, void *));
 EC void func_020a374c(void *, void (*)(void *));
+EC void OS_WaitVBlankIntr(void);
+EC void rtc_init(void);
+EC void GX_DispOn(void);
 
 EC void func_020a5734(s32, void *, s32);
 EC void func_020a5780(void *, void *, s32);

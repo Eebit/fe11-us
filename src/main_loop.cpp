@@ -1,5 +1,6 @@
 #include "global.h"
 
+#include "unknown_funcs.h"
 #include "proc.h"
 
 extern void * data_027e1268;
@@ -7,9 +8,9 @@ extern void * data_027e1268;
 extern void * data_027e0000;
 extern void * data_027e0004;
 
-extern vu8 data_027e1258;
+extern vu8 gMainLoopBlocked;
 extern vu8 data_027e125c;
-extern vu32 data_027e1260;
+extern vu32 gClock;
 extern vu32 data_027e1264;
 
 // TODO: "nds/io_reg.h"
@@ -20,9 +21,9 @@ void func_0200ef04(void)
     void * tmp;
     s32 i;
 
-    data_027e1260 = 0;
+    gClock = 0;
     data_027e1264 = 0;
-    data_027e1258 = 0;
+    gMainLoopBlocked = 0;
     data_027e125c = 0;
 
     func_0200edf0();
@@ -55,7 +56,7 @@ void func_0200ef04(void)
     func_0201bc28();
     func_0200eecc();
     func_0201f3dc();
-    func_020ac298();
+    rtc_init();
     func_0201ff20();
     func_020217b4();
 
@@ -72,21 +73,21 @@ void func_0200ef04(void)
     data_027e1268 = tmp;
 }
 
-void func_0200f028(void)
+EC void func_0200f028(void)
 {
-    func_020a4ab4();
-    func_0209f848();
+    OS_WaitVBlankIntr();
+    GX_DispOn();
 
     REG_DISPCNT_SUB |= 0x10000;
 }
 
-void func_0200f04c(void)
+EC void func_0200f04c(void)
 {
-    if (!data_027e1258)
+    if (!gMainLoopBlocked)
         return;
 
     func_02070468();
-    data_027e1260++;
+    gClock++;
 
     func_0201018c();
     func_02010398();
@@ -103,8 +104,8 @@ void func_0200f04c(void)
     Proc_Run(12);
 
     func_02019c30();
-    data_027e1258 = FALSE;
+    gMainLoopBlocked = FALSE;
 
     func_02070480();
-    func_020a2444(1, 1);
+    OS_WaitIrq(1, 1);
 }

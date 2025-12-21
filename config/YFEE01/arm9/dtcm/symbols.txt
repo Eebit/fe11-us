@@ -16,9 +16,9 @@ data_027e0058 kind:data(any) addr:0x027e0058
 data_027e0078 kind:data(any) addr:0x027e0078
 data_027e00e0 kind:bss addr:0x027e00e0
 data_027e0fce kind:bss addr:0x027e0fce
-data_027e1258 kind:bss addr:0x027e1258
+gMainLoopBlocked kind:bss addr:0x027e1258
 data_027e125c kind:bss addr:0x027e125c
-data_027e1260 kind:bss addr:0x027e1260
+gClock kind:bss addr:0x027e1260
 data_027e1264 kind:bss addr:0x027e1264
 data_027e1268 kind:bss addr:0x027e1268
 data_027e126c kind:bss addr:0x027e126c

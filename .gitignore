@@ -16,6 +16,7 @@ objdiff.json
 report.json
 /objdiff-cli
 /objdiff-cli.exe
+objdiff*
 
 /dsd
 /dsd.exe
@@ -23,6 +24,7 @@ report.json
 build.ninja
 .ninja_log*
 .ninja_lock
+.ninja_deps
 
 /wibo
 

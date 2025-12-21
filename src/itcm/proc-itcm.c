@@ -12,7 +12,7 @@ extern void func_020a4a4c(void *);
 // TODO: Fix declaration; included via "hardware.hpp"
 extern void * data_027e1268;
 
-extern u8 data_027e1258;
+extern u8 gMainLoopBlocked;
 extern u8 data_027e125c;
 
 // FIXME: gProcessCmdTable appears to be in the ITCM .text section.
@@ -473,7 +473,7 @@ void RunProcessRecursive(struct Proc * proc)
 
     if (proc->proc_flags & 8)
     {
-        if (data_027e125c != 0 && data_027e1258 != 0)
+        if (data_027e125c != 0 && gMainLoopBlocked != 0)
         {
             goto _01ffc2d4;
         }
