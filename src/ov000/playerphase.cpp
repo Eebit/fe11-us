@@ -10,6 +10,7 @@
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 #include "unit.hpp"
+#include "event.hpp"
 
 extern struct ProcCmd data_ov000_021dbe58[];
 extern struct ProcCmd data_ov000_021dc190[];
