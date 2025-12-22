@@ -16,6 +16,9 @@ src/ov000/camera.cpp:
 src/ov000/playerphase.cpp:
     .text       start:0x021aa210 end:0x021ae2f4
 
+src/ov000/mind.cpp:
+    .text       start:0x021af79c end:0x021b06fc
+
 src/ov000/arena.cpp:
     .text       start:0x021d7c90 end:0x021d9adc
     .data       start:0x021e2c88 end:0x021e32c4
