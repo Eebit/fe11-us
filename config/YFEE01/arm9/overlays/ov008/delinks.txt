@@ -14,3 +14,4 @@ src/ov008/slide_show.cpp:
 
 src/ov008/fire_emblem.cpp:
     .text       start:0x02205b38 end:0x022065c8
+    .data       start:0x02208484 end:0x02208544

@@ -16,8 +16,6 @@ struct UnkStruct_02197798
     ObjCtrl unk_68;
 };
 
-extern void * data_ov008_0220828c;
-
 extern AbstCtrl * data_02197718;
 extern AbstCtrl * data_021976fc;
 
@@ -82,8 +80,8 @@ struct PressStart : ProcEx
         func_02004460(this->unk_48);
     }
 
-    virtual void Init(void); // func_ov008_02204c40
-    virtual void Loop(void); // func_ov008_02204c44
+    virtual void Init(void);
+    virtual void Loop(void);
 };
 
 struct UnkStruct_02208c40
@@ -108,7 +106,7 @@ public:
     virtual ~TitleSeq()
     {
         data_020efcc8->unk_ac->vfunc_38(0);
-        func_ov008_02204f08();
+        EndTitlePressStart();
         func_020ad244(0x14);
     }
 };
@@ -125,13 +123,11 @@ EC void func_ov008_02204c30(BOOL var)
     return;
 }
 
-// func_ov008_02204c40
 void PressStart::Init(void)
 {
     return;
 }
 
-// func_ov008_02204c44
 // NONMATCHING: https://decomp.me/scratch/c3y91
 void PressStart::Loop(void)
 {
@@ -154,8 +150,8 @@ void PressStart::Loop(void)
         this->unk_48->unk_12 &= ~0xc0;
         this->unk_48->unk_12 |= 0x40;
 
-        func_0206ffb0(this->unk_4c, 0, 0, 0, 0, 0, 0);
-        func_0207007c(this->unk_4c, 0, 1, 0, 0, 0, 1);
+        SetBldTargetA_Maybe(this->unk_4c, 0, 0, 0, 0, 0, 0);
+        SetBldTargetB_Maybe(this->unk_4c, 0, 1, 0, 0, 0, 1);
 
         this->unk_4c->unk_00->unk_00->blend_coeff_a = cVar1;
         this->unk_4c->unk_00->unk_00->blend_coeff_b = 16 - cVar1;
@@ -181,9 +177,9 @@ void PressStart::Loop(void)
 
 extern struct ProcCmd ProcScr_020ce750[];
 
-EC void func_ov008_02204df0(ProcPtr parent)
+EC void StartTitlePressStart(ProcPtr parent)
 {
-    if (data_ov008_02208c40.unk_04 == 0)
+    if (data_ov008_02208c40.unk_04 == NULL)
     {
         data_ov008_02208c40.unk_04 = new (Proc_Start(ProcScr_020ce750, parent)) PressStart();
     }
@@ -191,8 +187,7 @@ EC void func_ov008_02204df0(ProcPtr parent)
     return;
 }
 
-// EndPressStart
-EC void func_ov008_02204f08(void)
+EC void EndTitlePressStart(void)
 {
     Proc_End(data_ov008_02208c40.unk_04);
     data_ov008_02208c40.unk_04 = NULL;
@@ -237,7 +232,7 @@ EC void func_ov008_02204fd0(void)
     return;
 }
 
-EC void func_ov008_02204fec(void)
+EC void TitleSeq_ov008_02204fec(void)
 {
     func_0200f308();
 
@@ -254,7 +249,7 @@ EC void func_ov008_02204fec(void)
     return;
 }
 
-EC void func_ov008_02205038(void)
+EC void TitleSeq_ov008_02205038(void)
 {
     func_0200f308();
 
@@ -272,9 +267,7 @@ EC void func_ov008_02205038(void)
     return;
 }
 
-EC void func_02022f28(u32 label);
-
-EC void func_ov008_0220508c(ProcPtr proc)
+EC void TitleSeq_ov008_0220508c(ProcPtr proc)
 {
     switch (func_ov008_02204c20())
     {
@@ -288,25 +281,25 @@ EC void func_ov008_0220508c(ProcPtr proc)
     }
 }
 
-EC void func_ov008_022050bc(void)
+EC void TitleSeq_ov008_022050bc(void)
 {
     data_020efcc8->unk_b0->vfunc_28(0x7a7a0000, 0, 0);
     return;
 }
 
-EC void func_ov008_022050f0(void)
+EC void TitleSeq_ov008_022050f0(void)
 {
     data_020efcc8->unk_ac->vfunc_28(0x7fff0001, 0, 0);
     return;
 }
 
-EC void func_ov008_02205124(void)
+EC void TitleSeq_ov008_02205124(void)
 {
     func_020102d8(1);
     return;
 }
 
-EC void func_ov008_02205134(void)
+EC void TitleSeq_ov008_02205134(void)
 {
     func_020102d8(0);
     return;
@@ -314,38 +307,38 @@ EC void func_ov008_02205134(void)
 
 // clang-format off
 
-struct ProcCmd data_ov008_022082f0[] =
+struct ProcCmd ProcScr_TitleSeq[] =
 {
     { PROC_CMD_02, 0x0000, 0x00000000 },
 
 PROC_LABEL(0),
-    PROC_CALL(func_ov008_02205134),
-    PROC_CALL(func_ov008_022076bc),
-    PROC_CALL(func_ov008_0220795c),
-    PROC_CALL(func_ov008_02205124),
+    PROC_CALL(TitleSeq_ov008_02205134),
+    PROC_CALL(StartTitleMakerLogo),
+    PROC_CALL(StartTitleESRBOnlineNotice),
+    PROC_CALL(TitleSeq_ov008_02205124),
 
     // fallthrough
 
 PROC_LABEL(1),
-    PROC_CALL(func_ov008_02204fec),
-    PROC_CALL(func_ov008_02204f08),
-    PROC_CALL(func_ov008_02205a94),
+    PROC_CALL(TitleSeq_ov008_02204fec),
+    PROC_CALL(EndTitlePressStart),
+    PROC_CALL(StartTitleSlideShow),
 
     // fallthrough
 
 PROC_LABEL(2),
-    PROC_CALL(func_ov008_02205038),
-    PROC_CALL(func_ov008_02204df0),
-    PROC_CALL(func_ov008_022050f0),
-    PROC_CALL(func_ov008_02205f6c),
-    PROC_CALL(func_ov008_0220508c),
-    PROC_CALL(func_ov008_022068e0),
+    PROC_CALL(TitleSeq_ov008_02205038),
+    PROC_CALL(StartTitlePressStart),
+    PROC_CALL(TitleSeq_ov008_022050f0),
+    PROC_CALL(StartTitleFireEmblem),
+    PROC_CALL(TitleSeq_ov008_0220508c),
+    PROC_CALL(StartTitleIntro),
     PROC_SLEEP(30),
 
-    PROC_CALL(func_ov008_022050bc),
-    PROC_CALL(func_ov008_02205f6c),
-    PROC_CALL(func_ov008_0220508c),
-    PROC_CALL(func_ov008_02204f08),
+    PROC_CALL(TitleSeq_ov008_022050bc),
+    PROC_CALL(StartTitleFireEmblem),
+    PROC_CALL(TitleSeq_ov008_0220508c),
+    PROC_CALL(EndTitlePressStart),
 
     PROC_GOTO(1),
 
@@ -354,12 +347,12 @@ PROC_LABEL(2),
 
 // clang-format on
 
-EC void func_ov008_02205144(ProcPtr parent)
+EC void StartTitleSeq_Goto2(ProcPtr parent)
 {
-    new (Proc_StartBlocking(data_ov008_022082f0, parent)) TitleSeq(2);
+    new (Proc_StartBlocking(ProcScr_TitleSeq, parent)) TitleSeq(2);
 }
 
-EC void func_ov008_02205198(ProcPtr parent)
+EC void StartTitleSeq_Goto0(ProcPtr parent)
 {
-    new (Proc_StartBlocking(data_ov008_022082f0, parent)) TitleSeq(0);
+    new (Proc_StartBlocking(ProcScr_TitleSeq, parent)) TitleSeq(0);
 }

@@ -61,8 +61,8 @@ public:
         iVar1->unk_04->dispcnt.win1_on = 0;
         iVar1->unk_04->dispcnt.objWin_on = 0;
 
-        func_0206fe74(func_0206ecb0(), 1, 1, 1, 1, 1);
-        func_0206ff24(func_0206ecb0(), 2, 3, 1, 0);
+        SetDispEnable_Maybe(func_0206ecb0(), 1, 1, 1, 1, 1);
+        SetBgPriority_Maybe(func_0206ecb0(), 2, 3, 1, 0);
 
         func_0206fc44(data_02197718, 0x100010);
         func_0206ef9c(data_02197700, 0, 0, 0x18, 0, 0);
@@ -70,6 +70,8 @@ public:
         func_0206f580(data_02197700, 0);
         func_0206ef9c(data_02197704, 0, 1, 0x1a, 0, 0);
         func_0206f0fc(data_021976f8, 0, 0, 0x1c, 0);
+
+        // TODO: Complete as part of `StartTitleFireEmblem`
     }
 
     virtual ~FireEmblem()
@@ -83,7 +85,7 @@ public:
     virtual void Loop(void);
 };
 
-EC void func_ov008_02205b38(FireEmblem * proc)
+EC void FireEmblem_Loop(FireEmblem * proc)
 {
     proc->Loop();
     return;
@@ -101,7 +103,6 @@ struct UnkStruct_020ca620
 
 extern struct UnkStruct_020ca620 * data_020ca620;
 
-// func_ov008_02205b4c
 // NONMATCHING: https://decomp.me/scratch/tvPca
 void FireEmblem::Loop()
 {
@@ -110,8 +111,8 @@ void FireEmblem::Loop()
 
     this->unk_54++;
 
-    func_0206ffb0(func_0206ecb0(), 0, 0, 0, 1, 0, 0);
-    func_0207007c(func_0206ecb0(), 1, 1, 1, 0, 1, 1);
+    SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 0, 1, 0, 0);
+    SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1, 1);
 
     // Maybe setting blend effect
     puVar4 = func_0206ecb0();
@@ -208,14 +209,14 @@ void FireEmblem::Loop()
     return;
 }
 
-EC void func_ov008_02205ee8(FireEmblem * proc)
+EC void FireEmblem_ov008_02205ee8(FireEmblem * proc)
 {
     proc->unk_48 &= ~0x40000000;
     func_0200456c(&proc->unk_3c, proc->unk_38, 1);
     return;
 }
 
-EC void func_ov008_02205f10(FireEmblem * proc)
+EC void FireEmblem_ov008_02205f10(FireEmblem * proc)
 {
     if ((proc->unk_48 & 0x100) == 0)
     {
@@ -234,10 +235,26 @@ EC void func_ov008_02205f10(FireEmblem * proc)
     return;
 }
 
-extern struct ProcCmd data_ov008_02208504[];
+// clang-format off
+
+struct ProcCmd ProcScr_FireEmblem[] =
+{
+    PROC_06(0, FireEmblem_Loop),
+    PROC_SLEEP(30),
+    PROC_CALL(FireEmblem_ov008_02205ee8),
+    PROC_REPEAT(FireEmblem_ov008_02205f10),
+    PROC_02,
+
+PROC_LABEL(99),
+    PROC_SLEEP(0),
+
+    PROC_END,
+};
+
+// clang-format on
 
 // NONMATCHING: https://decomp.me/scratch/LG68r
-EC void func_ov008_02205f6c(ProcPtr param_1)
+EC void StartTitleFireEmblem(ProcPtr parent)
 {
-    new (Proc_StartBlocking(data_ov008_02208504, param_1)) FireEmblem();
+    new (Proc_StartBlocking(ProcScr_FireEmblem, parent)) FireEmblem();
 }

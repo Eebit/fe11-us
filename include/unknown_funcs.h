@@ -1271,7 +1271,7 @@ EC void func_020217b4(void);
 // EC ??? func_02022ed4
 // EC ??? func_02022ef4
 EC void StartGame(void);
-// EC ??? func_02022f28
+EC void func_02022f28(u32 label);
 // EC ??? func_02022f4c
 // EC ??? func_02022f54
 // EC ??? func_02022f5c
@@ -3361,10 +3361,10 @@ EC void func_0206fc44(struct AbstCtrl *, s32);
 // EC ??? func_0206fe18
 // EC ??? func_0206fe20
 // EC ??? func_0206fe48
-EC void func_0206fe74(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32); // SetDispEnable
-EC void func_0206ff24(struct UnkStruct_02197798 *, s32, s32, s32, s32); // SetBgPriority
-EC void func_0206ffb0(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetA
-EC void func_0207007c(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetB
+EC void SetDispEnable_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32); // SetDispEnable
+EC void SetBgPriority_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32); // SetBgPriority
+EC void SetBldTargetA_Maybe(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetA
+EC void SetBldTargetB_Maybe(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetB
 EC void func_02070148(struct UnkStruct_02197798 *, s32);
 // EC ??? func_0207020c
 // EC ??? func_0207021c
@@ -11047,48 +11047,48 @@ EC void func_ov007_0221ad60(void *);
 // ==============================
 // EC ??? func_ov008_02204c20
 EC void func_ov008_02204c30(BOOL);
-// EC ??? func_ov008_02204c40
-// EC ??? func_ov008_02204c44
-// EC ??? func_ov008_02204df0
-EC void func_ov008_02204f08(void);
+// EC ??? _ZN10PressStart4InitEv
+// EC ??? _ZN10PressStart4LoopEv
+// EC ??? StartTitlePressStart
+EC void EndTitlePressStart(void);
 EC void func_ov008_02204f2c(u32);
 EC void func_ov008_02204fd0(void);
-// EC ??? func_ov008_02204fec
-// EC ??? func_ov008_02205038
-// EC ??? func_ov008_0220508c
-// EC ??? func_ov008_022050bc
-// EC ??? func_ov008_022050f0
-// EC ??? func_ov008_02205124
-// EC ??? func_ov008_02205134
-// EC ??? func_ov008_02205144
-// EC ??? func_ov008_02205198
-// EC ??? func_ov008_022051ec
-// EC ??? func_ov008_0220523c
-// EC ??? func_ov008_02205284
-// EC ??? func_ov008_022052b0
-// EC ??? func_ov008_022052d4
-// EC ??? func_ov008_022052e8
-// EC ??? func_ov008_02205490
-// EC ??? func_ov008_0220598c
-// EC ??? func_ov008_022059d0
-// EC ??? func_ov008_02205a28
-// EC ??? func_ov008_02205a50
-// EC ??? func_ov008_02205a78
-EC void func_ov008_02205a94(ProcPtr);
-// EC ??? func_ov008_02205ae8
-// EC ??? func_ov008_02205b14
-// EC ??? func_ov008_02205b38
-// EC ??? func_ov008_02205b4c
-// EC ??? func_ov008_02205ee8
-// EC ??? func_ov008_02205f10
-EC void func_ov008_02205f6c(ProcPtr);
-// EC ??? func_ov008_02206568
-// EC ??? func_ov008_0220659c
+// EC ??? TitleSeq_ov008_02204fec
+// EC ??? TitleSeq_ov008_02205038
+// EC ??? TitleSeq_ov008_0220508c
+// EC ??? TitleSeq_ov008_022050bc
+// EC ??? TitleSeq_ov008_022050f0
+// EC ??? TitleSeq_ov008_02205124
+// EC ??? TitleSeq_ov008_02205134
+// EC ??? StartTitleSeq_Goto2
+// EC ??? StartTitleSeq_Goto0
+// EC ??? _ZN8TitleSeqD0Ev
+// EC ??? _ZN8TitleSeqD1Ev
+// EC ??? _ZN10PressStartD0Ev
+// EC ??? _ZN10PressStartD1Ev
+// EC ??? SlideShow_ov008_022052d4
+// EC ??? _ZN9SlideShow4LoopEv
+// EC ??? SlideShow_ov008_02205490
+// EC ??? SlideShow_ov008_0220598c
+// EC ??? SlideShow_ov008_022059d0
+// EC ??? SlideShow_ov008_02205a28
+// EC ??? SlideShow_ov008_02205a50
+// EC ??? SlideShow_ov008_02205a78
+EC void StartTitleSlideShow(ProcPtr);
+// EC ??? _ZN9SlideShowD0Ev
+// EC ??? _ZN9SlideShowD1Ev
+// EC ??? FireEmblem_Loop
+// EC ??? _ZN10FireEmblem4LoopEv
+// EC ??? FireEmblem_ov008_02205ee8
+// EC ??? FireEmblem_ov008_02205f10
+EC void StartTitleFireEmblem(ProcPtr);
+// EC ??? _ZN10FireEmblemD0Ev
+// EC ??? _ZN10FireEmblemD1Ev
 // EC ??? func_ov008_022065c8
 // EC ??? func_ov008_022066d0
 // EC ??? func_ov008_02206780
 // EC ??? func_ov008_02206794
-EC void func_ov008_022068e0(ProcPtr);
+EC void StartTitleIntro(ProcPtr);
 // EC ??? func_ov008_02206970
 // EC ??? func_ov008_022069dc
 // EC ??? func_ov008_02206a40
@@ -11116,12 +11116,12 @@ EC void func_ov008_022068e0(ProcPtr);
 // EC ??? func_ov008_0220761c
 // EC ??? func_ov008_0220763c
 // EC ??? func_ov008_02207650
-EC void func_ov008_022076bc(ProcPtr);
+EC void StartTitleMakerLogo(ProcPtr);
 // EC ??? func_ov008_0220789c
 // EC ??? func_ov008_022078bc
 // EC ??? func_ov008_022078dc
 // EC ??? func_ov008_022078f0
-EC void func_ov008_0220795c(ProcPtr);
+EC void StartTitleESRBOnlineNotice(ProcPtr);
 // EC ??? func_ov008_02207afc
 // EC ??? func_ov008_02207b10
 // EC ??? func_ov008_02207b14

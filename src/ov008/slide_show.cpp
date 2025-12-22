@@ -47,16 +47,13 @@ public:
         data_020efcc8->unk_b0->vfunc_38(0);
     }
 
-    virtual ~SlideShow()
-    {
-        func_02016200(this->unk_40);
-    };
+    virtual ~SlideShow();
 
-    virtual void Init(); // func_02005088
-    virtual void Loop(); // func_ov008_022052e8
+    virtual void Init();
+    virtual void Loop();
 };
 
-EC void func_ov008_022052d4(SlideShow * proc)
+EC void SlideShow_ov008_022052d4(SlideShow * proc)
 {
     proc->Loop();
     return;
@@ -68,8 +65,8 @@ struct UnkStruct_02197798
 {
     AbstCtrl_04 * unk_00;
     LCDControlBuffer * unk_04;
-    // BGCtrl unk_08[4];
-    // ObjCtrl unk_68;
+    BGCtrl unk_08[4];
+    ObjCtrl unk_68;
 };
 
 static inline int max(int a, int b)
@@ -77,7 +74,6 @@ static inline int max(int a, int b)
     return a < b ? a : b;
 }
 
-// func_ov008_022052e8
 // NONMATCHING
 void SlideShow::Loop()
 {
@@ -117,12 +113,12 @@ void SlideShow::Loop()
 }
 
 // NONMATCHING
-EC void func_ov008_02205490(SlideShow * param_1)
+EC void SlideShow_ov008_02205490(SlideShow * param_1)
 {
     // TODO
 }
 
-EC void func_ov008_0220598c(SlideShow * proc)
+EC void SlideShow_ov008_0220598c(SlideShow * proc)
 {
     if (data_020efcc8->unk_b0->vfunc_50())
     {
@@ -135,7 +131,7 @@ EC void func_ov008_0220598c(SlideShow * proc)
     return;
 }
 
-EC void func_ov008_022059d0(ProcPtr proc)
+EC void SlideShow_ov008_022059d0(ProcPtr proc)
 {
     data_020efcc8->unk_ac->vfunc_28(0x7fff0000, 0, 0);
     func_ov002_021e4020("/ffx/opening1.fx", proc);
@@ -143,44 +139,44 @@ EC void func_ov008_022059d0(ProcPtr proc)
     return;
 }
 
-EC void func_ov008_02205a28(ProcPtr proc)
+EC void SlideShow_ov008_02205a28(ProcPtr proc)
 {
     func_ov002_021e4020("/ffx/opening2.fx", proc);
     data_ov002_021faf40.unk_25 = 3;
     return;
 }
 
-EC void func_ov008_02205a50(ProcPtr proc)
+EC void SlideShow_ov008_02205a50(ProcPtr proc)
 {
     func_ov002_021e4020("/ffx/opening3.fx", proc);
     data_ov002_021faf40.unk_25 = 3;
     return;
 }
 
-EC BOOL func_ov008_02205a78(void)
+EC BOOL SlideShow_ov008_02205a78(void)
 {
     return data_ov002_021faf40.unk_24 != 0;
 }
 
 // clang-format off
 
-struct ProcCmd data_ov008_0220841c[] =
+struct ProcCmd ProcScr_SlideShow[] =
 {
     PROC_SLEEP(0),
 
-    PROC_CALL(func_ov008_02205490),
-    PROC_REPEAT(func_ov008_0220598c),
+    PROC_CALL(SlideShow_ov008_02205490),
+    PROC_REPEAT(SlideShow_ov008_0220598c),
 
-    PROC_06(0, func_ov008_022052d4),
+    PROC_06(0, SlideShow_ov008_022052d4),
 
-    PROC_CALL(func_ov008_022059d0),
-    PROC_WHILE(func_ov008_02205a78),
+    PROC_CALL(SlideShow_ov008_022059d0),
+    PROC_WHILE(SlideShow_ov008_02205a78),
 
-    PROC_CALL(func_ov008_02205a28),
-    PROC_WHILE(func_ov008_02205a78),
+    PROC_CALL(SlideShow_ov008_02205a28),
+    PROC_WHILE(SlideShow_ov008_02205a78),
 
-    PROC_CALL(func_ov008_02205a50),
-    PROC_WHILE(func_ov008_02205a78),
+    PROC_CALL(SlideShow_ov008_02205a50),
+    PROC_WHILE(SlideShow_ov008_02205a78),
 
 PROC_LABEL(99),
     PROC_SLEEP(40),
@@ -190,8 +186,13 @@ PROC_LABEL(99),
 
 // clang-format on
 
-EC void func_ov008_02205a94(ProcPtr parent)
+EC void StartTitleSlideShow(ProcPtr parent)
 {
-    new (Proc_StartBlocking(data_ov008_0220841c, parent)) SlideShow();
+    new (Proc_StartBlocking(ProcScr_SlideShow, parent)) SlideShow();
     return;
+}
+
+SlideShow::~SlideShow()
+{
+    func_02016200(this->unk_40);
 }
