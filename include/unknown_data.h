@@ -3346,7 +3346,7 @@ extern u8 data_027e1b9c[];
 // extern ??? data_027e1ba0
 
 // ==============================
-// oerlay0
+// overlay 0
 // ==============================
 // extern ??? data_ov000_021db668
 // extern ??? data_ov000_021db674
@@ -4260,7 +4260,7 @@ extern struct UnkStruct_021e3508 data_ov000_021e3508[];
 // extern ??? data_ov000_021e3528
 
 // ==============================
-// oerlay1
+// overlay 1
 // ==============================
 // extern ??? data_ov001_021c5f34
 // extern ??? data_ov001_021c5f40
@@ -4820,7 +4820,7 @@ extern struct UnkStruct_021e3508 data_ov000_021e3508[];
 // extern ??? data_ov001_021cd3c4
 
 // ==============================
-// oerlay2
+// overlay 2
 // ==============================
 // extern ??? data_ov002_021f95a0
 // extern ??? data_ov002_021f95a4
@@ -5176,7 +5176,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov002_021fb0c4
 
 // ==============================
-// oerlay3
+// overlay 3
 // ==============================
 // extern ??? data_ov003_021fc668
 // extern ??? data_ov003_021fc6e0
@@ -5972,7 +5972,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov003_02204c00
 
 // ==============================
-// oerlay4
+// overlay 4
 // ==============================
 // extern ??? data_ov004_0221794c
 // extern ??? data_ov004_02217964
@@ -6288,7 +6288,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov004_0221bc6c
 
 // ==============================
-// oerlay5
+// overlay 5
 // ==============================
 // extern ??? data_ov005_02212d60
 // extern ??? data_ov005_02213100
@@ -6704,7 +6704,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov005_022176d0
 
 // ==============================
-// oerlay6
+// overlay 6
 // ==============================
 // extern ??? data_ov006_022231c0
 // extern ??? data_ov006_022231c8
@@ -7333,7 +7333,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov006_02229acc
 
 // ==============================
-// oerlay7
+// overlay 7
 // ==============================
 // extern ??? data_ov007_0221b440
 // extern ??? data_ov007_0221b448
@@ -7504,34 +7504,34 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov007_0221ce2c
 
 // ==============================
-// oerlay8
+// overlay 8
 // ==============================
 // extern ??? data_ov008_02208260
-// extern ??? __typestr__8TitleSeq
-// extern ??? data_ov008_0220828c
-// extern ??? __typeinfo__10PressStart
-// extern ??? __typeinfo__8TitleSeq
-// extern ??? __typestr__10PressStart
-// extern ??? __vt__10PressStart
-// extern ??? __vt__8TitleSeq
-// extern ??? data_ov008_022082f0
-// extern ??? __typestr__9SlideShow
-// extern ??? __typeinfo__9SlideShow
+// extern ??? _ZTS8TitleSeq
+// extern ??? _ZZN10PressStartC1EvEs
+// extern ??? _ZTI10PressStart
+// extern ??? _ZTI8TitleSeq
+// extern ??? _ZTS10PressStart
+// extern ??? _ZTV10PressStart
+// extern ??? _ZTV8TitleSeq
+// extern ??? ProcScr_TitleSeq
+// extern ??? _ZTS9SlideShow
+// extern ??? _ZTI9SlideShow
 // extern ??? data_ov008_022083c8
 // extern ??? data_ov008_022083dc
 // extern ??? data_ov008_022083f0
-// extern ??? __vt__9SlideShow
-// extern ??? data_ov008_0220841c
+// extern ??? _ZTV9SlideShow
+// extern ??? ProcScr_SlideShow
 // extern ??? data_ov008_02208484
 // extern ??? data_ov008_02208490
 // extern ??? data_ov008_0220849c
 // extern ??? data_ov008_022084a8
 // extern ??? data_ov008_022084b4
-// extern ??? __typeinfo__10FireEmblem
-// extern ??? __typestr__10FireEmblem
+// extern ??? _ZTI10FireEmblem
+// extern ??? _ZTS10FireEmblem
 // extern ??? data_ov008_022084dc
-// extern ??? __vt__10FireEmblem
-// extern ??? data_ov008_02208504
+// extern ??? _ZTV10FireEmblem
+// extern ??? ProcScr_FireEmblem
 // extern ??? data_ov008_02208544
 // extern ??? data_ov008_0220854c
 // extern ??? data_ov008_02208554
@@ -7586,7 +7586,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov008_02208870
 // extern ??? data_ov008_022088a0
 // extern ??? data_ov008_022088d0
-// extern ??? data_ov008_02208900
+// extern ??? ProcScr_Intro
 // extern ??? data_ov008_02208948
 // extern ??? data_ov008_0220894c
 // extern ??? data_ov008_02208950
@@ -7622,8 +7622,8 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? __typestr__16ESRBOnlineNotice
 // extern ??? __vt__16ESRBOnlineNotice
 // extern ??? __vt__9MakerLogo
-// extern ??? data_ov008_02208b1c
-// extern ??? data_ov008_02208b54
+// extern ??? ProcScr_MakerLogo
+// extern ??? ProcScr_ESRBOnlineNotice
 // extern ??? data_ov008_02208b8c
 // extern ??? data_ov008_02208b98
 // extern ??? __typestr__9NameIntro
@@ -7638,7 +7638,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov008_02208c48
 
 // ==============================
-// oerlay9
+// overlay 9
 // ==============================
 // extern ??? data_ov009_02207acc
 // extern ??? data_ov009_02207adc
@@ -7716,7 +7716,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov009_022089c0
 
 // ==============================
-// oerlay10
+// overlay 10
 // ==============================
 // extern ??? data_ov010_02209ae8
 // extern ??? data_ov010_02209af8
@@ -7798,7 +7798,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov010_0220b180
 
 // ==============================
-// oerlay11
+// overlay 11
 // ==============================
 // extern ??? data_ov011_0222d9a0
 // extern ??? data_ov011_0222d9a4
