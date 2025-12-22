@@ -3,6 +3,7 @@
 #include <new>
 
 #include "unknown_data.h"
+#include "unknown_funcs.h"
 
 #include "hardware.hpp"
 #include "proc_ex.hpp"
@@ -16,28 +17,9 @@ struct UnkStruct_02197798
     ObjCtrl unk_68;
 };
 
-EC struct UnkStruct_02197798 * func_0206eca4(void);
-EC struct UnkStruct_02197798 * func_0206ecb0(void);
-
-EC void func_0206fe74(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32);
-EC void func_0206ff24(struct UnkStruct_02197798 *, s32, s32, s32, s32);
-EC void func_02070148(struct UnkStruct_02197798 *, s32);
-
-EC void func_0206fc44(ObjCtrl *, s32);
-EC void func_0206ef9c(BGCtrl *, s32, s32, s32, s32, s32);
-EC void func_0206f0fc(BGCtrl *, s32, s32, s32, s32);
-EC void func_0206f580(BGCtrl *, s32);
-EC void func_0206eee0(BGCtrl *, s32, s32, s32);
-
 #define REG_POWER_CNT *(vu16 *)(0x04000304)
 
 extern BGCtrl * data_021976f8;
-
-EC void func_02004460(void *);
-EC void func_0200456c(void *, void *, u32);
-EC void func_0206f4e0(void *, u32);
-
-EC void func_ov008_02204f2c(s32);
 
 extern ObjCtrl * data_02197718;
 extern BGCtrl * data_02197700;
@@ -47,7 +29,7 @@ class FireEmblem : public ProcEx
 {
 public:
     void * unk_38;
-    u32 unk_3c;
+    void * unk_3c;
     u32 unk_40;
     u32 unk_44;
     u32 unk_48;
@@ -79,8 +61,8 @@ public:
         iVar1->unk_04->dispcnt.win1_on = 0;
         iVar1->unk_04->dispcnt.objWin_on = 0;
 
-        func_0206fe74(func_0206ecb0(), 1, 1, 1, 1, 1); // set disp enable
-        func_0206ff24(func_0206ecb0(), 2, 3, 1, 0); // set bg priority
+        func_0206fe74(func_0206ecb0(), 1, 1, 1, 1, 1);
+        func_0206ff24(func_0206ecb0(), 2, 3, 1, 0);
 
         func_0206fc44(data_02197718, 0x100010);
         func_0206ef9c(data_02197700, 0, 0, 0x18, 0, 0);
@@ -119,22 +101,6 @@ struct UnkStruct_020ca620
 
 extern struct UnkStruct_020ca620 * data_020ca620;
 
-EC void func_0206ffb0(void *, u32, u32, u32, u32, u32, u32);
-EC void func_0207007c(void *, u32, u32, u32, u32, u32, u32);
-EC void func_0206fafc(void *, u32, u32, u32, u32, u32, u32, u32);
-
-EC void func_020045fc(u32);
-EC void func_020049b4(u32, u32, u32, u32, u32, u32);
-
-EC void func_02006398(void *, u32, u32, ProcEx *);
-
-EC s32 Interpolate(s32, s32, s32, s32, s32);
-
-EC BOOL func_0206ec80(u32);
-
-EC void func_ov008_02204c30(u32);
-EC void func_ov008_02204fd0(void);
-
 // func_ov008_02205b4c
 // NONMATCHING: https://decomp.me/scratch/tvPca
 void FireEmblem::Loop()
@@ -144,8 +110,8 @@ void FireEmblem::Loop()
 
     this->unk_54++;
 
-    func_0206ffb0(func_0206ecb0(), 0, 0, 0, 1, 0, 0); // SetBldTargetA
-    func_0207007c(func_0206ecb0(), 1, 1, 1, 0, 1, 1); // SetBldTargetB
+    func_0206ffb0(func_0206ecb0(), 0, 0, 0, 1, 0, 0);
+    func_0207007c(func_0206ecb0(), 1, 1, 1, 0, 1, 1);
 
     // Maybe setting blend effect
     puVar4 = func_0206ecb0();

@@ -3,6 +3,7 @@
 #include <new>
 
 #include "unknown_types.h"
+#include "unknown_funcs.h"
 
 #include "hardware.hpp"
 #include "proc_ex.hpp"
@@ -30,14 +31,6 @@ struct UnkStruct_021faf40
 };
 
 extern struct UnkStruct_021faf40 data_ov002_021faf40;
-
-EC void func_02016200(void *);
-EC void * func_020161b4(void);
-EC void func_ov002_021e4020(char *, ProcPtr);
-EC void func_02070148(void *, int);
-EC void func_ov002_021e4174(void);
-
-EC s32 Interpolate(s32, s32, s32, s32, s32);
 
 class SlideShow : public ProcEx
 {
@@ -78,9 +71,6 @@ struct UnkStruct_02197798
     // BGCtrl unk_08[4];
     // ObjCtrl unk_68;
 };
-
-EC struct UnkStruct_02197798 * func_0206eca4(void);
-EC struct UnkStruct_02197798 * func_0206ecb0(void);
 
 static inline int max(int a, int b)
 {

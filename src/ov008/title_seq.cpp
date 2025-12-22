@@ -2,55 +2,26 @@
 
 #include <new>
 
+#include "unknown_funcs.h"
+
+#include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
+struct UnkStruct_02197798
+{
+    AbstCtrl_04 * unk_00;
+    LCDControlBuffer * unk_04;
+    BGCtrl unk_08[4];
+    ObjCtrl unk_68;
+};
+
 extern void * data_ov008_0220828c;
 
-extern u32 data_02197718;
-extern u32 data_021976fc;
+extern AbstCtrl * data_02197718;
+extern AbstCtrl * data_021976fc;
 
-extern u32 data_027e1260;
-
-EC void func_020102d8(u32);
-
-EC void func_020ad244(s32);
-
-EC void func_0200f308(void);
-EC void func_0209fa54(u32);
-EC void func_0209fce4(u32);
-EC void func_0209fe34(u32);
-EC void func_0209ff34(u32);
-EC void func_0209ffe0(u32);
-EC void func_020a01b8(u32);
-EC void func_020a04a0(u32);
-EC void func_020a0548(u32);
-EC void func_020a05b8(u32);
-EC void func_020a0638(u32);
-
-EC s32 Interpolate(s32, s32, s32, s32, s32);
-EC void func_0206ffb0(void *, u32, u32, u32, u32, u32, u32);
-EC void func_0207007c(void *, u32, u32, u32, u32, u32, u32);
-EC void func_020045fc(void *);
-EC void func_020049b4(void *, u32, u32, u32, u32, u32);
-EC void func_02004348(u32, u32, u32, u32, u32, u32);
-
-EC void * func_02004450(char *);
-EC void func_02004460(void *);
-EC void func_0200452c(void *, u32, u32);
-EC void func_0200456c(void *, void *, u32);
-EC void * func_0206eca4(void);
-EC void * func_0206ecb0(void);
-EC void func_0206fc44(u32, u32);
-EC void func_0206eeb0(u32, u32, u32);
-EC void func_0206ef14(u32, u32, u32, u32, u32);
-
-EC void func_ov008_022076bc(ProcPtr);
-EC void func_ov008_0220795c(ProcPtr);
-EC void func_ov008_02205a94(ProcPtr);
-EC void func_ov008_02205f6c(ProcPtr);
-EC void func_ov008_022068e0(ProcPtr);
-EC void func_ov008_022068e0(ProcPtr);
+extern u32 gClock;
 
 struct PressStart_unk_48
 {
@@ -63,13 +34,6 @@ struct PressStart_unk_48
     u32 unk_14;
 };
 
-struct PressStart_unk_4c
-{
-    STRUCT_PAD(0x00, 0x51);
-    u8 unk_51;
-    u8 unk_52;
-};
-
 struct PressStart : ProcEx
 {
     /* 00 - 35 */ // ProcEx
@@ -78,8 +42,8 @@ struct PressStart : ProcEx
     STRUCT_PAD(0x3C, 0x44);
     u32 unk_44;
     struct PressStart_unk_48 * unk_48;
-    struct PressStart_unk_4c * unk_4c;
-    u32 unk_50;
+    struct UnkStruct_02197798 * unk_4c;
+    AbstCtrl * unk_50;
     u8 unk_54;
     u8 unk_55;
 
@@ -98,12 +62,12 @@ struct PressStart : ProcEx
 
         if (this->unk_54)
         {
-            this->unk_4c = (struct PressStart_unk_4c *)func_0206eca4();
+            this->unk_4c = func_0206eca4();
             this->unk_50 = data_021976fc;
         }
         else
         {
-            this->unk_4c = (struct PressStart_unk_4c *)func_0206ecb0();
+            this->unk_4c = func_0206ecb0();
             this->unk_50 = data_02197718;
         }
 
@@ -131,6 +95,25 @@ struct UnkStruct_02208c40
 
 extern struct UnkStruct_02208c40 data_ov008_02208c40;
 
+class TitleSeq : ProcEx
+{
+public:
+    TitleSeq(u32 label)
+    {
+        data_ov008_02208c40.unk_00 = 0;
+        func_020ad244(4);
+        Proc_Goto(this, label, 0);
+    }
+
+    virtual ~TitleSeq()
+    {
+        data_020efcc8->unk_ac->vfunc_38(0);
+        func_ov008_02204f08();
+        func_020ad244(0x14);
+    }
+};
+
+
 EC BOOL func_ov008_02204c20(void)
 {
     return data_ov008_02208c40.unk_00;
@@ -157,9 +140,9 @@ void PressStart::Loop(void)
 
     if (this->unk_55 == 0)
     {
-        uVar2 = data_027e1260 % 0x80;
+        uVar2 = gClock % 0x80;
 
-        if (uVar2 > 0x40)
+        if ((uVar2) > 0x40)
         {
             cVar1 = Interpolate(4, 0, 0x10, uVar2, 0x40);
         }
@@ -174,8 +157,8 @@ void PressStart::Loop(void)
         func_0206ffb0(this->unk_4c, 0, 0, 0, 0, 0, 0);
         func_0207007c(this->unk_4c, 0, 1, 0, 0, 0, 1);
 
-        this->unk_4c->unk_51 = cVar1;
-        this->unk_4c->unk_52 = 16 - cVar1;
+        this->unk_4c->unk_00->unk_00->blend_coeff_a = cVar1;
+        this->unk_4c->unk_00->unk_00->blend_coeff_b = 16 - cVar1;
 
         func_02004348(this->unk_48->unk_14, this->unk_50, 1, 0x80, 0x60, 0x3c0);
 
@@ -185,10 +168,10 @@ void PressStart::Loop(void)
     func_020045fc(this->unk_38);
     func_020049b4(this->unk_38, 0, 0x80, 0x60, 0, 4);
 
-    this->unk_4c->unk_51 = 0x10;
-    this->unk_4c->unk_52 = 0;
+    this->unk_4c->unk_00->unk_00->blend_coeff_a = 0x10;
+    this->unk_4c->unk_00->unk_00->blend_coeff_b = 0;
 
-    if ((data_027e1260 & 4) != 0)
+    if ((gClock & 4) != 0)
     {
         func_02004348(this->unk_48->unk_14, this->unk_50, 1, 0x80, 0x60, 0x3c0);
     }
@@ -226,12 +209,12 @@ EC void func_ov008_02204f2c(u32 param_1)
 
         if ((param_1 & 0xff) != 0)
         {
-            proc->unk_4c = (struct PressStart_unk_4c *)func_0206eca4();
+            proc->unk_4c = func_0206eca4();
             proc->unk_50 = data_021976fc;
         }
         else
         {
-            proc->unk_4c = (struct PressStart_unk_4c *)func_0206ecb0();
+            proc->unk_4c = func_0206ecb0();
             proc->unk_50 = data_02197718;
         }
 
@@ -253,24 +236,6 @@ EC void func_ov008_02204fd0(void)
 
     return;
 }
-
-class TitleSeq : ProcEx
-{
-public:
-    TitleSeq(u32 label)
-    {
-        data_ov008_02208c40.unk_00 = 0;
-        func_020ad244(4);
-        Proc_Goto(this, label, 0);
-    }
-
-    virtual ~TitleSeq()
-    {
-        data_020efcc8->unk_ac->vfunc_38(0);
-        func_ov008_02204f08();
-        func_020ad244(0x14);
-    }
-};
 
 EC void func_ov008_02204fec(void)
 {
