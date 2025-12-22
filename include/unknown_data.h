@@ -93,7 +93,7 @@ EXTERN_C
 // extern ??? data_020c9c0c
 // extern ??? data_020c9d50
 // extern ??? __typestr__6ProcEx
-// extern ??? __typeinfo__6ProcEx
+// extern ??? _ZTI6ProcEx
 // extern ??? __typestr__8AnimCtrl
 // extern ??? data_020c9d74
 // extern ??? data_020c9d80
@@ -3394,7 +3394,7 @@ extern u8 data_027e1b9c[];
 // extern ??? __vt__N3map9PosChangeE
 // extern ??? __typestr__N3map17_UnitEscapeEffectE
 // extern ??? __typestr__N3map17ProcKiriImitationE
-// extern ??? data_ov000_021db9ac
+// extern ??? ProcScr_MapImitation
 // extern ??? data_ov000_021db9ec
 // extern ??? __typestr__6CpSkip
 // extern ??? __typeinfo__N3map10SeqPLConstE
@@ -3440,8 +3440,8 @@ extern u8 data_027e1b9c[];
 // extern ??? data_ov000_021dbd94
 // extern ??? __vt__10EventFixed
 // extern ??? __typestr__23SallyPosChangeHelpFirst
-// extern ??? __typeinfo__N3map6ProcPLE
-// extern ??? data_ov000_021dbdf8
+// extern ??? _ZTIN3map6ProcPLE
+// extern ??? ProcScr_ProcMind
 // extern ??? data_ov000_021dbe58
 // extern ??? data_ov000_021dbed0
 // extern ??? data_ov000_021dbf68
@@ -3918,7 +3918,7 @@ extern void * data_ov000_021dcebc[];
 // extern ??? data_ov000_021e1518
 // extern ??? __typestr__N5onbat23ProcKiriDragonTransformE
 // extern ??? data_ov000_021e1574
-// extern ??? data_ov000_021e15cc
+// extern ??? ProcScr_MapBattle
 // extern ??? data_ov000_021e180c
 // extern ??? data_ov000_021e181c
 // extern ??? data_ov000_021e1828
@@ -3935,7 +3935,7 @@ extern void * data_ov000_021dcebc[];
 // extern ??? __typestr__N5onrod6MapRodE
 // extern ??? __vt__N5onrod6MapRodE
 // extern ??? data_ov000_021e18cc
-// extern ??? data_ov000_021e18e4
+// extern ??? ProcScr_MapRod
 // extern ??? __typestr__7MapHeal
 // extern ??? __typeinfo__7MapHeal
 // extern ??? __typeinfo__N6onitem7MapItemE
@@ -3946,7 +3946,7 @@ extern void * data_ov000_021dcebc[];
 // extern ??? __vt__7MapHeal
 // extern ??? __vt__N6onitem7MapItemE
 // extern ??? data_ov000_021e1a18
-// extern ??? data_ov000_021e1a70
+// extern ??? ProcScr_MapItem
 // extern ??? data_ov000_021e1ae0
 // extern ??? data_ov000_021e1af4
 // extern ??? data_ov000_021e1b04
@@ -4195,7 +4195,7 @@ extern void * __vt__11DI_ArenaYes[];
 // extern ??? gMapStateManager
 // extern ??? data_ov000_021e332c
 extern struct UnkStruct_021e3340 * data_ov000_021e3340;
-// extern ??? data_ov000_021e3344
+// extern ??? gActionSt
 // extern ??? data_ov000_021e3348
 // extern ??? data_ov000_021e334c
 // extern ??? data_ov000_021e3350

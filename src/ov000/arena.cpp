@@ -1584,13 +1584,29 @@ EC void func_ov000_021d95d8(void)
 
 extern struct Unit * gUnitList;
 
-struct Unknown_021e3344
+class ActionState
 {
-    STRUCT_PAD(0x00, 0x32);
-    u8 unk_32;
+public:
+    STRUCT_PAD(0x00, 0x14);
+    u32 unk_14;
+    STRUCT_PAD(0x18, 0x2C);
+    s8 unk_2c;
+    s8 unk_2d;
+    u8 unk_2e;
+    u8 unk_2f;
+    /* 30 */ s8 xDecision;
+    /* 31 */ s8 yDecision;
+    /* 32 */ u8 unitId; // "MindGetUnit" returns this
+    /* 33 */ u8 actionId; // "MindGetMind" returns this
+    u8 unk_34; // target unit ID?
+    u8 unk_35;
+    u8 unk_36;
+    u8 unk_37; // item slot?
+
+    void func_ov000_021b0eb4(struct Unit *);
 };
 
-extern struct Unknown_021e3344 * data_ov000_021e3344;
+extern ActionState * gActionSt;
 
 struct Unknown_021e3320
 {
@@ -1605,13 +1621,13 @@ EC void func_ov000_021d95ec(ProcPtr parent)
     struct ArenaProc * proc;
     struct Unit * iVar4;
 
-    if (data_ov000_021e3344->unk_32 == 0)
+    if (gActionSt->unitId == 0)
     {
         iVar4 = NULL;
     }
     else
     {
-        iVar4 = gUnitList + data_ov000_021e3344->unk_32 - 1;
+        iVar4 = gUnitList + gActionSt->unitId - 1;
     }
 
     if (data_ov000_021e3320[iVar4->force->id] == 1)

@@ -5644,7 +5644,7 @@ __typeinfo__N4menu10ScrollMenuE kind:data(any) addr:0x020c9be4
 data_020c9c0c kind:data(any) addr:0x020c9c0c
 data_020c9d50 kind:data(any) addr:0x020c9d50
 __typestr__6ProcEx kind:data(any) addr:0x020c9d58
-__typeinfo__6ProcEx kind:data(any) addr:0x020c9d60
+_ZTI6ProcEx kind:data(any) addr:0x020c9d60
 __typestr__8AnimCtrl kind:data(any) addr:0x020c9d68
 data_020c9d74 kind:data(any) addr:0x020c9d74
 data_020c9d80 kind:data(any) addr:0x020c9d80

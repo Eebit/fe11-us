@@ -10,8 +10,40 @@
 
 #include "unknown_funcs.h"
 
-struct UnkStruct_021e3344
+enum
 {
+    ACTION_NONE = 0x00,
+    ACTION_FIGHT = 0x01,
+    ACTION_STAFF = 0x02,
+    // 0x03
+    ACTION_WAIT = 0x04,
+    // 0x05
+    // 0x06
+    // 0x07
+    // 0x08
+    // 0x09
+    // 0x0A
+    // 0x0B
+    // 0x0C
+    // 0x0D
+    // 0x0E
+    ACTION_ESCAPE = 0x0F,
+    // 0x10
+    ACTION_IMITATION = 0x11,
+    // 0x12
+    // 0x13
+    ACTION_TALK = 0x14,
+    // 0x15
+    // 0x16
+    // 0x17
+};
+
+// TODO: This is likely part of a larger file, combined with "playerphase.cpp" and others
+// yet to be decompiled. It seems likely based on the data sections (i.e. vtable locations)
+
+class ActionState
+{
+public:
     STRUCT_PAD(0x00, 0x14);
     u32 unk_14;
     STRUCT_PAD(0x18, 0x2C);
@@ -19,17 +51,21 @@ struct UnkStruct_021e3344
     s8 unk_2d;
     u8 unk_2e;
     u8 unk_2f;
-    s8 unk_30;
-    s8 unk_31;
-    u8 unk_32;
-    u8 unk_33;
-    u8 unk_34;
+    /* 30 */ s8 xDecision;
+    /* 31 */ s8 yDecision;
+    /* 32 */ u8 unitId; // "MindGetUnit" returns this
+    /* 33 */ u8 actionId; // "MindGetMind" returns this
+    u8 unk_34; // target unit ID?
     u8 unk_35;
     u8 unk_36;
-    u8 unk_37;
+    u8 unk_37; // item slot?
+
+    void func_ov000_021b0eb4(struct Unit *);
+    void func_ov000_021b0ee8(struct Unit *);
+    void func_ov000_021b0f1c(struct Unit *);
 };
 
-extern struct UnkStruct_021e3344 * data_ov000_021e3344;
+extern struct ActionState * gActionSt;
 
 // CpSkip!
 struct UnkStruct_021e332c_08
@@ -125,21 +161,12 @@ struct UnkStruct_021974fc
     u8 unk_10;
     STRUCT_PAD(0x11, 0x1C);
 };
+
 extern struct UnkStruct_021974fc * data_021974fc;
-
-struct UnkStruct_Func_021af79c
-{
-    STRUCT_PAD(0x00, 0x32);
-    u8 unk_32;
-    u8 unk_33;
-    STRUCT_PAD(0x34, 0x38);
-
-    void func_ov000_021b0eb4(struct Unit *);
-};
 
 extern u8 data_ov000_021e3320[];
 
-EC void func_ov000_021af79c(ProcEx * proc)
+EC void ProcMind_ov000_021af79c(ProcEx * proc)
 {
     map::ProcPL * playerPhaseProc;
     struct Unit * unit;
@@ -150,38 +177,38 @@ EC void func_ov000_021af79c(ProcEx * proc)
     {
         if ((playerPhaseProc != NULL) && (data_ov000_021e332c.unk_14->unk_06 & 1))
         {
-            struct UnkStruct_Func_021af79c * unk = new struct UnkStruct_Func_021af79c;
-            unk->unk_32 = data_ov000_021e3344->unk_2f;
-            unk->unk_33 = 0;
+            struct ActionState * tempAction = new ActionState;
+            tempAction->unitId = gActionSt->unk_2f;
+            tempAction->actionId = 0;
 
-            if (data_ov000_021e3344->unk_2f != 0)
+            if (gActionSt->unk_2f != 0)
             {
-                unit = gUnitList + data_ov000_021e3344->unk_2f - 1;
+                unit = gUnitList + gActionSt->unk_2f - 1;
             }
             else
             {
                 unit = 0;
             }
 
-            unk->func_ov000_021b0eb4(unit);
-            func_02012b64(unk, 0x38);
-            delete unk;
+            tempAction->func_ov000_021b0eb4(unit);
+            func_02012b64(tempAction, sizeof(ActionState));
+            delete tempAction;
         }
 
-        data_ov000_021e3344->unk_14 = func_0201ffc0();
+        gActionSt->unk_14 = func_0201ffc0();
 
-        if (data_ov000_021e3344->unk_32 == 0)
+        if (gActionSt->unitId == 0)
         {
             unit = NULL;
         }
         else
         {
-            unit = gUnitList + data_ov000_021e3344->unk_32 - 1;
+            unit = gUnitList + gActionSt->unitId - 1;
         }
 
-        func_ov000_021b0eb4(data_ov000_021e3344, unit);
-        func_020a58b8(gMapStateManager->unk_08, data_ov000_021e3344, 0x14);
-        func_02012b64(data_ov000_021e3344, 0x38);
+        gActionSt->func_ov000_021b0eb4(unit);
+        func_020a58b8(gMapStateManager->unk_08, gActionSt, 0x14);
+        func_02012b64(gActionSt, sizeof(ActionState));
     }
 
     if (playerPhaseProc == NULL)
@@ -189,13 +216,13 @@ EC void func_ov000_021af79c(ProcEx * proc)
         return;
     }
 
-    if (data_ov000_021e3344->unk_32 == 0)
+    if (gActionSt->unitId == 0)
     {
         unit = NULL;
     }
     else
     {
-        unit = gUnitList + data_ov000_021e3344->unk_32 - 1;
+        unit = gUnitList + gActionSt->unitId - 1;
     }
 
     data_021974fc->unk_00 = unit;
@@ -204,7 +231,7 @@ EC void func_ov000_021af79c(ProcEx * proc)
     return;
 }
 
-EC void func_ov000_021af944(ProcEx * param_1)
+EC void ProcMind_ov000_021af944(ProcEx * param_1)
 {
     if (!((!(gMapStateManager->unk_04->unk_04->unk_54 & 1) ? TRUE : FALSE) & 0xFF))
     {
@@ -221,7 +248,7 @@ EC void func_ov000_021af944(ProcEx * param_1)
     return;
 }
 
-EC void func_ov000_021af9bc(ProcEx * proc)
+EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 {
     s16 xLo;
     s16 xHi;
@@ -237,12 +264,12 @@ EC void func_ov000_021af9bc(ProcEx * proc)
     struct Unit * iVar5;
     struct Unit * unit;
 
-    switch (data_ov000_021e3344->unk_33)
+    switch (gActionSt->actionId)
     {
-        case 0:
+        case ACTION_NONE:
             break;
 
-        case 1:
+        case ACTION_FIGHT:
             if (!data_ov000_021e332c.unk_08->Check06(4))
             {
                 if ((data_ov000_021e332c.unk_08->unk_06 == 0) || data_ov000_021e332c.unk_08->Get06() == 2)
@@ -251,13 +278,13 @@ EC void func_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            func_ov000_021ccad0(proc);
+            StartMapBattle(proc);
 
             Proc_Goto(proc, 1, 0);
 
             break;
 
-        case 2:
+        case ACTION_STAFF:
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
                 if ((data_ov000_021e332c.unk_08->unk_06 == 0) || data_ov000_021e332c.unk_08->Get06() == 2)
@@ -266,7 +293,7 @@ EC void func_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            func_ov000_021ce2d0(proc);
+            StartMapRod(proc);
 
             Proc_Goto(proc, 1, 0);
 
@@ -281,7 +308,7 @@ EC void func_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            func_ov000_021ce9b8(proc);
+            StartMapItem(proc);
 
             Proc_Goto(proc, 1, 0);
 
@@ -307,7 +334,7 @@ EC void func_ov000_021af9bc(ProcEx * proc)
             }
 
             EventCaller::TryStartVisitEvent(
-                proc, data_ov000_021e3344->unk_30, data_ov000_021e3344->unk_31, data_ov000_021e3344->unk_33);
+                proc, gActionSt->xDecision, gActionSt->yDecision, gActionSt->actionId);
 
             if (EventCaller::func_020479b0() != 0)
             {
@@ -318,10 +345,10 @@ EC void func_ov000_021af9bc(ProcEx * proc)
 
             break;
 
-        case 0xf:
-            if (data_ov000_021e3344->unk_32 != 0)
+        case ACTION_ESCAPE:
+            if (gActionSt->unitId != 0)
             {
-                iVar4 = gUnitList + data_ov000_021e3344->unk_32 - 1;
+                iVar4 = gUnitList + gActionSt->unitId - 1;
             }
             else
             {
@@ -332,21 +359,21 @@ EC void func_ov000_021af9bc(ProcEx * proc)
 
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
-                func_ov000_021a7370(proc);
+                StartMapUnitEscapeEffect(proc);
             }
 
             Proc_Goto(proc, 1, 0);
 
             break;
 
-        case 0x11:
-            func_ov000_021a78f8();
+        case ACTION_IMITATION:
+            StartMapImitation();
             Proc_Goto(proc, 1, 0);
             break;
 
         case 0x15:
         {
-            s32 uVar2 = func_ov000_021d4968(data_ov000_021e3344->unk_30, data_ov000_021e3344->unk_31, 8);
+            s32 uVar2 = func_ov000_021d4968(gActionSt->xDecision, gActionSt->yDecision, 8);
 
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
@@ -380,20 +407,20 @@ EC void func_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            xLo = MAX(data_ov000_021e3344->unk_30 - 1, gMapStateManager->unk_24);
-            yLo = MAX(data_ov000_021e3344->unk_31 - 1, gMapStateManager->unk_25);
-            xHi = MIN(data_ov000_021e3344->unk_30 + 1, gMapStateManager->unk_26 - 1);
-            yHi = MIN(data_ov000_021e3344->unk_31 + 1, gMapStateManager->unk_27 - 1);
+            xLo = MAX(gActionSt->xDecision - 1, gMapStateManager->unk_24);
+            yLo = MAX(gActionSt->yDecision - 1, gMapStateManager->unk_25);
+            xHi = MIN(gActionSt->xDecision + 1, gMapStateManager->unk_26 - 1);
+            yHi = MIN(gActionSt->yDecision + 1, gMapStateManager->unk_27 - 1);
 
             for (iy = yLo; iy <= yHi; iy++)
             {
                 for (ix = xLo; ix <= xHi; ix++)
                 {
-                    s32 dy = ABS(data_ov000_021e3344->unk_31 - iy);
-                    s32 dx = ABS(data_ov000_021e3344->unk_30 - ix);
+                    s32 dy = ABS(gActionSt->yDecision - iy);
+                    s32 dx = ABS(gActionSt->xDecision - ix);
                     if ((dx + dy >= 1) && (dx + dy <= 1))
                     {
-                        EventCaller::TryStartVisitEvent(proc, ix, iy, data_ov000_021e3344->unk_33);
+                        EventCaller::TryStartVisitEvent(proc, ix, iy, gActionSt->actionId);
                     }
                 }
             }
@@ -425,20 +452,20 @@ EC void func_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            xLo = MAX(data_ov000_021e3344->unk_30 - 1, gMapStateManager->unk_24);
-            yLo = MAX(data_ov000_021e3344->unk_31 - 1, gMapStateManager->unk_25);
-            xHi = MIN(data_ov000_021e3344->unk_30 + 1, gMapStateManager->unk_26 - 1);
-            yHi = MIN(data_ov000_021e3344->unk_31 + 1, gMapStateManager->unk_27 - 1);
+            xLo = MAX(gActionSt->xDecision - 1, gMapStateManager->unk_24);
+            yLo = MAX(gActionSt->yDecision - 1, gMapStateManager->unk_25);
+            xHi = MIN(gActionSt->xDecision + 1, gMapStateManager->unk_26 - 1);
+            yHi = MIN(gActionSt->yDecision + 1, gMapStateManager->unk_27 - 1);
 
             for (iy = yLo; iy <= yHi; iy++)
             {
                 for (ix = xLo; ix <= xHi; ix++)
                 {
-                    s32 dy = ABS(data_ov000_021e3344->unk_31 - iy);
-                    s32 dx = ABS(data_ov000_021e3344->unk_30 - ix);
+                    s32 dy = ABS(gActionSt->yDecision - iy);
+                    s32 dx = ABS(gActionSt->xDecision - ix);
                     if ((dx + dy >= 0) && (dx + dy <= 1))
                     {
-                        EventCaller::TryStartVisitEvent(proc, ix, iy, data_ov000_021e3344->unk_33);
+                        EventCaller::TryStartVisitEvent(proc, ix, iy, gActionSt->actionId);
                     }
                 }
             }
@@ -471,7 +498,7 @@ EC void func_ov000_021af9bc(ProcEx * proc)
             }
 
             EventCaller::TryStartVisitEvent(
-                proc, data_ov000_021e3344->unk_30, data_ov000_021e3344->unk_31, data_ov000_021e3344->unk_33);
+                proc, gActionSt->xDecision, gActionSt->yDecision, gActionSt->actionId);
 
             if (EventCaller::func_020479b0() != 0)
             {
@@ -483,9 +510,9 @@ EC void func_ov000_021af9bc(ProcEx * proc)
             break;
 
         case 0x17:
-            if (data_ov000_021e3344->unk_32 != 0)
+            if (gActionSt->unitId != 0)
             {
-                iVar4 = gUnitList + data_ov000_021e3344->unk_32 - 1;
+                iVar4 = gUnitList + gActionSt->unitId - 1;
             }
             else
             {
@@ -498,7 +525,7 @@ EC void func_ov000_021af9bc(ProcEx * proc)
 
             break;
 
-        case 0x14:
+        case ACTION_TALK:
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
                 if ((data_ov000_021e332c.unk_08->unk_06 == 0) || data_ov000_021e332c.unk_08->Get06() == 2)
@@ -507,18 +534,18 @@ EC void func_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (data_ov000_021e3344->unk_34 != 0)
+            if (gActionSt->unk_34 != 0)
             {
-                iVar4 = gUnitList + data_ov000_021e3344->unk_34 - 1;
+                iVar4 = gUnitList + gActionSt->unk_34 - 1;
             }
             else
             {
                 iVar4 = 0;
             }
 
-            if (data_ov000_021e3344->unk_34 != 0)
+            if (gActionSt->unk_34 != 0)
             {
-                unit = gUnitList + data_ov000_021e3344->unk_34 - 1;
+                unit = gUnitList + gActionSt->unk_34 - 1;
             }
             else
             {
@@ -527,9 +554,9 @@ EC void func_ov000_021af9bc(ProcEx * proc)
 
             pidStrA = func_0203c378(iVar4)->pPersonData->unk_00;
 
-            if (data_ov000_021e3344->unk_32 != 0)
+            if (gActionSt->unitId != 0)
             {
-                iVar5 = gUnitList + data_ov000_021e3344->unk_32 - 1;
+                iVar5 = gUnitList + gActionSt->unitId - 1;
             }
             else
             {
@@ -552,7 +579,7 @@ EC void func_ov000_021af9bc(ProcEx * proc)
             Proc_Goto(proc, 1, 0);
             break;
 
-        case 4:
+        case ACTION_WAIT:
             Proc_Goto(proc, 1, 0);
             break;
     }
@@ -560,7 +587,7 @@ EC void func_ov000_021af9bc(ProcEx * proc)
     return;
 }
 
-EC void func_ov000_021b0510(void)
+EC void ProcMind_ov000_021b0510(void)
 {
     data_020efcc8->unk_a4->vfunc_68(8);
     return;
@@ -568,14 +595,14 @@ EC void func_ov000_021b0510(void)
 
 extern s32 data_ov000_021e24c0;
 
-EC void func_ov000_021b0538(ProcPtr proc)
+EC void ProcMind_ov000_021b0538(ProcPtr proc)
 {
     struct Unit * unit;
     s32 uVar4;
 
-    if (data_ov000_021e3344->unk_32 != 0)
+    if (gActionSt->unitId != 0)
     {
-        unit = gUnitList + data_ov000_021e3344->unk_32 - 1;
+        unit = gUnitList + gActionSt->unitId - 1;
     }
     else
     {
@@ -587,7 +614,7 @@ EC void func_ov000_021b0538(ProcPtr proc)
         return;
     }
 
-    if (EventCaller::CanStartVisitEvent(data_ov000_021e3344->unk_30, data_ov000_021e3344->unk_31, 0x12) == 0)
+    if (EventCaller::CanStartVisitEvent(gActionSt->xDecision, gActionSt->yDecision, 0x12) == 0)
     {
         return;
     }
@@ -602,7 +629,7 @@ EC void func_ov000_021b0538(ProcPtr proc)
         }
     }
 
-    EventCaller::TryStartVisitEvent(proc, data_ov000_021e3344->unk_30, data_ov000_021e3344->unk_31, 0x12);
+    EventCaller::TryStartVisitEvent(proc, gActionSt->xDecision, gActionSt->yDecision, 0x12);
 
     if (EventCaller::func_020479b0() != 0)
     {
@@ -629,7 +656,7 @@ EC void func_ov000_021b0538(ProcPtr proc)
     return;
 }
 
-EC void func_ov000_021b06ac(ProcPtr proc)
+EC void ProcMind_ov000_021b06ac(ProcPtr proc)
 {
     if (data_ov000_021e332c.unk_08->unk_06 == 1)
     {
@@ -641,15 +668,39 @@ EC void func_ov000_021b06ac(ProcPtr proc)
     return;
 }
 
-extern struct ProcCmd data_ov000_021dbdf8[];
+// clang-format off
+
+struct ProcCmd ProcScr_ProcMind[] =
+{
+    PROC_NAME,
+    PROC_NAME,
+
+    PROC_SLEEP(0),
+    PROC_CALL(ProcMind_ov000_021af79c),
+    PROC_REPEAT(ProcMind_ov000_021af944),
+    PROC_CALL(ProcMind_ov000_021af9bc),
+
+PROC_LABEL(0),
+    PROC_CALL(ProcMind_ov000_021b0510),
+
+    // fallthrough
+
+PROC_LABEL(1),
+    PROC_CALL(ProcMind_ov000_021b0538),
+    PROC_CALL(ProcMind_ov000_021b06ac),
+
+    PROC_END,
+};
+
+// clang-format on
 
 class ProcMind : public ProcEx
 {
 };
 
-EC void func_ov000_021b06d4(ProcPtr parent)
+EC void StartProcMind(ProcPtr parent)
 {
-    new (Proc_StartBlocking(data_ov000_021dbdf8, parent)) ProcMind;
+    new (Proc_StartBlocking(ProcScr_ProcMind, parent)) ProcMind;
 
     return;
 }
