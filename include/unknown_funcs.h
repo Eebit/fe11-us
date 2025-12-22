@@ -583,7 +583,7 @@ EC void func_02012680(void *);
 // EC ??? func_02012a24
 // EC ??? func_02012ab4
 // EC ??? func_02012b1c
-EC void func_02012b64(void *, s32);
+EC void func_02012b64(void *, s32); // Seems to be related to transmitting action data via wireless
 // EC ??? func_02012b8c
 EC void func_02012bbc(void);
 // EC ??? func_02012be8
@@ -892,7 +892,7 @@ EC BOOL func_02016250(s32);
 // EC ??? func_020181bc
 // EC ??? func_020181d8
 // EC ??? func_020181e4
-// EC ??? func_020183b4
+EC void func_020183b4(s32, s32);
 // EC ??? func_020184ac
 // EC ??? func_020184c0
 // EC ??? func_02018550
@@ -2012,7 +2012,7 @@ EC s32 GetUnitEquippedWeaponSlot(struct Unit * unit);
 // EC ??? func_0203cc94
 // EC ??? func_0203cd30
 // EC ??? func_0203cdf0
-// EC ??? func_0203ce08
+EC void func_0203ce08(struct Unit *, s32, BOOL);
 // EC ??? func_0203ce6c
 // EC ??? func_0203ce9c
 // EC ??? func_0203cef8
@@ -2020,9 +2020,9 @@ EC s32 GetUnitEquippedWeaponSlot(struct Unit * unit);
 // EC ??? func_0203cf68
 // EC ??? func_0203cff0
 // EC ??? func_0203cff4
-// EC ??? func_0203d01c
-// EC ??? func_0203d094
-// EC ??? func_0203d10c
+EC s32 func_0203d01c(struct Unit * unit);
+EC s32 func_0203d094(struct Unit * unit);
+EC s32 func_0203d10c(struct Unit * unit);
 // EC ??? func_0203d184
 // EC ??? func_0203d1bc
 // EC ??? func_0203d1f4
@@ -5822,12 +5822,12 @@ EC void func_ov000_021a7284(void);
 // EC ??? func_ov000_021a72a8
 // EC ??? func_ov000_021a72cc
 // EC ??? func_ov000_021a734c
-// EC ??? func_ov000_021a7370
+EC void StartMapUnitEscapeEffect(ProcPtr);
 // EC ??? func_ov000_021a7430
 // EC ??? func_ov000_021a7444
 // EC ??? func_ov000_021a77cc
 // EC ??? func_ov000_021a78e0
-// EC ??? func_ov000_021a78f8
+EC void StartMapImitation(void);
 // EC ??? func_ov000_021a7a90
 // EC ??? func_ov000_021a7cfc
 // EC ??? func_ov000_021a7da4
@@ -5996,13 +5996,13 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021af6ac
 // EC ??? func_ov000_021af6d4
 // EC ??? func_ov000_021af740
-// EC ??? func_ov000_021af79c
-// EC ??? func_ov000_021af944
-// EC ??? func_ov000_021af9bc
-// EC ??? func_ov000_021b0510
-// EC ??? func_ov000_021b0538
-// EC ??? func_ov000_021b06ac
-EC void func_ov000_021b06d4(ProcPtr);
+// EC ??? ProcMind_ov000_021af79c
+// EC ??? ProcMind_ov000_021af944
+// EC ??? ProcMind_ov000_021af9bc
+// EC ??? ProcMind_ov000_021b0510
+// EC ??? ProcMind_ov000_021b0538
+// EC ??? ProcMind_ov000_021b06ac
+EC void StartProcMind(ProcPtr);
 // EC ??? func_ov000_021b06fc
 // EC ??? func_ov000_021b0760
 // EC ??? func_ov000_021b07bc
@@ -6026,12 +6026,12 @@ EC void func_ov000_021b06d4(ProcPtr);
 // EC ??? func_ov000_021b0dbc
 // EC ??? func_ov000_021b0dd0
 // EC ??? func_ov000_021b0dd4
-EC void func_ov000_021b0de8(s32, s32, s32, s32);
-// EC ??? func_ov000_021b0e34
-// EC ??? func_ov000_021b0e84
-// EC ??? func_ov000_021b0eb4
-// EC ??? func_ov000_021b0ee8
-// EC ??? func_ov000_021b0f1c
+EC void func_ov000_021b0de8(s32 x, s32 y, s32 actionId, s32 itemSlot);
+EC void func_ov000_021b0e34(s32 x, s32 y, s32 actionId, s32 targetUnitId, s32 itemSlot);
+EC void func_ov000_021b0e84(s32 x, s32 y, s32 actionId, s32 itemSlot);
+EC void _ZN11ActionState19func_ov000_021b0eb4EP4Unit(void *, struct Unit *);
+// EC ??? _ZN11ActionState19func_ov000_021b0ee8EP4Unit
+// EC ??? _ZN11ActionState19func_ov000_021b0f1cEP4Unit
 // EC ??? _ZN18UnkStruct_021e334cC1Ev
 // EC ??? _ZN18UnkStruct_021e334cD1Ev
 // EC ??? func_ov000_021b1104
@@ -6628,7 +6628,7 @@ EC void func_ov000_021c669c(void);
 // EC ??? func_ov000_021ccaac
 // EC ??? func_ov000_021ccab8
 // EC ??? func_ov000_021ccac4
-// EC ??? func_ov000_021ccad0
+EC void StartMapBattle(ProcPtr);
 // EC ??? func_ov000_021ccaf8
 // EC ??? func_ov000_021ccbdc
 // EC ??? func_ov000_021ccc0c
@@ -6665,7 +6665,7 @@ EC void func_ov000_021c669c(void);
 // EC ??? func_ov000_021ce2ac
 // EC ??? func_ov000_021ce2b8
 // EC ??? func_ov000_021ce2c4
-// EC ??? func_ov000_021ce2d0
+EC void StartMapRod(ProcPtr);
 // EC ??? func_ov000_021ce2f8
 // EC ??? func_ov000_021ce2fc
 // EC ??? func_ov000_021ce310
@@ -6682,7 +6682,7 @@ EC void func_ov000_021c669c(void);
 // EC ??? func_ov000_021ce994
 // EC ??? func_ov000_021ce9a0
 // EC ??? func_ov000_021ce9ac
-// EC ??? func_ov000_021ce9b8
+EC void StartMapItem(ProcPtr);
 // EC ??? func_ov000_021ce9e0
 // EC ??? func_ov000_021cea1c
 // EC ??? func_ov000_021cea64
@@ -6817,7 +6817,7 @@ EC void func_ov000_021c669c(void);
 // EC ??? func_ov000_021d3444
 // EC ??? func_ov000_021d3534
 // EC ??? func_ov000_021d3584
-// EC ??? func_ov000_021d3674
+EC s32 func_ov000_021d3674(char *, struct Unit *, s32, s32, ProcPtr, BOOL);
 // EC ??? func_ov000_021d36a4
 // EC ??? func_ov000_021d36e4
 // EC ??? func_ov000_021d3720
@@ -6880,7 +6880,7 @@ EC void func_ov000_021d3fa8(void);
 // EC ??? func_ov000_021d4804
 // EC ??? func_ov000_021d4874
 // EC ??? func_ov000_021d492c
-// EC ??? func_ov000_021d4968
+EC s32 func_ov000_021d4968(s32, s32, BOOL);
 // EC ??? func_ov000_021d49b8
 // EC ??? func_ov000_021d49f4
 // EC ??? func_ov000_021d4a1c
@@ -6888,7 +6888,7 @@ EC void func_ov000_021d3fa8(void);
 // EC ??? func_ov000_021d4a7c
 // EC ??? func_ov000_021d4bec
 // EC ??? func_ov000_021d4cb4
-// EC ??? func_ov000_021d4d80
+EC s32 func_ov000_021d4d80(s32, ProcPtr, BOOL);
 // EC ??? func_ov000_021d4e44
 // EC ??? func_ov000_021d5084
 // EC ??? func_ov000_021d50cc
