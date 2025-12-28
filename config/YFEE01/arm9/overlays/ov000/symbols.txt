@@ -2281,7 +2281,7 @@ data_ov000_021e34e4 kind:bss addr:0x021e34e4
 data_ov000_021e34e8 kind:bss addr:0x021e34e8
 data_ov000_021e34ec kind:bss addr:0x021e34ec
 data_ov000_021e34f8 kind:bss addr:0x021e34f8
-data_ov000_021e34fc kind:bss addr:0x021e34fc
+gMapRenderState kind:bss addr:0x021e34fc
 data_ov000_021e3508 kind:bss addr:0x021e3508
 data_ov000_021e3510 kind:bss addr:0x021e3510
 data_ov000_021e3518 kind:bss addr:0x021e3518

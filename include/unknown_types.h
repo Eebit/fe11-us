@@ -170,15 +170,15 @@ struct MapLayer_14
 
 struct MapLayer
 {
-    u8 unk_00;
-    u8 unk_01; // alpha
-    s8 unk_02;
-    s8 unk_03;
-    struct MapTexture * unk_04; // pointer to texture data
-    void * unk_08; // pointer to a list of packed Gfx FIFO commands
-    s32 unk_0c; // size of unk_08
-    struct MapLayer_10 * unk_10;
-    struct MapLayer_14 * unk_14;
+    /* 00 */ u8 kind;
+    /* 01 */ u8 alpha;
+    /* 02 */ s8 unk_02;
+    /* 03 */ s8 unk_03;
+    /* 04 */ struct MapTexture * pTexture;
+    /* 08 */ void * gfxCommandList; // pointer to a list of packed Gfx FIFO commands
+    /* 0C */ s32 gfxCmdSize; // size of gfxCommandList
+    /* 10 */ struct MapLayer_10 * unk_10;
+    /* 14 */ struct MapLayer_14 * unk_14;
 };
 
 struct MapTexture
@@ -204,16 +204,16 @@ struct MapTexture
 struct MapFile
 {
     void * unk_00;
-    char * unk_04; // pointer to "*.ta" string
-    void * unk_08; // TA file
+    /* 04 */ char * taFileName; // pointer to "*.ta" string
+    /* 08 */ void * taFileData;
     /* 0C */ s8 unk_0c; // width
     /* 0D */ s8 unk_0d; // height
-    /* 0E */ u8 unk_0e; // num layers
-    u8 unk_0f; // num textures
+    /* 0E */ u8 layerCount;
+    /* 0F */ u8 textureCount;
     /* 10 */ u8 * unk_10;
     /* 14 */ u8 * unk_14;
-    struct MapLayer * unk_18;
-    struct MapTexture * unk_1c;
+    /* 18 */ struct MapLayer * pLayers;
+    /* 1C */ struct MapTexture * pTextures;
     u8 unk_20;
     u8 unk_21;
 };

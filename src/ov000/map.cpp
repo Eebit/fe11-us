@@ -1,5 +1,6 @@
 #include "global.h"
 
+#include "oam.h"
 #include "unknown_funcs.h"
 
 #define GFX_FIFO_MATRIX_MODE *(vu32 *)(0x04000440)
@@ -11,14 +12,14 @@
 
 extern u8 data_027e1b9c[];
 
-struct UnkStruct_021e34fc
+struct MapRenderState
 {
     u32 unk_00;
-    u32 unk_04;
+    /* 04 */ u32 nextPolygonId;
     u32 unk_08;
 };
 
-extern struct UnkStruct_021e34fc data_ov000_021e34fc;
+extern struct MapRenderState gMapRenderState;
 
 extern s16 data_020c53b0[]; // gSinLut?
 extern vu32 gClock;
@@ -32,22 +33,22 @@ EC void func_ov000_021d708c(MapFile * map, s32 param_2)
     MapTexture * texture;
     u8 * mapTextureFile;
 
-    data_ov000_021e34fc.unk_08 = 0;
-    data_ov000_021e34fc.unk_00 = 0;
+    gMapRenderState.unk_08 = 0;
+    gMapRenderState.unk_00 = 0;
 
     func_ov000_021d7acc(map);
 
-    for (i = 0; i < map->unk_0f; i++)
+    for (i = 0; i < map->textureCount; i++)
     {
-        mapTextureFile = (u8 *)map->unk_08;
+        mapTextureFile = (u8 *)map->taFileData;
 
-        texture = &map->unk_1c[i];
+        texture = &map->pTextures[i];
 
-        texture->unk_08 = data_ov000_021e34fc.unk_08;
-        data_ov000_021e34fc.unk_08 += texture->unk_04;
+        texture->unk_08 = gMapRenderState.unk_08;
+        gMapRenderState.unk_08 += texture->unk_04;
 
-        texture->unk_14 = data_ov000_021e34fc.unk_00;
-        data_ov000_021e34fc.unk_00 += texture->unk_10;
+        texture->unk_14 = gMapRenderState.unk_00;
+        gMapRenderState.unk_00 += texture->unk_10;
 
         if (param_2 != 0)
         {
@@ -74,9 +75,9 @@ EC void func_ov000_021d71ac(MapFile * map)
 {
     s32 i;
 
-    for (i = 0; i < map->unk_0f; i++)
+    for (i = 0; i < map->textureCount; i++)
     {
-        MapTexture * texture = &map->unk_1c[i];
+        MapTexture * texture = &map->pTextures[i];
 
         if (texture->unk_18 != NULL)
         {
@@ -85,13 +86,13 @@ EC void func_ov000_021d71ac(MapFile * map)
         }
     }
 
-    if (map->unk_08 != NULL)
+    if (map->taFileData != NULL)
     {
         func_ov000_021d7afc(map);
     }
 
-    data_ov000_021e34fc.unk_08 = 0;
-    data_ov000_021e34fc.unk_00 = 0;
+    gMapRenderState.unk_08 = 0;
+    gMapRenderState.unk_00 = 0;
 
     return;
 }
@@ -109,10 +110,7 @@ static inline s16 cos(u16 aAngle)
 static inline void SetPolygonAttr(u32 id, u32 alpha)
 {
     // https://www.problemkaputt.de/gbatek.htm#ds3dpolygonattributes
-    GFX_FIFO_POLYGON_ATTR =
-        (0xc0) | 
-        (id << 0x18) |
-        (alpha << 0x10);
+    GFX_FIFO_POLYGON_ATTR = (0xc0) | (id << 0x18) | (alpha << 0x10);
 }
 
 static inline void SetTexturePalette(u32 address, u32 format)
@@ -137,27 +135,27 @@ EC void func_ov000_021d7234(MapFile * map)
     u16 temp_tiles[0x20];
 
     GFX_FIFO_MATRIX_MODE = 3;
-    data_ov000_021e34fc.unk_04 = 1;
+    gMapRenderState.nextPolygonId = 1;
 
-    for (i = map->unk_0e - 1; i >= 0; i--)
+    for (i = map->layerCount - 1; i >= 0; i--)
     {
         s32 alpha;
         struct MapTexture * texture;
         struct MapLayer_10 * layer_10;
         struct MapLayer_14 * layer_14;
 
-        struct MapLayer * layer = &map->unk_18[i];
+        struct MapLayer * layer = &map->pLayers[i];
 
-        switch (layer->unk_00)
+        switch (layer->kind)
         {
             case 0:
-                alpha = layer->unk_01;
+                alpha = layer->alpha;
                 if (alpha == 0)
                 {
                     goto _844;
                 }
 
-                texture = layer->unk_04;
+                texture = layer->pTexture;
                 GFX_FIFO_MATRIX_IDENTITY = 0;
 
                 if ((texture->unk_26 & 2) && alpha == 31)
@@ -166,18 +164,12 @@ EC void func_ov000_021d7234(MapFile * map)
                 }
                 else
                 {
-                    SetPolygonAttr(data_ov000_021e34fc.unk_04++, alpha);
+                    SetPolygonAttr(gMapRenderState.nextPolygonId++, alpha);
                 }
 
-                GFX_FIFO_TEXTURE_PARAM = 
-                    (texture->unk_08 >> 3) |
-                    (texture->unk_20 << 0x1a) |
-                    0x40000000 |
-                    (texture->unk_21 << 0x14) |
-                    (texture->unk_22 << 0x17) |
-                    (texture->unk_23 << 0x10) |
-                    (texture->unk_24 << 0x12) |
-                    (texture->unk_25 << 0x1d);
+                GFX_FIFO_TEXTURE_PARAM = (texture->unk_08 >> 3) | (texture->unk_20 << 0x1a) | 0x40000000 |
+                    (texture->unk_21 << 0x14) | (texture->unk_22 << 0x17) | (texture->unk_23 << 0x10) |
+                    (texture->unk_24 << 0x12) | (texture->unk_25 << 0x1d);
 
                 if (texture->unk_10 != 0)
                 {
@@ -188,7 +180,7 @@ EC void func_ov000_021d7234(MapFile * map)
 
                 if (layer_10 != NULL)
                 {
-                    texture = layer->unk_04;
+                    texture = layer->pTexture;
 
                     switch (layer_10->unk_00)
                     {
@@ -199,10 +191,7 @@ EC void func_ov000_021d7234(MapFile * map)
                             s32 b = layer_10->unk_12 * sin((0x10000 / layer_10->unk_10) * gClock);
                             s32 y = (((layer_10->unk_08 * gClock) + (b * 0x10)));
                             MatrixTranslate(
-                                x & ((texture->unk_1c << 0x10) - 1),
-                                y & ((texture->unk_1e << 0x10) - 1),
-                                0
-                            );
+                                x & ((texture->unk_1c << 0x10) - 1), y & ((texture->unk_1e << 0x10) - 1), 0);
                             break;
                         }
 
@@ -212,9 +201,7 @@ EC void func_ov000_021d7234(MapFile * map)
                             s32 temp_r0_9 = texture->unk_1c / layer_10->unk_04;
                             MatrixTranslate(
                                 (layer_10->unk_04 << 0x10) * (temp_r0_8 % temp_r0_9),
-                                (layer_10->unk_06 << 0x10) * (temp_r0_8 / temp_r0_9),
-                                0
-                            );
+                                (layer_10->unk_06 << 0x10) * (temp_r0_8 / temp_r0_9), 0);
                             break;
                         }
                     }
@@ -223,7 +210,7 @@ EC void func_ov000_021d7234(MapFile * map)
                 break;
 
             case 3:
-                texture = layer->unk_04;
+                texture = layer->pTexture;
 
                 GFX_FIFO_MATRIX_IDENTITY = 0;
 
@@ -233,17 +220,12 @@ EC void func_ov000_021d7234(MapFile * map)
                 }
                 else
                 {
-                    SetPolygonAttr(data_ov000_021e34fc.unk_04++, 31);
+                    SetPolygonAttr(gMapRenderState.nextPolygonId++, 31);
                 }
 
-                GFX_FIFO_TEXTURE_PARAM = 
-                    ((texture->unk_08 >> 3) | 
-                    (texture->unk_20 << 0x1A) |
-                     0x40000000 | 
-                     (texture->unk_21 << 0x14) | 
-                     (texture->unk_22 << 0x17) | 
-                     (texture->unk_23 << 0x10) | 
-                     (texture->unk_24 << 0x12) | 
+                GFX_FIFO_TEXTURE_PARAM =
+                    ((texture->unk_08 >> 3) | (texture->unk_20 << 0x1A) | 0x40000000 | (texture->unk_21 << 0x14) |
+                     (texture->unk_22 << 0x17) | (texture->unk_23 << 0x10) | (texture->unk_24 << 0x12) |
                      (texture->unk_25 << 0x1D));
 
                 if (texture->unk_10 != 0)
@@ -255,7 +237,7 @@ EC void func_ov000_021d7234(MapFile * map)
 
                 if (layer_10 != NULL)
                 {
-                    texture = layer->unk_04;
+                    texture = layer->pTexture;
 
                     switch (layer_10->unk_00)
                     {
@@ -266,10 +248,7 @@ EC void func_ov000_021d7234(MapFile * map)
                             s32 b = layer_10->unk_12 * sin((0x10000 / layer_10->unk_10) * gClock);
                             s32 y = (((layer_10->unk_08 * gClock) + (b * 0x10)));
                             MatrixTranslate(
-                                x & ((texture->unk_1c << 0x10) - 1),
-                                y & ((texture->unk_1e << 0x10) - 1),
-                                0
-                            );
+                                x & ((texture->unk_1c << 0x10) - 1), y & ((texture->unk_1e << 0x10) - 1), 0);
                             break;
                         }
                         case 2:
@@ -278,24 +257,18 @@ EC void func_ov000_021d7234(MapFile * map)
                             s32 temp_r0_9 = texture->unk_1c / layer_10->unk_04;
                             MatrixTranslate(
                                 (layer_10->unk_04 << 0x10) * (temp_r0_8 % temp_r0_9),
-                                (layer_10->unk_06 << 0x10) * (temp_r0_8 / temp_r0_9),
-                                0
-                            );
+                                (layer_10->unk_06 << 0x10) * (temp_r0_8 / temp_r0_9), 0);
                             break;
                         }
                     }
                 }
 
-                MatrixTranslate(
-                    0,
-                    layer->unk_01 << 0x13,
-                    0
-                );
+                MatrixTranslate(0, layer->alpha << 0x13, 0);
 
                 break;
 
             case 1:
-                texture = layer->unk_04;
+                texture = layer->pTexture;
 
                 GFX_FIFO_MATRIX_IDENTITY = 0;
 
@@ -305,17 +278,12 @@ EC void func_ov000_021d7234(MapFile * map)
                 }
                 else
                 {
-                    SetPolygonAttr(data_ov000_021e34fc.unk_04++, 31);
+                    SetPolygonAttr(gMapRenderState.nextPolygonId++, 31);
                 }
 
-                GFX_FIFO_TEXTURE_PARAM = 
-                    ((texture->unk_08 >> 3) | 
-                     (texture->unk_20 << 0x1A) |
-                     0x40000000 | 
-                     (texture->unk_21 << 0x14) | 
-                     (texture->unk_22 << 0x17) | 
-                     (texture->unk_23 << 0x10) | 
-                     (texture->unk_24 << 0x12) | 
+                GFX_FIFO_TEXTURE_PARAM =
+                    ((texture->unk_08 >> 3) | (texture->unk_20 << 0x1A) | 0x40000000 | (texture->unk_21 << 0x14) |
+                     (texture->unk_22 << 0x17) | (texture->unk_23 << 0x10) | (texture->unk_24 << 0x12) |
                      (texture->unk_25 << 0x1D));
 
                 if (texture->unk_10 != 0)
@@ -323,22 +291,18 @@ EC void func_ov000_021d7234(MapFile * map)
                     SetTexturePalette(texture->unk_14, texture->unk_20);
                 }
 
-                MatrixTranslate(
-                    0,
-                    layer->unk_01 * 0x48000,
-                    0
-                );
+                MatrixTranslate(0, layer->alpha * 0x48000, 0);
 
                 break;
 
             case 2:
-                alpha = layer->unk_01;
+                alpha = layer->alpha;
                 if (alpha == 0)
                 {
                     goto _844;
                 }
 
-                texture = layer->unk_04;
+                texture = layer->pTexture;
 
                 GFX_FIFO_MATRIX_IDENTITY = 0;
 
@@ -348,17 +312,12 @@ EC void func_ov000_021d7234(MapFile * map)
                 }
                 else
                 {
-                    SetPolygonAttr(data_ov000_021e34fc.unk_04++, alpha);
+                    SetPolygonAttr(gMapRenderState.nextPolygonId++, alpha);
                 }
 
-                GFX_FIFO_TEXTURE_PARAM = 
-                    ((texture->unk_08 >> 3) | 
-                     (texture->unk_20 << 0x1A) |
-                     0x40000000 | 
-                     (texture->unk_21 << 0x14) | 
-                     (texture->unk_22 << 0x17) | 
-                     (texture->unk_23 << 0x10) | 
-                     (texture->unk_24 << 0x12) | 
+                GFX_FIFO_TEXTURE_PARAM =
+                    ((texture->unk_08 >> 3) | (texture->unk_20 << 0x1A) | 0x40000000 | (texture->unk_21 << 0x14) |
+                     (texture->unk_22 << 0x17) | (texture->unk_23 << 0x10) | (texture->unk_24 << 0x12) |
                      (texture->unk_25 << 0x1D));
 
                 if (texture->unk_10 != 0)
@@ -373,11 +332,12 @@ EC void func_ov000_021d7234(MapFile * map)
 
         if (layer_14 != NULL)
         {
-            texture = layer->unk_04;
+            texture = layer->pTexture;
 
             layer_14->unk_04--;
 
-            if (layer_14->unk_04 <= 0) {
+            if (layer_14->unk_04 <= 0)
+            {
                 layer_14->unk_04 = layer_14->unk_03;
 
                 switch (layer_14->unk_00)
@@ -396,10 +356,13 @@ EC void func_ov000_021d7234(MapFile * map)
 
                                 for (j = 0; j < layer_14->unk_02; j++)
                                 {
-                                    texture->unk_18[layer_14->unk_01 + j] = temp_tiles[(layer_14->unk_05 + (j + layer_14->unk_02)) % layer_14->unk_02];
+                                    texture->unk_18[layer_14->unk_01 + j] =
+                                        temp_tiles[(layer_14->unk_05 + (j + layer_14->unk_02)) % layer_14->unk_02];
                                 }
 
-                                func_020205a4((u8 *)texture->unk_18 + (layer_14->unk_01 * 2), texture->unk_14 + (layer_14->unk_01 * 2), layer_14->unk_02 * 2, 0);
+                                func_020205a4(
+                                    (u8 *)texture->unk_18 + (layer_14->unk_01 * 2),
+                                    texture->unk_14 + (layer_14->unk_01 * 2), layer_14->unk_02 * 2, 0);
                             }
                         }
                         break;
@@ -429,8 +392,12 @@ EC void func_ov000_021d7234(MapFile * map)
                             var_r0_2 = temp_r1_3 & 0xff;
                         }
 
-                        func_020a56d4((u8 *)texture->unk_18 + (((var_r0_2 * layer_14->unk_05) + layer_14->unk_06) * 2), (u8 *)texture->unk_18 + (layer_14->unk_01 * 2), layer_14->unk_02 * 2);
-                        func_020205a4((u8 *)texture->unk_18 + (layer_14->unk_01 * 2), texture->unk_14 + (layer_14->unk_01 * 2), layer_14->unk_02 * 2, 0);
+                        func_020a56d4(
+                            (u8 *)texture->unk_18 + (((var_r0_2 * layer_14->unk_05) + layer_14->unk_06) * 2),
+                            (u8 *)texture->unk_18 + (layer_14->unk_01 * 2), layer_14->unk_02 * 2);
+                        func_020205a4(
+                            (u8 *)texture->unk_18 + (layer_14->unk_01 * 2), texture->unk_14 + (layer_14->unk_01 * 2),
+                            layer_14->unk_02 * 2, 0);
 
                         break;
                     }
@@ -438,7 +405,7 @@ EC void func_ov000_021d7234(MapFile * map)
             }
         }
 
-        func_01ffcc3c(3, (s32)layer->unk_08, layer->unk_0c);
+        func_01ffcc3c(3, (s32)layer->gfxCommandList, layer->gfxCmdSize);
     }
 
 _844:
@@ -450,41 +417,80 @@ _844:
 
 EC void func_ov000_021d7acc(MapFile * map)
 {
-    if (map->unk_08 != NULL)
+    if (map->taFileData != NULL)
     {
         return;
     }
 
     func_02012180("/map");
-    map->unk_08 = func_02012164(map->unk_04);
+    map->taFileData = func_02012164(map->taFileName);
 
     return;
 }
 
 EC void func_ov000_021d7afc(MapFile * map)
 {
-    if (map->unk_08 == NULL)
+    if (map->taFileData == NULL)
     {
         return;
     }
 
-    func_01ffbb90(data_027e1b9c, map->unk_08);
-    map->unk_08 = NULL;
+    func_01ffbb90(data_027e1b9c, map->taFileData);
+    map->taFileData = NULL;
 
     return;
 }
 
 EC u32 func_ov000_021d7b28(void)
 {
-    return data_ov000_021e34fc.unk_08;
+    return gMapRenderState.unk_08;
 }
 
 EC u32 func_ov000_021d7b38(void)
 {
-    return data_ov000_021e34fc.unk_00;
+    return gMapRenderState.unk_00;
 }
 
-extern u16 * data_ov000_021e2c54[];
+// clang-format off
+
+u16 data_ov000_021e2c30[] =
+{
+    OAM0_SHAPE_64x64 + OAM0_256COLORS, OAM1_SIZE_64x64, 0,
+    -1,
+};
+
+u16 data_ov000_021e2c46[] =
+{
+    OAM0_SHAPE_64x64 + OAM0_256COLORS, OAM1_SIZE_64x64, 0,
+    OAM0_SHAPE_64x64 + OAM0_256COLORS, OAM1_SIZE_64x64 + OAM1_X(+64), OAM2_CHR(0x80),
+    -1,
+};
+
+u16 data_ov000_021e2c38[] =
+{
+    OAM0_SHAPE_64x64 + OAM0_256COLORS, OAM1_SIZE_64x64, 0,
+    OAM0_SHAPE_64x64 + OAM0_Y(+64) + OAM0_256COLORS, OAM1_SIZE_64x64, OAM2_CHR(0x100),
+    -1,
+};
+
+u16 data_ov000_021e2c64[] =
+{
+    OAM0_SHAPE_64x64 + OAM0_256COLORS, OAM1_SIZE_64x64, 0,
+    OAM0_SHAPE_64x64 + OAM0_256COLORS, OAM1_SIZE_64x64 + OAM1_X(+64), OAM2_CHR(0x80),
+    OAM0_SHAPE_64x64 + OAM0_Y(+64) + OAM0_256COLORS, OAM1_SIZE_64x64, OAM2_CHR(0x100),
+    OAM0_SHAPE_64x64 + OAM0_Y(+64) + OAM0_256COLORS, OAM1_SIZE_64x64 + OAM1_X(+64), OAM2_CHR(0x180),
+    -1,
+};
+
+u16 * data_ov000_021e2c54[] =
+{
+    data_ov000_021e2c30,
+    data_ov000_021e2c46,
+    data_ov000_021e2c38,
+    data_ov000_021e2c64,
+};
+
+// clang-format on
 
 // Get minimap sprite def
 EC u16 * func_ov000_021d7b48(MapFile * map)
@@ -508,11 +514,11 @@ EC MapLayer * func_ov000_021d7b74(MapFile * map, s32 arg1, s32 arg2, s32 arg3)
 {
     s32 i;
 
-    for (i = 0; i < map->unk_0e; i++)
+    for (i = 0; i < map->layerCount; i++)
     {
-        if (arg2 == map->unk_18[i].unk_02 && arg3 == map->unk_18[i].unk_03 && arg1 == map->unk_18[i].unk_00)
+        if (arg2 == map->pLayers[i].unk_02 && arg3 == map->pLayers[i].unk_03 && arg1 == map->pLayers[i].kind)
         {
-            return &map->unk_18[i];
+            return &map->pLayers[i];
         }
     }
 
@@ -528,7 +534,7 @@ EC BOOL func_ov000_021d7bd8(MapFile * map, s32 param_2, s32 param_3, s32 alpha)
         return FALSE;
     }
 
-    layer->unk_01 = alpha;
+    layer->alpha = alpha;
 
     return TRUE;
 }
@@ -537,14 +543,14 @@ EC void func_ov000_021d7c08(MapFile * map, s32 alpha)
 {
     s32 i;
 
-    for (i = 0; i < map->unk_0e; i++)
+    for (i = 0; i < map->layerCount; i++)
     {
-        if (map->unk_18[i].unk_00 != 3)
+        if (map->pLayers[i].kind != 3)
         {
             continue;
         }
 
-        map->unk_18[i].unk_01 = alpha;
+        map->pLayers[i].alpha = alpha;
     }
 
     return;
@@ -552,12 +558,12 @@ EC void func_ov000_021d7c08(MapFile * map, s32 alpha)
 
 EC void func_ov000_021d7c50(MapFile * map, s32 layerIdx, s32 alpha)
 {
-    if (layerIdx >= map->unk_0e)
+    if (layerIdx >= map->layerCount)
     {
         return;
     }
 
-    if (map->unk_18[layerIdx].unk_00 == 1)
+    if (map->pLayers[layerIdx].kind == 1)
     {
         return;
     }
@@ -572,7 +578,7 @@ EC void func_ov000_021d7c50(MapFile * map, s32 layerIdx, s32 alpha)
         alpha = 0;
     }
 
-    map->unk_18[layerIdx].unk_01 = alpha;
+    map->pLayers[layerIdx].alpha = alpha;
 
     return;
 }

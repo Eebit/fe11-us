@@ -4252,7 +4252,7 @@ extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 // extern ??? data_ov000_021e34e8
 // extern ??? data_ov000_021e34ec
 // extern ??? data_ov000_021e34f8
-// extern ??? data_ov000_021e34fc
+// extern ??? gMapRenderState
 extern struct UnkStruct_021e3508 data_ov000_021e3508[];
 // extern ??? data_ov000_021e3510
 // extern ??? data_ov000_021e3518
