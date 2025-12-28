@@ -141,22 +141,94 @@ struct VmMap_Common
     u8 unk_07;
 };
 
+struct MapLayer_10
+{
+    u32 unk_00;
+    s16 unk_04;
+    s16 unk_06;
+    s16 unk_08;
+    s16 unk_0a;
+    s16 unk_0c;
+    s16 unk_0e;
+    s16 unk_10;
+    s16 unk_12;
+};
+
+struct MapLayer_14
+{
+    u8 unk_00;
+    u8 unk_01;
+    u8 unk_02;
+    s8 unk_03;
+    s8 unk_04;
+    s8 unk_05;
+    u8 unk_06;
+    u8 unk_07;
+    u8 unk_08;
+    u8 unk_09;
+};
+
+struct MapLayer
+{
+    u8 unk_00;
+    u8 unk_01; // alpha
+    s8 unk_02;
+    s8 unk_03;
+    struct MapTexture * unk_04; // pointer to texture data
+    void * unk_08; // pointer to a list of packed Gfx FIFO commands
+    s32 unk_0c; // size of unk_08
+    struct MapLayer_10 * unk_10;
+    struct MapLayer_14 * unk_14;
+};
+
+struct MapTexture
+{
+    s32 unk_00; // offset of where the texture image starts in the *.ta file?
+    s32 unk_04; // size of image data
+    u32 unk_08; // ?
+    s32 unk_0c; // offset of palette data
+    s32 unk_10; // size of palette data
+    u32 unk_14; // ?
+    u16 * unk_18; // pointer to ?
+    s16 unk_1c; // width?
+    s16 unk_1e; // height?
+    u8 unk_20;
+    u8 unk_21;
+    u8 unk_22;
+    u8 unk_23;
+    u8 unk_24;
+    u8 unk_25;
+    u16 unk_26;
+};
+
 struct MapFile
 {
-    /* 00 */ STRUCT_PAD(0x00, 0x0C);
-    /* 0C */ s8 unk_0c;
-    /* 0D */ s8 unk_0d;
-    /* 0E */ STRUCT_PAD(0x0E, 0x10);
+    void * unk_00;
+    char * unk_04; // pointer to "*.ta" string
+    void * unk_08; // TA file
+    /* 0C */ s8 unk_0c; // width
+    /* 0D */ s8 unk_0d; // height
+    /* 0E */ u8 unk_0e; // num layers
+    u8 unk_0f; // num textures
     /* 10 */ u8 * unk_10;
     /* 14 */ u8 * unk_14;
+    struct MapLayer * unk_18;
+    struct MapTexture * unk_1c;
+    u8 unk_20;
+    u8 unk_21;
 };
 
 // Overlay 000:
 
 struct UnkStruct_021e3340
 {
-    STRUCT_PAD(0x00, 0x06);
+    u8 unk_00;
+    u8 unk_01;
+    u8 unk_02;
+    u8 unk_03;
+    STRUCT_PAD(0x03, 0x06);
     u8 unk_06;
+    u8 unk_07;
 };
 
 struct UnkStruct_021e3508
