@@ -57,6 +57,10 @@ src/unit.cpp:
 src/unit_item.cpp:
     .text       start:0x0203df8c end:0x0203e220
 
+src/map_sprite.cpp:
+    .text       start:0x0203e220 end:0x0203fafc
+    .data       start:0x020d4c44 end:0x020d4cf8
+
 src/force.cpp:
     .text       start:0x0203fafc end:0x02040eec
     .bss        start:0x021974d8 end:0x021974e0
