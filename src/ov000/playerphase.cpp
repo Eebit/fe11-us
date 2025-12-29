@@ -6,11 +6,13 @@
 #include "unknown_types.hpp"
 
 #include "database.hpp"
+#include "event.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 #include "unit.hpp"
-#include "event.hpp"
+
+extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 
 extern struct ProcCmd data_ov000_021dbe58[];
 extern struct ProcCmd data_ov000_021dc190[];
@@ -91,20 +93,20 @@ extern vu32 data_027e1264;
 namespace map
 {
 
-    class ProcPL : public ProcEx
+class ProcPL : public ProcEx
+{
+public:
+    ProcPL()
     {
-    public:
-        ProcPL()
-        {
-            data_ov000_021e332c.unk_00[4] = this;
-            gMapStateManager->unk_14->unk_27 = 1;
-        }
+        data_ov000_021e332c.unk_00[4] = this;
+        gMapStateManager->unk_14->unk_27 = 1;
+    }
 
-        // func_ov000_021b0964 d1
-        // func_ov000_021b0904 d0
-    };
-
+    // func_ov000_021b0964 d1
+    // func_ov000_021b0904 d0
 };
+
+}; // namespace map
 
 EC struct PlayerPhaseProc * func_ov000_021ae1bc(void);
 EC BOOL func_ov000_021a6ab8(void *, s16, s16);
@@ -246,12 +248,10 @@ EC void func_ov000_021abd9c(void)
             data_020efcc8->unk_b0->vfunc_28(0x0001001B, 0, 0);
         }
 
-        func_ov000_021a3498(
-            gMapStateManager->unk_04->unk_00, 1, gActionSt->unk_2c, gActionSt->unk_2d);
+        func_ov000_021a3498(gMapStateManager->unk_04->unk_00, 1, gActionSt->unk_2c, gActionSt->unk_2d);
         func_ov000_021a35a0();
 
-        func_ov000_021a354c(
-            gMapStateManager->unk_04->unk_00, gActionSt->unk_2c, gActionSt->unk_2d);
+        func_ov000_021a354c(gMapStateManager->unk_04->unk_00, gActionSt->unk_2c, gActionSt->unk_2d);
         func_ov000_021abbc8();
     }
 
@@ -277,7 +277,52 @@ EC void func_ov000_021abd9c(void)
     }
 }
 
-// #func_ov000_021abf30
+EC void func_ov000_021a72a8(void *);
+EC BOOL func_02002038(void *, void *);
+
+EC BOOL func_ov000_021abf30(void)
+{
+    u8 x = gMapStateManager->unk_10->unk_08;
+    u8 y = gMapStateManager->unk_10->unk_09;
+
+    if (gMapStateManager->unk_08->unk_0854[x | y << 5] >= 0)
+    {
+        gActionSt->unk_35 = x;
+        gActionSt->unk_36 = y;
+
+        gMapStateManager->unk_10->unk_0a = 0;
+
+        func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+        data_020efcc8->unk_b0->vfunc_28(0x10016, 0, 0);
+
+        if (data_ov000_021e332c.unk_14->unk_07 == 2)
+        {
+            gMapStateManager->unk_14->unk_04->unk_15 = 0;
+
+            if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00) != 0)
+            {
+                func_ov000_021b0de8(gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
+            }
+
+            func_ov000_021a72a8(gMapStateManager->unk_04);
+        }
+
+        func_ov000_021d6dfc(0);
+
+        gMapStateManager->unk_04->unk_08 = 1;
+
+        Proc_Goto(data_ov000_021e332c.unk_00[4], 0x28, 0);
+        data_ov000_021e332c.unk_14->unk_02 = 0;
+        data_ov000_021e332c.unk_14->unk_03 = 0;
+
+        return TRUE;
+    }
+
+    data_020efcc8->unk_b0->vfunc_28(0x10002, 0, 0);
+
+    return FALSE;
+}
 
 EC BOOL func_ov000_021ac0c0(void)
 {
@@ -523,7 +568,7 @@ EC void func_ov000_021ac6a0(void)
         return;
     }
 
-    if ((func_020479b0() == 0))
+    if (func_020479b0() == 0)
     {
         if (func_02050474() == 0)
         {
@@ -652,7 +697,7 @@ EC void func_ov000_021ac8b4(void)
 
 EC void func_ov000_021aca18(void)
 {
-    if (gMapStateManager->unk_10->unk_0b == 2)
+    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -698,7 +743,7 @@ EC void func_ov000_021acb34(void)
         return;
     }
 
-    if (gMapStateManager->unk_10->unk_0b != 2)
+    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -720,7 +765,7 @@ EC void func_ov000_021acb88(void)
         return;
     }
 
-    if (gMapStateManager->unk_10->unk_0b != 2)
+    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -737,7 +782,7 @@ EC void func_ov000_021acbc8(void)
 
 EC void func_ov000_021acbd4(void)
 {
-    if (gMapStateManager->unk_10->unk_0b != 2)
+    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -944,8 +989,7 @@ EC void func_ov000_021ad3c0(ProcPtr proc)
     func_0205633c();
 
     TryStartVisitEvent(
-        proc, gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos,
-        gActionSt->actionId);
+        proc, gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, gActionSt->actionId);
 
     if (gActionSt->actionId == 0xa)
     {
@@ -974,8 +1018,7 @@ EC void func_ov000_021ad49c(void)
     if ((data_ov000_021e332c.unk_14->unk_06 & 4) != 0)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos,
-            gActionSt->actionId, 0);
+            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, gActionSt->actionId, 0);
 
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x28, 0);
         data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1003,8 +1046,7 @@ EC void func_ov000_021ad5bc(void)
 {
     if ((data_ov000_021e332c.unk_14->unk_06 & 8) != 0)
     {
-        func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xd, 0);
+        func_ov000_021b0de8(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xd, 0);
         Proc_Goto(data_ov000_021e332c.unk_00[4], 0x28, 0);
         data_ov000_021e332c.unk_14->unk_02 = 0;
         data_ov000_021e332c.unk_14->unk_03 = 0;
