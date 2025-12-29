@@ -225,7 +225,7 @@ EC void func_0200f0f0(void)
 }
 
 // active overlays
-u8 gActiveOverlayLut[12] = { };
+u8 gActiveOverlayLut[12] = {};
 
 // clang-format off
 
@@ -385,10 +385,10 @@ EC void func_0200f350(s32 param_1)
     return;
 }
 
-u8 data_020e4e00[0x400] = { };
-u8 data_020e5200[0x400] = { };
-u8 data_020e5600[0xa00] = { };
-u8 data_020e6000[0xa00] = { };
+u8 data_020e4e00[0x400] = {};
+u8 data_020e5200[0x400] = {};
+u8 data_020e5600[0xa00] = {};
+u8 data_020e6000[0xa00] = {};
 
 extern void * data_027e12f4;
 extern void * data_027e16f4;
@@ -814,5 +814,208 @@ EC void func_0201032c(void)
     gTouchSt->unk_10 = 0;
     gTouchSt->unk_11 = 10;
 
+    return;
+}
+
+EC void func_020aab40(void);
+EC BOOL func_020aabd4(void *);
+EC void func_020aafb8(void *, void *);
+
+EC void func_02010398(void)
+{
+    s32 iVar1;
+    u16 uVar2;
+    u32 in_r3;
+    u16 local_18[4];
+    u16 local_12;
+    u8 auStack_10[8];
+    u32 uStack_8;
+
+    if (data_020eea00.unk_00 != 0)
+    {
+        gTouchSt->unk_14 = 0;
+        gTouchSt->unk_13 = 0;
+        gTouchSt->unk_12 = 0;
+        gTouchSt->unk_15 = 0;
+        gTouchSt->unk_10 = 0;
+        gTouchSt->unk_11 = 10;
+        return;
+    }
+
+    uStack_8 = in_r3;
+    func_020aab40();
+
+    if (func_020aabd4(auStack_10) == 0)
+    {
+        func_020aafb8(&local_18, auStack_10);
+    }
+    else
+    {
+        local_12 = 3;
+    }
+
+    if (local_12 == 0)
+    {
+
+        gTouchSt->unk_00 = local_18[0];
+        gTouchSt->unk_02 = local_18[1];
+
+        if (gTouchSt->unk_12 == 0)
+        {
+            gTouchSt->unk_14 = 1;
+            gTouchSt->unk_04 = local_18[0];
+            gTouchSt->unk_06 = local_18[1];
+            gTouchSt->unk_0c = local_18[0];
+            gTouchSt->unk_08 = gTouchSt->unk_0c;
+            gTouchSt->unk_0e = local_18[1];
+            gTouchSt->unk_0a = gTouchSt->unk_0e;
+        }
+        else
+        {
+            gTouchSt->unk_14 = 0;
+        }
+
+        gTouchSt->unk_12 = 1;
+        gTouchSt->unk_15 = 0;
+
+        uVar2 = local_18[0];
+
+        if (gTouchSt->unk_08 <= local_18[0])
+        {
+            uVar2 = gTouchSt->unk_08;
+        }
+
+        gTouchSt->unk_08 = uVar2;
+
+        if (local_18[0] <= gTouchSt->unk_0c)
+        {
+            local_18[0] = gTouchSt->unk_0c;
+        }
+
+        gTouchSt->unk_0c = local_18[0];
+
+        uVar2 = local_18[1];
+
+        if (gTouchSt->unk_0a <= local_18[1])
+        {
+            uVar2 = gTouchSt->unk_0a;
+        }
+
+        gTouchSt->unk_0a = uVar2;
+
+        if (local_18[1] <= gTouchSt->unk_0e)
+        {
+            local_18[1] = gTouchSt->unk_0e;
+        }
+
+        gTouchSt->unk_0e = local_18[1];
+
+        if (gTouchSt->unk_10 < 0xff)
+        {
+            gTouchSt->unk_10++;
+        }
+
+        gTouchSt->unk_11--;
+
+        if (gTouchSt->unk_11 == 0)
+        {
+            gTouchSt->unk_13 = gTouchSt->unk_12;
+            gTouchSt->unk_11 = 4;
+            return;
+        }
+
+        gTouchSt->unk_13 = gTouchSt->unk_14;
+    }
+    else
+    {
+        if (gTouchSt->unk_12 == 1)
+        {
+            gTouchSt->unk_15 = 1;
+        }
+        else
+        {
+            gTouchSt->unk_15 = 0;
+            gTouchSt->unk_10 = 0;
+        }
+
+        gTouchSt->unk_14 = 0;
+        gTouchSt->unk_13 = 0;
+        gTouchSt->unk_12 = 0;
+        gTouchSt->unk_11 = 10;
+    }
+
+    return;
+}
+
+EC BOOL func_020ac04c(s32);
+
+EC void func_02010600(ProcPtr proc)
+{
+    if (!func_020ac04c(1))
+    {
+        return;
+    }
+
+    Proc_End(proc);
+
+    return;
+}
+
+extern struct ProcCmd data_020ca624[];
+
+EC void func_02010624(void)
+{
+    if (func_020ac04c(1))
+    {
+        return;
+    }
+
+    Proc_Start(data_020ca624, PROC_TREE_5);
+
+    return;
+}
+
+EC void func_0201064c(void)
+{
+    Proc_EndEach(data_020ca624);
+    func_020ac04c(0);
+    return;
+}
+
+EC s32 func_0201239c(void);
+EC s32 func_0201f690(void);
+EC s32 func_020247d4(void);
+
+EC BOOL func_02010668(void)
+{
+    if (!func_0201239c())
+    {
+        return TRUE;
+    }
+
+    if (func_0201f690())
+    {
+        return TRUE;
+    }
+
+    if (func_020247d4() != 0)
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+EC void func_020106a0(void)
+{
+    func_0201064c();
+    data_020eea00.unk_00 = 1;
+    return;
+}
+
+EC void func_020106bc(void)
+{
+    func_02010624();
+    data_020eea00.unk_00 = 0;
     return;
 }

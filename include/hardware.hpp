@@ -226,7 +226,14 @@ struct KeyState
 
 struct TouchState
 {
-    STRUCT_PAD(0x00, 0x10);
+    u16 unk_00;
+    u16 unk_02;
+    u16 unk_04;
+    u16 unk_06;
+    u16 unk_08;
+    u16 unk_0a;
+    u16 unk_0c;
+    u16 unk_0e;
     u8 unk_10;
     u8 unk_11;
     u8 unk_12;
