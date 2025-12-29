@@ -517,11 +517,11 @@ EC void func_020115d4(void);
 EC BOOL func_0201160c(char *);
 // EC ??? func_02011650
 // EC ??? func_020116a0
-// EC ??? func_0201177c
+EC void func_0201177c(char *, s32);
 // EC ??? func_02011854
 // EC ??? func_02011920
 // EC ??? func_02011a30
-// EC ??? func_02011a70
+EC void func_02011a70(char *, s32, s32, s32);
 // EC ??? func_02011ab4
 // EC ??? func_02011bac
 // EC ??? func_02011ca4
@@ -1821,8 +1821,8 @@ EC void func_020303bc(void *, char *, u32 *, ProcPtr, s32, s32);
 // EC ??? func_020347b0
 // EC ??? func_020347f0
 // EC ??? func_02034838
-// EC ??? func_02034930
-// EC ??? func_02034c44
+EC void func_02034930(s32, s32, s32);
+EC void func_02034c44(s32, s32, s32);
 // EC ??? func_02034d40
 // EC ??? func_02034f74
 // EC ??? func_02034ff8
@@ -5659,7 +5659,7 @@ EC void func_01ffa794(void);
 // EC ??? Proc_Run
 // EC ??? Proc_Break
 // EC ??? func_01ffc3f4
-// EC ??? func_01ffc404
+EC void func_01ffc404(u16, u16, u16, u16 *, s32);
 // EC ??? func_01ffc4e4
 // EC ??? func_01ffc5d4
 // EC ??? func_01ffc614
