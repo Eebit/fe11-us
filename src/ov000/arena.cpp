@@ -1177,7 +1177,7 @@ EC void func_ov000_021d8d68(struct ArenaProc * proc)
 
     func_02039f40(0, proc->unk_54);
 
-    puVar2 = (UnkStruct_Func_020302e0_Arg *)_Znwm(0x5c);
+    puVar2 = new UnkStruct_Func_020302e0_Arg;
 
     if (puVar2 != NULL)
     {
@@ -1211,7 +1211,7 @@ EC void func_ov000_021d8e28(struct ArenaProc * proc)
     }
 
     // TODO: Probably not right type
-    puVar4 = (UnkStruct_Func_020302e0_Arg *)_Znwm(0x5c);
+    puVar4 = new UnkStruct_Func_020302e0_Arg;
 
     if (puVar4 != NULL)
     {
