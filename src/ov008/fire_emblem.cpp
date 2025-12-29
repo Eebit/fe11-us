@@ -11,8 +11,8 @@
 
 struct UnkStruct_02197798
 {
-    AbstCtrl_04 * unk_00;
-    LCDControlBuffer * unk_04;
+    ScreenState * unk_00;
+    DispIo * unk_04;
     BGCtrl unk_08[4];
     ObjCtrl unk_68;
 };
@@ -93,15 +93,7 @@ EC void FireEmblem_Loop(FireEmblem * proc)
 
 extern BGCtrl * data_0219771c;
 
-struct UnkStruct_020ca620
-{
-    STRUCT_PAD(0x00, 0x12);
-    u8 unk_12;
-    u8 unk_13;
-    u8 unk_14;
-};
-
-extern struct UnkStruct_020ca620 * data_020ca620;
+extern struct TouchState * gTouchSt;
 
 // NONMATCHING: https://decomp.me/scratch/tvPca
 void FireEmblem::Loop()
@@ -116,12 +108,12 @@ void FireEmblem::Loop()
 
     // Maybe setting blend effect
     puVar4 = func_0206ecb0();
-    puVar4->unk_00->unk_00->bldcnt.effect = 1;
+    puVar4->unk_00->dispIo->bldcnt.effect = 1;
 
     // Maybe setting blend amount
     puVar4 = func_0206ecb0();
-    puVar4->unk_00->unk_00->blend_coeff_a = this->unk_56;
-    puVar4->unk_00->unk_00->blend_coeff_b = 0x10;
+    puVar4->unk_00->dispIo->blend_coeff_a = this->unk_56;
+    puVar4->unk_00->dispIo->blend_coeff_b = 0x10;
 
     if ((this->unk_50 < 0x64c) && (this->unk_50 >= 0))
     {
@@ -146,7 +138,7 @@ void FireEmblem::Loop()
 
             Proc_Goto(this, 99, 0);
         }
-        else if (data_020ca620->unk_14 != 0 || (data_020ca61c->unk_00 & 0xc0f) != 0)
+        else if ((gTouchSt->unk_14 != 0) || (gKeySt->pressed & KEY_FACE_BUTTON_ANY))
         {
             func_02006398(func_0206ecb0(), -0x10, 0x3c, this);
             func_02006398(func_0206eca4(), -0x10, 0x3c, this);
@@ -192,7 +184,7 @@ void FireEmblem::Loop()
 
         if (r4 != 15)
         {
-            u16 * iVar8 = data_021976f8->unk_04->unk_20[data_021976f8->unk_10];
+            u16 * iVar8 = data_021976f8->unk_04->tilemap[data_021976f8->unk_10];
 
             for (iVar7 = 0; iVar7 < 6; iVar7++)
             {

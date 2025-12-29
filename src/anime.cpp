@@ -668,7 +668,7 @@ void AnimeInterpreter::Execute(void)
 
                     case 0x22:
                         this->owner->effect->DestroyBlendEffects();
-                        data_027e1268->unk_00->bldcnt.effect = 0;
+                        gpActiveScreenSt->dispIo->bldcnt.effect = 0;
                         break;
 
                     case 0x23:
@@ -803,7 +803,7 @@ void AnimeInterpreter::func_0201a5b0(void)
                     break;
 
                 case 0x22:
-                    data_027e1268->unk_00->bldcnt.effect = 0;
+                    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
                     break;
 
                 case 0x24:
@@ -1279,10 +1279,10 @@ anime::EffectBlend::~EffectBlend()
 
 s32 anime::EffectBlend::GetBlendCoeffA(void)
 {
-    if ((data_027e1268->unk_00->bldcnt.effect == 1) && (data_027e1268->unk_00->bldcnt.target1_obj_on != 0) &&
-        (data_027e1268->unk_00->bldcnt.target2_bg0_on != 0))
+    if ((gpActiveScreenSt->dispIo->bldcnt.effect == 1) && (gpActiveScreenSt->dispIo->bldcnt.target1_obj_on != 0) &&
+        (gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on != 0))
     {
-        return data_027e1268->unk_00->blend_coeff_a;
+        return gpActiveScreenSt->dispIo->blend_coeff_a;
     }
 
     return 0;
@@ -1290,10 +1290,10 @@ s32 anime::EffectBlend::GetBlendCoeffA(void)
 
 s32 anime::EffectBlend::GetBlendCoeffB(void)
 {
-    if ((data_027e1268->unk_00->bldcnt.effect == 1) && (data_027e1268->unk_00->bldcnt.target1_obj_on != 0) &&
-        (data_027e1268->unk_00->bldcnt.target2_bg0_on != 0))
+    if ((gpActiveScreenSt->dispIo->bldcnt.effect == 1) && (gpActiveScreenSt->dispIo->bldcnt.target1_obj_on != 0) &&
+        (gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on != 0))
     {
-        return data_027e1268->unk_00->blend_coeff_b;
+        return gpActiveScreenSt->dispIo->blend_coeff_b;
     }
 
     return 0x10;
@@ -1301,23 +1301,23 @@ s32 anime::EffectBlend::GetBlendCoeffB(void)
 
 void anime::EffectBlend::SetBlend(s32 bldA, s32 bldB)
 {
-    data_027e1268->unk_00->bldcnt.effect = 1;
-    data_027e1268->unk_00->blend_coeff_a = bldA;
-    data_027e1268->unk_00->blend_coeff_b = bldB;
+    gpActiveScreenSt->dispIo->bldcnt.effect = 1;
+    gpActiveScreenSt->dispIo->blend_coeff_a = bldA;
+    gpActiveScreenSt->dispIo->blend_coeff_b = bldB;
 
-    data_027e1268->unk_00->bldcnt.target1_bg0_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg1_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg2_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg3_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_obj_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bd_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 0;
 
-    data_027e1268->unk_00->bldcnt.target2_bg0_on = 1;
-    data_027e1268->unk_00->bldcnt.target2_bg1_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bg2_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bg3_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_obj_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bd_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg1_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg2_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg3_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_obj_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 1;
 
     return;
 }
@@ -1360,10 +1360,10 @@ anime::EffectBGBlend::~EffectBGBlend()
 
 s32 anime::EffectBGBlend::GetBlendCoeffA(void)
 {
-    if ((data_027e1268->unk_00->bldcnt.effect == 1) && (data_027e1268->unk_00->bldcnt.target1_bg2_on != 0) &&
-        (data_027e1268->unk_00->bldcnt.target2_bg0_on != 0))
+    if ((gpActiveScreenSt->dispIo->bldcnt.effect == 1) && (gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on != 0) &&
+        (gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on != 0))
     {
-        return data_027e1268->unk_00->blend_coeff_a;
+        return gpActiveScreenSt->dispIo->blend_coeff_a;
     }
 
     return 0;
@@ -1371,10 +1371,10 @@ s32 anime::EffectBGBlend::GetBlendCoeffA(void)
 
 s32 anime::EffectBGBlend::GetBlendCoeffB(void)
 {
-    if ((data_027e1268->unk_00->bldcnt.effect == 1) && (data_027e1268->unk_00->bldcnt.target1_bg2_on != 0) &&
-        (data_027e1268->unk_00->bldcnt.target2_bg0_on != 0))
+    if ((gpActiveScreenSt->dispIo->bldcnt.effect == 1) && (gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on != 0) &&
+        (gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on != 0))
     {
-        return data_027e1268->unk_00->blend_coeff_b;
+        return gpActiveScreenSt->dispIo->blend_coeff_b;
     }
 
     return 0x10;
@@ -1382,23 +1382,23 @@ s32 anime::EffectBGBlend::GetBlendCoeffB(void)
 
 void anime::EffectBGBlend::SetBGBlend(s32 bldA, s32 bldB)
 {
-    data_027e1268->unk_00->bldcnt.effect = 1;
-    data_027e1268->unk_00->blend_coeff_a = bldA;
-    data_027e1268->unk_00->blend_coeff_b = bldB;
+    gpActiveScreenSt->dispIo->bldcnt.effect = 1;
+    gpActiveScreenSt->dispIo->blend_coeff_a = bldA;
+    gpActiveScreenSt->dispIo->blend_coeff_b = bldB;
 
-    data_027e1268->unk_00->bldcnt.target1_bg0_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg1_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bg3_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_obj_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bd_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 0;
 
-    data_027e1268->unk_00->bldcnt.target2_bg0_on = 1;
-    data_027e1268->unk_00->bldcnt.target2_bg1_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bg2_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bg3_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_obj_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bd_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg1_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg2_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg3_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_obj_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 0;
 
     return;
 }
@@ -1453,7 +1453,7 @@ EC void func_0201b9b4(char * dirName, char * fileName)
         func_020b6c98(buf + length, ".cl");
         func_0206e724(iVar1, buf, 0);
 
-        data_027e1268->unk_3e |= (1 << iVar1->unk_07);
+        gpActiveScreenSt->unk_3e |= (1 << iVar1->unk_07);
     }
 
     return;
@@ -1466,7 +1466,7 @@ EC void func_0201ba90(void)
     iVar1 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free"));
     func_01ff9948(iVar1->unk_07);
 
-    data_027e1268->unk_3e |= (1 << iVar1->unk_07);
+    gpActiveScreenSt->unk_3e |= (1 << iVar1->unk_07);
 
     return;
 }

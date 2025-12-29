@@ -66,7 +66,7 @@ EC void func_0201bc40(s32 value)
 {
     s32 idx;
 
-    if ((data_027e1268 == data_027e0000 ? TRUE : FALSE) != TRUE)
+    if ((gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) != TRUE)
     {
         idx = 1;
     }
@@ -96,7 +96,7 @@ EC s32 func_0201bca4(void)
 {
     s32 idx;
 
-    if ((data_027e1268 == data_027e0000 ? TRUE : FALSE) != TRUE)
+    if ((gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) != TRUE)
     {
         idx = 1;
     }
@@ -122,7 +122,7 @@ EC void func_0201bd04(s32 value)
 {
     s32 idx;
 
-    if ((data_027e1268 == data_027e0000 ? TRUE : FALSE) != TRUE)
+    if ((gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) != TRUE)
     {
         idx = 1;
     }
@@ -152,7 +152,7 @@ EC s32 func_0201bd6c(void)
 {
     s32 idx;
 
-    if ((data_027e1268 == data_027e0000 ? TRUE : FALSE) != TRUE)
+    if ((gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) != TRUE)
     {
         idx = 1;
     }
@@ -254,41 +254,41 @@ EC BOOL func_0201be4c(ProcFade * proc)
 
 EC void func_0201beec(void)
 {
-    data_027e1268->unk_00->dispcnt.win0_on = 1;
-    data_027e1268->unk_00->winincnt.win0_enableBg0 = 0;
-    data_027e1268->unk_00->winincnt.win0_enableBg1 = 0;
-    data_027e1268->unk_00->winincnt.win0_enableBg2 = 0;
-    data_027e1268->unk_00->winincnt.win0_enableBg3 = 0;
-    data_027e1268->unk_00->winincnt.win0_enableObj = 0;
+    gpActiveScreenSt->dispIo->dispcnt.win0_on = 1;
+    gpActiveScreenSt->dispIo->winincnt.win0_enableBg0 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win0_enableBg1 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win0_enableBg2 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win0_enableBg3 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win0_enableObj = 0;
 
-    data_027e1268->unk_00->dispcnt.win1_on = 1;
-    data_027e1268->unk_00->winincnt.win1_enableBg0 = 0;
-    data_027e1268->unk_00->winincnt.win1_enableBg1 = 0;
-    data_027e1268->unk_00->winincnt.win1_enableBg2 = 0;
-    data_027e1268->unk_00->winincnt.win1_enableBg3 = 0;
-    data_027e1268->unk_00->winincnt.win1_enableObj = 0;
+    gpActiveScreenSt->dispIo->dispcnt.win1_on = 1;
+    gpActiveScreenSt->dispIo->winincnt.win1_enableBg0 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win1_enableBg1 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win1_enableBg2 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win1_enableBg3 = 0;
+    gpActiveScreenSt->dispIo->winincnt.win1_enableObj = 0;
 
-    data_027e1268->unk_00->winoutcnt.wout_enableBg0 = 1;
-    data_027e1268->unk_00->winoutcnt.wout_enableBg1 = 1;
-    data_027e1268->unk_00->winoutcnt.wout_enableBg2 = 1;
-    data_027e1268->unk_00->winoutcnt.wout_enableBg3 = 1;
-    data_027e1268->unk_00->winoutcnt.wout_enableObj = 1;
-    data_027e1268->unk_00->winoutcnt.wout_enableBlend = 1;
+    gpActiveScreenSt->dispIo->winoutcnt.wout_enableBg0 = 1;
+    gpActiveScreenSt->dispIo->winoutcnt.wout_enableBg1 = 1;
+    gpActiveScreenSt->dispIo->winoutcnt.wout_enableBg2 = 1;
+    gpActiveScreenSt->dispIo->winoutcnt.wout_enableBg3 = 1;
+    gpActiveScreenSt->dispIo->winoutcnt.wout_enableObj = 1;
+    gpActiveScreenSt->dispIo->winoutcnt.wout_enableBlend = 1;
 
     return;
 }
 
 EC void func_0201c184(void)
 {
-    data_027e1268->unk_00->unk_48 = 0;
-    data_027e1268->unk_00->unk_4a = 0;
-    data_027e1268->unk_00->unk_49 = 0xff;
-    data_027e1268->unk_00->unk_4b = 0xc0;
+    gpActiveScreenSt->dispIo->unk_48 = 0;
+    gpActiveScreenSt->dispIo->unk_4a = 0;
+    gpActiveScreenSt->dispIo->unk_49 = 0xff;
+    gpActiveScreenSt->dispIo->unk_4b = 0xc0;
 
-    data_027e1268->unk_00->unk_4c = 1;
-    data_027e1268->unk_00->unk_4e = 0;
-    data_027e1268->unk_00->unk_4d = 0;
-    data_027e1268->unk_00->unk_4f = 0xc0;
+    gpActiveScreenSt->dispIo->unk_4c = 1;
+    gpActiveScreenSt->dispIo->unk_4e = 0;
+    gpActiveScreenSt->dispIo->unk_4d = 0;
+    gpActiveScreenSt->dispIo->unk_4f = 0xc0;
 
     return;
 }
@@ -297,7 +297,7 @@ EC void func_0201c204(void)
 {
     func_0201bc40(1);
     func_0201bd04(0);
-    data_027e1268->unk_00->unk_50 = -0x10;
+    gpActiveScreenSt->dispIo->unk_50 = -0x10;
     return;
 }
 
@@ -305,7 +305,7 @@ EC void func_0201c234(void)
 {
     func_0201bc40(1);
     func_0201bd04(1);
-    data_027e1268->unk_00->unk_50 = 0x10;
+    gpActiveScreenSt->dispIo->unk_50 = 0x10;
     return;
 }
 
@@ -313,7 +313,7 @@ EC void func_0201c264(void)
 {
     func_0201beec();
     func_0201c184();
-    data_027e1268->unk_00->unk_50 = 0;
+    gpActiveScreenSt->dispIo->unk_50 = 0;
     return;
 }
 
@@ -321,19 +321,19 @@ EC void func_0201c28c(void)
 {
     func_0201bc40(1);
     func_0201bd04(0);
-    data_027e1268->unk_00->unk_50 = 0;
+    gpActiveScreenSt->dispIo->unk_50 = 0;
 
-    data_027e1268->unk_00->bldcnt.effect = 3;
-    data_027e1268->unk_00->blend_coeff_a = 0;
-    data_027e1268->unk_00->blend_coeff_b = 0;
-    data_027e1268->unk_00->blend_y = 0x10;
+    gpActiveScreenSt->dispIo->bldcnt.effect = 3;
+    gpActiveScreenSt->dispIo->blend_coeff_a = 0;
+    gpActiveScreenSt->dispIo->blend_coeff_b = 0;
+    gpActiveScreenSt->dispIo->blend_y = 0x10;
 
-    data_027e1268->unk_00->bldcnt.target1_bg0_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bg1_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bg3_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_obj_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bd_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 1;
 
     return;
 }
@@ -342,19 +342,19 @@ EC void func_0201c3f0(void)
 {
     func_0201bc40(1);
     func_0201bd04(1);
-    data_027e1268->unk_00->unk_50 = 0;
+    gpActiveScreenSt->dispIo->unk_50 = 0;
 
-    data_027e1268->unk_00->bldcnt.effect = 2;
-    data_027e1268->unk_00->blend_coeff_a = 0;
-    data_027e1268->unk_00->blend_coeff_b = 0;
-    data_027e1268->unk_00->blend_y = 0x10;
+    gpActiveScreenSt->dispIo->bldcnt.effect = 2;
+    gpActiveScreenSt->dispIo->blend_coeff_a = 0;
+    gpActiveScreenSt->dispIo->blend_coeff_b = 0;
+    gpActiveScreenSt->dispIo->blend_y = 0x10;
 
-    data_027e1268->unk_00->bldcnt.target1_bg0_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bg1_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bg3_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_obj_on = 1;
-    data_027e1268->unk_00->bldcnt.target1_bd_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 1;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 1;
 
     return;
 }
@@ -369,15 +369,15 @@ EC void func_0201c554(s32 arg0, s32 arg1)
         var_r0--;
     }
 
-    data_027e1268->unk_00->unk_48 = var_r0;
-    data_027e1268->unk_00->unk_4a = 0;
-    data_027e1268->unk_00->unk_49 = 0;
-    data_027e1268->unk_00->unk_4b = 0xc0 - arg1;
+    gpActiveScreenSt->dispIo->unk_48 = var_r0;
+    gpActiveScreenSt->dispIo->unk_4a = 0;
+    gpActiveScreenSt->dispIo->unk_49 = 0;
+    gpActiveScreenSt->dispIo->unk_4b = 0xc0 - arg1;
 
-    data_027e1268->unk_00->unk_4c = 0;
-    data_027e1268->unk_00->unk_4e = arg1;
-    data_027e1268->unk_00->unk_4d = 0x100 - var_r0;
-    data_027e1268->unk_00->unk_4f = 0xC0;
+    gpActiveScreenSt->dispIo->unk_4c = 0;
+    gpActiveScreenSt->dispIo->unk_4e = arg1;
+    gpActiveScreenSt->dispIo->unk_4d = 0x100 - var_r0;
+    gpActiveScreenSt->dispIo->unk_4f = 0xC0;
 
     return;
 }
@@ -392,22 +392,22 @@ EC void func_0201c5dc(s32 arg0, s32 arg1)
         var_r0--;
     }
 
-    data_027e1268->unk_00->unk_48 = 0;
-    data_027e1268->unk_00->unk_4a = 0;
-    data_027e1268->unk_00->unk_49 = var_r0;
-    data_027e1268->unk_00->unk_4b = arg1;
+    gpActiveScreenSt->dispIo->unk_48 = 0;
+    gpActiveScreenSt->dispIo->unk_4a = 0;
+    gpActiveScreenSt->dispIo->unk_49 = var_r0;
+    gpActiveScreenSt->dispIo->unk_4b = arg1;
 
-    data_027e1268->unk_00->unk_4c = 0x100 - var_r0;
-    data_027e1268->unk_00->unk_4e = 0xC0 - arg1;
-    data_027e1268->unk_00->unk_4d = 0;
-    data_027e1268->unk_00->unk_4f = 0xC0;
+    gpActiveScreenSt->dispIo->unk_4c = 0x100 - var_r0;
+    gpActiveScreenSt->dispIo->unk_4e = 0xC0 - arg1;
+    gpActiveScreenSt->dispIo->unk_4d = 0;
+    gpActiveScreenSt->dispIo->unk_4f = 0xC0;
 
     return;
 }
 
 void ProcFade::InitFadeIn(void)
 {
-    AbstCtrl_04 * temp_r4;
+    ScreenState * temp_r4;
 
     if (func_0201bdac(this) == 0)
     {
@@ -424,7 +424,7 @@ void ProcFade::InitFadeIn(void)
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -433,8 +433,8 @@ void ProcFade::InitFadeIn(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_MAIN:
-            temp_r4 = data_027e1268;
-            data_027e1268 = data_027e0000;
+            temp_r4 = gpActiveScreenSt;
+            gpActiveScreenSt = gpMainScreenSt;
 
             switch (this->kind)
             {
@@ -463,17 +463,17 @@ void ProcFade::InitFadeIn(void)
             {
                 func_0201bc40(0);
 
-                data_027e1268->unk_00->dispcnt.win0_on = 0;
-                data_027e1268->unk_00->dispcnt.win1_on = 0;
+                gpActiveScreenSt->dispIo->dispcnt.win0_on = 0;
+                gpActiveScreenSt->dispIo->dispcnt.win1_on = 0;
             }
 
-            data_027e1268 = temp_r4;
+            gpActiveScreenSt = temp_r4;
     }
 
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpSubScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -482,8 +482,8 @@ void ProcFade::InitFadeIn(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_SUB:
-            temp_r4 = data_027e1268;
-            data_027e1268 = data_027e0004;
+            temp_r4 = gpActiveScreenSt;
+            gpActiveScreenSt = gpSubScreenSt;
             switch (this->kind)
             {
                 case FADE_KIND_0:
@@ -511,11 +511,11 @@ void ProcFade::InitFadeIn(void)
             {
                 func_0201bc40(0);
 
-                data_027e1268->unk_00->dispcnt.win0_on = 0;
-                data_027e1268->unk_00->dispcnt.win1_on = 0;
+                gpActiveScreenSt->dispIo->dispcnt.win0_on = 0;
+                gpActiveScreenSt->dispIo->dispcnt.win1_on = 0;
             }
 
-            data_027e1268 = temp_r4;
+            gpActiveScreenSt = temp_r4;
     }
 
     return;
@@ -526,7 +526,7 @@ void ProcFade::LoopFadeIn(void)
     s32 var_r4;
     s32 var_r5;
     s32 var_r6;
-    AbstCtrl_04 * temp_r7;
+    ScreenState * temp_r7;
 
     this->timer++;
 
@@ -543,7 +543,7 @@ void ProcFade::LoopFadeIn(void)
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -552,22 +552,22 @@ void ProcFade::LoopFadeIn(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_MAIN:
-            temp_r7 = data_027e1268;
-            data_027e1268 = data_027e0000;
+            temp_r7 = gpActiveScreenSt;
+            gpActiveScreenSt = gpMainScreenSt;
 
             switch (this->kind)
             {
                 case FADE_KIND_0:
-                    data_027e0000->unk_00->unk_50 = (0 - var_r4);
+                    gpMainScreenSt->dispIo->unk_50 = (0 - var_r4);
                     break;
 
                 case FADE_KIND_1:
-                    data_027e0000->unk_00->unk_50 = var_r4;
+                    gpMainScreenSt->dispIo->unk_50 = var_r4;
                     break;
 
                 case FADE_KIND_2:
                 case FADE_KIND_3:
-                    data_027e0000->unk_00->blend_y = var_r4;
+                    gpMainScreenSt->dispIo->blend_y = var_r4;
                     break;
 
                 case FADE_KIND_4:
@@ -575,13 +575,13 @@ void ProcFade::LoopFadeIn(void)
                     break;
             }
 
-            data_027e1268 = temp_r7;
+            gpActiveScreenSt = temp_r7;
     }
 
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpSubScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -590,22 +590,22 @@ void ProcFade::LoopFadeIn(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_SUB:
-            temp_r7 = data_027e1268;
-            data_027e1268 = data_027e0004;
+            temp_r7 = gpActiveScreenSt;
+            gpActiveScreenSt = gpSubScreenSt;
 
             switch (this->kind)
             {
                 case FADE_KIND_0:
-                    data_027e0004->unk_00->unk_50 = (0 - var_r4);
+                    gpSubScreenSt->dispIo->unk_50 = (0 - var_r4);
                     break;
 
                 case FADE_KIND_1:
-                    data_027e0004->unk_00->unk_50 = var_r4;
+                    gpSubScreenSt->dispIo->unk_50 = var_r4;
                     break;
 
                 case FADE_KIND_2:
                 case FADE_KIND_3:
-                    data_027e0004->unk_00->blend_y = var_r4;
+                    gpSubScreenSt->dispIo->blend_y = var_r4;
                     break;
 
                 case FADE_KIND_4:
@@ -613,7 +613,7 @@ void ProcFade::LoopFadeIn(void)
                     break;
             }
 
-            data_027e1268 = temp_r7;
+            gpActiveScreenSt = temp_r7;
     }
 
     if (this->timer < this->duration)
@@ -628,20 +628,20 @@ void ProcFade::LoopFadeIn(void)
             switch (this->target)
             {
                 case FADE_TARGET_CURRENT:
-                    data_027e1268->unk_00->bldcnt.effect = 0;
+                    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
                     break;
 
                 case FADE_TARGET_BOTH:
-                    data_027e0008->bldcnt.effect = 0;
-                    data_027e000c->bldcnt.effect = 0;
+                    gpMainDispIo->bldcnt.effect = 0;
+                    gpSubDispIo->bldcnt.effect = 0;
                     break;
 
                 case FADE_TARGET_MAIN:
-                    data_027e0008->bldcnt.effect = 0;
+                    gpMainDispIo->bldcnt.effect = 0;
                     break;
 
                 case FADE_TARGET_SUB:
-                    data_027e000c->bldcnt.effect = 0;
+                    gpSubDispIo->bldcnt.effect = 0;
                     break;
             }
 
@@ -651,29 +651,29 @@ void ProcFade::LoopFadeIn(void)
             switch (this->target)
             {
                 case FADE_TARGET_CURRENT:
-                    data_027e1268->unk_00->dispcnt.win0_on = 0;
-                    data_027e1268->unk_00->dispcnt.win1_on = 0;
+                    gpActiveScreenSt->dispIo->dispcnt.win0_on = 0;
+                    gpActiveScreenSt->dispIo->dispcnt.win1_on = 0;
 
                     break;
 
                 case FADE_TARGET_BOTH:
-                    data_027e0008->dispcnt.win0_on = 0;
-                    data_027e0008->dispcnt.win1_on = 0;
+                    gpMainDispIo->dispcnt.win0_on = 0;
+                    gpMainDispIo->dispcnt.win1_on = 0;
 
-                    data_027e000c->dispcnt.win0_on = 0;
-                    data_027e000c->dispcnt.win1_on = 0;
+                    gpSubDispIo->dispcnt.win0_on = 0;
+                    gpSubDispIo->dispcnt.win1_on = 0;
 
                     break;
 
                 case FADE_TARGET_MAIN:
-                    data_027e0008->dispcnt.win0_on = 0;
-                    data_027e0008->dispcnt.win1_on = 0;
+                    gpMainDispIo->dispcnt.win0_on = 0;
+                    gpMainDispIo->dispcnt.win1_on = 0;
 
                     break;
 
                 case FADE_TARGET_SUB:
-                    data_027e000c->dispcnt.win0_on = 0;
-                    data_027e000c->dispcnt.win1_on = 0;
+                    gpSubDispIo->dispcnt.win0_on = 0;
+                    gpSubDispIo->dispcnt.win1_on = 0;
 
                     break;
             }
@@ -688,7 +688,7 @@ void ProcFade::LoopFadeIn(void)
 
 void ProcFade::InitFadeOut(void)
 {
-    AbstCtrl_04 * temp_r4;
+    ScreenState * temp_r4;
 
     if (func_0201be4c(this) == 0)
     {
@@ -705,7 +705,7 @@ void ProcFade::InitFadeOut(void)
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -714,48 +714,48 @@ void ProcFade::InitFadeOut(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_MAIN:
-            temp_r4 = data_027e1268;
-            data_027e1268 = data_027e0000;
+            temp_r4 = gpActiveScreenSt;
+            gpActiveScreenSt = gpMainScreenSt;
 
             switch (this->kind)
             {
                 case FADE_KIND_0:
-                    data_027e0000->unk_00->unk_50 = 0;
+                    gpMainScreenSt->dispIo->unk_50 = 0;
                     func_0201bd04(0);
 
                     break;
 
                 case FADE_KIND_1:
-                    data_027e0000->unk_00->unk_50 = 0;
+                    gpMainScreenSt->dispIo->unk_50 = 0;
                     func_0201bd04(1);
 
                     break;
 
                 case FADE_KIND_2:
-                    data_027e0000->unk_00->bldcnt.effect = 3;
-                    data_027e1268->unk_00->blend_y = 0;
+                    gpMainScreenSt->dispIo->bldcnt.effect = 3;
+                    gpActiveScreenSt->dispIo->blend_y = 0;
 
-                    data_027e1268->unk_00->bldcnt.target1_bg0_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg1_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg3_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_obj_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bd_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 1;
 
                     func_0201bd04(0);
 
                     break;
 
                 case FADE_KIND_3:
-                    data_027e0000->unk_00->bldcnt.effect = 2;
-                    data_027e1268->unk_00->blend_y = 0;
+                    gpMainScreenSt->dispIo->bldcnt.effect = 2;
+                    gpActiveScreenSt->dispIo->blend_y = 0;
 
-                    data_027e1268->unk_00->bldcnt.target1_bg0_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg1_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg3_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_obj_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bd_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 1;
 
                     func_0201bd04(1);
 
@@ -764,26 +764,26 @@ void ProcFade::InitFadeOut(void)
                 case FADE_KIND_4:
                     func_0201beec();
                     func_0201bd04(0);
-                    data_027e1268->unk_00->unk_48 = 0;
-                    data_027e1268->unk_00->unk_4a = 0;
-                    data_027e1268->unk_00->unk_49 = 0;
-                    data_027e1268->unk_00->unk_4b = 0;
+                    gpActiveScreenSt->dispIo->unk_48 = 0;
+                    gpActiveScreenSt->dispIo->unk_4a = 0;
+                    gpActiveScreenSt->dispIo->unk_49 = 0;
+                    gpActiveScreenSt->dispIo->unk_4b = 0;
 
-                    data_027e1268->unk_00->unk_4c = 0;
-                    data_027e1268->unk_00->unk_4e = 0;
-                    data_027e1268->unk_00->unk_4d = 0;
-                    data_027e1268->unk_00->unk_4f = 0;
+                    gpActiveScreenSt->dispIo->unk_4c = 0;
+                    gpActiveScreenSt->dispIo->unk_4e = 0;
+                    gpActiveScreenSt->dispIo->unk_4d = 0;
+                    gpActiveScreenSt->dispIo->unk_4f = 0;
 
                     break;
             }
 
-            data_027e1268 = temp_r4;
+            gpActiveScreenSt = temp_r4;
     }
 
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpSubScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -792,47 +792,47 @@ void ProcFade::InitFadeOut(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_SUB:
-            temp_r4 = data_027e1268;
-            data_027e1268 = data_027e0004;
+            temp_r4 = gpActiveScreenSt;
+            gpActiveScreenSt = gpSubScreenSt;
 
             switch (this->kind)
             {
                 case FADE_KIND_0:
-                    data_027e0004->unk_00->unk_50 = 0;
+                    gpSubScreenSt->dispIo->unk_50 = 0;
                     func_0201bd04(0);
 
                     break;
 
                 case FADE_KIND_1:
-                    data_027e0004->unk_00->unk_50 = 0;
+                    gpSubScreenSt->dispIo->unk_50 = 0;
                     func_0201bd04(1);
 
                     break;
 
                 case FADE_KIND_2:
-                    data_027e0004->unk_00->bldcnt.effect = 3;
-                    data_027e1268->unk_00->blend_y = 0;
+                    gpSubScreenSt->dispIo->bldcnt.effect = 3;
+                    gpActiveScreenSt->dispIo->blend_y = 0;
 
-                    data_027e1268->unk_00->bldcnt.target1_bg0_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg1_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg3_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_obj_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bd_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 1;
 
                     func_0201bd04(0);
                     break;
 
                 case FADE_KIND_3:
-                    data_027e0004->unk_00->bldcnt.effect = 2;
-                    data_027e1268->unk_00->blend_y = 0;
+                    gpSubScreenSt->dispIo->bldcnt.effect = 2;
+                    gpActiveScreenSt->dispIo->blend_y = 0;
 
-                    data_027e1268->unk_00->bldcnt.target1_bg0_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg1_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bg3_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_obj_on = 1;
-                    data_027e1268->unk_00->bldcnt.target1_bd_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 1;
+                    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 1;
 
                     func_0201bd04(1);
 
@@ -842,20 +842,20 @@ void ProcFade::InitFadeOut(void)
                     func_0201beec();
                     func_0201bd04(0);
 
-                    data_027e1268->unk_00->unk_48 = 0;
-                    data_027e1268->unk_00->unk_4a = 0;
-                    data_027e1268->unk_00->unk_49 = 0;
-                    data_027e1268->unk_00->unk_4b = 0;
+                    gpActiveScreenSt->dispIo->unk_48 = 0;
+                    gpActiveScreenSt->dispIo->unk_4a = 0;
+                    gpActiveScreenSt->dispIo->unk_49 = 0;
+                    gpActiveScreenSt->dispIo->unk_4b = 0;
 
-                    data_027e1268->unk_00->unk_4c = 0;
-                    data_027e1268->unk_00->unk_4e = 0;
-                    data_027e1268->unk_00->unk_4d = 0;
-                    data_027e1268->unk_00->unk_4f = 0;
+                    gpActiveScreenSt->dispIo->unk_4c = 0;
+                    gpActiveScreenSt->dispIo->unk_4e = 0;
+                    gpActiveScreenSt->dispIo->unk_4d = 0;
+                    gpActiveScreenSt->dispIo->unk_4f = 0;
 
                     break;
             }
 
-            data_027e1268 = temp_r4;
+            gpActiveScreenSt = temp_r4;
     }
 }
 
@@ -864,7 +864,7 @@ void ProcFade::LoopFadeOut(void)
     s32 var_r5;
     s32 var_r6;
     s32 var_r7;
-    AbstCtrl_04 * temp_r8;
+    ScreenState * temp_r8;
 
     this->timer++;
 
@@ -881,7 +881,7 @@ void ProcFade::LoopFadeOut(void)
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -890,22 +890,22 @@ void ProcFade::LoopFadeOut(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_MAIN:
-            temp_r8 = data_027e1268;
-            data_027e1268 = data_027e0000;
+            temp_r8 = gpActiveScreenSt;
+            gpActiveScreenSt = gpMainScreenSt;
 
             switch (this->kind)
             {
                 case FADE_KIND_0:
-                    data_027e0000->unk_00->unk_50 = 0 - var_r5;
+                    gpMainScreenSt->dispIo->unk_50 = 0 - var_r5;
                     break;
 
                 case FADE_KIND_1:
-                    data_027e0000->unk_00->unk_50 = var_r5;
+                    gpMainScreenSt->dispIo->unk_50 = var_r5;
                     break;
 
                 case FADE_KIND_2:
                 case FADE_KIND_3:
-                    data_027e0000->unk_00->blend_y = var_r5;
+                    gpMainScreenSt->dispIo->blend_y = var_r5;
                     break;
 
                 case FADE_KIND_4:
@@ -913,13 +913,13 @@ void ProcFade::LoopFadeOut(void)
                     break;
             }
 
-            data_027e1268 = temp_r8;
+            gpActiveScreenSt = temp_r8;
     }
 
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpSubScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -928,22 +928,22 @@ void ProcFade::LoopFadeOut(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_SUB:
-            temp_r8 = data_027e1268;
-            data_027e1268 = data_027e0004;
+            temp_r8 = gpActiveScreenSt;
+            gpActiveScreenSt = gpSubScreenSt;
 
             switch (this->kind)
             {
                 case FADE_KIND_0:
-                    data_027e0004->unk_00->unk_50 = 0 - var_r5;
+                    gpSubScreenSt->dispIo->unk_50 = 0 - var_r5;
                     break;
 
                 case FADE_KIND_1:
-                    data_027e0004->unk_00->unk_50 = var_r5;
+                    gpSubScreenSt->dispIo->unk_50 = var_r5;
                     break;
 
                 case FADE_KIND_2:
                 case FADE_KIND_3:
-                    data_027e0004->unk_00->blend_y = var_r5;
+                    gpSubScreenSt->dispIo->blend_y = var_r5;
                     break;
 
                 case FADE_KIND_4:
@@ -951,7 +951,7 @@ void ProcFade::LoopFadeOut(void)
                     break;
             }
 
-            data_027e1268 = temp_r8;
+            gpActiveScreenSt = temp_r8;
     }
 
     if (this->timer < this->duration)
@@ -962,7 +962,7 @@ void ProcFade::LoopFadeOut(void)
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0000 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -971,8 +971,8 @@ void ProcFade::LoopFadeOut(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_MAIN:
-            temp_r8 = data_027e1268;
-            data_027e1268 = data_027e0000;
+            temp_r8 = gpActiveScreenSt;
+            gpActiveScreenSt = gpMainScreenSt;
 
             switch (this->kind)
             {
@@ -991,16 +991,16 @@ void ProcFade::LoopFadeOut(void)
             {
                 case FADE_KIND_2:
                 case FADE_KIND_3:
-                    data_027e1268->unk_00->bldcnt.effect = 0;
+                    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
             }
 
-            data_027e1268 = temp_r8;
+            gpActiveScreenSt = temp_r8;
     }
 
     switch (this->target)
     {
         default:
-            if (!(data_027e1268 == data_027e0004 ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
+            if (!(gpActiveScreenSt == gpSubScreenSt ? TRUE : FALSE) || this->target != FADE_TARGET_CURRENT)
             {
                 break;
             }
@@ -1009,8 +1009,8 @@ void ProcFade::LoopFadeOut(void)
 
         case FADE_TARGET_BOTH:
         case FADE_TARGET_SUB:
-            temp_r8 = data_027e1268;
-            data_027e1268 = data_027e0004;
+            temp_r8 = gpActiveScreenSt;
+            gpActiveScreenSt = gpSubScreenSt;
 
             switch (this->kind)
             {
@@ -1029,10 +1029,10 @@ void ProcFade::LoopFadeOut(void)
             {
                 case FADE_KIND_2:
                 case FADE_KIND_3:
-                    data_027e1268->unk_00->bldcnt.effect = 0;
+                    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
             }
 
-            data_027e1268 = temp_r8;
+            gpActiveScreenSt = temp_r8;
     }
 
     Proc_Break(this, 0);

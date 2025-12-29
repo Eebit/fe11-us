@@ -9,17 +9,9 @@
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
-extern struct UnkStruct_020ca61c * data_020ca61c;
+extern struct KeyState * gKeySt;
 
-struct UnkStruct_020ca620
-{
-    STRUCT_PAD(0x00, 0x12);
-    u8 unk_12;
-    u8 unk_13;
-    u8 unk_14;
-};
-
-extern struct UnkStruct_020ca620 * data_020ca620;
+extern struct TouchState * gTouchSt;
 
 struct UnkStruct_021faf40
 {
@@ -63,8 +55,8 @@ extern u32 data_020eea30;
 
 struct UnkStruct_02197798
 {
-    AbstCtrl_04 * unk_00;
-    LCDControlBuffer * unk_04;
+    ScreenState * unk_00;
+    DispIo * unk_04;
     BGCtrl unk_08[4];
     ObjCtrl unk_68;
 };
@@ -77,13 +69,13 @@ static inline int max(int a, int b)
 // NONMATCHING
 void SlideShow::Loop()
 {
-    if ((this->unk_38 == -1) && (((data_020ca61c->unk_00 & 0xc0f) != 0 || data_020ca620->unk_14 != 0)) &&
+    if ((this->unk_38 == -1) && (((gKeySt->pressed & KEY_FACE_BUTTON_ANY) != 0 || gTouchSt->unk_14 != 0)) &&
         (data_ov002_021faf40.unk_27 == 0))
     {
         this->unk_38 = 0;
 
-        this->unk_3c = func_0206eca4()->unk_00->unk_00->unk_50;
-        this->unk_3d = func_0206ecb0()->unk_00->unk_00->unk_50;
+        this->unk_3c = func_0206eca4()->unk_00->dispIo->unk_50;
+        this->unk_3d = func_0206ecb0()->unk_00->dispIo->unk_50;
 
         data_020efcc8->unk_ac->vfunc_64(0, 0x40);
         data_ov002_021faf40.unk_26 = 0;

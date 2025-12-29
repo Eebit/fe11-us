@@ -443,11 +443,11 @@ EC void func_0200c888(void);
 // EC ??? func_0200edd4
 EC void func_0200edf0(void);
 EC void func_0200eecc(void);
-EC void func_0200ef04(void);
+EC void System_Init(void);
 EC void func_0200f028(void);
 EC void func_0200f04c(void);
 // EC ??? func_0200f0f0
-EC void func_0200f1e8(void);
+EC void Overlay_Init(void);
 EC void LoadOverlay(u32 overlayId);
 EC void UnloadOverlay(u32 overlayId);
 EC void func_0200f28c(u32 arg_0);
@@ -456,22 +456,22 @@ EC void func_0200f308(void);
 EC void func_0200f318(void);
 EC void func_0200f338(void);
 EC void func_0200f350(s32);
-EC void func_0200f3b8(void);
+EC void InitScreenStates(void);
 // EC ??? func_0200f4f0
 // EC ??? func_0200f570
-// EC ??? func_0200f5f0
+// EC ??? IsAddressInVramRange
 // EC ??? func_0200f630
 // EC ??? func_0200f700
 // EC ??? func_0200f864
-// EC ??? func_0200f8d4
-// EC ??? func_0200faf8
+// EC ??? InitBlendConfig
+// EC ??? InitWindowConfig
 // EC ??? func_0200fbf0
 EC void func_0200fcdc(void);
 // EC ??? func_0200fdd8
 // EC ??? func_0200ff50
-EC void func_020100ac(void);
+EC void KeyState_Init(void);
 // EC ??? func_02010100
-EC void func_0201018c(void);
+EC void KeyState_Poll(void);
 EC BOOL func_020102d8(s32);
 EC BOOL func_02010310(void);
 EC void func_0201032c(void);

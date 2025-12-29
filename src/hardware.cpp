@@ -21,11 +21,6 @@ extern struct UnkStruct_020eea00 data_020eea00;
 
 #define BIOS_EXTRA_BUTTONS *(vu16 *)0x027FFFA8
 
-#define INPUT_MASK_DPAD 0x00F0
-#define INPUT_MASK_ABXY 0x2F0F
-#define INPUT_MASK_ALLBTNS 0x2FFF
-#define INPUT_MASK_HINGE 0x8000
-
 // TODO: "nds/io_reg.h"
 #define REG_KEYINPUT (*(vu16 *)0x04000130)
 #define REG_EXMEM_CNT *(vu16 *)(0x04000204)
@@ -89,9 +84,9 @@ EC void func_0200eecc(void)
     return;
 }
 
-void func_0200ef04(void)
+void System_Init(void)
 {
-    AbstCtrl_04 * tmp;
+    ScreenState * tmp;
     s32 i;
 
     gClock = 0;
@@ -102,24 +97,24 @@ void func_0200ef04(void)
     func_0200edf0();
     func_020120f4();
     func_02012124();
-    func_020100ac();
+    KeyState_Init();
     func_0201032c();
-    func_0200f3b8();
+    InitScreenStates();
     func_0200fcdc();
-    func_0200f1e8();
+    Overlay_Init();
     func_0200f350(1);
 
-    tmp = data_027e1268;
+    tmp = gpActiveScreenSt;
 
     for (i = 0; i < 2; i++)
     {
-        data_027e1268 = i == 0 ? data_027e0000 : data_027e0004;
+        gpActiveScreenSt = i == 0 ? gpMainScreenSt : gpSubScreenSt;
 
         func_01ffa764();
         func_02010c84(NULL);
     }
 
-    data_027e1268 = tmp;
+    gpActiveScreenSt = tmp;
 
     func_02019bd4();
     Heap::Init();
@@ -133,17 +128,17 @@ void func_0200ef04(void)
     func_0201ff20();
     func_020217b4();
 
-    tmp = data_027e1268;
+    tmp = gpActiveScreenSt;
 
     for (i = 0; i < 2; i++)
     {
-        data_027e1268 = (i == 0) ? data_027e0000 : data_027e0004;
+        gpActiveScreenSt = (i == 0) ? gpMainScreenSt : gpSubScreenSt;
 
         func_0201c204();
         func_01ffa720();
     }
 
-    data_027e1268 = tmp;
+    gpActiveScreenSt = tmp;
 }
 
 EC void func_0200f028(void)
@@ -162,7 +157,7 @@ EC void func_0200f04c(void)
     func_02070468();
     gClock++;
 
-    func_0201018c();
+    KeyState_Poll();
     func_02010398();
     func_02015fb4();
     func_0201079c();
@@ -185,15 +180,15 @@ EC void func_0200f04c(void)
 
 EC void func_0200f0f0(void)
 {
-    AbstCtrl_04 * tmp;
+    ScreenState * tmp;
     u8 auStack_28[0x1C];
 
     func_020aa610(&auStack_28);
 
     data_027e125c = 1;
 
-    tmp = data_027e1268;
-    data_027e1268 = data_027e0000;
+    tmp = gpActiveScreenSt;
+    gpActiveScreenSt = gpMainScreenSt;
 
     if (!gMainLoopBlocked)
     {
@@ -215,7 +210,7 @@ EC void func_0200f0f0(void)
 
     data_027e1264++;
 
-    data_027e1268 = tmp;
+    gpActiveScreenSt = tmp;
     data_027e125c = 0;
 
     func_020aa650(&auStack_28);
@@ -230,7 +225,7 @@ EC void func_0200f0f0(void)
 }
 
 // active overlays
-u8 data_020e4df4[12] = { };
+u8 gActiveOverlayLut[12] = { };
 
 // clang-format off
 
@@ -245,31 +240,31 @@ u8 data_020ca5cc[] =
 };
 
 // overlay table
-u32 data_020ca5d8[] =
+u32 gOverlayList[] =
 {
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
+    OVERLAY_ID_0,
+    OVERLAY_ID_1,
+    OVERLAY_ID_2,
+    OVERLAY_ID_3,
+    OVERLAY_ID_4,
+    OVERLAY_ID_5,
+    OVERLAY_ID_6,
+    OVERLAY_ID_7,
+    OVERLAY_ID_8,
+    OVERLAY_ID_9,
+    OVERLAY_ID_A,
+    OVERLAY_ID_B,
 };
 
 // clang-format on
 
-EC void func_0200f1e8(void)
+EC void Overlay_Init(void)
 {
     int i;
 
     for (i = 0; i < 12; i++)
     {
-        data_020e4df4[i] = 0;
+        gActiveOverlayLut[i] = 0;
     }
 
     return;
@@ -277,11 +272,11 @@ EC void func_0200f1e8(void)
 
 EC void LoadOverlay(u32 overlayId)
 {
-    if (data_020e4df4[overlayId] != 1)
+    if (gActiveOverlayLut[overlayId] != 1)
     {
-        if (FS_LoadOverlay(0, data_020ca5d8[overlayId]) == TRUE)
+        if (FS_LoadOverlay(0, gOverlayList[overlayId]) == TRUE)
         {
-            data_020e4df4[overlayId] = 1;
+            gActiveOverlayLut[overlayId] = 1;
         }
     }
 
@@ -290,11 +285,11 @@ EC void LoadOverlay(u32 overlayId)
 
 EC void UnloadOverlay(u32 overlayId)
 {
-    if (data_020e4df4[overlayId] != 0)
+    if (gActiveOverlayLut[overlayId] != 0)
     {
-        if (FS_UnloadOverlay(0, data_020ca5d8[overlayId]) == TRUE)
+        if (FS_UnloadOverlay(0, gOverlayList[overlayId]) == TRUE)
         {
-            data_020e4df4[overlayId] = 0;
+            gActiveOverlayLut[overlayId] = 0;
         }
     }
 
@@ -332,7 +327,7 @@ EC void func_0200f28c(u32 overlayId)
 
 EC BOOL IsOverlayLoaded(u32 overlayId)
 {
-    return data_020e4df4[overlayId];
+    return gActiveOverlayLut[overlayId];
 }
 
 EC void func_0200f308(void)
@@ -398,31 +393,31 @@ u8 data_020e6000[0xa00] = { };
 extern void * data_027e12f4;
 extern void * data_027e16f4;
 
-EC void func_0200f3b8(void)
+EC void InitScreenStates(void)
 {
-    data_027e1268 = data_027e0000;
+    gpActiveScreenSt = gpMainScreenSt;
 
-    data_027e0000->unk_00 = data_027e0008;
-    data_027e0000->unk_1c = 0x06400000; // 2D GFX Engine A OBJ VRAM
-    data_027e0000->unk_30 = &data_027e12f4;
-    data_027e0000->unk_34 = &data_020e4e00;
-    data_027e0000->unk_04 = &data_020e6000;
-    func_020a5734(0, data_027e0000->unk_30, 0x400);
-    data_027e0000->unk_38 = 0;
-    data_027e0000->unk_3a = 0;
-    data_027e0000->unk_42 = 0;
-    data_027e0000->unk_3c = 0;
+    gpMainScreenSt->dispIo = gpMainDispIo;
+    gpMainScreenSt->objVram = 0x06400000; // 2D GFX Engine A OBJ VRAM
+    gpMainScreenSt->unk_30 = &data_027e12f4;
+    gpMainScreenSt->unk_34 = &data_020e4e00;
+    gpMainScreenSt->unk_04 = &data_020e6000;
+    func_020a5734(0, gpMainScreenSt->unk_30, 0x400);
+    gpMainScreenSt->unk_38 = 0;
+    gpMainScreenSt->unk_3a = 0;
+    gpMainScreenSt->unk_42 = 0;
+    gpMainScreenSt->unk_3c = 0;
 
-    data_027e0004->unk_00 = data_027e000c;
-    data_027e0004->unk_1c = 0x06600000; // 2D GFX Engine B OBJ VRAM
-    data_027e0004->unk_30 = &data_027e16f4;
-    data_027e0004->unk_34 = &data_020e5200;
-    data_027e0004->unk_04 = &data_020e5600;
-    func_020a5734(0, data_027e0004->unk_30, 0x400);
-    data_027e0004->unk_38 = 0;
-    data_027e0004->unk_3a = 0;
-    data_027e0004->unk_42 = 0;
-    data_027e0004->unk_3c = 0;
+    gpSubScreenSt->dispIo = gpSubDispIo;
+    gpSubScreenSt->objVram = 0x06600000; // 2D GFX Engine B OBJ VRAM
+    gpSubScreenSt->unk_30 = &data_027e16f4;
+    gpSubScreenSt->unk_34 = &data_020e5200;
+    gpSubScreenSt->unk_04 = &data_020e5600;
+    func_020a5734(0, gpSubScreenSt->unk_30, 0x400);
+    gpSubScreenSt->unk_38 = 0;
+    gpSubScreenSt->unk_3a = 0;
+    gpSubScreenSt->unk_42 = 0;
+    gpSubScreenSt->unk_3c = 0;
 
     return;
 }
@@ -431,7 +426,7 @@ EC void func_0200f4f0(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {
     func_020a3d8c(param_1, param_4);
 
-    if (data_027e1268 == data_027e0000 ? TRUE : FALSE)
+    if (gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE)
     {
         func_020a1ca4();
         func_020a1d44(param_1, param_3 + param_2 * 0x2000, param_4);
@@ -451,7 +446,7 @@ EC void func_0200f570(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 {
     func_020a3d8c(param_1, param_4);
 
-    if (data_027e1268 == data_027e0000 ? TRUE : FALSE)
+    if (gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE)
     {
         func_020a1dfc();
         func_020a1e44(param_1, param_3 + param_2 * 0x2000, param_4);
@@ -467,7 +462,7 @@ EC void func_0200f570(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
     return;
 }
 
-EC BOOL func_0200f5f0(u32 param_1)
+EC BOOL IsAddressInVramRange(u32 param_1)
 {
     if ((param_1 >= 0x6000000) && (param_1 < 0x6080000))
     {
@@ -501,106 +496,106 @@ struct BgAffineSrcData data_020ca608 =
 
 EC void func_0200f630(void)
 {
-    *(u16 *)&data_027e1268->unk_00->dispcnt = 0;
-    *(u16 *)&data_027e1268->unk_00->unk_06[0] = 0;
-    *(u16 *)&data_027e1268->unk_00->unk_06[1] = 0;
-    *(u16 *)&data_027e1268->unk_00->unk_06[2] = 0;
-    *(u16 *)&data_027e1268->unk_00->unk_06[3] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->dispcnt = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[0] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[1] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[2] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[3] = 0;
 
-    data_027e1268->unk_00->dispcnt.unk_02_bit_0 = 0;
-    data_027e1268->unk_00->dispcnt.unk_02_bit_4 = 0;
+    gpActiveScreenSt->dispIo->dispcnt.unk_02_bit_0 = 0;
+    gpActiveScreenSt->dispIo->dispcnt.unk_02_bit_4 = 0;
 
-    func_0200fbf0(&data_020ca608, &data_027e1268->unk_00->bg2affin);
-    func_0200fbf0(&data_020ca608, &data_027e1268->unk_00->bg3affin);
+    func_0200fbf0(&data_020ca608, &gpActiveScreenSt->dispIo->bg2affin);
+    func_0200fbf0(&data_020ca608, &gpActiveScreenSt->dispIo->bg3affin);
 
     return;
 }
 
 EC void func_0200f700(void)
 {
-    data_027e1268->unk_00->dispcnt.bg0_on = 0;
-    data_027e1268->unk_00->dispcnt.bg1_on = 0;
-    data_027e1268->unk_00->dispcnt.bg2_on = 0;
-    data_027e1268->unk_00->dispcnt.bg3_on = 0;
-    data_027e1268->unk_00->dispcnt.obj_on = 0;
+    gpActiveScreenSt->dispIo->dispcnt.bg0_on = 0;
+    gpActiveScreenSt->dispIo->dispcnt.bg1_on = 0;
+    gpActiveScreenSt->dispIo->dispcnt.bg2_on = 0;
+    gpActiveScreenSt->dispIo->dispcnt.bg3_on = 0;
+    gpActiveScreenSt->dispIo->dispcnt.obj_on = 0;
 
-    *(u16 *)&data_027e1268->unk_00->unk_06[0] = 0;
-    *(u16 *)&data_027e1268->unk_00->unk_06[1] = 0;
-    *(u16 *)&data_027e1268->unk_00->unk_06[2] = 0;
-    *(u16 *)&data_027e1268->unk_00->unk_06[3] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[0] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[1] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[2] = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bgcnt[3] = 0;
 
-    data_027e1268->unk_00->dispcnt.unk_02_bit_0 = 0;
-    data_027e1268->unk_00->dispcnt.unk_02_bit_4 = 0;
+    gpActiveScreenSt->dispIo->dispcnt.unk_02_bit_0 = 0;
+    gpActiveScreenSt->dispIo->dispcnt.unk_02_bit_4 = 0;
 
-    func_0200fbf0(&data_020ca608, &data_027e1268->unk_00->bg2affin);
-    func_0200fbf0(&data_020ca608, &data_027e1268->unk_00->bg3affin);
+    func_0200fbf0(&data_020ca608, &gpActiveScreenSt->dispIo->bg2affin);
+    func_0200fbf0(&data_020ca608, &gpActiveScreenSt->dispIo->bg3affin);
 
     return;
 }
 
 EC void func_0200f864(void)
 {
-    data_027e1268->unk_00->unk_38[0] = 0;
-    data_027e1268->unk_00->unk_40[0] = 0;
+    gpActiveScreenSt->dispIo->unk_38[0] = 0;
+    gpActiveScreenSt->dispIo->unk_40[0] = 0;
 
-    data_027e1268->unk_00->unk_38[1] = 0;
-    data_027e1268->unk_00->unk_40[1] = 0;
+    gpActiveScreenSt->dispIo->unk_38[1] = 0;
+    gpActiveScreenSt->dispIo->unk_40[1] = 0;
 
-    data_027e1268->unk_00->unk_38[2] = 0;
-    data_027e1268->unk_00->unk_40[2] = 0;
+    gpActiveScreenSt->dispIo->unk_38[2] = 0;
+    gpActiveScreenSt->dispIo->unk_40[2] = 0;
 
-    data_027e1268->unk_00->unk_38[3] = 0;
-    data_027e1268->unk_00->unk_40[3] = 0;
-
-    return;
-}
-
-EC void func_0200f8d4(void)
-{
-    *(u16 *)&data_027e1268->unk_00->bldcnt = 0;
-
-    data_027e1268->unk_00->bldcnt.effect = 0;
-    data_027e1268->unk_00->blend_coeff_a = 0;
-    data_027e1268->unk_00->blend_coeff_b = 0;
-    data_027e1268->unk_00->blend_y = 0;
-
-    data_027e1268->unk_00->bldcnt.target1_bg0_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg1_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg2_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bg3_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_obj_on = 0;
-    data_027e1268->unk_00->bldcnt.target1_bd_on = 0;
-
-    data_027e1268->unk_00->bldcnt.target2_bg0_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bg1_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bg2_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bg3_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_obj_on = 0;
-    data_027e1268->unk_00->bldcnt.target2_bd_on = 0;
+    gpActiveScreenSt->dispIo->unk_38[3] = 0;
+    gpActiveScreenSt->dispIo->unk_40[3] = 0;
 
     return;
 }
 
-EC void func_0200faf8(void)
+EC void InitBlendConfig(void)
 {
-    *(u16 *)&data_027e1268->unk_00->winincnt = 0;
-    *(u16 *)&data_027e1268->unk_00->winoutcnt = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->bldcnt = 0;
 
-    data_027e1268->unk_00->dispcnt.win0_on = 0;
-    data_027e1268->unk_00->dispcnt.win1_on = 0;
-    data_027e1268->unk_00->dispcnt.objWin_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
+    gpActiveScreenSt->dispIo->blend_coeff_a = 0;
+    gpActiveScreenSt->dispIo->blend_coeff_b = 0;
+    gpActiveScreenSt->dispIo->blend_y = 0;
 
-    data_027e1268->unk_00->unk_48 = 0;
-    data_027e1268->unk_00->unk_4a = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 0;
 
-    data_027e1268->unk_00->unk_49 = 0;
-    data_027e1268->unk_00->unk_4b = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg1_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg2_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bg3_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_obj_on = 0;
+    gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 0;
 
-    data_027e1268->unk_00->unk_4c = 0;
-    data_027e1268->unk_00->unk_4e = 0;
+    return;
+}
 
-    data_027e1268->unk_00->unk_4d = 0;
-    data_027e1268->unk_00->unk_4f = 0;
+EC void InitWindowConfig(void)
+{
+    *(u16 *)&gpActiveScreenSt->dispIo->winincnt = 0;
+    *(u16 *)&gpActiveScreenSt->dispIo->winoutcnt = 0;
+
+    gpActiveScreenSt->dispIo->dispcnt.win0_on = 0;
+    gpActiveScreenSt->dispIo->dispcnt.win1_on = 0;
+    gpActiveScreenSt->dispIo->dispcnt.objWin_on = 0;
+
+    gpActiveScreenSt->dispIo->unk_48 = 0;
+    gpActiveScreenSt->dispIo->unk_4a = 0;
+
+    gpActiveScreenSt->dispIo->unk_49 = 0;
+    gpActiveScreenSt->dispIo->unk_4b = 0;
+
+    gpActiveScreenSt->dispIo->unk_4c = 0;
+    gpActiveScreenSt->dispIo->unk_4e = 0;
+
+    gpActiveScreenSt->dispIo->unk_4d = 0;
+    gpActiveScreenSt->dispIo->unk_4f = 0;
 
     return;
 }
@@ -646,33 +641,33 @@ EC void func_0200fbf0(struct BgAffineSrcData * arg0, struct BgAffineDstData * ar
 
 EC void func_0200fcdc(void)
 {
-    AbstCtrl_04 * puVar1;
+    ScreenState * puVar1;
     s32 i;
 
-    data_027e0008->unk_34 = 1;
+    gpMainDispIo->unk_34 = 1;
 
-    data_027e0008->dispstat.vblankFlag = 1;
-    data_027e0008->dispstat.hblankFlag = 0;
-    data_027e0008->dispstat.vcountFlag = 0;
+    gpMainDispIo->dispstat.vblankFlag = 1;
+    gpMainDispIo->dispstat.hblankFlag = 0;
+    gpMainDispIo->dispstat.vcountFlag = 0;
 
-    data_027e1268->unk_00->dispcnt.bit_12 = 0;
-    data_027e1268->unk_00->dispcnt.bit_13_14 = 0;
+    gpActiveScreenSt->dispIo->dispcnt.bit_12 = 0;
+    gpActiveScreenSt->dispIo->dispcnt.bit_13_14 = 0;
 
-    puVar1 = data_027e1268;
+    puVar1 = gpActiveScreenSt;
 
     for (i = 0; i < 2; i++)
     {
-        data_027e1268 = i == 0 ? data_027e0000 : data_027e0004;
+        gpActiveScreenSt = i == 0 ? gpMainScreenSt : gpSubScreenSt;
 
         func_0200f630();
         func_0200f864();
-        func_0200f8d4();
-        func_0200faf8();
+        InitBlendConfig();
+        InitWindowConfig();
 
-        data_027e1268->unk_00->unk_50 = 0;
+        gpActiveScreenSt->dispIo->unk_50 = 0;
     }
 
-    data_027e1268 = puVar1;
+    gpActiveScreenSt = puVar1;
 
     return;
 }
@@ -681,34 +676,34 @@ EC void func_0200fcdc(void)
 
 // #func_0200ff50
 
-extern struct UnkStruct_020ca61c data_020eea0c;
-struct UnkStruct_020ca61c * data_020ca61c = &data_020eea0c;
+extern struct KeyState gKeyStObj;
+struct KeyState * gKeySt = &gKeyStObj;
 
-extern struct UnkStruct_020ca620 data_020eea18;
-struct UnkStruct_020ca620 * data_020ca620 = &data_020eea18;
+extern struct TouchState gTouchStObj;
+struct TouchState * gTouchSt = &gTouchStObj;
 
-EC void func_020100ac(void)
+EC void KeyState_Init(void)
 {
-    data_020ca61c->unk_06 = data_020ca61c->unk_04 = data_020ca61c->unk_00 = data_020ca61c->unk_02 = 0;
-    data_020ca61c->unk_08 = 10;
-    data_020ca61c->unk_0a = 0x30C;
+    gKeySt->previous = gKeySt->held = gKeySt->pressed = gKeySt->repeated = 0;
+    gKeySt->repeatClock = 10;
+    gKeySt->unk_0a = KEY_SOFT_RESET;
 
     return;
 }
 
 EC void func_02010100(void)
 {
-    if (!(data_020ca61c->unk_00 & 0x30c))
+    if (!(gKeySt->pressed & KEY_SOFT_RESET))
     {
         return;
     }
 
-    if (data_020ca61c->unk_04 != 0x30c)
+    if (gKeySt->held != KEY_SOFT_RESET)
     {
         return;
     }
 
-    if (data_020ca61c->unk_04 == data_020ca61c->unk_0a)
+    if (gKeySt->held == gKeySt->unk_0a)
     {
         return;
     }
@@ -735,50 +730,50 @@ EC void func_02010100(void)
     return;
 }
 
-EC void func_0201018c(void)
+EC void KeyState_Poll(void)
 {
-    data_020ca61c->unk_06 = data_020ca61c->unk_04;
+    gKeySt->previous = gKeySt->held;
 
     if (data_020eea00.unk_00 != 0)
     {
-        data_020ca61c->unk_04 = 0;
+        gKeySt->held = 0;
     }
     else
     {
-        data_020ca61c->unk_04 = (((REG_KEYINPUT | BIOS_EXTRA_BUTTONS) ^ INPUT_MASK_ALLBTNS) & INPUT_MASK_ALLBTNS);
+        gKeySt->held = (((REG_KEYINPUT | BIOS_EXTRA_BUTTONS) ^ KEY_ALL_BUTTONS) & KEY_ALL_BUTTONS);
     }
 
-    if ((data_020ca61c->unk_04 & 0x20) && (data_020ca61c->unk_04 & 0x10))
+    if ((gKeySt->held & KEY_DPAD_LEFT) && (gKeySt->held & KEY_DPAD_RIGHT))
     {
-        data_020ca61c->unk_04 &= ~0x30;
+        gKeySt->held &= ~(KEY_DPAD_LEFT | KEY_DPAD_RIGHT);
     }
 
-    if ((data_020ca61c->unk_04 & 0x40) && (data_020ca61c->unk_04 & 0x80))
+    if ((gKeySt->held & KEY_DPAD_UP) && (gKeySt->held & KEY_DPAD_DOWN))
     {
-        data_020ca61c->unk_04 &= ~0xC0;
+        gKeySt->held &= ~(KEY_DPAD_UP | KEY_DPAD_DOWN);
     }
 
-    data_020ca61c->unk_00 = (data_020ca61c->unk_04 & (data_020ca61c->unk_04 ^ data_020ca61c->unk_06));
-    data_020ca61c->unk_02 = data_020ca61c->unk_00;
+    gKeySt->pressed = (gKeySt->held & (gKeySt->held ^ gKeySt->previous));
+    gKeySt->repeated = gKeySt->pressed;
 
-    if ((data_020ca61c->unk_04 != 0) && (data_020ca61c->unk_04 == (data_020ca61c->unk_04 & data_020ca61c->unk_06)))
+    if ((gKeySt->held != 0) && (gKeySt->held == (gKeySt->held & gKeySt->previous)))
     {
-        data_020ca61c->unk_08--;
+        gKeySt->repeatClock--;
 
-        if (data_020ca61c->unk_08 == 0)
+        if (gKeySt->repeatClock == 0)
         {
-            data_020ca61c->unk_02 = data_020ca61c->unk_04;
-            data_020ca61c->unk_08 = 4;
+            gKeySt->repeated = gKeySt->held;
+            gKeySt->repeatClock = 4;
         }
     }
     else
     {
-        data_020ca61c->unk_08 = 10;
+        gKeySt->repeatClock = 10;
     }
 
     func_02010100();
 
-    data_020ca61c->unk_0a = data_020ca61c->unk_04;
+    gKeySt->unk_0a = gKeySt->held;
 
     return;
 }
@@ -812,12 +807,12 @@ EC void func_0201032c(void)
         func_020aaa18(&subroutine_arg0);
     }
 
-    data_020ca620->unk_12 = 0;
-    data_020ca620->unk_13 = 0;
-    data_020ca620->unk_14 = 0;
-    data_020ca620->unk_15 = 0;
-    data_020ca620->unk_10 = 0;
-    data_020ca620->unk_11 = 10;
+    gTouchSt->unk_12 = 0;
+    gTouchSt->unk_13 = 0;
+    gTouchSt->unk_14 = 0;
+    gTouchSt->unk_15 = 0;
+    gTouchSt->unk_10 = 0;
+    gTouchSt->unk_11 = 10;
 
     return;
 }

@@ -3,6 +3,46 @@
 
 #include "global.h"
 
+enum
+{
+    OVERLAY_ID_0,
+    OVERLAY_ID_1,
+    OVERLAY_ID_2,
+    OVERLAY_ID_3,
+    OVERLAY_ID_4,
+    OVERLAY_ID_5,
+    OVERLAY_ID_6,
+    OVERLAY_ID_7,
+    OVERLAY_ID_8,
+    OVERLAY_ID_9,
+    OVERLAY_ID_A,
+    OVERLAY_ID_B,
+};
+
+enum
+{
+    KEY_BUTTON_A      = (1 << 0),
+    KEY_BUTTON_B      = (1 << 1),
+    KEY_BUTTON_SELECT = (1 << 2),
+    KEY_BUTTON_START  = (1 << 3),
+    KEY_DPAD_RIGHT    = (1 << 4),
+    KEY_DPAD_LEFT     = (1 << 5),
+    KEY_DPAD_UP       = (1 << 6),
+    KEY_DPAD_DOWN     = (1 << 7),
+    KEY_BUTTON_R      = (1 << 8),
+    KEY_BUTTON_L      = (1 << 9),
+    KEY_BUTTON_X      = (1 << 10),
+    KEY_BUTTON_Y      = (1 << 11),
+
+    KEY_ANY           = (1 << 12) - 1,
+};
+
+#define KEY_DPAD_ANY (KEY_DPAD_RIGHT | KEY_DPAD_LEFT | KEY_DPAD_UP | KEY_DPAD_DOWN)
+#define KEY_BUTTON_ANY (KEY_ANY &~ KEY_DPAD_ANY)
+#define KEY_FACE_BUTTON_ANY (KEY_BUTTON_ANY &~ (KEY_BUTTON_L | KEY_BUTTON_R))
+#define KEY_SOFT_RESET (KEY_BUTTON_L | KEY_BUTTON_R | KEY_BUTTON_START | KEY_BUTTON_SELECT)
+#define KEY_ALL_BUTTONS 0x2FFF
+
 struct DispCnt
 {
     /* bit  0 */ u16 mode : 3;
@@ -122,11 +162,11 @@ struct BgAffineDstData
     s32 dy;
 };
 
-struct LCDControlBuffer
+struct DispIo
 {
     /* 00 */ struct DispCnt dispcnt; // word?
     /* 04 */ struct DispStat dispstat; // short?
-    struct BgCnt unk_06[4];
+    /* 06 */ struct BgCnt bgcnt[4];
     // +06 bg0cnt
     // +08 bg1cnt
     // +0a bg2cnt
@@ -155,15 +195,15 @@ struct LCDControlBuffer
     // +54 blend stuff...?
 };
 
-class AbstCtrl_04
+class ScreenState
 {
 public:
-    struct LCDControlBuffer * volatile unk_00;
+    /* 00 */ struct DispIo * volatile dispIo;
     void * unk_04;
     STRUCT_PAD(0x08, 0x0C);
-    void * unk_0c[4]; // bg tiles
-    s32 unk_1c;
-    u16 * unk_20[4]; // tilemap buffer
+    /* 0C */ void * bgTiles[4];
+    /* 1C */ s32 objVram;
+    /* 20 */ u16 * tilemap[4];
     void * unk_30;
     void * unk_34;
     s16 unk_38;
@@ -174,11 +214,32 @@ public:
     u8 unk_42;
 };
 
+struct KeyState
+{
+    /* 00 */ u16 pressed;
+    /* 02 */ u16 repeated;
+    /* 04 */ u16 held;
+    /* 06 */ u16 previous;
+    /* 08 */ u16 repeatClock;
+    /* 0A */ u16 unk_0a;
+};
+
+struct TouchState
+{
+    STRUCT_PAD(0x00, 0x10);
+    u8 unk_10;
+    u8 unk_11;
+    u8 unk_12;
+    u8 unk_13;
+    u8 unk_14;
+    u8 unk_15;
+};
+
 class AbstCtrl
 {
 public:
     // vtable
-    AbstCtrl_04 * unk_04;
+    /* 04 */ ScreenState * unk_04;
     u8 unk_08;
     STRUCT_PAD(0x09, 0x0C);
 
@@ -217,12 +278,12 @@ public:
     virtual void vfunc_10(s32, s32, s32, s32, u8);
 };
 
-extern AbstCtrl_04 * data_027e0000; // DTCM ptr to data_027e126c
-extern AbstCtrl_04 * data_027e0004; // DTCM ptr to data_027e12b0
+extern ScreenState * gpMainScreenSt; // DTCM ptr to gMainScreenSt
+extern ScreenState * gpSubScreenSt; // DTCM ptr to gSubScreenSt
 
-extern AbstCtrl_04 * data_027e1268;
+extern ScreenState * gpActiveScreenSt;
 
-extern LCDControlBuffer * data_027e0008;
-extern LCDControlBuffer * data_027e000c;
+extern DispIo * gpMainDispIo;
+extern DispIo * gpSubDispIo;
 
 #endif // HARDWARE_HPP

@@ -215,10 +215,10 @@ EXTERN_C
 // extern ??? data_020ca588
 // extern ??? data_020ca5c0
 // extern ??? data_020ca5cc
-// extern ??? data_020ca5d8
+// extern ??? gOverlayList
 // extern ??? data_020ca608
-extern struct UnkStruct_020ca61c * data_020ca61c;
-// extern ??? data_020ca620
+extern struct KeyState * gKeySt;
+// extern ??? gTouchSt
 // extern ??? data_020ca624
 // extern ??? data_020ca64c
 // extern ??? data_020ca67c
@@ -2852,7 +2852,7 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? data_020e4dd4
 // extern ??? data_020e4dd8
 // extern ??? data_020e4df0
-// extern ??? data_020e4df4
+// extern ??? gActiveOverlayLut
 // extern ??? data_020e4e00
 // extern ??? data_020e5200
 // extern ??? data_020e5600
@@ -2862,8 +2862,8 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? data_020e8a78
 // extern ??? data_020eaa00
 // extern ??? data_020eea00
-// extern ??? data_020eea0c
-// extern ??? data_020eea18
+// extern ??? gKeyStObj
+// extern ??? gTouchStObj
 // extern ??? data_020eea30
 // extern ??? data_020eea34
 // extern ??? data_020eea38
@@ -3313,10 +3313,10 @@ extern struct UnkStruct_021974fc * data_021974fc;
 // ==============================
 // dtcm
 // ==============================
-// extern ??? data_027e0000
-// extern ??? data_027e0004
-// extern ??? data_027e0008
-// extern ??? data_027e000c
+// extern ??? gpMainScreenSt
+// extern ??? gpSubScreenSt
+// extern ??? gpMainDispIo
+// extern ??? gpSubDispIo
 // extern ??? data_027e0010
 // extern ??? data_027e0018
 // extern ??? data_027e0020
@@ -3335,9 +3335,9 @@ extern int data_027e00e0;
 // extern ??? data_027e125c
 // extern ??? gClock
 // extern ??? data_027e1264
-// extern ??? data_027e1268
-// extern ??? data_027e126c
-// extern ??? data_027e12b0
+// extern ??? gpActiveScreenSt
+// extern ??? gMainScreenSt
+// extern ??? gSubScreenSt
 // extern ??? data_027e12f4
 // extern ??? data_027e16f4
 // extern ??? data_027e1af4

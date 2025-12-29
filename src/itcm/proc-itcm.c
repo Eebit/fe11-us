@@ -10,7 +10,7 @@ extern void * func_020a4a38(void);
 extern void func_020a4a4c(void *);
 
 // TODO: Fix declaration; included via "hardware.hpp"
-extern void * data_027e1268;
+extern void * gpActiveScreenSt;
 
 extern u8 gMainLoopBlocked;
 extern u8 data_027e125c;
@@ -269,12 +269,12 @@ ProcPtr Proc_StartExt(struct ProcCmd * script, ProcPtr parent, void * arg_2)
         InsertChildProcess(proc, parent);
     }
 
-    tmp = data_027e1268;
-    data_027e1268 = arg_2;
+    tmp = gpActiveScreenSt;
+    gpActiveScreenSt = arg_2;
 
     RunProcessScript(proc);
 
-    data_027e1268 = tmp;
+    gpActiveScreenSt = tmp;
 
     proc->proc_flags &= ~4;
 
@@ -283,7 +283,7 @@ ProcPtr Proc_StartExt(struct ProcCmd * script, ProcPtr parent, void * arg_2)
 
 ProcPtr Proc_Start(struct ProcCmd * script, ProcPtr parent)
 {
-    return Proc_StartExt(script, parent, data_027e1268);
+    return Proc_StartExt(script, parent, gpActiveScreenSt);
 }
 
 ProcPtr func_01ffbf90(struct ProcCmd * script, ProcPtr parent)
@@ -323,7 +323,7 @@ ProcPtr Proc_StartBlockingExt(struct ProcCmd * script, ProcPtr parent, void * ar
 
 ProcPtr Proc_StartBlocking(struct ProcCmd * script, ProcPtr parent)
 {
-    return Proc_StartBlockingExt(script, parent, data_027e1268);
+    return Proc_StartBlockingExt(script, parent, gpActiveScreenSt);
 }
 
 ProcPtr func_01ffc030(struct ProcCmd * script, ProcPtr parent)
@@ -483,8 +483,8 @@ void RunProcessRecursive(struct Proc * proc)
 
     if ((proc->proc_lockCnt == 0) && (!(proc->proc_flags & 4)))
     {
-        tmp = data_027e1268;
-        data_027e1268 = proc->unk_28;
+        tmp = gpActiveScreenSt;
+        gpActiveScreenSt = proc->unk_28;
 
         do
         {
@@ -503,7 +503,7 @@ void RunProcessRecursive(struct Proc * proc)
 
         proc->proc_flags &= ~0x20;
 
-        data_027e1268 = tmp;
+        gpActiveScreenSt = tmp;
 
         if (proc->proc_flags & 1)
         {
@@ -540,12 +540,12 @@ void func_01ffc2f4(struct Proc * proc)
 
     if (!(proc->proc_flags & 8) && !(proc->proc_flags & 4) && (proc->unk_14 != NULL))
     {
-        unk = data_027e1268;
-        data_027e1268 = proc->unk_28;
+        unk = gpActiveScreenSt;
+        gpActiveScreenSt = proc->unk_28;
 
         proc->unk_14(proc);
 
-        data_027e1268 = unk;
+        gpActiveScreenSt = unk;
 
         if (proc->proc_flags & 1)
         {
