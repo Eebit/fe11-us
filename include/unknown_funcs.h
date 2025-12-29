@@ -517,11 +517,11 @@ EC void func_020115d4(void);
 EC BOOL func_0201160c(char *);
 // EC ??? func_02011650
 // EC ??? func_020116a0
-EC void func_0201177c(char *, s32);
+EC void func_0201177c(char *, u32);
 // EC ??? func_02011854
 // EC ??? func_02011920
 // EC ??? func_02011a30
-EC void func_02011a70(char *, s32, s32, s32);
+EC void func_02011a70(char *, u32, u32, u32);
 // EC ??? func_02011ab4
 // EC ??? func_02011bac
 // EC ??? func_02011ca4
@@ -1814,35 +1814,35 @@ EC void func_020303bc(void *, char *, u32 *, ProcPtr, s32, s32);
 // EC ??? func_02034180
 // EC ??? func_02034600
 // EC ??? func_02034660
-// EC ??? func_020346e0
-// EC ??? func_0203471c
-// EC ??? func_02034750
-// EC ??? func_02034764
+// EC ??? _ZN14ProcScrollMenuD0Ev
+// EC ??? _ZN14ProcScrollMenuD1Ev
+// EC ??? _ZN6Button8vfunc_18Ev
+// EC ??? _ZN16ScrollMenuButton8vfunc_10Ev
 // EC ??? func_020347b0
 // EC ??? func_020347f0
-// EC ??? func_02034838
+// EC ??? _ZN6Button13func_02034838Elllhl
 EC void func_02034930(s32, s32, s32);
 EC void func_02034c44(s32, s32, s32);
-// EC ??? func_02034d40
+// EC ??? _ZN6Button13func_02034d40El
 // EC ??? func_02034f74
-// EC ??? func_02034ff8
-// EC ??? func_02035088
-// EC ??? func_020350b4
-// EC ??? func_02035140
-// EC ??? func_02035174
-// EC ??? func_02035220
-// EC ??? func_02035348
-// EC ??? func_02035390
-// EC ??? func_020353b8
-// EC ??? func_020353e0
-// EC ??? func_0203544c
-// EC ??? func_02035450
-// EC ??? func_0203546c
-// EC ??? func_020354a0
-// EC ??? func_020354bc
-// EC ??? func_020354e4
-// EC ??? func_0203555c
-// EC ??? func_020355a4
+// EC ??? _ZN6Button13func_02034ff8Ev
+// EC ??? _ZN6Button13func_02035088Ev
+// EC ??? _ZN6Button13func_020350b4Ev
+// EC ??? _ZN6Button8vfunc_10Ev
+// EC ??? _ZN6Button8vfunc_08Ev
+// EC ??? _ZN6Button8vfunc_0cEv
+// EC ??? _ZN6Button11SetPositionEll
+// EC ??? _ZN6Button10SetVisibleEl
+// EC ??? _ZN6Button13func_020353b8Ev
+// EC ??? _ZN6Button13func_020353e0Ell
+// EC ??? _ZN6Button8vfunc_14Ev
+// EC ??? _ZN6Button13func_02035450Ev
+// EC ??? _ZN6Button13func_0203546cEllll
+// EC ??? _ZN6Button13func_020354a0Ev
+// EC ??? _ZN6Button13func_020354bcEl
+// EC ??? StartButton
+// EC ??? _ZN6ButtonD0Ev
+// EC ??? _ZN6ButtonD1Ev
 EC void func_020355e4(void);
 // EC ??? func_0203565c
 // EC ??? func_02035694

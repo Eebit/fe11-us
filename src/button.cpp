@@ -98,20 +98,16 @@ public:
     /* 14 */ virtual void vfunc_14(void);
     /* 18 */ virtual BOOL vfunc_18(void);
 
-    // +0x00 func_020355a4 // d0
-    // +0x04 func_0203555c // d1
     virtual ~Button()
     {
         delete this->unk_38;
     }
 
-    BOOL func_02034764(void);
     void func_02034838(s32, s32, s32, u8, s32);
     void func_02034d40(s32);
     void func_02034ff8(void);
     void func_02035088(void);
     void func_020350b4(void);
-    BOOL func_02035140(void);
     void SetPosition(s32, s32);
     void SetVisible(s32);
     BOOL func_020353b8(void);
@@ -349,8 +345,6 @@ menu::ScrollMenu::ScrollMenu()
     this->unk_20 = 0;
 }
 
-// func_020346e0
-// func_0203471c
 ProcScrollMenu::~ProcScrollMenu()
 {
     if (this->unk_38 != NULL)
@@ -359,7 +353,6 @@ ProcScrollMenu::~ProcScrollMenu()
     }
 }
 
-// func_02034750
 BOOL Button::vfunc_18(void)
 {
     return this->vfunc_10();
@@ -369,7 +362,6 @@ BOOL Button::vfunc_18(void)
 
 // #func_020347f0
 
-// func_02034764
 BOOL ScrollMenuButton::vfunc_10(void)
 {
     menu::ScrollMenu * unk_6c = this->unk_6c;
@@ -386,7 +378,7 @@ BOOL ScrollMenuButton::vfunc_10(void)
 
     if (!IsProcLocked(reinterpret_cast<struct Proc *>(unk_6c->unk_18)))
     {
-        return this->func_02035140();
+        return Button::vfunc_10();
     }
 
     return FALSE;
@@ -567,7 +559,7 @@ void Button::func_02034d40(s32 param_2)
             this->unk_44 = 0x20;
             this->unk_46 = 0x18;
             this->unk_54 = data_020ca6c4;
-            this->anime = 0;
+            this->anime = NULL;
 
             switch (param_2)
             {
@@ -589,7 +581,7 @@ void Button::func_02034d40(s32 param_2)
             this->unk_44 = 0x20;
             this->unk_46 = 0x10;
             this->unk_54 = data_027e0010;
-            this->anime = 0;
+            this->anime = NULL;
 
             return;
 
@@ -598,7 +590,7 @@ void Button::func_02034d40(s32 param_2)
             this->unk_44 = 0x10;
             this->unk_46 = 0x10;
             this->unk_54 = data_027e0038;
-            this->anime = 0;
+            this->anime = NULL;
             return;
 
         case 0x10:
@@ -607,7 +599,7 @@ void Button::func_02034d40(s32 param_2)
         case 0x13:
             this->unk_44 = 0x10;
             this->unk_46 = 0x10;
-            this->unk_54 = 0;
+            this->unk_54 = NULL;
 
             func_020a8f40("/button");
 
@@ -728,7 +720,6 @@ void Button::func_020350b4(void)
     return;
 }
 
-// func_02035140
 BOOL Button::vfunc_10(void)
 {
     if (!((this->unk_38->unk_12 == 0 ? FALSE : TRUE) & 0xFF))
@@ -739,7 +730,6 @@ BOOL Button::vfunc_10(void)
     return this->unk_38->unk_0c == 0;
 }
 
-// func_02035174
 void Button::vfunc_08(void)
 {
     if (this->unk_64 < this->unk_66)
@@ -778,7 +768,6 @@ static inline u32 GetOam2Chr(u32 c)
     return (c & 0x3ff);
 }
 
-// func_02035220
 // NONMATCHING: https://decomp.me/scratch/04U8Z
 void Button::vfunc_0c(void)
 {
@@ -811,7 +800,6 @@ void Button::vfunc_0c(void)
     return;
 }
 
-// func_02035348
 void Button::SetPosition(s32 x, s32 y)
 {
     this->xPos = x;
@@ -827,7 +815,6 @@ void Button::SetPosition(s32 x, s32 y)
     return;
 }
 
-// func_02035390
 void Button::SetVisible(BOOL isVisible)
 {
     this->isVisible = isVisible;
@@ -860,7 +847,6 @@ BOOL Button::func_020353e0(s32 param_2, s32 param_3)
     return TRUE;
 }
 
-// func_0203544c
 void Button::vfunc_14(void)
 {
     return;
@@ -907,7 +893,7 @@ void Button::func_020354bc(s32 param_2)
 
 extern struct ProcCmd ProcScr_020ce750[];
 
-EC Button * func_020354e4(ProcPtr parent, s32 param_2, s32 param_3, s32 param_4, s32 param_5)
+EC Button * StartButton(ProcPtr parent, s32 param_2, s32 param_3, s32 param_4, s32 param_5)
 {
     Button * button;
 

@@ -996,23 +996,20 @@ struct ProcCmd ProcScr_Anime[] =
 
 // clang-format on
 
-EC void StartAnimFromFile(void * file, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, u8 arg7, ProcEx * parent)
+EC Anime * StartAnimFromFile(void * file, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, u8 arg7, ProcEx * parent)
 {
     if (parent == NULL)
     {
         parent = static_cast<ProcEx *>(PROC_TREE_B);
     }
 
-    new (Proc_Start(ProcScr_Anime, parent)) Anime(file, arg2, arg3, arg4, arg5, arg6, arg7);
-
-    return;
+    return new (Proc_Start(ProcScr_Anime, parent)) Anime(file, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
-EC void StartAnimByName(char * animName, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, ProcEx * parent)
+EC Anime * StartAnimByName(char * animName, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, ProcEx * parent)
 {
     void * file = func_02011920(animName, 0);
-    StartAnimFromFile(file, arg2, arg3, arg4, arg5, arg6, 1, parent);
-    return;
+    return StartAnimFromFile(file, arg2, arg3, arg4, arg5, arg6, 1, parent);
 }
 
 anime::EffectBright::EffectBright(Anime * anime, s32 targetBrightness, s32 duration) : Effect(anime)
