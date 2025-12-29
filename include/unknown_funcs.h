@@ -511,7 +511,7 @@ EC void func_02010c84(void *);
 // EC ??? func_02011408
 EC void func_02011458(void);
 // EC ??? func_02011498
-EC int func_020114dc(void *, void *);
+EC s32 func_020114dc(u8 *, void *);
 // EC ??? func_0201153c
 EC void * _Znwm(s32);
 // EC ??? _Znam
@@ -543,9 +543,9 @@ EC void func_02012124(void);
 // EC ??? func_02012138
 // EC ??? func_02012144
 // EC ??? func_02012154
-// EC ??? func_02012164
+EC void * func_02012164(char *);
 // EC ??? func_02012174
-// EC ??? func_02012180
+EC void func_02012180(char *);
 EC s32 func_02012190(void);
 // EC ??? func_020121c0
 // EC ??? func_02012220
@@ -1149,10 +1149,10 @@ EC void func_0201f8a0(void);
 // EC ??? func_0201fd44
 // EC ??? func_0201fdfc
 // EC ??? func_0201fe00
-// EC ??? func_0201fe14
+EC void LoadTextureImage(void *, u32, u32);
 // EC ??? func_0201fe40
 // EC ??? func_0201fe6c
-// EC ??? func_0201fec0
+EC void LoadTexturePalette(void *, u32, u32);
 // EC ??? func_0201fee4
 EC void func_0201ff20(void);
 // EC ??? func_0201ffb0
@@ -1178,7 +1178,7 @@ EC s32 RollRN(s32, s32);
 // EC ??? func_02020488
 // EC ??? func_020204f0
 // EC ??? func_02020530
-// EC ??? func_020205a4
+EC void func_020205a4(void *, s32, s32, s32);
 // EC ??? func_02020624
 // EC ??? func_020206ac
 // EC ??? func_02020714
@@ -3327,7 +3327,7 @@ EC void func_02067510(void);
 // EC ??? func_0206e8d0
 // EC ??? func_0206e95c
 // EC ??? func_0206ea7c
-// EC ??? func_0206eae0
+EC void AdjustPaletteBrightness(u8 *, void *, u32, u32);
 // EC ??? func_0206ebd4
 // EC ??? func_0206ec5c
 EC BOOL func_0206ec80(u32);
@@ -4855,7 +4855,7 @@ EC void OS_WaitVBlankIntr(void);
 // EC ??? func_020a55d8
 // EC ??? func_020a5690
 // EC ??? func_020a56bc
-// EC ??? func_020a56d4
+EC void func_020a56d4(void *, void *, s32);
 // EC ??? func_020a56f0
 // EC ??? func_020a5704
 // EC ??? func_020a571c
@@ -5684,11 +5684,7 @@ EC void func_01ffbb90(void *, void *);
 // EC ??? func_01ffcb44
 // EC ??? func_01ffcbb4
 // EC ??? func_01ffcbd8
-// EC ??? func_01ffcc3c
-
-// ==============================
-// dtcm
-// ==============================
+EC void func_01ffcc3c(s32, s32, s32);
 
 // ==============================
 // overlay 0
@@ -6951,18 +6947,18 @@ EC void func_ov000_021d6f1c(ProcPtr, u32);
 // EC ??? func_ov000_021d7028
 // EC ??? func_ov000_021d7074
 // EC ??? func_ov000_021d7078
-// EC ??? func_ov000_021d708c
-// EC ??? func_ov000_021d71ac
-// EC ??? func_ov000_021d7234
-// EC ??? func_ov000_021d7acc
-// EC ??? func_ov000_021d7afc
-// EC ??? func_ov000_021d7b28
-// EC ??? func_ov000_021d7b38
-// EC ??? func_ov000_021d7b48
-// EC ??? func_ov000_021d7b74
-// EC ??? func_ov000_021d7bd8
-// EC ??? func_ov000_021d7c08
-// EC ??? func_ov000_021d7c50
+// EC ??? Map_LoadTextures
+// EC ??? Map_UnloadTextures
+// EC ??? Map_RenderLayers
+// EC ??? Map_LoadTAFile
+// EC ??? Map_UnloadTAFile
+// EC ??? MapRenderState_GetUnk08
+// EC ??? MapRenderState_GetUnk00
+// EC ??? Map_GetMinimapSprite
+// EC ??? Map_FindLayer
+// EC ??? Map_SetLayerAlphaAt
+// EC ??? Map_SetAllKind3LayersAlpha
+// EC ??? Map_SetLayerAlphaById
 // EC ??? func_ov000_021d7c90
 // EC ??? func_ov000_021d7cd8
 // EC ??? func_ov000_021d7d1c

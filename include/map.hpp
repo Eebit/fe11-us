@@ -146,7 +146,10 @@ public:
 
 struct MapStateManager_08
 {
-    STRUCT_PAD(0x0000, 0x0854);
+    STRUCT_PAD(0x0000, 0x0042);
+    s8 unk_0042;
+    s8 unk_0043;
+    STRUCT_PAD(0x0044, 0x0854);
 
     /* 0854 */ s8 * unk_0854;
     /* 0858 */ void * unk_0858;

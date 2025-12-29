@@ -150,7 +150,7 @@ public:
     struct LCDControlBuffer * volatile unk_00;
     void * unk_04;
     STRUCT_PAD(0x08, 0x0C);
-    void * unk_0c[4];
+    void * unk_0c[4]; // bg tiles
     s32 unk_1c;
     u16 * unk_20[4]; // tilemap buffer
     void * unk_30;
