@@ -123,6 +123,7 @@ enum
     PROC_MARK_A = 0xA,
 };
 
+#define PROC_TREE_5     ((ProcPtr) 5)
 #define PROC_TREE_6     ((ProcPtr) 6)
 #define PROC_TREE_9     ((ProcPtr) 9)
 #define PROC_TREE_A     ((ProcPtr) 0xA)

@@ -7,6 +7,7 @@
 
 #include "database.hpp"
 #include "event.hpp"
+#include "hardware.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -21,7 +22,7 @@ extern struct ProcFuncTable data_ov000_021dbd94;
 extern UnkStruct_021E3324 * data_ov000_021e3324;
 extern MapStateManager * gMapStateManager;
 
-extern struct UnkStruct_020ca61c * data_020ca61c;
+extern struct KeyState * gKeySt;
 extern struct UnkStruct_02196f20 * data_02196f20;
 extern struct UnkStruct_02196f24 * data_02196f24;
 extern struct UnkStruct_021974fc * data_021974fc;
@@ -80,13 +81,7 @@ struct PlayerPhaseProc
 
 extern struct UnkStruct_02196f10 * data_02196f10;
 
-struct UnkStruct_020ca620
-{
-    STRUCT_PAD(0x00, 0x12);
-    u8 unk_12;
-};
-
-extern struct UnkStruct_020ca620 * data_020ca620;
+extern struct TouchState * gTouchSt;
 
 extern vu32 data_027e1264;
 
@@ -572,7 +567,7 @@ EC void func_ov000_021ac6a0(void)
     {
         if (func_02050474() == 0)
         {
-            if ((data_020ca61c->unk_00 & 0x100) != 0 || (func_ov000_021a5650(gMapStateManager->unk_0c, 1) != 0))
+            if ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (func_ov000_021a5650(gMapStateManager->unk_0c, 1) != 0))
             {
                 if (func_0204b1f8(0) != 0)
                 {
@@ -597,13 +592,13 @@ EC void func_ov000_021ac6a0(void)
         return;
     }
 
-    if (data_020ca620->unk_12 != 0)
+    if (gTouchSt->unk_12 != 0)
     {
         data_02196f20->unk_19a = 1;
         return;
     }
 
-    if ((data_020ca61c->unk_04 & ~1) != 0)
+    if ((gKeySt->held & ~KEY_BUTTON_A) != 0)
     {
         data_02196f20->unk_19a = 0;
     }

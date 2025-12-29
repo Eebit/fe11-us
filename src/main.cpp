@@ -11,7 +11,7 @@
 
 EC void main(void)
 {
-    func_0200ef04();
+    System_Init();
     func_0200f028();
     StartGame();
     func_020ad244(0x14);

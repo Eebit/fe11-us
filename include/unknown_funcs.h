@@ -443,37 +443,37 @@ EC void func_0200c888(void);
 // EC ??? func_0200edd4
 EC void func_0200edf0(void);
 EC void func_0200eecc(void);
-EC void func_0200ef04(void);
+EC void System_Init(void);
 EC void func_0200f028(void);
 EC void func_0200f04c(void);
 // EC ??? func_0200f0f0
-EC void func_0200f1e8(void);
+EC void Overlay_Init(void);
 EC void LoadOverlay(u32 overlayId);
 EC void UnloadOverlay(u32 overlayId);
 EC void func_0200f28c(u32 arg_0);
 EC BOOL IsOverlayLoaded(u32 overlayId);
 EC void func_0200f308(void);
-// EC ??? func_0200f318
-// EC ??? func_0200f338
-EC void func_0200f350(int a);
-EC void func_0200f3b8(void);
+EC void func_0200f318(void);
+EC void func_0200f338(void);
+EC void func_0200f350(s32);
+EC void InitScreenStates(void);
 // EC ??? func_0200f4f0
 // EC ??? func_0200f570
-// EC ??? func_0200f5f0
+// EC ??? IsAddressInVramRange
 // EC ??? func_0200f630
 // EC ??? func_0200f700
 // EC ??? func_0200f864
-// EC ??? func_0200f8d4
-// EC ??? func_0200faf8
+// EC ??? InitBlendConfig
+// EC ??? InitWindowConfig
 // EC ??? func_0200fbf0
 EC void func_0200fcdc(void);
 // EC ??? func_0200fdd8
 // EC ??? func_0200ff50
-EC void func_020100ac(void);
+EC void KeyState_Init(void);
 // EC ??? func_02010100
-EC void func_0201018c(void);
-EC void func_020102d8(u32);
-// EC ??? func_02010310
+EC void KeyState_Poll(void);
+EC BOOL func_020102d8(s32);
+EC BOOL func_02010310(void);
 EC void func_0201032c(void);
 EC void func_02010398(void);
 // EC ??? func_02010600
@@ -549,7 +549,7 @@ EC s32 func_02012190(void);
 EC BOOL func_02012298(void);
 // EC ??? func_020122f8
 // EC ??? func_02012334
-// EC ??? func_0201236c
+EC BOOL func_0201236c(void);
 // EC ??? func_0201239c
 // EC ??? func_020123a8
 // EC ??? func_020123dc
@@ -4536,11 +4536,11 @@ EC void func_02070480(void);
 // EC ??? func_0209f480
 // EC ??? func_0209f4e0
 // EC ??? func_0209f5f8
-// EC ??? func_0209f654
-// EC ??? func_0209f658
+EC void func_0209f654(void);
+EC void func_0209f658(void);
 // EC ??? func_0209f7a4
-// EC ??? func_0209f7d8
-// EC ??? func_0209f80c
+EC void func_0209f7d8(s32, s32);
+EC void func_0209f80c(void);
 EC void GX_DispOn(void);
 // EC ??? func_0209f890
 // EC ??? func_0209f8f8
@@ -4555,8 +4555,8 @@ EC void func_0209ffe0(u32);
 EC void func_020a01b8(u32);
 // EC ??? func_020a02a0
 // EC ??? func_020a03d4
+EC void func_020a0480(s32);
 EC void func_020a04a0(u32);
-// EC ??? func_020a04a0
 EC void func_020a0548(u32);
 EC void func_020a05b8(u32);
 EC void func_020a0638(u32);
@@ -4568,19 +4568,19 @@ EC void func_020a0638(u32);
 // EC ??? func_020a075c
 // EC ??? func_020a0784
 // EC ??? func_020a07ac
-// EC ??? func_020a088c
-// EC ??? func_020a08a0
-// EC ??? func_020a08b4
-// EC ??? func_020a08d8
-// EC ??? func_020a08fc
-// EC ??? func_020a0910
+EC void func_020a088c(void);
+EC void func_020a08a0(void);
+EC void func_020a08b4(void);
+EC void func_020a08d8(void);
+EC void func_020a08fc(void);
+EC void func_020a0910(void);
 // EC ??? func_020a0924
 // EC ??? func_020a0938
-// EC ??? func_020a094c
-// EC ??? func_020a0960
-// EC ??? func_020a0974
-// EC ??? func_020a0988
-// EC ??? func_020a09b0
+EC void func_020a094c(void);
+EC void func_020a0960(void);
+EC void func_020a0974(void);
+EC void func_020a0988(void);
+EC void func_020a09b0(void);
 // EC ??? func_020a09d8
 // EC ??? func_020a0a2c
 // EC ??? func_020a0a44
@@ -4646,18 +4646,18 @@ EC void func_020a0638(u32);
 // EC ??? func_020a1b84
 // EC ??? func_020a1be4
 // EC ??? func_020a1c44
-// EC ??? func_020a1ca4
-// EC ??? func_020a1d44
-// EC ??? func_020a1db4
-// EC ??? func_020a1dfc
-// EC ??? func_020a1e44
-// EC ??? func_020a1eb0
-// EC ??? func_020a1ef4
-// EC ??? func_020a1f0c
-// EC ??? func_020a1f70
-// EC ??? func_020a1fb0
-// EC ??? func_020a1fc8
-// EC ??? func_020a202c
+EC void func_020a1ca4(void);
+EC void func_020a1d44(s32, s32, s32);
+EC void func_020a1db4(void);
+EC void func_020a1dfc(void);
+EC void func_020a1e44(s32, s32, s32);
+EC void func_020a1eb0(void);
+EC void func_020a1ef4(void);
+EC void func_020a1f0c(s32, s32, s32);
+EC void func_020a1f70(void);
+EC void func_020a1fb0(void);
+EC void func_020a1fc8(s32, s32, s32);
+EC void func_020a202c(void);
 // EC ??? func_020a206c
 // EC ??? func_020a20c8
 // EC ??? func_020a2208
@@ -4680,12 +4680,12 @@ void OS_WaitIrq(BOOL clear, u32 irqFlags);
 // EC ??? func_020a25a4
 // EC ??? func_020a25b4
 // EC ??? func_020a25c4
-// EC ??? func_020a25dc
+EC void func_020a25dc(s32, void (*)(void));
 // EC ??? func_020a2664
 // EC ??? func_020a26f0
 // EC ??? func_020a2738
 // EC ??? func_020a2780
-// EC ??? func_020a27ac
+EC void func_020a27ac(s32);
 // EC ??? func_020a27dc
 // EC ??? func_020a280c
 // EC ??? func_020a2838
@@ -4766,15 +4766,15 @@ EC void func_020a374c(void *, void (*)(void *));
 // EC ??? func_020a3cc4
 // EC ??? func_020a3ce8
 // EC ??? func_020a3cf4
-// EC ??? func_020a3d20
+EC void func_020a3d20(void);
 // EC ??? func_020a3d54
 // EC ??? func_020a3d70
-// EC ??? func_020a3d8c
-// EC ??? func_020a3db0
+EC void func_020a3d8c(s32, s32);
+EC void func_020a3db0(void);
 // EC ??? func_020a3dbc
 // EC ??? func_020a3dc8
 // EC ??? func_020a3de4
-// EC ??? func_020a3e04
+EC void func_020a3e04(void);
 // EC ??? func_020a3e4c
 // EC ??? func_020a3f50
 EC s32 func_020a3fbc(s32);
@@ -4783,8 +4783,8 @@ EC s32 func_020a3fd0(s32);
 // EC ??? func_020a40c8
 // EC ??? func_020a4170
 // EC ??? func_020a4184
-// EC ??? func_020a4198
-// EC ??? func_020a41a8
+EC void func_020a4198(void);
+EC void func_020a41a8(void);
 // EC ??? func_020a41b8
 // EC ??? func_020a41cc
 // EC ??? func_020a41dc
@@ -4797,13 +4797,13 @@ EC s32 func_020a3fd0(s32);
 // EC ??? func_020a4308
 // EC ??? func_020a4398
 // EC ??? func_020a4414
-// EC ??? func_020a4430
+EC void func_020a4430(void);
 // EC ??? func_020a44a8
 // EC ??? func_020a44b8
 // EC ??? func_020a4520
 // EC ??? func_020a45c0
 // EC ??? func_020a45d0
-// EC ??? func_020a465c
+EC void func_020a465c(void);
 // EC ??? func_020a469c
 // EC ??? func_020a46ac
 // EC ??? func_020a46bc
@@ -4824,7 +4824,7 @@ EC void OS_WaitVBlankIntr(void);
 // EC ??? func_020a4ad0
 // EC ??? func_020a4b24
 // EC ??? func_020a4b58
-// EC ??? func_020a4b84
+EC void func_020a4b84(s32);
 // EC ??? func_020a4c40
 // EC ??? func_020a4c5c
 // EC ??? func_020a4ce0
@@ -5006,8 +5006,8 @@ EC void func_020a8f40(char *);
 // EC ??? FS_StartOverlay
 // EC ??? func_020a967c
 // EC ??? FS_StopOverlay
-// EC ??? FS_LoadOverlay
-// EC ??? FS_UnloadOverlay
+EC BOOL FS_LoadOverlay(s32, u32);
+EC BOOL FS_UnloadOverlay(s32, u32);
 // EC ??? func_020a981c
 // EC ??? func_020a985c
 // EC ??? func_020a9924
@@ -5018,12 +5018,12 @@ EC void func_020a8f40(char *);
 // EC ??? func_020aa130
 // EC ??? func_020aa1c4
 // EC ??? func_020aa390
-// EC ??? func_020aa610
-// EC ??? func_020aa650
+EC void func_020aa610(void *);
+EC void func_020aa650(void *);
 // EC ??? func_020aa68c
-// EC ??? func_020aa90c
-// EC ??? func_020aa984
-// EC ??? func_020aaa18
+EC void func_020aa90c(void);
+EC BOOL func_020aa984(void *);
+EC void func_020aaa18(void *);
 // EC ??? func_020aab40
 // EC ??? func_020aabd4
 // EC ??? func_020aac24
@@ -5048,7 +5048,7 @@ EC void func_020a8f40(char *);
 // EC ??? func_020ab638
 // EC ??? func_020ab678
 // EC ??? func_020ab680
-// EC ??? func_020ab6c0
+EC void func_020ab6c0(void);
 // EC ??? func_020ab764
 // EC ??? func_020ab82c
 // EC ??? func_020ab8c0
@@ -5616,7 +5616,7 @@ EC void func_01ff976c(void *, void *);
 // EC ??? func_01ff9a34
 // EC ??? func_01ff9a68
 // EC ??? func_01ff9a8c
-// EC ??? func_01ff9af8
+EC void func_01ff9af8(void);
 // EC ??? func_01ff9c88
 // EC ??? func_01ffa218
 // EC ??? func_01ffa690
@@ -5624,7 +5624,7 @@ EC void func_01ffa720(void);
 // EC ??? func_01ffa734
 // EC ??? func_01ffa748
 EC void func_01ffa764(void);
-// EC ??? func_01ffa794
+EC void func_01ffa794(void);
 // EC ??? func_01ffa828
 // EC ??? func_01ffa974
 // EC ??? func_01ffabdc

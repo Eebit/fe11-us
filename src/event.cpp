@@ -1078,13 +1078,13 @@ BOOL EventSkip::vfunc_00()
         return FALSE;
     }
 
-    return data_020ca61c->unk_00 & 8 ? TRUE : FALSE;
+    return gKeySt->pressed & KEY_BUTTON_START ? TRUE : FALSE;
 }
 
 // func_02048fe4
 BOOL Skip::vfunc_00()
 {
-    return data_020ca61c->unk_00 & 8 ? TRUE : FALSE;
+    return gKeySt->pressed & KEY_BUTTON_START ? TRUE : FALSE;
 }
 
 // func_02049004
@@ -1113,7 +1113,7 @@ BOOL Skip::vfunc_04()
 
 void Skip::func_02049024(ProcPtr proc)
 {
-    AbstCtrl_04 * temp_r9;
+    ScreenState * temp_r9;
     s32 var_r9;
 
     if ((this->unk_06 == 0) && (this->vfunc_00() != 0))
@@ -1193,8 +1193,8 @@ void Skip::func_02049024(ProcPtr proc)
 
                     if (this->unk_05 == 0)
                     {
-                        temp_r9 = data_027e1268;
-                        data_027e1268 = data_027e0004;
+                        temp_r9 = gpActiveScreenSt;
+                        gpActiveScreenSt = gpSubScreenSt;
 
                         if (func_0201bd6c() == 0)
                         {
@@ -1205,7 +1205,7 @@ void Skip::func_02049024(ProcPtr proc)
                             StartBlockingFadeInFromWhite((struct Proc *)proc, 8, 0);
                         }
 
-                        data_027e1268 = temp_r9;
+                        gpActiveScreenSt = temp_r9;
                     }
 
                     Proc_Lock((struct Proc *)proc);

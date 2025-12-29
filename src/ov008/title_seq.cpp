@@ -10,8 +10,8 @@
 
 struct UnkStruct_02197798
 {
-    AbstCtrl_04 * unk_00;
-    LCDControlBuffer * unk_04;
+    ScreenState * unk_00;
+    DispIo * unk_04;
     BGCtrl unk_08[4];
     ObjCtrl unk_68;
 };
@@ -153,8 +153,8 @@ void PressStart::Loop(void)
         SetBldTargetA_Maybe(this->unk_4c, 0, 0, 0, 0, 0, 0);
         SetBldTargetB_Maybe(this->unk_4c, 0, 1, 0, 0, 0, 1);
 
-        this->unk_4c->unk_00->unk_00->blend_coeff_a = cVar1;
-        this->unk_4c->unk_00->unk_00->blend_coeff_b = 16 - cVar1;
+        this->unk_4c->unk_00->dispIo->blend_coeff_a = cVar1;
+        this->unk_4c->unk_00->dispIo->blend_coeff_b = 16 - cVar1;
 
         func_02004348(this->unk_48->unk_14, this->unk_50, 1, 0x80, 0x60, 0x3c0);
 
@@ -164,8 +164,8 @@ void PressStart::Loop(void)
     func_020045fc(this->unk_38);
     func_020049b4(this->unk_38, 0, 0x80, 0x60, 0, 4);
 
-    this->unk_4c->unk_00->unk_00->blend_coeff_a = 0x10;
-    this->unk_4c->unk_00->unk_00->blend_coeff_b = 0;
+    this->unk_4c->unk_00->dispIo->blend_coeff_a = 0x10;
+    this->unk_4c->unk_00->dispIo->blend_coeff_b = 0;
 
     if ((gClock & 4) != 0)
     {

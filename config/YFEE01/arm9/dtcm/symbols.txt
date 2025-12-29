@@ -1,7 +1,7 @@
-data_027e0000 kind:data(any) addr:0x027e0000
-data_027e0004 kind:data(any) addr:0x027e0004
-data_027e0008 kind:data(any) addr:0x027e0008
-data_027e000c kind:data(any) addr:0x027e000c
+gpMainScreenSt kind:data(any) addr:0x027e0000
+gpSubScreenSt kind:data(any) addr:0x027e0004
+gpMainDispIo kind:data(any) addr:0x027e0008
+gpSubDispIo kind:data(any) addr:0x027e000c
 data_027e0010 kind:data(any) addr:0x027e0010
 data_027e0018 kind:data(any) addr:0x027e0018
 data_027e0020 kind:data(any) addr:0x027e0020
@@ -20,9 +20,9 @@ gMainLoopBlocked kind:bss addr:0x027e1258
 data_027e125c kind:bss addr:0x027e125c
 gClock kind:bss addr:0x027e1260
 data_027e1264 kind:bss addr:0x027e1264
-data_027e1268 kind:bss addr:0x027e1268
-data_027e126c kind:bss addr:0x027e126c
-data_027e12b0 kind:bss addr:0x027e12b0
+gpActiveScreenSt kind:bss addr:0x027e1268
+gMainScreenSt kind:bss addr:0x027e126c
+gSubScreenSt kind:bss addr:0x027e12b0
 data_027e12f4 kind:bss addr:0x027e12f4
 data_027e16f4 kind:bss addr:0x027e16f4
 data_027e1af4 kind:bss addr:0x027e1af4

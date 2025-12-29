@@ -5,7 +5,7 @@
 #include "proc.h"
 
 // TODO: Fix declaration; included via "hardware.hpp"
-extern void * data_027e1268;
+extern void * gpActiveScreenSt;
 
 // .bss
 
@@ -81,7 +81,7 @@ struct Proc * func_02018d40(struct ProcCmd * script)
     {
         struct Proc * other = *it;
 
-        if (other->unk_28 != data_027e1268)
+        if (other->unk_28 != gpActiveScreenSt)
         {
             continue;
         }
@@ -290,7 +290,7 @@ void func_02018fa4(struct ProcCmd * script, ProcFunc func)
             continue;
         }
 
-        if (it->unk_28 != data_027e1268)
+        if (it->unk_28 != gpActiveScreenSt)
         {
             continue;
         }
@@ -448,7 +448,7 @@ BOOL func_02019190(struct Proc * proc, u32 flags)
 
         if (flags & 1)
         {
-            if (other->unk_28 != data_027e1268)
+            if (other->unk_28 != gpActiveScreenSt)
             {
                 continue;
             }
@@ -484,7 +484,7 @@ BOOL func_02019230(struct Proc * proc, u32 flags)
 
         if (flags & 1)
         {
-            if (other->unk_28 != data_027e1268)
+            if (other->unk_28 != gpActiveScreenSt)
             {
                 continue;
             }
@@ -653,16 +653,16 @@ void func_0201949c(void * arg_0, void * arg_1)
 
     if (data_020ce6ec == cast_0->unk_6c)
     {
-        data_02190ce0.unk_08 = data_027e1268;
-        data_027e1268 = data_02190ce0.unk_04;
+        data_02190ce0.unk_08 = gpActiveScreenSt;
+        gpActiveScreenSt = data_02190ce0.unk_04;
     }
 
     cast_1 = arg_1;
 
     if (data_020ce6ec == cast_1->unk_6c)
     {
-        data_02190ce0.unk_04 = data_027e1268;
-        data_027e1268 = data_02190ce0.unk_08;
+        data_02190ce0.unk_04 = gpActiveScreenSt;
+        gpActiveScreenSt = data_02190ce0.unk_08;
     }
 
     return;

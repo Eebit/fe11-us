@@ -120,13 +120,6 @@ struct UnkStruct_Func_02021410_Ret
     u8 unk_756;
 };
 
-struct UnkStruct_020ca61c
-{
-    u16 unk_00;
-    STRUCT_PAD(0x02, 0x04);
-    u16 unk_04;
-};
-
 struct UnkStruct_Func_020302e0_Arg
 {
     void * unk_00;

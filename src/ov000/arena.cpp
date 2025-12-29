@@ -126,24 +126,24 @@ public:
 
         func_ov000_021d8ed4((struct ArenaProc *)this);
 
-        data_027e1268->unk_00->bldcnt.effect = 1;
+        gpActiveScreenSt->dispIo->bldcnt.effect = 1;
 
-        data_027e1268->unk_00->blend_coeff_a = 0xe;
-        data_027e1268->unk_00->blend_coeff_b = 2;
+        gpActiveScreenSt->dispIo->blend_coeff_a = 0xe;
+        gpActiveScreenSt->dispIo->blend_coeff_b = 2;
 
-        data_027e1268->unk_00->bldcnt.target1_bg0_on = 0;
-        data_027e1268->unk_00->bldcnt.target1_bg1_on = 0;
-        data_027e1268->unk_00->bldcnt.target1_bg2_on = 1;
-        data_027e1268->unk_00->bldcnt.target1_bg3_on = 0;
-        data_027e1268->unk_00->bldcnt.target1_obj_on = 0;
-        data_027e1268->unk_00->bldcnt.target1_bd_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
+        gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 0;
 
-        data_027e1268->unk_00->bldcnt.target2_bg0_on = 1;
-        data_027e1268->unk_00->bldcnt.target2_bg1_on = 0;
-        data_027e1268->unk_00->bldcnt.target2_bg2_on = 0;
-        data_027e1268->unk_00->bldcnt.target2_bg3_on = 0;
-        data_027e1268->unk_00->bldcnt.target2_obj_on = 0;
-        data_027e1268->unk_00->bldcnt.target2_bd_on = 1;
+        gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on = 1;
+        gpActiveScreenSt->dispIo->bldcnt.target2_bg1_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target2_bg2_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target2_bg3_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target2_obj_on = 0;
+        gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 1;
 
         func_ov000_021a5810(gMapStateManager->unk_0c, 1);
         func_ov000_021d9078((struct ArenaProc *)this);
@@ -151,7 +151,7 @@ public:
 
     virtual ~Arena()
     {
-        data_027e1268->unk_00->bldcnt.effect = 0;
+        gpActiveScreenSt->dispIo->bldcnt.effect = 0;
 
         func_ov000_021a57e4(gMapStateManager->unk_0c, 1);
         func_ov000_021d9120((struct ArenaProc *)this);
@@ -959,7 +959,7 @@ EC void func_ov000_021d87a4(struct ArenaProc * proc)
 {
     u8 tmp;
 
-    if (((data_020ca61c->unk_00 & 2) != 0) || (func_ov000_021a5650(gMapStateManager->unk_0c, 0) != 0))
+    if ((gKeySt->pressed & KEY_BUTTON_B) || (func_ov000_021a5650(gMapStateManager->unk_0c, 0) != 0))
     {
         proc->unk_59 = 1;
     }
@@ -1241,20 +1241,20 @@ EC void func_ov000_021d8ed4(struct ArenaProc * proc)
     uVar2 = pUVar3->unk_04;
     bVar1 = pUVar3->unk_06;
 
-    func_02010f98(data_027e1268->unk_20[uVar6] + 0xa8, 0xb, 2);
+    func_02010f98(gpActiveScreenSt->tilemap[uVar6] + 0xa8, 0xb, 2);
 
     iVar7 = func_020295ec(
-        data_021970c4, func_02039e10("MD_MONEY\0\0\0"), data_027e1268->unk_0c[uVar6], data_027e1268->unk_20[uVar6],
+        data_021970c4, func_02039e10("MD_MONEY\0\0\0"), gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6],
         0x14, 2, uVar2, bVar1, 0, 0);
     iVar7 = uVar2 + iVar7;
     iVar8 = func_020295ec(
-        data_021970c4, func_02039e10("MD_GOLD"), data_027e1268->unk_0c[uVar6], data_027e1268->unk_20[uVar6], 0x1e, 2,
+        data_021970c4, func_02039e10("MD_GOLD"), gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6], 0x1e, 2,
         iVar7, bVar1, 0, 0);
     func_02029850(
-        data_021970c4, data_02196f20->unk_190, data_027e1268->unk_0c[uVar6], data_027e1268->unk_20[uVar6], 0x1d, 2,
+        data_021970c4, data_02196f20->unk_190, gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6], 0x1d, 2,
         iVar7 + iVar8, bVar1, 0);
 
-    data_027e1268->unk_3e |= 1 << uVar6;
+    gpActiveScreenSt->unk_3e |= 1 << uVar6;
 
     return;
 }
@@ -1265,8 +1265,8 @@ EC void func_ov000_021d9024(struct ArenaProc * proc)
     struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font\0"));
 
     bVar1 = pUVar2->unk_07;
-    func_02010f98(data_027e1268->unk_20[bVar1] + 0xa8, 0xb, 2);
-    data_027e1268->unk_3e |= 1 << bVar1;
+    func_02010f98(gpActiveScreenSt->tilemap[bVar1] + 0xa8, 0xb, 2);
+    gpActiveScreenSt->unk_3e |= 1 << bVar1;
 
     return;
 }
@@ -1285,11 +1285,11 @@ EC void func_ov000_021d9078(struct ArenaProc * proc)
 
     func_020a8f40("/shop\0\0");
 
-    func_0201177c("money.cg\0\0\0", ((u32)(data_027e1268->unk_0c[uVar4])) + uVar2 * 0x20);
+    func_0201177c("money.cg\0\0\0", ((u32)(gpActiveScreenSt->bgTiles[uVar4])) + uVar2 * 0x20);
     func_02011a70("money.cl\0\0\0", bVar1 * 0x20, 0, 0);
-    func_02011a30("money.rect\0", data_027e1268->unk_20[uVar4] + 0x20, uVar2, bVar1);
+    func_02011a30("money.rect\0", gpActiveScreenSt->tilemap[uVar4] + 0x20, uVar2, bVar1);
 
-    data_027e1268->unk_3e |= 1 << uVar4;
+    gpActiveScreenSt->unk_3e |= 1 << uVar4;
 
     return;
 }
@@ -1301,7 +1301,7 @@ EC void func_ov000_021d9120(struct ArenaProc * proc)
     bVar1 = pUVar2->unk_07;
 
     func_01ff9948(bVar1);
-    data_027e1268->unk_3e |= 1 << bVar1;
+    gpActiveScreenSt->unk_3e |= 1 << bVar1;
 
     return;
 }
