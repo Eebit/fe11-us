@@ -25,7 +25,9 @@ struct UnkStruct_021974fc
     u32 unk_08; // terrain
     u32 unk_0c;
     u8 unk_10; // top screen hud mode (1 = stat screen; 2 = minimap)
-    STRUCT_PAD(0x11, 0x1C);
+    u8 unk_11;
+    u8 unk_12;
+    STRUCT_PAD(0x13, 0x1C);
 };
 
 struct UnkStruct_02196f18
@@ -87,7 +89,8 @@ struct UnkStruct_02196f20
     u8 unk_19a;
     u8 unk_19b;
     s8 unk_19c;
-    STRUCT_PAD(0x19D, 0x1A4);
+    s8 unk_19d;
+    STRUCT_PAD(0x19E, 0x1A4);
 };
 
 struct UnkStruct_02196f1c

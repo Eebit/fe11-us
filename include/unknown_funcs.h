@@ -1901,7 +1901,7 @@ EC struct MapFile * func_020379e0(char *, u32);
 // EC ??? _ZN12FE11Database4InitEv
 EC struct PersonData * GetPersonByPidStr(char *);
 EC struct JobData * GetJobByJidStr(char *);
-// EC ??? GetItemByIidStr
+EC struct ItemData * GetItemByIidStr(char *);
 // EC ??? GetMapByMidStr
 // EC ??? func_02037c80
 // EC ??? func_02037c9c
@@ -2616,7 +2616,7 @@ EC BOOL func_02050474(void);
 // EC ??? func_02050898
 // EC ??? func_020509e0
 // EC ??? func_02050a1c
-// EC ??? func_02050aa8
+EC void func_02050aa8(ProcPtr, s32, s32);
 // EC ??? func_02050ad0
 // EC ??? func_02050b3c
 // EC ??? func_02050b6c
@@ -2741,7 +2741,7 @@ EC BOOL func_02050474(void);
 // EC ??? func_02054478
 // EC ??? func_02054498
 // EC ??? func_020544b8
-EC void func_02054870(struct Unit *, ProcPtr);
+EC void func_02054870(struct Unit *, ProcPtr); // Start "shop::Shop" proc
 // EC ??? func_020550f8
 // EC ??? func_02055110
 // EC ??? func_02055128
@@ -2749,7 +2749,7 @@ EC void func_02054870(struct Unit *, ProcPtr);
 EC void func_02055224(struct Unit *, ProcPtr);
 EC void func_02055ab0(struct Unit *, ProcPtr);
 EC void func_0205633c(void);
-// EC ??? func_020563a8
+EC void func_020563a8(struct ItemData *, s32);
 EC BOOL func_020563fc(void);
 // EC ??? func_02056410
 // EC ??? func_02056428
@@ -2903,7 +2903,7 @@ EC BOOL func_020563fc(void);
 // EC ??? func_0205d498
 // EC ??? func_0205d59c
 // EC ??? func_0205d830
-// EC ??? func_0205d860
+EC void func_0205d860(u32, ProcPtr); // Start "transporter::Stock" proc
 // EC ??? func_0205dcd8
 EC void func_0205e138(struct Unit *, ProcPtr);
 // EC ??? func_0205e164
@@ -2979,7 +2979,7 @@ EC void func_0205e138(struct Unit *, ProcPtr);
 // EC ??? func_020606b4
 // EC ??? func_02061590
 // EC ??? func_020615a4
-// EC ??? func_02061b18
+EC void func_02061b18(ProcPtr); // Starts "ulist::UnitList" proc
 // EC ??? func_02062030
 // EC ??? func_02062548
 EC void func_02062a54(u32);
@@ -3037,7 +3037,7 @@ EC void func_02062a54(u32);
 // EC ??? func_02066658
 // EC ??? func_020666fc
 // EC ??? func_02066704
-// EC ??? func_02066710
+EC void func_02066710(ProcPtr); // Starts "config::UIConfig" proc
 // EC ??? func_02066e10
 EC void func_02067510(void);
 // EC ??? func_02067538
@@ -5703,7 +5703,7 @@ EC void func_ov000_021a35a0(void);
 // EC ??? func_ov000_021a36f8
 EC void func_ov000_021a378c(void);
 EC BOOL func_ov000_021a37b4(void);
-// EC ??? func_ov000_021a37c4
+EC void func_ov000_021a37c4(void);
 EC void func_ov000_021a38b4(void);
 // EC ??? func_ov000_021a3974
 // EC ??? func_ov000_021a3a30
@@ -5788,8 +5788,8 @@ EC void func_ov000_021a5d5c(void *, u32);
 // EC ??? func_ov000_021a68c0
 // EC ??? func_ov000_021a6910
 // EC ??? func_ov000_021a6994
-// EC ??? func_ov000_021a6ab8
-// EC ??? func_ov000_021a6aec
+EC void func_ov000_021a6ab8(void *, s32, s32);
+EC void func_ov000_021a6aec(void *);
 // EC ??? func_ov000_021a6b4c
 EC void func_ov000_021a6bd0(void *);
 // EC ??? func_ov000_021a6c38
@@ -5860,7 +5860,7 @@ EC BOOL func_ov000_021a8248(void);
 // EC ??? func_ov000_021a9650
 // EC ??? func_ov000_021a9670
 EC void func_ov000_021a969c(s32);
-// EC ??? func_ov000_021a96c0
+EC void func_ov000_021a96c0(ProcPtr); // Starts "ProcSeq" proc
 EC void func_ov000_021a9714(void *);
 // EC ??? func_ov000_021a97b8
 // EC ??? func_ov000_021a97cc
@@ -5954,9 +5954,9 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021ae26c
 // EC ??? func_ov000_021ae298
 // EC ??? func_ov000_021ae2c4
-// EC ??? func_ov000_021ae2dc
-// EC ??? func_ov000_021ae2f4
-// EC ??? func_ov000_021ae30c
+EC ProcPtr func_ov000_021ae2dc(ProcPtr);
+EC void func_ov000_021ae2f4(/* ??? */);
+EC void func_ov000_021ae30c(/* ??? */);
 // EC ??? func_ov000_021ae324
 // EC ??? func_ov000_021ae364
 // EC ??? func_ov000_021ae6c0
@@ -9976,10 +9976,10 @@ EC void func_ov003_021fc0d4(void *);
 // EC ??? func_ov005_02205248
 // EC ??? func_ov005_02205280
 // EC ??? func_ov005_022052b8
-EC void func_ov005_022052d0(void *);
+EC void func_ov005_022052d0(ProcPtr);
 // EC ??? func_ov005_022053cc
 EC void func_ov005_022054b0(s32);
-// EC ??? func_ov005_022054c4
+EC void func_ov005_022054c4(void);
 // EC ??? func_ov005_02205518
 // EC ??? func_ov005_022055d8
 // EC ??? func_ov005_022056d8
@@ -9990,7 +9990,7 @@ EC void func_ov005_022054b0(s32);
 // EC ??? func_ov005_022059d8
 // EC ??? func_ov005_022059e4
 // EC ??? func_ov005_022059f0
-// EC ??? func_ov005_02205a04
+EC void func_ov005_02205a04(ProcPtr); // Starts "sally::MMenu" proc
 // EC ??? func_ov005_02205e84
 // EC ??? func_ov005_02205eac
 // EC ??? func_ov005_02205ef0
@@ -10064,7 +10064,7 @@ EC void func_ov005_022054b0(s32);
 // EC ??? func_ov005_0220716c
 // EC ??? func_ov005_02207178
 // EC ??? func_ov005_02207184
-// EC ??? func_ov005_02207198
+EC void func_ov005_02207198(ProcPtr); // Starts "sally::Select" proc
 // EC ??? func_ov005_02207530
 // EC ??? func_ov005_022075c4
 // EC ??? func_ov005_022076bc
@@ -10163,7 +10163,7 @@ EC void func_ov005_022054b0(s32);
 // EC ??? func_ov005_022094e8
 // EC ??? func_ov005_022094f4
 // EC ??? func_ov005_02209500
-// EC ??? func_ov005_02209514
+EC void func_ov005_02209514(ProcPtr); // Starts "sally::SelectJS" proc
 // EC ??? func_ov005_02209990
 // EC ??? func_ov005_02209a08
 // EC ??? func_ov005_02209a34
@@ -10206,7 +10206,7 @@ EC void func_ov005_022054b0(s32);
 // EC ??? func_ov005_0220af84
 // EC ??? func_ov005_0220afd0
 // EC ??? func_ov005_0220b044
-// EC ??? func_ov005_0220b058
+EC void func_ov005_0220b058(ProcPtr); // Starts "sally::IList" proc
 // EC ??? func_ov005_0220b760
 // EC ??? func_ov005_0220b8bc
 // EC ??? func_ov005_0220b8d0
@@ -10261,7 +10261,7 @@ EC void func_ov005_022054b0(s32);
 // EC ??? func_ov005_0220d2fc
 // EC ??? func_ov005_0220d308
 // EC ??? func_ov005_0220d314
-// EC ??? func_ov005_0220d328
+EC void func_ov005_0220d328(ProcPtr); // Starts "sally::Trade" proc
 // EC ??? func_ov005_0220d554
 // EC ??? func_ov005_0220d978
 // EC ??? func_ov005_0220d9e4
@@ -10298,7 +10298,7 @@ EC void func_ov005_022054b0(s32);
 // EC ??? func_ov005_0220e6a8
 // EC ??? func_ov005_0220e6b4
 // EC ??? func_ov005_0220e8b0
-// EC ??? func_ov005_0220e8c4
+EC void func_ov005_0220e8c4(ProcPtr); // Starts "sally::IMenu" proc
 // EC ??? func_ov005_0220e91c
 // EC ??? func_ov005_0220e9ac
 // EC ??? func_ov005_0220e9c0
@@ -10350,7 +10350,7 @@ EC void func_ov005_022054b0(s32);
 // EC ??? func_ov005_02210898
 // EC ??? func_ov005_022108c4
 // EC ??? func_ov005_022108d8
-// EC ??? func_ov005_02210dd8
+EC void func_ov005_02210dd8(ProcPtr); // Starts "sally::JobS" proc
 // EC ??? func_ov005_0221184c
 // EC ??? func_ov005_0221188c
 // EC ??? func_ov005_022118c4
@@ -10542,7 +10542,7 @@ EC void func_ov006_0221776c(void *);
 // EC ??? func_ov006_0221bc68
 // EC ??? func_ov006_0221bcbc
 // EC ??? func_ov006_0221bd88
-EC void func_ov006_0221bdbc(void *);
+EC void func_ov006_0221bdbc(ProcPtr); // Starts "mainmenu::ProcMain" proc
 // EC ??? func_ov006_0221bde4
 // EC ??? func_ov006_0221beb0
 // EC ??? func_ov006_0221bf7c
