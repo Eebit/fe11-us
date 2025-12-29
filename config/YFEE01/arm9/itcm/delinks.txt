@@ -1,5 +1,8 @@
     .text       start:0x01ff8000 end:0x01ffccd0 kind:code align:32
     .bss        start:0x01ffcce0 end:0x01ffcce0 kind:bss align:32
 
+src/itcm/heap-itcm.cpp:
+    .text      start:0x01ffb5dc end:0x01ffbbf8
+
 src/itcm/proc-itcm.c:
     .text       start:0x01ffbbf8 end:0x01ffc404

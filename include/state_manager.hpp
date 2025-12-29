@@ -1,13 +1,9 @@
 #ifndef STATE_MANAGER_HPP
 #define STATE_MANAGER_HPP
 
+#include "heap.hpp"
 #include "save.hpp"
 #include "types.h"
-
-
-// TODO: Move to proper location
-extern u8 data_027e1b9c[];
-EC void func_01ffbb90(void *, void *);
 
 class FlagManager
 {
@@ -23,11 +19,11 @@ public:
     {
         if (this->unk_04 != NULL)
         {
-            func_01ffbb90(data_027e1b9c, this->unk_04);
+            gHeap.Free(this->unk_04);
         }
         else
         {
-            func_01ffbb90(data_027e1b9c, this->unk_08);
+            gHeap.Free(this->unk_08);
         }
     };
 

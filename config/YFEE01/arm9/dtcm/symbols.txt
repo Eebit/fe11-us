@@ -27,5 +27,5 @@ data_027e12f4 kind:bss addr:0x027e12f4
 data_027e16f4 kind:bss addr:0x027e16f4
 data_027e1af4 kind:bss addr:0x027e1af4
 data_027e1b48 kind:bss addr:0x027e1b48
-data_027e1b9c kind:bss addr:0x027e1b9c
+gHeap kind:bss addr:0x027e1b9c
 data_027e1ba0 kind:bss addr:0x027e1ba0

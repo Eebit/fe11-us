@@ -3,6 +3,7 @@
 #include "unknown_data.h"
 #include "unknown_funcs.h"
 
+#include "heap.hpp"
 #include "state_manager.hpp"
 
 static inline u8 TestFlag(u8 * arr, u32 i)
@@ -19,11 +20,11 @@ void FlagManager::func_020492a0(void)
 {
     if (this->unk_04 != NULL)
     {
-        func_020a5824(this->unk_04, 0, func_020114dc(data_027e1b9c, this->unk_04));
+        func_020a5824(this->unk_04, 0, gHeap.SizeOf(this->unk_04));
     }
     else
     {
-        func_020a5824(this->unk_08, 0, func_020114dc(data_027e1b9c, this->unk_08));
+        func_020a5824(this->unk_08, 0, gHeap.SizeOf(this->unk_08));
     }
 
     return;
@@ -220,7 +221,7 @@ void FlagManager::LoadFlags(struct SaveBuffer * buf)
     }
 
     byteCount = Align(flagCount, 8) / 8;
-    temp = static_cast<u8 *>(func_01ffb934(data_027e1b9c, byteCount));
+    temp = static_cast<u8 *>(gHeap.Alloc(byteCount));
 
     for (i = 0; i < byteCount; i++)
     {
@@ -278,7 +279,7 @@ void FlagManager::LoadFlags(struct SaveBuffer * buf)
         }
     }
 
-    func_01ffbb90(data_027e1b9c, temp);
+    gHeap.Free(temp);
 
     return;
 }
@@ -301,7 +302,7 @@ void FlagManager::LoadFlags(struct SaveBuffer * buf, s32 arg_1)
     }
 
     byteCount = Align(arg_1, 8) / 8;
-    arr = static_cast<u8 *>(func_01ffb934(data_027e1b9c, byteCount));
+    arr = static_cast<u8 *>(gHeap.Alloc(byteCount));
 
     for (i = 0; i < byteCount; i++)
     {
@@ -359,7 +360,7 @@ void FlagManager::LoadFlags(struct SaveBuffer * buf, s32 arg_1)
         }
     }
 
-    func_01ffbb90(data_027e1b9c, arr);
+    gHeap.Free(arr);
 
     return;
 }
@@ -453,7 +454,7 @@ void ValueManager::LoadValues(struct SaveBuffer * buf)
         return;
     }
 
-    arr = static_cast<u32 *>(func_01ffb934(data_027e1b9c, count << 2));
+    arr = static_cast<u32 *>(gHeap.Alloc(count << 2));
 
     for (i = 0; i < count; i++)
     {
@@ -502,7 +503,7 @@ void ValueManager::LoadValues(struct SaveBuffer * buf)
         }
     }
 
-    func_01ffbb90(data_027e1b9c, arr);
+    gHeap.Free(arr);
 
     return;
 }
@@ -524,7 +525,7 @@ void ValueManager::LoadValues(struct SaveBuffer * buf, s32 arg_1)
         return;
     }
 
-    arr = static_cast<u32 *>(func_01ffb934(data_027e1b9c, arg_1 << 2));
+    arr = static_cast<u32 *>(gHeap.Alloc(arg_1 << 2));
 
     for (i = 0; i < arg_1; i++)
     {
@@ -565,7 +566,7 @@ void ValueManager::LoadValues(struct SaveBuffer * buf, s32 arg_1)
         }
     }
 
-    func_01ffbb90(data_027e1b9c, arr);
+    gHeap.Free(arr);
 
     return;
 }

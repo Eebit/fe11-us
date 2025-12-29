@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+#include "heap.hpp"
+
 class UnkStruct_021e334c
 {
 public:
@@ -277,10 +279,6 @@ public:
     }
 };
 
-extern u8 data_027e1b9c[];
-EC void * func_01ffb934(void *, s32);
-EC void func_01ffbb90(void *, void *);
-
 class MapStateManager_1C
 {
 public:
@@ -291,7 +289,7 @@ public:
 
     MapStateManager_1C()
     {
-        void * ret = func_01ffb934(data_027e1b9c, 0x4000);
+        void * ret = gHeap.Alloc(0x4000);
         this->unk_04 = ret;
         this->unk_00 = ret;
         this->unk_08 = 0x4000;
@@ -302,7 +300,7 @@ public:
     {
         if (this->unk_0c != 0)
         {
-            func_01ffbb90(data_027e1b9c, this->unk_00);
+            gHeap.Free(this->unk_00);
         }
     }
 };

@@ -4,6 +4,7 @@
 
 #include "hardware.hpp"
 #include "hashtable.hpp"
+#include "heap.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -23,7 +24,6 @@ EC s32 IntSys_Div(s32, s32);
 
 EC void func_01ff9948(s32);
 EC void func_01ffb574(s32, s16, s16, s16, s16); // SetObjAffine?
-EC void func_01ffbb90(void *, void *);
 EC void func_01ffc4e4(s16, s16, u16, u16, s32, s32, s32);
 EC void func_01ffc614(s16, s16, u16, u16, s32, s32, s32);
 EC void func_01ffc668(s16, s16, u16, u16, s32, s32, s32);
@@ -1105,8 +1105,6 @@ Anime::Anime(void * file, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, u8 a
     new AnimeInterpreter(this, file, arg2, arg3, arg4, arg5, arg6);
 }
 
-extern u8 data_027e1b9c[];
-
 Anime::~Anime()
 {
     if (this->interpreter != NULL)
@@ -1126,7 +1124,7 @@ Anime::~Anime()
 
     if (this->ownsFile != 0)
     {
-        func_01ffbb90(data_027e1b9c, this->file);
+        gHeap.Free(this->file);
     }
 }
 
