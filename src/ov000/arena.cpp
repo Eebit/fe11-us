@@ -17,8 +17,6 @@ EC void func_0200ac20(char *, ProcPtr, s32);
 EC void func_02010f98(u16 *, s32, s32);
 EC void func_02017518(void *, void *, s32, s32, s32);
 EC void func_01ff9948(u8);
-EC void func_0201177c(char *, u32);
-EC void func_02011a70(char *, u32, u32, u32);
 EC void func_02011a30(char *, u16 *, u32, u32);
 
 class ArenaProc_unk_60
