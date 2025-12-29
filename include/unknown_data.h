@@ -6292,7 +6292,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // ==============================
 // overlay 5
 // ==============================
-// extern ??? data_ov005_02212d60
+// extern ??? ProcScr_Prep_02212d60
 // extern ??? data_ov005_02213100
 // extern ??? data_ov005_02213110
 // extern ??? data_ov005_02213120

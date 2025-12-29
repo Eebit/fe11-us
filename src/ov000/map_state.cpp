@@ -68,7 +68,7 @@ EC void func_02017b40(void *, void *, int);
 
 EC BOOL func_ov000_021adabc(struct Unit *, u32);
 
-EC void func_ov000_021a6ab8(struct MapStateManager_10 *, s32, s32);
+EC void func_ov000_021a6ab8(void *, s32, s32);
 
 EC BOOL func_ov000_021a475c(void);
 EC BOOL func_ov000_021a47ac(void);

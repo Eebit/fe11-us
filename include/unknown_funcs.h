@@ -2979,7 +2979,7 @@ EC void func_0205e138(struct Unit *, ProcPtr);
 // EC ??? func_020606b4
 // EC ??? func_02061590
 // EC ??? func_020615a4
-EC void func_02061b18(ProcPtr); // Starts "ulist::UnitList" proc
+EC void StartUnitList(ProcPtr); // Starts "ulist::UnitList" proc
 // EC ??? func_02062030
 // EC ??? func_02062548
 EC void func_02062a54(u32);
@@ -3037,7 +3037,7 @@ EC void func_02062a54(u32);
 // EC ??? func_02066658
 // EC ??? func_020666fc
 // EC ??? func_02066704
-EC void func_02066710(ProcPtr); // Starts "config::UIConfig" proc
+EC void StartUIConfig(ProcPtr); // Starts "config::UIConfig" proc
 // EC ??? func_02066e10
 EC void func_02067510(void);
 // EC ??? func_02067538
@@ -5860,7 +5860,7 @@ EC BOOL func_ov000_021a8248(void);
 // EC ??? func_ov000_021a9650
 // EC ??? func_ov000_021a9670
 EC void func_ov000_021a969c(s32);
-EC void func_ov000_021a96c0(ProcPtr); // Starts "ProcSeq" proc
+EC void StartProcSeq(ProcPtr); // Starts "ProcSeq" proc
 EC void func_ov000_021a9714(void *);
 // EC ??? func_ov000_021a97b8
 // EC ??? func_ov000_021a97cc
@@ -9990,7 +9990,7 @@ EC void func_ov005_022054c4(void);
 // EC ??? func_ov005_022059d8
 // EC ??? func_ov005_022059e4
 // EC ??? func_ov005_022059f0
-EC void func_ov005_02205a04(ProcPtr); // Starts "sally::MMenu" proc
+EC void StartSally_MMenu(ProcPtr); // Starts "sally::MMenu" proc
 // EC ??? func_ov005_02205e84
 // EC ??? func_ov005_02205eac
 // EC ??? func_ov005_02205ef0
@@ -10064,7 +10064,7 @@ EC void func_ov005_02205a04(ProcPtr); // Starts "sally::MMenu" proc
 // EC ??? func_ov005_0220716c
 // EC ??? func_ov005_02207178
 // EC ??? func_ov005_02207184
-EC void func_ov005_02207198(ProcPtr); // Starts "sally::Select" proc
+EC void StartSally_Select(ProcPtr); // Starts "sally::Select" proc
 // EC ??? func_ov005_02207530
 // EC ??? func_ov005_022075c4
 // EC ??? func_ov005_022076bc
@@ -10163,7 +10163,7 @@ EC void func_ov005_02207198(ProcPtr); // Starts "sally::Select" proc
 // EC ??? func_ov005_022094e8
 // EC ??? func_ov005_022094f4
 // EC ??? func_ov005_02209500
-EC void func_ov005_02209514(ProcPtr); // Starts "sally::SelectJS" proc
+EC void StartSally_SelectJS(ProcPtr); // Starts "sally::SelectJS" proc
 // EC ??? func_ov005_02209990
 // EC ??? func_ov005_02209a08
 // EC ??? func_ov005_02209a34
@@ -10206,7 +10206,7 @@ EC void func_ov005_02209514(ProcPtr); // Starts "sally::SelectJS" proc
 // EC ??? func_ov005_0220af84
 // EC ??? func_ov005_0220afd0
 // EC ??? func_ov005_0220b044
-EC void func_ov005_0220b058(ProcPtr); // Starts "sally::IList" proc
+EC void StartSally_IList(ProcPtr); // Starts "sally::IList" proc
 // EC ??? func_ov005_0220b760
 // EC ??? func_ov005_0220b8bc
 // EC ??? func_ov005_0220b8d0
@@ -10261,7 +10261,7 @@ EC void func_ov005_0220b058(ProcPtr); // Starts "sally::IList" proc
 // EC ??? func_ov005_0220d2fc
 // EC ??? func_ov005_0220d308
 // EC ??? func_ov005_0220d314
-EC void func_ov005_0220d328(ProcPtr); // Starts "sally::Trade" proc
+EC void StartSally_Trade(ProcPtr); // Starts "sally::Trade" proc
 // EC ??? func_ov005_0220d554
 // EC ??? func_ov005_0220d978
 // EC ??? func_ov005_0220d9e4
@@ -10298,7 +10298,7 @@ EC void func_ov005_0220d328(ProcPtr); // Starts "sally::Trade" proc
 // EC ??? func_ov005_0220e6a8
 // EC ??? func_ov005_0220e6b4
 // EC ??? func_ov005_0220e8b0
-EC void func_ov005_0220e8c4(ProcPtr); // Starts "sally::IMenu" proc
+EC void StartSally_IMenu(ProcPtr); // Starts "sally::IMenu" proc
 // EC ??? func_ov005_0220e91c
 // EC ??? func_ov005_0220e9ac
 // EC ??? func_ov005_0220e9c0
@@ -10350,7 +10350,7 @@ EC void func_ov005_0220e8c4(ProcPtr); // Starts "sally::IMenu" proc
 // EC ??? func_ov005_02210898
 // EC ??? func_ov005_022108c4
 // EC ??? func_ov005_022108d8
-EC void func_ov005_02210dd8(ProcPtr); // Starts "sally::JobS" proc
+EC void StartSally_JobS(ProcPtr); // Starts "sally::JobS" proc
 // EC ??? func_ov005_0221184c
 // EC ??? func_ov005_0221188c
 // EC ??? func_ov005_022118c4
@@ -10542,7 +10542,7 @@ EC void func_ov006_0221776c(void *);
 // EC ??? func_ov006_0221bc68
 // EC ??? func_ov006_0221bcbc
 // EC ??? func_ov006_0221bd88
-EC void func_ov006_0221bdbc(ProcPtr); // Starts "mainmenu::ProcMain" proc
+EC void StartMainMenu_ProcMain(ProcPtr); // Starts "mainmenu::ProcMain" proc
 // EC ??? func_ov006_0221bde4
 // EC ??? func_ov006_0221beb0
 // EC ??? func_ov006_0221bf7c

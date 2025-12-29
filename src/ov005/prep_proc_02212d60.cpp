@@ -306,6 +306,7 @@ EC void func_ov005_022051e0(void)
     return;
 }
 
+// possibly starting convoy view?
 EC void func_ov005_022051f8(ProcPtr proc)
 {
     func_0205d860(data_ov005_02217560->unk_14, proc);
@@ -354,7 +355,7 @@ EC void func_ov005_022052b8(void)
 
 // clang-format off
 
-struct ProcCmd data_ov005_02212d60[] =
+struct ProcCmd ProcScr_Prep_02212d60[] =
 {
     PROC_NAME,
     PROC_SLEEP(0),
@@ -368,7 +369,7 @@ PROC_LABEL(1),
     // fallthrough
 
 PROC_LABEL(0),
-    PROC_CALL(func_ov005_02205a04),
+    PROC_CALL(StartSally_MMenu),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_GOTO(0),
@@ -381,14 +382,14 @@ PROC_LABEL(2),
 
 PROC_LABEL(19),
     PROC_CALL(func_ov005_022051c8),
-    PROC_CALL(func_ov005_02207198),
+    PROC_CALL(StartSally_Select),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_GOTO(21),
 
 PROC_LABEL(20),
     PROC_CALL(func_ov005_022051e0),
-    PROC_CALL(func_02061b18),
+    PROC_CALL(StartUnitList),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_GOTO(21),
@@ -411,7 +412,7 @@ PROC_LABEL(3),
     PROC_CALL(func_ov005_02204d48),
     PROC_CALL(func_ov005_02204cf0),
     PROC_CALL(func_ov000_021ae30c),
-    PROC_CALL(func_ov000_021a96c0),
+    PROC_CALL(StartProcSeq),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_02,
@@ -420,7 +421,7 @@ PROC_LABEL(4),
 
     PROC_CALL(func_ov005_02205280),
     PROC_CALL(func_ov005_02205120),
-    PROC_CALL(func_ov005_02207198),
+    PROC_CALL(StartSally_Select),
     PROC_CALL(func_ov005_0220518c),
     PROC_CALL(func_ov005_02205248),
     PROC_CALL(func_ov005_022054c4),
@@ -428,19 +429,19 @@ PROC_LABEL(4),
     PROC_GOTO(0),
 
 PROC_LABEL(14),
-    PROC_CALL(func_ov005_0220b058),
+    PROC_CALL(StartSally_IList),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_GOTO(4),
 
 PROC_LABEL(15),
-    PROC_CALL(func_ov005_0220d328),
+    PROC_CALL(StartSally_Trade),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_GOTO(4),
 
 PROC_LABEL(16),
-    PROC_CALL(func_ov005_0220e8c4),
+    PROC_CALL(StartSally_IMenu),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_GOTO(4),
@@ -454,7 +455,7 @@ PROC_LABEL(18),
 PROC_LABEL(5),
     PROC_CALL(func_ov005_02205280),
     PROC_CALL(func_ov005_02205120),
-    PROC_CALL(func_ov005_02209514),
+    PROC_CALL(StartSally_SelectJS),
     PROC_CALL(func_ov005_0220518c),
     PROC_CALL(func_ov005_02205248),
     PROC_CALL(func_ov005_022054c4),
@@ -462,7 +463,7 @@ PROC_LABEL(5),
     PROC_GOTO(23),
 
 PROC_LABEL(23),
-    PROC_CALL(func_ov005_02210dd8),
+    PROC_CALL(StartSally_JobS),
     PROC_CALL(func_ov005_022054c4),
 
     PROC_GOTO(5),
@@ -473,14 +474,14 @@ PROC_LABEL(6),
     PROC_GOTO(0),
 
 PROC_LABEL(7),
-    PROC_CALL(func_02066710),
+    PROC_CALL(StartUIConfig),
 
     PROC_GOTO(0),
 
 PROC_LABEL(8),
     PROC_CALL(func_0204ac18),
     PROC_OVERLAY_LOAD(OVERLAY_ID_6),
-    PROC_CALL(func_ov006_0221bdbc),
+    PROC_CALL(StartMainMenu_ProcMain),
     PROC_OVERLAY_UNLOAD(OVERLAY_ID_6),
     PROC_CALL(func_0204aca8),
 
@@ -546,7 +547,7 @@ EC void func_ov005_022052d0(ProcPtr proc)
         gMapStateManager->unk_14->unk_04->unk_19 = 1;
     }
 
-    Proc_StartBlocking(data_ov005_02212d60, proc);
+    Proc_StartBlocking(ProcScr_Prep_02212d60, proc);
 
     if (data_02196f0c->unk_00->unk_0a == 0)
     {
@@ -578,7 +579,7 @@ EC void func_ov005_022053cc(ProcPtr proc)
         gMapStateManager->unk_14->unk_04->unk_19 = 1;
     }
 
-    Proc_StartBlocking(data_ov005_02212d60, proc);
+    Proc_StartBlocking(ProcScr_Prep_02212d60, proc);
 
     data_021974fc->unk_00 = 0;
     data_021974fc->unk_08 = 0;
@@ -592,9 +593,9 @@ EC void func_ov005_022053cc(ProcPtr proc)
     return;
 }
 
-EC void func_ov005_022054b0(s32 param_1)
+EC void func_ov005_022054b0(s32 label)
 {
-    data_ov005_02217560->unk_20 = param_1;
+    data_ov005_02217560->unk_20 = label;
     return;
 }
 
@@ -605,7 +606,7 @@ EC void func_ov005_022054c4(void)
         return;
     }
 
-    Proc_Goto(Proc_Find(data_ov005_02212d60), data_ov005_02217560->unk_20, 0);
+    Proc_Goto(Proc_Find(ProcScr_Prep_02212d60), data_ov005_02217560->unk_20, 0);
     data_ov005_02217560->unk_20 = -1;
 
     return;

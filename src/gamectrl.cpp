@@ -1451,7 +1451,7 @@ EC void func_02022d00(ProcPtr proc)
 
     if (!(data_02196f0c->state & 0x80))
     {
-        func_ov006_0221bdbc(proc);
+        StartMainMenu_ProcMain(proc);
         return;
     }
 
