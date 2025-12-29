@@ -104,7 +104,6 @@ public:
 }; // namespace map
 
 EC struct PlayerPhaseProc * func_ov000_021ae1bc(void);
-EC BOOL func_ov000_021a6ab8(void *, s16, s16);
 EC BOOL func_ov000_021ac0c0(void);
 EC void func_ov000_021aa278(s32);
 
