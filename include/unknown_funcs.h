@@ -509,14 +509,10 @@ EC void func_02010c84(void *);
 // EC ??? func_0201122c
 // EC ??? func_020113d0
 // EC ??? func_02011408
-EC void func_02011458(void);
-// EC ??? func_02011498
-EC s32 func_020114dc(u8 *, void *);
-// EC ??? func_0201153c
-EC void * _Znwm(s32);
-// EC ??? _Znam
-EC void _ZdlPv(void *);
-EC void _ZdaPv(void *);
+
+/* heap.hpp */
+/* <new> */
+
 EC void func_020115d4(void);
 EC BOOL func_0201160c(char *);
 // EC ??? func_02011650
@@ -4781,8 +4777,8 @@ EC void func_020a374c(void *, void (*)(void *));
 // EC ??? func_020a3e04
 // EC ??? func_020a3e4c
 // EC ??? func_020a3f50
-// EC ??? func_020a3fbc
-// EC ??? func_020a3fd0
+EC s32 func_020a3fbc(s32);
+EC s32 func_020a3fd0(s32);
 // EC ??? func_020a3fe4
 // EC ??? func_020a40c8
 // EC ??? func_020a4170
@@ -4817,8 +4813,8 @@ EC void func_020a374c(void *, void (*)(void *));
 // EC ??? func_020a48ec
 // EC ??? func_020a49dc
 // EC ??? func_020a4a24
-// EC ??? func_020a4a38
-// EC ??? func_020a4a4c
+EC s32 func_020a4a38(void);
+EC void func_020a4a4c(s32);
 // EC ??? func_020a4a64
 // EC ??? func_020a4a78
 // EC ??? func_020a4a90
@@ -5636,14 +5632,9 @@ EC void func_01ffa764(void);
 // EC ??? func_01ffb08c
 // EC ??? func_01ffb264
 // EC ??? func_01ffb574
-// EC ??? func_01ffb5dc
-// EC ??? func_01ffb718
-// EC ??? func_01ffb82c
-EC void * func_01ffb934(void *, s32);
-// EC ??? func_01ffb9bc
-// EC ??? func_01ffba40
-// EC ??? func_01ffbaec
-EC void func_01ffbb90(void *, void *);
+
+/* heap.hpp */
+
 // EC ??? func_01ffbc90
 // EC ??? IsRootProcess
 // EC ??? RunProcessScript

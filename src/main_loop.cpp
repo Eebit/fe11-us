@@ -1,6 +1,7 @@
 #include "global.h"
 
 #include "unknown_funcs.h"
+#include "heap.hpp"
 #include "proc.h"
 
 extern void * data_027e1268;
@@ -49,7 +50,7 @@ void func_0200ef04(void)
     data_027e1268 = tmp;
 
     func_02019bd4();
-    func_02011458();
+    Heap::Init();
     func_020115d4();
     func_02015bd0();
     Proc_Init();

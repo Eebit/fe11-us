@@ -8,6 +8,7 @@
 #include "database.hpp"
 #include "event.hpp"
 #include "hashtable.hpp"
+#include "heap.hpp"
 #include "map.hpp"
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
@@ -485,7 +486,7 @@ EC void func_020217b4(void)
     func_020355e4();
 
     random = RollRN(1, 4) * 4;
-    func_01ffb934(data_027e1b9c, random);
+    gHeap.Alloc(random);
 
     if (gFE11Database == NULL)
     {

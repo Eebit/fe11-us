@@ -674,6 +674,11 @@ void func_020194fc(void * unused)
     func_020a36ac(NULL);
 }
 
+// TODO: Convert this file to *.cpp and #include "heap.hpp"
+extern u8 gHeap[];
+EC void _ZN4Heap4FreeEPv(void *, void *);
+EC void * _ZN4Heap5AllocEm(void *, u32);
+
 BOOL func_0201951c(ProcPtr proc)
 {
     struct Proc * p = proc;
@@ -687,7 +692,7 @@ BOOL func_0201951c(ProcPtr proc)
             return FALSE;
         }
 
-        func_01ffbb90(&data_027e1b9c, p->unk_2c);
+        _ZN4Heap4FreeEPv(&gHeap, p->unk_2c);
 
         p->unk_2c = 0;
         p->proc_flags &= ~0x40;
@@ -698,7 +703,7 @@ BOOL func_0201951c(ProcPtr proc)
     }
 
     func = p->proc_scrCur->dataPtr;
-    unk = func_01ffb934(&data_027e1b9c, 0x10c0);
+    unk = _ZN4Heap5AllocEm(&gHeap, 0x10c0);
     func_020a3080(unk, func, proc, ((u8 *)unk) + 0x10c0, 0x1000, 0x13);
 
     func_020a374c(unk, func_020194fc);

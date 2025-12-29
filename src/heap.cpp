@@ -2,56 +2,35 @@
 
 #include <new>
 
-struct Block
-{
-    /* 00 */ struct Block * prev;
-    /* 04 */ struct Block * next;
-    /* 08 */ u32 size;
-    /* 0C */ u16 offset;
-    /* 0E */ u8 free;
-    /* 0F */ u8 remainder;
-};
+#include "heap.hpp"
 
-struct Heap
-{
-    /* 00 */ struct Block * head;
-};
+#include "unknown_funcs.h"
 
-EC s32 func_020a4a38();
-EC void func_020a4a4c(s32);
-EC s32 func_020a3fbc(s32);
-EC s32 func_020a3fd0(s32);
+extern struct Heap gHeap;
 
-EC void * func_01ffb934(struct Heap *, u32);
-EC void func_01ffbb90(struct Heap *, void *);
-
-EC void func_02011498(struct Heap *, struct Block *, s32);
-
-extern struct Heap data_027e1b9c;
-
-EC void func_02011458(void)
+void Heap::Init(void)
 {
     s32 r5 = func_020a3fd0(0);
     s32 r4 = func_020a3fbc(0);
-    func_02011498(&data_027e1b9c, (struct Block *)func_020a3fd0(0), r4 + 1 - r5);
+    gHeap.Init((struct Block *)func_020a3fd0(0), r4 + 1 - r5);
     return;
 }
 
-EC void func_02011498(struct Heap * self, struct Block * block, s32 size)
+void Heap::Init(struct Block * block, s32 size)
 {
-    self->head = block;
+    this->head = block;
     block->prev = NULL;
-    self->head->next = NULL;
-    self->head->size = (size - 0x10) & ~3;
-    self->head->free = 1;
-    self->head->offset = 0;
-    self->head->remainder = 0;
+    this->head->next = NULL;
+    this->head->size = (size - 0x10) & ~3;
+    this->head->free = 1;
+    this->head->offset = 0;
+    this->head->remainder = 0;
     return;
 }
 
-EC s32 func_020114dc(struct Heap * heap, void * arg1)
+s32 Heap::SizeOf(void * addr)
 {
-    struct Block * block = heap->head;
+    struct Block * block = this->head;
     s32 lock = func_020a4a38();
     s32 size;
 
@@ -62,7 +41,7 @@ EC s32 func_020114dc(struct Heap * heap, void * arg1)
             continue;
         }
 
-        if (((u8 *)block + 0x10 + block->offset) != arg1)
+        if (((u8 *)block + 0x10 + block->offset) != addr)
         {
             continue;
         }
@@ -72,16 +51,17 @@ EC s32 func_020114dc(struct Heap * heap, void * arg1)
     }
 
     func_020a4a4c(lock);
+
     return size;
 }
 
-EC u32 func_0201153c(struct Heap * heap)
+u32 Heap::GetLargestFreeSize(void)
 {
     struct Block * block;
 
     u32 size = 0;
 
-    for (block = heap->head; block != NULL; block = block->next)
+    for (block = this->head; block != NULL; block = block->next)
     {
         if (block->free != 1)
         {
@@ -99,22 +79,22 @@ EC u32 func_0201153c(struct Heap * heap)
 
 void * operator new(size_t size)
 {
-    return func_01ffb934(&data_027e1b9c, size);
+    return gHeap.Alloc(size);
 }
 
 void * operator new[](size_t size)
 {
-    return func_01ffb934(&data_027e1b9c, size);
+    return gHeap.Alloc(size);
 }
 
 void operator delete(void * ptr)
 {
-    func_01ffbb90(&data_027e1b9c, ptr);
+    gHeap.Free(ptr);
     return;
 }
 
 void operator delete[](void * ptr)
 {
-    func_01ffbb90(&data_027e1b9c, ptr);
+    gHeap.Free(ptr);
     return;
 }

@@ -1,5 +1,6 @@
 #include "global.h"
 
+#include "heap.hpp"
 #include "oam.h"
 #include "unknown_funcs.h"
 
@@ -9,8 +10,6 @@
 #define GFX_FIFO_POLYGON_ATTR *(vu32 *)(0x040004A4)
 #define GFX_FIFO_TEXTURE_PARAM *(vu32 *)(0x040004A8)
 #define GFX_FIFO_TEXTURE_PALETTE *(vu32 *)(0x040004AC)
-
-extern u8 data_027e1b9c[];
 
 struct MapRenderState
 {
@@ -61,7 +60,7 @@ EC void Map_LoadTextures(MapFile * map, s32 brightness)
 
         if ((texture->unk_26 & 1) != 0)
         {
-            texture->unk_18 = static_cast<u16 *>(func_01ffb934(data_027e1b9c, texture->palSize));
+            texture->unk_18 = static_cast<u16 *>(gHeap.Alloc(texture->palSize));
             func_020a5780(mapTextureFile + texture->palOffset, texture->unk_18, texture->palSize);
         }
     }
@@ -81,7 +80,7 @@ EC void Map_UnloadTextures(MapFile * map)
 
         if (texture->unk_18 != NULL)
         {
-            func_01ffbb90(data_027e1b9c, texture->unk_18);
+            gHeap.Free(texture->unk_18);
             texture->unk_18 = NULL;
         }
     }
@@ -347,7 +346,7 @@ EC void Map_RenderLayers(MapFile * map)
                         {
                             s32 unk_02 = layer_14->unk_02;
                             s32 unk_01 = layer_14->unk_01;
-                            if ((u32)((unk_02 + unk_01) * 2) <= func_020114dc(data_027e1b9c, texture->unk_18))
+                            if ((u32)((unk_02 + unk_01) * 2) <= gHeap.SizeOf(texture->unk_18))
                             {
                                 for (j = 0; j < unk_02; j++)
                                 {
@@ -435,7 +434,7 @@ EC void Map_UnloadTAFile(MapFile * map)
         return;
     }
 
-    func_01ffbb90(data_027e1b9c, map->taFileData);
+    gHeap.Free(map->taFileData);
     map->taFileData = NULL;
 
     return;

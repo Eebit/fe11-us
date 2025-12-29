@@ -3342,7 +3342,9 @@ extern int data_027e00e0;
 // extern ??? data_027e16f4
 // extern ??? data_027e1af4
 // extern ??? data_027e1b48
-extern u8 data_027e1b9c[];
+
+/* heap.hpp */
+
 // extern ??? data_027e1ba0
 
 // ==============================

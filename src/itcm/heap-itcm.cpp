@@ -1,28 +1,10 @@
 #include "global.h"
 
-#define ALIGN_UP(n, a) (((u32)(n) + ((a) - 1)) & ~((a) - 1))
-#define ALIGN_UP_POW2(n, a) (((u32)(n) + (a) - 1) & -(a))
-#define ALIGN_PADDING_AFTER(poin, a) (ALIGN_UP_POW2((u32)(poin) + sizeof(*(poin)), a) - ((u32)(poin) + sizeof(*(poin))))
+#include "heap.hpp"
 
-struct Block
-{
-    /* 00 */ struct Block * prev;
-    /* 04 */ struct Block * next;
-    /* 08 */ u32 size;
-    /* 0C */ u16 offset;
-    /* 0E */ u8 free;
-    /* 0F */ u8 remainder;
-};
+#include "unknown_funcs.h"
 
-struct Heap
-{
-    /* 00 */ struct Block * head;
-};
-
-EC s32 func_020a4a38(void);
-EC void func_020a4a4c(s32);
-
-EC void * func_01ffb5dc(Heap * heap, struct Block * block, u32 size, u32 alignment)
+void * Heap::AllocateAlignedFromFront(struct Block * block, u32 size, u32 alignment)
 {
     u32 tmp = (((u32)(((u32)block + sizeof(struct Block))) + (alignment)-1) & -(alignment));
     block->offset = tmp - ((u32)block + sizeof(struct Block));
@@ -78,7 +60,7 @@ EC void * func_01ffb5dc(Heap * heap, struct Block * block, u32 size, u32 alignme
     return (void *)((u8 *)block + block->offset + sizeof(struct Block));
 }
 
-EC void * func_01ffb718(Heap * heap, struct Block * block, u32 size, u32 alignment)
+void * Heap::AllocateAlignedFromBack(struct Block * block, u32 size, u32 alignment)
 {
     u32 r4;
     u32 r5;
@@ -138,10 +120,10 @@ EC void * func_01ffb718(Heap * heap, struct Block * block, u32 size, u32 alignme
         return (void *)((u8 *)newBlock + newBlock->offset + sizeof(struct Block));
     }
 
-    return func_01ffb5dc(heap, block, size, alignment);
+    return this->AllocateAlignedFromFront(block, size, alignment);
 }
 
-EC void func_01ffb82c(Heap * heap, struct Block * block)
+void Heap::FreeAndCoalesce(struct Block * block)
 {
     struct Block * prev = block->prev;
     struct Block * next = block->next;
@@ -202,38 +184,9 @@ EC void func_01ffb82c(Heap * heap, struct Block * block)
     return;
 }
 
-EC void * func_01ffba40(Heap * heap, u32 size, u32 alignment)
+EC void * Heap::Alloc(u32 size)
 {
-    struct Block * it = heap->head;
-    struct Block * freeBlock = NULL;
-    void * ret = NULL;
-    s32 lock;
-
-    size = (((u32)(size) + (alignment)-1) & -(alignment));
-    lock = func_020a4a38();
-
-    for (; it != NULL; it = it->next)
-    {
-        if (it->free == TRUE && it->size >= (size + ALIGN_PADDING_AFTER(it, alignment)))
-        {
-            freeBlock = it;
-            break;
-        }
-    }
-
-    if (freeBlock != NULL)
-    {
-        ret = func_01ffb5dc(heap, freeBlock, size, alignment);
-    }
-
-    func_020a4a4c(lock);
-
-    return ret;
-}
-
-EC void * func_01ffb934(Heap * heap, u32 size)
-{
-    struct Block * it = heap->head;
+    struct Block * it = this->head;
     struct Block * freeBlock = NULL;
     void * ret = NULL;
     s32 lock;
@@ -252,7 +205,7 @@ EC void * func_01ffb934(Heap * heap, u32 size)
 
     if (freeBlock != NULL)
     {
-        ret = func_01ffb5dc(heap, freeBlock, size, 4);
+        ret = this->AllocateAlignedFromFront(freeBlock, size, 4);
     }
 
     func_020a4a4c(lock);
@@ -260,9 +213,9 @@ EC void * func_01ffb934(Heap * heap, u32 size)
     return ret;
 }
 
-EC void * func_01ffb9bc(Heap * heap, u32 size)
+void * Heap::_01ffb9bc(u32 size)
 {
-    struct Block * it = heap->head;
+    struct Block * it = this->head;
     struct Block * freeBlock = NULL;
     void * ret = NULL;
     s32 lock;
@@ -280,7 +233,7 @@ EC void * func_01ffb9bc(Heap * heap, u32 size)
 
     if (freeBlock != NULL)
     {
-        ret = func_01ffb718(heap, freeBlock, size, 4);
+        ret = this->AllocateAlignedFromBack(freeBlock, size, 4);
     }
 
     func_020a4a4c(lock);
@@ -288,9 +241,38 @@ EC void * func_01ffb9bc(Heap * heap, u32 size)
     return ret;
 }
 
-EC void * func_01ffbaec(Heap * heap, u32 size, u32 alignment)
+void * Heap::_01ffba40(u32 size, u32 alignment)
 {
-    struct Block * it = heap->head;
+    struct Block * it = this->head;
+    struct Block * freeBlock = NULL;
+    void * ret = NULL;
+    s32 lock;
+
+    size = (((u32)(size) + (alignment)-1) & -(alignment));
+    lock = func_020a4a38();
+
+    for (; it != NULL; it = it->next)
+    {
+        if (it->free == TRUE && it->size >= (size + ALIGN_PADDING_AFTER(it, alignment)))
+        {
+            freeBlock = it;
+            break;
+        }
+    }
+
+    if (freeBlock != NULL)
+    {
+        ret = this->AllocateAlignedFromFront(freeBlock, size, alignment);
+    }
+
+    func_020a4a4c(lock);
+
+    return ret;
+}
+
+void * Heap::_01ffbaec(u32 size, u32 alignment)
+{
+    struct Block * it = this->head;
     struct Block * freeBlock = NULL;
     void * ret = NULL;
     s32 lock;
@@ -317,7 +299,7 @@ EC void * func_01ffbaec(Heap * heap, u32 size, u32 alignment)
 
     if (freeBlock != NULL)
     {
-        ret = func_01ffb718(heap, freeBlock, size, alignment);
+        ret = this->AllocateAlignedFromBack(freeBlock, size, alignment);
     }
 
     func_020a4a4c(lock);
@@ -325,9 +307,9 @@ EC void * func_01ffbaec(Heap * heap, u32 size, u32 alignment)
     return ret;
 }
 
-EC void func_01ffbb90(Heap * heap, void * addr)
+void Heap::Free(void * addr)
 {
-    struct Block * it = heap->head;
+    struct Block * it = this->head;
 
     s32 lock = func_020a4a38();
 
@@ -339,7 +321,7 @@ EC void func_01ffbb90(Heap * heap, void * addr)
 
             if (ptr == addr)
             {
-                func_01ffb82c(heap, it);
+                this->FreeAndCoalesce(it);
                 break;
             }
         }
