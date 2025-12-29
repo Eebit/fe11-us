@@ -5,26 +5,36 @@
 #include "proc.h"
 #include "unknown_funcs.h"
 
-// extern void * data_027e1268;
-
-// extern void * data_027e0000;
-// extern void * data_027e0004;
-
 extern vu8 gMainLoopBlocked;
 extern vu8 data_027e125c;
 extern vu32 gClock;
 extern vu32 data_027e1264;
 
+struct UnkStruct_020eea00
+{
+    u32 unk_00;
+    STRUCT_PAD(0x04, 0x08);
+    u32 unk_08;
+};
+
+extern struct UnkStruct_020eea00 data_020eea00;
+
+#define BIOS_EXTRA_BUTTONS *(vu16 *)0x027FFFA8
+
+#define INPUT_MASK_DPAD 0x00F0
+#define INPUT_MASK_ABXY 0x2F0F
+#define INPUT_MASK_ALLBTNS 0x2FFF
+#define INPUT_MASK_HINGE 0x8000
+
 // TODO: "nds/io_reg.h"
+#define REG_KEYINPUT (*(vu16 *)0x04000130)
 #define REG_EXMEM_CNT *(vu16 *)(0x04000204)
 #define REG_IME *(vu16 *)(0x04000208)
+#define REG_DIVCNT *((vu16 *)0x04000280)
 #define REG_POWER_CNT *(vu16 *)(0x04000304)
 #define REG_DISPCNT_SUB *(vu32 *)(0x04001000)
 
 EC void func_0200f0f0(void);
-EC void func_020a25dc(s32, void (*)(void));
-EC void func_020a27ac(s32);
-EC void func_0209f7d8(s32, s32);
 
 extern s32 data_020dd67c;
 
@@ -173,8 +183,6 @@ EC void func_0200f04c(void)
     OS_WaitIrq(1, 1);
 }
 
-#define REG_DIVCNT *((vu16 *)0x04000280)
-
 EC void func_0200f0f0(void)
 {
     AbstCtrl_04 * tmp;
@@ -221,9 +229,39 @@ EC void func_0200f0f0(void)
     return;
 }
 
-extern u8 data_020e4df4[]; // active overlays
-extern u8 data_020ca5cc[];
-extern u32 data_020ca5d8[]; // overlay table
+// active overlays
+u8 data_020e4df4[12] = { };
+
+// clang-format off
+
+u8 data_020ca5cc[] =
+{
+    1, 1,
+    2, 2,
+    12, 4,
+    8, 8,
+    12, 12,
+    12, 12,
+};
+
+// overlay table
+u32 data_020ca5d8[] =
+{
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+};
+
+// clang-format on
 
 EC void func_0200f1e8(void)
 {
@@ -263,8 +301,6 @@ EC void UnloadOverlay(u32 overlayId)
     return;
 }
 
-EC BOOL IsOverlayLoaded(u32);
-
 EC void func_0200f28c(u32 overlayId)
 {
     s32 i;
@@ -299,9 +335,6 @@ EC BOOL IsOverlayLoaded(u32 overlayId)
     return data_020e4df4[overlayId];
 }
 
-EC void func_0200f318(void);
-EC void func_0200f338(void);
-
 EC void func_0200f308(void)
 {
     func_0200f318();
@@ -332,8 +365,6 @@ void func_0200f338(void)
     return;
 }
 
-EC void func_0200f308(void);
-
 EC void func_0200f350(s32 param_1)
 {
     func_0200f308();
@@ -359,10 +390,10 @@ EC void func_0200f350(s32 param_1)
     return;
 }
 
-extern void * data_020e4e00;
-extern void * data_020e5200;
-extern void * data_020e5600;
-extern void * data_020e6000;
+u8 data_020e4e00[0x400] = { };
+u8 data_020e5200[0x400] = { };
+u8 data_020e5600[0xa00] = { };
+u8 data_020e6000[0xa00] = { };
 
 extern void * data_027e12f4;
 extern void * data_027e16f4;
@@ -453,7 +484,20 @@ EC BOOL func_0200f5f0(u32 param_1)
 
 EC void func_0200fbf0(struct BgAffineSrcData *, struct BgAffineDstData *);
 
-extern BgAffineSrcData data_020ca608;
+// clang-format off
+
+struct BgAffineSrcData data_020ca608 =
+{
+    .texX = 0x80,
+    .texY = 0x60,
+    .scrX = 0x80,
+    .scrY = 0x60,
+    .sx = 0x100,
+    .sy = 0x100,
+    .alpha = 0,
+};
+
+// clang-format on
 
 EC void func_0200f630(void)
 {
@@ -637,29 +681,11 @@ EC void func_0200fcdc(void)
 
 // #func_0200ff50
 
-struct UnkStruct_020ca61c_00
-{
-    u16 unk_00;
-    u16 unk_02;
-    u16 unk_04;
-    u16 unk_06;
-    u16 unk_08;
-    u16 unk_0a;
-};
+extern struct UnkStruct_020ca61c data_020eea0c;
+struct UnkStruct_020ca61c * data_020ca61c = &data_020eea0c;
 
-struct UnkStruct_020ca61c_04
-{
-    STRUCT_PAD(0x00, 0x10);
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    u8 unk_13;
-    u8 unk_14;
-    u8 unk_15;
-};
-
-extern struct UnkStruct_020ca61c_00 * data_020ca61c;
-extern struct UnkStruct_020ca61c_04 * data_020ca620;
+extern struct UnkStruct_020ca620 data_020eea18;
+struct UnkStruct_020ca620 * data_020ca620 = &data_020eea18;
 
 EC void func_020100ac(void)
 {
@@ -708,24 +734,6 @@ EC void func_02010100(void)
 
     return;
 }
-
-struct UnkStruct_020eea00
-{
-    u32 unk_00;
-    STRUCT_PAD(0x04, 0x08);
-    u32 unk_08;
-};
-
-extern struct UnkStruct_020eea00 data_020eea00;
-
-#define REG_KEYINPUT (*(vu16 *)0x04000130)
-
-#define BIOS_EXTRA_BUTTONS *(vu16 *)0x027FFFA8
-
-#define INPUT_MASK_DPAD 0x00F0
-#define INPUT_MASK_ABXY 0x2F0F
-#define INPUT_MASK_ALLBTNS 0x2FFF
-#define INPUT_MASK_HINGE 0x8000
 
 EC void func_0201018c(void)
 {

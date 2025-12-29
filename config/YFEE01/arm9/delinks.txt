@@ -12,6 +12,8 @@ src/main.cpp:
 
 src/hardware.cpp:
     .text       start:0x0200edf0 end:0x02011458
+    .data       start:0x020ca5cc end:0x020ca624
+    .bss        start:0x020e4df4 end:0x020e6a00
 
 src/heap.cpp:
     .text       start:0x02011458 end:0x020115d4

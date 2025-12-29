@@ -453,8 +453,8 @@ EC void UnloadOverlay(u32 overlayId);
 EC void func_0200f28c(u32 arg_0);
 EC BOOL IsOverlayLoaded(u32 overlayId);
 EC void func_0200f308(void);
-// EC ??? func_0200f318
-// EC ??? func_0200f338
+EC void func_0200f318(void);
+EC void func_0200f338(void);
 EC void func_0200f350(s32);
 EC void func_0200f3b8(void);
 // EC ??? func_0200f4f0
@@ -4539,7 +4539,7 @@ EC void func_02070480(void);
 EC void func_0209f654(void);
 EC void func_0209f658(void);
 // EC ??? func_0209f7a4
-// EC ??? func_0209f7d8
+EC void func_0209f7d8(s32, s32);
 EC void func_0209f80c(void);
 EC void GX_DispOn(void);
 // EC ??? func_0209f890
@@ -4680,12 +4680,12 @@ void OS_WaitIrq(BOOL clear, u32 irqFlags);
 // EC ??? func_020a25a4
 // EC ??? func_020a25b4
 // EC ??? func_020a25c4
-// EC ??? func_020a25dc
+EC void func_020a25dc(s32, void (*)(void));
 // EC ??? func_020a2664
 // EC ??? func_020a26f0
 // EC ??? func_020a2738
 // EC ??? func_020a2780
-// EC ??? func_020a27ac
+EC void func_020a27ac(s32);
 // EC ??? func_020a27dc
 // EC ??? func_020a280c
 // EC ??? func_020a2838
