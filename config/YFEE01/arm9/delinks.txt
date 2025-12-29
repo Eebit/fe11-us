@@ -10,8 +10,8 @@
 src/main.cpp:
     .text       start:0x02000c50 end:0x020010a0
 
-src/main_loop.cpp:
-    .text       start:0x0200ef04 end:0x0200f0f0
+src/hardware.cpp:
+    .text       start:0x0200edf0 end:0x02011458
 
 src/heap.cpp:
     .text       start:0x02011458 end:0x020115d4
