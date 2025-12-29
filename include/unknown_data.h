@@ -4136,11 +4136,11 @@ extern void * data_ov000_021dcebc[];
 // extern ??? data_ov000_021e2c00
 // extern ??? data_ov000_021e2c10
 // extern ??? data_ov000_021e2c20
-// extern ??? data_ov000_021e2c30
-// extern ??? data_ov000_021e2c38
-// extern ??? data_ov000_021e2c46
-// extern ??? data_ov000_021e2c54
-// extern ??? data_ov000_021e2c64
+// extern ??? Sprite_Minimap_021e2c30
+// extern ??? Sprite_Minimap_021e2c38
+// extern ??? Sprite_Minimap_021e2c46
+// extern ??? SpriteLut_Minimap
+// extern ??? Sprite_Minimap_021e2c64
 // extern ??? data_ov000_021e2c80
 // extern ??? data_ov000_021e2c88
 // extern ??? data_ov000_021e2c90

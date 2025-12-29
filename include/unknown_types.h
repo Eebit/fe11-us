@@ -183,22 +183,22 @@ struct MapLayer
 
 struct MapTexture
 {
-    s32 unk_00; // offset of where the texture image starts in the *.ta file?
-    s32 unk_04; // size of image data
-    u32 unk_08; // ?
-    s32 unk_0c; // offset of palette data
-    s32 unk_10; // size of palette data
-    u32 unk_14; // ?
-    u16 * unk_18; // pointer to ?
-    s16 unk_1c; // width?
-    s16 unk_1e; // height?
-    u8 unk_20;
-    u8 unk_21;
-    u8 unk_22;
-    u8 unk_23;
-    u8 unk_24;
-    u8 unk_25;
-    u16 unk_26;
+    /* 00 */ s32 imgOffset; // offset of where the texture image starts in the *.ta file?
+    /* 04 */ s32 imgSize; // size of image data
+    /* 08 */ u32 imgDst;
+    /* 0C */ s32 palOffset; // offset of palette data
+    /* 10 */ s32 palSize; // size of palette data
+    /* 14 */ u32 palDst;
+    /* 18 */ u16 * unk_18; // pointer to ?
+    /* 1C */ s16 unk_1c; // width?
+    /* 1E */ s16 unk_1e; // height?
+    /* 20 */ u8 unk_20;
+    /* 21 */ u8 unk_21;
+    /* 22 */ u8 unk_22;
+    /* 23 */ u8 unk_23;
+    /* 24 */ u8 unk_24;
+    /* 25 */ u8 unk_25;
+    /* 26 */ u16 unk_26;
 };
 
 struct MapFile
@@ -206,8 +206,8 @@ struct MapFile
     void * unk_00;
     /* 04 */ char * taFileName; // pointer to "*.ta" string
     /* 08 */ void * taFileData;
-    /* 0C */ s8 unk_0c; // width
-    /* 0D */ s8 unk_0d; // height
+    /* 0C */ s8 tileWidth;
+    /* 0D */ s8 tileHeight;
     /* 0E */ u8 layerCount;
     /* 0F */ u8 textureCount;
     /* 10 */ u8 * unk_10;

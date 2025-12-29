@@ -1149,10 +1149,10 @@ EC void func_0201f8a0(void);
 // EC ??? func_0201fd44
 // EC ??? func_0201fdfc
 // EC ??? func_0201fe00
-EC void func_0201fe14(void *, u32, u32);
+EC void LoadTextureImage(void *, u32, u32);
 // EC ??? func_0201fe40
 // EC ??? func_0201fe6c
-EC void func_0201fec0(void *, u32, u32);
+EC void LoadTexturePalette(void *, u32, u32);
 // EC ??? func_0201fee4
 EC void func_0201ff20(void);
 // EC ??? func_0201ffb0
@@ -3327,7 +3327,7 @@ EC void func_02067510(void);
 // EC ??? func_0206e8d0
 // EC ??? func_0206e95c
 // EC ??? func_0206ea7c
-EC void func_0206eae0(u8 *, void *, u32, u32);
+EC void AdjustPaletteBrightness(u8 *, void *, u32, u32);
 // EC ??? func_0206ebd4
 // EC ??? func_0206ec5c
 EC BOOL func_0206ec80(u32);
@@ -6947,18 +6947,18 @@ EC void func_ov000_021d6f1c(ProcPtr, u32);
 // EC ??? func_ov000_021d7028
 // EC ??? func_ov000_021d7074
 // EC ??? func_ov000_021d7078
-// EC ??? func_ov000_021d708c
-// EC ??? func_ov000_021d71ac
-// EC ??? func_ov000_021d7234
-// EC ??? func_ov000_021d7acc
-// EC ??? func_ov000_021d7afc
-// EC ??? func_ov000_021d7b28
-// EC ??? func_ov000_021d7b38
-// EC ??? func_ov000_021d7b48
-// EC ??? func_ov000_021d7b74
-// EC ??? func_ov000_021d7bd8
-// EC ??? func_ov000_021d7c08
-// EC ??? func_ov000_021d7c50
+// EC ??? Map_LoadTextures
+// EC ??? Map_UnloadTextures
+// EC ??? Map_RenderLayers
+// EC ??? Map_LoadTAFile
+// EC ??? Map_UnloadTAFile
+// EC ??? MapRenderState_GetUnk08
+// EC ??? MapRenderState_GetUnk00
+// EC ??? Map_GetMinimapSprite
+// EC ??? Map_FindLayer
+// EC ??? Map_SetLayerAlphaAt
+// EC ??? Map_SetAllKind3LayersAlpha
+// EC ??? Map_SetLayerAlphaById
 // EC ??? func_ov000_021d7c90
 // EC ??? func_ov000_021d7cd8
 // EC ??? func_ov000_021d7d1c

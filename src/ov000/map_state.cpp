@@ -333,8 +333,8 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 
     pMapFile = func_020379e0(mapName, 0);
 
-    this->unk_20 = pMapFile->unk_0c;
-    this->unk_22 = pMapFile->unk_0d;
+    this->unk_20 = pMapFile->tileWidth;
+    this->unk_22 = pMapFile->tileHeight;
 
     this->unk_24 = 1;
     this->unk_25 = 1;
