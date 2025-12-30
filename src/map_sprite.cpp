@@ -1,14 +1,13 @@
 #include "global.h"
 
+#include <new>
+
 #include "unknown_data.h"
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
 #include "hardware.hpp"
 #include "map.hpp"
-
-#include <new>
-
 #include "proc_ex.hpp"
 
 class UnitFlash : public ProcEx
@@ -17,20 +16,20 @@ public:
     /* 38 */ u32 unk_38;
     /* 3C */ u16 * unk_3c;
     /* 40 */ u16 * unk_40;
-    /* 44 */ u32 unk_44;
-    /* 48 */ s32 unk_48;
-    /* 4C */ u16 unk_4c;
+    /* 44 */ u32 timer;
+    /* 48 */ s32 duration;
+    /* 4C */ u16 color;
 
-    UnitFlash(s32 duration, s32 arg1, s32 jid, s32 arg3, s32 arg4)
+    UnitFlash(s32 duration, s32 color, s32 jid, s32 arg3, s32 arg4)
     {
-        func_0203e220(jid, 0);
+        SetSpriteDirectoryForJob(jid, 0);
         this->unk_3c = static_cast<u16 *>(gHeap.Alloc(0x40));
         func_020116a0("palette", this->unk_3c, 0x40, arg3 * 0x40);
         this->unk_40 = static_cast<u16 *>(gHeap.Alloc(0x40));
         this->unk_38 = arg4;
-        this->unk_48 = duration;
-        this->unk_4c = arg1; // colour?
-        this->unk_44 = 0;
+        this->duration = duration;
+        this->color = color; // colour?
+        this->timer = 0;
 
         if (duration == 0)
         {
@@ -38,7 +37,6 @@ public:
         }
     }
 
-    // #func_0203fa1c
     virtual void Loop()
     {
         s32 lerp;
@@ -46,8 +44,8 @@ public:
         s32 i;
         s32 max;
 
-        timer = ++this->unk_44;
-        max = this->unk_48 >> 1;
+        timer = ++this->timer;
+        max = this->duration >> 1;
 
         if (timer < max)
         {
@@ -55,17 +53,17 @@ public:
         }
         else
         {
-            lerp = Interpolate(0, 0x10, 0, timer - max, this->unk_48 - max);
+            lerp = Interpolate(0, 0x10, 0, timer - max, this->duration - max);
         }
 
         for (i = 0; i < 0x20; i++)
         {
-            this->unk_40[i] = func_0202025c(this->unk_3c[i], this->unk_4c, 0x10 - lerp, lerp);
+            this->unk_40[i] = func_0202025c(this->unk_3c[i], this->color, 0x10 - lerp, lerp);
         }
 
-        func_020205a4(this->unk_40, this->unk_38, 0x40, (this->unk_44 == this->unk_48) & 0xff);
+        func_020205a4(this->unk_40, this->unk_38, 0x40, (this->timer == this->duration) & 0xff);
 
-        if (this->unk_44 == this->unk_48)
+        if (this->timer == this->duration)
         {
             Proc_Break(this, 0);
         }
@@ -73,11 +71,9 @@ public:
         return;
     }
 
-    // #func_0203f954 - d0
-    // #func_0203f9bc - d1
     virtual ~UnitFlash()
     {
-        if (this->unk_44 == this->unk_48)
+        if (this->timer == this->duration)
         {
             gHeap.Free(this->unk_3c);
         }
@@ -91,44 +87,66 @@ public:
 
 struct IdleMapSprite
 {
-    u32 unk_00;
-    u16 unk_04;
-    u16 unk_06;
+    /* 00 */ u32 imgAddr;
+    /* 04 */ u16 palAddr;
+    /* 06 */ u16 size;
 
-    IdleMapSprite(); // func_0203e2c8
+    IdleMapSprite();
+
+    BOOL IsLoaded(void);
+    void Set(u32 imgAddr, u32 palAddr, s32 size);
 };
 
 class IdleMapSpriteMgr
 {
 public:
-    IdleMapSprite * unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0c;
-    s32 unk_10;
-    u64 unk_14;
-    u64 unk_1c;
+    /* 00 */ IdleMapSprite * sprites;
+    /* 04 */ s32 imgAddrBase;
+    /* 08 */ s32 palAddrBase;
+    /* 0C */ s32 unk_0c;
+    /* 10 */ s32 count;
+    /* 14 */ u64 imgSlotFlags;
+    /* 1C */ u64 palSlotFlags;
 
-    IdleMapSpriteMgr(s32, s32, s32); // func_0203e2dc
-    ~IdleMapSpriteMgr(); // func_0203e334
+    IdleMapSpriteMgr(s32, s32, s32);
+    ~IdleMapSpriteMgr();
+
+    IdleMapSprite * GetSpriteFor(s32 index);
+    s32 ReserveImgBlocks(s32 size);
+    s32 ReservePalBlocks(s32 size);
+    void ClearImgBlocks(u32 addr, s32 size);
+    void ClearPalBlocks(u32 addr, s32 size);
+    BOOL LoadSprite(s32 jid, s32 arg2, s32 arg3, u8 arg4);
+    void UnloadSprite(s32 jid);
+
+    void Init(void);
+    void DrawSprite(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 };
 
 struct MovingMapSprite
 {
-    void * unk_00[6];
-    u32 unk_18;
-    u32 unk_1c;
+    /* 00 */ void * frames[6];
+    /* 18 */ u32 imgAddr;
+    /* 1C */ u32 palAddr;
     /* 20 */ u16 jid;
-    u8 unk_22;
-    u8 unk_23;
-    s8 unk_24;
-    s8 unk_25;
-    s8 unk_26;
-    s8 unk_27;
-    u32 unk_28; // clock
+    /* 22 */ u8 unk_22;
+    /* 23 */ u8 unk_23;
+    /* 24 */ s8 animId;
+    /* 25 */ s8 frame;
+    /* 26 */ s8 prevAnimId;
+    /* 27 */ s8 prevFrame;
+    /* 28 */ u32 timer;
 
-    MovingMapSprite(s32, s32, s32, s32); // func_0203ef6c
-    ~MovingMapSprite(); // func_0203f01c
+    MovingMapSprite(s32, s32, s32, s32);
+    ~MovingMapSprite();
+
+    s32 DrawSpriteExt(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+    void DrawSprite(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+    void StartFlash(s32 arg1, s32 arg2);
+    s32 func_0203f6a0(void);
+    void UpdateJid(s32 arg1);
+    void func_0203f8a0(s32 arg1);
+    void Free(void);
 };
 
 #define GFX_FIFO_POLYGONS_BEGIN *(vu32 *)(0x04000500)
@@ -143,13 +161,11 @@ extern const u8 data_020c515c[];
 
 extern u16 data_027e0028[];
 
-EC void func_0203f914(MovingMapSprite *);
-
-EC void func_0203e220(s32 jid, BOOL param_2)
+EC void SetSpriteDirectoryForJob(s32 jid, BOOL isMovingMapSprite)
 {
     struct JobData * job;
 
-    if (param_2 == 0)
+    if (!isMovingMapSprite)
     {
         func_020a8f40("/2");
     }
@@ -165,7 +181,7 @@ EC void func_0203e220(s32 jid, BOOL param_2)
     return;
 }
 
-EC s32 func_0203e274(void)
+EC s32 GetTileSize_(void)
 {
     if (gMapStateManager != NULL)
     {
@@ -181,60 +197,57 @@ EC s32 GetTileSize(void)
     return 0x18;
 }
 
-EC BOOL func_0203e2a0(IdleMapSprite * self)
+BOOL IdleMapSprite::IsLoaded(void)
 {
-    return self->unk_00 != -1;
+    return this->imgAddr != -1;
 }
 
-EC void func_0203e2b8(IdleMapSprite * self, u32 param_2, u32 param_3, s32 param_4)
+void IdleMapSprite::Set(u32 imgAddr, u32 palAddr, s32 size)
 {
-    self->unk_00 = param_2;
-    self->unk_04 = param_3;
-    self->unk_06 = param_4;
+    this->imgAddr = imgAddr;
+    this->palAddr = palAddr;
+    this->size = size;
     return;
 }
 
-// func_0203e2c8
 IdleMapSprite::IdleMapSprite(void)
 {
-    this->unk_00 = -1;
-    this->unk_04 = -1;
+    this->imgAddr = -1;
+    this->palAddr = -1;
 }
 
-// func_0203e2dc
-IdleMapSpriteMgr::IdleMapSpriteMgr(s32 count, s32 param_3, s32 param_4)
+IdleMapSpriteMgr::IdleMapSpriteMgr(s32 count, s32 imgAddrBase, s32 palAddrBase)
 {
-    this->unk_00 = new IdleMapSprite[count];
-    this->unk_04 = param_3;
-    this->unk_08 = param_4;
-    this->unk_10 = count;
-    this->unk_14 = 0;
-    this->unk_1c = 0;
+    this->sprites = new IdleMapSprite[count];
+    this->imgAddrBase = imgAddrBase;
+    this->palAddrBase = palAddrBase;
+    this->count = count;
+    this->imgSlotFlags = 0;
+    this->palSlotFlags = 0;
 }
 
-// func_0203e334
 IdleMapSpriteMgr::~IdleMapSpriteMgr()
 {
-    delete[] this->unk_00;
+    delete[] this->sprites;
 }
 
-EC IdleMapSprite * func_0203e34c(IdleMapSpriteMgr * self, s32 index)
+IdleMapSprite * IdleMapSpriteMgr::GetSpriteFor(s32 index)
 {
-    return self->unk_00 + index;
+    return this->sprites + index;
 }
 
-EC s32 func_0203e358(IdleMapSpriteMgr * self, s32 size)
+s32 IdleMapSpriteMgr::ReserveImgBlocks(s32 size)
 {
     s32 i;
     s32 numBlocks;
 
-    numBlocks = IntSys_Div(size, 0x1000) + (func_02020874(size, 0x1000) != 0 ? 1 : 0);
+    numBlocks = IntSys_Div(size, 0x1000) + (IntSys_Mod(size, 0x1000) != 0 ? 1 : 0);
 
     for (i = 0; i < 0x40; i++)
     {
         s32 j;
 
-        if (self->unk_14 & (1ull << i))
+        if (this->imgSlotFlags & (1ull << i))
         {
             continue;
         }
@@ -246,7 +259,7 @@ EC s32 func_0203e358(IdleMapSpriteMgr * self, s32 size)
                 break;
             }
 
-            if (self->unk_14 & (1ull << j))
+            if (this->imgSlotFlags & (1ull << j))
             {
                 break;
             }
@@ -256,28 +269,28 @@ EC s32 func_0203e358(IdleMapSpriteMgr * self, s32 size)
         {
             for (j = i; j < i + numBlocks; j++)
             {
-                self->unk_14 |= (1ull << j);
+                this->imgSlotFlags |= (1ull << j);
             }
 
-            return self->unk_04 + (i * 0x1000);
+            return this->imgAddrBase + (i * 0x1000);
         }
     }
 
     return 0;
 }
 
-EC s32 func_0203e498(IdleMapSpriteMgr * self, s32 size)
+s32 IdleMapSpriteMgr::ReservePalBlocks(s32 size)
 {
     s32 i;
     s32 numBlocks;
 
-    numBlocks = IntSys_Div(size, 0x40) + (func_02020874(size, 0x40) != 0 ? 1 : 0);
+    numBlocks = IntSys_Div(size, 0x40) + (IntSys_Mod(size, 0x40) != 0 ? 1 : 0);
 
     for (i = 0; i < 0x40; i++)
     {
         s32 j;
 
-        if (self->unk_1c & (1ull << i))
+        if (this->palSlotFlags & (1ull << i))
         {
             continue;
         }
@@ -289,7 +302,7 @@ EC s32 func_0203e498(IdleMapSpriteMgr * self, s32 size)
                 break;
             }
 
-            if (self->unk_1c & (1ull << j))
+            if (this->palSlotFlags & (1ull << j))
             {
                 break;
             }
@@ -299,51 +312,51 @@ EC s32 func_0203e498(IdleMapSpriteMgr * self, s32 size)
         {
             for (j = i; j < i + numBlocks; j++)
             {
-                self->unk_1c |= (1ull << j);
+                this->palSlotFlags |= (1ull << j);
             }
 
-            return self->unk_08 + (i * 0x40);
+            return this->palAddrBase + (i * 0x40);
         }
     }
 
     return 0;
 }
 
-EC void func_0203e5d8(IdleMapSpriteMgr * self, s32 addr, s32 size)
+void IdleMapSpriteMgr::ClearImgBlocks(u32 addr, s32 size)
 {
     s32 i;
     s32 start;
     s32 numBlocks;
 
-    start = IntSys_Div(addr - self->unk_04, 0x1000);
-    numBlocks = IntSys_Div(size, 0x1000) + (func_02020874(size, 0x1000) != 0 ? 1 : 0);
+    start = IntSys_Div(addr - this->imgAddrBase, 0x1000);
+    numBlocks = IntSys_Div(size, 0x1000) + (IntSys_Mod(size, 0x1000) != 0 ? 1 : 0);
 
     for (i = start; i < start + numBlocks; i++)
     {
-        self->unk_14 &= ~(1ull << i);
+        this->imgSlotFlags &= ~(1ull << i);
     }
 
     return;
 }
 
-EC void func_0203e680(IdleMapSpriteMgr * self, s32 addr, s32 size)
+void IdleMapSpriteMgr::ClearPalBlocks(u32 addr, s32 size)
 {
     s32 i;
     s32 start;
     s32 numBlocks;
 
-    start = IntSys_Div(addr - self->unk_08, 0x40);
-    numBlocks = IntSys_Div(size, 0x40) + (func_02020874(size, 0x40) != 0 ? 1 : 0);
+    start = IntSys_Div(addr - this->palAddrBase, 0x40);
+    numBlocks = IntSys_Div(size, 0x40) + (IntSys_Mod(size, 0x40) != 0 ? 1 : 0);
 
     for (i = start; i < start + numBlocks; i++)
     {
-        self->unk_1c &= ~(1ull << i);
+        this->palSlotFlags &= ~(1ull << i);
     }
 
     return;
 }
 
-EC BOOL func_0203e728(IdleMapSpriteMgr * self, s32 jid, s32 param_3, s32 param_4, u8 param_5)
+BOOL IdleMapSpriteMgr::LoadSprite(s32 jid, s32 arg2, s32 arg3, u8 arg4)
 {
     void * filePtr[4];
     s32 size[4];
@@ -356,14 +369,14 @@ EC BOOL func_0203e728(IdleMapSpriteMgr * self, s32 jid, s32 param_3, s32 param_4
     s32 palSize;
     s32 palDst;
 
-    IdleMapSprite * handle = func_0203e34c(self, jid);
+    IdleMapSprite * handle = this->GetSpriteFor(jid);
 
-    if ((param_5 == 0) && (func_0203e2a0(handle)))
+    if ((arg4 == 0) && (handle->IsLoaded()))
     {
         return FALSE;
     }
 
-    func_0203e220(jid, 0);
+    SetSpriteDirectoryForJob(jid, FALSE);
 
     totalSize = 0;
     func_020b6c98(str, "idle");
@@ -372,7 +385,7 @@ EC BOOL func_0203e728(IdleMapSpriteMgr * self, s32 jid, s32 param_3, s32 param_4
     for (i = 0, it = str + len; i < 4; i++)
     {
         it[0] = IntSys_Div(i, 10) + '0';
-        it[1] = func_02020874(i, 10) + '0';
+        it[1] = IntSys_Mod(i, 10) + '0';
         it[2] = '\0';
 
         filePtr[i] = func_02011920(str, 0);
@@ -380,13 +393,13 @@ EC BOOL func_0203e728(IdleMapSpriteMgr * self, s32 jid, s32 param_3, s32 param_4
         totalSize += size[i];
     }
 
-    if (param_5 == 0)
+    if (arg4 == 0)
     {
-        imgDst[0] = func_0203e358(self, totalSize);
+        imgDst[0] = this->ReserveImgBlocks(totalSize);
     }
     else
     {
-        imgDst[0] = handle->unk_00;
+        imgDst[0] = handle->imgAddr;
     }
 
     for (i = 1; i < 4; i++)
@@ -394,7 +407,7 @@ EC BOOL func_0203e728(IdleMapSpriteMgr * self, s32 jid, s32 param_3, s32 param_4
         imgDst[i] = imgDst[i - 1] + size[i - 1];
     }
 
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
         for (i = 0; i < 4; i++)
         {
@@ -413,16 +426,16 @@ EC BOOL func_0203e728(IdleMapSpriteMgr * self, s32 jid, s32 param_3, s32 param_4
     filePtr[0] = func_02011854("palette", 0);
     palSize = gHeap.SizeOf(filePtr[0]);
 
-    if (param_5 == 0)
+    if (arg4 == 0)
     {
-        palDst = func_0203e498(self, palSize);
+        palDst = this->ReservePalBlocks(palSize);
     }
     else
     {
-        palDst = handle->unk_04;
+        palDst = handle->palAddr;
     }
 
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
         LoadTexturePalette((u16 *)filePtr[0], palDst, palSize);
         gHeap.Free(filePtr[0]);
@@ -432,93 +445,93 @@ EC BOOL func_0203e728(IdleMapSpriteMgr * self, s32 jid, s32 param_3, s32 param_4
         func_020205a4((u16 *)filePtr[0], palDst, palSize, 1);
     }
 
-    func_0203e2b8(handle, imgDst[0], palDst, totalSize);
+    handle->Set(imgDst[0], palDst, totalSize);
 
     return TRUE;
 }
 
-EC void func_0203e988(IdleMapSpriteMgr * self, s32 param_2)
+void IdleMapSpriteMgr::UnloadSprite(s32 jid)
 {
     s32 imgAddr;
     s32 palAddr;
     s32 imgSize;
 
-    IdleMapSprite * handle = func_0203e34c(self, param_2);
+    IdleMapSprite * handle = this->GetSpriteFor(jid);
 
-    imgSize = handle->unk_06;
-    imgAddr = handle->unk_00;
-    palAddr = handle->unk_04;
+    imgSize = handle->size;
+    imgAddr = handle->imgAddr;
+    palAddr = handle->palAddr;
 
-    func_0203e2b8(handle, -1, -1, 0);
+    handle->Set(-1, -1, 0);
 
-    func_0203e5d8(self, imgAddr, imgSize);
-    func_0203e680(self, palAddr, 0x80);
+    this->ClearImgBlocks(imgAddr, imgSize);
+    this->ClearPalBlocks(palAddr, 0x80);
 
     return;
 }
 
-EC s32 func_0203e9d4(s32 jid, s32 param_2, char * param_3, s32 param_4, s32 param_5, s32 param_6, s32 param_7)
+EC s32 func_0203e9d4(s32 jid, s32 unused, char * arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6)
 {
     char str[12];
     char * it;
     void * uVar3;
     s32 len;
     s32 iVar4;
-    s32 iVar5;
+    s32 ret;
     s32 end;
     s32 i;
 
-    func_0203e220(jid, 0);
+    SetSpriteDirectoryForJob(jid, FALSE);
 
-    iVar5 = 0;
+    ret = 0;
 
-    func_020b6c98(str, param_3);
+    func_020b6c98(str, arg2);
     len = func_020b6de0(str);
 
-    end = param_4 + param_5;
+    end = arg3 + arg4;
 
-    for (i = param_4, it = str + len; i < end; i++)
+    for (i = arg3, it = str + len; i < end; i++)
     {
         it[0] = IntSys_Div(i, 10) + '0';
-        it[1] = func_02020874(i, 10) + '0';
+        it[1] = IntSys_Mod(i, 10) + '0';
         it[2] = '\0';
 
         uVar3 = func_02011920(str, 0);
         iVar4 = gHeap.SizeOf(uVar3);
 
-        if (param_7 != 0)
+        if (arg6 != 0)
         {
-            LoadTextureImage(uVar3, param_6, iVar4);
+            LoadTextureImage(uVar3, arg5, iVar4);
             gHeap.Free(uVar3);
         }
         else
         {
-            func_02020488(uVar3, param_6, iVar4, 1);
+            func_02020488(uVar3, arg5, iVar4, 1);
         }
 
-        param_6 += iVar4;
-        iVar5 += iVar4;
+        arg5 += iVar4;
+        ret += iVar4;
     }
 
-    return iVar5;
+    return ret;
 }
 
-EC s32 func_0203eacc(s32 param_1, s32 param_2, s32 palDst, s32 param_4)
+EC s32 func_0203eacc(s32 jid, s32 arg1, s32 palDst, s32 arg3)
 {
     u16 * palSrc;
 
-    if (param_2 >= 2)
+    if (arg1 >= 2)
     {
-        param_2 = 0;
+        arg1 = 0;
     }
 
-    func_0203e220(param_1, 0);
+    SetSpriteDirectoryForJob(jid, 0);
 
     palSrc = static_cast<u16 *>(gHeap.Alloc(0x40));
 
-    func_020116a0("palette", palSrc, 0x40, param_2 * 0x40);
+    func_020116a0("palette", palSrc, 0x40, arg1 * 0x40);
 
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
         LoadTexturePalette(palSrc, palDst, 0x40);
         gHeap.Free(palSrc);
@@ -533,111 +546,111 @@ EC s32 func_0203eacc(s32 param_1, s32 param_2, s32 palDst, s32 param_4)
 
 EC void func_0203eb50(s32 jid)
 {
-    func_0203e220(jid, 1);
+    SetSpriteDirectoryForJob(jid, TRUE);
 }
 
-EC void func_0203eb60(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
+EC void func_0203eb60(s32 jid, s32 unused, s32 arg2, s32 arg3)
 {
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
-        func_0203e220(param_1, 1);
+        SetSpriteDirectoryForJob(jid, TRUE);
     }
 
-    func_0201177c("idle", param_3);
+    func_0201177c("idle", arg2);
 
     return;
 }
 
-EC void func_0203eb8c(s32 jid, s32 param_2, s32 param_3, s32 param_4)
+EC void func_0203eb8c(s32 jid, s32 unused, s32 arg2, s32 arg3)
 {
     void * uVar1;
 
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
-        func_0203e220(jid, 1);
+        SetSpriteDirectoryForJob(jid, TRUE);
     }
 
     uVar1 = func_02011920("idle", 0);
-    func_020203e0(uVar1, param_3, gHeap.SizeOf(uVar1), 1);
+    func_020203e0(uVar1, arg2, gHeap.SizeOf(uVar1), 1);
 
     return;
 }
 
-EC void func_0203ebe0(s32 jid, s32 param_2, void * param_3, s32 param_4)
+EC void func_0203ebe0(s32 jid, s32 unused, void * arg2, s32 arg3)
 {
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
-        func_0203e220(jid, 1);
+        SetSpriteDirectoryForJob(jid, TRUE);
     }
 
-    func_02011ee4(func_02011d78, "idle", param_3, 0, 0);
+    func_02011ee4(func_02011d78, "idle", arg2, 0, 0);
 
     return;
 }
 
-EC void func_0203ec24(s32 jid, s32 param_2, u16 * param_3, s32 param_4)
+EC void func_0203ec24(s32 jid, s32 arg1, u16 * arg2, s32 arg3)
 {
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
-        func_0203e220(jid, 1);
+        SetSpriteDirectoryForJob(jid, TRUE);
     }
 
-    if (param_2 >= 2)
+    if (arg1 >= 2)
     {
-        param_2 = 0;
+        arg1 = 0;
     }
 
-    func_020116a0("palette", param_3, 0xc0, param_2 * 0xc0);
+    func_020116a0("palette", arg2, 0xc0, arg1 * 0xc0);
 
     return;
 }
 
-EC void func_0203ec64(s32 jid, s32 param_2, u16 * param_3, s32 param_4)
+EC void func_0203ec64(s32 jid, s32 arg1, u16 * arg2, s32 arg3)
 {
-    if (param_4 != 0)
+    if (arg3 != 0)
     {
-        func_0203e220(jid, 1);
+        SetSpriteDirectoryForJob(jid, TRUE);
     }
 
-    if (param_2 >= 2)
+    if (arg1 >= 2)
     {
-        param_2 = 0;
+        arg1 = 0;
     }
 
-    func_02011ee4(func_02011d5c, "palette", param_3, 0xc0, param_2 * 0xc0);
+    func_02011ee4(func_02011d5c, "palette", arg2, 0xc0, arg1 * 0xc0);
 
     return;
 }
 
-EC void func_0203ecb0(IdleMapSpriteMgr * self)
+void IdleMapSpriteMgr::Init(void)
 {
     s32 i;
 
-    for (i = 0; i < self->unk_10; i++)
+    for (i = 0; i < this->count; i++)
     {
-        func_0203e2b8(func_0203e34c(self, i), -1, -1, 0);
+        this->GetSpriteFor(i)->Set(-1, -1, 0);
     }
 
-    self->unk_14 = 0;
-    self->unk_1c = 0;
+    this->imgSlotFlags = 0;
+    this->palSlotFlags = 0;
 
     return;
 }
 
-EC void func_0203ed14(IdleMapSpriteMgr * self, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
+void IdleMapSpriteMgr::DrawSprite(s32 jid, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
 {
     s32 x = arg3;
     s32 y = arg4;
 
-    IdleMapSprite * handle = func_0203e34c(self, arg1);
+    IdleMapSprite * handle = this->GetSpriteFor(jid);
 
-    if (func_0203e2a0(handle) == 0)
+    if (!handle->IsLoaded())
     {
         return;
     }
 
-    x = x + ((func_0203e274() - 0x20) >> 1);
-    y = y + (func_0203e274() - 0x20);
+    x = x + ((GetTileSize_() - 0x20) >> 1);
+    y = y + (GetTileSize_() - 0x20);
 
     if (x + 0x20 < 0)
     {
@@ -660,96 +673,94 @@ EC void func_0203ed14(IdleMapSpriteMgr * self, s32 arg1, s32 arg2, s32 arg3, s32
     }
 
     func_0206cf30(
-        1, 0x20, 0x20, (u32)(handle->unk_00 + (self->unk_0c * 0x400)), (u32)(handle->unk_04 + (arg2 * 0x40)), 0, 0);
+        1, 0x20, 0x20, (u32)(handle->imgAddr + (this->unk_0c * 0x400)), (u32)(handle->palAddr + (arg2 * 0x40)), 0, 0);
     func_0206d2ac(x, y, arg5, 0x20, 0x20, arg2 & 1, 0);
 
     return;
 }
 
-EC void func_0203ede8(s32 jid, s32 param_2, s32 param_3, s32 param_4, s32 param_5, u32 param_6, u32 param_7)
+EC void func_0203ede8(s32 jid, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u32 arg5, u32 arg6)
 {
     s32 cVar1 = gFE11Database->pJob[jid].unk_54;
 
-    if (param_2 >= 2)
+    if (arg1 >= 2)
     {
-        param_2 = 0;
+        arg1 = 0;
     }
 
-    func_0206cf30(1, 0x20, 0x20, param_6, param_7, 0, 0);
-    func_0206d2ac(param_3, param_4 + cVar1, param_5, 0x20, 0x20, param_2 & 1, 0);
+    func_0206cf30(1, 0x20, 0x20, arg5, arg6, 0, 0);
+    func_0206d2ac(arg2, arg3 + cVar1, arg4, 0x20, 0x20, arg1 & 1, 0);
 
     return;
 }
 
-EC void func_0203ee78(s32 jid, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6, s32 param_7)
+EC void func_0203ee78(s32 jid, s32 arg1, s32 x, s32 y, s32 arg4, s32 palId, s32 arg6)
 {
-    int uVar1;
-    int iVar2;
-    int uVar3;
-    int uVar4;
+    s32 uVar1;
+    s32 iVar2;
+    s32 isFlipped;
+    s32 yOam0;
 
-    uVar3 = 0;
-    uVar4 = gFE11Database->pJob[jid].unk_54 + param_4;
+    isFlipped = 0;
+    yOam0 = gFE11Database->pJob[jid].unk_54 + y;
 
-    if (param_2 >= 2)
+    if (arg1 >= 2)
     {
-        param_2 = 0;
+        arg1 = 0;
     }
 
-    if ((param_2 & 1) != 0)
+    if ((arg1 & 1) != 0)
     {
-        uVar3 = 0x1000;
+        isFlipped = 0x1000;
     }
 
     uVar1 = IntSys_Div(data_027e1264, 10);
-    iVar2 = func_02020874(uVar1, 6);
+    iVar2 = IntSys_Mod(uVar1, 6);
 
     func_01ffc404(
-        (param_3 & 0x1ff) | uVar3, (uVar4 & 0xff) | 0x2000,
-        (param_5 + data_020c515c[iVar2] * 0x20) >> (gpActiveScreenSt->dispIo->dispcnt.unk_02_bit_0 & 0x3ff) |
-            (param_6 << 0xc),
-        data_027e0028, param_7);
+        (x & 0x1ff) | isFlipped, (yOam0 & 0xff) | 0x2000,
+        (arg4 + data_020c515c[iVar2] * 0x20) >> (gpActiveScreenSt->dispIo->dispcnt.unk_02_bit_0 & 0x3ff) |
+            (palId << 0xc),
+        data_027e0028, arg6);
 
     return;
 }
 
-// #func_0203ef6c
-MovingMapSprite::MovingMapSprite(s32 jid, s32 param_3, s32 param_4, s32 param_5)
+MovingMapSprite::MovingMapSprite(s32 jid, s32 arg2, s32 arg3, s32 arg4)
 {
     s32 i;
     u16 * buf;
 
-    if (param_3 >= 2)
+    if (arg2 >= 2)
     {
-        param_3 = 0;
+        arg2 = 0;
     }
 
     this->jid = jid;
-    this->unk_22 = param_3;
-    this->unk_18 = param_4;
-    this->unk_1c = param_5;
+    this->unk_22 = arg2;
+    this->imgAddr = arg3;
+    this->palAddr = arg4;
     this->unk_23 = 0;
-    this->unk_26 = -1;
-    this->unk_27 = -1;
-    this->unk_25 = -1;
-    this->unk_28 = 0;
+    this->prevAnimId = -1;
+    this->prevFrame = -1;
+    this->frame = -1;
+    this->timer = 0;
 
-    func_0203e220(jid, 0);
+    SetSpriteDirectoryForJob(jid, 0);
 
     buf = static_cast<u16 *>(gHeap.Alloc(0x40));
-    func_020116a0("palette", buf, 0x40, param_3 * 0x40);
-    func_020205a4(buf, param_5, 0x40, 1);
+    func_020116a0("palette", buf, 0x40, arg2 * 0x40);
+    func_020205a4(buf, arg4, 0x40, 1);
 
     for (i = 0; i < 6; i++)
     {
-        this->unk_00[i] = NULL;
+        this->frames[i] = NULL;
     }
 }
 
-// func_0203f01c
 MovingMapSprite::~MovingMapSprite(void)
 {
-    func_0203f914(this);
+    this->Free();
 }
 
 EC u32 func_0203f030(s32 param_1)
@@ -840,110 +851,109 @@ EC void func_0203f2a0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5
     return;
 }
 
-EC s32 func_0203f2e8(struct MovingMapSprite * arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6)
+s32 MovingMapSprite::DrawSpriteExt(s32 x, s32 y, s32 arg3, s32 arg4, s32 animId, s32 frame)
 {
     char str[32];
     char * it;
     struct JobData * pJob;
     s32 len;
 
-    s32 x = arg1;
-    s32 y = arg2;
+    s32 x_ = x;
+    s32 y_ = y;
 
     s32 ret = 0;
 
-    if (arg5 != -1)
+    if (animId != -1)
     {
-        arg0->unk_24 = arg5;
+        this->animId = animId;
     }
 
-    if (arg6 != -1)
+    if (frame != -1)
     {
-        arg0->unk_25 = arg6;
+        this->frame = frame;
     }
     else
     {
-        arg0->unk_25 = func_0203f6d0(arg0->jid, arg0->unk_24, arg0->unk_28, arg0->unk_23, 0);
+        this->frame = func_0203f6d0(this->jid, this->animId, this->timer, this->unk_23, 0);
     }
 
-    if ((arg0->unk_24 != arg0->unk_26) || (arg0->unk_25 != arg0->unk_27))
+    if ((this->animId != this->prevAnimId) || (this->frame != this->prevFrame))
     {
-        if (arg0->unk_24 != arg0->unk_26)
+        if (this->animId != this->prevAnimId)
         {
-            func_0203f914(arg0);
+            this->Free();
         }
 
-        if (arg0->unk_25 != arg0->unk_27)
+        if (this->frame != this->prevFrame)
         {
             ret = 1;
         }
 
-        if (arg0->unk_00[arg0->unk_25] == NULL)
+        if (this->frames[this->frame] == NULL)
         {
             str[0] = '/';
             str[1] = '3';
             str[2] = '/';
 
-            pJob = gFE11Database->pJob + arg0->jid;
+            pJob = gFE11Database->pJob + this->jid;
             it = str;
             func_020b6c98(it + 3, pJob->unk_00 + 4);
 
             it = str + 3;
             it[func_020b6de0(pJob->unk_00 + 4)] = '/';
 
-            if (arg0->unk_22 & 1)
+            if (this->unk_22 & 1)
             {
-                func_020b6c98(it + 1, func_0203f880(func_0203f864(arg0->unk_24)));
+                func_020b6c98(it + 1, GetAnimName(func_0203f864(this->animId)));
             }
             else
             {
-                func_020b6c98(it + 1, func_0203f880(arg0->unk_24));
+                func_020b6c98(it + 1, GetAnimName(this->animId));
             }
 
             len = func_020b6de0(str);
             it = str + len;
 
-            it[0] = IntSys_Div(arg0->unk_25, 10) + '0';
-            it[1] = func_02020874(arg0->unk_25, 10) + '0';
+            it[0] = IntSys_Div(this->frame, 10) + '0';
+            it[1] = IntSys_Mod(this->frame, 10) + '0';
             it[2] = '\0';
 
-            arg0->unk_00[arg0->unk_25] = func_02011920(str, 0);
+            this->frames[this->frame] = func_02011920(str, 0);
         }
 
-        func_02020488(arg0->unk_00[arg0->unk_25], arg0->unk_18, gHeap.SizeOf(arg0->unk_00[arg0->unk_25]), 0);
-        arg0->unk_27 = arg0->unk_25;
-        arg0->unk_26 = arg0->unk_24;
+        func_02020488(this->frames[this->frame], this->imgAddr, gHeap.SizeOf(this->frames[this->frame]), 0);
+        this->prevFrame = this->frame;
+        this->prevAnimId = this->animId;
     }
 
-    x = x + ((func_0203e274() - 0x20) >> 1);
-    y = y + (func_0203e274() - 0x20) + arg0->unk_24 + gFE11Database->pJob[arg0->jid].unk_54;
+    x_ = x_ + ((GetTileSize_() - 0x20) >> 1);
+    y_ = y_ + (GetTileSize_() - 0x20) + this->animId + gFE11Database->pJob[this->jid].unk_54;
 
-    if (((x + 0x20) < 0) || ((y + 0x20) < 0) || (x >= 0x100) || (y >= 0xC0))
+    if (((x_ + 0x20) < 0) || ((y_ + 0x20) < 0) || (x_ >= 0x100) || (y_ >= 0xC0))
     {
         return ret;
     }
 
-    func_0206cf30(1, 0x20, 0x20, arg0->unk_18, arg0->unk_1c, 0, 0);
-    func_0203f2a0(x, y, arg3, arg4, 0x20, 0x20, arg0->unk_22 & 1, 0);
+    func_0206cf30(1, 0x20, 0x20, this->imgAddr, this->palAddr, 0, 0);
+    func_0203f2a0(x_, y_, arg3, arg4, 0x20, 0x20, this->unk_22 & 1, 0);
 
     return ret;
 }
 
-EC void func_0203f580(MovingMapSprite * param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
+void MovingMapSprite::DrawSprite(s32 x, s32 y, s32 arg3, s32 animId, s32 frame)
 {
-    func_0203f2e8(param_1, param_2, param_3, param_4, param_4, param_5, param_6);
+    this->DrawSpriteExt(x, y, arg3, arg3, animId, frame);
     return;
 }
 
-EC void func_0203f5a4(MovingMapSprite * param_1, s32 param_2, s32 param_3)
+void MovingMapSprite::StartFlash(s32 duration, s32 color)
 {
-    new (Proc_Start(ProcScr_020ce750, PROC_TREE_B))
-        UnitFlash(param_2, param_3, param_1->jid, param_1->unk_22, param_1->unk_1c);
+    new (Proc_Start(ProcScr_020ce750, PROC_TREE_B)) UnitFlash(duration, color, this->jid, this->unk_22, this->palAddr);
 }
 
-EC s32 func_0203f650(s32 jid, s32 param_2)
+EC s32 func_0203f650(s32 jid, s32 animId)
 {
-    switch (param_2)
+    switch (animId)
     {
         case 0:
         case 1:
@@ -957,53 +967,53 @@ EC s32 func_0203f650(s32 jid, s32 param_2)
     }
 }
 
-EC s32 func_0203f6a0(MovingMapSprite * self)
+s32 MovingMapSprite::func_0203f6a0(void)
 {
-    s32 iVar1 = func_0203f650(self->jid, self->unk_24);
+    s32 iVar1 = func_0203f650(this->jid, this->animId);
 
     if (iVar1 != 0)
     {
-        return IntSys_Div(self->unk_28 & ~0x80000000, iVar1);
+        return IntSys_Div(this->timer & ~0x80000000, iVar1);
     }
 
     return 0;
 }
 
-EC s32 func_0203f6d0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u8 arg4)
+EC s32 func_0203f6d0(s32 jid, s32 animId, s32 time, s32 arg3, u8 arg4)
 {
     s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r3;
 
-    switch (arg1)
+    switch (animId)
     {
         case 0:
             if (arg4 != 0)
             {
-                var_r3 = func_02020874(IntSys_Div(arg2, 10), 6);
+                var_r3 = IntSys_Mod(IntSys_Div(time, 10), 6);
                 return data_020c515c[var_r3];
             }
             else
             {
-                var_r3 = func_02020874(IntSys_Div(data_027e1264, 10), 6);
+                var_r3 = IntSys_Mod(IntSys_Div(data_027e1264, 10), 6);
                 return data_020c515c[var_r3];
             }
 
         case 1:
-            var_r3 = func_02020874(IntSys_Div(arg2, 10), 6);
+            var_r3 = IntSys_Mod(IntSys_Div(time, 10), 6);
             return data_020c515c[var_r3];
 
         case 6:
             if (arg3 == 0)
             {
-                arg3 = gFE11Database->pJob[arg0].unk_4c;
+                arg3 = gFE11Database->pJob[jid].unk_4c;
             }
 
-            temp_r0 = IntSys_Div(arg2 & ~0x80000000, arg3);
+            temp_r0 = IntSys_Div(time & ~0x80000000, arg3);
 
             if (arg4 != 0)
             {
-                temp_r0_2 = func_02020874(temp_r0, 0xC);
+                temp_r0_2 = IntSys_Mod(temp_r0, 0xC);
 
                 if (temp_r0_2 == 0xB)
                 {
@@ -1015,7 +1025,7 @@ EC s32 func_0203f6d0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u8 arg4)
                     return temp_r0_2;
                 }
 
-                return func_02020874(temp_r0_2 - 2, 3) + 2;
+                return IntSys_Mod(temp_r0_2 - 2, 3) + 2;
             }
 
             if (temp_r0 < 2)
@@ -1023,38 +1033,38 @@ EC s32 func_0203f6d0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u8 arg4)
                 return temp_r0;
             }
 
-            return func_02020874(temp_r0 - 2, 3) + 2;
+            return IntSys_Mod(temp_r0 - 2, 3) + 2;
 
         default:
             if (arg3 == 0)
             {
-                arg3 = gFE11Database->pJob[arg0].unk_4c;
+                arg3 = gFE11Database->pJob[jid].unk_4c;
             }
 
-            return func_02020874(IntSys_Div(arg2 & ~0x80000000, arg3), 6);
+            return IntSys_Mod(IntSys_Div(time & ~0x80000000, arg3), 6);
     }
 }
 
-EC void func_0203f824(MovingMapSprite * self, s32 param_2)
+EC void MovingMapSprite::UpdateJid(s32 jid)
 {
-    if (param_2 == self->jid)
+    if (jid == this->jid)
     {
         return;
     }
 
-    self->jid = param_2;
-    self->unk_27 = -1;
+    this->jid = jid;
+    this->prevFrame = -1;
 
-    func_0203eacc(param_2, self->unk_22, self->unk_1c, 0);
+    func_0203eacc(jid, this->unk_22, this->palAddr, 0);
 
-    func_0203f914(self);
+    this->Free();
 
     return;
 }
 
-EC s32 func_0203f864(s32 param_1)
+EC s32 func_0203f864(s32 animId)
 {
-    switch (param_1)
+    switch (animId)
     {
         case 2:
             return 3;
@@ -1066,7 +1076,7 @@ EC s32 func_0203f864(s32 param_1)
 
 // clang-format off
 
-char * data_020d4cc0[] =
+char * gAnimNameLut[] =
 {
     "idle",
     "active",
@@ -1080,14 +1090,14 @@ char * data_020d4cc0[] =
 
 // clang-format on
 
-EC char * func_0203f880(s32 param_1)
+EC char * GetAnimName(s32 animId)
 {
-    return data_020d4cc0[param_1];
+    return gAnimNameLut[animId];
 }
 
 // clang-format off
 
-u8 data_020d4c88[] =
+u8 gMovingSpriteFrameCountLut[] =
 {
     4,
     4,
@@ -1101,42 +1111,42 @@ u8 data_020d4c88[] =
 
 // clang-format on
 
-EC u8 func_0203f890(s32 param_1)
+EC u8 GetAnimFrameCount(s32 animId)
 {
-    return data_020d4c88[param_1];
+    return gMovingSpriteFrameCountLut[animId];
 }
 
-EC void func_0203f8a0(MovingMapSprite * param_1, s32 param_2)
+void MovingMapSprite::func_0203f8a0(s32 arg1)
 {
-    s32 cVar2 = param_1->unk_23;
+    s32 cVar2 = this->unk_23;
 
     if (cVar2 == 0)
     {
-        cVar2 = gFE11Database->pJob[param_1->jid].unk_4c;
+        cVar2 = gFE11Database->pJob[this->jid].unk_4c;
     }
 
-    param_1->unk_23 = param_2;
+    this->unk_23 = arg1;
 
-    if (param_2 == 0)
+    if (arg1 == 0)
     {
-        param_2 = gFE11Database->pJob[param_1->jid].unk_4c;
+        arg1 = gFE11Database->pJob[this->jid].unk_4c;
     }
 
-    param_1->unk_28 = IntSys_Div(param_1->unk_28 * param_2, cVar2);
+    this->timer = IntSys_Div(this->timer * arg1, cVar2);
 
     return;
 }
 
-EC void func_0203f914(MovingMapSprite * self)
+void MovingMapSprite::Free(void)
 {
     s32 i;
 
     for (i = 0; i < 6; i++)
     {
-        if (self->unk_00[i] != NULL)
+        if (this->frames[i] != NULL)
         {
-            gHeap.Free(self->unk_00[i]);
-            self->unk_00[i] = NULL;
+            gHeap.Free(this->frames[i]);
+            this->frames[i] = NULL;
         }
     }
 

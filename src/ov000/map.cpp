@@ -360,7 +360,7 @@ EC void Map_RenderLayers(MapFile * map)
                                 }
 
                                 func_020205a4(
-                                    (u8 *)texture->unk_18 + (layer_14->unk_01 * 2),
+                                    (u16 *)texture->unk_18 + (layer_14->unk_01 * 2),
                                     texture->palDst + (layer_14->unk_01 * 2), layer_14->unk_02 * 2, 0);
                             }
                         }
@@ -395,7 +395,7 @@ EC void Map_RenderLayers(MapFile * map)
                             (u8 *)texture->unk_18 + (((var_r0_2 * layer_14->unk_05) + layer_14->unk_06) * 2),
                             (u8 *)texture->unk_18 + (layer_14->unk_01 * 2), layer_14->unk_02 * 2);
                         func_020205a4(
-                            (u8 *)texture->unk_18 + (layer_14->unk_01 * 2), texture->palDst + (layer_14->unk_01 * 2),
+                            (u16 *)texture->unk_18 + (layer_14->unk_01 * 2), texture->palDst + (layer_14->unk_01 * 2),
                             layer_14->unk_02 * 2, 0);
 
                         break;
