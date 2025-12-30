@@ -516,20 +516,20 @@ EC void func_02010c84(void *);
 EC void func_020115d4(void);
 EC BOOL func_0201160c(char *);
 // EC ??? func_02011650
-// EC ??? func_020116a0
+EC void func_020116a0(char *, u16 *, s32, s32);
 EC void func_0201177c(char *, u32);
-// EC ??? func_02011854
-// EC ??? func_02011920
+EC void * func_02011854(char *, s32);
+EC void * func_02011920(char *, BOOL);
 // EC ??? func_02011a30
 EC void func_02011a70(char *, u32, u32, u32);
 // EC ??? func_02011ab4
 // EC ??? func_02011bac
 // EC ??? func_02011ca4
-// EC ??? func_02011d5c
-// EC ??? func_02011d78
+EC void func_02011d5c(void *);
+EC void func_02011d78(void *);
 // EC ??? func_02011dcc
 // EC ??? func_02011e60
-// EC ??? func_02011ee4
+EC void func_02011ee4(void (*)(void *), char *, void *, s32, s32);
 // EC ??? func_02011f8c
 // EC ??? func_02012004
 EC void func_020120f4(void);
@@ -1162,19 +1162,19 @@ EC s32 RollRN(s32, s32);
 // EC ??? func_0202016c
 // EC ??? func_02020178
 // EC ??? func_020201ec
-// EC ??? func_0202025c
+EC s32 func_0202025c(u16, u32, u8, u8);
 // EC ??? func_020202e8
 // EC ??? func_02020330
 // EC ??? func_02020334
 // EC ??? func_02020348
 // EC ??? func_02020370
 // EC ??? func_02020398
-// EC ??? func_020203e0
+EC void func_020203e0(void *, s32, s32, BOOL);
 // EC ??? func_02020448
-// EC ??? func_02020488
+EC void func_02020488(void *, s32, s32, s32);
 // EC ??? func_020204f0
 // EC ??? func_02020530
-EC void func_020205a4(void *, s32, s32, s32);
+EC void func_020205a4(u16 *, s32, s32, BOOL);
 // EC ??? func_02020624
 // EC ??? func_020206ac
 // EC ??? func_02020714
@@ -1183,7 +1183,7 @@ EC void func_020205a4(void *, s32, s32, s32);
 // EC ??? func_02020820
 // EC ??? func_02020824
 EC s32 IntSys_Div(s32, s32);
-// EC ??? func_02020874
+EC s32 IntSys_Mod(s32, s32); // IntSys_Mod
 // EC ??? func_020208b0
 // EC ??? func_02020914
 // EC ??? func_02020954
@@ -2060,21 +2060,21 @@ EC void func_0203df18(struct Unit * unit);
 // EC ??? _ZN4Item13func_0203e0f8EP4Unit
 // EC ??? _ZN4Item4SaveEP10SaveBuffer
 // EC ??? _ZN4Item4LoadEP10SaveBufferl
-// EC ??? func_0203e220
-// EC ??? func_0203e274
+EC void SetSpriteDirectoryForJob(s32, BOOL);
+// EC ??? GetTileSize_
 EC s32 GetTileSize(void);
-// EC ??? func_0203e2a0
-// EC ??? func_0203e2b8
-// EC ??? func_0203e2c8
-// EC ??? func_0203e2dc
-// EC ??? func_0203e334
-// EC ??? func_0203e34c
-// EC ??? func_0203e358
-// EC ??? func_0203e498
-// EC ??? func_0203e5d8
-// EC ??? func_0203e680
-// EC ??? func_0203e728
-// EC ??? func_0203e988
+// EC ??? _ZN13IdleMapSprite8IsLoadedEv
+// EC ??? _ZN13IdleMapSprite3SetEmml
+// EC ??? _ZN13IdleMapSpriteC1Ev
+// EC ??? _ZN16IdleMapSpriteMgrC1Elll
+// EC ??? _ZN16IdleMapSpriteMgrD1Ev
+// EC ??? _ZN16IdleMapSpriteMgr12GetSpriteForEl
+// EC ??? _ZN16IdleMapSpriteMgr16ReserveImgBlocksEl
+// EC ??? _ZN16IdleMapSpriteMgr16ReservePalBlocksEl
+// EC ??? _ZN16IdleMapSpriteMgr14ClearImgBlocksEml
+// EC ??? _ZN16IdleMapSpriteMgr14ClearPalBlocksEml
+// EC ??? _ZN16IdleMapSpriteMgr10LoadSpriteElllh
+// EC ??? _ZN16IdleMapSpriteMgr12UnloadSpriteEl
 // EC ??? func_0203e9d4
 // EC ??? func_0203eacc
 // EC ??? func_0203eb50
@@ -2083,31 +2083,31 @@ EC s32 GetTileSize(void);
 // EC ??? func_0203ebe0
 // EC ??? func_0203ec24
 // EC ??? func_0203ec64
-// EC ??? func_0203ecb0
-// EC ??? func_0203ed14
+// EC ??? _ZN16IdleMapSpriteMgr4InitEv
+// EC ??? _ZN16IdleMapSpriteMgr10DrawSpriteElllll
 // EC ??? func_0203ede8
 // EC ??? func_0203ee78
-// EC ??? func_0203ef6c
-// EC ??? func_0203f01c
+// EC ??? _ZN15MovingMapSpriteC1Ellll
+// EC ??? _ZN15MovingMapSpriteD1Ev
 // EC ??? func_0203f030
 // EC ??? func_0203f088
 // EC ??? func_0203f1bc
 // EC ??? func_0203f2a0
-// EC ??? func_0203f2e8
-// EC ??? func_0203f580
-// EC ??? func_0203f5a4
+// EC ??? _ZN15MovingMapSprite13DrawSpriteExtEllllll
+// EC ??? _ZN15MovingMapSprite10DrawSpriteElllll
+// EC ??? _ZN15MovingMapSprite10StartFlashEll
 // EC ??? func_0203f650
-// EC ??? func_0203f6a0
-// EC ??? func_0203f6d0
-// EC ??? func_0203f824
-// EC ??? func_0203f864
-// EC ??? func_0203f880
-// EC ??? func_0203f890
-// EC ??? func_0203f8a0
-// EC ??? func_0203f914
-// EC ??? func_0203f954
-// EC ??? func_0203f9bc
-// EC ??? func_0203fa1c
+// EC ??? _ZN15MovingMapSprite13func_0203f6a0Ev
+EC s32 func_0203f6d0(s32, s32, s32, s32, u8);
+// EC ??? _ZN15MovingMapSprite9UpdateJidEl
+EC s32 func_0203f864(s32);
+EC char * GetAnimName(s32);
+// EC ??? GetAnimFrameCount
+// EC ??? _ZN15MovingMapSprite13func_0203f8a0El
+// EC ??? _ZN15MovingMapSprite4FreeEv
+// EC ??? _ZN9UnitFlashD0Ev
+// EC ??? _ZN9UnitFlashD1Ev
+// EC ??? _ZN9UnitFlash4LoopEv
 EC void InitUnits(void);
 EC void ResetAllForces(void);
 // EC ??? GetLeaderUnitForFaction
@@ -3257,13 +3257,13 @@ EC void func_02067510(void);
 // EC ??? func_0206cde0
 // EC ??? func_0206ce8c
 // EC ??? func_0206cea8
-// EC ??? func_0206cf30
+EC void func_0206cf30(s32, s32, s32, u32, u32, s32, s32);
 // EC ??? func_0206cfb0
 // EC ??? func_0206cfcc
 // EC ??? func_0206d088
 // EC ??? func_0206d1a4
 // EC ??? func_0206d27c
-// EC ??? func_0206d2ac
+EC s32 func_0206d2ac(s32, s32, s32, s32, s32, s32, s32);
 // EC ??? func_0206d2e8
 // EC ??? func_0206d464
 // EC ??? func_0206d4f4
@@ -5343,11 +5343,11 @@ EC void func_020ad244(s32);
 // EC ??? func_020b6bac
 // EC ??? func_020b6bd4
 // EC ??? func_020b6c00
-// EC ??? func_020b6c98
+EC void func_020b6c98(char *, char *); // strcpy?
 // EC ??? func_020b6ccc
 // EC ??? func_020b6d18
 // EC ??? func_020b6d78
-// EC ??? func_020b6de0
+EC s32 func_020b6de0(char *); // strlen?
 // EC ??? func_020b6e08
 EC int func_020b6e2c(char *, char *);
 // EC ??? func_020b6e58

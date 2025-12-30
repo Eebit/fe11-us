@@ -1416,11 +1416,11 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? data_020d4c70
 // extern ??? data_020d4c78
 // extern ??? data_020d4c80
-// extern ??? data_020d4c88
+// extern ??? gMovingSpriteFrameCountLut
 // extern ??? __typestr__9UnitFlash
 // extern ??? __typeinfo__9UnitFlash
 // extern ??? __vt__9UnitFlash
-// extern ??? data_020d4cc0
+// extern ??? gAnimNameLut
 // extern ??? data_020d4ce0
 // extern ??? data_020d4ce4
 // extern ??? data_020d4ce8

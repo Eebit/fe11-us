@@ -42,7 +42,10 @@ struct JobData
     /* 40 */ struct JobData * pPromoteJob;
     STRUCT_PAD(0x44, 0x48);
     char * unk_48;
-    STRUCT_PAD(0x4C, 0x5C);
+    u8 unk_4c;
+    STRUCT_PAD(0x4D, 0x54);
+    s8 unk_54;
+    STRUCT_PAD(0x55, 0x5C);
 };
 
 struct ItemData
