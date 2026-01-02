@@ -6,3 +6,8 @@
 src/ov005/prep_proc_02212d60.cpp:
     .text        start:0x02204c20 end:0x02205518
     .data        start:0x02212d60 end:0x02213150
+
+src/ov005/prep_main_menu.cpp:
+    .text       start:0x02205518 end:0x02206830
+    .data       start:0x02213150 end:0x02214350
+    .bss        start:0x02217564 end:0x022175c4

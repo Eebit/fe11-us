@@ -1504,7 +1504,7 @@ EC void func_02028c68(void);
 // EC ??? func_02029480
 // EC ??? func_0202957c
 EC s32 func_020295ec(u16 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32);
-// EC ??? func_0202972c
+EC void func_0202972c(u16 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32, u32);
 EC void func_02029850(u16 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
 // EC ??? func_02029a1c
 // EC ??? func_02029ae8
@@ -1681,7 +1681,7 @@ EC void func_02029850(u16 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
 EC void func_020302e0(void *);
 // EC ??? func_02030330
 // EC ??? func_0203038c
-EC void func_020303bc(void *, char *, u32 *, ProcPtr, s32, s32);
+// EC void func_020303bc(void *, char *, void *, ProcPtr, s32, s32);
 // EC ??? func_020303e0
 // EC ??? func_02030488
 // EC ??? func_02030574
@@ -2498,9 +2498,9 @@ EC void func_0204a9e0(s32);
 // EC ??? func_0204aadc
 EC void func_0204abe4(void);
 EC void func_0204ac00(void);
-EC void func_0204ac18(ProcPtr);
+EC void func_0204ac18(void);
 // EC ??? func_0204ac64
-EC void func_0204aca8(ProcPtr);
+EC void func_0204aca8(void);
 EC BOOL func_0204ad38(s32, s32, s32);
 EC void func_0204ae60(s32, s32);
 EC void func_0204ae9c(u32, BOOL);
