@@ -501,7 +501,7 @@ EC void func_02010d98(void *, u32, u32, u32);
 // EC ??? func_02010e74
 // EC ??? func_02010ee0
 // EC ??? func_02010f40
-EC void func_02010f98(void *, u32, u32);
+EC void func_02010f98(u16 *, s32, s32);
 // EC ??? func_02010fdc
 // EC ??? func_02011078
 // EC ??? func_020110a8
@@ -9954,7 +9954,7 @@ EC void func_ov003_021fc0d4(void *);
 // ==============================
 // overlay 5
 // ==============================
-EC void func_ov005_02204c20(ProcPtr, u32);
+EC void func_ov005_02204c20(ProcPtr, s32);
 // EC ??? func_ov005_02204cf0
 // EC ??? func_ov005_02204d04
 // EC ??? func_ov005_02204d48

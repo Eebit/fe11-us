@@ -4147,8 +4147,8 @@ extern void * data_ov000_021dcebc[];
 // extern ??? data_ov000_021e2c88
 // extern ??? data_ov000_021e2c90
 // extern ??? data_ov000_021e2c98
-extern u32 data_ov000_021e2ca0[];
-extern u32 data_ov000_021e2cac[];
+// extern u32 data_ov000_021e2ca0[];
+// extern u32 data_ov000_021e2cac[];
 // extern ??? data_ov000_021e2cb8
 // extern ??? __typeinfo__12ArenaBGMCont
 // extern ??? __typeinfo__10DI_ArenaNo
