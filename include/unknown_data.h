@@ -6365,7 +6365,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? __typestr__N5sally17DI_SallyCancelYesE
 // extern ??? __typeinfo__N5sally5MMenuE
 // extern ??? __typestr__N5sally22SallyCancelDialogYesNoE
-// extern ??? data_ov005_02213598
+// extern ??? ProcScr_Sally_MMenu
 // extern ??? __vt__N5sally12MIS_SallyEndE
 // extern ??? __vt__N5sally13MIS_SallySaveE
 // extern ??? __vt__N5sally10MIS_ConfigE

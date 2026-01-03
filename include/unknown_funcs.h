@@ -495,13 +495,13 @@ EC void func_0201079c(void);
 EC void func_02010c84(void *);
 // EC ??? func_02010d04
 // EC ??? func_02010d18
-// EC ??? func_02010d98
+EC void func_02010d98(void *, u32, u32, u32);
 // EC ??? func_02010dcc
 // EC ??? func_02010dfc
 // EC ??? func_02010e74
 // EC ??? func_02010ee0
 // EC ??? func_02010f40
-// EC ??? func_02010f98
+EC void func_02010f98(void *, u32, u32);
 // EC ??? func_02010fdc
 // EC ??? func_02011078
 // EC ??? func_020110a8
@@ -1513,11 +1513,11 @@ EC void func_02029850(u16 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
 // EC ??? func_0202a208
 // EC ??? func_0202a30c
 // EC ??? func_0202a470
-// EC ??? func_0202a4dc
+EC void func_0202a4dc(s32, s32);
 // EC ??? func_0202a504
 // EC ??? func_0202a53c
-// EC ??? func_0202a564
-// EC ??? func_0202a5a8
+EC u32 func_0202a564(u32);
+EC void func_0202a5a8(u32);
 // EC ??? func_0202a5cc
 // EC ??? func_0202a5e0
 // EC ??? func_0202a5f8
@@ -1531,7 +1531,7 @@ EC void func_02029850(u16 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
 // EC ??? func_0202b014
 // EC ??? func_0202b1e4
 // EC ??? func_0202b260
-// EC ??? func_0202b294
+EC void func_0202b294(void *, u32, u32);
 // EC ??? func_0202b31c
 // EC ??? func_0202b3c8
 // EC ??? func_0202b450
@@ -1539,7 +1539,7 @@ EC void func_02029850(u16 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
 // EC ??? func_0202b538
 // EC ??? func_0202b59c
 // EC ??? func_0202b624
-// EC ??? func_0202b688
+EC void func_0202b688(void *, u32, u32, u32);
 // EC ??? func_0202b6a8
 // EC ??? func_0202b6c4
 // EC ??? func_0202b70c
@@ -2605,7 +2605,7 @@ EC void func_0204f6d0(void);
 // EC ??? func_02050320
 EC void func_0205038c(s32, s32);
 EC BOOL func_02050474(void);
-// EC ??? func_02050494
+EC void func_02050494(ProcPtr, u32, u32);
 // EC ??? func_020505a0
 // EC ??? func_020505d0
 // EC ??? func_020505f0
@@ -2640,7 +2640,7 @@ EC void func_02050aa8(ProcPtr, s32, s32);
 // EC ??? func_020512cc
 // EC ??? func_020512f8
 // EC ??? func_02051324
-// EC ??? func_02051410
+EC void func_02051410(ProcPtr, u32, u32, u32);
 // EC ??? func_0205148c
 // EC ??? func_02051490
 // EC ??? func_020514a4
@@ -9954,7 +9954,7 @@ EC void func_ov003_021fc0d4(void *);
 // ==============================
 // overlay 5
 // ==============================
-// EC ??? func_ov005_02204c20
+EC void func_ov005_02204c20(ProcPtr, u32);
 // EC ??? func_ov005_02204cf0
 // EC ??? func_ov005_02204d04
 // EC ??? func_ov005_02204d48
@@ -9989,60 +9989,60 @@ EC void func_ov005_022054c4(void);
 // EC ??? func_ov005_022059cc
 // EC ??? func_ov005_022059d8
 // EC ??? func_ov005_022059e4
-// EC ??? func_ov005_022059f0
+// EC ??? GetSallyMMenu
 EC void StartSally_MMenu(ProcPtr); // Starts "sally::MMenu" proc
-// EC ??? func_ov005_02205e84
-// EC ??? func_ov005_02205eac
-// EC ??? func_ov005_02205ef0
-// EC ??? func_ov005_02205f2c
-// EC ??? func_ov005_02205f44
-// EC ??? func_ov005_02205f80
-// EC ??? func_ov005_02205fb8
-// EC ??? func_ov005_02205fd0
-// EC ??? func_ov005_02206018
-// EC ??? func_ov005_0220602c
-// EC ??? func_ov005_02206050
-// EC ??? func_ov005_02206068
-// EC ??? func_ov005_02206098
-// EC ??? func_ov005_022060ac
-// EC ??? func_ov005_022060d0
-// EC ??? func_ov005_022060e8
-// EC ??? func_ov005_02206118
-// EC ??? func_ov005_0220612c
-// EC ??? func_ov005_0220615c
-// EC ??? func_ov005_02206174
-// EC ??? func_ov005_02206194
-// EC ??? func_ov005_022061a8
-// EC ??? func_ov005_022061d8
-// EC ??? func_ov005_022061f0
-// EC ??? func_ov005_02206210
-// EC ??? func_ov005_02206224
-// EC ??? func_ov005_02206248
-// EC ??? func_ov005_02206260
-// EC ??? func_ov005_02206290
-// EC ??? func_ov005_022062a4
-// EC ??? func_ov005_022062d4
-// EC ??? func_ov005_02206318
-// EC ??? func_ov005_02206338
-// EC ??? func_ov005_0220634c
-// EC ??? func_ov005_02206374
-// EC ??? func_ov005_02206388
-// EC ??? func_ov005_022063d0
-// EC ??? func_ov005_02206400
-// EC ??? func_ov005_0220642c
-// EC ??? func_ov005_02206440
-// EC ??? func_ov005_02206480
-// EC ??? func_ov005_02206484
-// EC ??? func_ov005_02206488
-// EC ??? func_ov005_022064f8
-// EC ??? func_ov005_0220654c
-// EC ??? func_ov005_0220656c
-// EC ??? func_ov005_0220658c
-// EC ??? func_ov005_022065c0
-// EC ??? func_ov005_022065f8
-// EC ??? func_ov005_0220662c
-// EC ??? func_ov005_02206660
-// EC ??? func_ov005_022066b4
+// EC ??? _ZN5sally12MIS_SallyEnd8vfunc_24EP4MenuP13MenuItemState
+// EC ??? _ZN5sally12MIS_SallyEnd8vfunc_70Ev
+// EC ??? _ZN5sally12MIS_SallyEnd8vfunc_14Ev
+// EC ??? _ZN5sally12MIS_SallyEnd8vfunc_10EP13MenuItemState
+// EC ??? _ZN5sally12MIS_SallyEnd8vfunc_00Ev
+// EC ??? _ZN5sally13MIS_SallySave8vfunc_20EP13MenuItemState
+// EC ??? _ZN5sally13MIS_SallySave8vfunc_70Ev
+// EC ??? _ZN5sally13MIS_SallySave8vfunc_14Ev
+// EC ??? _ZN5sally13MIS_SallySave8vfunc_00Ev
+// EC ??? _ZN5sally10MIS_Config8vfunc_1cEv
+// EC ??? _ZN5sally10MIS_Config8vfunc_70Ev
+// EC ??? _ZN5sally10MIS_Config8vfunc_14Ev
+// EC ??? _ZN5sally10MIS_Config8vfunc_00Ev
+// EC ??? _ZN5sally14MIS_WeaponShop8vfunc_1cEv
+// EC ??? _ZN5sally14MIS_WeaponShop8vfunc_70Ev
+// EC ??? _ZN5sally14MIS_WeaponShop8vfunc_14Ev
+// EC ??? _ZN5sally14MIS_WeaponShop8vfunc_00Ev
+// EC ??? _ZN5sally12MIS_JobSlide8vfunc_1cEv
+// EC ??? _ZN5sally12MIS_JobSlide8vfunc_70Ev
+// EC ??? _ZN5sally12MIS_JobSlide8vfunc_14Ev
+// EC ??? _ZN5sally12MIS_JobSlide8vfunc_00Ev
+// EC ??? _ZN5sally15MIS_ItemSetting8vfunc_1cEv
+// EC ??? _ZN5sally15MIS_ItemSetting8vfunc_70Ev
+// EC ??? _ZN5sally15MIS_ItemSetting8vfunc_14Ev
+// EC ??? _ZN5sally15MIS_ItemSetting8vfunc_00Ev
+// EC ??? _ZN5sally13MIS_PosChange8vfunc_1cEv
+// EC ??? _ZN5sally13MIS_PosChange8vfunc_70Ev
+// EC ??? _ZN5sally13MIS_PosChange8vfunc_14Ev
+// EC ??? _ZN5sally13MIS_PosChange8vfunc_00Ev
+// EC ??? _ZN5sally15MIS_SallySelect8vfunc_1cEv
+// EC ??? _ZN5sally15MIS_SallySelect8vfunc_70Ev
+// EC ??? _ZN5sally15MIS_SallySelect8vfunc_14Ev
+// EC ??? _ZN5sally15MIS_SallySelect8vfunc_00Ev
+// EC ??? _ZN5sally9SallyMenu8vfunc_a0Ev
+// EC ??? _ZN5sally9SallyMenu8vfunc_a8Ev
+// EC ??? _ZN5sally9SallyMenu8vfunc_58Ev
+// EC ??? _ZN5sally9SallyMenu8vfunc_28Ev
+// EC ??? _ZN5sally9SallyMenu8vfunc_24EPvl
+// EC ??? _ZN5sally9SallyMenu9vfunc_124Ev
+// EC ??? _ZN5sally9SallyMenu9vfunc_120Ev
+// EC ??? _ZN5sally9SallyMenu8vfunc_ecEv
+// EC ??? _ZN5sally9SallyMenu8vfunc_e8Ev
+// EC ??? _ZN5sally9SallyMenu8vfunc_00Ev
+// EC ??? _ZN5sally13DI_SallyEndNo8vfunc_1cEv
+// EC ??? _ZN5sally17DI_SallyCancelYes8vfunc_1cEv
+// EC ??? _ZN5sally14DI_SallyEndYes8vfunc_1cEv
+// EC ??? _ZN5sally16SallyDialogYesNo8vfunc_a0Ev
+// EC ??? _ZN5sally16SallyDialogYesNo8vfunc_00Ev
+// EC ??? _ZN5sally22SallyCancelDialogYesNo8vfunc_c0Ev
+// EC ??? _ZN5sally16SallyDialogYesNo8vfunc_c0Ev
+// EC ??? _ZN5sally5MMenuD0Ev
+// EC ??? _ZN5sally5MMenuD1Ev
 // EC ??? func_ov005_02206700
 // EC ??? func_ov005_0220673c
 // EC ??? func_ov005_02206780

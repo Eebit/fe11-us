@@ -24,89 +24,89 @@ public:
 
     virtual ~SallyMenu();
 
-    virtual void vfunc_00(void); // func_ov005_02206488
-    virtual s32 vfunc_24(void *, s32); // func_ov005_02206400
-    virtual s32 vfunc_28(void); // func_ov005_022063d0
-    virtual s32 vfunc_58(void); // func_ov005_02206388
-    virtual void vfunc_a0(void); // func_ov005_0220634c
-    virtual void vfunc_a8(void); // func_ov005_02206374
-    virtual void vfunc_e8(void); // func_ov005_02206484
-    virtual void vfunc_ec(void); // func_ov005_02206480
-    virtual void vfunc_120(void); // func_ov005_02206440
-    virtual void vfunc_124(void); // func_ov005_0220642c
+    virtual void vfunc_00(void);
+    virtual s32 vfunc_24(void *, s32);
+    virtual s32 vfunc_28(void);
+    virtual s32 vfunc_58(void);
+    virtual void vfunc_a0(void);
+    virtual void vfunc_a8(void);
+    virtual void vfunc_e8(void);
+    virtual void vfunc_ec(void);
+    virtual void vfunc_120(void);
+    virtual void vfunc_124(void);
     virtual void vfunc_130(/* ? */); // func_ov005_02206800
     virtual void vfunc_134(/* ? */); // func_ov005_02206814
 };
 
 class MIS_SallyEnd : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02205f44
-    virtual s32 vfunc_10(MenuItemState *); // func_ov005_02205f2c; GetLabelColor? (1 = White, 2 = Grey, 3 = Cyan, 4 = Gold, 5 = Green)
-    virtual s32 vfunc_14(void); // func_ov005_02205ef0
-    virtual s32 vfunc_24(Menu *, MenuItemState *); // func_ov005_02205e84; OnConfirm (touch or press)?
-    virtual void vfunc_70(void); // func_ov005_02205eac
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_10(MenuItemState *);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_24(Menu *, MenuItemState *);
+    virtual void vfunc_70(void);
 };
 
 class MIS_SallySave : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02206018
-    virtual s32 vfunc_14(void); // func_ov005_02205fd0
-    virtual s32 vfunc_20(MenuItemState *); // func_ov005_02205f80
-    virtual void vfunc_70(void); // func_ov005_02205fb8
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_20(MenuItemState *);
+    virtual void vfunc_70(void);
 };
 
 class MIS_Config : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02206098; GetLabel
-    virtual s32 vfunc_14(void); // func_ov005_02206068
-    virtual s32 vfunc_1c(void); // func_ov005_0220602c; OnConfirm
-    virtual void vfunc_70(void); // func_ov005_02206050; OnHover?
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_1c(void);
+    virtual void vfunc_70(void);
 };
 
 class MIS_WeaponShop : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02206118
-    virtual s32 vfunc_14(void); // func_ov005_022060e8
-    virtual s32 vfunc_1c(void); // func_ov005_022060ac
-    virtual void vfunc_70(void); // func_ov005_022060d0
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_1c(void);
+    virtual void vfunc_70(void);
 };
 
 class MIS_JobSlide : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02206194
-    virtual s32 vfunc_14(void); // func_ov005_02206174
-    virtual s32 vfunc_1c(void); // func_ov005_0220612c
-    virtual void vfunc_70(void); // func_ov005_0220615c
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_1c(void);
+    virtual void vfunc_70(void);
 };
 
 class MIS_ItemSetting : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02206210
-    virtual s32 vfunc_14(void); // func_ov005_022061f0
-    virtual s32 vfunc_1c(void); // func_ov005_022061a8
-    virtual void vfunc_70(void); // func_ov005_022061d8
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_1c(void);
+    virtual void vfunc_70(void);
 };
 
 class MIS_PosChange : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02206290
-    virtual s32 vfunc_14(void); // func_ov005_02206260
-    virtual s32 vfunc_1c(void); // func_ov005_02206224
-    virtual void vfunc_70(void); // func_ov005_02206248
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_1c(void);
+    virtual void vfunc_70(void);
 };
 
 class MIS_SallySelect : public MenuItem
 {
-    virtual char * vfunc_00(void); // func_ov005_02206338
-    virtual s32 vfunc_14(void); // func_ov005_02206318
-    virtual s32 vfunc_1c(void); // func_ov005_022062a4
-    virtual void vfunc_70(void); // func_ov005_022062d4
+    virtual char * vfunc_00(void);
+    virtual s32 vfunc_14(void);
+    virtual s32 vfunc_1c(void);
+    virtual void vfunc_70(void);
 };
 
 class DI_SallyCancelYes : public DialogItemYes
 {
 public:
-    virtual s32 vfunc_1c(void); // func_ov005_0220654c
+    virtual s32 vfunc_1c(void);
 };
 
 class DI_SallyCancelNo : public DialogItemNo
@@ -116,13 +116,13 @@ class DI_SallyCancelNo : public DialogItemNo
 class DI_SallyEndYes : public DialogItemYes
 {
 public:
-    virtual s32 vfunc_1c(void); // func_ov005_0220656c
+    virtual s32 vfunc_1c(void);
 };
 
 class DI_SallyEndNo : public DialogItemNo
 {
 public:
-    virtual s32 vfunc_1c(void); // func_ov005_022064f8
+    virtual s32 vfunc_1c(void);
 };
 
 } // namespace sally
@@ -152,17 +152,6 @@ public:
 };
 
 extern UnkStruct_02217560 * data_ov005_02217560;
-
-EC void func_0202b294(void *, u32, u32);
-EC void func_0202b688(void *, u32, u32, u32);
-EC void func_0202a5a8(u32);
-EC u32 func_0202a564(u32);
-EC void func_0202a4dc(s32, s32);
-EC void func_02010d98(void *, u32, u32, u32);
-EC void func_02051410(ProcPtr, u32, u32, u32);
-EC void func_02050494(ProcPtr, u32, u32);
-
-EC void func_ov005_02204c20(ProcPtr, u32);
 
 extern u16 data_021970c4[];
 
@@ -289,8 +278,6 @@ public:
         }
     }
 
-    // func_ov005_02206660
-    // func_ov005_022066b4
     virtual ~MMenu()
     {
         func_0202a5a8(this->unk_44);
@@ -306,7 +293,7 @@ public:
     }
 };
 
-EC sally::MMenu * func_ov005_022059f0(void);
+EC sally::MMenu * GetSallyMMenu(void);
 
 class SallyDialogYesNo : public DialogYesNo
 {
@@ -325,33 +312,32 @@ public:
         }
         else
         {
-            func_ov005_022059f0()->unk_3c->func_020354bc(0);
-            func_ov005_022059f0()->unk_3c->SetVisible(1);
+            GetSallyMMenu()->unk_3c->func_020354bc(0);
+            GetSallyMMenu()->unk_3c->SetVisible(1);
         }
     }
 
-    virtual void vfunc_00(void); // func_ov005_022065c0
-    virtual void vfunc_a0(void); // func_ov005_0220658c
-    virtual void vfunc_c0(void); // func_ov005_0220662c
+    virtual void vfunc_00(void);
+    virtual void vfunc_a0(void);
+    virtual void vfunc_c0(void);
     virtual void vfunc_130(/* ? */); // func_ov005_02206700
     virtual void vfunc_134(/* ? */); // func_ov005_0220673c
 };
 
 class SallyCancelDialogYesNo : public SallyDialogYesNo
 {
-    virtual void vfunc_c0(void); // func_ov005_022065f8
+    virtual void vfunc_c0(void);
     virtual void vfunc_130(/* ? */); // func_ov005_02206780
     virtual void vfunc_134(/* ? */); // func_ov005_022067bc
 };
 
 } // namespace sally
 
-EC sally::MMenu * func_ov005_022059f0(void);
-EC void func_02010f98(void *, u32, u32);
+EC sally::MMenu * GetSallyMMenu(void);
 
 EC void func_ov005_02205518(char * str)
 {
-    sally::MMenu * proc = func_ov005_022059f0();
+    sally::MMenu * proc = GetSallyMMenu();
     proc->unk_48 = (proc->unk_48 + 1) & 1;
 
     func_02010f98(gpActiveScreenSt->tilemap[3] + 0xcf, 0xe, 0xc);
@@ -492,7 +478,7 @@ EC void func_ov005_022059e4(sally::MMenu * proc)
 
 // clang-format off
 
-struct ProcCmd data_ov005_02213598[] =
+struct ProcCmd ProcScr_Sally_MMenu[] =
 {
     PROC_NAME,
     PROC_SLEEP(0),
@@ -506,18 +492,17 @@ struct ProcCmd data_ov005_02213598[] =
 
 // clang-format on
 
-EC sally::MMenu * func_ov005_022059f0(void)
+EC sally::MMenu * GetSallyMMenu(void)
 {
-    return static_cast<sally::MMenu *>(Proc_Find(data_ov005_02213598));
+    return static_cast<sally::MMenu *>(Proc_Find(ProcScr_Sally_MMenu));
 }
 
 EC void StartSally_MMenu(ProcPtr param_1)
 {
-    new (Proc_StartBlocking(data_ov005_02213598, param_1)) sally::MMenu();
+    new (Proc_StartBlocking(ProcScr_Sally_MMenu, param_1)) sally::MMenu();
     return;
 }
 
-// func_ov005_02205e84
 s32 sally::MIS_SallyEnd::vfunc_24(Menu * param_2, MenuItemState * param_3)
 {
     if ((param_3->unk_09 & 7) != 1)
@@ -529,7 +514,6 @@ s32 sally::MIS_SallyEnd::vfunc_24(Menu * param_2, MenuItemState * param_3)
     return 0x100;
 }
 
-// func_ov005_02205eac
 void sally::MIS_SallyEnd::vfunc_70(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
@@ -544,7 +528,6 @@ void sally::MIS_SallyEnd::vfunc_70(void)
     return;
 }
 
-// func_ov005_02205ef0
 s32 sally::MIS_SallyEnd::vfunc_14(void)
 {
     s32 uVar1 = 0;
@@ -562,7 +545,6 @@ s32 sally::MIS_SallyEnd::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02205f2c
 s32 sally::MIS_SallyEnd::vfunc_10(MenuItemState * param_2)
 {
     if ((param_2->unk_09 & 7) == 1)
@@ -573,7 +555,6 @@ s32 sally::MIS_SallyEnd::vfunc_10(MenuItemState * param_2)
     return 5;
 }
 
-// func_ov005_02205f44
 char * sally::MIS_SallyEnd::vfunc_00(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
@@ -586,7 +567,6 @@ char * sally::MIS_SallyEnd::vfunc_00(void)
     }
 }
 
-// func_ov005_02205f80
 s32 sally::MIS_SallySave::vfunc_20(MenuItemState * param_2)
 {
     if ((param_2->unk_09 & 7) != 1)
@@ -599,7 +579,6 @@ s32 sally::MIS_SallySave::vfunc_20(MenuItemState * param_2)
     return 0x100;
 }
 
-// func_ov005_02205fb8
 void sally::MIS_SallySave::vfunc_70(void)
 {
     func_ov005_02205518(func_02039e10("MSH_記録"));
@@ -608,7 +587,6 @@ void sally::MIS_SallySave::vfunc_70(void)
 
 EC s32 func_0201f680(void);
 
-// func_ov005_02205fd0
 s32 sally::MIS_SallySave::vfunc_14(void)
 {
     u32 uVar1;
@@ -635,13 +613,11 @@ s32 sally::MIS_SallySave::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02206018
 char * sally::MIS_SallySave::vfunc_00(void)
 {
     return func_02039e10("MSM_記録");
 }
 
-// func_ov005_0220602c
 s32 sally::MIS_Config::vfunc_1c(void)
 {
     data_ov005_02217560->unk_08 = 7;
@@ -649,14 +625,12 @@ s32 sally::MIS_Config::vfunc_1c(void)
     return 0x41;
 }
 
-// func_ov005_02206050
 void sally::MIS_Config::vfunc_70(void)
 {
     func_ov005_02205518(func_02039e10("MSH_環境"));
     return;
 }
 
-// func_ov005_02206068
 s32 sally::MIS_Config::vfunc_14(void)
 {
     u32 uVar1 = 0;
@@ -674,13 +648,11 @@ s32 sally::MIS_Config::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02206098
 char * sally::MIS_Config::vfunc_00(void)
 {
     return func_02039e10("MSM_環境");
 }
 
-// func_ov005_022060ac
 s32 sally::MIS_WeaponShop::vfunc_1c(void)
 {
     data_ov005_02217560->unk_08 = 6;
@@ -688,14 +660,12 @@ s32 sally::MIS_WeaponShop::vfunc_1c(void)
     return 0x41;
 }
 
-// func_ov005_022060d0
 void sally::MIS_WeaponShop::vfunc_70(void)
 {
     func_ov005_02205518(func_02039e10("MSH_武器屋"));
     return;
 }
 
-// func_ov005_022060e8
 s32 sally::MIS_WeaponShop::vfunc_14(void)
 {
     u32 uVar1 = 0;
@@ -713,13 +683,11 @@ s32 sally::MIS_WeaponShop::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02206118
 char * sally::MIS_WeaponShop::vfunc_00(void)
 {
     return func_02039e10("MSM_武器屋");
 }
 
-// func_ov005_0220612c
 s32 sally::MIS_JobSlide::vfunc_1c(void)
 {
     data_ov005_02217560->unk_10 = 1;
@@ -728,14 +696,12 @@ s32 sally::MIS_JobSlide::vfunc_1c(void)
     return 0x41;
 }
 
-// func_ov005_0220615c
 void sally::MIS_JobSlide::vfunc_70(void)
 {
     func_ov005_02205518(func_02039e10("MSH_兵種変更"));
     return;
 }
 
-// func_ov005_02206174
 s32 sally::MIS_JobSlide::vfunc_14(void)
 {
     u32 uVar1 = 0;
@@ -748,13 +714,11 @@ s32 sally::MIS_JobSlide::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02206194
 char * sally::MIS_JobSlide::vfunc_00(void)
 {
     return func_02039e10("MSM_兵種変更");
 }
 
-// func_ov005_022061a8
 s32 sally::MIS_ItemSetting::vfunc_1c(void)
 {
     data_ov005_02217560->unk_10 = 1;
@@ -763,14 +727,12 @@ s32 sally::MIS_ItemSetting::vfunc_1c(void)
     return 0x41;
 }
 
-// func_ov005_022061d8
 void sally::MIS_ItemSetting::vfunc_70(void)
 {
     func_ov005_02205518(func_02039e10("MSH_持ち物"));
     return;
 }
 
-// func_ov005_022061f0
 s32 sally::MIS_ItemSetting::vfunc_14(void)
 {
     u32 uVar1 = 0;
@@ -783,13 +745,11 @@ s32 sally::MIS_ItemSetting::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02206210
 char * sally::MIS_ItemSetting::vfunc_00(void)
 {
     return func_02039e10("MSM_持ち物");
 }
 
-// func_ov005_02206224
 s32 sally::MIS_PosChange::vfunc_1c(void)
 {
     data_ov005_02217560->unk_08 = 3;
@@ -797,14 +757,12 @@ s32 sally::MIS_PosChange::vfunc_1c(void)
     return 0x41;
 }
 
-// func_ov005_02206248
 void sally::MIS_PosChange::vfunc_70(void)
 {
     func_ov005_02205518(func_02039e10("MSH_マップ"));
     return;
 }
 
-// func_ov005_02206260
 s32 sally::MIS_PosChange::vfunc_14(void)
 {
     u32 uVar1 = 0;
@@ -822,13 +780,11 @@ s32 sally::MIS_PosChange::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02206290
 char * sally::MIS_PosChange::vfunc_00(void)
 {
     return func_02039e10("MSM_マップ");
 }
 
-// func_ov005_022062a4
 s32 sally::MIS_SallySelect::vfunc_1c(void)
 {
     data_ov005_02217560->unk_10 = 1;
@@ -837,7 +793,6 @@ s32 sally::MIS_SallySelect::vfunc_1c(void)
     return 0x41;
 }
 
-// func_ov005_022062d4
 void sally::MIS_SallySelect::vfunc_70(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
@@ -852,7 +807,6 @@ void sally::MIS_SallySelect::vfunc_70(void)
     return;
 }
 
-// func_ov005_02206318
 s32 sally::MIS_SallySelect::vfunc_14(void)
 {
     u32 uVar1 = 0;
@@ -865,31 +819,27 @@ s32 sally::MIS_SallySelect::vfunc_14(void)
     return uVar1;
 }
 
-// func_ov005_02206338
 char * sally::MIS_SallySelect::vfunc_00(void)
 {
     return func_02039e10("MSM_ユニット");
 }
 
-// func_ov005_0220634c
 void sally::SallyMenu::vfunc_a0(void)
 {
-    if (func_ov005_022059f0()->unk_40 != NULL)
+    if (GetSallyMMenu()->unk_40 != NULL)
     {
-        func_ov005_022059f0()->unk_40->func_02035450();
+        GetSallyMMenu()->unk_40->func_02035450();
     }
 
     return;
 }
 
-// func_ov005_02206374
 void sally::SallyMenu::vfunc_a8(void)
 {
-    func_ov005_022059f0()->unk_3c->func_02035450();
+    GetSallyMMenu()->unk_3c->func_02035450();
     return;
 }
 
-// func_ov005_02206388
 s32 sally::SallyMenu::vfunc_58(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
@@ -905,7 +855,6 @@ s32 sally::SallyMenu::vfunc_58(void)
     return 0x40;
 }
 
-// func_ov005_022063d0
 s32 sally::SallyMenu::vfunc_28(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
@@ -917,48 +866,40 @@ s32 sally::SallyMenu::vfunc_28(void)
     return 0;
 }
 
-// func_ov005_02206400
 s32 sally::SallyMenu::vfunc_24(void * param_2, s32 param_3)
 {
     if (!((param_3 & 0x3f) == 0 ? TRUE : FALSE))
     {
-        Proc_Release((struct Proc *)func_ov005_022059f0());
+        Proc_Release((struct Proc *)GetSallyMMenu());
         return 0x40;
     }
 
     return param_3;
 }
 
-// func_ov005_0220642c
 void sally::SallyMenu::vfunc_124(void)
 {
     Proc_Break(this->unk_10, 0);
     return;
 }
 
-// func_ov005_02206440
 void sally::SallyMenu::vfunc_120(void)
 {
-    // int * piVar1;
-    // piVar1 = param_1->unk_0c + param_1->unk_38 * 0xc;
     this->unk_0c[this->unk_38].unk_00->vfunc_b4(this, &this->unk_0c[this->unk_38]);
     Proc_Break(this->unk_10, 1);
     return;
 }
 
-// func_ov005_02206480
 void sally::SallyMenu::vfunc_ec(void)
 {
     return;
 }
 
-// func_ov005_02206484
 void sally::SallyMenu::vfunc_e8(void)
 {
     return;
 }
 
-// func_ov005_02206488
 void sally::SallyMenu::vfunc_00(void)
 {
     this->unk_2c = 1;
@@ -988,7 +929,6 @@ void sally::SallyMenu::vfunc_00(void)
     return;
 }
 
-// func_ov005_022064f8
 s32 sally::DI_SallyEndNo::vfunc_1c(void)
 {
     if (data_ov005_02217560->unk_11 == 0)
@@ -997,44 +937,40 @@ s32 sally::DI_SallyEndNo::vfunc_1c(void)
     }
     else
     {
-        func_ov005_022059f0()->unk_3c->func_020354a0();
-        func_ov005_022059f0()->unk_3c->SetVisible(0);
+        GetSallyMMenu()->unk_3c->func_020354a0();
+        GetSallyMMenu()->unk_3c->SetVisible(0);
     }
 
     return 0x81;
 }
 
-// func_ov005_0220654c
 s32 sally::DI_SallyCancelYes::vfunc_1c(void)
 {
-    Proc_Release((struct Proc *)func_ov005_022059f0());
+    Proc_Release((struct Proc *)GetSallyMMenu());
     func_ov005_022054b0(13);
     return 0x1041;
 }
 
-// func_ov005_0220656c
 s32 sally::DI_SallyEndYes::vfunc_1c(void)
 {
-    Proc_Release((struct Proc *)func_ov005_022059f0());
+    Proc_Release((struct Proc *)GetSallyMMenu());
     func_ov005_022054b0(9);
     return 0x1041;
 }
 
-// func_ov005_0220658c
 void sally::SallyDialogYesNo::vfunc_a0(void)
 {
-    if (func_ov005_022059f0()->unk_40 != NULL)
+    if (GetSallyMMenu()->unk_40 != NULL)
     {
-        func_ov005_022059f0()->unk_40->func_02035450();
+        GetSallyMMenu()->unk_40->func_02035450();
         return;
     }
 
-    func_ov005_022059f0()->unk_3c->func_02035450();
+    GetSallyMMenu()->unk_3c->func_02035450();
 
     return;
 }
 
-// func_ov005_022065c0
 void sally::SallyDialogYesNo::vfunc_00(void)
 {
     this->unk_48 = 1;
@@ -1050,14 +986,12 @@ void sally::SallyDialogYesNo::vfunc_00(void)
     return;
 }
 
-// func_ov005_022065f8
 void sally::SallyCancelDialogYesNo::vfunc_c0(void)
 {
     data_020efcc8->unk_b0->vfunc_28(0x10016, 0, 0);
     return;
 }
 
-// func_ov005_0220662c
 void sally::SallyDialogYesNo::vfunc_c0(void)
 {
     data_020efcc8->unk_b0->vfunc_28(0x1000a, 0, 0);
