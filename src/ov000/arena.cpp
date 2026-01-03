@@ -7,17 +7,20 @@
 #include "unknown_types.hpp"
 
 #include "database.hpp"
-#include "hashtable.hpp"
 #include "hardware.hpp"
+#include "hashtable.hpp"
+#include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 #include "unit.hpp"
 
+
 EC void func_0200ac20(char *, ProcPtr, s32);
-EC void func_02010f98(u16 *, s32, s32);
 EC void func_02017518(void *, void *, s32, s32, s32);
 EC void func_01ff9948(u8);
 EC void func_02011a30(char *, u16 *, u32, u32);
+
+EC void func_020303bc(DialogYesNo *, char *, void *, ProcPtr, s32, s32);
 
 class ArenaProc_unk_60
 {
@@ -84,7 +87,6 @@ public:
 
     virtual ~ArenaBGMCont() {};
 };
-
 
 EC void func_ov000_021d8ed4(struct ArenaProc * proc);
 EC void func_ov000_021d9078(struct ArenaProc * proc);
@@ -350,7 +352,7 @@ static inline struct PersonData * GetPersonData()
 
 EC struct ArenaEnemy * func_ov000_021d7c90(u32 count)
 {
-    struct ArenaEnemy * arenaEnemy = static_cast<struct ArenaEnemy *>(HashTable::Get2("ArenaEnemy\0"));
+    struct ArenaEnemy * arenaEnemy = static_cast<struct ArenaEnemy *>(HashTable::Get2("ArenaEnemy"));
 
     while (count > 0)
     {
@@ -1155,33 +1157,51 @@ EC void func_ov000_021d8d4c(s32 arg_0)
     return;
 }
 
+namespace map
+{
+class BMapDialogYesNo : public DialogYesNo
+{
+public:
+    virtual void vfunc_00(/*  */); // func_ov000_021be6d8
+    virtual void vfunc_a0(/*  */); // func_ov000_021be934
+    virtual void vfunc_ac(/*  */); // func_ov000_021be91c
+    virtual void vfunc_130(/*  */); // func_ov000_021bea74
+    virtual void vfunc_134(/*  */); // func_ov000_021beab0
+};
+
+} // namespace map
+
+class DI_ArenaYes : public DialogItemYes
+{
+public:
+    virtual s32 vfunc_1c(void); // func_ov000_021d9940
+};
+
+class DI_ArenaNo : public DialogItemNo
+{
+public:
+    virtual s32 vfunc_14(void); // func_ov000_021d9938
+    virtual s32 vfunc_1c(void); // func_ov000_021d9924
+};
+
 EC void func_ov000_021d8d68(struct ArenaProc * proc)
 {
-    u32 * puVar1;
-    struct UnkStruct_Func_020302e0_Arg * puVar2;
-    u32 uVar3;
+    DialogYesNo * puVar2;
 
-    if ((data_ov000_021e3508->unk_0c & 1) == 0)
-    {
-        data_ov000_021e3508->unk_00 = __vt__11DI_ArenaYes;
-        data_ov000_021e3508->unk_0c |= 1;
-    }
+    static DI_ArenaYes sArenaYes;
+    static DI_ArenaNo sArenaNo;
 
-    if ((data_ov000_021e3508->unk_18 & 1) == 0)
+    // clang-format off
+    static DialogItem * data_ov000_021e2ca0[] =
     {
-        data_ov000_021e3508->unk_10 = __vt__10DI_ArenaNo;
-        data_ov000_021e3508->unk_18 |= 1;
-    }
+        &sArenaYes,
+        &sArenaNo,
+    };
+    // clang-format on
 
     func_02039f40(0, proc->unk_54);
 
-    puVar2 = new UnkStruct_Func_020302e0_Arg;
-
-    if (puVar2 != NULL)
-    {
-        func_020302e0(puVar2);
-        puVar2->unk_00 = data_ov000_021dcebc;
-    }
+    puVar2 = new map::BMapDialogYesNo();
 
     func_020303bc(puVar2, func_02039e10("MD_賭金"), data_ov000_021e2ca0, proc, 1, 0);
 
@@ -1190,34 +1210,22 @@ EC void func_ov000_021d8d68(struct ArenaProc * proc)
 
 EC void func_ov000_021d8e28(struct ArenaProc * proc)
 {
-    u32 * puVar1;
-    int iVar2;
-    u32 * puVar3;
-    struct UnkStruct_Func_020302e0_Arg * puVar4;
-    u32 uVar5;
+    DialogYesNo * puVar4;
 
-    if ((data_ov000_021e3508->unk_1c & 1) == 0)
+    static DI_ArenaYes sArenaYes;
+    static DI_ArenaNo sArenaNo;
+
+    // clang-format off
+    static DialogItem * data_ov000_021e2cac[] =
     {
-        data_ov000_021e3508->unk_14 = __vt__11DI_ArenaYes;
-        data_ov000_021e3508->unk_1c |= 1;
-    }
+        &sArenaYes,
+        &sArenaNo,
+    };
+    // clang-format on
 
-    if ((data_ov000_021e3508->unk_04 & 1) == 0)
-    {
-        data_ov000_021e3508->unk_08 = __vt__10DI_ArenaNo;
-        data_ov000_021e3508->unk_04 |= 1;
-    }
+    puVar4 = new map::BMapDialogYesNo();
 
-    // TODO: Probably not right type
-    puVar4 = new UnkStruct_Func_020302e0_Arg;
-
-    if (puVar4 != NULL)
-    {
-        func_020302e0(puVar4);
-        puVar4->unk_00 = data_ov000_021dcebc;
-    }
-
-    func_020303bc(puVar4, func_02039e10("MD_再挑戦\0\0"), data_ov000_021e2cac, proc, 1, 0);
+    func_020303bc(puVar4, func_02039e10("MD_再挑戦"), data_ov000_021e2cac, proc, 1, 0);
 
     return;
 }
@@ -1234,7 +1242,7 @@ EC void func_ov000_021d8ed4(struct ArenaProc * proc)
     int iVar7;
     int iVar8;
 
-    pUVar3 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font\0"));
+    pUVar3 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font"));
     uVar6 = pUVar3->unk_07;
     uVar2 = pUVar3->unk_04;
     bVar1 = pUVar3->unk_06;
@@ -1242,15 +1250,15 @@ EC void func_ov000_021d8ed4(struct ArenaProc * proc)
     func_02010f98(gpActiveScreenSt->tilemap[uVar6] + 0xa8, 0xb, 2);
 
     iVar7 = func_020295ec(
-        data_021970c4, func_02039e10("MD_MONEY\0\0\0"), gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6],
-        0x14, 2, uVar2, bVar1, 0, 0);
+        data_021970c4, func_02039e10("MD_MONEY"), gpActiveScreenSt->bgTiles[uVar6],
+        gpActiveScreenSt->tilemap[uVar6], 0x14, 2, uVar2, bVar1, 0, 0);
     iVar7 = uVar2 + iVar7;
     iVar8 = func_020295ec(
-        data_021970c4, func_02039e10("MD_GOLD"), gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6], 0x1e, 2,
-        iVar7, bVar1, 0, 0);
+        data_021970c4, func_02039e10("MD_GOLD"), gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6],
+        0x1e, 2, iVar7, bVar1, 0, 0);
     func_02029850(
-        data_021970c4, data_02196f20->unk_190, gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6], 0x1d, 2,
-        iVar7 + iVar8, bVar1, 0);
+        data_021970c4, data_02196f20->unk_190, gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6], 0x1d,
+        2, iVar7 + iVar8, bVar1, 0);
 
     gpActiveScreenSt->unk_3e |= 1 << uVar6;
 
@@ -1260,7 +1268,7 @@ EC void func_ov000_021d8ed4(struct ArenaProc * proc)
 EC void func_ov000_021d9024(struct ArenaProc * proc)
 {
     u8 bVar1;
-    struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font\0"));
+    struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font"));
 
     bVar1 = pUVar2->unk_07;
     func_02010f98(gpActiveScreenSt->tilemap[bVar1] + 0xa8, 0xb, 2);
@@ -1275,17 +1283,17 @@ EC void func_ov000_021d9078(struct ArenaProc * proc)
     u32 uVar4;
     u16 uVar2;
     u8 bVar1;
-    struct VmMap_Common * pUVar4 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free\0\0"));
+    struct VmMap_Common * pUVar4 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free"));
 
     uVar4 = pUVar4->unk_07;
     uVar2 = pUVar4->unk_04;
     bVar1 = pUVar4->unk_06;
 
-    func_020a8f40("/shop\0\0");
+    func_020a8f40("/shop");
 
-    func_0201177c("money.cg\0\0\0", ((u32)(gpActiveScreenSt->bgTiles[uVar4])) + uVar2 * 0x20);
-    func_02011a70("money.cl\0\0\0", bVar1 * 0x20, 0, 0);
-    func_02011a30("money.rect\0", gpActiveScreenSt->tilemap[uVar4] + 0x20, uVar2, bVar1);
+    func_0201177c("money.cg", ((u32)(gpActiveScreenSt->bgTiles[uVar4])) + uVar2 * 0x20);
+    func_02011a70("money.cl", bVar1 * 0x20, 0, 0);
+    func_02011a30("money.rect", gpActiveScreenSt->tilemap[uVar4] + 0x20, uVar2, bVar1);
 
     gpActiveScreenSt->unk_3e |= 1 << uVar4;
 
@@ -1295,7 +1303,7 @@ EC void func_ov000_021d9078(struct ArenaProc * proc)
 EC void func_ov000_021d9120(struct ArenaProc * proc)
 {
     u8 bVar1;
-    struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free\0\0"));
+    struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free"));
     bVar1 = pUVar2->unk_07;
 
     func_01ff9948(bVar1);
@@ -1348,13 +1356,13 @@ EC void func_ov000_021d91f0(struct ArenaProc * proc)
 
 EC void func_ov000_021d920c(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_PRICE\0\0", proc, 0);
+    func_0200ac20("M闘技場_PRICE", proc, 0);
     return;
 }
 
 EC void func_ov000_021d9228(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_CHALLENGE\0\0", proc, 0);
+    func_0200ac20("M闘技場_CHALLENGE", proc, 0);
     return;
 }
 
@@ -1393,19 +1401,19 @@ EC void func_ov000_021d9250(struct ArenaProc * proc)
 
 EC void func_ov000_021d9310(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_BATTLE\0", proc, 0);
+    func_0200ac20("M闘技場_BATTLE", proc, 0);
     return;
 }
 
 EC void func_ov000_021d932c(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_GETOUT\0", proc, 0);
+    func_0200ac20("M闘技場_GETOUT", proc, 0);
     return;
 }
 
 EC void func_ov000_021d9348(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_POOR\0\0\0", proc, 0);
+    func_0200ac20("M闘技場_POOR", proc, 0);
     return;
 }
 
@@ -1426,19 +1434,19 @@ EC void func_ov000_021d9364(struct ArenaProc * proc)
 
 EC void func_ov000_021d93d0(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_LOSE\0\0\0", proc, 0);
+    func_0200ac20("M闘技場_LOSE", proc, 0);
     return;
 }
 
 EC void func_ov000_021d93ec(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_DRAW\0\0\0", proc, 0);
+    func_0200ac20("M闘技場_DRAW", proc, 0);
     return;
 }
 
 EC void func_ov000_021d9408(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_STOP\0\0\0", proc, 0);
+    func_0200ac20("M闘技場_STOP", proc, 0);
     return;
 }
 
@@ -1450,7 +1458,7 @@ EC void func_ov000_021d9424(struct ArenaProc * proc)
 
 EC void func_ov000_021d9440(struct ArenaProc * proc)
 {
-    func_0200ac20("M闘技場_RETRY\0\0", proc, 0);
+    func_0200ac20("M闘技場_RETRY", proc, 0);
     return;
 }
 

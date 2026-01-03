@@ -120,12 +120,6 @@ struct UnkStruct_Func_02021410_Ret
     u8 unk_756;
 };
 
-struct UnkStruct_Func_020302e0_Arg
-{
-    void * unk_00;
-    STRUCT_PAD(0x04, 0x5C);
-};
-
 struct VmMap_Common
 {
     STRUCT_PAD(0x00, 0x04);

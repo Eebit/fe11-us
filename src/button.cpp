@@ -6,6 +6,7 @@
 #include "unknown_funcs.h"
 
 #include "anime.hpp"
+#include "button.hpp"
 #include "hardware.hpp"
 #include "heap.hpp"
 #include "proc_ex.hpp"
@@ -13,110 +14,6 @@
 extern u16 data_020ca6c4[];
 extern u16 data_027e0010[];
 extern u16 data_027e0038[];
-
-struct Button_unk_38
-{
-    /* 00 */ u32 unk_00;
-    /* 04 */ u32 unk_04;
-    /* 08 */ s8 unk_08;
-    /* 09 */ s8 unk_09;
-    /* 0A */ s8 unk_0a;
-    /* 0B */ s8 unk_0b;
-    /* 0C */ s8 unk_0c;
-    /* 0D */ u8 unk_0d;
-    /* 0E */ u8 unk_0e;
-    /* 0F */ u8 unk_0f;
-    /* 10 */ u16 unk_10;
-    /* 12 */ u8 unk_12;
-    /* 14 */ void * unk_14;
-    /* 18 */ STRUCT_PAD(0x18, 0x24);
-
-    Button_unk_38()
-    {
-        this->unk_10 = 1;
-        this->unk_12 = 0;
-        this->unk_00 = 0;
-        this->unk_04 = 0;
-        this->unk_08 = -1;
-        this->unk_09 = -1;
-        this->unk_0a = -1;
-        this->unk_0b = -1;
-        this->unk_0d = -1;
-        this->unk_0c = 1;
-        this->unk_0e = 0;
-        this->unk_0f = -1;
-
-        this->unk_14 = gHeap.Alloc(0xc);
-        func_020a5824(this->unk_14, 0, 0xc);
-    }
-
-    ~Button_unk_38()
-    {
-        gHeap.Free(this->unk_14);
-    }
-};
-
-EC void func_0206d834(struct Button_unk_38 *, s32, s16, s16, u16, u16);
-EC void func_0206d868(struct Button_unk_38 *, s32);
-EC void func_0206d7c8(struct Button_unk_38 *, s16, s16, u16, u16, s32, s32);
-EC void func_0206db20(void);
-
-class Button : public ProcEx
-{
-public:
-    /* 38 */ struct Button_unk_38 * unk_38;
-    /* 3C */ Anime * anime;
-    /* 40 */ s16 xPos;
-    /* 42 */ s16 yPos;
-    /* 44 */ s16 unk_44;
-    /* 46 */ s16 unk_46;
-    /* 48 */ s16 unk_48;
-    /* 4A */ s16 unk_4a;
-    /* 4C */ s32 unk_4c;
-    /* 50 */ s32 unk_50;
-    /* 54 */ u16 * unk_54;
-    /* 58 */ u32 unk_58;
-    /* 5C */ s16 unk_5c;
-    /* 5E */ s16 unk_5e;
-    /* 60 */ s16 unk_60;
-    /* 62 */ s16 unk_62;
-    /* 64 */ s16 unk_64;
-    /* 66 */ s16 unk_66;
-    /* 68 */ u8 unk_68;
-    /* 69 */ u8 unk_69;
-    /* 6A */ u8 unk_6a;
-    /* 6B */ u8 isVisible;
-
-    Button()
-    {
-        this->unk_38 = NULL;
-    }
-
-    /* 08 */ virtual void vfunc_08(void);
-    /* 0C */ virtual void vfunc_0c(void);
-    /* 10 */ virtual BOOL vfunc_10(void);
-    /* 14 */ virtual void vfunc_14(void);
-    /* 18 */ virtual BOOL vfunc_18(void);
-
-    virtual ~Button()
-    {
-        delete this->unk_38;
-    }
-
-    void func_02034838(s32, s32, s32, u8, s32);
-    void func_02034d40(s32);
-    void func_02034ff8(void);
-    void func_02035088(void);
-    void func_020350b4(void);
-    void SetPosition(s32, s32);
-    void SetVisible(s32);
-    BOOL func_020353b8(void);
-    BOOL func_020353e0(s32, s32);
-    BOOL func_02035450(void);
-    void func_0203546c(s32, s32, s32, s32);
-    void func_020354a0(void);
-    void func_020354bc(s32);
-};
 
 class ScrollMenu_unk_04
 {
@@ -384,7 +281,7 @@ BOOL ScrollMenuButton::vfunc_10(void)
     return FALSE;
 }
 
-void Button::func_02034838(s32 param_2, s32 param_3, s32 param_4, u8 param_5, s32 param_6)
+void Button::func_02034838(s32 kind, s32 param_3, s32 param_4, u8 param_5, s32 param_6)
 {
     this->xPos = 0;
     this->yPos = 0;
@@ -398,10 +295,10 @@ void Button::func_02034838(s32 param_2, s32 param_3, s32 param_4, u8 param_5, s3
 
     if (param_5 != 0)
     {
-        func_02034930(param_2, param_3, param_4);
+        func_02034930(kind, param_3, param_4);
     }
 
-    this->func_02034d40(param_2);
+    this->func_02034d40(kind);
 
     this->unk_69 = 0;
     this->unk_58 = 0;
@@ -416,120 +313,120 @@ void Button::func_02034838(s32 param_2, s32 param_3, s32 param_4, u8 param_5, s3
     return;
 }
 
-EC void func_02034930(s32 param_1, s32 param_2, s32 param_3)
+EC void func_02034930(s32 kind, s32 param_2, s32 param_3)
 {
     func_020a8f40("/button");
 
-    switch (param_1)
+    switch (kind)
     {
-        case 0:
+        case BUTTON_KIND_A_MENU:
             func_0201177c("a_menu.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 1:
+        case BUTTON_KIND_B_CANCEL:
             func_0201177c("b_cancel.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 2:
+        case BUTTON_KIND_R_CHANGE:
             func_0201177c("r_change.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 3:
+        case BUTTON_KIND_START_START:
             func_0201177c("start_start.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 4:
+        case BUTTON_KIND_B_MENU:
             func_0201177c("b_menu.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 5:
+        case BUTTON_KIND_B_END:
             func_0201177c("b_end.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 6:
+        case BUTTON_KIND_A_DECIDE:
             func_0201177c("a_decide.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 7:
+        case BUTTON_KIND_B_STOP:
             func_0201177c("b_stop.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 8:
+        case BUTTON_KIND_A_START:
             func_0201177c("a_start.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 9:
+        case BUTTON_KIND_SELECT_RANDOM:
             func_0201177c("select_random.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 10:
+        case BUTTON_KIND_START_END:
             func_0201177c("start_end.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0xb:
+        case BUTTON_KIND_X_DANGER:
             func_0201177c("x_danger.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0xc:
+        case BUTTON_KIND_L_ARROW:
             func_0201177c("l_arrow.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0xd:
+        case BUTTON_KIND_R_ARROW:
             func_0201177c("r_arrow.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0xe:
+        case BUTTON_KIND_L_REFINE:
             func_0201177c("l_refine.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0xf:
+        case BUTTON_KIND_R_REFINE:
             func_0201177c("r_refine.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0x10:
+        case BUTTON_KIND_SCROLLER_UP:
             func_0201177c("scrollerU.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0x11:
+        case BUTTON_KIND_SCROLLER_DOWN:
             func_0201177c("scrollerD.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0x12:
+        case BUTTON_KIND_SCROLLER_LEFT:
             func_0201177c("scrollerL.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
-        case 0x13:
+        case BUTTON_KIND_SCROLLER_RIGHT:
             func_0201177c("scrollerR.cg", ((u32)gpActiveScreenSt->bgTiles[4]) + param_2 * 0x20);
             break;
     }
 
     if (param_3 >= 0)
     {
-        func_02034c44(param_1, param_3, 0);
+        func_02034c44(kind, param_3, FALSE);
     }
 
     return;
 }
 
-EC void func_02034c44(s32 param_1, s32 param_2, s32 param_3)
+EC void func_02034c44(s32 kind, s32 param_2, BOOL changeDirectory)
 {
-    if (param_3 != 0)
+    if (changeDirectory)
     {
         func_020a8f40("/button");
     }
 
-    switch (param_1)
+    switch (kind)
     {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-        case 0xa:
-        case 0xb:
+        case BUTTON_KIND_A_MENU:
+        case BUTTON_KIND_B_CANCEL:
+        case BUTTON_KIND_R_CHANGE:
+        case BUTTON_KIND_START_START:
+        case BUTTON_KIND_B_MENU:
+        case BUTTON_KIND_B_END:
+        case BUTTON_KIND_A_DECIDE:
+        case BUTTON_KIND_B_STOP:
+        case BUTTON_KIND_A_START:
+        case BUTTON_KIND_SELECT_RANDOM:
+        case BUTTON_KIND_START_END:
+        case BUTTON_KIND_X_DANGER:
             func_02011a70("button.cl", (param_2 + 0x10) * 0x20, 0, 0);
             return;
 
-        case 0xc:
-        case 0xd:
+        case BUTTON_KIND_L_ARROW:
+        case BUTTON_KIND_R_ARROW:
             func_02011a70("arrow.cl", (param_2 + 0x10) * 0x20, 0, 0);
             return;
 
-        case 0xe:
-        case 0xf:
+        case BUTTON_KIND_L_REFINE:
+        case BUTTON_KIND_R_REFINE:
             func_02011a70("refine.cl", (param_2 + 0x10) * 0x20, 0, 0);
             return;
 
-        case 0x10:
-        case 0x11:
-        case 0x12:
-        case 0x13:
+        case BUTTON_KIND_SCROLLER_UP:
+        case BUTTON_KIND_SCROLLER_DOWN:
+        case BUTTON_KIND_SCROLLER_LEFT:
+        case BUTTON_KIND_SCROLLER_RIGHT:
             func_02011a70("scroller.cl", (param_2 + 0x10) * 0x20, 0, 0);
             return;
     }
@@ -537,47 +434,47 @@ EC void func_02034c44(s32 param_1, s32 param_2, s32 param_3)
     return;
 }
 
-void Button::func_02034d40(s32 param_2)
+void Button::func_02034d40(s32 kind)
 {
     char * animName;
     Anime * anime;
 
-    switch (param_2)
+    switch (kind)
     {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-        case 0xa:
-        case 0xb:
+        case BUTTON_KIND_A_MENU:
+        case BUTTON_KIND_B_CANCEL:
+        case BUTTON_KIND_R_CHANGE:
+        case BUTTON_KIND_START_START:
+        case BUTTON_KIND_B_MENU:
+        case BUTTON_KIND_B_END:
+        case BUTTON_KIND_A_DECIDE:
+        case BUTTON_KIND_B_STOP:
+        case BUTTON_KIND_A_START:
+        case BUTTON_KIND_SELECT_RANDOM:
+        case BUTTON_KIND_START_END:
+        case BUTTON_KIND_X_DANGER:
             this->unk_44 = 0x20;
             this->unk_46 = 0x18;
             this->unk_54 = data_020ca6c4;
             this->anime = NULL;
 
-            switch (param_2)
+            switch (kind)
             {
-                case 2:
-                case 0xb:
+                case BUTTON_KIND_R_CHANGE:
+                case BUTTON_KIND_X_DANGER:
                     this->unk_48 = 7;
                     break;
 
-                case 3:
-                case 0xa:
+                case BUTTON_KIND_START_START:
+                case BUTTON_KIND_START_END:
                     this->unk_48 = 2;
                     break;
             }
 
             return;
 
-        case 0xc:
-        case 0xd:
+        case BUTTON_KIND_L_ARROW:
+        case BUTTON_KIND_R_ARROW:
             this->unk_44 = 0x20;
             this->unk_46 = 0x10;
             this->unk_54 = data_027e0010;
@@ -585,18 +482,18 @@ void Button::func_02034d40(s32 param_2)
 
             return;
 
-        case 0xe:
-        case 0xf:
+        case BUTTON_KIND_L_REFINE:
+        case BUTTON_KIND_R_REFINE:
             this->unk_44 = 0x10;
             this->unk_46 = 0x10;
             this->unk_54 = data_027e0038;
             this->anime = NULL;
             return;
 
-        case 0x10:
-        case 0x11:
-        case 0x12:
-        case 0x13:
+        case BUTTON_KIND_SCROLLER_UP:
+        case BUTTON_KIND_SCROLLER_DOWN:
+        case BUTTON_KIND_SCROLLER_LEFT:
+        case BUTTON_KIND_SCROLLER_RIGHT:
             this->unk_44 = 0x10;
             this->unk_46 = 0x10;
             this->unk_54 = NULL;
@@ -605,21 +502,21 @@ void Button::func_02034d40(s32 param_2)
 
             animName = NULL;
 
-            switch (param_2)
+            switch (kind)
             {
-                case 0x10:
+                case BUTTON_KIND_SCROLLER_UP:
                     animName = "scrollerU.anm";
                     break;
 
-                case 0x11:
+                case BUTTON_KIND_SCROLLER_DOWN:
                     animName = "scrollerD.anm";
                     break;
 
-                case 0x12:
+                case BUTTON_KIND_SCROLLER_LEFT:
                     animName = "scrollerL.anm";
                     break;
 
-                case 0x13:
+                case BUTTON_KIND_SCROLLER_RIGHT:
                     animName = "scrollerR.anm";
                     break;
             }
@@ -644,36 +541,36 @@ void Button::func_02034d40(s32 param_2)
     }
 }
 
-EC s32 func_02034f74(s32 param_1)
+EC s32 func_02034f74(s32 kind)
 {
-    switch (param_1)
+    switch (kind)
     {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-        case 0xa:
-        case 0xb:
+        case BUTTON_KIND_A_MENU:
+        case BUTTON_KIND_B_CANCEL:
+        case BUTTON_KIND_R_CHANGE:
+        case BUTTON_KIND_START_START:
+        case BUTTON_KIND_B_MENU:
+        case BUTTON_KIND_B_END:
+        case BUTTON_KIND_A_DECIDE:
+        case BUTTON_KIND_B_STOP:
+        case BUTTON_KIND_A_START:
+        case BUTTON_KIND_SELECT_RANDOM:
+        case BUTTON_KIND_START_END:
+        case BUTTON_KIND_X_DANGER:
             return 0xc;
 
-        case 0xc:
-        case 0xd:
+        case BUTTON_KIND_L_ARROW:
+        case BUTTON_KIND_R_ARROW:
             return 8;
 
-        case 0xe:
-        case 0xf:
+        case BUTTON_KIND_L_REFINE:
+        case BUTTON_KIND_R_REFINE:
             return 4;
 
-        case 0x10:
-        case 0x11:
-        case 0x12:
-        case 0x13:
+        case BUTTON_KIND_SCROLLER_UP:
+        case BUTTON_KIND_SCROLLER_DOWN:
+        case BUTTON_KIND_SCROLLER_LEFT:
+        case BUTTON_KIND_SCROLLER_RIGHT:
             return 0x10;
 
         default:
@@ -893,7 +790,7 @@ void Button::func_020354bc(s32 param_2)
 
 extern struct ProcCmd ProcScr_020ce750[];
 
-EC Button * StartButton(ProcPtr parent, s32 param_2, s32 param_3, s32 param_4, s32 param_5)
+EC Button * StartButton(ProcPtr parent, s32 kind, s32 param_3, s32 param_4, s32 param_5)
 {
     Button * button;
 
@@ -903,7 +800,7 @@ EC Button * StartButton(ProcPtr parent, s32 param_2, s32 param_3, s32 param_4, s
     }
 
     button = new (Proc_Start(ProcScr_020ce750, parent)) Button;
-    button->func_02034838(param_2, param_3, param_4, 1, param_5);
+    button->func_02034838(kind, param_3, param_4, 1, param_5);
 
     return button;
 }

@@ -73,12 +73,15 @@ struct UnkStruct_02196f24
     u8 unk_03;
     STRUCT_PAD(0x04, 0x07);
     u8 unk_07;
-    STRUCT_PAD(0x08, 0x10);
+    STRUCT_PAD(0x08, 0x0C);
+    /* 0C */ u8 enableTutorials;
+    STRUCT_PAD(0x0D, 0x10);
 };
 
 struct UnkStruct_02196f20
 {
-    STRUCT_PAD(0x000, 0x184);
+    STRUCT_PAD(0x000, 0x180);
+    /* 180 */ FlagManager * flagMgr;
     s32 unk_184;
     u32 unk_188;
     u32 unk_18c;
