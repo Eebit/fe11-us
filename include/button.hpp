@@ -6,6 +6,30 @@
 #include "anime.hpp"
 #include "heap.hpp"
 
+enum
+{
+    BUTTON_KIND_A_MENU = 0,
+    BUTTON_KIND_B_CANCEL = 1,
+    BUTTON_KIND_R_CHANGE = 2,
+    BUTTON_KIND_START_START = 3,
+    BUTTON_KIND_B_MENU = 4,
+    BUTTON_KIND_B_END = 5,
+    BUTTON_KIND_A_DECIDE = 6,
+    BUTTON_KIND_B_STOP = 7,
+    BUTTON_KIND_A_START = 8,
+    BUTTON_KIND_SELECT_RANDOM = 9,
+    BUTTON_KIND_START_END = 10,
+    BUTTON_KIND_X_DANGER = 11,
+    BUTTON_KIND_L_ARROW = 12,
+    BUTTON_KIND_R_ARROW = 13,
+    BUTTON_KIND_L_REFINE = 14,
+    BUTTON_KIND_R_REFINE = 15,
+    BUTTON_KIND_SCROLLER_UP = 16,
+    BUTTON_KIND_SCROLLER_DOWN = 17,
+    BUTTON_KIND_SCROLLER_LEFT = 18,
+    BUTTON_KIND_SCROLLER_RIGHT = 19,
+};
+
 EC void func_020a5824(void * buf, int a, int b);
 
 struct Button_unk_38
@@ -98,7 +122,7 @@ public:
     }
 
     void func_02034838(s32, s32, s32, u8, s32);
-    void func_02034d40(s32);
+    void func_02034d40(s32 kind);
     void func_02034ff8(void);
     void func_02035088(void);
     void func_020350b4(void);
@@ -113,6 +137,6 @@ public:
 };
 
 
-EC Button * StartButton(ProcPtr, s32, s32, s32, s32);
+EC Button * StartButton(ProcPtr parent, s32 kind, s32, s32, s32);
 
 #endif // BUTTON_HPP
