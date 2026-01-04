@@ -829,7 +829,7 @@ EC void func_02015fb4(void);
 // EC ??? func_02016188
 // EC ??? func_0201619c
 EC u32 func_020161b4(void);
-EC void func_02016200(void *);
+EC void func_02016200(u32);
 EC BOOL func_02016250(s16);
 // EC ??? func_020162ec
 // EC ??? func_02016304

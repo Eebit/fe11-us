@@ -84,7 +84,7 @@ EC void func_02015e38(void)
     return;
 }
 
-EC void func_0209a520(s32, void *);
+EC BOOL func_0209a520(s32, void *);
 
 EC void func_02015e8c(void)
 {
@@ -107,7 +107,7 @@ EC void func_02015ec0(u32 param_1)
 
     if (!func_0201160c("/sound/fe11_sound_all.sdat"))
     {
-        data_020efcc8->unk_a0 = NULL;
+        data_020efcc8->unk_a0 = FALSE;
         return;
     }
 
@@ -285,8 +285,8 @@ EC u32 func_0201619c(char * param_1)
     return ret;
 }
 
-EC u32 func_0209a474(void *);
-EC void * func_0209a3a0(void *, void *);
+EC s32 func_0209a474(void *);
+EC void * func_0209a3a0(void *, u32);
 
 EC u32 func_020161b4(void)
 {
@@ -303,7 +303,7 @@ EC u32 func_020161b4(void)
     return 0;
 }
 
-EC void func_02016200(void * param_1)
+EC void func_02016200(u32 param_1)
 {
     if (data_020efcd4 != NULL ? TRUE : FALSE)
     {
@@ -319,7 +319,7 @@ EC void func_02016200(void * param_1)
 }
 
 EC BOOL func_02016304(s16);
-EC BOOL func_020162ec(s16);
+EC BOOL func_020162ec(s16, s32);
 EC BOOL func_0209b56c(void *);
 
 EC BOOL func_02016250(s16 param_1)
@@ -336,17 +336,17 @@ EC BOOL func_02016250(s16 param_1)
 
     if ((param_1 & 0xff) != 0)
     {
-        return func_020162ec(param_1);
+        return func_020162ec(param_1, -1);
     }
 
     return func_02016304(param_1);
 }
 
-EC BOOL func_020983d4(s32);
+EC BOOL func_020983d4(s32, s32);
 
-EC BOOL func_020162ec(s16 arg_0)
+EC BOOL func_020162ec(s16 arg_0, s32 arg_1)
 {
-    return func_020983d4(arg_0) != 0;
+    return func_020983d4(arg_0, arg_1) != 0;
 }
 
 EC BOOL func_02098380(s32);
@@ -523,12 +523,12 @@ void SoundHandle::vfunc_18(u32 param_2, u32 param_3, u32 param_4)
     return;
 }
 
-EC BOOL func_0209b048(void *);
+EC BOOL func_0209b048(void *, u32, u32);
 
 // func_02016688
 void SoundHandle::vfunc_04(u32 param_2, u32 param_3, u32 param_4, u32 param_5)
 {
-    if ((func_0209b048(&this->unk_04) & 0xFF) && param_5 != 0)
+    if ((func_0209b048(&this->unk_04, param_2, param_3) & 0xFF) && param_5 != 0)
     {
         func_020984c8(&this->unk_04, 0xffff, param_5);
     }
@@ -551,7 +551,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 // func_0201670c
 void SoundHandle::vfunc_28(u32 param_2, u32 param_3, u32 param_4)
 {
-    if (data_020efcc8->unk_a0 == NULL)
+    if (!data_020efcc8->unk_a0)
     {
         return;
     }
@@ -615,7 +615,7 @@ void SoundHandle::vfunc_30(u32 param_2, u32 param_3, u32 param_4)
 {
     UnkStruct_020efcd4 * iVar2;
 
-    if (data_020efcc8->unk_a0 == NULL)
+    if (!data_020efcc8->unk_a0)
     {
         return;
     }
@@ -708,7 +708,7 @@ extern struct ProcCmd ProcScr_020ce750[];
 // func_02016a48
 void SoundHandle::vfunc_38(s32 param_2)
 {
-    if (data_020efcc8->unk_a0 == NULL)
+    if (!data_020efcc8->unk_a0)
     {
         return;
     }
@@ -768,7 +768,7 @@ void SoundHandle::vfunc_1c(void)
     s32 iVar2;
     SoundFade * pSVar3;
 
-    if (data_020efcc8->unk_a0 == NULL)
+    if (!data_020efcc8->unk_a0)
     {
         return;
     }
@@ -809,7 +809,7 @@ void SoundHandle::vfunc_1c(void)
 // func_02016cb8
 void SoundHandle::vfunc_3c(s32 param_2, u32 param_3, u32 param_4)
 {
-    if (data_020efcc8->unk_a0 == NULL)
+    if (!data_020efcc8->unk_a0)
     {
         return;
     }
@@ -885,7 +885,7 @@ void SoundHandle::vfunc_0c(void)
 // func_02016e84
 void SoundHandle::vfunc_44(s32 param_2)
 {
-    if (data_020efcc8->unk_a0 == NULL)
+    if (!data_020efcc8->unk_a0)
     {
         return;
     }
@@ -1155,14 +1155,14 @@ void SoundHandle::vfunc_64(u32 param_2, u32 unused)
 {
     this->unk_10 = param_2;
 
-    if (data_020efcd4 != 0)
+    if (data_020efcd4 != NULL ? TRUE : FALSE)
     {
-        func_020a3320(data_020efcd4 + 0x1000);
+        func_020a3320(data_020efcd4->unk_1000);
     }
 
     if (this->unk_0c == 1)
     {
-        if (this->vfunc_58() == 0)
+        if (!this->vfunc_58())
         {
             this->vfunc_14(this->unk_10, param_2);
         }
@@ -1176,14 +1176,14 @@ void SoundHandle::vfunc_68(u32 param_2)
 {
     this->unk_10 = 0x7f;
 
-    if (data_020efcd4 != 0)
+    if (data_020efcd4 != NULL ? TRUE : FALSE)
     {
-        func_020a3320(data_020efcd4 + 0x1000);
+        func_020a3320(data_020efcd4->unk_1000);
     }
 
     if (this->unk_0c == 1)
     {
-        if (this->vfunc_58() == 0)
+        if (!this->vfunc_58())
         {
             this->vfunc_14(this->unk_10, param_2);
         }
@@ -1199,14 +1199,13 @@ void SoundHandle::vfunc_6c(u32 param_2)
     return;
 }
 
-void func_02017518(SoundHandle * param_1, SoundHandle * param_2, s32 param_3, s32 param_4, s32 param_5)
+EC void func_02017518(SoundHandle * param_1, SoundHandle * param_2, s32 param_3, s32 param_4, s32 param_5)
 {
-    s32 iVar1;
     SoundWaitTo * puVar2;
     SoundWaitTo * pSVar2;
     SoundFade * pSVar3;
 
-    if (data_020efcc8->unk_a0 == NULL)
+    if (!data_020efcc8->unk_a0)
     {
         return;
     }
@@ -1275,6 +1274,193 @@ void func_02017518(SoundHandle * param_1, SoundHandle * param_2, s32 param_3, s3
     return;
 }
 
+EC void func_0201775c(SoundHandle * param_1, SoundHandle * param_2, s32 param_3)
+{
+    s32 iVar1;
+    SoundWaitTo * puVar2;
+    SoundWaitTo * pSVar2;
+    SoundFade * pSVar3;
+
+    if (!data_020efcc8->unk_a0)
+    {
+        return;
+    }
+
+    if (data_020efcd4 != NULL ? TRUE : FALSE)
+    {
+        func_020a3320(data_020efcd4->unk_1000);
+    }
+
+    if (param_1->unk_18 != NULL)
+    {
+        if ((param_1->unk_18->unk_3c == param_2) && (param_2->vfunc_58()))
+        {
+            pSVar3 = param_2->unk_14;
+            pSVar3->unk_3c = 0;
+            pSVar3->unk_48 = -1;
+            pSVar3->unk_44 = 0;
+
+            if (pSVar3->unk_40 > param_3)
+            {
+                pSVar3->unk_40 = param_3;
+                pSVar3->unk_38->vfunc_14(0, param_3);
+            }
+
+            if (param_3 <= 0)
+            {
+                Proc_End(pSVar3);
+            }
+
+            pSVar2 = param_1->unk_18;
+            pSVar2->unk_40 = 0;
+            pSVar2->unk_44 = -1;
+            pSVar2->unk_48 = 0;
+
+            return;
+        }
+
+        Proc_End(param_1->unk_18);
+    }
+
+    param_2->vfunc_38(param_3);
+
+    new (Proc_Start(data_020cbfd8, PROC_TREE_5)) SoundWaitTo(param_1, param_2, -1, 0);
+
+    return;
+}
+
+EC void func_02017938(SoundHandle * param_1, SoundHandle * param_2, u32 param_3, u32 param_4, u32 param_5)
+{
+    SoundWaitTo * pSVar2;
+    SoundFade * pSVar3;
+
+    if (!data_020efcc8->unk_a0)
+    {
+        return;
+    }
+
+    if (param_2 == NULL || param_2 == param_1)
+    {
+        param_1->vfunc_38(param_3);
+        return;
+    }
+
+    if (data_020efcd4 != NULL ? TRUE : FALSE)
+    {
+        func_020a3320(data_020efcd4->unk_1000);
+    }
+
+    if (param_1->unk_18 != NULL)
+    {
+        if ((param_1->unk_18->unk_3c == param_2) && param_2->vfunc_58())
+        {
+            pSVar3 = param_2->unk_14;
+            pSVar3->unk_3c = 0;
+            pSVar3->unk_48 = -1;
+            pSVar3->unk_44 = 0;
+
+            if (pSVar3->unk_40 > param_3)
+            {
+                pSVar3->unk_40 = param_3;
+                pSVar3->unk_38->vfunc_14(0, param_3);
+            }
+
+            if (param_3 <= 0)
+            {
+                Proc_End(pSVar3);
+            }
+
+            pSVar2 = param_1->unk_18;
+            pSVar2->unk_40 = 0;
+            pSVar2->unk_44 = param_4;
+            pSVar2->unk_48 = param_5;
+
+            return;
+        }
+
+        Proc_End(param_1->unk_18);
+    }
+
+    param_2->vfunc_38(param_3);
+
+    new (Proc_Start(data_020cbfd8, PROC_TREE_5)) SoundWaitTo(param_1, param_2, param_4, param_5);
+
+    return;
+}
+
+EC void func_02017b40(SoundHandle * param_1, SoundHandle * param_2, int param_3)
+{
+    SoundWaitTo * pSVar2;
+    SoundFade * pSVar3;
+
+    if (!data_020efcc8->unk_a0)
+    {
+        return;
+    }
+
+    if (param_2 == NULL || param_2 == param_1)
+    {
+        param_1->vfunc_38(param_3);
+        return;
+    }
+
+    if (data_020efcd4 != NULL ? TRUE : FALSE)
+    {
+        func_020a3320(data_020efcd4->unk_1000);
+    }
+
+    if (param_1->unk_18 != NULL)
+    {
+        if ((param_1->unk_18->unk_3c == param_2) && param_2->vfunc_58())
+        {
+            pSVar3 = param_2->unk_14;
+            pSVar3->unk_3c = 0;
+            pSVar3->unk_48 = -1;
+            pSVar3->unk_44 = 0;
+
+            if (pSVar3->unk_40 > param_3)
+            {
+                pSVar3->unk_40 = param_3;
+                pSVar3->unk_38->vfunc_14(0, param_3);
+            }
+
+            if (param_3 <= 0)
+            {
+                Proc_End(pSVar3);
+            }
+
+            pSVar2 = param_1->unk_18;
+            pSVar2->unk_40 = 2;
+            pSVar2->unk_44 = -1;
+            pSVar2->unk_48 = 0;
+
+            return;
+        }
+
+        Proc_End(param_1->unk_18);
+    }
+
+    param_2->vfunc_38(param_3);
+
+    new (Proc_Start(data_020cbfd8, PROC_TREE_5)) SoundWaitTo(param_1, param_2, -1, 0);
+
+    return;
+}
+
+EC void func_0209b548(void *);
+
+// func_02017d44
+void SoundStrmHandle::vfunc_24(void)
+{
+    func_0209b548(&this->unk_04);
+
+    this->unk_08 = -1;
+
+    this->unk_0d = this->unk_0e = this->unk_0f = -1;
+
+    return;
+}
+
 EC void func_0209b4d0(void *, u16, u32);
 
 // func_02017d70
@@ -1314,3 +1500,328 @@ void SoundSeHandle::vfunc_24(void)
 
     return;
 }
+
+EC void func_02018014(UnkStruct_020efcd4 *);
+
+// func_02017ddc
+void SoundSeHandle::vfunc_00(u32 param_2, u32 param_3, u32 param_4)
+{
+    UnkStruct_020efcd4 * iVar2;
+
+    if ((((s32)param_2 >> 0x18) & 0xff))
+    {
+        if (data_020efcc8->unk_98 == 0)
+        {
+            return;
+        }
+
+        iVar2 = new UnkStruct_020efcd4();
+
+        iVar2->unk_10c0 = 0;
+        iVar2->unk_10c4 = this;
+        iVar2->unk_10c8 = param_2;
+        iVar2->unk_10cc = param_3;
+        iVar2->unk_10d0 = param_4;
+
+        func_020a3080(iVar2->unk_1000, (void *)func_02018014, iVar2, iVar2->unk_1000, 0x1000, 0x11);
+        func_020a3754(iVar2->unk_1000, iVar2);
+        func_020a374c(iVar2->unk_1000, func_02016004);
+
+        if (data_020efcd4 == NULL)
+        {
+            data_020efcd0 = iVar2;
+            data_020efcd4 = iVar2;
+            func_020a341c(iVar2->unk_1000);
+        }
+        else
+        {
+            data_020efcd4->unk_10c0 = iVar2;
+            data_020efcd4 = iVar2;
+        }
+    }
+    else
+    {
+        if ((((s32)param_2 >> 0x10) & 0xff))
+        {
+            iVar2 = new UnkStruct_020efcd4();
+
+            iVar2->unk_10c0 = 0;
+            iVar2->unk_10c4 = this;
+            iVar2->unk_10c8 = param_2;
+            iVar2->unk_10cc = param_3;
+            iVar2->unk_10d0 = param_4;
+
+            func_020a3080(iVar2->unk_1000, (void *)func_02018014, iVar2, iVar2->unk_1000, 0x1000, 0x11);
+            func_020a3754(iVar2->unk_1000, iVar2);
+            func_020a374c(iVar2->unk_1000, func_02016004);
+
+            if (data_020efcd4 == NULL)
+            {
+                data_020efcd0 = iVar2;
+                data_020efcd4 = iVar2;
+                func_020a341c(iVar2->unk_1000);
+            }
+            else
+            {
+                data_020efcd4->unk_10c0 = iVar2;
+                data_020efcd4 = iVar2;
+            }
+        }
+        else
+        {
+            if (data_020efcc8->unk_98 == 0)
+            {
+                return;
+            }
+
+            iVar2 = new UnkStruct_020efcd4();
+
+            iVar2->unk_10c0 = 0;
+            iVar2->unk_10c4 = this;
+            iVar2->unk_10c8 = param_2;
+            iVar2->unk_10cc = param_3;
+            iVar2->unk_10d0 = param_4;
+
+            func_020a3080(iVar2->unk_1000, (void *)func_02018014, iVar2, iVar2->unk_1000, 0x1000, 0x11);
+            func_020a3754(iVar2->unk_1000, iVar2);
+            func_020a374c(iVar2->unk_1000, func_02016004);
+
+            if (data_020efcd4 == NULL)
+            {
+                data_020efcd0 = iVar2;
+                data_020efcd4 = iVar2;
+                func_020a341c(iVar2->unk_1000);
+            }
+            else
+            {
+                data_020efcd4->unk_10c0 = iVar2;
+                data_020efcd4 = iVar2;
+            }
+        }
+    }
+
+    this->unk_0c = 1;
+
+    return;
+}
+
+EC void func_020181e4(SoundHandle *, s32, u32, u32);
+
+EC void func_02018014(UnkStruct_020efcd4 * param_1)
+{
+    func_020181e4(param_1->unk_10c4, param_1->unk_10c8, param_1->unk_10cc, param_1->unk_10d0);
+    return;
+}
+
+// func_02018034
+void SoundSeHandle::vfunc_18(u32 param_2, u32 param_3, u32 param_4)
+{
+    this->vfunc_04((((s32)param_2 >> 0x10) & 0xff) - 1, param_2 & 0xffff, param_3, param_4);
+    return;
+}
+
+extern struct UnkStruct_02196f0c * data_02196f0c;
+
+// func_0201806c
+EC void SoundSeHandle::vfunc_28(u32 param_2, u32 param_3, u32 param_4)
+{
+    if (!data_020efcc8->unk_a0)
+    {
+        return;
+    }
+
+    if ((!data_02196f24->enableSoundEffects) && !(data_02196f0c->state & 0x2000000))
+    {
+        return;
+    }
+
+    func_02070570(4);
+    this->vfunc_00(param_2, param_3, param_4);
+    func_0207058c(4);
+
+    return;
+}
+
+EC void func_020180f8(SoundTemporarySe * param_1)
+{
+    param_1->Loop();
+    return;
+}
+
+extern BOOL data_020efccc;
+
+// func_0201810c
+void SoundTemporarySe::Loop(void)
+{
+    u32 puVar2;
+
+    if (data_020efccc == 0)
+    {
+        if (this->unk_40 != -1)
+        {
+            if (func_020983d4(this->unk_40, this->unk_44))
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (func_02098380(this->unk_44))
+            {
+                return;
+            }
+        }
+    }
+
+    puVar2 = func_0209a474(data_020efcc8->unk_98);
+
+    if (this->unk_3c == puVar2)
+    {
+        Proc_End(this);
+    }
+
+    return;
+}
+
+EC void func_02018184(void)
+{
+    data_020efccc = TRUE;
+    Proc_ForEach(data_020cbff0, (ProcFunc)func_020180f8);
+    data_020efccc = FALSE;
+
+    return;
+}
+
+EC void func_020181bc(void)
+{
+    Proc_ForEach(data_020cbff0, (ProcFunc)func_020180f8);
+    return;
+}
+
+EC void func_020181d8(void)
+{
+    func_020181bc();
+    return;
+}
+
+EC void func_02018184(void);
+EC BOOL func_0209a538(u32, void *);
+
+EC void func_020181e4(SoundHandle * param_1, s32 param_2, u32 param_3, u32 param_4)
+{
+    u8 cVar1;
+    s32 iVar2;
+    u32 uVar3;
+    u32 puVar4;
+    u32 uVar5;
+
+    uVar5 = (param_2 >> 0x18) & 0xff;
+    iVar2 = func_0209a474(data_020efcc8->unk_98);
+
+    if (uVar5 != 0)
+    {
+        cVar1 = func_0209a520(uVar5, data_020efcc8->unk_98);
+    }
+    else
+    {
+        cVar1 = func_0209a538(param_2, data_020efcc8->unk_98);
+    }
+
+    if (cVar1 == 0)
+    {
+        uVar3 = func_020a4a38();
+        func_02018184();
+        func_020a4a4c(uVar3);
+
+        iVar2 = func_0209a474(data_020efcc8->unk_98);
+
+        if (uVar5 != 0)
+        {
+            func_0209a520(uVar5, data_020efcc8->unk_98);
+        }
+        else
+        {
+            func_0209a538(param_2, data_020efcc8->unk_98);
+        }
+    }
+
+    puVar4 = func_0209a354(data_020efcc8->unk_98);
+
+    uVar3 = func_020a4a38();
+    new (Proc_Start(data_020cbff0, PROC_TREE_5)) SoundTemporarySe(param_1, param_2, param_3, param_4, iVar2, puVar4);
+    func_020a4a4c(uVar3);
+
+    return;
+}
+
+EC void func_020183b4(s32 param_1, s32 param_2)
+{
+    new (Proc_Start(ProcScr_020ce750, PROC_TREE_5)) VolumeDownPlayingSE(param_1, param_2);
+    return;
+}
+
+EC void func_020184ac(SoundVolumeMoveVC * param_1)
+{
+    param_1->Loop();
+    return;
+}
+
+// func_020184c0
+void SoundVolumeMoveVC::Loop(void)
+{
+    s32 uVar2;
+    s8 * pcVar3;
+
+    this->unk_38++;
+
+    uVar2 = Interpolate(0, this->unk_40, this->unk_44, this->unk_38, this->unk_3c);
+
+    pcVar3 = data_020cc030;
+
+    while (*pcVar3 != -1)
+    {
+        func_02098250(*pcVar3++, uVar2);
+    }
+
+    data_020efcc8->unk_a1 = uVar2;
+
+    if (this->unk_38 == this->unk_3c)
+    {
+        Proc_End(this);
+    }
+
+    return;
+}
+
+extern struct ProcCmd data_020cc008[];
+
+EC void func_02018550(u32 param_1, u32 param_2)
+{
+    s32 bVar1 = data_020efcc8->unk_a1;
+    new (Proc_Start(data_020cc008, PROC_TREE_5)) SoundVolumeMoveVC(param_1, param_2, bVar1);
+    return;
+}
+
+// func_020185b4 -> SoundVolumeMoveVC::~SoundVolumeMoveVC()
+
+// func_0201861c -> SoundVolumeMoveVC::~SoundVolumeMoveVC()
+
+// func_0201867c -> VolumeDownPlayingSE::~VolumeDownPlayingSE()
+
+// func_02018774 -> VolumeDownPlayingSE::~VolumeDownPlayingSE()
+
+// func_02018864 -> VolumeDownPlayingSE::Loop()
+
+// func_020188ac -> SoundTemporarySe::~SoundTemporarySe()
+
+// func_02018914 -> SoundTemporarySe::~SoundTemporarySe()
+
+// func_02018974 -> SoundWaitTo::~SoundWaitTo()
+
+// func_020189c8 -> SoundWaitTo::~SoundWaitTo()
+
+// func_02018a14 -> SoundFade::~SoundFade()
+
+// func_02018b2c -> SoundFade::~SoundFade()
+
+// func_02018c3c -> SoundFade::Loop

@@ -1286,7 +1286,7 @@ EC s32 func_ov000_021a4254(s32 arg_0)
 {
     u32 unk;
 
-    if (data_02196f24->unk_07 == 0)
+    if (data_02196f24->enableBgm == 0)
     {
         return -1;
     }

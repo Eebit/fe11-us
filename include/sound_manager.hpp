@@ -78,6 +78,30 @@ public:
     /* 28 */ virtual void vfunc_28(u32, u32, u32); // func_0201806c
 };
 
+class UnkStruct_020efcc8
+{
+public:
+    STRUCT_PAD(0x00, 0x94);
+    void * unk_94;
+    void * unk_98;
+    u32 unk_9c;
+    u8 unk_a0;
+    u8 unk_a1;
+    STRUCT_PAD(0xA2, 0xA4);
+    SoundHandle * unk_a4;
+    SoundHandle * unk_a8;
+    SoundStrmHandle * unk_ac;
+    SoundSeHandle * unk_b0;
+    SoundSeHandle * unk_b4;
+};
+
+extern UnkStruct_020efcc8 * data_020efcc8;
+
+EC void func_02016490(void);
+EC void func_020181d8(void);
+EC s32 func_0209a474(void *);
+EC void * func_0209a3a0(void *, u32);
+
 class SoundFade : public ProcEx
 {
 public:
@@ -103,6 +127,64 @@ public:
         {
             Proc_End(this);
         }
+    }
+
+    virtual ~SoundFade()
+    {
+        this->unk_38->unk_14 = NULL;
+
+        if (this->unk_38->unk_0c != 0)
+        {
+            if (this->unk_3c == 0)
+            {
+                this->unk_38->vfunc_08();
+
+                if (this->unk_38->unk_0d != 0xFF)
+                {
+                    func_0209a3a0(data_020efcc8->unk_94, this->unk_38->unk_0d);
+                }
+
+                this->unk_38->unk_0c = 0;
+            }
+            else
+            {
+                this->unk_38->vfunc_0c();
+
+                if (this->unk_38->unk_0e != 0xFF)
+                {
+                    func_0209a3a0(data_020efcc8->unk_94, this->unk_38->unk_0e);
+                }
+
+                this->unk_38->unk_0c = 2;
+            }
+
+            if (this->unk_38->unk_0f != 0xFF)
+            {
+                this->unk_38->unk_0f = func_0209a474(data_020efcc8->unk_94);
+            }
+        }
+
+        func_020181d8();
+        func_02016490();
+
+        if (this->unk_48 != -1)
+        {
+            this->unk_38->vfunc_30(this->unk_48, this->unk_44, 0);
+        }
+    }
+
+    virtual void Loop(void)
+    {
+        this->unk_40--;
+
+        if (this->unk_40 >= 0)
+        {
+            return;
+        }
+
+        Proc_End(this);
+
+        return;
     }
 };
 
@@ -150,25 +232,206 @@ public:
             Proc_End(this);
         }
     }
+
+    virtual ~SoundWaitTo()
+    {
+        if (this->unk_3c->vfunc_58())
+        {
+            Proc_End(this->unk_3c->unk_14);
+        }
+
+        this->unk_38->unk_18 = NULL;
+    }
 };
 
-class UnkStruct_020efcc8
+extern struct ProcCmd data_020cbff0[];
+
+class SoundTemporarySe;
+
+EC void func_020180f8(SoundTemporarySe *);
+EC BOOL func_0209b000(void *, u32);
+EC BOOL func_0209b048(void *, u32, u32);
+EC void func_020984c8(void *, u16, u32);
+EC void func_0209845c(void *, u32, u32);
+
+class SoundTemporarySe : public ProcEx
 {
 public:
-    STRUCT_PAD(0x00, 0x94);
-    void * unk_94;
-    void * unk_98;
-    u32 unk_9c;
-    u8 unk_a0;
-    u8 unk_a1;
-    STRUCT_PAD(0xA2, 0xA4);
-    SoundHandle * unk_a4;
-    SoundHandle * unk_a8;
-    SoundStrmHandle * unk_ac;
-    SoundSeHandle * unk_b0;
-    SoundSeHandle * unk_b4;
+    s32 unk_38;
+    u32 unk_3c;
+    u32 unk_40;
+    u32 unk_44;
+    u32 unk_48;
+
+    SoundTemporarySe(SoundHandle * param_1, s32 param_2, u32 param_3, u32 param_4, u32 iVar2, u32 puVar4)
+    {
+        u8 cVar1;
+
+        this->unk_40 = ((param_2 >> 0x10) & 0xff) - 1;
+        this->unk_44 = param_2 & 0xffff;
+        this->unk_48 = param_4;
+        this->unk_38 = iVar2;
+        this->unk_3c = puVar4;
+
+        if (this->unk_40 != -1)
+        {
+            cVar1 = func_0209b048(&param_1->unk_04, this->unk_40, this->unk_44);
+        }
+        else
+        {
+            cVar1 = func_0209b000(&param_1->unk_04, this->unk_44);
+        }
+
+        if (cVar1 != 0 && this->unk_48 != 0)
+        {
+            func_020984c8(&param_1->unk_04, 0xffff, this->unk_48);
+        }
+
+        if (param_3 != 0)
+        {
+            func_0209845c(&param_1->unk_04, 0, 0);
+            func_0209845c(&param_1->unk_04, 0x7f, param_3);
+        }
+        else
+        {
+            func_0209845c(&param_1->unk_04, 0x7f, 0);
+        }
+    }
+
+    virtual ~SoundTemporarySe()
+    {
+        s32 val = func_0209a474(data_020efcc8->unk_98);
+        if (val > this->unk_38)
+        {
+            func_0209a3a0(data_020efcc8->unk_98, this->unk_38);
+            Proc_ForEach(data_020cbff0, (ProcFunc)func_020180f8);
+        }
+    }
+
+    virtual void Loop(void);
 };
 
-extern UnkStruct_020efcc8 * data_020efcc8;
+EC BOOL func_020983d4(s32, s32);
+EC BOOL func_02098380(s32);
+
+class VolumeDownPlayingSE : public ProcEx
+{
+public:
+    u32 unk_38;
+    u32 unk_3c;
+    u8 unk_40;
+    u8 unk_41;
+
+    VolumeDownPlayingSE(s32 param_1, s32 param_2)
+    {
+        this->unk_38 = ((param_1 >> 0x10) & 0xff) - 1;
+        this->unk_3c = param_1 & 0xffff;
+        this->unk_40 = 0;
+        this->unk_41 = 0;
+
+        func_02019230((struct Proc *)this, 2);
+
+        if (data_020efcc8->unk_a4->vfunc_50())
+        {
+            data_020efcc8->unk_a4->vfunc_64(param_2, 8);
+            this->unk_40 = 1;
+        }
+
+        if (data_020efcc8->unk_a8->vfunc_50())
+        {
+            data_020efcc8->unk_a8->vfunc_64(param_2, 8);
+            this->unk_41 = 1;
+        }
+    }
+
+    virtual ~VolumeDownPlayingSE()
+    {
+        if (this->unk_40 != 0)
+        {
+            if (data_020efcc8->unk_a4->vfunc_50())
+            {
+                data_020efcc8->unk_a4->vfunc_68(8);
+            }
+            else
+            {
+                data_020efcc8->unk_a4->vfunc_6c(0x7f);
+            }
+        }
+
+        if (this->unk_41 != 0)
+        {
+            if (data_020efcc8->unk_a8->vfunc_50())
+            {
+                data_020efcc8->unk_a8->vfunc_68(8);
+            }
+            else
+            {
+                data_020efcc8->unk_a8->vfunc_6c(0x7f);
+            }
+        }
+    }
+
+    virtual void Loop(void)
+    {
+        if (this->unk_38 != -1)
+        {
+            if (func_020983d4(this->unk_38, this->unk_3c) != 0)
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (func_02098380(this->unk_3c) != 0)
+            {
+                return;
+            }
+        }
+
+        Proc_End(this);
+
+        return;
+    }
+};
+
+extern s8 data_020cc030[];
+EC void func_02098250(s32, s32);
+
+class SoundVolumeMoveVC : public ProcEx
+{
+public:
+    s32 unk_38;
+    s32 unk_3c;
+    s32 unk_40;
+    s32 unk_44;
+
+    SoundVolumeMoveVC(s32 param_1, s32 param_2, s32 bVar1)
+    {
+        this->unk_40 = bVar1;
+        this->unk_44 = param_1;
+        this->unk_38 = 0;
+        this->unk_3c = param_2;
+
+        if (param_2 < 0)
+        {
+            Proc_End(this);
+        }
+    }
+
+    virtual ~SoundVolumeMoveVC()
+    {
+        s8 * it = data_020cc030;
+        s32 uVar2 = this->unk_44;
+
+        while (*it != -1)
+        {
+            func_02098250(*it++, uVar2);
+        }
+
+        data_020efcc8->unk_a1 = uVar2;
+    }
+
+    virtual void Loop(void);
+};
 
 #endif // SOUND_MANAGER_HPP

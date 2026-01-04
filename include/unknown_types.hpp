@@ -73,7 +73,8 @@ struct UnkStruct_02196f24
     u8 unk_03;
     STRUCT_PAD(0x04, 0x07);
     /* 07 */ u8 enableBgm;
-    STRUCT_PAD(0x08, 0x0C);
+    /* 08 */ u8 enableSoundEffects;
+    STRUCT_PAD(0x09, 0x0C);
     /* 0C */ u8 enableTutorials;
     STRUCT_PAD(0x0D, 0x10);
 };
