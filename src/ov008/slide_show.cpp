@@ -31,7 +31,7 @@ public:
     s8 unk_3c;
     s8 unk_3d;
     STRUCT_PAD(0x3e, 0x40);
-    void * unk_40;
+    u32 unk_40;
 
     SlideShow()
     {

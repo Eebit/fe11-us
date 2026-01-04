@@ -1042,7 +1042,7 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
             }
         }
 
-        if (data_02196f24->unk_07 != 0 && uVar6 != -2)
+        if (data_02196f24->enableBgm != 0 && uVar6 != -2)
         {
             if (uVar6 != -1)
             {
@@ -1314,7 +1314,7 @@ EC void func_ov000_021d9120(struct ArenaProc * proc)
 
 EC void func_ov000_021d915c(struct ArenaProc * proc)
 {
-    if (data_02196f24->unk_07 == 0)
+    if (data_02196f24->enableBgm == 0)
     {
         return;
     }
@@ -1326,7 +1326,7 @@ EC void func_ov000_021d915c(struct ArenaProc * proc)
 
 EC void func_ov000_021d91a0(struct ArenaProc * unused)
 {
-    if (data_02196f24->unk_07 == 0)
+    if (data_02196f24->enableBgm == 0)
     {
         return;
     }
@@ -1422,7 +1422,7 @@ EC void func_ov000_021d9364(struct ArenaProc * proc)
     func_02039f40(0, proc->unk_54);
     func_0200ac20("M闘技場_WIN", proc, 0);
 
-    if (data_02196f24->unk_07 == 0)
+    if (data_02196f24->enableBgm == 0)
     {
         return;
     }

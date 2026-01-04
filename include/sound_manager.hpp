@@ -3,17 +3,10 @@
 
 #include "global.h"
 
-struct SoundHandle_Unk14
-{
-    STRUCT_PAD(0x00, 0x3C);
-    u32 unk_3c;
-};
+#include "proc_ex.hpp"
 
-struct SoundHandle_Unk18
-{
-    STRUCT_PAD(0x00, 0x40);
-    u32 unk_40;
-};
+class SoundFade;
+class SoundWaitTo;
 
 class SoundHandle
 {
@@ -22,11 +15,13 @@ public:
     s32 unk_04;
     s32 unk_08;
     u8 unk_0c;
-    STRUCT_PAD(0x0D, 0x10);
+    u8 unk_0d;
+    u8 unk_0e;
+    u8 unk_0f;
     u8 unk_10;
     STRUCT_PAD(0x11, 0x14);
-    struct SoundHandle_Unk14 * unk_14;
-    struct SoundHandle_Unk18 * unk_18;
+    SoundFade * unk_14;
+    SoundWaitTo * unk_18;
 
     SoundHandle()
     {
@@ -35,31 +30,31 @@ public:
         this->unk_10 = 0x7f;
     }
 
-    /* 00 */ virtual void vfunc_00(); // func_020164f4
-    /* 04 */ virtual void vfunc_04(); // func_02016688
-    /* 08 */ virtual void vfunc_08(); // func_02016a28
-    /* 0C */ virtual void vfunc_0c(); // func_02016e70
-    /* 10 */ virtual void vfunc_10(); // func_02016ff4
+    /* 00 */ virtual void vfunc_00(u32, u32, u32); // func_020164f4
+    /* 04 */ virtual void vfunc_04(u32, u32, u32, u32); // func_02016688
+    /* 08 */ virtual void vfunc_08(void); // func_02016a28
+    /* 0C */ virtual void vfunc_0c(void); // func_02016e70
+    /* 10 */ virtual void vfunc_10(u32); // func_02016ff4
     /* 14 */ virtual void vfunc_14(u32, u32); // func_02017408
-    /* 18 */ virtual void vfunc_18(); // func_020165f4
-    /* 1C */ virtual void vfunc_1c(); // func_02016ba0
-    /* 20 */ virtual void vfunc_20(); // func_020170a8
-    /* 24 */ virtual void vfunc_24(); // func_020164d0
+    /* 18 */ virtual void vfunc_18(u32, u32, u32); // func_020165f4
+    /* 1C */ virtual void vfunc_1c(void); // func_02016ba0
+    /* 20 */ virtual void vfunc_20(u32); // func_020170a8
+    /* 24 */ virtual void vfunc_24(void); // func_020164d0
     /* 28 */ virtual void vfunc_28(u32, u32, u32); // func_0201670c
-    /* 2C */ virtual void vfunc_2c(u32, u32, u32); // func_02016804
+    /* 2C */ virtual void vfunc_2c(char *, u32, u32); // func_02016804
     /* 30 */ virtual void vfunc_30(u32, u32, u32); // func_02016848
-    /* 34 */ virtual void vfunc_34(u32, u32, u32); // func_020169e4
-    /* 38 */ virtual void vfunc_38(u32); // func_02016a48
-    /* 3C */ virtual void vfunc_3c(u32, u32, u32); // func_02016cb8
-    /* 40 */ virtual void vfunc_40(); // func_02016e18
-    /* 44 */ virtual void vfunc_44(); // func_02016e84
-    /* 48 */ virtual void vfunc_48(); // func_020170fc
+    /* 34 */ virtual void vfunc_34(char *, u32, u32); // func_020169e4
+    /* 38 */ virtual void vfunc_38(s32); // func_02016a48
+    /* 3C */ virtual void vfunc_3c(s32, u32, u32); // func_02016cb8
+    /* 40 */ virtual void vfunc_40(u32, char *, u32); // func_02016e18
+    /* 44 */ virtual void vfunc_44(s32); // func_02016e84
+    /* 48 */ virtual void vfunc_48(u32); // func_020170fc
     /* 4C */ virtual void vfunc_4c(s32); // func_02017164
-    /* 50 */ virtual BOOL vfunc_50(); // func_02017278
-    /* 54 */ virtual BOOL vfunc_54(); // func_0201728c
-    /* 58 */ virtual BOOL vfunc_58(); // func_020172a0
-    /* 5C */ virtual BOOL vfunc_5c(); // func_020172e0
-    /* 60 */ virtual void vfunc_60(); // func_02017338
+    /* 50 */ virtual BOOL vfunc_50(void); // func_02017278
+    /* 54 */ virtual BOOL vfunc_54(void); // func_0201728c
+    /* 58 */ virtual BOOL vfunc_58(void); // func_020172a0
+    /* 5C */ virtual BOOL vfunc_5c(void); // func_020172e0
+    /* 60 */ virtual BOOL vfunc_60(void); // func_02017338
     /* 64 */ virtual void vfunc_64(u32, u32); // func_02017418
     /* 68 */ virtual void vfunc_68(u32); // func_02017494
     /* 6C */ virtual void vfunc_6c(u32); // func_02017510
@@ -67,10 +62,94 @@ public:
 
 class SoundStrmHandle : public SoundHandle
 {
+public:
+    /* 00 */ virtual void vfunc_00(u32, u32, u32); // func_02017d70
+    /* 08 */ virtual void vfunc_08(void); // func_02017d8c
+    /* 14 */ virtual void vfunc_14(u32, u32); // func_02017dac
+    /* 24 */ virtual void vfunc_24(void); // func_02017d44
 };
 
 class SoundSeHandle : public SoundHandle
 {
+public:
+    /* 00 */ virtual void vfunc_00(u32, u32, u32); // func_02017ddc
+    /* 18 */ virtual void vfunc_18(u32, u32, u32); // func_02018034
+    /* 24 */ virtual void vfunc_24(void); // func_02017dbc
+    /* 28 */ virtual void vfunc_28(u32, u32, u32); // func_0201806c
+};
+
+class SoundFade : public ProcEx
+{
+public:
+    SoundHandle * unk_38;
+    u32 unk_3c;
+    s32 unk_40;
+    u32 unk_44;
+    u32 unk_48;
+
+    SoundFade(SoundHandle * param_1, s32 param_2, u32 param_3, u32 param_4)
+    {
+        this->unk_38 = param_1;
+        this->unk_3c = 0;
+        this->unk_40 = param_2;
+        this->unk_48 = param_3;
+        this->unk_44 = param_4;
+
+        param_1->unk_14 = this;
+
+        param_1->vfunc_14(0, param_2);
+
+        if (param_2 <= 0)
+        {
+            Proc_End(this);
+        }
+    }
+};
+
+class SoundWaitTo : public ProcEx
+{
+public:
+    SoundHandle * unk_38;
+    SoundHandle * unk_3c;
+    u32 unk_40;
+    u32 unk_44;
+    u32 unk_48;
+
+    SoundWaitTo(SoundHandle * param_1, SoundHandle * param_2, u32 param_4, u32 param_5)
+    {
+        this->unk_38 = param_1;
+        this->unk_3c = param_2;
+        this->unk_40 = 0;
+        this->unk_44 = param_4;
+        this->unk_48 = param_5;
+
+        param_1->unk_18 = this;
+
+        if (!param_2->vfunc_58())
+        {
+            this->unk_38->unk_18 = NULL;
+
+            switch (this->unk_40)
+            {
+                case 0:
+                    this->unk_38->vfunc_30(this->unk_44, this->unk_48, 0);
+                    break;
+
+                case 1:
+                    this->unk_38->vfunc_4c(this->unk_48);
+                    break;
+
+                case 2:
+                    this->unk_38->vfunc_38(0);
+                    break;
+
+                case 3:
+                    break;
+            }
+
+            Proc_End(this);
+        }
+    }
 };
 
 class UnkStruct_020efcc8

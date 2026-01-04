@@ -668,7 +668,7 @@ void func_0201949c(void * arg_0, void * arg_1)
     return;
 }
 
-void func_020194fc(void * unused)
+void func_020194fc(void)
 {
     data_020ce6ec = -1;
     func_020a36ac(NULL);

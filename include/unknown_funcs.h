@@ -828,9 +828,9 @@ EC void func_02015fb4(void);
 // EC ??? func_020160d4
 // EC ??? func_02016188
 // EC ??? func_0201619c
-EC void * func_020161b4(void);
+EC u32 func_020161b4(void);
 EC void func_02016200(void *);
-EC BOOL func_02016250(s32);
+EC BOOL func_02016250(s16);
 // EC ??? func_020162ec
 // EC ??? func_02016304
 // EC ??? func_0201631c
@@ -4744,7 +4744,7 @@ EC void func_020a36ac(void (*)(void *, void *));
 // EC ??? func_020a36d4
 // EC ??? func_020a36e4
 // EC ??? func_020a3718
-EC void func_020a374c(void *, void (*)(void *));
+EC void func_020a374c(void *, void (*)(void));
 // EC ??? func_020a3754
 // EC ??? func_020a375c
 // EC ??? func_020a3764

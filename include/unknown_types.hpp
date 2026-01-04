@@ -72,7 +72,7 @@ struct UnkStruct_02196f24
     STRUCT_PAD(0x00, 0x03);
     u8 unk_03;
     STRUCT_PAD(0x04, 0x07);
-    u8 unk_07;
+    /* 07 */ u8 enableBgm;
     STRUCT_PAD(0x08, 0x0C);
     /* 0C */ u8 enableTutorials;
     STRUCT_PAD(0x0D, 0x10);
