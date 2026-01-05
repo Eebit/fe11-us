@@ -549,7 +549,7 @@ EC void func_ov005_022052d0(ProcPtr proc)
 
     Proc_StartBlocking(ProcScr_Prep_02212d60, proc);
 
-    if (data_02196f0c->unk_00->unk_0a == 0)
+    if (data_02196f0c->pCurrentMap->unk_0a == 0)
     {
         func_ov005_022054b0(11);
         func_ov005_022054c4();

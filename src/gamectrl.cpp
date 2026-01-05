@@ -564,7 +564,7 @@ EC void func_020217b4(void)
 
 EC void func_020219a4(int param_1, int param_2)
 {
-    func_020210d0(data_02196f0c->unk_00, param_1);
+    func_020210d0(data_02196f0c->pCurrentMap, param_1);
     func_02024c80();
     func_02024d8c();
     ResetAllForces();
@@ -766,15 +766,15 @@ EC void func_02021f5c(void)
     data_ov000_021e3528.unk_2e = 0;
     data_ov000_021e3528.unk_2f = 0;
 
-    if ((data_02196f0c->unk_00->unk_0a != 0) && ((data_02196f0c->state & 1) != 0))
+    if ((data_02196f0c->pCurrentMap->unk_0a != 0) && ((data_02196f0c->state & 1) != 0))
     {
         int n = Force::Get(0)->Count() + Force::Get(2)->Count();
 
-        if (n < data_02196f0c->unk_00->unk_0a)
+        if (n < data_02196f0c->pCurrentMap->unk_0a)
         {
             int uVar4 = func_02041928();
 
-            for (; n < data_02196f0c->unk_00->unk_0a; n++)
+            for (; n < data_02196f0c->pCurrentMap->unk_0a; n++)
             {
                 Force * force = Force::Get(4);
                 struct Unit * pUnit = force->head;
@@ -1058,7 +1058,7 @@ EC void func_02022588(void)
             struct Item * pUnitItem;
 
             pUnit->state2 &= ~0x80;
-            pUnit->unk_30.unk_04 = GetMapDBIndex(data_02196f0c->unk_00);
+            pUnit->unk_30.unk_04 = GetMapDBIndex(data_02196f0c->pCurrentMap);
 
             for (j = 0, pUnitItem = pUnit->items; j < 5; j++, pUnitItem++)
             {

@@ -3360,8 +3360,8 @@ extern int data_027e00e0;
 // extern ??? _ZTS10ProcMapLow
 // extern ??? _ZTS11ProcMapDraw
 // extern ??? _ZTS12ProcMapBegin
-// extern ??? data_ov000_021db73c
-// extern ??? data_ov000_021db75c
+// extern ??? gPlMapMusicLut
+// extern ??? gCpMapMusicLut
 // extern ??? _ZTV12ProcMapBegin
 // extern ??? _ZTV11ProcMapDraw
 // extern ??? _ZTV10ProcMapLow

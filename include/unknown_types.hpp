@@ -10,7 +10,7 @@
 
 struct UnkStruct_02196f0c
 {
-    /* 00 */ struct MapData * unk_00;
+    /* 00 */ struct MapData * pCurrentMap;
     /* 04 */ FlagManager * flagMgr;
     /* 08 */ ValueManager * valueMgr;
     /* 0C */ u32 state;

@@ -5715,8 +5715,8 @@ EC BOOL func_ov000_021a3da0(struct Unit *);
 // EC ??? func_ov000_021a3db4
 EC void func_ov000_021a3ee4(struct Unit *, s32);
 // EC ??? func_ov000_021a418c
-// EC ??? func_ov000_021a4254
-// EC ??? func_ov000_021a4360
+// EC ??? GetMapBgmId
+// EC ??? AreAllEnemiesDefeated
 EC void func_ov000_021a43e8(void);
 // EC ??? func_ov000_021a45cc
 EC void func_ov000_021a4694(void);
