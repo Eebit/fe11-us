@@ -75,7 +75,7 @@ src/convoy.cpp:
     .bss        start:0x021974e0 end:0x021974e4
 
 src/event_funcs.cpp:
-    .text       start:0x02044974 end:0x020449bc
+    .text       start:0x020424f4 end:0x0204745c
 
 src/event.cpp:
     .text       start:0x0204745c end:0x020492a0

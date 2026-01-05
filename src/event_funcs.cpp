@@ -5,7 +5,7 @@
 extern struct Unit * gUnitList;
 
 // FE11U = 0x02044974
-BOOL UnitSetEventDead(void * unused, s32 unitId)
+BOOL SetUnitEventDead(void * unused, s32 unitId)
 {
 
     struct Unit * unit;
