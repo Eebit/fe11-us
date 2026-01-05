@@ -8,6 +8,8 @@
 #include "sound_manager.hpp"
 #include "unit.hpp"
 
+#include "constants/sounds.h"
+
 #include "unknown_funcs.h"
 
 enum
@@ -643,11 +645,11 @@ EC void ProcMind_ov000_021b0538(ProcPtr proc)
 
     if (data_ov000_021e3320[data_ov000_021e3324->phase] == 1)
     {
-        uVar4 = 0x4c;
+        uVar4 = FF_COMMUNI_FLAG1;
     }
     else
     {
-        uVar4 = 0x4d;
+        uVar4 = FF_COMMUNI_FLAG2;
     }
 
     gSoundManager->unk_b0->vfunc_28(uVar4, 0, 0);

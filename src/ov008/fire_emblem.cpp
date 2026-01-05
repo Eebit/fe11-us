@@ -9,6 +9,8 @@
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
+#include "constants/sounds.h"
+
 struct UnkStruct_02197798
 {
     ScreenState * unk_00;
@@ -149,7 +151,7 @@ void FireEmblem::Loop()
 
             if (func_0206ec80(0x10f4) != 0)
             {
-                gSoundManager->unk_b0->vfunc_28(0x1000a, 0, 0);
+                gSoundManager->unk_b0->vfunc_28(SE_SYS_START1, 0, 0);
             }
 
             gSoundManager->unk_ac->vfunc_64(0, 0x3c);

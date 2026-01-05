@@ -9,6 +9,8 @@
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
+#include "constants/sounds.h"
+
 extern struct KeyState * gKeySt;
 
 extern struct TouchState * gTouchSt;
@@ -125,7 +127,7 @@ EC void SlideShow_ov008_0220598c(SlideShow * proc)
 
 EC void SlideShow_ov008_022059d0(ProcPtr proc)
 {
-    gSoundManager->unk_ac->vfunc_28(0x7fff0000, 0, 0);
+    gSoundManager->unk_ac->vfunc_28(STRM_SYS_OPENING1, 0, 0);
     func_ov002_021e4020("/ffx/opening1.fx", proc);
     data_ov002_021faf40.unk_25 = 3;
     return;

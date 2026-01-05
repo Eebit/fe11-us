@@ -8,6 +8,8 @@
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
+#include "constants/sounds.h"
+
 struct UnkStruct_02197798
 {
     ScreenState * unk_00;
@@ -283,13 +285,13 @@ EC void TitleSeq_ov008_0220508c(ProcPtr proc)
 
 EC void TitleSeq_ov008_022050bc(void)
 {
-    gSoundManager->unk_b0->vfunc_28(0x7a7a0000, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_SYS_OP_JINGLE1, 0, 0);
     return;
 }
 
 EC void TitleSeq_ov008_022050f0(void)
 {
-    gSoundManager->unk_ac->vfunc_28(0x7fff0001, 0, 0);
+    gSoundManager->unk_ac->vfunc_28(STRM_SYS_TITLE1, 0, 0);
     return;
 }
 

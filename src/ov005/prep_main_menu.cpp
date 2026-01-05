@@ -12,6 +12,8 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "constants/sounds.h"
+
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
 namespace sally
@@ -988,12 +990,12 @@ void sally::SallyDialogYesNo::vfunc_00(void)
 
 void sally::SallyCancelDialogYesNo::vfunc_c0(void)
 {
-    gSoundManager->unk_b0->vfunc_28(0x10016, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
     return;
 }
 
 void sally::SallyDialogYesNo::vfunc_c0(void)
 {
-    gSoundManager->unk_b0->vfunc_28(0x1000a, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_SYS_START1, 0, 0);
     return;
 }

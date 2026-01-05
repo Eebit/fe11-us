@@ -6,6 +6,8 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "constants/sounds.h"
+
 #include "database.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
@@ -1104,7 +1106,7 @@ EC void func_ov000_021d8c2c(struct ArenaProc * proc)
 
     func_ov000_021d8ed4(proc);
 
-    gSoundManager->unk_b0->vfunc_28(0x0A0A0000, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_MAP_MONEY1, 0, 0);
 
     return;
 }
@@ -1567,7 +1569,7 @@ EC void func_ov000_021d9564(struct ArenaProc * proc)
         return;
     }
 
-    gSoundManager->unk_a8->vfunc_28(0x34, 0, 0);
+    gSoundManager->unk_a8->vfunc_28(BGM_SYS_TOUGIJOU1, 0, 0);
 
     Proc_End(proc);
 
