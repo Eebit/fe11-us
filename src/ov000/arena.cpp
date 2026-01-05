@@ -30,7 +30,6 @@ public:
     STRUCT_PAD(0x00, 0x40);
 
     ArenaProc_unk_60() {};
-    ~ArenaProc_unk_60() {};
 };
 
 class ArenaProc_unk_5c_24
@@ -993,7 +992,7 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
     struct ArenaProc_unk_5c * unk_5c;
 
     BOOL idk = 0;
-    if (func_ov000_021ca0b8(proc->unk_5c) == NULL)
+    if (func_ov000_021ca0b8(proc->unk_5c) != NULL)
     {
         idk = 1;
     }
@@ -1048,7 +1047,7 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
         {
             if (uVar6 != -1)
             {
-                gSoundManager->unk_a8->vfunc_3c(0x10, -2, 0);
+                gSoundManager->unk_a8->vfunc_3c(0x10, uVar6, 0);
             }
             else
             {
