@@ -11,6 +11,8 @@
 
 #include "constants/sounds.h"
 
+extern struct UnkStruct_02196f0c * data_02196f0c;
+
 struct UnkStruct_020efcd4
 {
     STRUCT_PAD(0x0000, 0x1000);
@@ -36,9 +38,6 @@ u8 data_020efce0[0x1000] = {};
 u8 data_020f0ce0[0xA0000] = {};
 
 // end .bss
-
-EC void func_02097ff8(void);
-EC void func_02015ec0(u32);
 
 // clang-format off
 
@@ -103,9 +102,6 @@ EC void Sound_Init(void)
     return;
 }
 
-EC void func_02015f58(void);
-EC void * func_0209a1a8(void *, s32);
-
 EC void func_02015dc8(u32 param_1)
 {
     func_02015f58();
@@ -121,8 +117,6 @@ EC void func_02015dc8(u32 param_1)
 
     return;
 }
-
-EC void func_0209a218(void *);
 
 EC void func_02015e38(void)
 {
@@ -142,22 +136,12 @@ EC void func_02015e38(void)
     return;
 }
 
-EC BOOL func_0209a520(s32, void *);
-
 EC void func_02015e8c(void)
 {
     func_0209a520(0, gSoundManager->unk_94);
     func_0209a520(1, gSoundManager->unk_94);
     return;
 }
-
-EC void func_02015dc8(u32);
-EC BOOL func_0201160c(char *);
-EC void func_0209a170(s32);
-EC void func_02099990(void *, char *, void *, s32);
-EC void func_0209af64(void *);
-EC u32 func_0209a354(void *);
-EC void func_0209b288(s32, void *);
 
 EC void func_02015ec0(u32 param_1)
 {
@@ -548,10 +532,6 @@ EC void func_02015f64(void)
     return;
 }
 
-EC void func_02070570(s32);
-EC void func_0207058c(s32);
-EC void func_02098080(void);
-
 EC void func_02015fb4(void)
 {
     if (gSoundManager->unk_a0)
@@ -605,8 +585,6 @@ EC void func_02016064(s32 arg_0)
     return;
 }
 
-EC void func_020a3320(void *);
-
 EC void func_02016098(s32 param_1)
 {
     if (data_020efcd4 != NULL)
@@ -618,11 +596,6 @@ EC void func_02016098(s32 param_1)
 
     return;
 }
-
-EC void func_020a3080(void *, void *, void *, void *, s32, s32);
-EC void func_020a3754(void *, void *);
-EC void func_020a374c(void *, void (*)(void));
-EC void func_020a341c(void *);
 
 EC void func_02016188(UnkStruct_020efcd4 *);
 
@@ -672,9 +645,6 @@ EC u32 func_0201619c(char * key)
     return -1;
 }
 
-EC s32 func_0209a474(void *);
-EC void * func_0209a3a0(void *, u32);
-
 EC u32 func_020161b4(void)
 {
     if (data_020efcd4 != NULL ? TRUE : FALSE)
@@ -705,10 +675,6 @@ EC void func_02016200(u32 param_1)
     return;
 }
 
-EC BOOL func_02016304(s16);
-EC BOOL func_020162ec(s16, s32);
-EC BOOL func_0209b56c(void *);
-
 EC BOOL func_02016250(s16 param_1)
 {
     if (param_1 != 0x7fff)
@@ -729,23 +695,15 @@ EC BOOL func_02016250(s16 param_1)
     return func_02016304(param_1);
 }
 
-EC BOOL func_020983d4(s32, s32);
-
 EC BOOL func_020162ec(s16 arg_0, s32 arg_1)
 {
     return func_020983d4(arg_0, arg_1) != 0;
 }
 
-EC BOOL func_02098380(s32);
-
 EC BOOL func_02016304(s16 arg_0)
 {
     return func_02098380(arg_0) != 0;
 }
-
-EC void func_0209ca20(void *, u32, u32);
-EC void func_0209ca74(void);
-EC void func_0209ca9c(u32);
 
 EC void func_0201631c(u32 param_1)
 {
@@ -838,8 +796,6 @@ EC void func_020164ac(SoundWaitTo * param_1)
     return;
 }
 
-EC void func_02098354(void *);
-
 void SoundHandle::vfunc_24(void)
 {
     func_02098354(&this->unk_04);
@@ -849,10 +805,6 @@ void SoundHandle::vfunc_24(void)
 
     return;
 }
-
-EC void func_0209a564(u32, u32, void *);
-EC BOOL func_0209b000(void *, u32);
-EC void func_020984c8(void *, u16, u32);
 
 void SoundHandle::vfunc_00(u32 param_2, u32 param_3, u32 param_4)
 {
@@ -903,8 +855,6 @@ void SoundHandle::vfunc_18(u32 param_2, u32 param_3, u32 param_4)
 
     return;
 }
-
-EC BOOL func_0209b048(void *, u32, u32);
 
 void SoundHandle::vfunc_04(u32 param_2, u32 param_3, u32 param_4, u32 param_5)
 {
@@ -969,8 +919,6 @@ void SoundHandle::vfunc_28(u32 param_2, u32 param_3, u32 param_4)
 
     return;
 }
-
-EC u32 func_0201619c(char *);
 
 void SoundHandle::vfunc_2c(char * param_2, u32 param_3, u32 param_4)
 {
@@ -1068,8 +1016,6 @@ void SoundHandle::vfunc_34(char * arg_0, u32 arg_1, u32 arg_2)
 
     return;
 }
-
-EC void func_02098334(void *, u32);
 
 void SoundHandle::vfunc_08(void)
 {
@@ -1243,8 +1189,6 @@ void SoundHandle::vfunc_40(u32 param_2, char * param_3, u32 param_4)
 
     return;
 }
-
-EC void func_02098344(void *, u32);
 
 void SoundHandle::vfunc_0c(void)
 {
@@ -1500,8 +1444,6 @@ BOOL SoundHandle::vfunc_60(void)
 
     return uVar1 ? TRUE : FALSE;
 }
-
-EC void func_0209845c(void *, u32, u32);
 
 void SoundHandle::vfunc_14(u32 arg_0, u32 arg_1)
 {
@@ -1803,8 +1745,6 @@ EC void StartSoundWaitTo_02017b40(SoundHandle * param_1, SoundHandle * param_2, 
     return;
 }
 
-EC void func_0209b548(void *);
-
 void SoundStrmHandle::vfunc_24(void)
 {
     func_0209b548(&this->unk_04);
@@ -1816,15 +1756,11 @@ void SoundStrmHandle::vfunc_24(void)
     return;
 }
 
-EC void func_0209b4d0(void *, u16, u32);
-
 void SoundStrmHandle::vfunc_00(u32 param_2, u32 param_3, u32 param_4)
 {
     func_0209b4d0(&this->unk_04, param_2, 0);
     return;
 }
-
-EC void func_0209b4f8(void *, u32);
 
 void SoundStrmHandle::vfunc_08(void)
 {
@@ -1832,8 +1768,6 @@ void SoundStrmHandle::vfunc_08(void)
     this->unk_08 = -1;
     return;
 }
-
-EC void func_0209b514(void *, u32, u32);
 
 void SoundStrmHandle::vfunc_14(u32 param_2, u32 param_3)
 {
@@ -1969,8 +1903,6 @@ void SoundSeHandle::vfunc_18(u32 param_2, u32 param_3, u32 param_4)
     return;
 }
 
-extern struct UnkStruct_02196f0c * data_02196f0c;
-
 EC void SoundSeHandle::vfunc_28(u32 param_2, u32 param_3, u32 param_4)
 {
     if (!gSoundManager->unk_a0)
@@ -2048,9 +1980,6 @@ EC void func_020181d8(void)
     func_020181bc();
     return;
 }
-
-EC void func_02018184(void);
-EC BOOL func_0209a538(u32, void *);
 
 EC void StartSoundTemporarySe(SoundHandle * param_1, s32 param_2, u32 param_3, u32 param_4)
 {
