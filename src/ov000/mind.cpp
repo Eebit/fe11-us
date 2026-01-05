@@ -589,7 +589,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
 EC void ProcMind_ov000_021b0510(void)
 {
-    data_020efcc8->unk_a4->vfunc_68(8);
+    gSoundManager->unk_a4->vfunc_68(8);
     return;
 }
 
@@ -650,8 +650,8 @@ EC void ProcMind_ov000_021b0538(ProcPtr proc)
         uVar4 = 0x4d;
     }
 
-    data_020efcc8->unk_b0->vfunc_28(uVar4, 0, 0);
-    func_020183b4(uVar4, 0x20);
+    gSoundManager->unk_b0->vfunc_28(uVar4, 0, 0);
+    StartVolumeDownPlayingSE(uVar4, 0x20);
 
     return;
 }

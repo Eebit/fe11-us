@@ -30,55 +30,55 @@ public:
         this->unk_10 = 0x7f;
     }
 
-    /* 00 */ virtual void vfunc_00(u32, u32, u32); // func_020164f4
-    /* 04 */ virtual void vfunc_04(u32, u32, u32, u32); // func_02016688
-    /* 08 */ virtual void vfunc_08(void); // func_02016a28
-    /* 0C */ virtual void vfunc_0c(void); // func_02016e70
-    /* 10 */ virtual void vfunc_10(u32); // func_02016ff4
-    /* 14 */ virtual void vfunc_14(u32, u32); // func_02017408
-    /* 18 */ virtual void vfunc_18(u32, u32, u32); // func_020165f4
-    /* 1C */ virtual void vfunc_1c(void); // func_02016ba0
-    /* 20 */ virtual void vfunc_20(u32); // func_020170a8
-    /* 24 */ virtual void vfunc_24(void); // func_020164d0
-    /* 28 */ virtual void vfunc_28(u32, u32, u32); // func_0201670c
-    /* 2C */ virtual void vfunc_2c(char *, u32, u32); // func_02016804
-    /* 30 */ virtual void vfunc_30(u32, u32, u32); // func_02016848
-    /* 34 */ virtual void vfunc_34(char *, u32, u32); // func_020169e4
-    /* 38 */ virtual void vfunc_38(s32); // func_02016a48
-    /* 3C */ virtual void vfunc_3c(s32, u32, u32); // func_02016cb8
-    /* 40 */ virtual void vfunc_40(u32, char *, u32); // func_02016e18
-    /* 44 */ virtual void vfunc_44(s32); // func_02016e84
-    /* 48 */ virtual void vfunc_48(u32); // func_020170fc
-    /* 4C */ virtual void vfunc_4c(s32); // func_02017164
-    /* 50 */ virtual BOOL vfunc_50(void); // func_02017278
-    /* 54 */ virtual BOOL vfunc_54(void); // func_0201728c
-    /* 58 */ virtual BOOL vfunc_58(void); // func_020172a0
-    /* 5C */ virtual BOOL vfunc_5c(void); // func_020172e0
-    /* 60 */ virtual BOOL vfunc_60(void); // func_02017338
-    /* 64 */ virtual void vfunc_64(u32, u32); // func_02017418
-    /* 68 */ virtual void vfunc_68(u32); // func_02017494
-    /* 6C */ virtual void vfunc_6c(u32); // func_02017510
+    /* 00 */ virtual void vfunc_00(u32, u32, u32);
+    /* 04 */ virtual void vfunc_04(u32, u32, u32, u32);
+    /* 08 */ virtual void vfunc_08(void);
+    /* 0C */ virtual void vfunc_0c(void);
+    /* 10 */ virtual void vfunc_10(u32);
+    /* 14 */ virtual void vfunc_14(u32, u32);
+    /* 18 */ virtual void vfunc_18(u32, u32, u32);
+    /* 1C */ virtual void vfunc_1c(void);
+    /* 20 */ virtual void vfunc_20(u32);
+    /* 24 */ virtual void vfunc_24(void);
+    /* 28 */ virtual void vfunc_28(u32, u32, u32);
+    /* 2C */ virtual void vfunc_2c(char *, u32, u32);
+    /* 30 */ virtual void vfunc_30(u32, u32, u32);
+    /* 34 */ virtual void vfunc_34(char *, u32, u32);
+    /* 38 */ virtual void vfunc_38(s32);
+    /* 3C */ virtual void vfunc_3c(s32, u32, u32);
+    /* 40 */ virtual void vfunc_40(u32, char *, u32);
+    /* 44 */ virtual void vfunc_44(s32);
+    /* 48 */ virtual void vfunc_48(u32);
+    /* 4C */ virtual void vfunc_4c(s32);
+    /* 50 */ virtual BOOL vfunc_50(void);
+    /* 54 */ virtual BOOL vfunc_54(void);
+    /* 58 */ virtual BOOL vfunc_58(void);
+    /* 5C */ virtual BOOL vfunc_5c(void);
+    /* 60 */ virtual BOOL vfunc_60(void);
+    /* 64 */ virtual void vfunc_64(u32, u32);
+    /* 68 */ virtual void vfunc_68(u32);
+    /* 6C */ virtual void vfunc_6c(u32);
 };
 
 class SoundStrmHandle : public SoundHandle
 {
 public:
-    /* 00 */ virtual void vfunc_00(u32, u32, u32); // func_02017d70
-    /* 08 */ virtual void vfunc_08(void); // func_02017d8c
-    /* 14 */ virtual void vfunc_14(u32, u32); // func_02017dac
-    /* 24 */ virtual void vfunc_24(void); // func_02017d44
+    /* 00 */ virtual void vfunc_00(u32, u32, u32);
+    /* 08 */ virtual void vfunc_08(void);
+    /* 14 */ virtual void vfunc_14(u32, u32);
+    /* 24 */ virtual void vfunc_24(void);
 };
 
 class SoundSeHandle : public SoundHandle
 {
 public:
-    /* 00 */ virtual void vfunc_00(u32, u32, u32); // func_02017ddc
-    /* 18 */ virtual void vfunc_18(u32, u32, u32); // func_02018034
-    /* 24 */ virtual void vfunc_24(void); // func_02017dbc
-    /* 28 */ virtual void vfunc_28(u32, u32, u32); // func_0201806c
+    /* 00 */ virtual void vfunc_00(u32, u32, u32);
+    /* 18 */ virtual void vfunc_18(u32, u32, u32);
+    /* 24 */ virtual void vfunc_24(void);
+    /* 28 */ virtual void vfunc_28(u32, u32, u32);
 };
 
-class UnkStruct_020efcc8
+class SoundManager
 {
 public:
     STRUCT_PAD(0x00, 0x94);
@@ -95,7 +95,7 @@ public:
     SoundSeHandle * unk_b4;
 };
 
-extern UnkStruct_020efcc8 * data_020efcc8;
+extern SoundManager * gSoundManager;
 
 EC void func_02016490(void);
 EC void func_020181d8(void);
@@ -141,7 +141,7 @@ public:
 
                 if (this->unk_38->unk_0d != 0xFF)
                 {
-                    func_0209a3a0(data_020efcc8->unk_94, this->unk_38->unk_0d);
+                    func_0209a3a0(gSoundManager->unk_94, this->unk_38->unk_0d);
                 }
 
                 this->unk_38->unk_0c = 0;
@@ -152,7 +152,7 @@ public:
 
                 if (this->unk_38->unk_0e != 0xFF)
                 {
-                    func_0209a3a0(data_020efcc8->unk_94, this->unk_38->unk_0e);
+                    func_0209a3a0(gSoundManager->unk_94, this->unk_38->unk_0e);
                 }
 
                 this->unk_38->unk_0c = 2;
@@ -160,7 +160,7 @@ public:
 
             if (this->unk_38->unk_0f != 0xFF)
             {
-                this->unk_38->unk_0f = func_0209a474(data_020efcc8->unk_94);
+                this->unk_38->unk_0f = func_0209a474(gSoundManager->unk_94);
             }
         }
 
@@ -242,13 +242,15 @@ public:
 
         this->unk_38->unk_18 = NULL;
     }
+
+    virtual void Loop(void);
 };
 
-extern struct ProcCmd data_020cbff0[];
+extern struct ProcCmd ProcScr_SoundTemporarySe[];
 
 class SoundTemporarySe;
 
-EC void func_020180f8(SoundTemporarySe *);
+EC void SoundTemporarySe_Loop(SoundTemporarySe *);
 EC BOOL func_0209b000(void *, u32);
 EC BOOL func_0209b048(void *, u32, u32);
 EC void func_020984c8(void *, u16, u32);
@@ -300,11 +302,11 @@ public:
 
     virtual ~SoundTemporarySe()
     {
-        s32 val = func_0209a474(data_020efcc8->unk_98);
+        s32 val = func_0209a474(gSoundManager->unk_98);
         if (val > this->unk_38)
         {
-            func_0209a3a0(data_020efcc8->unk_98, this->unk_38);
-            Proc_ForEach(data_020cbff0, (ProcFunc)func_020180f8);
+            func_0209a3a0(gSoundManager->unk_98, this->unk_38);
+            Proc_ForEach(ProcScr_SoundTemporarySe, (ProcFunc)SoundTemporarySe_Loop);
         }
     }
 
@@ -331,15 +333,15 @@ public:
 
         func_02019230((struct Proc *)this, 2);
 
-        if (data_020efcc8->unk_a4->vfunc_50())
+        if (gSoundManager->unk_a4->vfunc_50())
         {
-            data_020efcc8->unk_a4->vfunc_64(param_2, 8);
+            gSoundManager->unk_a4->vfunc_64(param_2, 8);
             this->unk_40 = 1;
         }
 
-        if (data_020efcc8->unk_a8->vfunc_50())
+        if (gSoundManager->unk_a8->vfunc_50())
         {
-            data_020efcc8->unk_a8->vfunc_64(param_2, 8);
+            gSoundManager->unk_a8->vfunc_64(param_2, 8);
             this->unk_41 = 1;
         }
     }
@@ -348,25 +350,25 @@ public:
     {
         if (this->unk_40 != 0)
         {
-            if (data_020efcc8->unk_a4->vfunc_50())
+            if (gSoundManager->unk_a4->vfunc_50())
             {
-                data_020efcc8->unk_a4->vfunc_68(8);
+                gSoundManager->unk_a4->vfunc_68(8);
             }
             else
             {
-                data_020efcc8->unk_a4->vfunc_6c(0x7f);
+                gSoundManager->unk_a4->vfunc_6c(0x7f);
             }
         }
 
         if (this->unk_41 != 0)
         {
-            if (data_020efcc8->unk_a8->vfunc_50())
+            if (gSoundManager->unk_a8->vfunc_50())
             {
-                data_020efcc8->unk_a8->vfunc_68(8);
+                gSoundManager->unk_a8->vfunc_68(8);
             }
             else
             {
-                data_020efcc8->unk_a8->vfunc_6c(0x7f);
+                gSoundManager->unk_a8->vfunc_6c(0x7f);
             }
         }
     }
@@ -428,7 +430,7 @@ public:
             func_02098250(*it++, uVar2);
         }
 
-        data_020efcc8->unk_a1 = uVar2;
+        gSoundManager->unk_a1 = uVar2;
     }
 
     virtual void Loop(void);

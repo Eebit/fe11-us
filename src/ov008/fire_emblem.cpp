@@ -149,10 +149,10 @@ void FireEmblem::Loop()
 
             if (func_0206ec80(0x10f4) != 0)
             {
-                data_020efcc8->unk_b0->vfunc_28(0x1000a, 0, 0);
+                gSoundManager->unk_b0->vfunc_28(0x1000a, 0, 0);
             }
 
-            data_020efcc8->unk_ac->vfunc_64(0, 0x3c);
+            gSoundManager->unk_ac->vfunc_64(0, 0x3c);
 
             this->unk_50 = -1;
 

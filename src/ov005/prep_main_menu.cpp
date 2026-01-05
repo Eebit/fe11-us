@@ -988,12 +988,12 @@ void sally::SallyDialogYesNo::vfunc_00(void)
 
 void sally::SallyCancelDialogYesNo::vfunc_c0(void)
 {
-    data_020efcc8->unk_b0->vfunc_28(0x10016, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(0x10016, 0, 0);
     return;
 }
 
 void sally::SallyDialogYesNo::vfunc_c0(void)
 {
-    data_020efcc8->unk_b0->vfunc_28(0x1000a, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(0x1000a, 0, 0);
     return;
 }

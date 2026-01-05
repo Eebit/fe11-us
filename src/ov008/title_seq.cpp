@@ -105,7 +105,7 @@ public:
 
     virtual ~TitleSeq()
     {
-        data_020efcc8->unk_ac->vfunc_38(0);
+        gSoundManager->unk_ac->vfunc_38(0);
         EndTitlePressStart();
         func_020ad244(0x14);
     }
@@ -283,13 +283,13 @@ EC void TitleSeq_ov008_0220508c(ProcPtr proc)
 
 EC void TitleSeq_ov008_022050bc(void)
 {
-    data_020efcc8->unk_b0->vfunc_28(0x7a7a0000, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(0x7a7a0000, 0, 0);
     return;
 }
 
 EC void TitleSeq_ov008_022050f0(void)
 {
-    data_020efcc8->unk_ac->vfunc_28(0x7fff0001, 0, 0);
+    gSoundManager->unk_ac->vfunc_28(0x7fff0001, 0, 0);
     return;
 }
 

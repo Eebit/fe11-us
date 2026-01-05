@@ -61,10 +61,10 @@ extern struct Unit * data_021974f0;
 
 EC BOOL func_ov000_021a4360(u32);
 
-EC void func_0201775c(void *, void *, int, int);
-EC void func_02017938(void *, void *, int, int, int);
+EC void StartSoundWaitTo_0201775c(void *, void *, int, int);
+EC void StartSoundWaitTo_02017938(void *, void *, int, int, int);
 
-EC void func_02017b40(void *, void *, int);
+EC void StartSoundWaitTo_02017b40(void *, void *, int);
 
 EC BOOL func_ov000_021adabc(struct Unit *, u32);
 
@@ -1364,28 +1364,28 @@ EC void func_ov000_021a43e8(void)
 {
     s32 iVar1 = func_ov000_021a4254(data_ov000_021e3324->phase);
 
-    data_020efcc8->unk_a8->vfunc_6c(0x7f);
+    gSoundManager->unk_a8->vfunc_6c(0x7f);
 
     if (iVar1 == -1)
     {
         return;
     }
 
-    if (data_020efcc8->unk_a8->vfunc_50())
+    if (gSoundManager->unk_a8->vfunc_50())
     {
         if (data_02196f0c->flagMgr->GetByName("gf_complete"))
         {
-            func_02017b40(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10);
+            StartSoundWaitTo_02017b40(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10);
             return;
         }
 
-        if ((data_020efcc8->unk_a4->vfunc_58() || (iVar1 != data_020efcc8->unk_a4->unk_08)))
+        if ((gSoundManager->unk_a4->vfunc_58() || (iVar1 != gSoundManager->unk_a4->unk_08)))
         {
-            func_02017938(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10, iVar1, 0);
+            StartSoundWaitTo_02017938(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10, iVar1, 0);
         }
         else
         {
-            func_0201775c(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10, 0x10);
+            StartSoundWaitTo_0201775c(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10, 0x10);
         }
 
         return;
@@ -1393,19 +1393,19 @@ EC void func_ov000_021a43e8(void)
 
     if (data_02196f0c->flagMgr->GetByName("gf_complete"))
     {
-        data_020efcc8->unk_a4->vfunc_38(0x10);
+        gSoundManager->unk_a4->vfunc_38(0x10);
         return;
     }
 
-    if (iVar1 != data_020efcc8->unk_a4->unk_08)
+    if (iVar1 != gSoundManager->unk_a4->unk_08)
     {
-        data_020efcc8->unk_a4->vfunc_3c(0x10, iVar1, 0);
+        gSoundManager->unk_a4->vfunc_3c(0x10, iVar1, 0);
     }
     else
     {
-        if (data_020efcc8->unk_a4->vfunc_54())
+        if (gSoundManager->unk_a4->vfunc_54())
         {
-            data_020efcc8->unk_a4->vfunc_4c(0x10);
+            gSoundManager->unk_a4->vfunc_4c(0x10);
         }
     }
 
@@ -1420,13 +1420,13 @@ EC void func_ov000_021a45cc(struct Unit * unit, u32 arg_1)
         {
             if ((arg_1 == 0 || !func_ov000_021a98ec(unit->xPos, unit->yPos)))
             {
-                if (data_020efcc8->unk_a8->vfunc_50() != 0)
+                if (gSoundManager->unk_a8->vfunc_50() != 0)
                 {
-                    func_02017b40(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10);
+                    StartSoundWaitTo_02017b40(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10);
                     return;
                 }
 
-                data_020efcc8->unk_a4->vfunc_38(0x10);
+                gSoundManager->unk_a4->vfunc_38(0x10);
 
                 return;
             }

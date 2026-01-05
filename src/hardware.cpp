@@ -119,7 +119,7 @@ void System_Init(void)
     func_02019bd4();
     Heap::Init();
     func_020115d4();
-    func_02015bd0();
+    Sound_Init();
     Proc_Init();
     func_0201bc28();
     func_0200eecc();

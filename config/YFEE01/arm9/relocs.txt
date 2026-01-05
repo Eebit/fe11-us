@@ -2452,7 +2452,7 @@ from:0x02015e00 kind:arm_call to:0x0209a1a8 module:main
 from:0x02015e18 kind:arm_call to:0x0209a1a8 module:main
 from:0x02015e2c kind:load to:0x020f0ce0 module:main
 from:0x02015e30 kind:load to:0x020efcc8 module:main
-from:0x02015e34 kind:load to:0x0216dce0 module:main
+from:0x02015e34 kind:load to:0x020f0ce0 module:main add:0x7d000
 from:0x02015e50 kind:arm_call to:0x0209a218 module:main
 from:0x02015e68 kind:arm_call to:0x0209a218 module:main
 from:0x02015e88 kind:load to:0x020efcc8 module:main

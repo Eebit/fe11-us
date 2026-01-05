@@ -214,7 +214,7 @@ EC void func_ov005_02204fd0(void)
 
     if (data_ov005_02217560->unk_11 == 0)
     {
-        data_020efcc8->unk_a4->vfunc_38(0x20);
+        gSoundManager->unk_a4->vfunc_38(0x20);
     }
 
     data_02196f0c->state &= ~0x40;
@@ -556,7 +556,7 @@ EC void func_ov005_022052d0(ProcPtr proc)
         return;
     }
 
-    data_020efcc8->unk_a4->vfunc_30(0x2f, 0, 0);
+    gSoundManager->unk_a4->vfunc_30(0x2f, 0, 0);
 
     return;
 }

@@ -16,7 +16,7 @@
 
 
 EC void func_0200ac20(char *, ProcPtr, s32);
-EC void func_02017518(void *, void *, s32, s32, s32);
+EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
 EC void func_01ff9948(u8);
 EC void func_02011a30(char *, u16 *, u32, u32);
 
@@ -918,7 +918,7 @@ EC void func_ov000_021d8604(struct ArenaProc * proc)
 
 EC void func_ov000_021d8694(struct ArenaProc * proc)
 {
-    data_020efcc8->unk_a8->vfunc_3c(0x10, 9, 0);
+    gSoundManager->unk_a8->vfunc_3c(0x10, 9, 0);
 
     proc->unk_64 = 0;
     proc->unk_68 = 0;
@@ -1046,11 +1046,11 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
         {
             if (uVar6 != -1)
             {
-                data_020efcc8->unk_a8->vfunc_3c(0x10, -2, 0);
+                gSoundManager->unk_a8->vfunc_3c(0x10, -2, 0);
             }
             else
             {
-                data_020efcc8->unk_a8->vfunc_38(0x10);
+                gSoundManager->unk_a8->vfunc_38(0x10);
             }
         }
 
@@ -1104,7 +1104,7 @@ EC void func_ov000_021d8c2c(struct ArenaProc * proc)
 
     func_ov000_021d8ed4(proc);
 
-    data_020efcc8->unk_b0->vfunc_28(0x0A0A0000, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(0x0A0A0000, 0, 0);
 
     return;
 }
@@ -1319,7 +1319,7 @@ EC void func_ov000_021d915c(struct ArenaProc * proc)
         return;
     }
 
-    func_02017518(data_020efcc8->unk_a8, data_020efcc8->unk_a4, 0x10, 0x34, 0x10);
+    StartSoundWaitTo_02017518(gSoundManager->unk_a8, gSoundManager->unk_a4, 0x10, 0x34, 0x10);
 
     return;
 }
@@ -1427,7 +1427,7 @@ EC void func_ov000_021d9364(struct ArenaProc * proc)
         return;
     }
 
-    data_020efcc8->unk_a8->vfunc_3c(0x10, 0x35, 0);
+    gSoundManager->unk_a8->vfunc_3c(0x10, 0x35, 0);
 
     return;
 }
@@ -1567,7 +1567,7 @@ EC void func_ov000_021d9564(struct ArenaProc * proc)
         return;
     }
 
-    data_020efcc8->unk_a8->vfunc_28(0x34, 0, 0);
+    gSoundManager->unk_a8->vfunc_28(0x34, 0, 0);
 
     Proc_End(proc);
 
