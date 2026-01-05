@@ -13,6 +13,8 @@
 #include "sound_manager.hpp"
 #include "unit.hpp"
 
+#include "constants/sounds.h"
+
 extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 
 extern struct ProcCmd data_ov000_021dbe58[];
@@ -234,12 +236,12 @@ EC void func_ov000_021abd9c(void)
         if (data_ov000_021e3324->unk_03 != 0)
         {
             data_ov000_021e3324->unk_03 = 0;
-            data_020efcc8->unk_b0->vfunc_28(0x0001001C, 0, 0);
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
         }
         else
         {
             data_ov000_021e3324->unk_03 = 1;
-            data_020efcc8->unk_b0->vfunc_28(0x0001001B, 0, 0);
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_ON1, 0, 0);
         }
 
         func_ov000_021a3498(gMapStateManager->unk_04->unk_00, 1, gActionSt->unk_2c, gActionSt->unk_2d);
@@ -288,7 +290,7 @@ EC BOOL func_ov000_021abf30(void)
 
         func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
-        data_020efcc8->unk_b0->vfunc_28(0x10016, 0, 0);
+        gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
 
         if (data_ov000_021e332c.unk_14->unk_07 == 2)
         {
@@ -313,7 +315,7 @@ EC BOOL func_ov000_021abf30(void)
         return TRUE;
     }
 
-    data_020efcc8->unk_b0->vfunc_28(0x10002, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_SYS_MISS1, 0, 0);
 
     return FALSE;
 }
@@ -326,7 +328,7 @@ EC BOOL func_ov000_021ac0c0(void)
     data_ov000_021e332c.unk_14->unk_02 = 0;
     data_ov000_021e332c.unk_14->unk_03 = 0;
 
-    data_020efcc8->unk_b0->vfunc_28(0x00010017, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
 
     if (data_ov000_021e332c.unk_14->unk_05 == 1)
     {
@@ -572,14 +574,14 @@ EC void func_ov000_021ac6a0(void)
                 {
                     if (func_0204b260(0) != 0)
                     {
-                        data_020efcc8->unk_b0->vfunc_28(0x00010018, 0, 0);
+                        gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_INFO2, 0, 0);
                     }
                 }
                 else
                 {
                     if (func_0204ad38(0, 0, 0) != 0)
                     {
-                        data_020efcc8->unk_b0->vfunc_28(0x00010018, 0, 0);
+                        gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_INFO2, 0, 0);
                     }
                 }
             }
@@ -702,7 +704,7 @@ EC void func_ov000_021aca18(void)
 
 EC void func_ov000_021aca50(void)
 {
-    data_020efcc8->unk_b0->vfunc_28(0x10017, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x19, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -820,7 +822,7 @@ EC void func_ov000_021acc7c(ProcPtr proc)
 
     if (CHECK_02())
     {
-        data_020efcc8->unk_b0->vfunc_28(0x00010003, 0, 0);
+        gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_OPEN1, 0, 0);
     }
 
     return;
@@ -833,7 +835,7 @@ EC void func_ov000_021accfc(ProcPtr proc)
 
     if (CHECK_02())
     {
-        data_020efcc8->unk_b0->vfunc_28(0x00010003, 0, 0);
+        gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_OPEN1, 0, 0);
     }
 
     func_ov000_021b799c(3, -1, -1);

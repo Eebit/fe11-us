@@ -210,7 +210,7 @@ BOOL ProcCmd_CallArg(ProcPtr proc);
 BOOL ProcCmd_While(ProcPtr proc);
 BOOL ProcCmd_WhileArg(ProcPtr proc);
 void func_0201949c(void * arg_0, void * arg_1);
-void func_020194fc(void * unused);
+void func_020194fc(void);
 BOOL func_0201951c(ProcPtr proc);
 BOOL ProcCmd_Repeat(ProcPtr proc);
 BOOL ProcCmd_WhileExists(ProcPtr proc);

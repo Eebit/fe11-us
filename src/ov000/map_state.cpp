@@ -14,6 +14,8 @@
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
 
+#include "constants/sounds.h"
+
 extern struct ProcCmd ProcScr_020ce750[];
 extern struct UnkStruct_02196f0c * data_02196f0c;
 extern struct UnkStruct_02196f24 * data_02196f24;
@@ -59,12 +61,12 @@ EC void func_ov000_021a3ad0(u8 *, s16, s16, s32);
 
 extern struct Unit * data_021974f0;
 
-EC BOOL func_ov000_021a4360(u32);
+EC BOOL AreAllEnemiesDefeated(u32);
 
-EC void func_0201775c(void *, void *, int, int);
-EC void func_02017938(void *, void *, int, int, int);
+EC void StartSoundWaitTo_0201775c(void *, void *, int, int);
+EC void StartSoundWaitTo_02017938(void *, void *, int, int, int);
 
-EC void func_02017b40(void *, void *, int);
+EC void StartSoundWaitTo_02017b40(void *, void *, int);
 
 EC BOOL func_ov000_021adabc(struct Unit *, u32);
 
@@ -165,27 +167,27 @@ char * data_ov000_021db72c[] =
     "Human\0\0\0",
 };
 
-u32 data_ov000_021db73c[] =
+u32 gPlMapMusicLut[] =
 {
-    0,
-    10,
-    12,
-    14,
-    16,
-    18,
-    20,
-    22,
+    0x0,
+    BGM_MAP_PL1, // "Footsteps of Fate"
+    BGM_MAP_PL2, // "The Time to Act"
+    BGM_MAP_PL3, // "For Liberty"
+    BGM_MAP_PL4, // "A Hero's Destiny"
+    BGM_MAP_PL5, // "Showdown in Dolhr Keep"
+    BGM_MAP_PL6, // "Into the Darkness"
+    BGM_MAP_PL7, // "On the Path to Victory"
 };
 
-u32 data_ov000_021db75c[] =
+u32 gCpMapMusicLut[] =
 {
     0,
-    11,
-    13,
-    15,
-    17,
-    19,
-    21,
+    BGM_MAP_CP1, // "Blade of Treachery"
+    BGM_MAP_CP2, // "Onset"
+    BGM_MAP_CP3, // "A Mighty Host Appears"
+    BGM_MAP_CP4, // "The Shadow Lengthens"
+    BGM_MAP_CP5, // "Last Revels"
+    BGM_MAP_CP6, // "Looming Danger"
 };
 
 // clang-format on
@@ -1282,58 +1284,57 @@ EC void * func_ov000_021a418c(s32 arg_0)
     return NULL;
 }
 
-EC s32 func_ov000_021a4254(s32 arg_0)
+EC s32 GetMapBgmId(s32 factionId)
 {
-    u32 unk;
+    u32 idx;
 
-    if (data_02196f24->unk_07 == 0)
+    if (!data_02196f24->enableBgm)
     {
         return -1;
     }
 
     if (data_02196f0c->state & 0x40)
     {
-        return 0x2f;
+        return BGM_SYS_SINGEKI1;
     }
 
-    unk = 0;
+    idx = 0;
 
     if (data_ov000_021e3324->unk_02 != 0)
     {
-        unk = 1;
+        idx = 1;
     }
 
     if (data_02196f0c->state & 0x20)
     {
-        if (data_ov000_021e3320[arg_0] == 1)
+        if (data_ov000_021e3320[factionId] == 1)
         {
-            if (func_ov000_021a4360(arg_0))
+            if (AreAllEnemiesDefeated(factionId))
             {
-                unk = 2;
+                idx = 2;
             }
 
-            return data_ov000_021db73c[data_02196f0c->unk_00->unk_18[unk]];
+            return gPlMapMusicLut[data_02196f0c->pCurrentMap->unk_18[idx]];
         }
 
-        return data_ov000_021db75c[data_02196f0c->unk_00->unk_18[unk]];
+        return gCpMapMusicLut[data_02196f0c->pCurrentMap->unk_18[idx]];
     }
 
-    if (arg_0 == 0)
+    if (factionId == 0)
     {
-        if (func_ov000_021a4360(arg_0))
+        if (AreAllEnemiesDefeated(factionId))
         {
-            unk = 2;
+            idx = 2;
         }
 
-        return data_ov000_021db73c[data_02196f0c->unk_00->unk_18[unk]];
+        return gPlMapMusicLut[data_02196f0c->pCurrentMap->unk_18[idx]];
     }
 
-    return data_ov000_021db75c[data_02196f0c->unk_00->unk_18[unk]];
+    return gCpMapMusicLut[data_02196f0c->pCurrentMap->unk_18[idx]];
 }
 
-EC BOOL func_ov000_021a4360(u32 arg_0)
+EC BOOL AreAllEnemiesDefeated(u32 factionId)
 {
-    Force * force;
     struct Unit * it;
     s32 count = 0;
     s32 i;
@@ -1345,13 +1346,12 @@ EC BOOL func_ov000_021a4360(u32 arg_0)
 
     for (i = 0; i < 2; i++)
     {
-        if ((arg_0 == i) & 0xFF)
+        if ((factionId == i) & 0xFF)
         {
             continue;
         }
 
-        force = Force::Get(i);
-        for (it = force->head; it != NULL; it = it->unk_3c)
+        for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
         {
             count++;
         }
@@ -1362,30 +1362,30 @@ EC BOOL func_ov000_021a4360(u32 arg_0)
 
 EC void func_ov000_021a43e8(void)
 {
-    s32 iVar1 = func_ov000_021a4254(data_ov000_021e3324->phase);
+    s32 bgmId = GetMapBgmId(data_ov000_021e3324->phase);
 
-    data_020efcc8->unk_a8->vfunc_6c(0x7f);
+    gSoundManager->unk_a8->vfunc_6c(0x7f);
 
-    if (iVar1 == -1)
+    if (bgmId == -1)
     {
         return;
     }
 
-    if (data_020efcc8->unk_a8->vfunc_50())
+    if (gSoundManager->unk_a8->vfunc_50())
     {
         if (data_02196f0c->flagMgr->GetByName("gf_complete"))
         {
-            func_02017b40(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10);
+            StartSoundWaitTo_02017b40(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10);
             return;
         }
 
-        if ((data_020efcc8->unk_a4->vfunc_58() || (iVar1 != data_020efcc8->unk_a4->unk_08)))
+        if ((gSoundManager->unk_a4->vfunc_58() || (bgmId != gSoundManager->unk_a4->unk_08)))
         {
-            func_02017938(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10, iVar1, 0);
+            StartSoundWaitTo_02017938(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10, bgmId, 0);
         }
         else
         {
-            func_0201775c(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10, 0x10);
+            StartSoundWaitTo_0201775c(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10, 0x10);
         }
 
         return;
@@ -1393,19 +1393,19 @@ EC void func_ov000_021a43e8(void)
 
     if (data_02196f0c->flagMgr->GetByName("gf_complete"))
     {
-        data_020efcc8->unk_a4->vfunc_38(0x10);
+        gSoundManager->unk_a4->vfunc_38(0x10);
         return;
     }
 
-    if (iVar1 != data_020efcc8->unk_a4->unk_08)
+    if (bgmId != gSoundManager->unk_a4->unk_08)
     {
-        data_020efcc8->unk_a4->vfunc_3c(0x10, iVar1, 0);
+        gSoundManager->unk_a4->vfunc_3c(0x10, bgmId, 0);
     }
     else
     {
-        if (data_020efcc8->unk_a4->vfunc_54())
+        if (gSoundManager->unk_a4->vfunc_54())
         {
-            data_020efcc8->unk_a4->vfunc_4c(0x10);
+            gSoundManager->unk_a4->vfunc_4c(0x10);
         }
     }
 
@@ -1420,13 +1420,13 @@ EC void func_ov000_021a45cc(struct Unit * unit, u32 arg_1)
         {
             if ((arg_1 == 0 || !func_ov000_021a98ec(unit->xPos, unit->yPos)))
             {
-                if (data_020efcc8->unk_a8->vfunc_50() != 0)
+                if (gSoundManager->unk_a8->vfunc_50() != 0)
                 {
-                    func_02017b40(data_020efcc8->unk_a4, data_020efcc8->unk_a8, 0x10);
+                    StartSoundWaitTo_02017b40(gSoundManager->unk_a4, gSoundManager->unk_a8, 0x10);
                     return;
                 }
 
-                data_020efcc8->unk_a4->vfunc_38(0x10);
+                gSoundManager->unk_a4->vfunc_38(0x10);
 
                 return;
             }

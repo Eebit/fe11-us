@@ -214,7 +214,7 @@ EC void func_ov005_02204fd0(void)
 
     if (data_ov005_02217560->unk_11 == 0)
     {
-        data_020efcc8->unk_a4->vfunc_38(0x20);
+        gSoundManager->unk_a4->vfunc_38(0x20);
     }
 
     data_02196f0c->state &= ~0x40;
@@ -549,14 +549,14 @@ EC void func_ov005_022052d0(ProcPtr proc)
 
     Proc_StartBlocking(ProcScr_Prep_02212d60, proc);
 
-    if (data_02196f0c->unk_00->unk_0a == 0)
+    if (data_02196f0c->pCurrentMap->unk_0a == 0)
     {
         func_ov005_022054b0(11);
         func_ov005_022054c4();
         return;
     }
 
-    data_020efcc8->unk_a4->vfunc_30(0x2f, 0, 0);
+    gSoundManager->unk_a4->vfunc_30(0x2f, 0, 0);
 
     return;
 }

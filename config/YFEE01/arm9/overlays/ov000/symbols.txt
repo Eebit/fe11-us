@@ -33,8 +33,8 @@ func_ov000_021a3da0 kind:function(arm,size=0x14) addr:0x021a3da0
 func_ov000_021a3db4 kind:function(arm,size=0x130) addr:0x021a3db4
 func_ov000_021a3ee4 kind:function(arm,size=0x2a8) addr:0x021a3ee4
 func_ov000_021a418c kind:function(arm,size=0xc8) addr:0x021a418c
-func_ov000_021a4254 kind:function(arm,size=0x10c) addr:0x021a4254
-func_ov000_021a4360 kind:function(arm,size=0x88) addr:0x021a4360
+GetMapBgmId kind:function(arm,size=0x10c) addr:0x021a4254
+AreAllEnemiesDefeated kind:function(arm,size=0x88) addr:0x021a4360
 func_ov000_021a43e8 kind:function(arm,size=0x1e4) addr:0x021a43e8
 func_ov000_021a45cc kind:function(arm,size=0xc8) addr:0x021a45cc
 func_ov000_021a4694 kind:function(arm,size=0x24) addr:0x021a4694
@@ -1391,8 +1391,8 @@ _ZTS10ProcMapEnd kind:data(any) addr:0x021db6ec
 _ZTS10ProcMapLow kind:data(any) addr:0x021db6fc
 _ZTS11ProcMapDraw kind:data(any) addr:0x021db70c
 _ZTS12ProcMapBegin kind:data(any) addr:0x021db71c
-data_ov000_021db73c kind:data(any) addr:0x021db73c
-data_ov000_021db75c kind:data(any) addr:0x021db75c
+gPlMapMusicLut kind:data(any) addr:0x021db73c
+gCpMapMusicLut kind:data(any) addr:0x021db75c
 _ZTV12ProcMapBegin kind:data(any) addr:0x021db77c
 _ZTV11ProcMapDraw kind:data(any) addr:0x021db794
 _ZTV10ProcMapLow kind:data(any) addr:0x021db7ac

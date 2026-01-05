@@ -519,7 +519,7 @@ void AnimeInterpreter::Execute(void)
                                 arg = func_ov000_021d6f7c(this->xPos);
                             }
 
-                            data_020efcc8->unk_b0->vfunc_2c(this->unk_18 + this->cmd->unk_06, 0, arg);
+                            gSoundManager->unk_b0->vfunc_2c((char *)(this->unk_18 + this->cmd->unk_06), 0, arg);
                         }
 
                         break;

@@ -814,12 +814,12 @@ EC BOOL func_02014b20(ProcPtr, s32);
 // EC ??? func_02015ae4
 // EC ??? func_02015b08
 // EC ??? func_02015b28
-EC void func_02015bd0(void);
-// EC ??? func_02015dc8
+EC void Sound_Init(void);
+EC void func_02015dc8(u32);
 // EC ??? func_02015e38
 // EC ??? func_02015e8c
-// EC ??? func_02015ec0
-// EC ??? func_02015f58
+EC void func_02015ec0(u32);
+EC void func_02015f58(void);
 EC void func_02015f64(void);
 EC void func_02015fb4(void);
 // EC ??? func_02016004
@@ -827,83 +827,83 @@ EC void func_02015fb4(void);
 // EC ??? func_02016098
 // EC ??? func_020160d4
 // EC ??? func_02016188
-// EC ??? func_0201619c
-EC void * func_020161b4(void);
-EC void func_02016200(void *);
-EC BOOL func_02016250(s32);
-// EC ??? func_020162ec
-// EC ??? func_02016304
+EC u32 func_0201619c(char *);
+EC u32 func_020161b4(void);
+EC void func_02016200(u32);
+EC BOOL func_02016250(s16);
+EC BOOL func_020162ec(s16, s32);
+EC BOOL func_02016304(s16);
 // EC ??? func_0201631c
 // EC ??? func_020163c0
-// EC ??? func_020163dc
-// EC ??? func_020163f0
+// EC ??? SoundWaitTo_Loop
+// EC ??? _ZN11SoundWaitTo4LoopEv
 // EC ??? func_02016490
 // EC ??? func_020164ac
-// EC ??? func_020164d0
-// EC ??? func_020164f4
-// EC ??? func_020165f4
-// EC ??? func_02016688
-// EC ??? func_0201670c
-// EC ??? func_02016804
-// EC ??? func_02016848
+// EC ??? _ZN11SoundHandle8vfunc_24Ev
+// EC ??? _ZN11SoundHandle8vfunc_00Emmm
+// EC ??? _ZN11SoundHandle8vfunc_18Emmm
+// EC ??? _ZN11SoundHandle8vfunc_04Emmmm
+// EC ??? _ZN11SoundHandle8vfunc_28Emmm
+// EC ??? _ZN11SoundHandle8vfunc_2cEPcmm
+// EC ??? _ZN11SoundHandle8vfunc_30Emmm
 // EC ??? func_020169bc
-// EC ??? func_020169e4
-// EC ??? func_02016a28
-// EC ??? func_02016a48
-// EC ??? func_02016ba0
-// EC ??? func_02016cb8
-// EC ??? func_02016e18
-// EC ??? func_02016e70
-// EC ??? func_02016e84
-// EC ??? func_02016ff4
-// EC ??? func_020170a8
-// EC ??? func_020170fc
-// EC ??? func_02017164
+// EC ??? _ZN11SoundHandle8vfunc_34EPcmm
+// EC ??? _ZN11SoundHandle8vfunc_08Ev
+// EC ??? _ZN11SoundHandle8vfunc_38El
+// EC ??? _ZN11SoundHandle8vfunc_1cEv
+// EC ??? _ZN11SoundHandle8vfunc_3cElmm
+// EC ??? _ZN11SoundHandle8vfunc_40EmPcm
+// EC ??? _ZN11SoundHandle8vfunc_0cEv
+// EC ??? _ZN11SoundHandle8vfunc_44El
+// EC ??? _ZN11SoundHandle8vfunc_10Em
+// EC ??? _ZN11SoundHandle8vfunc_20Em
+// EC ??? _ZN11SoundHandle8vfunc_48Em
+// EC ??? _ZN11SoundHandle8vfunc_4cEl
 // EC ??? func_02017258
-// EC ??? func_02017278
-// EC ??? func_0201728c
-// EC ??? func_020172a0
-// EC ??? func_020172e0
-// EC ??? func_02017338
-// EC ??? func_02017408
-// EC ??? func_02017418
-// EC ??? func_02017494
-// EC ??? func_02017510
-// EC ??? func_02017518
-// EC ??? func_0201775c
-// EC ??? func_02017938
-// EC ??? func_02017b40
-// EC ??? func_02017d44
-// EC ??? func_02017d70
-// EC ??? func_02017d8c
-// EC ??? func_02017dac
-// EC ??? func_02017dbc
-// EC ??? func_02017ddc
+// EC ??? _ZN11SoundHandle8vfunc_50Ev
+// EC ??? _ZN11SoundHandle8vfunc_54Ev
+// EC ??? _ZN11SoundHandle8vfunc_58Ev
+// EC ??? _ZN11SoundHandle8vfunc_5cEv
+// EC ??? _ZN11SoundHandle8vfunc_60Ev
+// EC ??? _ZN11SoundHandle8vfunc_14Emm
+// EC ??? _ZN11SoundHandle8vfunc_64Emm
+// EC ??? _ZN11SoundHandle8vfunc_68Em
+// EC ??? _ZN11SoundHandle8vfunc_6cEm
+// EC ??? StartSoundWaitTo_02017518
+// EC ??? StartSoundWaitTo_0201775c
+// EC ??? StartSoundWaitTo_02017938
+// EC ??? StartSoundWaitTo_02017b40
+// EC ??? _ZN15SoundStrmHandle8vfunc_24Ev
+// EC ??? _ZN15SoundStrmHandle8vfunc_00Emmm
+// EC ??? _ZN15SoundStrmHandle8vfunc_08Ev
+// EC ??? _ZN15SoundStrmHandle8vfunc_14Emm
+// EC ??? _ZN13SoundSeHandle8vfunc_24Ev
+// EC ??? _ZN13SoundSeHandle8vfunc_00Emmm
 // EC ??? func_02018014
-// EC ??? func_02018034
-// EC ??? func_0201806c
-// EC ??? func_020180f8
-// EC ??? func_0201810c
-// EC ??? func_02018184
+// EC ??? _ZN13SoundSeHandle8vfunc_18Emmm
+// EC ??? _ZN13SoundSeHandle8vfunc_28Emmm
+// EC ??? SoundTemporarySe_Loop
+// EC ??? _ZN16SoundTemporarySe4LoopEv
+EC void func_02018184(void);
 // EC ??? func_020181bc
 // EC ??? func_020181d8
-// EC ??? func_020181e4
-EC void func_020183b4(s32, s32);
-// EC ??? func_020184ac
-// EC ??? func_020184c0
-// EC ??? func_02018550
-// EC ??? func_020185b4
-// EC ??? func_0201861c
-// EC ??? func_0201867c
-// EC ??? func_02018774
-// EC ??? func_02018864
-// EC ??? func_020188ac
-// EC ??? func_02018914
-// EC ??? func_02018974
-// EC ??? func_020189c8
-// EC ??? func_02018a14
-// EC ??? func_02018b2c
-// EC ??? func_02018c3c
+// EC ??? StartSoundTemporarySe
+EC void StartVolumeDownPlayingSE(s32, s32);
+// EC ??? SoundVolumeMoveVC_Loop
+// EC ??? _ZN17SoundVolumeMoveVC4LoopEv
+// EC ??? StartSoundVolumeMoveVC
+// EC ??? _ZN17SoundVolumeMoveVCD0Ev
+// EC ??? _ZN17SoundVolumeMoveVCD1Ev
+// EC ??? _ZN19VolumeDownPlayingSED0Ev
+// EC ??? _ZN19VolumeDownPlayingSED1Ev
+// EC ??? _ZN19VolumeDownPlayingSE4LoopEv
+// EC ??? _ZN16SoundTemporarySeD0Ev
+// EC ??? _ZN16SoundTemporarySeD1Ev
+// EC ??? _ZN11SoundWaitToD0Ev
+// EC ??? _ZN11SoundWaitToD1Ev
+// EC ??? _ZN9SoundFadeD0Ev
+// EC ??? _ZN9SoundFadeD1Ev
+// EC ??? _ZN9SoundFade4LoopEv
 // EC ??? Proc_Init
 // EC ??? Proc_Find
 // EC ??? func_02018d40
@@ -3376,8 +3376,8 @@ EC void func_02070148(struct UnkStruct_02197798 *, s32);
 // EC ??? func_02070454
 EC void func_02070468(void);
 EC void func_02070480(void);
-// EC ??? func_02070570
-// EC ??? func_0207058c
+EC void func_02070570(s32);
+EC void func_0207058c(s32);
 // EC ??? func_020705c0
 // EC ??? func_02070678
 // EC ??? func_02070790
@@ -4287,8 +4287,8 @@ EC void func_02070480(void);
 // EC ??? func_02097fd4
 // EC ??? func_02097fe0
 // EC ??? func_02097fec
-// EC ??? func_02097ff8
-// EC ??? func_02098080
+EC void func_02097ff8(void);
+EC void func_02098080(void);
 // EC ??? func_020980b0
 // EC ??? func_020980d0
 // EC ??? func_02098108
@@ -4303,18 +4303,18 @@ EC void func_02070480(void);
 // EC ??? func_02098268
 // EC ??? func_02098288
 // EC ??? func_020982a0
-// EC ??? func_02098334
-// EC ??? func_02098344
-// EC ??? func_02098354
+EC void func_02098334(void *, u32);
+EC void func_02098344(void *, u32);
+EC void func_02098354(void *);
 // EC ??? func_02098360
-// EC ??? func_02098380
-// EC ??? func_020983d4
+EC BOOL func_02098380(s32);
+EC BOOL func_020983d4(s32, s32);
 // EC ??? func_02098434
 // EC ??? func_02098448
-// EC ??? func_0209845c
+EC void func_0209845c(void *, u32, u32);
 // EC ??? func_02098488
 // EC ??? func_020984a8
-// EC ??? func_020984c8
+EC void func_020984c8(void *, u16, u32);
 // EC ??? func_020984e8
 // EC ??? func_0209850c
 // EC ??? func_02098538
@@ -4357,7 +4357,7 @@ EC void func_02070480(void);
 // EC ??? func_020997c0
 // EC ??? func_02099820
 // EC ??? func_020998a4
-// EC ??? func_02099990
+EC void func_02099990(void *, char *, void *, s32);
 // EC ??? func_02099a10
 // EC ??? func_02099be8
 // EC ??? func_02099cac
@@ -4376,24 +4376,24 @@ EC void func_02070480(void);
 // EC ??? func_0209a10c
 // EC ??? func_0209a12c
 // EC ??? func_0209a154
-// EC ??? func_0209a170
+EC void func_0209a170(s32);
 // EC ??? func_0209a184
 // EC ??? func_0209a190
 // EC ??? func_0209a19c
-// EC ??? func_0209a1a8
-// EC ??? func_0209a218
+EC void * func_0209a1a8(void *, s32);
+EC void func_0209a218(void *);
 // EC ??? func_0209a230
 // EC ??? func_0209a2ec
-// EC ??? func_0209a354
-// EC ??? func_0209a3a0
-// EC ??? func_0209a474
+EC u32 func_0209a354(void *);
+EC void * func_0209a3a0(void *, u32);
+EC s32 func_0209a474(void *);
 // EC ??? func_0209a480
 // EC ??? func_0209a490
 // EC ??? func_0209a4c4
 // EC ??? func_0209a500
-// EC ??? func_0209a520
-// EC ??? func_0209a538
-// EC ??? func_0209a564
+EC BOOL func_0209a520(s32, void *);
+EC BOOL func_0209a538(u32, void *);
+EC void func_0209a564(u32, u32, void *);
 // EC ??? func_0209a588
 // EC ??? func_0209a68c
 // EC ??? func_0209a710
@@ -4413,21 +4413,21 @@ EC void func_02070480(void);
 // EC ??? func_0209ad94
 // EC ??? func_0209addc
 // EC ??? func_0209aea4
-// EC ??? func_0209af64
-// EC ??? func_0209b000
-// EC ??? func_0209b048
+EC void func_0209af64(void *);
+EC BOOL func_0209b000(void *, u32);
+EC BOOL func_0209b048(void *, u32, u32);
 // EC ??? func_0209b0c8
 // EC ??? func_0209b1c4
-// EC ??? func_0209b288
+EC void func_0209b288(s32, void *);
 // EC ??? func_0209b38c
 // EC ??? func_0209b454
 // EC ??? func_0209b4b0
-// EC ??? func_0209b4d0
-// EC ??? func_0209b4f8
-// EC ??? func_0209b514
-// EC ??? func_0209b548
+EC void func_0209b4d0(void *, u16, u32);
+EC void func_0209b4f8(void *, u32);
+EC void func_0209b514(void *, u32, u32);
+EC void func_0209b548(void *);
 // EC ??? func_0209b554
-// EC ??? func_0209b56c
+EC BOOL func_0209b56c(void *);
 // EC ??? func_0209b584
 // EC ??? func_0209b694
 // EC ??? func_0209b720
@@ -4456,9 +4456,9 @@ EC void func_02070480(void);
 // EC ??? func_0209c9b0
 // EC ??? func_0209c9cc
 // EC ??? func_0209c9d0
-// EC ??? func_0209ca20
-// EC ??? func_0209ca74
-// EC ??? func_0209ca9c
+EC void func_0209ca20(void *, u32, u32);
+EC void func_0209ca74(void);
+EC void func_0209ca9c(u32);
 // EC ??? func_0209cb70
 // EC ??? func_0209cc04
 // EC ??? func_0209cc08
@@ -4728,7 +4728,7 @@ EC void func_020a3080(void *, void *, void *, void *, s32, s32);
 // EC ??? func_020a3230
 // EC ??? func_020a328c
 // EC ??? func_020a3308
-// EC ??? func_020a3320
+EC void func_020a3320(void *);
 EC BOOL func_020a3350(void *);
 // EC ??? func_020a3364
 // EC ??? func_020a33b4
@@ -4744,8 +4744,8 @@ EC void func_020a36ac(void (*)(void *, void *));
 // EC ??? func_020a36d4
 // EC ??? func_020a36e4
 // EC ??? func_020a3718
-EC void func_020a374c(void *, void (*)(void *));
-// EC ??? func_020a3754
+EC void func_020a374c(void *, void (*)(void));
+EC void func_020a3754(void *, void *);
 // EC ??? func_020a375c
 // EC ??? func_020a3764
 // EC ??? func_020a37d0
@@ -5715,8 +5715,8 @@ EC BOOL func_ov000_021a3da0(struct Unit *);
 // EC ??? func_ov000_021a3db4
 EC void func_ov000_021a3ee4(struct Unit *, s32);
 // EC ??? func_ov000_021a418c
-// EC ??? func_ov000_021a4254
-// EC ??? func_ov000_021a4360
+// EC ??? GetMapBgmId
+// EC ??? AreAllEnemiesDefeated
 EC void func_ov000_021a43e8(void);
 // EC ??? func_ov000_021a45cc
 EC void func_ov000_021a4694(void);

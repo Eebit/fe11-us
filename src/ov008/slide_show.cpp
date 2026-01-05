@@ -9,6 +9,8 @@
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
+#include "constants/sounds.h"
+
 extern struct KeyState * gKeySt;
 
 extern struct TouchState * gTouchSt;
@@ -31,12 +33,12 @@ public:
     s8 unk_3c;
     s8 unk_3d;
     STRUCT_PAD(0x3e, 0x40);
-    void * unk_40;
+    u32 unk_40;
 
     SlideShow()
     {
         this->unk_38 = -1;
-        data_020efcc8->unk_b0->vfunc_38(0);
+        gSoundManager->unk_b0->vfunc_38(0);
     }
 
     virtual ~SlideShow();
@@ -77,7 +79,7 @@ void SlideShow::Loop()
         this->unk_3c = func_0206eca4()->unk_00->dispIo->unk_50;
         this->unk_3d = func_0206ecb0()->unk_00->dispIo->unk_50;
 
-        data_020efcc8->unk_ac->vfunc_64(0, 0x40);
+        gSoundManager->unk_ac->vfunc_64(0, 0x40);
         data_ov002_021faf40.unk_26 = 0;
     }
 
@@ -112,7 +114,7 @@ EC void SlideShow_ov008_02205490(SlideShow * param_1)
 
 EC void SlideShow_ov008_0220598c(SlideShow * proc)
 {
-    if (data_020efcc8->unk_b0->vfunc_50())
+    if (gSoundManager->unk_b0->vfunc_50())
     {
         return;
     }
@@ -125,7 +127,7 @@ EC void SlideShow_ov008_0220598c(SlideShow * proc)
 
 EC void SlideShow_ov008_022059d0(ProcPtr proc)
 {
-    data_020efcc8->unk_ac->vfunc_28(0x7fff0000, 0, 0);
+    gSoundManager->unk_ac->vfunc_28(STRM_SYS_OPENING1, 0, 0);
     func_ov002_021e4020("/ffx/opening1.fx", proc);
     data_ov002_021faf40.unk_25 = 3;
     return;

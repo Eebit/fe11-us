@@ -8,6 +8,8 @@
 #include "sound_manager.hpp"
 #include "unit.hpp"
 
+#include "constants/sounds.h"
+
 #include "unknown_funcs.h"
 
 enum
@@ -589,7 +591,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
 EC void ProcMind_ov000_021b0510(void)
 {
-    data_020efcc8->unk_a4->vfunc_68(8);
+    gSoundManager->unk_a4->vfunc_68(8);
     return;
 }
 
@@ -643,15 +645,15 @@ EC void ProcMind_ov000_021b0538(ProcPtr proc)
 
     if (data_ov000_021e3320[data_ov000_021e3324->phase] == 1)
     {
-        uVar4 = 0x4c;
+        uVar4 = FF_COMMUNI_FLAG1;
     }
     else
     {
-        uVar4 = 0x4d;
+        uVar4 = FF_COMMUNI_FLAG2;
     }
 
-    data_020efcc8->unk_b0->vfunc_28(uVar4, 0, 0);
-    func_020183b4(uVar4, 0x20);
+    gSoundManager->unk_b0->vfunc_28(uVar4, 0, 0);
+    StartVolumeDownPlayingSE(uVar4, 0x20);
 
     return;
 }

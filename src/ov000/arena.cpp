@@ -6,6 +6,8 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "constants/sounds.h"
+
 #include "database.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
@@ -16,7 +18,7 @@
 
 
 EC void func_0200ac20(char *, ProcPtr, s32);
-EC void func_02017518(void *, void *, s32, s32, s32);
+EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
 EC void func_01ff9948(u8);
 EC void func_02011a30(char *, u16 *, u32, u32);
 
@@ -28,7 +30,6 @@ public:
     STRUCT_PAD(0x00, 0x40);
 
     ArenaProc_unk_60() {};
-    ~ArenaProc_unk_60() {};
 };
 
 class ArenaProc_unk_5c_24
@@ -918,7 +919,7 @@ EC void func_ov000_021d8604(struct ArenaProc * proc)
 
 EC void func_ov000_021d8694(struct ArenaProc * proc)
 {
-    data_020efcc8->unk_a8->vfunc_3c(0x10, 9, 0);
+    gSoundManager->unk_a8->vfunc_3c(0x10, 9, 0);
 
     proc->unk_64 = 0;
     proc->unk_68 = 0;
@@ -991,7 +992,7 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
     struct ArenaProc_unk_5c * unk_5c;
 
     BOOL idk = 0;
-    if (func_ov000_021ca0b8(proc->unk_5c) == NULL)
+    if (func_ov000_021ca0b8(proc->unk_5c) != NULL)
     {
         idk = 1;
     }
@@ -1042,15 +1043,15 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
             }
         }
 
-        if (data_02196f24->unk_07 != 0 && uVar6 != -2)
+        if (data_02196f24->enableBgm != 0 && uVar6 != -2)
         {
             if (uVar6 != -1)
             {
-                data_020efcc8->unk_a8->vfunc_3c(0x10, -2, 0);
+                gSoundManager->unk_a8->vfunc_3c(0x10, uVar6, 0);
             }
             else
             {
-                data_020efcc8->unk_a8->vfunc_38(0x10);
+                gSoundManager->unk_a8->vfunc_38(0x10);
             }
         }
 
@@ -1104,7 +1105,7 @@ EC void func_ov000_021d8c2c(struct ArenaProc * proc)
 
     func_ov000_021d8ed4(proc);
 
-    data_020efcc8->unk_b0->vfunc_28(0x0A0A0000, 0, 0);
+    gSoundManager->unk_b0->vfunc_28(SE_MAP_MONEY1, 0, 0);
 
     return;
 }
@@ -1314,19 +1315,19 @@ EC void func_ov000_021d9120(struct ArenaProc * proc)
 
 EC void func_ov000_021d915c(struct ArenaProc * proc)
 {
-    if (data_02196f24->unk_07 == 0)
+    if (data_02196f24->enableBgm == 0)
     {
         return;
     }
 
-    func_02017518(data_020efcc8->unk_a8, data_020efcc8->unk_a4, 0x10, 0x34, 0x10);
+    StartSoundWaitTo_02017518(gSoundManager->unk_a8, gSoundManager->unk_a4, 0x10, 0x34, 0x10);
 
     return;
 }
 
 EC void func_ov000_021d91a0(struct ArenaProc * unused)
 {
-    if (data_02196f24->unk_07 == 0)
+    if (data_02196f24->enableBgm == 0)
     {
         return;
     }
@@ -1422,12 +1423,12 @@ EC void func_ov000_021d9364(struct ArenaProc * proc)
     func_02039f40(0, proc->unk_54);
     func_0200ac20("M闘技場_WIN", proc, 0);
 
-    if (data_02196f24->unk_07 == 0)
+    if (data_02196f24->enableBgm == 0)
     {
         return;
     }
 
-    data_020efcc8->unk_a8->vfunc_3c(0x10, 0x35, 0);
+    gSoundManager->unk_a8->vfunc_3c(0x10, 0x35, 0);
 
     return;
 }
@@ -1567,7 +1568,7 @@ EC void func_ov000_021d9564(struct ArenaProc * proc)
         return;
     }
 
-    data_020efcc8->unk_a8->vfunc_28(0x34, 0, 0);
+    gSoundManager->unk_a8->vfunc_28(BGM_SYS_TOUGIJOU1, 0, 0);
 
     Proc_End(proc);
 

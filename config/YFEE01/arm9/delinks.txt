@@ -18,6 +18,11 @@ src/hardware.cpp:
 src/heap.cpp:
     .text       start:0x02011458 end:0x020115d4
 
+src/sound_manager.cpp:
+    .text       start:0x02015bd0 end:0x02018c58
+    .data       start:0x020cbfd4 end:0x020ce6ec
+    .bss        start:0x020efcc8 end:0x02190ce0
+
 src/proc.c:
     complete
     .text       start:0x02018c58 end:0x02019bd4
