@@ -58,10 +58,7 @@ EC s32 func_02034f74(s32 kind);
 EC void * func_ov002_021f2040(Unit *, s32, s32, s32, s32, ProcPtr);
 
 EC struct Unit * func_0203bdd0(struct Unit * unit, u8 arg_1);
-EC s32 func_020295ec(struct UnkStruct_021970c4 *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
-EC void func_02029a1c(struct UnkStruct_021970c4 *, u32, void *, void *, u32, u32, u32, u32);
 EC void func_020113d0(u16 *, u16, s32);
-EC void func_0202972c(struct UnkStruct_021970c4 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32, u32);
 EC char * func_02037fc8(struct JobData * pJob);
 EC void func_0203a94c(struct Unit * unit);
 EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src);

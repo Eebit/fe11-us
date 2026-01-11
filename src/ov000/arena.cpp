@@ -16,6 +16,7 @@
 #include "sound_manager.hpp"
 #include "unit.hpp"
 
+extern struct UnkStruct_021970c4 * data_021970c4;
 
 EC void func_0200ac20(char *, ProcPtr, s32);
 EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
