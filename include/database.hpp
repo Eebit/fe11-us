@@ -8,9 +8,10 @@ struct MapData
     char * unk_00; // pointer to "bmap_###" or "arena_###" identifier
     char * unk_04; // pointer to MCT_### string id
     STRUCT_PAD(0x08, 0x0A);
-    s8 unk_0a;
-    STRUCT_PAD(0x0B, 0x18);
-    u8 unk_18[2];
+    s8 unk_0a; // max allowed units?
+    STRUCT_PAD(0x0B, 0x0C);
+    u8 unk_0c[12]; // max allowed per class
+    u8 unk_18[2]; // bgm indexes
 };
 
 struct UnkData
