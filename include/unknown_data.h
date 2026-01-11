@@ -782,7 +782,7 @@ extern struct ProcCmd ProcScr_020ce750[];
 // extern ??? __typestr__12ProcMemVsync
 // extern ??? data_020cead0
 // extern ??? __vt__12ProcMemVsync
-// extern ??? data_020ceaf8
+// extern ??? gDecompressFuncLut
 // extern ??? data_020ceb28
 // extern ??? data_020ceb30
 // extern ??? data_020ceb38

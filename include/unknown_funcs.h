@@ -514,12 +514,12 @@ EC void func_02010f98(u16 *, s32, s32);
 /* <new> */
 
 EC void func_020115d4(void);
-EC BOOL func_0201160c(char *);
-// EC ??? func_02011650
-EC void func_020116a0(char *, u16 *, s32, s32);
+EC BOOL FileExists(char *);
+// EC ??? GetFileSize
+EC void LoadFileWithOffset(char *, u16 *, s32, s32);
 EC void func_0201177c(char *, u32);
-EC void * func_02011854(char *, s32);
-EC void * func_02011920(char *, BOOL);
+EC void * LoadUncompressedFile(char *, s32);
+EC void * LoadCompressedFile(char *, BOOL);
 // EC ??? func_02011a30
 EC void func_02011a70(char *, u32, u32, u32);
 // EC ??? func_02011ab4
@@ -1191,7 +1191,7 @@ EC s32 IntSys_Mod(s32, s32); // IntSys_Mod
 EC u16 IntSys_Sqrt(u32);
 EC s32 Interpolate(s32, s32, s32, s32, s32);
 // EC ??? func_02020b50
-// EC ??? func_02020bc0
+// EC ??? Decompress
 // EC ??? func_02020c0c
 // EC ??? func_02020c18
 // EC ??? func_02020c4c
@@ -1897,7 +1897,7 @@ EC void func_02035f20(void *);
 // EC ??? func_02037890
 // EC ??? func_0203793c
 EC void func_020379c0(void);
-EC struct MapFile * func_020379e0(char *, u32);
+EC struct MapFile * LoadFileAndCache(char *, u32);
 // EC ??? _ZN12FE11Database4InitEv
 EC struct PersonData * GetPersonByPidStr(char *);
 EC struct JobData * GetJobByJidStr(char *);
