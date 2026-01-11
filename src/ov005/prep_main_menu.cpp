@@ -542,29 +542,29 @@ void sally::MIS_SallyEnd::vfunc_70(void)
 
 s32 sally::MIS_SallyEnd::vfunc_14(void)
 {
-    s32 uVar1 = 0;
+    s32 availability = MENU_ENABLED;
 
     if (data_ov005_02217560->unk_11 == 0)
     {
-        return 0;
+        return MENU_ENABLED;
     }
 
     if (Force::Get(0)->Count() == 0)
     {
-        uVar1 = 1;
+        availability = MENU_DISABLED;
     }
 
-    return uVar1;
+    return availability;
 }
 
 s32 sally::MIS_SallyEnd::vfunc_10(MenuItemState * param_2)
 {
     if ((param_2->unk_09 & 7) == 1)
     {
-        return 2;
+        return MENU_COLOR_GRAY;
     }
 
-    return 5;
+    return MENU_COLOR_GREEN;
 }
 
 char * sally::MIS_SallyEnd::vfunc_00(void)
@@ -601,28 +601,28 @@ EC s32 func_0201f680(void);
 
 s32 sally::MIS_SallySave::vfunc_14(void)
 {
-    u32 uVar1;
+    u32 availability;
 
     if (data_ov005_02217560->unk_11 != 0)
     {
-        return 2;
+        return MENU_NOTSHOWN;
     }
 
     if (func_0201f680())
     {
-        uVar1 = 0;
+        availability = MENU_ENABLED;
     }
     else
     {
-        uVar1 = 1;
+        availability = MENU_DISABLED;
     }
 
     if (data_ov005_02217560->unk_08 == 8)
     {
-        uVar1 |= 8;
+        availability |= MENU_ACTIVE;
     }
 
-    return uVar1;
+    return availability;
 }
 
 char * sally::MIS_SallySave::vfunc_00(void)
@@ -645,19 +645,19 @@ void sally::MIS_Config::vfunc_70(void)
 
 s32 sally::MIS_Config::vfunc_14(void)
 {
-    u32 uVar1 = 0;
+    u32 availability = MENU_ENABLED;
 
     if (data_ov005_02217560->unk_11 != 0)
     {
-        return 2; // Not shown
+        return MENU_NOTSHOWN;
     }
 
     if (data_ov005_02217560->unk_08 == 7)
     {
-        uVar1 |= 8;
+        availability |= MENU_ACTIVE;
     }
 
-    return uVar1;
+    return availability;
 }
 
 char * sally::MIS_Config::vfunc_00(void)
@@ -680,19 +680,19 @@ void sally::MIS_WeaponShop::vfunc_70(void)
 
 s32 sally::MIS_WeaponShop::vfunc_14(void)
 {
-    u32 uVar1 = 0;
+    u32 availability = MENU_ENABLED;
 
     if (data_ov005_02217560->unk_11 != 0)
     {
-        return 2; // Not shown
+        return MENU_NOTSHOWN;
     }
 
     if (data_ov005_02217560->unk_08 == 6)
     {
-        uVar1 |= 8;
+        availability |= MENU_ACTIVE;
     }
 
-    return uVar1;
+    return availability;
 }
 
 char * sally::MIS_WeaponShop::vfunc_00(void)
@@ -716,14 +716,14 @@ void sally::MIS_JobSlide::vfunc_70(void)
 
 s32 sally::MIS_JobSlide::vfunc_14(void)
 {
-    u32 uVar1 = 0;
+    u32 availability = MENU_ENABLED;
 
     if (data_ov005_02217560->unk_08 == 5)
     {
-        uVar1 |= 8;
+        availability |= MENU_ACTIVE;
     }
 
-    return uVar1;
+    return availability;
 }
 
 char * sally::MIS_JobSlide::vfunc_00(void)
@@ -747,14 +747,14 @@ void sally::MIS_ItemSetting::vfunc_70(void)
 
 s32 sally::MIS_ItemSetting::vfunc_14(void)
 {
-    u32 uVar1 = 0;
+    u32 availability = MENU_ENABLED;
 
     if (data_ov005_02217560->unk_08 == 4)
     {
-        uVar1 |= 8;
+        availability |= MENU_ACTIVE;
     }
 
-    return uVar1;
+    return availability;
 }
 
 char * sally::MIS_ItemSetting::vfunc_00(void)
@@ -777,19 +777,19 @@ void sally::MIS_PosChange::vfunc_70(void)
 
 s32 sally::MIS_PosChange::vfunc_14(void)
 {
-    u32 uVar1 = 0;
+    u32 availability = MENU_ENABLED;
 
     if (data_ov005_02217560->unk_11 != 0)
     {
-        return 2;
+        return MENU_NOTSHOWN;
     }
 
     if (data_ov005_02217560->unk_08 == 3)
     {
-        uVar1 |= 8;
+        availability |= MENU_ACTIVE;
     }
 
-    return uVar1;
+    return availability;
 }
 
 char * sally::MIS_PosChange::vfunc_00(void)
@@ -821,11 +821,11 @@ void sally::MIS_SallySelect::vfunc_70(void)
 
 s32 sally::MIS_SallySelect::vfunc_14(void)
 {
-    u32 uVar1 = 0;
+    u32 uVar1 = MENU_ENABLED;
 
     if (data_ov005_02217560->unk_08 == 2)
     {
-        uVar1 |= 8;
+        uVar1 |= MENU_ACTIVE;
     }
 
     return uVar1;

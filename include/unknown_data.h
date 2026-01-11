@@ -2965,7 +2965,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 // extern ??? data_021970ac
 // extern ??? data_021970bc
 // extern ??? data_021970c0
-extern u16 data_021970c4[];
+// extern u16 data_021970c4[];
 // extern ??? data_021970cc
 // extern ??? data_021970d0
 // extern ??? data_021970d4

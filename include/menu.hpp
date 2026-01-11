@@ -5,6 +5,26 @@
 
 #include "proc_ex.hpp"
 
+enum
+{
+    MENU_COLOR_WHITE = 1,
+    MENU_COLOR_GRAY = 2,
+    MENU_COLOR_BLUE = 3,
+    MENU_COLOR_GOLD = 4,
+    MENU_COLOR_GREEN = 5,
+};
+
+enum
+{
+    // Menu availability identifiers
+
+    MENU_ENABLED  = 0,
+    MENU_DISABLED = 1,
+    MENU_NOTSHOWN = 2,
+
+    MENU_ACTIVE   = 8,
+};
+
 class MenuItemState;
 
 class Menu
