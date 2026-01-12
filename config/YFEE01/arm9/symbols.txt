@@ -493,12 +493,12 @@ _Znam kind:function(arm,size=0x18) addr:0x0201158c
 _ZdlPv kind:function(arm,size=0x18) addr:0x020115a4
 _ZdaPv kind:function(arm,size=0x18) addr:0x020115bc
 func_020115d4 kind:function(arm,size=0x38) addr:0x020115d4
-func_0201160c kind:function(arm,size=0x44) addr:0x0201160c
-func_02011650 kind:function(arm,size=0x50) addr:0x02011650
-func_020116a0 kind:function(arm,size=0xdc) addr:0x020116a0
+FileExists kind:function(arm,size=0x44) addr:0x0201160c
+GetFileSize kind:function(arm,size=0x50) addr:0x02011650
+LoadFileWithOffset kind:function(arm,size=0xdc) addr:0x020116a0
 func_0201177c kind:function(arm,size=0xd8) addr:0x0201177c
-func_02011854 kind:function(arm,size=0xcc) addr:0x02011854
-func_02011920 kind:function(arm,size=0x110) addr:0x02011920
+LoadUncompressedFile kind:function(arm,size=0xcc) addr:0x02011854
+LoadCompressedFile kind:function(arm,size=0x110) addr:0x02011920
 func_02011a30 kind:function(arm,size=0x40) addr:0x02011a30
 func_02011a70 kind:function(arm,size=0x44) addr:0x02011a70
 func_02011ab4 kind:function(arm,size=0xf8) addr:0x02011ab4
@@ -1170,7 +1170,7 @@ func_02020994 kind:function(arm,size=0x68) addr:0x02020994
 IntSys_Sqrt kind:function(arm,size=0x30) addr:0x020209fc
 Interpolate kind:function(arm,size=0x124) addr:0x02020a2c
 func_02020b50 kind:function(arm,size=0x70) addr:0x02020b50
-func_02020bc0 kind:function(arm,size=0x4c) addr:0x02020bc0
+Decompress kind:function(arm,size=0x4c) addr:0x02020bc0
 func_02020c0c kind:function(arm,size=0xc) addr:0x02020c0c
 func_02020c18 kind:function(arm,size=0x34) addr:0x02020c18
 func_02020c4c kind:function(arm,size=0x8c) addr:0x02020c4c
@@ -1876,7 +1876,7 @@ _ZN9HashTableD1Ev kind:function(arm,size=0x40) addr:0x02037850
 func_02037890 kind:function(arm,size=0xac) addr:0x02037890
 func_0203793c kind:function(arm,size=0x84) addr:0x0203793c
 func_020379c0 kind:function(arm,size=0x20) addr:0x020379c0
-func_020379e0 kind:function(arm,size=0x24) addr:0x020379e0
+LoadFileAndCache kind:function(arm,size=0x24) addr:0x020379e0
 _ZN12FE11Database4InitEv kind:function(arm,size=0x24c) addr:0x02037a04
 GetPersonByPidStr kind:function(arm,size=0xc) addr:0x02037c50
 GetJobByJidStr kind:function(arm,size=0xc) addr:0x02037c5c
@@ -6333,7 +6333,7 @@ __typeinfo__12ProcMemVsync kind:data(any) addr:0x020ceab4
 __typestr__12ProcMemVsync kind:data(any) addr:0x020ceac0
 data_020cead0 kind:data(any) addr:0x020cead0
 __vt__12ProcMemVsync kind:data(any) addr:0x020ceae8
-data_020ceaf8 kind:data(any) addr:0x020ceaf8
+gDecompressFuncLut kind:data(any) addr:0x020ceaf8
 data_020ceb28 kind:data(any) addr:0x020ceb28
 data_020ceb30 kind:data(any) addr:0x020ceb30
 data_020ceb38 kind:data(any) addr:0x020ceb38

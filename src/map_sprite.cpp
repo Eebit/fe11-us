@@ -24,7 +24,7 @@ public:
     {
         SetSpriteDirectoryForJob(jid, 0);
         this->unk_3c = static_cast<u16 *>(gHeap.Alloc(0x40));
-        func_020116a0("palette", this->unk_3c, 0x40, arg3 * 0x40);
+        LoadFileWithOffset("palette", this->unk_3c, 0x40, arg3 * 0x40);
         this->unk_40 = static_cast<u16 *>(gHeap.Alloc(0x40));
         this->unk_38 = arg4;
         this->duration = duration;
@@ -388,7 +388,7 @@ BOOL IdleMapSpriteMgr::LoadSprite(s32 jid, s32 arg2, s32 arg3, u8 arg4)
         it[1] = IntSys_Mod(i, 10) + '0';
         it[2] = '\0';
 
-        filePtr[i] = func_02011920(str, 0);
+        filePtr[i] = LoadCompressedFile(str, 0);
         size[i] = gHeap.SizeOf(filePtr[i]);
         totalSize += size[i];
     }
@@ -423,7 +423,7 @@ BOOL IdleMapSpriteMgr::LoadSprite(s32 jid, s32 arg2, s32 arg3, u8 arg4)
         }
     }
 
-    filePtr[0] = func_02011854("palette", 0);
+    filePtr[0] = LoadUncompressedFile("palette", 0);
     palSize = gHeap.SizeOf(filePtr[0]);
 
     if (arg4 == 0)
@@ -496,7 +496,7 @@ EC s32 func_0203e9d4(s32 jid, s32 unused, char * arg2, s32 arg3, s32 arg4, s32 a
         it[1] = IntSys_Mod(i, 10) + '0';
         it[2] = '\0';
 
-        uVar3 = func_02011920(str, 0);
+        uVar3 = LoadCompressedFile(str, 0);
         iVar4 = gHeap.SizeOf(uVar3);
 
         if (arg6 != 0)
@@ -529,7 +529,7 @@ EC s32 func_0203eacc(s32 jid, s32 arg1, s32 palDst, s32 arg3)
 
     palSrc = static_cast<u16 *>(gHeap.Alloc(0x40));
 
-    func_020116a0("palette", palSrc, 0x40, arg1 * 0x40);
+    LoadFileWithOffset("palette", palSrc, 0x40, arg1 * 0x40);
 
     if (arg3 != 0)
     {
@@ -570,7 +570,7 @@ EC void func_0203eb8c(s32 jid, s32 unused, s32 arg2, s32 arg3)
         SetSpriteDirectoryForJob(jid, TRUE);
     }
 
-    uVar1 = func_02011920("idle", 0);
+    uVar1 = LoadCompressedFile("idle", 0);
     func_020203e0(uVar1, arg2, gHeap.SizeOf(uVar1), 1);
 
     return;
@@ -600,7 +600,7 @@ EC void func_0203ec24(s32 jid, s32 arg1, u16 * arg2, s32 arg3)
         arg1 = 0;
     }
 
-    func_020116a0("palette", arg2, 0xc0, arg1 * 0xc0);
+    LoadFileWithOffset("palette", arg2, 0xc0, arg1 * 0xc0);
 
     return;
 }
@@ -749,7 +749,7 @@ MovingMapSprite::MovingMapSprite(s32 jid, s32 arg2, s32 arg3, s32 arg4)
     SetSpriteDirectoryForJob(jid, 0);
 
     buf = static_cast<u16 *>(gHeap.Alloc(0x40));
-    func_020116a0("palette", buf, 0x40, arg2 * 0x40);
+    LoadFileWithOffset("palette", buf, 0x40, arg2 * 0x40);
     func_020205a4(buf, arg4, 0x40, 1);
 
     for (i = 0; i < 6; i++)
@@ -918,7 +918,7 @@ s32 MovingMapSprite::DrawSpriteExt(s32 x, s32 y, s32 arg3, s32 arg4, s32 animId,
             it[1] = IntSys_Mod(this->frame, 10) + '0';
             it[2] = '\0';
 
-            this->frames[this->frame] = func_02011920(str, 0);
+            this->frames[this->frame] = LoadCompressedFile(str, 0);
         }
 
         func_02020488(this->frames[this->frame], this->imgAddr, gHeap.SizeOf(this->frames[this->frame]), 0);

@@ -25,26 +25,27 @@ struct PersonData
 struct JobData
 {
     char * unk_00; // jid string
-    char * unk_04;
+    char * unk_04; // mjid string
     /* 08 */ s8 bases[8];
-    s8 unk_10[8];
-    u8 unk_18[8];
+    s8 unk_10[8]; // growths
+    u8 unk_18[8]; // enemy growths
     /* 20 */ s8 caps[8];
     u8 unk_28;
     /* 29 */ u8 mov;
     u8 unk_2a;
     u8 unk_2b;
-    u8 weaponLevels[5];
-    STRUCT_PAD(0x31, 0x36);
+    u8 weaponLevels[8];
+    u8 unk_34; // reclass set
+    s8 unk_35; // reclass line
     /* 36 */ u16 unitType;
     u32 attributes;
-    STRUCT_PAD(0x3C, 0x40);
-    /* 40 */ struct JobData * pPromoteJob;
-    STRUCT_PAD(0x44, 0x48);
-    char * unk_48;
-    u8 unk_4c;
+    STRUCT_PAD(0x3C, 0x40); // promoted from job
+    /* 40 */ struct JobData * pPromoteJob; // promoted to job
+    STRUCT_PAD(0x44, 0x48); // "MSJI" -> used for job intro
+    char * unk_48; // "FID_P" -> generic portrait?
+    u8 unk_4c; // moving map sprite speed?
     STRUCT_PAD(0x4D, 0x54);
-    s8 unk_54;
+    s8 unk_54; // moving map sprite base Y position?
     STRUCT_PAD(0x55, 0x5C);
 };
 
@@ -193,6 +194,12 @@ public:
     {
         this->xPos = x;
         this->yPos = y;
+    }
+
+    inline void SetJob(struct JobData * job)
+    {
+        this->pJobData = job;
+        this->state2 &= ~0x40000000;
     }
 };
 

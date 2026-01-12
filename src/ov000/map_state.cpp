@@ -333,7 +333,7 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 
     func_020a8f40("/map\0\0\0");
 
-    pMapFile = func_020379e0(mapName, 0);
+    pMapFile = LoadFileAndCache(mapName, 0);
 
     this->unk_20 = pMapFile->tileWidth;
     this->unk_22 = pMapFile->tileHeight;
@@ -368,9 +368,9 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 
     func_020a8f40("/dispos");
 
-    if (func_0201160c(mapName) != 0)
+    if (FileExists(mapName) != 0)
     {
-        this->unk_18 = func_020379e0(mapName, 1);
+        this->unk_18 = LoadFileAndCache(mapName, 1);
     }
 
     func_ov000_021b95e8(gMapStateManager->unk_14);

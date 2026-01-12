@@ -514,12 +514,12 @@ EC void func_02010f98(u16 *, s32, s32);
 /* <new> */
 
 EC void func_020115d4(void);
-EC BOOL func_0201160c(char *);
-// EC ??? func_02011650
-EC void func_020116a0(char *, u16 *, s32, s32);
+EC BOOL FileExists(char *);
+// EC ??? GetFileSize
+EC void LoadFileWithOffset(char *, u16 *, s32, s32);
 EC void func_0201177c(char *, u32);
-EC void * func_02011854(char *, s32);
-EC void * func_02011920(char *, BOOL);
+EC void * LoadUncompressedFile(char *, s32);
+EC void * LoadCompressedFile(char *, BOOL);
 // EC ??? func_02011a30
 EC void func_02011a70(char *, u32, u32, u32);
 // EC ??? func_02011ab4
@@ -1191,7 +1191,7 @@ EC s32 IntSys_Mod(s32, s32); // IntSys_Mod
 EC u16 IntSys_Sqrt(u32);
 EC s32 Interpolate(s32, s32, s32, s32, s32);
 // EC ??? func_02020b50
-// EC ??? func_02020bc0
+// EC ??? Decompress
 // EC ??? func_02020c0c
 // EC ??? func_02020c18
 // EC ??? func_02020c4c
@@ -1503,10 +1503,10 @@ EC void func_02028c68(void);
 // EC ??? func_02029418
 // EC ??? func_02029480
 // EC ??? func_0202957c
-EC s32 func_020295ec(u16 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32);
-EC void func_0202972c(u16 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32, u32);
-EC void func_02029850(u16 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
-// EC ??? func_02029a1c
+EC s32 func_020295ec(struct UnkStruct_021970c4 *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
+EC void func_0202972c(struct UnkStruct_021970c4 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32, u32);
+EC void func_02029850(struct UnkStruct_021970c4 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
+EC void func_02029a1c(struct UnkStruct_021970c4 *, u32, void *, void *, u32, u32, u32, u32);
 // EC ??? func_02029ae8
 // EC ??? func_02029ee0
 // EC ??? func_0202a1e0
@@ -1897,7 +1897,7 @@ EC void func_02035f20(void *);
 // EC ??? func_02037890
 // EC ??? func_0203793c
 EC void func_020379c0(void);
-EC struct MapFile * func_020379e0(char *, u32);
+EC struct MapFile * LoadFileAndCache(char *, u32);
 // EC ??? _ZN12FE11Database4InitEv
 EC struct PersonData * GetPersonByPidStr(char *);
 EC struct JobData * GetJobByJidStr(char *);
@@ -10342,17 +10342,17 @@ EC void StartSally_IMenu(ProcPtr); // Starts "sally::IMenu" proc
 // EC ??? func_ov005_0220f9bc
 // EC ??? func_ov005_0220f9d8
 // EC ??? func_ov005_0220fa14
-// EC ??? func_ov005_0220fa58
-// EC ??? func_ov005_0220fa84
-// EC ??? func_ov005_0220fab0
-// EC ??? func_ov005_0220fb18
-// EC ??? func_ov005_0220fb2c
-// EC ??? func_ov005_02210898
-// EC ??? func_ov005_022108c4
-// EC ??? func_ov005_022108d8
+// EC ??? SallyJobS_FadeIn
+// EC ??? SallyJobS_FadeOut
+// EC ??? SallyJobS_End
+// EC ??? SallyJobS_ov005_0220fb18
+// EC ??? _ZN5sally4JobS4InitEv
+// EC ??? SallyJobS_ov005_02210898
+// EC ??? SallyJobS_ov005_022108c4
+// EC ??? _ZN5sally4JobS4LoopEv
 EC void StartSally_JobS(ProcPtr); // Starts "sally::JobS" proc
-// EC ??? func_ov005_0221184c
-// EC ??? func_ov005_0221188c
+// EC ??? _ZN5sally4JobSD0Ev
+// EC ??? _ZN5sally4JobSD1Ev
 // EC ??? func_ov005_022118c4
 // EC ??? func_ov005_022118ec
 // EC ??? func_ov005_02211ab8

@@ -35,7 +35,7 @@ EC void func_ov000_021d39a4(s32, s32, s32);
 EC void func_ov000_021d3a2c(void);
 EC s32 func_ov000_021d6f7c(s32);
 
-EC void * func_02011920(char *, BOOL);
+EC void * LoadCompressedFile(char *, BOOL);
 
 EC void func_0206ce8c(s32);
 EC void func_0206d2e8(s32, s32, s32, s32, s32, s32, s32);
@@ -1008,7 +1008,7 @@ EC Anime * StartAnimFromFile(void * file, u16 arg2, u16 arg3, u16 arg4, u16 arg5
 
 EC Anime * StartAnimByName(char * animName, u16 arg2, u16 arg3, u16 arg4, u16 arg5, s32 arg6, ProcEx * parent)
 {
-    void * file = func_02011920(animName, 0);
+    void * file = LoadCompressedFile(animName, 0);
     return StartAnimFromFile(file, arg2, arg3, arg4, arg5, arg6, 1, parent);
 }
 

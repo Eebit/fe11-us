@@ -9,7 +9,7 @@
 extern s32 data_020eea90;
 
 EC void func_020a8f40(char *);
-EC void * func_020379e0(char *, u32);
+EC void * LoadFileAndCache(char *, u32);
 
 EC BOOL CheckUnitAttribute(struct Unit *, s32);
 EC Unit * func_0203fd84(struct PersonData *);
@@ -33,8 +33,8 @@ EC void FE11Database::Init(void)
 
     func_020a8f40("/data");
 
-    this->unk_00 = func_020379e0("database", 1);
-    this->unk_04 = func_020379e0("tut", 1);
+    this->unk_00 = LoadFileAndCache("database", 1);
+    this->unk_04 = LoadFileAndCache("tut", 1);
 
     this->pPerson = static_cast<struct PersonData *>(HashTable::Get2("Person"));
     this->pJob = static_cast<struct JobData *>(HashTable::Get2("Job"));

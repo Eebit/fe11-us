@@ -782,7 +782,7 @@ extern struct ProcCmd ProcScr_020ce750[];
 // extern ??? __typestr__12ProcMemVsync
 // extern ??? data_020cead0
 // extern ??? __vt__12ProcMemVsync
-// extern ??? data_020ceaf8
+// extern ??? gDecompressFuncLut
 // extern ??? data_020ceb28
 // extern ??? data_020ceb30
 // extern ??? data_020ceb38
@@ -2965,7 +2965,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 // extern ??? data_021970ac
 // extern ??? data_021970bc
 // extern ??? data_021970c0
-extern u16 data_021970c4[];
+// extern u16 data_021970c4[];
 // extern ??? data_021970cc
 // extern ??? data_021970d0
 // extern ??? data_021970d4
@@ -6600,7 +6600,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov005_022170d8
 // extern ??? data_ov005_022170dc
 // extern ??? data_ov005_022170e0
-// extern ??? __typeinfo__N5sally9JobSConstE
+// extern ??? _ZTIN5sally9JobSConstE
 // extern ??? data_ov005_022170ec
 // extern ??? data_ov005_022170f4
 // extern ??? data_ov005_02217100
@@ -6609,15 +6609,15 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov005_02217124
 // extern ??? data_ov005_02217130
 // extern ??? data_ov005_0221713c
-// extern ??? __typestr__N5sally4JobSE
+// extern ??? _ZTSN5sally4JobSE
 // extern ??? data_ov005_02217158
 // extern ??? data_ov005_02217168
 // extern ??? data_ov005_0221717c
 // extern ??? data_ov005_02217190
-// extern ??? __typestr__N5sally9JobSConstE
-// extern ??? __vt__N5sally4JobSE
-// extern ??? __typeinfo__N5sally4JobSE
-// extern ??? data_ov005_022171f0
+// extern ??? _ZTSN5sally9JobSConstE
+// extern ??? _ZTVN5sally4JobSE
+// extern ??? _ZTIN5sally4JobSE
+// extern ??? ProcScr_Sally_JobS
 // extern ??? data_ov005_02217238
 // extern ??? data_ov005_0221723c
 // extern ??? data_ov005_02217240

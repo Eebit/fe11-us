@@ -147,7 +147,7 @@ EC void func_02015ec0(u32 param_1)
 {
     func_02015dc8(param_1);
 
-    if (!func_0201160c("/sound/fe11_sound_all.sdat"))
+    if (!FileExists("/sound/fe11_sound_all.sdat"))
     {
         gSoundManager->unk_a0 = FALSE;
         return;
