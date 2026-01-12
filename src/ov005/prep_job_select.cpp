@@ -290,7 +290,7 @@ public:
         gpActiveScreenSt->unk_3e |= 2;
     }
 
-    // func_ov005_0220fb2c
+    // _ZN5sally4JobS4InitEv
     virtual void Init(void)
     {
         s32 unk_35;
@@ -547,7 +547,7 @@ public:
         }
     }
 
-    // func_ov005_022108d8
+    // _ZN5sally4JobS4LoopEv
     virtual void Loop(void)
     {
         // TODO
@@ -578,8 +578,8 @@ public:
         }
     }
 
-    // func_ov005_0221184c
-    // func_ov005_0221188c
+    // _ZN5sally4JobSD0Ev
+    // _ZN5sally4JobSD1Ev
     virtual ~JobS()
     {
         gHeap.Free(this->unk_40);
@@ -589,7 +589,7 @@ public:
 
 } // namespace sally
 
-EC void func_ov005_0220fa58(sally::JobS * proc)
+EC void SallyJobS_FadeIn(sally::JobS * proc)
 {
     s32 target = 0;
 
@@ -602,7 +602,7 @@ EC void func_ov005_0220fa58(sally::JobS * proc)
     return;
 }
 
-EC void func_ov005_0220fa84(sally::JobS * proc)
+EC void SallyJobS_FadeOut(sally::JobS * proc)
 {
     s32 target = 0;
 
@@ -615,7 +615,7 @@ EC void func_ov005_0220fa84(sally::JobS * proc)
     return;
 }
 
-EC void func_ov005_0220fab0(sally::JobS * proc)
+EC void SallyJobS_End(sally::JobS * proc)
 {
     func_0204e1a4(proc->unk_3c, 0, 1);
 
@@ -631,25 +631,25 @@ EC void func_ov005_0220fab0(sally::JobS * proc)
     return;
 }
 
-EC void func_ov005_0220fb18(sally::JobS * proc)
+EC void SallyJobS_ov005_0220fb18(sally::JobS * proc)
 {
     proc->Init();
 }
 
-// func_ov005_0220fb2c
+// _ZN5sally4JobS4InitEv
 // void sally::JobS::Init(void)
 
-EC void func_ov005_022108c4(sally::JobS * proc)
+EC void SallyJobS_ov005_022108c4(sally::JobS * proc)
 {
     proc->Loop();
 }
 
-// func_ov005_022108d8
+// _ZN5sally4JobS4LoopEv
 // void sally::JobS::Loop(void)
 // {
 // }
 
-EC void func_ov005_02210898(sally::JobS * proc)
+EC void SallyJobS_ov005_02210898(sally::JobS * proc)
 {
     proc->unk_5c->func_020354a0();
     proc->unk_60->func_020354a0();
@@ -658,9 +658,29 @@ EC void func_ov005_02210898(sally::JobS * proc)
     return;
 }
 
-extern struct ProcCmd data_ov005_022171f0[];
+// clang-format off
+
+struct ProcCmd ProcScr_Sally_JobS[] =
+{
+    PROC_NAME,
+    PROC_SLEEP(0),
+
+    PROC_06(0, SallyJobS_ov005_022108c4),
+
+    PROC_CALL(SallyJobS_FadeIn),
+    PROC_CALL(SallyJobS_ov005_02210898),
+
+    PROC_REPEAT(SallyJobS_ov005_0220fb18),
+
+    PROC_CALL(SallyJobS_End),
+    PROC_CALL(SallyJobS_FadeOut),
+
+    PROC_END,
+};
+
+// clang-format on
 
 void StartSally_JobS(ProcPtr arg0)
 {
-    new (Proc_StartBlocking(data_ov005_022171f0, arg0)) sally::JobS(data_ov005_02217560->unk_14);
+    new (Proc_StartBlocking(ProcScr_Sally_JobS, arg0)) sally::JobS(data_ov005_02217560->unk_14);
 }

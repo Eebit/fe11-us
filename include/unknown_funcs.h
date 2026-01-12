@@ -10342,17 +10342,17 @@ EC void StartSally_IMenu(ProcPtr); // Starts "sally::IMenu" proc
 // EC ??? func_ov005_0220f9bc
 // EC ??? func_ov005_0220f9d8
 // EC ??? func_ov005_0220fa14
-// EC ??? func_ov005_0220fa58
-// EC ??? func_ov005_0220fa84
-// EC ??? func_ov005_0220fab0
-// EC ??? func_ov005_0220fb18
-// EC ??? func_ov005_0220fb2c
-// EC ??? func_ov005_02210898
-// EC ??? func_ov005_022108c4
-// EC ??? func_ov005_022108d8
+// EC ??? SallyJobS_FadeIn
+// EC ??? SallyJobS_FadeOut
+// EC ??? SallyJobS_End
+// EC ??? SallyJobS_ov005_0220fb18
+// EC ??? _ZN5sally4JobS4InitEv
+// EC ??? SallyJobS_ov005_02210898
+// EC ??? SallyJobS_ov005_022108c4
+// EC ??? _ZN5sally4JobS4LoopEv
 EC void StartSally_JobS(ProcPtr); // Starts "sally::JobS" proc
-// EC ??? func_ov005_0221184c
-// EC ??? func_ov005_0221188c
+// EC ??? _ZN5sally4JobSD0Ev
+// EC ??? _ZN5sally4JobSD1Ev
 // EC ??? func_ov005_022118c4
 // EC ??? func_ov005_022118ec
 // EC ??? func_ov005_02211ab8
