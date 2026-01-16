@@ -183,7 +183,8 @@ struct MapStateManager_0C
 // +0x18 contains key handlers
     STRUCT_PAD(0x00, 0x1C);
     u16 unk_1c;
-    STRUCT_PAD(0x1E, 0x20);
+    u8 unk_1e;
+    u8 unk_1f;
     u8 unk_20;
     u8 unk_21_0 : 2;
     u8 unk_21_2 : 1;
@@ -202,12 +203,20 @@ class MapStateManager_10
 public:
     /* 00 */ s8 unk_00[2];
     /* 02 */ s8 unk_02[2];
-    /* 04 */ STRUCT_PAD(0x04, 0x08);
-    /* 08 */ u8 unk_08;
-    /* 09 */ u8 unk_09;
-    u8 unk_0a;
+    s16 unk_04; // cursor x display (in px)
+    s16 unk_06; // cursor y display (in px)
+    /* 08 */ u8 unk_08; // cursor tile x
+    /* 09 */ u8 unk_09; // cursor tile y
+    u8 unk_0a; // cursor visible?
     u8 unk_0b;
-    /* 0A */ STRUCT_PAD(0x0C, 0x1A);
+    u8 unk_0c;
+    u8 unk_0d;
+    u8 unk_0e;
+    STRUCT_PAD(0x0F, 0x12);
+    s16 unk_12;
+    s16 unk_14;
+    u16 unk_16;
+    u16 unk_18;
 
     void SetUnk00And02(u8 phase, u8 r12, u8 r2)
     {

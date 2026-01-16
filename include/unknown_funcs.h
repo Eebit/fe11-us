@@ -5788,10 +5788,10 @@ EC void func_ov000_021a5d5c(void *, u32);
 // EC ??? func_ov000_021a68c0
 // EC ??? func_ov000_021a6910
 // EC ??? func_ov000_021a6994
-EC void func_ov000_021a6ab8(void *, s32, s32);
-EC void func_ov000_021a6aec(void *);
+// EC void func_ov000_021a6ab8(void *, s32, s32);
+// EC void func_ov000_021a6aec(void *);
 // EC ??? func_ov000_021a6b4c
-EC void func_ov000_021a6bd0(void *);
+// EC void func_ov000_021a6bd0(void *);
 // EC ??? func_ov000_021a6c38
 // EC ??? func_ov000_021a6d48
 // EC ??? func_ov000_021a6e68
