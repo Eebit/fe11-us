@@ -863,7 +863,7 @@ EC void func_0202225c(void)
     func_0204b790();
 
     unitId =
-        gMapStateManager->unk_028[gMapStateManager->unk_10->unk_08 | gMapStateManager->unk_10->unk_09 << 5];
+        gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5];
 
     if (unitId == 0)
     {
@@ -875,7 +875,7 @@ EC void func_0202225c(void)
     }
 
     func_0204e1a4(pUnit, 0, 1);
-    func_0204eab8(gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09, 0);
+    func_0204eab8(gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile, 0);
     func_0204f6d0();
 
     func_0204ad38(data_02196f20->unk_19b, 0, 0);

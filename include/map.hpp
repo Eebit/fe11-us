@@ -183,7 +183,8 @@ struct MapStateManager_0C
 // +0x18 contains key handlers
     STRUCT_PAD(0x00, 0x1C);
     u16 unk_1c;
-    STRUCT_PAD(0x1E, 0x20);
+    u8 unk_1e;
+    u8 unk_1f;
     u8 unk_20;
     u8 unk_21_0 : 2;
     u8 unk_21_2 : 1;
@@ -197,23 +198,43 @@ struct MapStateManager_0C
     STRUCT_PAD(0x25, 0x28);
 };
 
-class MapStateManager_10
+class Cursor
 {
 public:
     /* 00 */ s8 unk_00[2];
     /* 02 */ s8 unk_02[2];
-    /* 04 */ STRUCT_PAD(0x04, 0x08);
-    /* 08 */ u8 unk_08;
-    /* 09 */ u8 unk_09;
-    u8 unk_0a;
-    u8 unk_0b;
-    /* 0A */ STRUCT_PAD(0x0C, 0x1A);
+    /* 04 */ s16 xDisplay; // in px
+    /* 06 */ s16 yDisplay; // in px
+    /* 08 */ u8 xTile;
+    /* 09 */ u8 yTile;
+    /* 0A */ u8 isVisible;
+    /* 0B */ u8 unk_0b;
+    /* 0C */ u8 changed;
+    /* 0D */ u8 soundCooldownTimer;
+    /* 0E */ u8 unk_0e;
+    /* 0F */ STRUCT_PAD(0x0F, 0x12);
+    /* 12 */ s16 xLerpStart;
+    /* 14 */ s16 yLerpStart;
+    /* 16 */ u16 lerpDuration;
+    /* 18 */ u16 lerpElapsed;
 
-    void SetUnk00And02(u8 phase, u8 r12, u8 r2)
+    inline void SetUnk00And02(u8 phase, u8 r12, u8 r2)
     {
         this->unk_00[phase] = r12;
         this->unk_02[phase] = r2;
     }
+
+    void Init(void);
+    void SetPos(s32 x, s32 y, s32);
+    void SetPosAnimated(s32 x, s32 y, s32, u8);
+    void SetPosImmediate(s16, s16);
+    void CenterOnCamera(void);
+    void _021a6b4c(s32, s32);
+    void _021a6bd0(void);
+    void _021a6c38(void);
+    void _021a6d48(void);
+    void Update(void);
+    BOOL _021a6ea8(s32);
 };
 
 EC void func_ov000_021b9a1c(struct MapStateManager_14 *);
@@ -308,11 +329,11 @@ public:
 class MapStateManager
 {
 public:
-    /* 000 */ struct Camera * camera;
+    /* 000 */ Camera * camera;
     /* 004 */ struct MapStateManager_04 * unk_04;
     /* 008 */ struct MapStateManager_08 * unk_08;
     /* 00C */ struct MapStateManager_0C * unk_0c;
-    /* 010 */ struct MapStateManager_10 * unk_10;
+    /* 010 */ Cursor * cursor;
     /* 014 */ struct MapStateManager_14 * unk_14;
     /* 018 */ void * unk_18;
     /* 01C */ struct MapStateManager_1C * unk_1c;
