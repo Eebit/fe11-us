@@ -198,31 +198,43 @@ struct MapStateManager_0C
     STRUCT_PAD(0x25, 0x28);
 };
 
-class MapStateManager_10
+class Cursor
 {
 public:
     /* 00 */ s8 unk_00[2];
     /* 02 */ s8 unk_02[2];
-    s16 unk_04; // cursor x display (in px)
-    s16 unk_06; // cursor y display (in px)
-    /* 08 */ u8 unk_08; // cursor tile x
-    /* 09 */ u8 unk_09; // cursor tile y
-    u8 unk_0a; // cursor visible?
-    u8 unk_0b;
-    u8 unk_0c;
-    u8 unk_0d;
-    u8 unk_0e;
-    STRUCT_PAD(0x0F, 0x12);
-    s16 unk_12;
-    s16 unk_14;
-    u16 unk_16;
-    u16 unk_18;
+    /* 04 */ s16 xDisplay; // in px
+    /* 06 */ s16 yDisplay; // in px
+    /* 08 */ u8 xTile;
+    /* 09 */ u8 yTile;
+    /* 0A */ u8 isVisible;
+    /* 0B */ u8 unk_0b;
+    /* 0C */ u8 changed;
+    /* 0D */ u8 soundCooldownTimer;
+    /* 0E */ u8 unk_0e;
+    /* 0F */ STRUCT_PAD(0x0F, 0x12);
+    /* 12 */ s16 xLerpStart;
+    /* 14 */ s16 yLerpStart;
+    /* 16 */ u16 lerpDuration;
+    /* 18 */ u16 lerpElapsed;
 
-    void SetUnk00And02(u8 phase, u8 r12, u8 r2)
+    inline void SetUnk00And02(u8 phase, u8 r12, u8 r2)
     {
         this->unk_00[phase] = r12;
         this->unk_02[phase] = r2;
     }
+
+    void Init(void); // _ZN6Cursor4InitEv
+    void SetPos(s32 x, s32 y, s32); // _ZN6Cursor6SetPosElll
+    void SetPosAnimated(s32 x, s32 y, s32, u8); // _ZN6Cursor14SetPosAnimatedElllh
+    void SetPosImmediate(s16, s16); // _ZN6Cursor15SetPosImmediateEss
+    void CenterOnCamera(void); // _ZN6Cursor14CenterOnCameraEv
+    void _021a6b4c(s32, s32); // _ZN6Cursor9_021a6b4cEll
+    void _021a6bd0(void); // _ZN6Cursor9_021a6bd0Ev
+    void _021a6c38(void); // _ZN6Cursor9_021a6c38Ev
+    void _021a6d48(void); // _ZN6Cursor9_021a6d48Ev
+    void Update(void); // _ZN6Cursor6UpdateEv
+    BOOL _021a6ea8(s32); // _ZN6Cursor9_021a6ea8El
 };
 
 EC void func_ov000_021b9a1c(struct MapStateManager_14 *);
@@ -317,11 +329,11 @@ public:
 class MapStateManager
 {
 public:
-    /* 000 */ struct Camera * camera;
+    /* 000 */ Camera * camera;
     /* 004 */ struct MapStateManager_04 * unk_04;
     /* 008 */ struct MapStateManager_08 * unk_08;
     /* 00C */ struct MapStateManager_0C * unk_0c;
-    /* 010 */ struct MapStateManager_10 * unk_10;
+    /* 010 */ Cursor * cursor;
     /* 014 */ struct MapStateManager_14 * unk_14;
     /* 018 */ void * unk_18;
     /* 01C */ struct MapStateManager_1C * unk_1c;

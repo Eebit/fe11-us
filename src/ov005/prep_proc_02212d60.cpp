@@ -110,7 +110,7 @@ EC void func_ov005_02204d48(void)
     s32 unitId;
     struct Unit * unit;
 
-    unitId = gMapStateManager->unk_028[gMapStateManager->unk_10->unk_08 | gMapStateManager->unk_10->unk_09 << 5];
+    unitId = gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5];
 
     if (unitId == 0)
     {
@@ -123,7 +123,7 @@ EC void func_ov005_02204d48(void)
 
     data_021974fc->unk_00 = unit;
 
-    func_0204b194(gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09);
+    func_0204b194(gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile);
     func_0204ae9c(2, 1);
     func_0204eb24();
 
@@ -141,25 +141,25 @@ EC void func_ov005_02204dd0(s32 param_1)
 
     if (((data_02196f0c->state & 0x200) == 0) && (unit != NULL))
     {
-        func_ov000_021a6ab8(gMapStateManager->unk_10, unit->xPos, unit->yPos);
+        _ZN6Cursor15SetPosImmediateEss(gMapStateManager->cursor, unit->xPos, unit->yPos);
 
         if (param_1 == 0)
         {
             gMapStateManager->camera->func_ov000_021a4cec(
-                gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09, 1, 0x20, 0);
+                gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile, 1, 0x20, 0);
         }
         else
         {
             gMapStateManager->camera->func_ov000_021a4e84(
-                gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09, 1);
+                gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile, 1);
         }
     }
     else
     {
-        func_ov000_021a6aec(gMapStateManager->unk_10);
+        _ZN6Cursor14CenterOnCameraEv(gMapStateManager->cursor);
     }
 
-    gMapStateManager->unk_10->SetUnk00And02(0, -1, -1);
+    gMapStateManager->cursor->SetUnk00And02(0, -1, -1);
 
     return;
 }
@@ -176,7 +176,7 @@ EC void func_ov005_02204ed8(void)
 
 EC void func_ov005_02204ee8(ProcPtr proc)
 {
-    if (gMapStateManager->unk_10->unk_0b == 2 ? TRUE : FALSE)
+    if (gMapStateManager->cursor->unk_0b == 2 ? TRUE : FALSE)
     {
         return;
     }

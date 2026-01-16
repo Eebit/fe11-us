@@ -5785,17 +5785,17 @@ EC void func_ov000_021a5d5c(void *, u32);
 // EC ??? func_ov000_021a63cc
 // EC ??? func_ov000_021a6438
 // EC ??? func_ov000_021a6800
-// EC ??? func_ov000_021a68c0
-// EC ??? func_ov000_021a6910
-// EC ??? func_ov000_021a6994
-// EC void func_ov000_021a6ab8(void *, s32, s32);
-// EC void func_ov000_021a6aec(void *);
-// EC ??? func_ov000_021a6b4c
-// EC void func_ov000_021a6bd0(void *);
-// EC ??? func_ov000_021a6c38
-// EC ??? func_ov000_021a6d48
-// EC ??? func_ov000_021a6e68
-// EC ??? func_ov000_021a6ea8
+// EC ??? _ZN6Cursor4InitEv
+// EC ??? _ZN6Cursor6SetPosElll
+// EC ??? _ZN6Cursor14SetPosAnimatedElllh
+// EC void _ZN6Cursor15SetPosImmediateEss(void *, s32, s32);
+// EC void _ZN6Cursor14CenterOnCameraEv(void *);
+// EC ??? _ZN6Cursor9_021a6b4cEll
+// EC void _ZN6Cursor9_021a6bd0Ev(void *);
+// EC ??? _ZN6Cursor9_021a6c38Ev
+// EC ??? _ZN6Cursor9_021a6d48Ev
+// EC ??? _ZN6Cursor6UpdateEv
+// EC ??? _ZN6Cursor9_021a6ea8El
 // EC ??? func_ov000_021a6f10
 // EC ??? func_ov000_021a6f7c
 // EC ??? func_ov000_021a6fb0

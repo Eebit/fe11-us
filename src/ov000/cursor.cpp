@@ -7,121 +7,121 @@
 
 #include "constants/sounds.h"
 
-EC void func_ov000_021a68c0(MapStateManager_10 * param_1)
+void Cursor::Init(void)
 {
     int i;
 
     for (i = 0; i < 2; i++)
     {
-        param_1->unk_00[i] = -1;
-        param_1->unk_02[i] = -1;
+        this->unk_00[i] = -1;
+        this->unk_02[i] = -1;
     }
 
-    param_1->unk_04 = 0;
-    param_1->unk_06 = 0;
-    param_1->unk_08 = 0;
-    param_1->unk_09 = 0;
-    param_1->unk_0a = 0;
-    param_1->unk_0c = 1;
-    param_1->unk_0b = 1;
-    param_1->unk_0d = 0;
-    param_1->unk_0e = 0;
+    this->xDisplay = 0;
+    this->yDisplay = 0;
+    this->xTile = 0;
+    this->yTile = 0;
+    this->isVisible = FALSE;
+    this->changed = TRUE;
+    this->unk_0b = 1;
+    this->soundCooldownTimer = 0;
+    this->unk_0e = 0;
 
     return;
 }
 
-EC void func_ov000_021a6910(MapStateManager_10 * param_1, s32 param_2, s32 param_3, s32 param_4)
+void Cursor::SetPos(s32 x, s32 y, s32 param_4)
 {
-    if (param_2 == param_1->unk_08 && param_3 == param_1->unk_09)
+    if (x == this->xTile && y == this->yTile)
     {
-        param_1->unk_0c = 0;
+        this->changed = FALSE;
         return;
     }
 
-    param_1->unk_08 = param_2;
-    param_1->unk_09 = param_3;
+    this->xTile = x;
+    this->yTile = y;
 
-    param_1->unk_0c = 1;
+    this->changed = TRUE;
 
-    if (param_4 != 0 && param_1->unk_0a != 0)
+    if (param_4 != 0 && this->isVisible)
     {
-        if (param_1->unk_0d == 0)
+        if (this->soundCooldownTimer == 0)
         {
             gSoundManager->unk_b0->vfunc_28(SE_SYS_CURSOL_MAP1, 0, 0);
-            param_1->unk_0d = 2;
+            this->soundCooldownTimer = 2;
         }
     }
 
     return;
 }
 
-EC void func_ov000_021a6994(MapStateManager_10 * param_1, s32 param_2, s32 param_3, s32 param_4, u8 param_5)
+void Cursor::SetPosAnimated(s32 x, s32 y, s32 param_4, u8 param_5)
 {
-    int iVar2;
-    int iVar3;
+    s32 xNew;
+    s32 yNew;
 
-    func_ov000_021a6910(param_1, param_2, param_3, param_5);
+    this->SetPos(x, y, param_5);
 
-    if (param_1->unk_0c != 0)
+    if (this->changed)
     {
-        param_1->unk_0b = 2;
+        this->unk_0b = 2;
 
-        if (gMapStateManager->camera->func_ov000_021a4f7c(param_2, param_3, 0))
+        if (gMapStateManager->camera->func_ov000_021a4f7c(x, y, 0))
         {
-            gMapStateManager->camera->func_ov000_021a4cec(param_2, param_3, 0, param_4 != 0 ? 8 : 0x10, 0);
+            gMapStateManager->camera->func_ov000_021a4cec(x, y, 0, param_4 != 0 ? 8 : 0x10, 0);
         }
 
-        param_1->unk_12 = param_1->unk_04;
-        param_1->unk_14 = param_1->unk_06;
-        param_1->unk_0b = 2;
+        this->xLerpStart = this->xDisplay;
+        this->yLerpStart = this->yDisplay;
+        this->unk_0b = 2;
 
-        iVar2 = param_1->unk_08 * GetTileSize() - param_1->unk_04;
-        iVar3 = param_1->unk_09 * GetTileSize() - param_1->unk_06;
+        xNew = this->xTile * GetTileSize() - this->xDisplay;
+        yNew = this->yTile * GetTileSize() - this->yDisplay;
 
-        if (iVar2 < 0)
+        if (xNew < 0)
         {
-            iVar2 = -iVar2;
+            xNew = -xNew;
         }
 
-        if (iVar3 < 0)
+        if (yNew < 0)
         {
-            iVar3 = -iVar3;
+            yNew = -yNew;
         }
 
-        param_1->unk_16 = IntSys_Div(IntSys_Sqrt(iVar2 * iVar2 + iVar3 * iVar3), gMapStateManager->camera->unk_12);
+        this->lerpDuration = IntSys_Div(IntSys_Sqrt(xNew * xNew + yNew * yNew), gMapStateManager->camera->unk_12);
 
-        if (param_1->unk_16 > 4)
+        if (this->lerpDuration > 4)
         {
-            param_1->unk_16 = 4;
+            this->lerpDuration = 4;
         }
 
-        param_1->unk_18 = 0;
+        this->lerpElapsed = 0;
     }
 
     return;
 }
 
-EC void func_ov000_021a6ab8(MapStateManager_10 * param_1, s16 arg_1, s16 arg_2)
+void Cursor::SetPosImmediate(s16 x, s16 y)
 {
-    func_ov000_021a6910(param_1, arg_1, arg_2, 1);
+    this->SetPos(x, y, 1);
 
-    param_1->unk_04 = param_1->unk_08 * GetTileSize();
-    param_1->unk_06 = param_1->unk_09 * GetTileSize();
+    this->xDisplay = this->xTile * GetTileSize();
+    this->yDisplay = this->yTile * GetTileSize();
 
     return;
 }
 
-EC void func_ov000_021a6aec(MapStateManager_10 * param_1)
+void Cursor::CenterOnCamera(void)
 {
     s32 x = gMapStateManager->camera->unk_00;
     s32 y = gMapStateManager->camera->unk_04;
 
-    func_ov000_021a6ab8(param_1, IntSys_Div(x + 0x80, GetTileSize()), IntSys_Div(y + 0x60, GetTileSize()));
+    this->SetPosImmediate(IntSys_Div(x + 0x80, GetTileSize()), IntSys_Div(y + 0x60, GetTileSize()));
 
     return;
 }
 
-EC void func_ov000_021a6b4c(MapStateManager_10 * arg0, s32 arg1, s32 arg2)
+void Cursor::_021a6b4c(s32 xPx, s32 yPx)
 {
     s32 diff;
     s32 var_r4 = gMapStateManager->camera->unk_12;
@@ -131,78 +131,80 @@ EC void func_ov000_021a6b4c(MapStateManager_10 * arg0, s32 arg1, s32 arg2)
         var_r4 *= 2;
     }
 
-    diff = arg1 - arg0->unk_04;
+    diff = xPx - this->xDisplay;
+
     if (diff > var_r4)
     {
-        arg0->unk_04 += var_r4;
+        this->xDisplay += var_r4;
     }
     else if (diff < -var_r4)
     {
-        arg0->unk_04 -= var_r4;
+        this->xDisplay -= var_r4;
     }
     else
     {
-        arg0->unk_04 = arg1;
+        this->xDisplay = xPx;
     }
 
-    diff = arg2 - arg0->unk_06;
+    diff = yPx - this->yDisplay;
+
     if (diff > var_r4)
     {
-        arg0->unk_06 += var_r4;
+        this->yDisplay += var_r4;
     }
     else if (diff < -var_r4)
     {
-        arg0->unk_06 -= var_r4;
+        this->yDisplay -= var_r4;
     }
     else
     {
-        arg0->unk_06 = arg2;
+        this->yDisplay = yPx;
     }
 
     return;
 }
 
-EC void func_ov000_021a6bd0(MapStateManager_10 * arg0)
+void Cursor::_021a6bd0(void)
 {
-    arg0->unk_04 = arg0->unk_08 * GetTileSize();
-    arg0->unk_06 = arg0->unk_09 * GetTileSize();
+    this->xDisplay = this->xTile * GetTileSize();
+    this->yDisplay = this->yTile * GetTileSize();
 
     if ((gMapStateManager->unk_0c->unk_1f == 1 ? TRUE : FALSE) == 0)
     {
         return;
     }
 
-    gMapStateManager->camera->func_ov000_021a4ba0(arg0->unk_04, arg0->unk_06, 0);
+    gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
 }
 
-EC void func_ov000_021a6c38(MapStateManager_10 * arg0)
+void Cursor::_021a6c38(void)
 {
-    s32 temp_r4;
-    s32 temp_r6;
+    s32 xDisp;
+    s32 yDisp;
 
-    temp_r4 = arg0->unk_08 * GetTileSize();
-    temp_r6 = arg0->unk_09 * GetTileSize();
+    xDisp = this->xTile * GetTileSize();
+    yDisp = this->yTile * GetTileSize();
 
     if (gMapStateManager->unk_0c->unk_1e != 0)
     {
-        temp_r4 = arg0->unk_08 * GetTileSize();
-        temp_r6 = arg0->unk_09 * GetTileSize();
+        xDisp = this->xTile * GetTileSize();
+        yDisp = this->yTile * GetTileSize();
 
-        if (ABS(temp_r4 - arg0->unk_04) <= GetTileSize() && ABS(temp_r6 - arg0->unk_06) <= GetTileSize())
+        if (ABS(xDisp - this->xDisplay) <= GetTileSize() && ABS(yDisp - this->yDisplay) <= GetTileSize())
         {
-            func_ov000_021a6b4c(arg0, temp_r4, temp_r6);
+            this->_021a6b4c(xDisp, yDisp);
             return;
         }
 
-        arg0->unk_04 = arg0->unk_08 * GetTileSize();
-        arg0->unk_06 = arg0->unk_09 * GetTileSize();
+        this->xDisplay = this->xTile * GetTileSize();
+        this->yDisplay = this->yTile * GetTileSize();
 
         return;
     }
 
-    func_ov000_021a6b4c(arg0, temp_r4, temp_r6);
+    this->_021a6b4c(xDisp, yDisp);
 
-    if (arg0->unk_0a == 0)
+    if (!this->isVisible)
     {
         return;
     }
@@ -212,7 +214,7 @@ EC void func_ov000_021a6c38(MapStateManager_10 * arg0)
         return;
     }
 
-    gMapStateManager->camera->func_ov000_021a4ba0(arg0->unk_04, arg0->unk_06, 0);
+    gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
 
     return;
 }
@@ -234,68 +236,68 @@ struct UnkStruct_02196f20
 };
 extern struct UnkStruct_02196f20 * data_02196f20;
 
-EC void func_ov000_021a6d48(MapStateManager_10 * param_1)
+void Cursor::_021a6d48(void)
 {
-    if (param_1->unk_16 != 0)
+    if (this->lerpDuration != 0)
     {
-        param_1->unk_18++;
+        this->lerpElapsed++;
 
-        if (param_1->unk_16 < 4)
+        if (this->lerpDuration < 4)
         {
-            param_1->unk_04 =
-                Interpolate(0, param_1->unk_12, param_1->unk_08 * GetTileSize(), param_1->unk_18, param_1->unk_16);
-            param_1->unk_06 =
-                Interpolate(0, param_1->unk_14, param_1->unk_09 * GetTileSize(), param_1->unk_18, param_1->unk_16);
+            this->xDisplay =
+                Interpolate(0, this->xLerpStart, this->xTile * GetTileSize(), this->lerpElapsed, this->lerpDuration);
+            this->yDisplay =
+                Interpolate(0, this->yLerpStart, this->yTile * GetTileSize(), this->lerpElapsed, this->lerpDuration);
         }
         else
         {
-            param_1->unk_04 =
-                Interpolate(4, param_1->unk_12, param_1->unk_08 * GetTileSize(), param_1->unk_18, param_1->unk_16);
-            param_1->unk_06 =
-                Interpolate(4, param_1->unk_14, param_1->unk_09 * GetTileSize(), param_1->unk_18, param_1->unk_16);
+            this->xDisplay =
+                Interpolate(4, this->xLerpStart, this->xTile * GetTileSize(), this->lerpElapsed, this->lerpDuration);
+            this->yDisplay =
+                Interpolate(4, this->yLerpStart, this->yTile * GetTileSize(), this->lerpElapsed, this->lerpDuration);
         }
 
-        if (param_1->unk_18 == param_1->unk_16)
+        if (this->lerpElapsed == this->lerpDuration)
         {
-            param_1->unk_18 = 0;
-            param_1->unk_16 = 0;
+            this->lerpElapsed = 0;
+            this->lerpDuration = 0;
         }
     }
 
-    if (param_1->unk_16 == 0 && !(gMapStateManager->camera->unk_18 < 2 ? FALSE : TRUE))
+    if (this->lerpDuration == 0 && !(gMapStateManager->camera->unk_18 < 2 ? FALSE : TRUE))
     {
-        param_1->unk_0b = 1;
+        this->unk_0b = 1;
     }
 
     return;
 }
 
-EC void func_ov000_021a6e68(MapStateManager_10 * param_1)
+void Cursor::Update(void)
 {
-    switch (param_1->unk_0b)
+    switch (this->unk_0b)
     {
         case 1:
-            func_ov000_021a6c38(param_1);
+            this->_021a6c38();
             break;
 
         case 2:
-            func_ov000_021a6d48(param_1);
+            this->_021a6d48();
             break;
     }
 
-    if (param_1->unk_0d != 0)
+    if (this->soundCooldownTimer != 0)
     {
-        param_1->unk_0d--;
+        this->soundCooldownTimer--;
     }
 
     return;
 }
 
-EC BOOL func_ov000_021a6ea8(MapStateManager_10 * param_1, s32 param_2)
+BOOL Cursor::_021a6ea8(s32 param_2)
 {
     s32 iVar3;
 
-    s32 idk = (param_1->unk_08 * GetTileSize() + (GetTileSize() >> 1));
+    s32 idk = (this->xTile * GetTileSize() + (GetTileSize() >> 1));
 
     if (param_2 != 0)
     {

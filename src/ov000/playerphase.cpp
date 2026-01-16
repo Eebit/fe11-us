@@ -519,7 +519,7 @@ EC void func_ov000_021ac218(void)
 
     func_ov000_021a378c();
     gMapStateManager->camera->func_ov000_021a4cec(x, y, 0, 0x20, 0);
-    func_ov000_021a6ab8(gMapStateManager->unk_10, (s16)x, (s16)y);
+    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->unk_10, (s16)x, (s16)y);
 
     if (bVar5)
     {
@@ -850,7 +850,7 @@ EC void func_ov000_021acd8c(void)
 
     func_ov000_021b79f8();
 
-    func_ov000_021a6ab8(gMapStateManager->unk_10, pUnit->xPos, pUnit->yPos);
+    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->unk_10, pUnit->xPos, pUnit->yPos);
     gMapStateManager->camera->func_ov000_021a4cec(pUnit->xPos, pUnit->yPos, 0, 0x20, 0);
 
     data_ov000_021e332c.unk_14->unk_09 = 1;
@@ -1498,7 +1498,7 @@ EC void func_ov000_021ae1d0(void)
 EC void func_ov000_021ae1fc(void)
 {
     func_ov000_021b9960(gMapStateManager->unk_14);
-    func_ov000_021a6bd0(gMapStateManager->unk_10);
+    _ZN6Cursor9_021a6bd0Ev(gMapStateManager->unk_10);
     return;
 }
 
@@ -1507,7 +1507,7 @@ EC void func_ov000_021ae228(void)
     func_ov000_021b9960(gMapStateManager->unk_14);
     func_ov000_021aa1d0();
     func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
-    func_ov000_021a6bd0(gMapStateManager->unk_10);
+    _ZN6Cursor9_021a6bd0Ev(gMapStateManager->unk_10);
     return;
 }
 

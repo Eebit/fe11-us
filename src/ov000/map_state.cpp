@@ -27,7 +27,7 @@ EC void func_0204f080(struct UnkStruct_021974fc *);
 EC void func_ov000_021a2eb0(struct SaveBuffer *, s32);
 
 EC void func_ov000_021a5318(MapStateManager_0C *);
-EC void func_ov000_021a68c0(MapStateManager_10 *);
+EC void _ZN6Cursor4InitEv(Cursor *);
 EC void func_ov000_021b9a10(MapStateManager_14 *);
 EC void func_ov000_021a37c4(void);
 
@@ -70,7 +70,7 @@ EC void StartSoundWaitTo_02017b40(void *, void *, int);
 
 EC BOOL func_ov000_021adabc(struct Unit *, u32);
 
-EC void func_ov000_021a6ab8(void *, s32, s32);
+EC void _ZN6Cursor15SetPosImmediateEss(void *, s32, s32);
 
 EC BOOL func_ov000_021a475c(void);
 EC BOOL func_ov000_021a47ac(void);
@@ -86,7 +86,7 @@ EC void func_ov000_021b9bec(struct MapStateManager_14 *);
 
 EC void func_ov000_021b9c3c(struct MapStateManager_14 *);
 
-EC void func_ov000_021a6e68(struct MapStateManager_10 *);
+EC void _ZN6Cursor6UpdateEv(struct Cursor *);
 EC void func_ov000_021b9bc4(struct MapStateManager_14 *);
 
 EC void func_ov000_021b9bac(struct MapStateManager_14 *);
@@ -287,7 +287,7 @@ MapStateManager::MapStateManager()
 
     this->unk_08 = (MapStateManager_08 *)func_02000c70();
     this->unk_0c = new struct MapStateManager_0C;
-    this->unk_10 = new struct MapStateManager_10;
+    this->cursor = new struct Cursor;
 
     this->unk_14 = new MapStateManager_14;
     this->unk_18 = NULL;
@@ -315,7 +315,7 @@ MapStateManager::~MapStateManager()
     delete this->camera;
     delete this->unk_04;
     delete this->unk_0c;
-    delete this->unk_10;
+    delete this->cursor;
 
     delete this->unk_14;
 
@@ -382,7 +382,7 @@ void MapStateManager::func_ov000_021a28cc(void)
 {
     gMapStateManager->camera->func_ov000_021a4a7c();
     func_ov000_021a5318(gMapStateManager->unk_0c);
-    func_ov000_021a68c0(gMapStateManager->unk_10);
+    _ZN6Cursor4InitEv(gMapStateManager->cursor);
     func_ov000_021b9a10(gMapStateManager->unk_14);
     return;
 }
@@ -527,13 +527,13 @@ EC void func_ov000_021a2b08(struct SaveBuffer * buf)
 
     buf->WriteShort(gMapStateManager->camera->unk_14);
     buf->WriteShort(gMapStateManager->camera->unk_16);
-    buf->WriteByte(gMapStateManager->unk_10->unk_08);
-    buf->WriteByte(gMapStateManager->unk_10->unk_09);
+    buf->WriteByte(gMapStateManager->cursor->xTile);
+    buf->WriteByte(gMapStateManager->cursor->yTile);
 
     for (i = 0; i < 2; i++)
     {
-        buf->WriteByte(gMapStateManager->unk_10->unk_00[i]);
-        buf->WriteByte(gMapStateManager->unk_10->unk_02[i]);
+        buf->WriteByte(gMapStateManager->cursor->unk_00[i]);
+        buf->WriteByte(gMapStateManager->cursor->unk_02[i]);
     }
 
     for (i = 0; i < 4; i++)
@@ -599,14 +599,14 @@ EC void func_ov000_021a2eb0(struct SaveBuffer * buf, s32 arg_1)
     gMapStateManager->camera->func_ov000_021a52c8(
         gMapStateManager->camera->unk_14, gMapStateManager->camera->unk_16, 0);
 
-    func_ov000_021a6ab8(gMapStateManager->unk_10, buf->ReadByte(), buf->ReadByte());
+    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->cursor, buf->ReadByte(), buf->ReadByte());
 
     for (i = 0; i < 2; i++)
     {
         s32 tmp = buf->ReadByte();
         s32 tmp2 = buf->ReadByte();
-        gMapStateManager->unk_10->unk_00[i] = tmp;
-        gMapStateManager->unk_10->unk_02[i] = tmp2;
+        gMapStateManager->cursor->unk_00[i] = tmp;
+        gMapStateManager->cursor->unk_02[i] = tmp2;
     }
 
     if (arg_1 >= 4)
@@ -1453,7 +1453,7 @@ EC void func_ov000_021a46b8(void)
 /* NONMATCHING: https://decomp.me/scratch/DvhHi */
 EC void func_ov000_021a46cc(struct Unit * unit, u32 arg_1)
 {
-    func_ov000_021a6ab8(gMapStateManager->unk_10, unit->xPos, unit->yPos);
+    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->cursor, unit->xPos, unit->yPos);
     gMapStateManager->camera->func_ov000_021a4e84(unit->xPos, unit->yPos, arg_1);
     return;
 }
@@ -1632,7 +1632,7 @@ void ProcMapDraw::Init(void)
 
 void ProcMapLow::Init(void)
 {
-    func_ov000_021a6e68(gMapStateManager->unk_10);
+    _ZN6Cursor6UpdateEv(gMapStateManager->cursor);
     func_ov000_021b9bc4(gMapStateManager->unk_14);
     gMapStateManager->camera->func_ov000_021a5128();
 
