@@ -224,17 +224,17 @@ public:
         this->unk_02[phase] = r2;
     }
 
-    void Init(void); // _ZN6Cursor4InitEv
-    void SetPos(s32 x, s32 y, s32); // _ZN6Cursor6SetPosElll
-    void SetPosAnimated(s32 x, s32 y, s32, u8); // _ZN6Cursor14SetPosAnimatedElllh
-    void SetPosImmediate(s16, s16); // _ZN6Cursor15SetPosImmediateEss
-    void CenterOnCamera(void); // _ZN6Cursor14CenterOnCameraEv
-    void _021a6b4c(s32, s32); // _ZN6Cursor9_021a6b4cEll
-    void _021a6bd0(void); // _ZN6Cursor9_021a6bd0Ev
-    void _021a6c38(void); // _ZN6Cursor9_021a6c38Ev
-    void _021a6d48(void); // _ZN6Cursor9_021a6d48Ev
-    void Update(void); // _ZN6Cursor6UpdateEv
-    BOOL _021a6ea8(s32); // _ZN6Cursor9_021a6ea8El
+    void Init(void);
+    void SetPos(s32 x, s32 y, s32);
+    void SetPosAnimated(s32 x, s32 y, s32, u8);
+    void SetPosImmediate(s16, s16);
+    void CenterOnCamera(void);
+    void _021a6b4c(s32, s32);
+    void _021a6bd0(void);
+    void _021a6c38(void);
+    void _021a6d48(void);
+    void Update(void);
+    BOOL _021a6ea8(s32);
 };
 
 EC void func_ov000_021b9a1c(struct MapStateManager_14 *);

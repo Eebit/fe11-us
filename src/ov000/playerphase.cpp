@@ -116,7 +116,7 @@ static inline BOOL UNK_18_CHECK()
 
 EC void func_ov000_021aa210(void)
 {
-    gMapStateManager->unk_10->unk_0a = 1;
+    gMapStateManager->cursor->isVisible = TRUE;
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -278,15 +278,15 @@ EC BOOL func_02002038(void *, void *);
 
 EC BOOL func_ov000_021abf30(void)
 {
-    u8 x = gMapStateManager->unk_10->unk_08;
-    u8 y = gMapStateManager->unk_10->unk_09;
+    u8 x = gMapStateManager->cursor->xTile;
+    u8 y = gMapStateManager->cursor->yTile;
 
     if (gMapStateManager->unk_08->unk_0854[x | y << 5] >= 0)
     {
         gActionSt->unk_35 = x;
         gActionSt->unk_36 = y;
 
-        gMapStateManager->unk_10->unk_0a = 0;
+        gMapStateManager->cursor->isVisible = FALSE;
 
         func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
@@ -519,7 +519,7 @@ EC void func_ov000_021ac218(void)
 
     func_ov000_021a378c();
     gMapStateManager->camera->func_ov000_021a4cec(x, y, 0, 0x20, 0);
-    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->unk_10, (s16)x, (s16)y);
+    gMapStateManager->cursor->SetPosImmediate((s16)x, (s16)y);
 
     if (bVar5)
     {
@@ -616,7 +616,7 @@ EC BOOL func_ov000_021ac80c(void)
 
     if (data_ov000_021e332c.unk_14->unk_08 != 0)
     {
-        if (gMapStateManager->unk_10->unk_0b == 2)
+        if (gMapStateManager->cursor->unk_0b == 2)
         {
             return TRUE;
         }
@@ -647,7 +647,7 @@ EC void func_ov000_021ac8b4(void)
         return;
     }
 
-    unitId = gMapStateManager->unk_028[gMapStateManager->unk_10->unk_08 | gMapStateManager->unk_10->unk_09 << 5];
+    unitId = gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5];
 
     if (unitId != 0)
     {
@@ -670,7 +670,7 @@ EC void func_ov000_021ac8b4(void)
         }
     }
 
-    gMapStateManager->unk_10->unk_0a = 1;
+    gMapStateManager->cursor->isVisible = TRUE;
     func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
 
     if ((data_02196f0c->state & 0x40) != 0)
@@ -693,7 +693,7 @@ EC void func_ov000_021ac8b4(void)
 
 EC void func_ov000_021aca18(void)
 {
-    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
+    if (!(gMapStateManager->cursor->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -739,7 +739,7 @@ EC void func_ov000_021acb34(void)
         return;
     }
 
-    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
+    if (!(gMapStateManager->cursor->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -761,7 +761,7 @@ EC void func_ov000_021acb88(void)
         return;
     }
 
-    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
+    if (!(gMapStateManager->cursor->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -778,7 +778,7 @@ EC void func_ov000_021acbc8(void)
 
 EC void func_ov000_021acbd4(void)
 {
-    if (!(gMapStateManager->unk_10->unk_0b != 2) ? TRUE : FALSE)
+    if (!(gMapStateManager->cursor->unk_0b != 2) ? TRUE : FALSE)
     {
         return;
     }
@@ -850,7 +850,7 @@ EC void func_ov000_021acd8c(void)
 
     func_ov000_021b79f8();
 
-    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->unk_10, pUnit->xPos, pUnit->yPos);
+    gMapStateManager->cursor->SetPosImmediate(pUnit->xPos, pUnit->yPos);
     gMapStateManager->camera->func_ov000_021a4cec(pUnit->xPos, pUnit->yPos, 0, 0x20, 0);
 
     data_ov000_021e332c.unk_14->unk_09 = 1;
@@ -859,7 +859,7 @@ EC void func_ov000_021acd8c(void)
     func_01ff8d88(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
     func_ov000_021a3ee4(pUnit, 1);
 
-    gMapStateManager->unk_10->unk_0a = 1;
+    gMapStateManager->cursor->isVisible = TRUE;
 
     func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 0, 0, 0);
 
@@ -1248,7 +1248,7 @@ EC void func_ov000_021adb48(void)
 {
     if (func_ov000_021adabc(0, 0) == 0)
     {
-        gMapStateManager->unk_10->unk_0a = 1;
+        gMapStateManager->cursor->isVisible = TRUE;
         Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 1);
         data_ov000_021e332c.unk_14->unk_02 = 0;
         data_ov000_021e332c.unk_14->unk_03 = 0;
@@ -1268,7 +1268,7 @@ EC void func_ov000_021adb48(void)
 
 EC void func_ov000_021adbf0(void)
 {
-    gMapStateManager->unk_10->unk_0a = 1;
+    gMapStateManager->cursor->isVisible = TRUE;
 
     if (data_02196f0c->state & 0x40)
     {
@@ -1311,7 +1311,7 @@ EC void func_ov000_021add1c(void)
     int unitId;
     struct Unit * pUnit;
 
-    unitId = gMapStateManager->unk_028[gMapStateManager->unk_10->unk_08 | gMapStateManager->unk_10->unk_09 << 5];
+    unitId = gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5];
 
     if (unitId != 0)
     {
@@ -1327,7 +1327,7 @@ EC void func_ov000_021add1c(void)
         data_021974fc->unk_00 = pUnit;
     }
 
-    func_0204b194(gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09);
+    func_0204b194(gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile);
     func_0204ae9c(0, (pUnit != NULL) & 0xFF);
     func_0204eb24();
     return;
@@ -1381,7 +1381,7 @@ EC void func_ov000_021ade88(ProcPtr proc)
 
 EC void func_ov000_021adeec(void)
 {
-    func_0204b194(gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09);
+    func_0204b194(gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile);
     func_0204ae9c(0, 0);
     func_0204eb24();
     return;
@@ -1450,7 +1450,7 @@ EC void func_ov000_021ae0a8(ProcPtr proc)
 
     phase = data_ov000_021e3324->phase;
 
-    gMapStateManager->unk_10->SetUnk00And02(phase, gMapStateManager->unk_10->unk_08, gMapStateManager->unk_10->unk_09);
+    gMapStateManager->cursor->SetUnk00And02(phase, gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile);
 
     Proc_End(proc);
 
@@ -1498,7 +1498,7 @@ EC void func_ov000_021ae1d0(void)
 EC void func_ov000_021ae1fc(void)
 {
     func_ov000_021b9960(gMapStateManager->unk_14);
-    _ZN6Cursor9_021a6bd0Ev(gMapStateManager->unk_10);
+    gMapStateManager->cursor->_021a6bd0();
     return;
 }
 
@@ -1507,7 +1507,7 @@ EC void func_ov000_021ae228(void)
     func_ov000_021b9960(gMapStateManager->unk_14);
     func_ov000_021aa1d0();
     func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
-    _ZN6Cursor9_021a6bd0Ev(gMapStateManager->unk_10);
+    gMapStateManager->cursor->_021a6bd0();
     return;
 }
 

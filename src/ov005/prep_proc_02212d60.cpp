@@ -141,7 +141,7 @@ EC void func_ov005_02204dd0(s32 param_1)
 
     if (((data_02196f0c->state & 0x200) == 0) && (unit != NULL))
     {
-        _ZN6Cursor15SetPosImmediateEss(gMapStateManager->cursor, unit->xPos, unit->yPos);
+        gMapStateManager->cursor->SetPosImmediate(unit->xPos, unit->yPos);
 
         if (param_1 == 0)
         {
@@ -156,7 +156,7 @@ EC void func_ov005_02204dd0(s32 param_1)
     }
     else
     {
-        _ZN6Cursor14CenterOnCameraEv(gMapStateManager->cursor);
+        gMapStateManager->cursor->CenterOnCamera();
     }
 
     gMapStateManager->cursor->SetUnk00And02(0, -1, -1);

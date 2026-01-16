@@ -27,7 +27,6 @@ EC void func_0204f080(struct UnkStruct_021974fc *);
 EC void func_ov000_021a2eb0(struct SaveBuffer *, s32);
 
 EC void func_ov000_021a5318(MapStateManager_0C *);
-EC void _ZN6Cursor4InitEv(Cursor *);
 EC void func_ov000_021b9a10(MapStateManager_14 *);
 EC void func_ov000_021a37c4(void);
 
@@ -70,8 +69,6 @@ EC void StartSoundWaitTo_02017b40(void *, void *, int);
 
 EC BOOL func_ov000_021adabc(struct Unit *, u32);
 
-EC void _ZN6Cursor15SetPosImmediateEss(void *, s32, s32);
-
 EC BOOL func_ov000_021a475c(void);
 EC BOOL func_ov000_021a47ac(void);
 
@@ -86,7 +83,6 @@ EC void func_ov000_021b9bec(struct MapStateManager_14 *);
 
 EC void func_ov000_021b9c3c(struct MapStateManager_14 *);
 
-EC void _ZN6Cursor6UpdateEv(struct Cursor *);
 EC void func_ov000_021b9bc4(struct MapStateManager_14 *);
 
 EC void func_ov000_021b9bac(struct MapStateManager_14 *);
@@ -287,7 +283,7 @@ MapStateManager::MapStateManager()
 
     this->unk_08 = (MapStateManager_08 *)func_02000c70();
     this->unk_0c = new struct MapStateManager_0C;
-    this->cursor = new struct Cursor;
+    this->cursor = new Cursor;
 
     this->unk_14 = new MapStateManager_14;
     this->unk_18 = NULL;
@@ -382,7 +378,7 @@ void MapStateManager::func_ov000_021a28cc(void)
 {
     gMapStateManager->camera->func_ov000_021a4a7c();
     func_ov000_021a5318(gMapStateManager->unk_0c);
-    _ZN6Cursor4InitEv(gMapStateManager->cursor);
+    gMapStateManager->cursor->Init();
     func_ov000_021b9a10(gMapStateManager->unk_14);
     return;
 }
@@ -599,7 +595,7 @@ EC void func_ov000_021a2eb0(struct SaveBuffer * buf, s32 arg_1)
     gMapStateManager->camera->func_ov000_021a52c8(
         gMapStateManager->camera->unk_14, gMapStateManager->camera->unk_16, 0);
 
-    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->cursor, buf->ReadByte(), buf->ReadByte());
+    gMapStateManager->cursor->SetPosImmediate(buf->ReadByte(), buf->ReadByte());
 
     for (i = 0; i < 2; i++)
     {
@@ -1453,7 +1449,7 @@ EC void func_ov000_021a46b8(void)
 /* NONMATCHING: https://decomp.me/scratch/DvhHi */
 EC void func_ov000_021a46cc(struct Unit * unit, u32 arg_1)
 {
-    _ZN6Cursor15SetPosImmediateEss(gMapStateManager->cursor, unit->xPos, unit->yPos);
+    gMapStateManager->cursor->SetPosImmediate(unit->xPos, unit->yPos);
     gMapStateManager->camera->func_ov000_021a4e84(unit->xPos, unit->yPos, arg_1);
     return;
 }
@@ -1632,7 +1628,7 @@ void ProcMapDraw::Init(void)
 
 void ProcMapLow::Init(void)
 {
-    _ZN6Cursor6UpdateEv(gMapStateManager->cursor);
+    gMapStateManager->cursor->Update();
     func_ov000_021b9bc4(gMapStateManager->unk_14);
     gMapStateManager->camera->func_ov000_021a5128();
 
