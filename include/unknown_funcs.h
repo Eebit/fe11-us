@@ -1504,7 +1504,7 @@ EC void func_02028c68(void);
 // EC ??? func_02029480
 // EC ??? func_0202957c
 EC s32 func_020295ec(struct UnkStruct_021970c4 *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
-EC void func_0202972c(struct UnkStruct_021970c4 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32, u32);
+EC s32 func_0202972c(struct UnkStruct_021970c4 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32, u32);
 EC void func_02029850(struct UnkStruct_021970c4 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
 EC void func_02029a1c(struct UnkStruct_021970c4 *, u32, void *, void *, u32, u32, u32, u32);
 // EC ??? func_02029ae8
