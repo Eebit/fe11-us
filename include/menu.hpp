@@ -71,7 +71,7 @@ public:
     s8 unk_4a[4];
     STRUCT_PAD(0x4E, 0x50);
 
-    Menu(); // _ZN4MenuC1Ev
+    Menu();
 
     /* 000 */ virtual void vfunc_00(void); // ?
     /* 004 */ virtual void vfunc_04(/* ? */); // func_02015368
@@ -153,6 +153,17 @@ public:
     /* 134 */ virtual void vfunc_134(/* ? */); // ?
 
     virtual ~Menu();
+
+    void _0202d6fc(s32);
+    void _0202f020(s32, s32);
+    void _0202f030(s32, s32);
+    void _0202f040(s32, s32, s32);
+    void _0202f674(void);
+    void _0202f6d0(void);
+    void _0202f72c(void);
+    void _0202f7d0(void);
+    s32 _0202f860(void);
+    void _0202f8c4(void);
 };
 
 class MenuState
@@ -263,9 +274,6 @@ public:
     }
 };
 
-EC void func_0202f674(Menu *);
-EC void func_0202f7d0(Menu *);
-
 class ProcMenu : public ProcEx
 {
 public:
@@ -282,7 +290,7 @@ public:
     {
         if (this->unk_3c == 0)
         {
-            func_0202f7d0(this->unk_38);
+            this->unk_38->_0202f7d0();
         }
 
         this->unk_38->vfunc_dc();
@@ -299,7 +307,7 @@ public:
         this->unk_38->vfunc_e0();
         this->unk_38->vfunc_d8();
 
-        func_0202f674(this->unk_38);
+        this->unk_38->_0202f674();
 
         return;
     }

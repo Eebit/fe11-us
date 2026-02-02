@@ -67,11 +67,9 @@ EC void ProcMenu_0202d618(ProcMenu * proc)
     return;
 }
 
-EC void func_0202f7d0(Menu *);
-
 EC void ProcMenu_0202d630(ProcMenu * proc)
 {
-    func_0202f7d0(proc->unk_38);
+    proc->unk_38->_0202f7d0();
     proc->unk_3c = 1;
 
     proc->unk_38->vfunc_dc();
@@ -82,31 +80,25 @@ EC void ProcMenu_0202d630(ProcMenu * proc)
     return;
 }
 
-EC void func_0202f6d0(Menu *);
-
 EC void ProcMenu_0202d678(ProcMenu * proc)
 {
-    func_0202f6d0(proc->unk_38);
+    proc->unk_38->_0202f6d0();
     return;
 }
-
-EC void func_0202f8c4(Menu *);
-EC void func_0202f674(Menu *);
-EC void func_0202f72c(Menu *);
 
 EC void ProcMenu_0202d688(ProcMenu * proc)
 {
     proc->unk_38->vfunc_e0();
     proc->unk_38->vfunc_d8();
 
-    func_0202f674(proc->unk_38);
+    proc->unk_38->_0202f674();
 
     return;
 }
 
 EC void ProcMenu_0202d6bc(ProcMenu * proc)
 {
-    func_0202f72c(proc->unk_38);
+    proc->unk_38->_0202f72c();
     return;
 }
 
@@ -122,22 +114,22 @@ EC void ProcMenu_0202d6e4(ProcMenu * proc)
     return;
 }
 
-EC void func_0202d6fc(Menu * param_1, s32 param_2)
+void Menu::_0202d6fc(s32 param_2)
 {
-    param_1->unk_10->unk_38->vfunc_11c();
+    this->unk_10->unk_38->vfunc_11c();
 
-    param_1->unk_47 = 4;
+    this->unk_47 = 4;
 
     if (param_2 != 0)
     {
-        param_1->vfunc_e8();
+        this->vfunc_e8();
     }
 
-    func_02018f54((struct Proc *)param_1->unk_10, (void *)ProcMenu_0202d6bc);
+    func_02018f54((struct Proc *)this->unk_10, (void *)ProcMenu_0202d6bc);
 
-    param_1->unk_10->ProcMenu_0202d688();
+    this->unk_10->ProcMenu_0202d688();
 
-    Proc_Goto(param_1->unk_10, 0, 0);
+    Proc_Goto(this->unk_10, 0, 0);
 
     return;
 }
@@ -1085,28 +1077,26 @@ s32 Menu::vfunc_10c(void)
     return this->unk_10->proc_lockCnt;
 }
 
-EC void func_0202f040(Menu *, s32, s32, s32);
-
 void Menu::vfunc_110(void)
 {
-    func_0202f040(this, 0, 0, 0);
+    this->_0202f040(0, 0, 0);
 }
 
-EC void func_0202f020(Menu * param_1, s32 param_2, s32 param_3)
+void Menu::_0202f020(s32 param_2, s32 param_3)
 {
-    func_0202f040(param_1, param_2, param_3, 1);
+    this->_0202f040(param_2, param_3, 1);
 }
 
-EC void func_0202f030(Menu * param_1, s32 param_2, s32 param_3)
+void Menu::_0202f030(s32 param_2, s32 param_3)
 {
-    func_0202f040(param_1, param_2, param_3, 2);
+    this->_0202f040(param_2, param_3, 2);
 }
 
 EC void func_0202b538(u16, u16, u32, u32);
 EC void func_0202b624(u16, u16, u32, u32);
 EC void func_0202b31c(u16, u16, u32, u32);
 
-EC void func_0202f040(Menu * param_1, s32 param_2, s32 param_3, s32 param_4)
+void Menu::_0202f040(s32 param_2, s32 param_3, s32 param_4)
 {
     s32 sVar1;
     s32 sVar2;
@@ -1137,17 +1127,17 @@ EC void func_0202f040(Menu * param_1, s32 param_2, s32 param_3, s32 param_4)
             break;
     }
 
-    pMVar8 = param_1->unk_0c;
-    bVar3 = pMVar8[param_1->unk_39].unk_04;
-    iVar6 = pMVar8[param_1->unk_39].unk_00->vfunc_cc();
+    pMVar8 = this->unk_0c;
+    bVar3 = pMVar8[this->unk_39].unk_04;
+    iVar6 = pMVar8[this->unk_39].unk_00->vfunc_cc();
 
-    pMVar9 = param_1->unk_0c;
-    bVar4 = pMVar8[param_1->unk_39].unk_05;
-    iVar11 = pMVar9[param_1->unk_38].unk_04 * 8;
-    iVar7 = pMVar9[param_1->unk_38].unk_00->vfunc_cc();
-    iVar7 = iVar7 * 4 + pMVar9[param_1->unk_38].unk_05 * 8;
+    pMVar9 = this->unk_0c;
+    bVar4 = pMVar8[this->unk_39].unk_05;
+    iVar11 = pMVar9[this->unk_38].unk_04 * 8;
+    iVar7 = pMVar9[this->unk_38].unk_00->vfunc_cc();
+    iVar7 = iVar7 * 4 + pMVar9[this->unk_38].unk_05 * 8;
 
-    if (param_1->unk_3f == 0)
+    if (this->unk_3f == 0)
     {
         iVar11 = iVar11 + ((bVar3 * 8 + bVar5 * -8) >> 1);
         iVar7 = iVar7 + (((iVar6 * 4 + bVar4 * 8) - iVar7) >> 1);
@@ -1156,34 +1146,34 @@ EC void func_0202f040(Menu * param_1, s32 param_2, s32 param_3, s32 param_4)
     iVar11 = param_2 - 0x10 + iVar11;
     iVar10 = iVar10 + iVar7;
 
-    a = param_1->vfunc_10c();
+    a = this->vfunc_10c();
 
     switch (param_4)
     {
         case 0:
-            r3 = a ? param_1->unk_42 + 1 : param_1->unk_42;
+            r3 = a ? this->unk_42 + 1 : this->unk_42;
             func_0202b31c(
                 iVar11, iVar10,
-                (param_1->unk_28 << 0xc) | (param_1->unk_41 << 0x1e) >> 0x14 |
-                    (param_1->unk_24 >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14) & 0x3ffU,
+                (this->unk_28 << 0xc) | (this->unk_41 << 0x1e) >> 0x14 |
+                    (this->unk_24 >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14) & 0x3ffU,
                 r3);
             break;
 
         case 1:
-            r3 = a ? param_1->unk_42 + 1 : param_1->unk_42;
+            r3 = a ? this->unk_42 + 1 : this->unk_42;
             func_0202b538(
                 iVar11, iVar10,
-                (param_1->unk_28 << 0xc) | (param_1->unk_41 << 0x1e) >> 0x14 |
-                    (param_1->unk_24 >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14) & 0x3ffU,
+                (this->unk_28 << 0xc) | (this->unk_41 << 0x1e) >> 0x14 |
+                    (this->unk_24 >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14) & 0x3ffU,
                 r3);
             break;
 
         case 2:
-            r3 = a ? param_1->unk_42 + 1 : param_1->unk_42;
+            r3 = a ? this->unk_42 + 1 : this->unk_42;
             func_0202b624(
                 iVar11, iVar10,
-                (param_1->unk_28 << 0xc) | (param_1->unk_41 << 0x1e) >> 0x14 |
-                    (param_1->unk_24 >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14) & 0x3ffU,
+                (this->unk_28 << 0xc) | (this->unk_41 << 0x1e) >> 0x14 |
+                    (this->unk_24 >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14) & 0x3ffU,
                 r3);
             break;
     }
@@ -1403,57 +1393,55 @@ void Menu::vfunc_120(void)
 
 EC void func_0202fc30(Menu * param_1, s32 param_2, s32 param_3);
 
-// func_0202f674
-EC void func_0202f674(Menu * param_1)
+void Menu::_0202f674(void)
 {
-    param_1->unk_0c[param_1->unk_38].unk_00->vfunc_b0(param_1, &param_1->unk_0c[param_1->unk_38]);
-    param_1->unk_0c[param_1->unk_38].unk_00->vfunc_78(param_1, &param_1->unk_0c[param_1->unk_38]);
+    this->unk_0c[this->unk_38].unk_00->vfunc_b0(this, &this->unk_0c[this->unk_38]);
+    this->unk_0c[this->unk_38].unk_00->vfunc_78(this, &this->unk_0c[this->unk_38]);
     return;
 }
 
-// func_0202f6d0
-EC void func_0202f6d0(Menu * param_1)
+void Menu::_0202f6d0(void)
 {
-    if (param_1->unk_45 != 0)
+    if (this->unk_45 != 0)
     {
-        func_0202fc30(param_1, 0, 1);
+        func_0202fc30(this, 0, 1);
     }
 
-    param_1->vfunc_64();
+    this->vfunc_64();
 
-    param_1->unk_0c[param_1->unk_38].unk_00->vfunc_9c(param_1, &param_1->unk_0c[param_1->unk_38]);
+    this->unk_0c[this->unk_38].unk_00->vfunc_9c(this, &this->unk_0c[this->unk_38]);
 
     return;
 }
 
-EC void func_0202f72c(Menu * param_1)
+void Menu::_0202f72c(void)
 {
     MenuItemState * pMVar1;
     s32 iVar2;
 
-    if (param_1->unk_45 != 0)
+    if (this->unk_45 != 0)
     {
-        func_0202fc30(param_1, 0, 1);
+        func_0202fc30(this, 0, 1);
     }
 
-    param_1->vfunc_110();
-    param_1->vfunc_118();
-    param_1->vfunc_114();
+    this->vfunc_110();
+    this->vfunc_118();
+    this->vfunc_114();
 
-    for (pMVar1 = param_1->unk_0c, iVar2 = 0; iVar2 < param_1->unk_3a; iVar2++, pMVar1++)
+    for (pMVar1 = this->unk_0c, iVar2 = 0; iVar2 < this->unk_3a; iVar2++, pMVar1++)
     {
-        pMVar1->unk_00->vfunc_a8(param_1, pMVar1);
+        pMVar1->unk_00->vfunc_a8(this, pMVar1);
     }
 
-    param_1->unk_39 = param_1->unk_38;
-    param_1->unk_3f = 0;
+    this->unk_39 = this->unk_38;
+    this->unk_3f = 0;
 
     return;
 }
 
-EC void func_0202f7d0(Menu * param_1)
+void Menu::_0202f7d0(void)
 {
-    param_1->unk_0c[param_1->unk_38].unk_00->vfunc_84(param_1, &param_1->unk_0c[param_1->unk_38]);
+    this->unk_0c[this->unk_38].unk_00->vfunc_84(this, &this->unk_0c[this->unk_38]);
     return;
 }
 
@@ -1475,11 +1463,11 @@ void Menu::vfunc_124(void)
     return;
 }
 
-EC s32 func_0202f860(Menu * param_1)
+s32 Menu::_0202f860(void)
 {
     MenuItem * piVar1;
 
-    MenuItem ** piVar3 = param_1->unk_08;
+    MenuItem ** piVar3 = this->unk_08;
     s32 iVar4 = 0;
 
     for (piVar1 = *piVar3; piVar1 != NULL; piVar1 = *++piVar3)
@@ -1492,11 +1480,11 @@ EC s32 func_0202f860(Menu * param_1)
 
 void Menu::vfunc_12c(void)
 {
-    this->unk_0c = static_cast<MenuItemState *>(gHeap.Alloc(func_0202f860(this) * sizeof(MenuItemState)));
+    this->unk_0c = static_cast<MenuItemState *>(gHeap.Alloc(this->_0202f860() * sizeof(MenuItemState)));
     return;
 }
 
-EC void func_0202f8c4(Menu * param_1)
+void Menu::_0202f8c4(void)
 {
     MenuItem * piVar1;
     MenuItem ** piVar4;
@@ -1506,17 +1494,17 @@ EC void func_0202f8c4(Menu * param_1)
     s32 iVar2;
     s32 uVar11;
 
-    piVar4 = param_1->unk_08;
+    piVar4 = this->unk_08;
 
-    if (param_1->unk_0c == NULL)
+    if (this->unk_0c == NULL)
     {
-        param_1->vfunc_12c();
+        this->vfunc_12c();
     }
 
     iVar6 = 0;
     iVar5 = 0;
 
-    param_1->unk_48 = param_1->unk_49;
+    this->unk_48 = this->unk_49;
 
     for (piVar1 = *piVar4; piVar1 != NULL; piVar1 = *++piVar4)
     {
@@ -1526,20 +1514,20 @@ EC void func_0202f8c4(Menu * param_1)
         {
             uVar11 = (*piVar4)->vfunc_18(iVar5);
 
-            if (!(iVar6 == 0 && param_1->unk_46 == 0 && (uVar11 & 7) == 3) && (uVar11 & 7) != 2)
+            if (!(iVar6 == 0 && this->unk_46 == 0 && (uVar11 & 7) == 3) && (uVar11 & 7) != 2)
             {
-                param_1->unk_0c[i].unk_00 = *piVar4;
+                this->unk_0c[i].unk_00 = *piVar4;
 
-                param_1->unk_0c[i].unk_09 = uVar11;
-                param_1->unk_0c[i].unk_08 = iVar5;
+                this->unk_0c[i].unk_09 = uVar11;
+                this->unk_0c[i].unk_08 = iVar5;
 
-                if (param_1->unk_38 == iVar5 && uVar11 == 3)
+                if (this->unk_38 == iVar5 && uVar11 == 3)
                 {
-                    param_1->unk_38++;
+                    this->unk_38++;
                 }
                 else if ((uVar11 & 8) != 0)
                 {
-                    param_1->unk_38 = iVar6;
+                    this->unk_38 = iVar6;
                 }
 
                 iVar6++;
@@ -1549,21 +1537,21 @@ EC void func_0202f8c4(Menu * param_1)
         }
     }
 
-    if (param_1->unk_38 >= iVar6)
+    if (this->unk_38 >= iVar6)
     {
-        param_1->unk_38 = iVar6 - 1;
+        this->unk_38 = iVar6 - 1;
     }
 
-    param_1->unk_3a = iVar6;
+    this->unk_3a = iVar6;
 
-    if ((param_1->unk_48 == 0) || (param_1->unk_48 >= param_1->unk_3a))
+    if ((this->unk_48 == 0) || (this->unk_48 >= this->unk_3a))
     {
-        param_1->unk_48 = param_1->unk_3a;
+        this->unk_48 = this->unk_3a;
     }
 
-    param_1->vfunc_1c();
+    this->vfunc_1c();
 
-    param_1->unk_39 = param_1->unk_38;
+    this->unk_39 = this->unk_38;
 
     return;
 }
@@ -1615,7 +1603,7 @@ EC void StartMenu(Menu * param_1, MenuItem ** param_2, s32 param_3)
 
     param_1->unk_49 = param_1->unk_48;
 
-    func_0202f8c4(param_1);
+    param_1->_0202f8c4();
 
     param_1->vfunc_04();
 
@@ -1648,7 +1636,7 @@ EC void StartChildMenu(Menu * param_1, MenuItem ** param_2, ProcPtr param_3, u32
 
     param_1->unk_49 = param_1->unk_48;
 
-    func_0202f8c4(param_1);
+    param_1->_0202f8c4();
 
     param_1->vfunc_04();
 
@@ -1679,7 +1667,7 @@ EC void func_0202fc30(Menu * param_1, s32 param_2, s32 param_3)
         param_1->unk_36 = param_1->unk_37 = -1;
     }
 
-    func_0202f8c4(param_1);
+    param_1->_0202f8c4();
 
     param_1->vfunc_e8();
     param_1->vfunc_d8();
