@@ -1164,11 +1164,11 @@ namespace map
 class BMapDialogYesNo : public DialogYesNo
 {
 public:
-    virtual void vfunc_00(/*  */); // func_ov000_021be6d8
-    virtual void vfunc_a0(/*  */); // func_ov000_021be934
-    virtual void vfunc_ac(/*  */); // func_ov000_021be91c
-    virtual void vfunc_130(/*  */); // func_ov000_021bea74
-    virtual void vfunc_134(/*  */); // func_ov000_021beab0
+    /* 000 */ virtual void vfunc_00(void); // func_ov000_021be6d8
+    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be934
+    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be91c
+    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov000_021bea74
+    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov000_021beab0
 };
 
 } // namespace map
@@ -1176,14 +1176,14 @@ public:
 class DI_ArenaYes : public DialogItemYes
 {
 public:
-    virtual s32 vfunc_1c(void); // func_ov000_021d9940
+    /* 01C */ virtual s32 vfunc_1c(void); // func_ov000_021d9940
 };
 
 class DI_ArenaNo : public DialogItemNo
 {
 public:
-    virtual s32 vfunc_14(void); // func_ov000_021d9938
-    virtual s32 vfunc_1c(void); // func_ov000_021d9924
+    /* 014 */ virtual s32 vfunc_14(void); // func_ov000_021d9938
+    /* 01C */ virtual s32 vfunc_1c(void); // func_ov000_021d9924
 };
 
 EC void func_ov000_021d8d68(struct ArenaProc * proc)

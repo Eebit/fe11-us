@@ -36,18 +36,18 @@ public:
 
     virtual ~SallyMenu();
 
-    virtual void vfunc_00(void);
-    virtual s32 vfunc_24(void *, s32);
-    virtual s32 vfunc_28(void);
-    virtual s32 vfunc_58(void);
-    virtual void vfunc_a0(void);
-    virtual void vfunc_a8(void);
-    virtual void vfunc_e8(void);
-    virtual void vfunc_ec(void);
-    virtual void vfunc_120(void);
-    virtual void vfunc_124(void);
-    virtual void vfunc_130(/* ? */); // func_ov005_02206800
-    virtual void vfunc_134(/* ? */); // func_ov005_02206814
+    /* 000 */ virtual void vfunc_00(void);
+    /* 024 */ virtual s32 vfunc_24(void *, s32);
+    /* 028 */ virtual s32 vfunc_28(void);
+    /* 058 */ virtual s32 vfunc_58(void);
+    /* 0A0 */ virtual BOOL vfunc_a0(void);
+    /* 0A8 */ virtual BOOL vfunc_a8(void);
+    /* 0E8 */ virtual void vfunc_e8(void);
+    /* 0EC */ virtual void vfunc_ec(void);
+    /* 120 */ virtual void vfunc_120(void);
+    /* 124 */ virtual void vfunc_124(void);
+    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov005_02206800
+    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov005_02206814
 };
 
 class MIS_SallyEnd : public MenuItem
@@ -329,18 +329,18 @@ public:
         }
     }
 
-    virtual void vfunc_00(void);
-    virtual void vfunc_a0(void);
-    virtual void vfunc_c0(void);
-    virtual void vfunc_130(/* ? */); // func_ov005_02206700
-    virtual void vfunc_134(/* ? */); // func_ov005_0220673c
+    /* 000 */ virtual void vfunc_00(void);
+    /* 0A0 */ virtual BOOL vfunc_a0(void);
+    /* 0C0 */ virtual void vfunc_c0(void);
+    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov005_02206700
+    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov005_0220673c
 };
 
 class SallyCancelDialogYesNo : public SallyDialogYesNo
 {
-    virtual void vfunc_c0(void);
-    virtual void vfunc_130(/* ? */); // func_ov005_02206780
-    virtual void vfunc_134(/* ? */); // func_ov005_022067bc
+    /* 0C0 */ virtual void vfunc_c0(void);
+    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov005_02206780
+    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov005_022067bc
 };
 
 } // namespace sally
@@ -362,7 +362,7 @@ EC void func_ov005_02205518(char * str)
 
 EC void func_020303bc(DialogYesNo *, char *, void *, ProcPtr, s32, s32);
 
-EC void func_ov005_022055d8(sally::MMenu * proc)
+EC void func_ov005_022055d8(ProcMenu * proc)
 {
     static sally::DI_SallyEndYes sSallyEndYes;
     static sally::DI_SallyEndNo sSallyEndNo;
@@ -382,7 +382,7 @@ EC void func_ov005_022055d8(sally::MMenu * proc)
     return;
 }
 
-EC void func_ov005_022056d8(sally::MMenu * proc)
+EC void func_ov005_022056d8(ProcMenu * proc)
 {
     static sally::DI_SallyCancelYes sSallyCancelYes;
     static sally::DI_SallyEndNo sSallyEndNo;
@@ -519,7 +519,7 @@ s32 sally::MIS_SallyEnd::vfunc_24(Menu * param_2, MenuItemState * param_3)
 {
     if ((param_3->unk_09 & 7) != 1)
     {
-        func_ov005_022055d8(static_cast<sally::MMenu *>(param_2->unk_10));
+        func_ov005_022055d8(param_2->unk_10);
         return 0x40;
     }
 
@@ -836,20 +836,19 @@ char * sally::MIS_SallySelect::vfunc_00(void)
     return func_02039e10("MSM_ユニット");
 }
 
-void sally::SallyMenu::vfunc_a0(void)
+BOOL sally::SallyMenu::vfunc_a0(void)
 {
     if (GetSallyMMenu()->unk_40 != NULL)
     {
-        GetSallyMMenu()->unk_40->func_02035450();
+        return GetSallyMMenu()->unk_40->func_02035450();
     }
 
-    return;
+    return FALSE;
 }
 
-void sally::SallyMenu::vfunc_a8(void)
+BOOL sally::SallyMenu::vfunc_a8(void)
 {
-    GetSallyMMenu()->unk_3c->func_02035450();
-    return;
+    return GetSallyMMenu()->unk_3c->func_02035450();
 }
 
 s32 sally::SallyMenu::vfunc_58(void)
@@ -862,7 +861,7 @@ s32 sally::SallyMenu::vfunc_58(void)
         }
     }
 
-    func_ov005_022055d8(static_cast<sally::MMenu *>(this->unk_10));
+    func_ov005_022055d8(this->unk_10);
 
     return 0x40;
 }
@@ -871,7 +870,7 @@ s32 sally::SallyMenu::vfunc_28(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
     {
-        func_ov005_022056d8(static_cast<sally::MMenu *>(this->unk_10));
+        func_ov005_022056d8(this->unk_10);
         return 0x80;
     }
 
@@ -970,17 +969,14 @@ s32 sally::DI_SallyEndYes::vfunc_1c(void)
     return 0x1041;
 }
 
-void sally::SallyDialogYesNo::vfunc_a0(void)
+BOOL sally::SallyDialogYesNo::vfunc_a0(void)
 {
     if (GetSallyMMenu()->unk_40 != NULL)
     {
-        GetSallyMMenu()->unk_40->func_02035450();
-        return;
+        return GetSallyMMenu()->unk_40->func_02035450();
     }
 
-    GetSallyMMenu()->unk_3c->func_02035450();
-
-    return;
+    return GetSallyMMenu()->unk_3c->func_02035450();
 }
 
 void sally::SallyDialogYesNo::vfunc_00(void)
