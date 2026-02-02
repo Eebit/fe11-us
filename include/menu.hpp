@@ -3,6 +3,7 @@
 
 #include "global.h"
 
+#include "heap.hpp"
 #include "proc_ex.hpp"
 
 enum
@@ -70,86 +71,86 @@ public:
     s8 unk_4a[4];
     STRUCT_PAD(0x4E, 0x50);
 
-    Menu(); // func_0202d4c4
+    Menu(); // _ZN4MenuC1Ev
 
-    virtual void vfunc_00(void); // ?
-    virtual void vfunc_04(/* ? */); // func_02015368
-    virtual void vfunc_08(void); // func_0202f2a4
-    virtual void vfunc_0c(void); // func_0202f34c
-    virtual void vfunc_10(void); // func_0202f468
-    virtual void vfunc_14(void); // func_0202f490
-    virtual void vfunc_18(void); // func_0202f504
-    virtual void vfunc_1c(void); // func_0202f57c
-    virtual void vfunc_20(/* ? */); // func_02015360
-    virtual s32 vfunc_24(MenuItemState *, s32); // ?
-    virtual s32 vfunc_28(void); // ?
-    virtual s32 vfunc_2c(MenuItemState *, s32); // func_02015328
-    virtual void vfunc_30(/* ? */); // func_02015308
-    virtual s32 vfunc_34(MenuItemState *, s32); // func_02015310
-    virtual void vfunc_38(/* ? */); // func_020152e8
-    virtual s32 vfunc_3c(MenuItemState *, s32); // func_020152f0
-    virtual void vfunc_40(/* ? */); // func_020152c8
-    virtual s32 vfunc_44(MenuItemState *, s32); // func_020152d0
-    virtual void vfunc_48(/* ? */); // func_020152a8
-    virtual s32 vfunc_4c(MenuItemState *, s32); // func_020152b0
-    virtual void vfunc_50(/* ? */); // func_02015288
-    virtual s32 vfunc_54(MenuItemState *, s32); // func_02015290
-    virtual s32 vfunc_58(s32); // ?
-    virtual void vfunc_5c(/* ? */); // func_02015270
-    virtual s32 vfunc_60(void); // func_02015250
-    virtual void vfunc_64(/* ? */); // func_0202ddec
-    virtual void vfunc_68(s32); // func_0202e7a4
-    virtual void vfunc_6c(s32); // func_0202e874
-    virtual void vfunc_70(s32); // func_0202e94c
-    virtual void vfunc_74(s32); // func_0202e9d8
-    virtual s32 vfunc_78(void); // func_0202daf4
-    virtual s32 vfunc_7c(void); // func_0202db5c
-    virtual s32 vfunc_80(void); // func_0202dbc4
-    virtual s32 vfunc_84(void); // func_0202dc2c
-    virtual s32 vfunc_88(void); // func_0202dc94
-    virtual s32 vfunc_8c(void); // func_0202dcfc
-    virtual s32 vfunc_90(void); // func_0202dd84
-    virtual s32 vfunc_94(s32, s32); // func_02015248
-    virtual s32 vfunc_98(s32, s32); // func_02015240
-    virtual BOOL vfunc_9c(void); // func_02015238
-    virtual BOOL vfunc_a0(void); // ?
-    virtual BOOL vfunc_a4(void); // func_02015228
-    virtual BOOL vfunc_a8(void); // ?
-    virtual s32 vfunc_ac(void); // func_02015218
-    virtual BOOL vfunc_b0(MenuItemState *, s32, s32); // func_0202e6dc
-    virtual BOOL vfunc_b4(void); // func_0202e734
-    virtual void vfunc_b8(s32); // func_02015214
-    virtual void vfunc_bc(void); // func_0202e60c
-    virtual void vfunc_c0(void); // func_0202e640
-    virtual void vfunc_c4(void); // func_0202e674
-    virtual void vfunc_c8(void); // func_0202e6a8
-    virtual s32 vfunc_cc(void); // func_0202ebe8
-    virtual void vfunc_d0(s32); // func_0202ebf0
-    virtual s32 vfunc_d4(s32); // func_0202ebf8
-    virtual void vfunc_d8(void); // func_0202ea68
-    virtual void vfunc_dc(void); // func_0202eb2c
-    virtual void vfunc_e0(/* ? */); // func_02015210
-    virtual void vfunc_e4(/* ? */); // func_0201520c
-    virtual void vfunc_e8(void); // func_0202ec90
-    virtual void vfunc_ec(void); // func_0202edec
-    virtual void vfunc_f0(s32, s32, s32, s32); // func_0202ec44
-    virtual void vfunc_f4(s32, s32, s32, s32); // func_0202edc0
-    virtual void vfunc_f8(void *, s32, s32, s32, s32); // func_0202eef0
-    virtual void vfunc_fc(s32, s32, s32, s32); // func_0202eeac
-    virtual void vfunc_100(s32, s32, s32, s32); // func_0202ef38
-    virtual void vfunc_104(void *, s32, s32, s32, s32); // func_0202efc0
-    virtual void vfunc_108(s32, s32, s32, s32); // func_0202ef7c
-    virtual s32 vfunc_10c(void); // func_0202effc
-    virtual void vfunc_110(/* ? */); // func_0202f008
-    virtual void vfunc_114(/* ? */); // func_02028068
-    virtual void vfunc_118(/* ? */); // func_0202f2a0
-    virtual void vfunc_11c(void); // func_0202f5b4
-    virtual void vfunc_120(void); // func_0202f604
-    virtual void vfunc_124(void); // func_0202f800
-    virtual void vfunc_128(void); // func_0202fa1c
-    virtual void vfunc_12c(void); // func_0202f89c
-    virtual void vfunc_130(/* ? */); // ?
-    virtual void vfunc_134(/* ? */); // ?
+    /* 000 */ virtual void vfunc_00(void); // ?
+    /* 004 */ virtual void vfunc_04(/* ? */); // func_02015368
+    /* 008 */ virtual void vfunc_08(void);
+    /* 00C */ virtual void vfunc_0c(void);
+    /* 010 */ virtual void vfunc_10(void);
+    /* 014 */ virtual void vfunc_14(void);
+    /* 018 */ virtual void vfunc_18(void);
+    /* 01C */ virtual void vfunc_1c(void);
+    /* 020 */ virtual void vfunc_20(/* ? */); // func_02015360
+    /* 024 */ virtual s32 vfunc_24(MenuItemState *, s32); // ?
+    /* 028 */ virtual s32 vfunc_28(void); // ?
+    /* 02C */ virtual s32 vfunc_2c(MenuItemState *, s32); // func_02015328
+    /* 030 */ virtual void vfunc_30(/* ? */); // func_02015308
+    /* 034 */ virtual s32 vfunc_34(MenuItemState *, s32); // func_02015310
+    /* 038 */ virtual void vfunc_38(/* ? */); // func_020152e8
+    /* 03C */ virtual s32 vfunc_3c(MenuItemState *, s32); // func_020152f0
+    /* 040 */ virtual void vfunc_40(/* ? */); // func_020152c8
+    /* 044 */ virtual s32 vfunc_44(MenuItemState *, s32); // func_020152d0
+    /* 048 */ virtual void vfunc_48(/* ? */); // func_020152a8
+    /* 04C */ virtual s32 vfunc_4c(MenuItemState *, s32); // func_020152b0
+    /* 050 */ virtual void vfunc_50(/* ? */); // func_02015288
+    /* 054 */ virtual s32 vfunc_54(MenuItemState *, s32); // func_02015290
+    /* 058 */ virtual s32 vfunc_58(s32); // ?
+    /* 05C */ virtual void vfunc_5c(/* ? */); // func_02015270
+    /* 060 */ virtual s32 vfunc_60(void); // func_02015250
+    /* 064 */ virtual void vfunc_64(void);
+    /* 068 */ virtual void vfunc_68(s32);
+    /* 06C */ virtual void vfunc_6c(s32);
+    /* 070 */ virtual void vfunc_70(s32);
+    /* 074 */ virtual void vfunc_74(s32);
+    /* 078 */ virtual s32 vfunc_78(void);
+    /* 07C */ virtual s32 vfunc_7c(void);
+    /* 080 */ virtual s32 vfunc_80(void);
+    /* 084 */ virtual s32 vfunc_84(void);
+    /* 088 */ virtual s32 vfunc_88(void);
+    /* 08C */ virtual s32 vfunc_8c(void);
+    /* 090 */ virtual s32 vfunc_90(void);
+    /* 094 */ virtual s32 vfunc_94(s32, s32); // func_02015248
+    /* 098 */ virtual s32 vfunc_98(s32, s32); // func_02015240
+    /* 09C */ virtual BOOL vfunc_9c(void); // func_02015238
+    /* 0A0 */ virtual BOOL vfunc_a0(void); // ?
+    /* 0A4 */ virtual BOOL vfunc_a4(void); // func_02015228
+    /* 0A8 */ virtual BOOL vfunc_a8(void); // ?
+    /* 0AC */ virtual s32 vfunc_ac(void); // func_02015218
+    /* 0B0 */ virtual BOOL vfunc_b0(MenuItemState *, s32, s32);
+    /* 0B4 */ virtual BOOL vfunc_b4(void);
+    /* 0B8 */ virtual void vfunc_b8(s32); // func_02015214
+    /* 0BC */ virtual void vfunc_bc(void);
+    /* 0C0 */ virtual void vfunc_c0(void);
+    /* 0C4 */ virtual void vfunc_c4(void);
+    /* 0C8 */ virtual void vfunc_c8(void);
+    /* 0CC */ virtual s32 vfunc_cc(void);
+    /* 0D0 */ virtual void vfunc_d0(s32);
+    /* 0D4 */ virtual s32 vfunc_d4(s32);
+    /* 0D8 */ virtual void vfunc_d8(void);
+    /* 0DC */ virtual void vfunc_dc(void);
+    /* 0E0 */ virtual void vfunc_e0(/* ? */); // func_02015210
+    /* 0E4 */ virtual void vfunc_e4(/* ? */); // func_0201520c
+    /* 0E8 */ virtual void vfunc_e8(void);
+    /* 0EC */ virtual void vfunc_ec(void);
+    /* 0F0 */ virtual void vfunc_f0(s32, s32, s32, s32);
+    /* 0F4 */ virtual void vfunc_f4(s32, s32, s32, s32);
+    /* 0F8 */ virtual void vfunc_f8(void *, s32, s32, s32, s32);
+    /* 0FC */ virtual void vfunc_fc(s32, s32, s32, s32);
+    /* 100 */ virtual void vfunc_100(s32, s32, s32, s32);
+    /* 104 */ virtual void vfunc_104(void *, s32, s32, s32, s32);
+    /* 108 */ virtual void vfunc_108(s32, s32, s32, s32);
+    /* 10C */ virtual s32 vfunc_10c(void);
+    /* 110 */ virtual void vfunc_110(void);
+    /* 114 */ virtual void vfunc_114(void); // func_02028068
+    /* 118 */ virtual void vfunc_118(void);
+    /* 11C */ virtual void vfunc_11c(void);
+    /* 120 */ virtual void vfunc_120(void);
+    /* 124 */ virtual void vfunc_124(void);
+    /* 128 */ virtual void vfunc_128(void);
+    /* 12C */ virtual void vfunc_12c(void);
+    /* 130 */ virtual void vfunc_130(/* ? */); // ?
+    /* 134 */ virtual void vfunc_134(/* ? */); // ?
 
     virtual ~Menu();
 };
@@ -169,8 +170,7 @@ public:
     virtual char * vfunc_04(MenuItemState *); // func_0201511c; wraps vfunc_00
     virtual void vfunc_08(/*  */); // func_020150f8
     virtual void vfunc_0c(/*  */); // func_02015100; wraps vfunc_08
-    virtual s32
-    vfunc_10(MenuItemState *); // func_0202d948; GetLabelColor? (1 = White, 2 = Grey, 3 = Cyan, 4 = Gold, 5 = Green)
+    virtual s32 vfunc_10(MenuItemState *); // GetLabelColor? (1 = White, 2 = Grey, 3 = Cyan, 4 = Gold, 5 = Green)
     virtual s32 vfunc_14(void); // func_020150dc; IsEnabled?
     virtual s32 vfunc_18(s32); // func_020150e4; Wraps vfunc_14
     virtual s32 vfunc_1c(void); // func_020150bc; OnConfirm?
@@ -209,14 +209,14 @@ public:
     virtual void vfunc_a0(/*  */); // func_02014e98
     virtual void vfunc_a4(/*  */); // func_02014e9c
     virtual void vfunc_a8(Menu *, MenuItemState *); //
-    virtual s32 vfunc_ac(MenuItemState *, s32, s32, s32, s32); // func_0202d78c
+    virtual s32 vfunc_ac(MenuItemState *, s32, s32, s32, s32);
     virtual void vfunc_b0(Menu *, MenuItemState *); // func_02014e94
-    virtual void vfunc_b4(Menu *, MenuItemState *); // func_0202d960
-    virtual void vfunc_b8(Menu *, MenuItemState *); // func_0202d9bc
-    virtual void vfunc_bc(Menu *, MenuItemState *); // func_0202da18
-    virtual void vfunc_c0(Menu *, MenuItemState *); // func_0202da74
+    virtual void vfunc_b4(Menu *, MenuItemState *);
+    virtual void vfunc_b8(Menu *, MenuItemState *);
+    virtual void vfunc_bc(Menu *, MenuItemState *);
+    virtual void vfunc_c0(Menu *, MenuItemState *);
     virtual u32 vfunc_c4(void); // func_02014e8c
-    virtual u32 vfunc_c8(MenuItemState *); // func_0202d8c8
+    virtual u32 vfunc_c8(MenuItemState *);
     virtual u32 vfunc_cc(void); // func_02014e84
     virtual u32 vfunc_d0(void); // func_02014e7c
     virtual u32 vfunc_d4(void); // func_02014e74
@@ -238,32 +238,27 @@ public:
 class SplitMenu : public Menu
 {
 public:
-    virtual void vfunc_08(void); // func_0203004c
-    virtual void vfunc_0c(void); // func_020300ec
-    virtual BOOL vfunc_b0(MenuItemState *, s32, s32); // func_0202fffc
+    /* 008 */ virtual void vfunc_08(void);
+    /* 00C */ virtual void vfunc_0c(void);
+    /* 0B0 */ virtual BOOL vfunc_b0(MenuItemState *, s32, s32);
 
-    // func_020302dc
-    virtual void vfunc_e8(void)
+    /* 0E8 */ virtual void vfunc_e8(void)
     {
     }
 
-    // func_020302d8
-    virtual void vfunc_ec(void)
+    /* 0EC */ virtual void vfunc_ec(void)
     {
     }
 
-    // func_020302d4
-    virtual void vfunc_fc(s32, s32, s32, s32)
+    /* 0FC */ virtual void vfunc_fc(s32, s32, s32, s32)
     {
     }
 
-    // func_020302d0
-    virtual void vfunc_100(s32, s32, s32, s32)
+    /* 100 */ virtual void vfunc_100(s32, s32, s32, s32)
     {
     }
 
-    // func_020302cc
-    virtual void vfunc_108(s32, s32, s32, s32)
+    /* 108 */ virtual void vfunc_108(s32, s32, s32, s32)
     {
     }
 };
@@ -274,8 +269,8 @@ EC void func_0202f7d0(Menu *);
 class ProcMenu : public ProcEx
 {
 public:
-    Menu * unk_38;
-    u8 unk_3c;
+    /* 38 */ Menu * unk_38;
+    /* 3C */ u8 unk_3c;
 
     ProcMenu(Menu * menu)
     {
@@ -283,8 +278,6 @@ public:
         this->unk_3c = 0;
     }
 
-    // func_020301f4
-    // func_02030264
     virtual ~ProcMenu()
     {
         if (this->unk_3c == 0)
@@ -301,7 +294,7 @@ public:
         }
     }
 
-    inline void func_0202d688()
+    inline void ProcMenu_0202d688()
     {
         this->unk_38->vfunc_e0();
         this->unk_38->vfunc_d8();
@@ -322,8 +315,6 @@ public:
         this->unk_50 = NULL;
     }
 
-    // func_02030ed0
-    // func_02030e8c
     virtual ~DialogBase()
     {
         if (this->unk_50 != NULL)
@@ -338,16 +329,13 @@ class Dialog : public DialogBase
 public:
     u32 unk_54;
 
-    // func_020302e0
     Dialog();
 
-    // func_02030e0c
-    // func_02030e50
     virtual ~Dialog()
     {
     }
 
-    virtual void vfunc_128(void); // func_02030330
+    /* 128 */ virtual void vfunc_128(void);
 };
 
 class DialogYesNo : public Dialog

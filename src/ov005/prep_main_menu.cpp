@@ -402,7 +402,7 @@ EC void func_ov005_022056d8(sally::MMenu * proc)
     return;
 }
 
-EC void func_0202fb38(Menu *, void *, ProcPtr, u32, u32);
+EC void StartChildMenu(Menu *, void *, ProcPtr, u32, u32);
 
 // TODO: Member function
 EC void func_ov005_022057e4(sally::MMenu * proc)
@@ -431,7 +431,7 @@ EC void func_ov005_022057e4(sally::MMenu * proc)
     // clang-format on
 
     proc->unk_38 = new sally::SallyMenu();
-    func_0202fb38(proc->unk_38, data_ov005_022132ac, proc, 0, 0);
+    StartChildMenu(proc->unk_38, data_ov005_022132ac, proc, 0, 0);
     proc->unk_38->unk_43 = 0;
 
     return;

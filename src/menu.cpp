@@ -14,7 +14,6 @@
 extern struct KeyState * gKeySt;
 extern struct TouchState * gTouchSt;
 
-// func_0202d4c4
 Menu::Menu(void)
 {
     s32 i;
@@ -54,9 +53,6 @@ Menu::Menu(void)
     return;
 }
 
-// func_0202d574
-// func_0202d5a8
-// func_0202d5e4
 Menu::~Menu()
 {
     if (this->unk_0c != NULL)
@@ -65,32 +61,32 @@ Menu::~Menu()
     }
 }
 
-EC void func_0202d618(ProcMenu * param_1)
+EC void ProcMenu_0202d618(ProcMenu * proc)
 {
-    param_1->unk_38->vfunc_124();
+    proc->unk_38->vfunc_124();
     return;
 }
 
 EC void func_0202f7d0(Menu *);
 
-EC void func_0202d630(ProcMenu * param_1)
+EC void ProcMenu_0202d630(ProcMenu * proc)
 {
-    func_0202f7d0(param_1->unk_38);
-    param_1->unk_3c = 1;
+    func_0202f7d0(proc->unk_38);
+    proc->unk_3c = 1;
 
-    param_1->unk_38->vfunc_dc();
-    param_1->unk_38->vfunc_e4();
+    proc->unk_38->vfunc_dc();
+    proc->unk_38->vfunc_e4();
 
-    func_02018f54((struct Proc *)param_1, 0);
+    func_02018f54((struct Proc *)proc, 0);
 
     return;
 }
 
 EC void func_0202f6d0(Menu *);
 
-EC void func_0202d678(ProcMenu * param_1)
+EC void ProcMenu_0202d678(ProcMenu * proc)
 {
-    func_0202f6d0(param_1->unk_38);
+    func_0202f6d0(proc->unk_38);
     return;
 }
 
@@ -98,31 +94,31 @@ EC void func_0202f8c4(Menu *);
 EC void func_0202f674(Menu *);
 EC void func_0202f72c(Menu *);
 
-EC void func_0202d688(ProcMenu * param_1)
+EC void ProcMenu_0202d688(ProcMenu * proc)
 {
-    param_1->unk_38->vfunc_e0();
-    param_1->unk_38->vfunc_d8();
+    proc->unk_38->vfunc_e0();
+    proc->unk_38->vfunc_d8();
 
-    func_0202f674(param_1->unk_38);
+    func_0202f674(proc->unk_38);
 
     return;
 }
 
-EC void func_0202d6bc(ProcMenu * param_1)
+EC void ProcMenu_0202d6bc(ProcMenu * proc)
 {
-    func_0202f72c(param_1->unk_38);
+    func_0202f72c(proc->unk_38);
     return;
 }
 
-EC void func_0202d6cc(ProcMenu * param_1)
+EC void ProcMenu_0202d6cc(ProcMenu * proc)
 {
-    param_1->unk_38->vfunc_120();
+    proc->unk_38->vfunc_120();
     return;
 }
 
-EC void func_0202d6e4(ProcMenu * param_1)
+EC void ProcMenu_0202d6e4(ProcMenu * proc)
 {
-    param_1->unk_38->vfunc_11c();
+    proc->unk_38->vfunc_11c();
     return;
 }
 
@@ -137,9 +133,9 @@ EC void func_0202d6fc(Menu * param_1, s32 param_2)
         param_1->vfunc_e8();
     }
 
-    func_02018f54((struct Proc *)param_1->unk_10, (void *)func_0202d6bc);
+    func_02018f54((struct Proc *)param_1->unk_10, (void *)ProcMenu_0202d6bc);
 
-    param_1->unk_10->func_0202d688();
+    param_1->unk_10->ProcMenu_0202d688();
 
     Proc_Goto(param_1->unk_10, 0, 0);
 
@@ -156,7 +152,6 @@ struct UnkStruct_021970c4
 extern struct UnkStruct_021970c4 * data_021970c4;
 extern struct UnkStruct_021970c4 * data_021970cc;
 
-// func_0202d78c
 s32 MenuItem::vfunc_ac(MenuItemState * param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
 {
     s32 bVar1;
@@ -193,7 +188,6 @@ s32 MenuItem::vfunc_ac(MenuItemState * param_2, s32 param_3, s32 param_4, s32 pa
 
 EC u32 func_02028e7c(UnkStruct_021970c4 *, char *, s32);
 
-// func_0202d8c8
 u32 MenuItem::vfunc_c8(MenuItemState * param_2)
 {
     u32 uVar1 = this->vfunc_c4();
@@ -211,7 +205,6 @@ u32 MenuItem::vfunc_c8(MenuItemState * param_2)
     return 0;
 }
 
-// func_0202d948
 s32 MenuItem::vfunc_10(MenuItemState * param_2)
 {
     if ((param_2->unk_09 & 7) != 1)
@@ -222,7 +215,6 @@ s32 MenuItem::vfunc_10(MenuItemState * param_2)
     return MENU_COLOR_GRAY;
 }
 
-// func_0202d960
 void MenuItem::vfunc_b4(Menu * param_2, MenuItemState * param_3)
 {
     param_2->vfunc_fc(param_3->unk_04, param_3->unk_05, param_3->unk_06, param_3->unk_07);
@@ -230,7 +222,6 @@ void MenuItem::vfunc_b4(Menu * param_2, MenuItemState * param_3)
     return;
 }
 
-// func_0202d9bc
 void MenuItem::vfunc_b8(Menu * param_2, MenuItemState * param_3)
 {
     param_2->vfunc_108(param_3->unk_04, param_3->unk_05, param_3->unk_06, param_3->unk_07);
@@ -238,7 +229,6 @@ void MenuItem::vfunc_b8(Menu * param_2, MenuItemState * param_3)
     return;
 }
 
-// func_0202da18
 void MenuItem::vfunc_bc(Menu * param_2, MenuItemState * param_3)
 {
     param_2->vfunc_100(param_3->unk_04, param_3->unk_05, param_3->unk_06, param_3->unk_07);
@@ -246,7 +236,6 @@ void MenuItem::vfunc_bc(Menu * param_2, MenuItemState * param_3)
     return;
 }
 
-// func_0202da74
 void MenuItem::vfunc_c0(Menu * param_2, MenuItemState * param_3)
 {
     param_2->vfunc_fc(param_3->unk_04, param_3->unk_05, param_3->unk_06, param_3->unk_07);
@@ -259,7 +248,6 @@ EC BOOL func_0202dad0(MenuItemState * param_1, Menu * param_2)
     return (&param_2->unk_0c[param_2->unk_38] == param_1) & 0xff;
 }
 
-// func_0202daf4
 s32 Menu::vfunc_78(void)
 {
     u32 uVar2;
@@ -273,7 +261,6 @@ s32 Menu::vfunc_78(void)
     return 0;
 }
 
-// func_0202db5c
 s32 Menu::vfunc_7c(void)
 {
     u32 uVar2;
@@ -287,7 +274,6 @@ s32 Menu::vfunc_7c(void)
     return 0x800;
 }
 
-// func_0202dbc4
 s32 Menu::vfunc_80(void)
 {
     u32 uVar2;
@@ -301,7 +287,6 @@ s32 Menu::vfunc_80(void)
     return 0;
 }
 
-// func_0202dc2c
 s32 Menu::vfunc_84(void)
 {
     u32 uVar2;
@@ -315,7 +300,6 @@ s32 Menu::vfunc_84(void)
     return 0;
 }
 
-// func_0202dc94
 s32 Menu::vfunc_88(void)
 {
     u32 uVar2;
@@ -329,7 +313,6 @@ s32 Menu::vfunc_88(void)
     return 0;
 }
 
-// func_0202dcfc
 s32 Menu::vfunc_8c(void)
 {
     u32 uVar2;
@@ -343,7 +326,6 @@ s32 Menu::vfunc_8c(void)
     return this->vfunc_4c(&this->unk_0c[this->unk_38], uVar2);
 }
 
-// func_0202dd84
 s32 Menu::vfunc_90(void)
 {
     u32 uVar2;
@@ -362,7 +344,6 @@ EC void func_0202ff08(void);
 EC void func_0202fe9c(Menu *, s32);
 EC void func_0202febc(s32);
 
-// func_0202ddec
 void Menu::vfunc_64(void)
 {
     s32 r5;
@@ -643,35 +624,30 @@ _0202e430:
     }
 }
 
-// func_0202e60c
 void Menu::vfunc_bc(void)
 {
     gSoundManager->unk_b0->vfunc_28(SE_SYS_CURSOL2_WIN1, 0, 0);
     return;
 }
 
-// func_0202e640
 void Menu::vfunc_c0(void)
 {
     gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
     return;
 }
 
-// func_0202e674
 void Menu::vfunc_c4(void)
 {
     gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
     return;
 }
 
-// func_0202e6a8
 void Menu::vfunc_c8(void)
 {
     gSoundManager->unk_b0->vfunc_28(SE_SYS_MISS1, 0, 0);
     return;
 }
 
-// func_0202e6dc
 BOOL Menu::vfunc_b0(MenuItemState * arg1, s32 arg2, s32 arg3)
 {
     if ((arg2 < ((arg1->unk_04 - 1) * 8)) || (arg2 >= ((arg1->unk_04 + arg1->unk_06 + 1) * 8)))
@@ -687,7 +663,6 @@ BOOL Menu::vfunc_b0(MenuItemState * arg1, s32 arg2, s32 arg3)
     return TRUE;
 }
 
-// func_0202e734
 BOOL Menu::vfunc_b4(void)
 {
     s32 i;
@@ -703,7 +678,6 @@ BOOL Menu::vfunc_b4(void)
     return FALSE;
 }
 
-// func_0202e7a4
 void Menu::vfunc_68(s32 param_2)
 {
     MenuItemState * pMVar1;
@@ -758,7 +732,6 @@ void Menu::vfunc_68(s32 param_2)
     return;
 }
 
-// func_0202e874
 void Menu::vfunc_6c(s32 param_2)
 {
     s32 iVar2;
@@ -811,7 +784,6 @@ void Menu::vfunc_6c(s32 param_2)
 
 EC void func_020208b0(s32, s32, s32 *, s32 *);
 
-// func_0202e94c
 EC void Menu::vfunc_70(s32 param_2)
 {
     s32 iVar1;
@@ -843,7 +815,6 @@ EC void Menu::vfunc_70(s32 param_2)
     return;
 }
 
-// func_0202e9d8
 EC void Menu::vfunc_74(s32 param_2)
 {
     s32 iVar1;
@@ -872,7 +843,6 @@ EC void Menu::vfunc_74(s32 param_2)
     return;
 }
 
-// func_0202ea68
 void Menu::vfunc_d8(void)
 {
     s32 iVar1;
@@ -908,7 +878,6 @@ void Menu::vfunc_d8(void)
 
 EC void func_02010f98(u16 *, s32, s32);
 
-// func_0202eb2c
 void Menu::vfunc_dc(void)
 {
     s32 i;
@@ -939,20 +908,17 @@ void Menu::vfunc_dc(void)
     return;
 }
 
-// func_0202ebe8
 s32 Menu::vfunc_cc(void)
 {
     return this->unk_47;
 }
 
-// func_0202ebf0
 void Menu::vfunc_d0(s32 param_2)
 {
     this->unk_47 = param_2;
     return;
 }
 
-// func_0202ebf8
 s32 Menu::vfunc_d4(s32 index)
 {
     s32 offset;
@@ -981,7 +947,6 @@ struct Idk
 };
 EC void func_0202a718(void *, s32, s32, struct Idk *);
 
-// func_0202ec44
 void Menu::vfunc_f0(s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     struct Idk sp;
@@ -992,7 +957,6 @@ void Menu::vfunc_f0(s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     func_0202a718(gpActiveScreenSt->tilemap[this->unk_30], arg1, arg2, &sp);
 }
 
-// func_0202ec90
 void Menu::vfunc_e8(void)
 {
     s32 bVar1;
@@ -1041,14 +1005,12 @@ void Menu::vfunc_e8(void)
 
 EC void func_0202b260(void *, s32, s32, s32, s32);
 
-// func_0202edc0
 void Menu::vfunc_f4(s32 param_2, s32 param_3, s32 param_4, s32 param_5)
 {
     func_0202b260(gpActiveScreenSt->tilemap[this->unk_30], param_2, param_3, param_4, param_5);
     return;
 }
 
-// func_0202edec
 void Menu::vfunc_ec(void)
 {
     s32 r4;
@@ -1082,7 +1044,6 @@ void Menu::vfunc_ec(void)
     return;
 }
 
-// func_0202eeac
 void Menu::vfunc_fc(s32 param_2, s32 param_3, s32 param_4, s32 param_5)
 {
     this->vfunc_f8(gpActiveScreenSt->tilemap[this->unk_30], param_2, param_3, param_4, param_5);
@@ -1091,7 +1052,6 @@ void Menu::vfunc_fc(s32 param_2, s32 param_3, s32 param_4, s32 param_5)
 
 EC void func_0202ad68(void *, s32, s32, s32, s32, s32, s32, s32, s32);
 
-// func_0202eef0
 void Menu::vfunc_f8(void * param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
 {
     func_0202ad68(param_2, param_3, param_4, param_5, param_6, this->unk_1c, this->unk_20, 0, 0);
@@ -1100,14 +1060,12 @@ void Menu::vfunc_f8(void * param_2, s32 param_3, s32 param_4, s32 param_5, s32 p
 
 EC void func_0202b014(void *, s32, s32, s32, s32);
 
-// func_0202ef38
 void Menu::vfunc_100(s32 param_2, s32 param_3, s32 param_4, s32 param_5)
 {
     func_0202b014(gpActiveScreenSt->tilemap[this->unk_30], param_2, param_3, param_4, param_5);
     return;
 }
 
-// func_0202ef7c
 void Menu::vfunc_108(s32 param_2, s32 param_3, s32 param_4, s32 param_5)
 {
     this->vfunc_104(gpActiveScreenSt->tilemap[this->unk_30], param_2, param_3, param_4, param_5);
@@ -1116,14 +1074,12 @@ void Menu::vfunc_108(s32 param_2, s32 param_3, s32 param_4, s32 param_5)
 
 EC void func_0202b1e4(void *, s32, s32, s32, s32, s32, s32);
 
-// func_0202efc0
 void Menu::vfunc_104(void * param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
 {
     func_0202b1e4(param_2, param_3, param_4, param_5, param_6, this->unk_1c, this->unk_20);
     return;
 }
 
-// func_0202effc
 s32 Menu::vfunc_10c(void)
 {
     return this->unk_10->proc_lockCnt;
@@ -1131,7 +1087,6 @@ s32 Menu::vfunc_10c(void)
 
 EC void func_0202f040(Menu *, s32, s32, s32);
 
-// func_0202f008
 void Menu::vfunc_110(void)
 {
     func_0202f040(this, 0, 0, 0);
@@ -1236,13 +1191,11 @@ EC void func_0202f040(Menu * param_1, s32 param_2, s32 param_3, s32 param_4)
     return;
 }
 
-// func_0202f2a0
 void Menu::vfunc_118(void)
 {
     return;
 }
 
-// func_0202f2a4
 EC void Menu::vfunc_08(void)
 {
     s32 iVar1;
@@ -1279,7 +1232,6 @@ EC void Menu::vfunc_08(void)
     return;
 }
 
-// func_0202f34c
 void Menu::vfunc_0c(void)
 {
     u32 bVar1;
@@ -1358,7 +1310,6 @@ void Menu::vfunc_0c(void)
     return;
 }
 
-// func_0202f468
 void Menu::vfunc_10(void)
 {
     this->vfunc_08();
@@ -1367,7 +1318,6 @@ void Menu::vfunc_10(void)
     return;
 }
 
-// func_0202f490
 EC void Menu::vfunc_14(void)
 {
     s32 iVar1;
@@ -1386,7 +1336,6 @@ EC void Menu::vfunc_14(void)
     return;
 }
 
-// func_0202f504
 void Menu::vfunc_18(void)
 {
     MenuItemState * pMVar1;
@@ -1411,7 +1360,6 @@ void Menu::vfunc_18(void)
     return;
 }
 
-// func_0202f57c
 void Menu::vfunc_1c(void)
 {
     this->vfunc_10();
@@ -1421,7 +1369,6 @@ void Menu::vfunc_1c(void)
     return;
 }
 
-// func_0202f5b4
 void Menu::vfunc_11c(void)
 {
     s32 i;
@@ -1434,7 +1381,6 @@ void Menu::vfunc_11c(void)
     return;
 }
 
-// func_0202f604
 void Menu::vfunc_120(void)
 {
     this->vfunc_ec();
@@ -1511,7 +1457,6 @@ EC void func_0202f7d0(Menu * param_1)
     return;
 }
 
-// func_0202f800
 void Menu::vfunc_124(void)
 {
     this->vfunc_ec();
@@ -1545,7 +1490,6 @@ EC s32 func_0202f860(Menu * param_1)
     return iVar4;
 }
 
-// func_0202f89c
 void Menu::vfunc_12c(void)
 {
     this->unk_0c = static_cast<MenuItemState *>(gHeap.Alloc(func_0202f860(this) * sizeof(MenuItemState)));
@@ -1626,7 +1570,6 @@ EC void func_0202f8c4(Menu * param_1)
 
 EC void func_0202a5e0(void *, s32, s32);
 
-// func_0202fa1c
 void Menu::vfunc_128(void)
 {
     func_0202a4dc(this->unk_18, 0);
@@ -1635,9 +1578,31 @@ void Menu::vfunc_128(void)
     return;
 }
 
-extern struct ProcCmd data_020d3dd4[];
+// clang-format off
 
-EC void func_0202fa70(Menu * param_1, MenuItem ** param_2, s32 param_3)
+struct ProcCmd ProcScr_ProcMenu[] =
+{
+    PROC_NAME,
+    PROC_SLEEP(0),
+
+    PROC_CALL(ProcMenu_0202d6e4),
+    PROC_REPEAT(ProcMenu_0202d6cc),
+    PROC_06(0, ProcMenu_0202d6bc),
+    PROC_CALL(ProcMenu_0202d688),
+
+PROC_LABEL(0),
+    PROC_REPEAT(ProcMenu_0202d678),
+
+PROC_LABEL(1),
+    PROC_CALL(ProcMenu_0202d630),
+    PROC_REPEAT(ProcMenu_0202d618),
+
+    PROC_END,
+};
+
+// clang-format on
+
+EC void StartMenu(Menu * param_1, MenuItem ** param_2, s32 param_3)
 {
     param_1->unk_08 = param_2;
 
@@ -1656,20 +1621,20 @@ EC void func_0202fa70(Menu * param_1, MenuItem ** param_2, s32 param_3)
 
     if (param_1->unk_04 != NULL)
     {
-        param_1->unk_10 = new (Proc_StartBlocking(data_020d3dd4, param_1->unk_04->unk_10)) ProcMenu(param_1);
+        param_1->unk_10 = new (Proc_StartBlocking(ProcScr_ProcMenu, param_1->unk_04->unk_10)) ProcMenu(param_1);
     }
     else
     {
-        param_1->unk_10 = new (Proc_Start(data_020d3dd4, PROC_TREE_9)) ProcMenu(param_1);
+        param_1->unk_10 = new (Proc_Start(ProcScr_ProcMenu, PROC_TREE_9)) ProcMenu(param_1);
     }
     return;
 }
 
-EC void func_0202fb38(Menu * param_1, MenuItem ** param_2, ProcPtr param_3, u32 param_4, u8 param_5)
+EC void StartChildMenu(Menu * param_1, MenuItem ** param_2, ProcPtr param_3, u32 param_4, u8 param_5)
 {
     param_1->unk_08 = param_2;
 
-    if ((!IsRootProcess((struct Proc *)param_3)) && (func_020190c4((struct Proc *)param_3) == data_020d3dd4))
+    if ((!IsRootProcess((struct Proc *)param_3)) && (func_020190c4((struct Proc *)param_3) == ProcScr_ProcMenu))
     {
         param_1->unk_04 = static_cast<ProcMenu *>(param_3)->unk_38;
     }
@@ -1689,11 +1654,11 @@ EC void func_0202fb38(Menu * param_1, MenuItem ** param_2, ProcPtr param_3, u32 
 
     if (param_4)
     {
-        param_1->unk_10 = new (Proc_StartBlocking(data_020d3dd4, param_3)) ProcMenu(param_1);
+        param_1->unk_10 = new (Proc_StartBlocking(ProcScr_ProcMenu, param_3)) ProcMenu(param_1);
     }
     else
     {
-        param_1->unk_10 = new (Proc_Start(data_020d3dd4, param_3)) ProcMenu(param_1);
+        param_1->unk_10 = new (Proc_Start(ProcScr_ProcMenu, param_3)) ProcMenu(param_1);
     }
 }
 
@@ -1756,7 +1721,7 @@ EC BOOL func_02033f54(ProcMenu *);
 
 EC BOOL func_0202fe14(ProcMenu * param_1)
 {
-    if (func_020190c4((struct Proc *)param_1) == data_020d3dd4)
+    if (func_020190c4((struct Proc *)param_1) == ProcScr_ProcMenu)
     {
         return TRUE;
     }
@@ -1810,11 +1775,11 @@ EC void func_0202febc(s32 param_1)
 {
     if (param_1 != 0)
     {
-        Proc_ForEach(data_020d3dd4, (ProcFunc)func_0202fe88);
+        Proc_ForEach(ProcScr_ProcMenu, (ProcFunc)func_0202fe88);
     }
     else
     {
-        Proc_ForEach(data_020d3dd4, (ProcFunc)func_0202fe4c);
+        Proc_ForEach(ProcScr_ProcMenu, (ProcFunc)func_0202fe4c);
     }
 
     func_02033f98();
@@ -1832,24 +1797,24 @@ EC void func_02033fc4(void);
 
 EC void func_0202ff08(void)
 {
-    Proc_EndEach(data_020d3dd4);
+    Proc_EndEach(ProcScr_ProcMenu);
     func_02033fc4();
     return;
 }
 
-EC void func_0202ff20(Menu * param_1)
+EC void LockMenu(Menu * param_1)
 {
     Proc_Lock((struct Proc *)param_1->unk_10);
     return;
 }
 
-EC void func_0202ff30(Menu * param_1)
+EC void UnlockMenu(Menu * param_1)
 {
     Proc_Release((struct Proc *)param_1->unk_10);
     return;
 }
 
-EC BOOL func_0202ff40(Menu * param_1)
+EC BOOL IsMenuLocked(Menu * param_1)
 {
     return IsProcLocked((struct Proc *)param_1->unk_10);
 }
@@ -1859,16 +1824,16 @@ EC BOOL func_0202ff50(Menu * param_1)
     return func_02018f5c((struct Proc *)param_1->unk_10) != NULL;
 }
 
-EC BOOL func_0202ff6c(void)
+EC BOOL IsMenuActive(void)
 {
-    return Proc_Find(data_020d3dd4) != NULL;
+    return Proc_Find(ProcScr_ProcMenu) != NULL;
 }
 
 EC Menu * func_0202ff8c(ProcMenu * param_1)
 {
     if (param_1 == NULL)
     {
-        param_1 = static_cast<ProcMenu *>(Proc_Find(data_020d3dd4));
+        param_1 = static_cast<ProcMenu *>(Proc_Find(ProcScr_ProcMenu));
     }
 
     if (param_1 == NULL)
@@ -1883,7 +1848,7 @@ EC Menu * func_0202ff8c(ProcMenu * param_1)
 
 EC Menu * func_0202ffb4(ProcPtr param_1)
 {
-    ProcMenu * proc = static_cast<ProcMenu *>((void *)func_02018d9c(data_020d3dd4, (struct Proc *)param_1));
+    ProcMenu * proc = static_cast<ProcMenu *>((void *)func_02018d9c(ProcScr_ProcMenu, (struct Proc *)param_1));
 
     if (proc != NULL)
     {
@@ -1895,7 +1860,7 @@ EC Menu * func_0202ffb4(ProcPtr param_1)
 
 EC Menu * func_0202ffd8(ProcPtr param_1)
 {
-    ProcMenu * proc = static_cast<ProcMenu *>((void *)func_02018df4(data_020d3dd4, (struct Proc *)param_1));
+    ProcMenu * proc = static_cast<ProcMenu *>((void *)func_02018df4(ProcScr_ProcMenu, (struct Proc *)param_1));
 
     if (proc != NULL)
     {
@@ -1905,7 +1870,6 @@ EC Menu * func_0202ffd8(ProcPtr param_1)
     return NULL;
 }
 
-// func_0202fffc
 BOOL SplitMenu::vfunc_b0(MenuItemState * arg1, s32 arg2, s32 arg3)
 {
     if ((arg2 < ((arg1->unk_04) * 8)) || (arg2 >= ((arg1->unk_04 + arg1->unk_06) * 8)))
@@ -1921,7 +1885,6 @@ BOOL SplitMenu::vfunc_b0(MenuItemState * arg1, s32 arg2, s32 arg3)
     return TRUE;
 }
 
-// func_0203004c
 void SplitMenu::vfunc_08(void)
 {
     s32 iVar1;
@@ -1958,7 +1921,6 @@ void SplitMenu::vfunc_08(void)
     return;
 }
 
-// func_020300ec
 void SplitMenu::vfunc_0c(void)
 {
     u32 bVar1;
