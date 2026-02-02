@@ -1229,7 +1229,7 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? _ZTV8ProcMenu
 // extern ??? ProcScr_ProcMenu
 // extern ??? _ZTV4Menu
-// extern ??? data_020d3f7c
+// extern ??? _ZTV6Dialog
 // extern ??? data_020d40bc
 // extern ??? __typestr__6Button
 // extern ??? __typeinfo__6Button

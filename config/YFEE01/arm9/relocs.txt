@@ -5311,7 +5311,7 @@ from:0x02030284 kind:arm_call to:0x0202f7d0 module:main
 from:0x020302c8 kind:load to:0x020d3dbc module:main add:8
 from:0x020302e8 kind:arm_call to:0x0202d4c4 module:main
 from:0x02030328 kind:load to:0x020d40bc module:main
-from:0x0203032c kind:load to:0x020d3f7c module:main
+from:0x0203032c kind:load to:0x020d3f74 module:main add:8
 from:0x02030344 kind:arm_call to:0x0202a4dc module:main
 from:0x02030368 kind:arm_call to:0x0202b688 module:main
 from:0x02030380 kind:arm_call to:0x0202b294 module:main

@@ -6780,7 +6780,7 @@ _ZTI8ProcMenu kind:data(any) addr:0x020d3db0
 _ZTV8ProcMenu kind:data(any) addr:0x020d3dbc
 ProcScr_ProcMenu kind:data(any) addr:0x020d3dd4
 _ZTV4Menu kind:data(any) addr:0x020d3e34
-data_020d3f7c kind:data(any) addr:0x020d3f7c
+_ZTV6Dialog kind:data(any) addr:0x020d3f74
 data_020d40bc kind:data(any) addr:0x020d40bc
 __typestr__6Button kind:data(any) addr:0x020d41f4
 __typeinfo__6Button kind:data(any) addr:0x020d41fc
