@@ -58,56 +58,54 @@ public:
         this->unk_38 = func_0202b70c();
     }
 
-    // func_020158b8
-    // func_02015900
     virtual ~LinkDialogBlink()
     {
         func_01ff9998(this->unk_38, this->unk_3c * 0x20, 0x20);
         gHeap.Free(this->unk_38);
     }
 
-    virtual void Loop(void); // func_020147d4
+    virtual void Loop(void);
 };
 
 class LinkDialogItemNone : public DialogItem
 {
 public:
-    /* 01C */ virtual s32 vfunc_1c(void); // func_02015130
-    /* 0A8 */ virtual void vfunc_a8(Menu *, MenuItemState *); // func_02015138
-    /* 0AC */ virtual s32 vfunc_ac(MenuItemState *, s32, s32, s32, s32); // func_0201513c
+    /* 01C */ virtual s32 vfunc_1c(void);
+    /* 0A8 */ virtual void vfunc_a8(Menu *, MenuItemState *);
+    /* 0AC */ virtual s32 vfunc_ac(MenuItemState *, s32, s32, s32, s32);
 };
 
 class LinkDialogItemOk : public DialogItem
 {
 public:
-    /* 000 */ virtual char * vfunc_00(void); // func_0201514c
-    /* 01C */ virtual s32 vfunc_1c(void); // func_02015144
+    /* 000 */ virtual char * vfunc_00(void);
+    /* 01C */ virtual s32 vfunc_1c(void);
 };
 
 class LinkDialogItemNext : public DialogItem
 {
 public:
-    /* 000 */ virtual char * vfunc_00(void); // func_02015160
-    /* 01C */ virtual s32 vfunc_1c(void); // func_02015168
+    /* 000 */ virtual char * vfunc_00(void);
+    /* 01C */ virtual s32 vfunc_1c(void);
 };
 
 class LinkDialogItemNoF : public DialogItemNo
 {
 public:
-    /* 01C */ virtual s32 vfunc_1c(void); // func_020151a0
+    /* 01C */ virtual s32 vfunc_1c(void);
 };
 
 class LinkDialogItemNo : public DialogItemNo
 {
 public:
-    /* 014 */ virtual s32 vfunc_14(void); // func_020151d0
-    /* 01C */ virtual s32 vfunc_1c(void); // func_020151b8
+    /* 014 */ virtual s32 vfunc_14(void);
+    /* 01C */ virtual s32 vfunc_1c(void);
 };
 
 class LinkDialogItemYes : public DialogItemYes
 {
 public:
-    /* 01C */ virtual s32 vfunc_1c(void); // func_020151f4
+    /* 01C */ virtual s32 vfunc_1c(void);
 };
 
 class _LinkDialogCommon : public Dialog
@@ -118,12 +116,10 @@ public:
         data_020efc84.unk_00 = 0;
     }
 
-    /* 000 */ virtual void vfunc_00(void); // func_020153cc
-    /* 020 */ virtual s32 vfunc_20(s32); // func_0201536c
-    /* 028 */ virtual s32 vfunc_28(s32); // func_020153c4
+    /* 000 */ virtual void vfunc_00(void);
+    /* 020 */ virtual s32 vfunc_20(s32);
+    /* 028 */ virtual s32 vfunc_28(s32);
 
-    // func_02015818
-    // func_0201586c
     virtual ~_LinkDialogCommon()
     {
         data_020efc84.unk_18 = NULL;
@@ -133,11 +129,9 @@ public:
 class _LinkDialogYesNo : public _LinkDialogCommon
 {
 public:
-    /* 000 */ virtual void vfunc_00(void); // func_020156e4
-    /* 028 */ virtual s32 vfunc_28(s32); // func_020156b4
+    /* 000 */ virtual void vfunc_00(void);
+    /* 028 */ virtual s32 vfunc_28(s32);
 
-    // func_02015948
-    // func_02015994
     // ~_LinkDialogYesNo();
 };
 
@@ -148,14 +142,12 @@ public:
     s16 unk_5a;
 
     /* 010 */ virtual void vfunc_10(void);
-    /* 0FC */ virtual void vfunc_fc(void); // func_020156b0
-    /* 100 */ virtual void vfunc_100(void); // func_020156ac
-    /* 108 */ virtual void vfunc_108(void); // func_020156a8
-    /* 110 */ virtual void vfunc_110(void); // func_020156a4
+    /* 0FC */ virtual void vfunc_fc(void);
+    /* 100 */ virtual void vfunc_100(void);
+    /* 108 */ virtual void vfunc_108(void);
+    /* 110 */ virtual void vfunc_110(void);
     /* 11C */ virtual void vfunc_11c(void);
 
-    // func_0201556c
-    // func_02015500
     virtual ~_LinkDialogNone()
     {
         Proc_EndEach(data_020caccc);
@@ -165,10 +157,8 @@ public:
 class _LinkDialogConfirm : public _LinkDialogCommon
 {
 public:
-    /* 110 */ virtual void vfunc_110(void); // func_020154fc
+    /* 110 */ virtual void vfunc_110(void);
 
-    // func_020159e8
-    // func_02015a34
     // ~_LinkDialogConfirm();
 };
 
@@ -182,8 +172,6 @@ public:
         this->unk_38 = str;
     }
 
-    // func_02015a88
-    // func_02015a8c
     virtual ~LinkErrorDialog()
     {
     }
@@ -197,7 +185,6 @@ EC void func_020147c0(LinkDialogBlink * proc)
 
 EC void func_01ff9a8c(u8 *, s32, s32);
 
-// func_020147d4
 void LinkDialogBlink::Loop(void)
 {
     s32 tmp;
@@ -339,551 +326,463 @@ EC void func_02014af4(void)
     return;
 }
 
-// func_02014e74
 u32 MenuItem::vfunc_d4(void)
 {
     return 1;
 }
 
-// func_02014e7c
 u32 MenuItem::vfunc_d0(void)
 {
     return 0;
 }
 
-// func_02014e84
 u32 MenuItem::vfunc_cc(void)
 {
     return 2;
 }
 
-// func_02014e8c
 u32 MenuItem::vfunc_c4(void)
 {
     return -1;
 }
 
-// func_02014e94
 void MenuItem::vfunc_b0(Menu * menu, MenuItemState * menuItemState)
 {
     return;
 }
 
-// func_02014e98
 void MenuItem::vfunc_a0(void)
 {
     return;
 }
 
-// func_02014e9c
 void MenuItem::vfunc_a4(MenuItemState * menuItemState)
 {
     this->vfunc_a0();
     return;
 }
 
-// func_02014eb0
 void MenuItem::vfunc_94(void)
 {
     return;
 }
 
-// func_02014eb4
 void MenuItem::vfunc_98(MenuItemState * menuItemState)
 {
     this->vfunc_94();
     return;
 }
 
-// func_02014ec8
 void MenuItem::vfunc_9c(Menu * menu, MenuItemState * menuItemState)
 {
     this->vfunc_98(menuItemState);
     return;
 }
 
-// func_02014ee0
 void MenuItem::vfunc_88(void)
 {
     return;
 }
 
-// func_02014ee4
 void MenuItem::vfunc_8c(MenuItemState * menuItemState)
 {
     this->vfunc_88();
     return;
 }
 
-// func_02014ef8
 void MenuItem::vfunc_90(Menu * menu, MenuItemState * menuItemState)
 {
     this->vfunc_8c(menuItemState);
     return;
 }
 
-// func_02014f10
 void MenuItem::vfunc_7c(void)
 {
     return;
 }
 
-// func_02014f14
 void MenuItem::vfunc_80(MenuItemState * menuItemState)
 {
     this->vfunc_7c();
     return;
 }
 
-// func_02014f28
 void MenuItem::vfunc_84(Menu * menu, MenuItemState * menuItemState)
 {
     this->vfunc_80(menuItemState);
     return;
 }
 
-// func_02014f40
 void MenuItem::vfunc_70(void)
 {
     return;
 }
 
-// func_02014f44
 void MenuItem::vfunc_74(MenuItemState * menuItemState)
 {
     this->vfunc_70();
     return;
 }
 
-// func_02014f58
 void MenuItem::vfunc_78(Menu * menu, MenuItemState * menuItemState)
 {
     this->vfunc_74(menuItemState);
     return;
 }
 
-// func_02014f70
 s32 MenuItem::vfunc_64(void)
 {
     return 0;
 }
 
-// func_02014f78
 s32 MenuItem::vfunc_68(MenuItemState * menuItemState)
 {
     return this->vfunc_64();
 }
 
-// func_02014f8c
 s32 MenuItem::vfunc_6c(Menu * menu, MenuItemState * menuItemState)
 {
     return this->vfunc_68(menuItemState);
 }
 
-// func_02014fa4
 s32 MenuItem::vfunc_58(void)
 {
     return 0x400;
 }
 
-// func_02014fac
 s32 MenuItem::vfunc_5c(MenuItemState * menuItemState)
 {
     return this->vfunc_58();
 }
 
-// func_02014fc0
 s32 MenuItem::vfunc_60(Menu * menu, MenuItemState * menuItemState)
 {
     return this->vfunc_5c(menuItemState);
 }
 
-// func_02014fd8
 s32 MenuItem::vfunc_4c(void)
 {
     return 0;
 }
 
-// func_02014fe0
 s32 MenuItem::vfunc_50(MenuItemState * menuItemState)
 {
     return this->vfunc_4c();
 }
 
-// func_02014ff4
 s32 MenuItem::vfunc_54(Menu * menu, MenuItemState * menuItemState)
 {
     return this->vfunc_50(menuItemState);
 }
 
-// func_0201500c
 s32 MenuItem::vfunc_40(void)
 {
     return 0;
 }
 
-// func_02015014
 s32 MenuItem::vfunc_44(MenuItemState * menuItemState)
 {
     return this->vfunc_40();
 }
 
-// func_02015028
 s32 MenuItem::vfunc_48(Menu * menu, MenuItemState * menuItemState)
 {
     return this->vfunc_44(menuItemState);
 }
 
-// func_02015040
 s32 MenuItem::vfunc_34(void)
 {
     return 0;
 }
 
-// func_02015048
 s32 MenuItem::vfunc_38(MenuItemState * menuItemState)
 {
     return this->vfunc_34();
 }
 
-// func_0201505c
 s32 MenuItem::vfunc_3c(Menu * menu, MenuItemState * menuItemState)
 {
     return this->vfunc_38(menuItemState);
 }
 
-// func_02015074
 s32 MenuItem::vfunc_28(void)
 {
     return 0x81;
 }
 
-// func_0201507c
 s32 MenuItem::vfunc_2c(MenuItemState * menuItemState)
 {
     return this->vfunc_28();
 }
 
-// func_02015090
 s32 MenuItem::vfunc_30(Menu * menu, MenuItemState * menuItemState)
 {
     return this->vfunc_2c(menuItemState);
 }
 
-// func_020150bc
 s32 MenuItem::vfunc_1c(void)
 {
     return 0;
 }
 
-// func_020150a8
 s32 MenuItem::vfunc_20(MenuItemState * menuItemState)
 {
     return this->vfunc_1c();
 }
 
-// func_020150c4
 s32 MenuItem::vfunc_24(Menu * menu, MenuItemState * menuItemState)
 {
     return this->vfunc_20(menuItemState);
 }
 
-// func_020150dc
 s32 MenuItem::vfunc_14(void)
 {
     return 0;
 }
 
-// func_020150e4
 s32 MenuItem::vfunc_18(s32 unused)
 {
     return this->vfunc_14();
 }
 
-// func_020150f8
 s32 MenuItem::vfunc_08(void)
 {
     return 0;
 }
 
-// func_02015100
 s32 MenuItem::vfunc_0c(MenuItemState * menuItemState)
 {
     return this->vfunc_08();
 }
 
-// func_02015114
 char * MenuItem::vfunc_00(void)
 {
     return 0;
 }
 
-// func_0201511c
 char * MenuItem::vfunc_04(MenuItemState * menuItemState)
 {
     return this->vfunc_00();
 }
 
-// func_02015130
 s32 LinkDialogItemNone::vfunc_1c(void)
 {
     return 0;
 }
 
-// func_02015138
 void LinkDialogItemNone::vfunc_a8(Menu * menu, MenuItemState * menuItemState)
 {
     return;
 }
 
-// func_0201513c
 s32 LinkDialogItemNone::vfunc_ac(MenuItemState * menuItemState, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     return 0;
 }
 
-// func_02015144
 s32 LinkDialogItemOk::vfunc_1c(void)
 {
     return 0x41;
 }
 
-// func_0201514c
 char * LinkDialogItemOk::vfunc_00(void)
 {
     return func_02039e10("M_OK");
 }
 
-// func_02015160
 s32 LinkDialogItemNext::vfunc_1c(void)
 {
     return 0x41;
 }
 
-// func_02015168
 char * LinkDialogItemNext::vfunc_00(void)
 {
     return func_02039e10("M_NEXT");
 }
 
-// func_0201517c
 s32 DialogItemNo::vfunc_28(void)
 {
     return 0;
 }
 
-// func_02015184
 s32 DialogItemNo::vfunc_14(void)
 {
     return 8;
 }
 
-// func_0201518c
 char * DialogItemNo::vfunc_00(void)
 {
     return func_02039e10("M_いいえ");
 }
 
-// func_020151a0
 s32 LinkDialogItemNoF::vfunc_1c(void)
 {
     data_020efc84.unk_30 = 0;
     return 0x81;
 }
 
-// func_020151b8
 s32 LinkDialogItemNo::vfunc_1c(void)
 {
     data_020efc84.unk_30 = 0;
     return 0x81;
 }
-// func_020151d0
+
 s32 LinkDialogItemNo::vfunc_14(void)
 {
     return 0;
 }
 
-// func_020151d8
 s32 DialogItemYes::vfunc_28(void)
 {
     return 0;
 }
 
-// func_020151e0
 char * DialogItemYes::vfunc_00(void)
 {
     return func_02039e10("M_はい");
 }
 
-// func_020151f4
 s32 LinkDialogItemYes::vfunc_1c(void)
 {
     data_020efc84.unk_30 = 1;
     return 0x41;
 }
 
-// func_0201520c
 void Menu::vfunc_e4(void)
 {
     return;
 }
 
-// func_02015210
 void Menu::vfunc_e0(void)
 {
     return;
 }
 
-// func_02015214
 void Menu::vfunc_b8(s32 arg0)
 {
     return;
 }
 
-// func_02015218
 s32 Menu::vfunc_ac(void)
 {
     return 0;
 }
 
-// func_02015220
 BOOL Menu::vfunc_a8(void)
 {
     return FALSE;
 }
 
-// func_02015228
 BOOL Menu::vfunc_a4(void)
 {
     return FALSE;
 }
 
-// func_02015230
 BOOL Menu::vfunc_a0(void)
 {
     return FALSE;
 }
 
-// func_02015238
 s32 Menu::vfunc_9c(void)
 {
     return 0;
 }
 
-// func_02015240
 s32 Menu::vfunc_98(s32 arg0, s32 arg1)
 {
     return 0;
 }
-// func_02015248
+
 s32 Menu::vfunc_94(s32 arg0, s32 arg1)
 {
     return 0;
 }
 
-// func_02015250
 s32 Menu::vfunc_60(void)
 {
     return this->vfunc_7c() | 0x2000;
 }
 
-// func_02015268
 s32 Menu::vfunc_58(s32 arg0)
 {
     return arg0;
 }
 
-// func_02015270
 s32 Menu::vfunc_5c(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_58(arg1);
 }
 
-// func_02015288
 s32 Menu::vfunc_50(s32 arg0)
 {
     return arg0;
 }
 
-// func_02015290
 s32 Menu::vfunc_54(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_50(arg1);
 }
 
-// func_020152a8
 s32 Menu::vfunc_48(s32 arg0)
 {
     return arg0;
 }
 
-// func_020152b0
 s32 Menu::vfunc_4c(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_48(arg1);
 }
 
-// func_020152c8
 s32 Menu::vfunc_40(s32 arg0)
 {
     return arg0;
 }
 
-// func_020152d0
 s32 Menu::vfunc_44(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_40(arg1);
 }
 
-// func_020152e8
 s32 Menu::vfunc_38(s32 arg0)
 {
     return arg0;
 }
 
-// func_020152f0
 s32 Menu::vfunc_3c(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_38(arg1);
 }
 
-// func_02015308
 s32 Menu::vfunc_30(s32 arg0)
 {
     return arg0;
 }
 
-// func_02015310
 s32 Menu::vfunc_34(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_30(arg1);
 }
 
-// func_02015328
 s32 Menu::vfunc_2c(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_28(arg1);
 }
 
-// func_02015340
 s32 Menu::vfunc_28(s32 arg0)
 {
     return arg0;
 }
 
-// func_02015348
 s32 Menu::vfunc_24(MenuItemState * menuItemState, s32 arg1)
 {
     return this->vfunc_20(arg1);
 }
 
-// func_02015360
 s32 Menu::vfunc_20(s32 arg0)
 {
     return arg0;
 }
 
-// func_02015368
 void Menu::vfunc_04(void)
 {
     return;
@@ -1051,7 +950,6 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 
 extern struct TouchState * gTouchSt;
 
-// func_0201536c
 s32 _LinkDialogCommon::vfunc_20(s32 param_2)
 {
     if ((gMapStateManager != NULL) && (gMapStateManager->unk_14->unk_24) == 0)
@@ -1062,13 +960,11 @@ s32 _LinkDialogCommon::vfunc_20(s32 param_2)
     return param_2;
 }
 
-// func_020153c4
 s32 _LinkDialogCommon::vfunc_28(s32 arg0)
 {
     return 0;
 }
 
-// func_020153cc
 void _LinkDialogCommon::vfunc_00(void)
 {
     struct VmMap_Common * iVar1;
@@ -1133,13 +1029,11 @@ void _LinkDialogCommon::vfunc_00(void)
     return;
 }
 
-// func_020154fc
 void _LinkDialogConfirm::vfunc_110(void)
 {
     return;
 }
 
-// func_020155d0
 void _LinkDialogNone::vfunc_11c(void)
 {
     LinkDialogBlink * puVar1;
@@ -1165,7 +1059,6 @@ extern struct UnkStruct_021970c4 * data_021970cc;
 EC s32 func_020290f4(struct UnkStruct_021970c4 *, s32);
 EC s32 func_02028e7c(struct UnkStruct_021970c4 *, s32, s32);
 
-// func_02015628
 void _LinkDialogNone::vfunc_10(void)
 {
     u32 iVar1;
@@ -1191,31 +1084,26 @@ void _LinkDialogNone::vfunc_10(void)
     return;
 }
 
-// func_020156a4
 void _LinkDialogNone::vfunc_110(void)
 {
     return;
 }
 
-// func_020156a8
 void _LinkDialogNone::vfunc_108(void)
 {
     return;
 }
 
-// func_020156ac
 void _LinkDialogNone::vfunc_100(void)
 {
     return;
 }
 
-// func_020156b0
 void _LinkDialogNone::vfunc_fc(void)
 {
     return;
 }
 
-// func_020156b4
 s32 _LinkDialogYesNo::vfunc_28(s32 arg0)
 {
     if (arg0 == 0)
@@ -1226,7 +1114,6 @@ s32 _LinkDialogYesNo::vfunc_28(s32 arg0)
     return arg0;
 }
 
-// func_020156e4
 void _LinkDialogYesNo::vfunc_00(void)
 {
     struct VmMap_Common * iVar1;
@@ -1292,7 +1179,6 @@ void _LinkDialogYesNo::vfunc_00(void)
     return;
 }
 
-// func_02015940
 s32 DialogItemNo::vfunc_1c(void)
 {
     return 0x81;

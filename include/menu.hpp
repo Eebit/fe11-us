@@ -74,30 +74,30 @@ public:
     Menu();
 
     /* 000 */ virtual void vfunc_00(void); // func_0202806c
-    /* 004 */ virtual void vfunc_04(void); // func_02015368
+    /* 004 */ virtual void vfunc_04(void);
     /* 008 */ virtual void vfunc_08(void);
     /* 00C */ virtual void vfunc_0c(void);
     /* 010 */ virtual void vfunc_10(void);
     /* 014 */ virtual void vfunc_14(void);
     /* 018 */ virtual void vfunc_18(void);
     /* 01C */ virtual void vfunc_1c(void);
-    /* 020 */ virtual s32 vfunc_20(s32); // func_02015360
-    /* 024 */ virtual s32 vfunc_24(MenuItemState *, s32); // func_02015348
-    /* 028 */ virtual s32 vfunc_28(s32); // func_02015340
-    /* 02C */ virtual s32 vfunc_2c(MenuItemState *, s32); // func_02015328
-    /* 030 */ virtual s32 vfunc_30(s32); // func_02015308
-    /* 034 */ virtual s32 vfunc_34(MenuItemState *, s32); // func_02015310
-    /* 038 */ virtual s32 vfunc_38(s32); // func_020152e8
-    /* 03C */ virtual s32 vfunc_3c(MenuItemState *, s32); // func_020152f0
-    /* 040 */ virtual s32 vfunc_40(s32); // func_020152c8
-    /* 044 */ virtual s32 vfunc_44(MenuItemState *, s32); // func_020152d0
-    /* 048 */ virtual s32 vfunc_48(s32); // func_020152a8
-    /* 04C */ virtual s32 vfunc_4c(MenuItemState *, s32); // func_020152b0
-    /* 050 */ virtual s32 vfunc_50(s32); // func_02015288
-    /* 054 */ virtual s32 vfunc_54(MenuItemState *, s32); // func_02015290
-    /* 058 */ virtual s32 vfunc_58(s32); // func_02015268
-    /* 05C */ virtual s32 vfunc_5c(MenuItemState *, s32); // func_02015270
-    /* 060 */ virtual s32 vfunc_60(void); // func_02015250
+    /* 020 */ virtual s32 vfunc_20(s32);
+    /* 024 */ virtual s32 vfunc_24(MenuItemState *, s32);
+    /* 028 */ virtual s32 vfunc_28(s32);
+    /* 02C */ virtual s32 vfunc_2c(MenuItemState *, s32);
+    /* 030 */ virtual s32 vfunc_30(s32);
+    /* 034 */ virtual s32 vfunc_34(MenuItemState *, s32);
+    /* 038 */ virtual s32 vfunc_38(s32);
+    /* 03C */ virtual s32 vfunc_3c(MenuItemState *, s32);
+    /* 040 */ virtual s32 vfunc_40(s32);
+    /* 044 */ virtual s32 vfunc_44(MenuItemState *, s32);
+    /* 048 */ virtual s32 vfunc_48(s32);
+    /* 04C */ virtual s32 vfunc_4c(MenuItemState *, s32);
+    /* 050 */ virtual s32 vfunc_50(s32);
+    /* 054 */ virtual s32 vfunc_54(MenuItemState *, s32);
+    /* 058 */ virtual s32 vfunc_58(s32);
+    /* 05C */ virtual s32 vfunc_5c(MenuItemState *, s32);
+    /* 060 */ virtual s32 vfunc_60(void);
     /* 064 */ virtual void vfunc_64(void);
     /* 068 */ virtual void vfunc_68(s32);
     /* 06C */ virtual void vfunc_6c(s32);
@@ -110,16 +110,16 @@ public:
     /* 088 */ virtual s32 vfunc_88(void);
     /* 08C */ virtual s32 vfunc_8c(void);
     /* 090 */ virtual s32 vfunc_90(void);
-    /* 094 */ virtual s32 vfunc_94(s32, s32); // func_02015248
-    /* 098 */ virtual s32 vfunc_98(s32, s32); // func_02015240
-    /* 09C */ virtual BOOL vfunc_9c(void); // func_02015238
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_02015230
-    /* 0A4 */ virtual BOOL vfunc_a4(void); // func_02015228
-    /* 0A8 */ virtual BOOL vfunc_a8(void); // func_02015220
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_02015218
+    /* 094 */ virtual s32 vfunc_94(s32, s32);
+    /* 098 */ virtual s32 vfunc_98(s32, s32);
+    /* 09C */ virtual BOOL vfunc_9c(void);
+    /* 0A0 */ virtual BOOL vfunc_a0(void);
+    /* 0A4 */ virtual BOOL vfunc_a4(void);
+    /* 0A8 */ virtual BOOL vfunc_a8(void);
+    /* 0AC */ virtual s32 vfunc_ac(void);
     /* 0B0 */ virtual BOOL vfunc_b0(MenuItemState *, s32, s32);
     /* 0B4 */ virtual BOOL vfunc_b4(void);
-    /* 0B8 */ virtual void vfunc_b8(s32); // func_02015214
+    /* 0B8 */ virtual void vfunc_b8(s32);
     /* 0BC */ virtual void vfunc_bc(void);
     /* 0C0 */ virtual void vfunc_c0(void);
     /* 0C4 */ virtual void vfunc_c4(void);
@@ -129,8 +129,8 @@ public:
     /* 0D4 */ virtual s32 vfunc_d4(s32);
     /* 0D8 */ virtual void vfunc_d8(void);
     /* 0DC */ virtual void vfunc_dc(void);
-    /* 0E0 */ virtual void vfunc_e0(void); // func_02015210
-    /* 0E4 */ virtual void vfunc_e4(void); // func_0201520c
+    /* 0E0 */ virtual void vfunc_e0(void);
+    /* 0E4 */ virtual void vfunc_e4(void);
     /* 0E8 */ virtual void vfunc_e8(void);
     /* 0EC */ virtual void vfunc_ec(void);
     /* 0F0 */ virtual void vfunc_f0(s32, s32, s32, s32);
@@ -177,60 +177,60 @@ class MenuResult
 class MenuItem : public MenuState, public MenuResult
 {
 public:
-    virtual char * vfunc_00(void); // func_02015114; GetLabelText?
-    virtual char * vfunc_04(MenuItemState *); // func_0201511c; wraps vfunc_00
-    virtual s32 vfunc_08(void); // func_020150f8
-    virtual s32 vfunc_0c(MenuItemState *); // func_02015100; wraps vfunc_08
+    virtual char * vfunc_00(void); // GetLabelText?
+    virtual char * vfunc_04(MenuItemState *); // wraps vfunc_00
+    virtual s32 vfunc_08(void);
+    virtual s32 vfunc_0c(MenuItemState *); // wraps vfunc_08
     virtual s32 vfunc_10(MenuItemState *); // GetLabelColor? (1 = White, 2 = Grey, 3 = Cyan, 4 = Gold, 5 = Green)
-    virtual s32 vfunc_14(void); // func_020150dc; IsEnabled?
-    virtual s32 vfunc_18(s32); // func_020150e4; Wraps vfunc_14
-    virtual s32 vfunc_1c(void); // func_020150bc; OnConfirm?
-    virtual s32 vfunc_20(MenuItemState *); // func_020150a8; OnConfirm? void *
-    virtual s32 vfunc_24(Menu *, MenuItemState *); // func_020150c4; OnConfirm? Menu *, void *
-    virtual s32 vfunc_28(void); // func_02015074; OnBPress
-    virtual s32 vfunc_2c(MenuItemState *); // func_0201507c; OnBPress; wraps vfunc_28
-    virtual s32 vfunc_30(Menu *, MenuItemState *); // func_02015090; OnBPress; wraps vfunc_2c
-    virtual s32 vfunc_34(void); // func_02015040; OnXPress
-    virtual s32 vfunc_38(MenuItemState *); // func_02015048; OnXPress
-    virtual s32 vfunc_3c(Menu *, MenuItemState *); // func_0201505c; OnXPress
-    virtual s32 vfunc_40(void); // func_0201500c
-    virtual s32 vfunc_44(MenuItemState *); // func_02015014
-    virtual s32 vfunc_48(Menu *, MenuItemState *); // func_02015028
-    virtual s32 vfunc_4c(void); // func_02014fd8; OnLPress
-    virtual s32 vfunc_50(MenuItemState *); // func_02014fe0; OnLPress
-    virtual s32 vfunc_54(Menu *, MenuItemState *); // func_02014ff4; OnLPress
-    virtual s32 vfunc_58(void); // func_02014fa4; OnRPress
-    virtual s32 vfunc_5c(MenuItemState *); // func_02014fac; OnRPress
-    virtual s32 vfunc_60(Menu *, MenuItemState *); // func_02014fc0; OnRPress
-    virtual s32 vfunc_64(void); // func_02014f70; maybe onexit
-    virtual s32 vfunc_68(MenuItemState *); // func_02014f78
-    virtual s32 vfunc_6c(Menu *, MenuItemState *); // func_02014f8c
-    virtual void vfunc_70(void); // func_02014f40; OnHover? or OnEnter?
-    virtual void vfunc_74(MenuItemState *); // func_02014f44; OnHover? void *
-    virtual void vfunc_78(Menu *, MenuItemState *); // func_02014f58; OnHover? Menu *, void *
-    virtual void vfunc_7c(void); // func_02014f10
-    virtual void vfunc_80(MenuItemState *); // func_02014f14
-    virtual void vfunc_84(Menu *, MenuItemState *); // func_02014f28
-    virtual void vfunc_88(void); // func_02014ee0
-    virtual void vfunc_8c(MenuItemState *); // func_02014ee4
-    virtual void vfunc_90(Menu *, MenuItemState *); // func_02014ef8
-    virtual void vfunc_94(void); // func_02014eb0
-    virtual void vfunc_98(MenuItemState *); // func_02014eb4
-    virtual void vfunc_9c(Menu *, MenuItemState *); // func_02014ec8
-    virtual void vfunc_a0(void); // func_02014e98
-    virtual void vfunc_a4(MenuItemState *); // func_02014e9c
+    virtual s32 vfunc_14(void); // IsEnabled?
+    virtual s32 vfunc_18(s32); // Wraps vfunc_14
+    virtual s32 vfunc_1c(void); // OnConfirm?
+    virtual s32 vfunc_20(MenuItemState *); // OnConfirm? void *
+    virtual s32 vfunc_24(Menu *, MenuItemState *); // OnConfirm? Menu *, void *
+    virtual s32 vfunc_28(void); // OnBPress
+    virtual s32 vfunc_2c(MenuItemState *); // wraps vfunc_28
+    virtual s32 vfunc_30(Menu *, MenuItemState *); // wraps vfunc_2c
+    virtual s32 vfunc_34(void); // OnXPress
+    virtual s32 vfunc_38(MenuItemState *); // OnXPress
+    virtual s32 vfunc_3c(Menu *, MenuItemState *); // OnXPress
+    virtual s32 vfunc_40(void);
+    virtual s32 vfunc_44(MenuItemState *);
+    virtual s32 vfunc_48(Menu *, MenuItemState *);
+    virtual s32 vfunc_4c(void); // OnLPress
+    virtual s32 vfunc_50(MenuItemState *); // OnLPress
+    virtual s32 vfunc_54(Menu *, MenuItemState *); // OnLPress
+    virtual s32 vfunc_58(void); // OnRPress
+    virtual s32 vfunc_5c(MenuItemState *); // OnRPress
+    virtual s32 vfunc_60(Menu *, MenuItemState *); // OnRPress
+    virtual s32 vfunc_64(void); // maybe onexit
+    virtual s32 vfunc_68(MenuItemState *);
+    virtual s32 vfunc_6c(Menu *, MenuItemState *);
+    virtual void vfunc_70(void); // OnHover? or OnEnter?
+    virtual void vfunc_74(MenuItemState *); // OnHover? void *
+    virtual void vfunc_78(Menu *, MenuItemState *); // OnHover? Menu *, void *
+    virtual void vfunc_7c(void);
+    virtual void vfunc_80(MenuItemState *);
+    virtual void vfunc_84(Menu *, MenuItemState *);
+    virtual void vfunc_88(void);
+    virtual void vfunc_8c(MenuItemState *);
+    virtual void vfunc_90(Menu *, MenuItemState *);
+    virtual void vfunc_94(void);
+    virtual void vfunc_98(MenuItemState *);
+    virtual void vfunc_9c(Menu *, MenuItemState *);
+    virtual void vfunc_a0(void);
+    virtual void vfunc_a4(MenuItemState *);
     virtual void vfunc_a8(Menu *, MenuItemState *); //
     virtual s32 vfunc_ac(MenuItemState *, s32, s32, s32, s32);
-    virtual void vfunc_b0(Menu *, MenuItemState *); // func_02014e94
+    virtual void vfunc_b0(Menu *, MenuItemState *);
     virtual void vfunc_b4(Menu *, MenuItemState *);
     virtual void vfunc_b8(Menu *, MenuItemState *);
     virtual void vfunc_bc(Menu *, MenuItemState *);
     virtual void vfunc_c0(Menu *, MenuItemState *);
-    virtual u32 vfunc_c4(void); // func_02014e8c
+    virtual u32 vfunc_c4(void);
     virtual u32 vfunc_c8(MenuItemState *);
-    virtual u32 vfunc_cc(void); // func_02014e84
-    virtual u32 vfunc_d0(void); // func_02014e7c
-    virtual u32 vfunc_d4(void); // func_02014e74
+    virtual u32 vfunc_cc(void);
+    virtual u32 vfunc_d0(void);
+    virtual u32 vfunc_d4(void);
 };
 
 class MenuItemState
@@ -360,17 +360,17 @@ class DialogItem : public MenuItem
 class DialogItemYes : public DialogItem
 {
 public:
-    /* 000 */ virtual char * vfunc_00(void); // func_020151e0
-    /* 028 */ virtual s32 vfunc_28(void); // func_020151d8
+    /* 000 */ virtual char * vfunc_00(void);
+    /* 028 */ virtual s32 vfunc_28(void);
 };
 
 class DialogItemNo : public DialogItem
 {
 public:
-    /* 000 */ virtual char * vfunc_00(void); // func_0201518c
-    /* 014 */ virtual s32 vfunc_14(void); // func_02015184
-    /* 01C */ virtual s32 vfunc_1c(void); // func_02015940
-    /* 028 */ virtual s32 vfunc_28(void); // func_0201517c
+    /* 000 */ virtual char * vfunc_00(void);
+    /* 014 */ virtual s32 vfunc_14(void);
+    /* 01C */ virtual s32 vfunc_1c(void);
+    /* 028 */ virtual s32 vfunc_28(void);
 };
 
 #endif // MENU_HPP
