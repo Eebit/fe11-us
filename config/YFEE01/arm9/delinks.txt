@@ -18,6 +18,9 @@ src/hardware.cpp:
 src/heap.cpp:
     .text       start:0x02011458 end:0x020115d4
 
+src/link_dialog.cpp:
+    .text       start:0x020147c0 end:0x02015aa0
+
 src/sound_manager.cpp:
     .text       start:0x02015bd0 end:0x02018c58
     .data       start:0x020cbfd4 end:0x020ce6ec
