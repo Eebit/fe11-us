@@ -1678,7 +1678,7 @@ EC void func_0202b688(void *, u32, u32, u32);
 // EC ??? _ZN9SplitMenu8vfunc_fcEllll
 // EC ??? _ZN9SplitMenu8vfunc_ecEv
 // EC ??? _ZN9SplitMenu8vfunc_e8Ev
-EC void _ZN6DialogC1Ev(void *);
+EC void _ZN6DialogC2Ev(void *);
 // EC ??? _ZN6Dialog9vfunc_128Ev
 // EC ??? func_0203038c
 // EC void func_020303bc(void *, char *, void *, ProcPtr, s32, s32);

@@ -54,19 +54,6 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 
 extern struct TouchState * gTouchSt;
 
-struct UnkStruct_020cac80
-{
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0c;
-    s32 unk_10;
-    s32 unk_14;
-    s32 unk_18;
-};
-
-extern struct UnkStruct_020cac80 data_020cac80;
-
 extern struct ProcCmd data_020caccc[];
 
 struct UnkStruct_020efc84
@@ -78,9 +65,13 @@ struct UnkStruct_020efc84
     s32 unk_30;
 };
 
-extern struct UnkStruct_020efc84 data_020efc84;
+u8 data_020efc84 = 0;
 
-extern MenuItem ** data_020efcb8;
+Dialog * data_020efc9c = 0;
+
+s32 data_020efcb4 = 0;
+
+MenuItem ** data_020efcb8 = 0;
 
 EC void func_01ff9998(void *, s32, s32);
 EC u8 * func_0202b70c(void);
@@ -110,12 +101,25 @@ public:
     virtual void Loop(void);
 };
 
+// Ordering required to match?
+
+s32 data_020cac88 = -1;
+s32 data_020cac84 = -1;
+s32 data_020cac80 = -1;
+s32 data_020cac90 = -1;
+s32 data_020cac94 = -1;
+s32 data_020cac8c = -1;
+s32 data_020cac98 = -1;
+
 class _LinkDialogCommon : public Dialog
 {
 public:
+    s16 unk_58;
+    s16 unk_5a;
+
     _LinkDialogCommon()
     {
-        data_020efc84.unk_00 = 0;
+        data_020efc84 = 0;
     }
 
     /* 000 */ virtual void vfunc_00(void)
@@ -141,39 +145,39 @@ public:
         {
             this->unk_30 = 0;
 
-            if (data_020cac80.unk_08 != -1)
+            if (data_020cac88 != -1)
             {
-                this->unk_30 = data_020cac80.unk_08;
+                this->unk_30 = data_020cac88;
             }
 
-            if (data_020cac80.unk_10 != -1)
+            if (data_020cac90 != -1)
             {
-                this->unk_14 = data_020cac80.unk_10;
+                this->unk_14 = data_020cac90;
             }
 
-            if (data_020cac80.unk_14 != -1)
+            if (data_020cac94 != -1)
             {
-                this->unk_18 = data_020cac80.unk_14;
+                this->unk_18 = data_020cac94;
             }
 
-            if (data_020cac80.unk_18 != -1)
+            if (data_020cac98 != -1)
             {
-                this->unk_1c = data_020cac80.unk_18;
+                this->unk_1c = data_020cac98;
             }
 
-            if (data_020cac80.unk_04 != -1)
+            if (data_020cac84 != -1)
             {
-                this->unk_20 = data_020cac80.unk_04;
+                this->unk_20 = data_020cac84;
             }
 
-            if (data_020cac80.unk_0c != -1)
+            if (data_020cac8c != -1)
             {
-                this->unk_24 = data_020cac80.unk_0c;
+                this->unk_24 = data_020cac8c;
             }
 
-            if (data_020cac80.unk_00 != -1)
+            if (data_020cac80 != -1)
             {
-                this->unk_28 = data_020cac80.unk_00;
+                this->unk_28 = data_020cac80;
             }
         }
 
@@ -199,7 +203,7 @@ public:
 
     virtual ~_LinkDialogCommon()
     {
-        data_020efc84.unk_18 = NULL;
+        data_020efc9c = NULL;
     }
 };
 
@@ -229,39 +233,39 @@ public:
         {
             this->unk_30 = 0;
 
-            if (data_020cac80.unk_08 != -1)
+            if (data_020cac88 != -1)
             {
-                this->unk_30 = data_020cac80.unk_08;
+                this->unk_30 = data_020cac88;
             }
 
-            if (data_020cac80.unk_10 != -1)
+            if (data_020cac90 != -1)
             {
-                this->unk_14 = data_020cac80.unk_10;
+                this->unk_14 = data_020cac90;
             }
 
-            if (data_020cac80.unk_14 != -1)
+            if (data_020cac94 != -1)
             {
-                this->unk_18 = data_020cac80.unk_14;
+                this->unk_18 = data_020cac94;
             }
 
-            if (data_020cac80.unk_18 != -1)
+            if (data_020cac98 != -1)
             {
-                this->unk_1c = data_020cac80.unk_18;
+                this->unk_1c = data_020cac98;
             }
 
-            if (data_020cac80.unk_04 != -1)
+            if (data_020cac84 != -1)
             {
-                this->unk_20 = data_020cac80.unk_04;
+                this->unk_20 = data_020cac84;
             }
 
-            if (data_020cac80.unk_0c != -1)
+            if (data_020cac8c != -1)
             {
-                this->unk_24 = data_020cac80.unk_0c;
+                this->unk_24 = data_020cac8c;
             }
 
-            if (data_020cac80.unk_00 != -1)
+            if (data_020cac80 != -1)
             {
-                this->unk_28 = data_020cac80.unk_00;
+                this->unk_28 = data_020cac80;
             }
         }
 
@@ -287,9 +291,6 @@ public:
 class _LinkDialogNone : public _LinkDialogCommon
 {
 public:
-    s16 unk_58;
-    s16 unk_5a;
-
     /* 0FC */ virtual void vfunc_fc(void)
     {
         return;
@@ -369,7 +370,7 @@ class LinkDialogItemYes : public DialogItemYes
 public:
     /* 01C */ virtual s32 vfunc_1c(void)
     {
-        data_020efc84.unk_30 = 1;
+        data_020efcb4 = 1;
         return 0x41;
     }
 };
@@ -384,7 +385,7 @@ public:
 
     /* 01C */ virtual s32 vfunc_1c(void)
     {
-        data_020efc84.unk_30 = 0;
+        data_020efcb4 = 0;
         return 0x81;
     }
 };
@@ -394,7 +395,7 @@ class LinkDialogItemNoF : public DialogItemNo
 public:
     /* 01C */ virtual s32 vfunc_1c(void)
     {
-        data_020efc84.unk_30 = 0;
+        data_020efcb4 = 0;
         return 0x81;
     }
 };
@@ -483,7 +484,7 @@ void LinkDialogBlink::Loop(void)
 EC void func_0202fef8(Menu *);
 EC void func_020303bc(Dialog *, char *, void *, ProcPtr, s32, s32);
 
-EC Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
+EC Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 param_4, u8 param_5, s32 param_6)
 {
     static LinkDialogItemYes data_020efcac;
     static LinkDialogItemNo data_020efca4;
@@ -493,27 +494,35 @@ EC Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 para
     static LinkDialogItemNone data_020efcb0;
 
     // clang-format off
-    static MenuItem * data_020cac9c[] =
-    {
-        &data_020efc8c,
-    };
-
-    static MenuItem * data_020caca4[] =
-    {
-        &data_020efcc0,
-    };
-
     static MenuItem * data_020cacac[] =
     {
         &data_020efcb0,
     };
+    // clang-format on
 
+    // clang-format off
+    static MenuItem * data_020cac9c[] =
+    {
+        &data_020efc8c,
+    };
+    // clang-format on
+
+    // clang-format off
+    static MenuItem * data_020caca4[] =
+    {
+        &data_020efcc0,
+    };
+    // clang-format on
+
+    // clang-format off
     static MenuItem * data_020cacb4[] =
     {
         &data_020efcac,
         &data_020efca0,
     };
+    // clang-format on
 
+    // clang-format off
     static MenuItem * data_020cacc0[] =
     {
         &data_020efcac,
@@ -521,22 +530,22 @@ EC Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 para
     };
     // clang-format on
 
-    if (data_020efc84.unk_18 != NULL)
+    if (data_020efc9c != NULL)
     {
-        func_0202fef8(data_020efc84.unk_18);
+        func_0202fef8(data_020efc9c);
     }
 
     if (param_3 == 0)
     {
-        data_020efc84.unk_18 = new _LinkDialogYesNo();
+        data_020efc9c = new _LinkDialogYesNo();
     }
     else if (param_3 == 3)
     {
-        data_020efc84.unk_18 = new _LinkDialogNone();
+        data_020efc9c = new _LinkDialogNone();
     }
     else
     {
-        data_020efc84.unk_18 = new _LinkDialogConfirm();
+        data_020efc9c = new _LinkDialogConfirm();
     }
 
     if (param_3 == 1)
@@ -566,18 +575,18 @@ EC Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 para
         param_1 = PROC_TREE_9;
     }
 
-    func_020303bc(data_020efc84.unk_18, param_2, data_020efcb8, param_1, param_4, param_5);
+    func_020303bc(data_020efc9c, param_2, data_020efcb8, param_1, param_4, param_5);
 
-    return data_020efc84.unk_18;
+    return data_020efc9c;
 }
 
 EC void func_0202fe9c(Menu *, s32);
 
 EC void func_02014ad0(void)
 {
-    if (data_020efc84.unk_18 != NULL)
+    if (data_020efc9c != NULL)
     {
-        func_0202fe9c(data_020efc84.unk_18, 0);
+        func_0202fe9c(data_020efc9c, 0);
     }
 
     return;
@@ -585,13 +594,13 @@ EC void func_02014ad0(void)
 
 EC void func_02014af4(void)
 {
-    data_020cac80.unk_08 = -1;
-    data_020cac80.unk_10 = -1;
-    data_020cac80.unk_14 = -1;
-    data_020cac80.unk_18 = -1;
-    data_020cac80.unk_04 = -1;
-    data_020cac80.unk_0c = -1;
-    data_020cac80.unk_00 = -1;
+    data_020cac88 = -1;
+    data_020cac90 = -1;
+    data_020cac94 = -1;
+    data_020cac98 = -1;
+    data_020cac84 = -1;
+    data_020cac8c = -1;
+    data_020cac80 = -1;
     return;
 }
 
@@ -628,7 +637,7 @@ EC s32 func_02014b20(ProcPtr param_1, s32 param_2, s32 param_3, s32 param_4)
         case 1:
             func_ov010_0220986c(0, 0, func_ov010_02207ab4(), param_1);
             func_ov010_02207ab4();
-            data_020efc84.unk_00 = func_ov010_02209674();
+            data_020efc84 = func_ov010_02209674();
             break;
 
         case 2:
@@ -651,7 +660,7 @@ EC s32 func_02014b20(ProcPtr param_1, s32 param_2, s32 param_3, s32 param_4)
                 case 7:
                     break;
             }
-            data_020efc84.unk_00 = func_ov011_022082ec(uVar2, local_1c, local_20);
+            data_020efc84 = func_ov011_022082ec(uVar2, local_1c, local_20);
             break;
     }
 
@@ -677,7 +686,7 @@ EC s32 func_02014b20(ProcPtr param_1, s32 param_2, s32 param_3, s32 param_4)
             break;
         case 4:
             iVar11 = 0;
-            if (data_020efc84.unk_00 == 0)
+            if (data_020efc84 == 0)
             {
                 new (Proc_StartBlocking(ProcScr_020ce750, param_1)) LinkErrorDialog("MLink_StorageLoginFailed");
             }
@@ -690,21 +699,21 @@ EC s32 func_02014b20(ProcPtr param_1, s32 param_2, s32 param_3, s32 param_4)
             break;
         case 6:
             iVar11 = 0;
-            if (data_020efc84.unk_00 == 0)
+            if (data_020efc84 == 0)
             {
                 new (Proc_StartBlocking(ProcScr_020ce750, param_1)) LinkErrorDialog("MLink_StorageLoadFailed");
             }
             break;
         case 7:
             iVar11 = 0;
-            if (data_020efc84.unk_00 == 0)
+            if (data_020efc84 == 0)
             {
                 new (Proc_StartBlocking(ProcScr_020ce750, param_1)) LinkErrorDialog("MLink_CollectFailed");
             }
             break;
         case 8:
             iVar11 = 0;
-            if (data_020efc84.unk_00 == 0)
+            if (data_020efc84 == 0)
             {
                 new (Proc_StartBlocking(ProcScr_020ce750, param_1)) LinkErrorDialog("MLink_OnlineShopFailed");
             }
@@ -713,11 +722,9 @@ EC s32 func_02014b20(ProcPtr param_1, s32 param_2, s32 param_3, s32 param_4)
     return iVar11;
 }
 
-EC Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
-
 EC void func_02014e10(LinkErrorDialog * param_1)
 {
-    if (data_020efc84.unk_00 == 0 && data_020efc84.unk_18 == NULL)
+    if (data_020efc84 == 0 && data_020efc9c == NULL)
     {
         func_02014834(param_1, func_02039e10(param_1->unk_38), 2, 1, 1, 1);
         Proc_Break(param_1, 0);
