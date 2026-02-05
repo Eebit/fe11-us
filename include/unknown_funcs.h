@@ -688,7 +688,7 @@ EC void func_020146a0(void);
 // EC ??? func_02014758
 // EC ??? func_02014768
 // EC ??? func_02014798
-// EC ??? func_020147c0
+// EC ??? LinkDialogBlink_Loop
 // EC ??? _ZN15LinkDialogBlink4LoopEv
 // EC ??? func_02014834
 // EC ??? func_02014ad0

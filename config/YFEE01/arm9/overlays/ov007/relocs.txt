@@ -331,12 +331,12 @@ from:0x0221933c kind:arm_call to:0x02002c3c module:main
 from:0x02219344 kind:arm_call to:0x020115a4 module:main
 from:0x02219370 kind:arm_call to:0x01ffbb90 module:itcm
 from:0x02219378 kind:arm_call to:0x0202d5e4 module:main
-from:0x02219384 kind:load to:0x020d40bc module:main
+from:0x02219384 kind:load to:0x020d40b4 module:main add:8
 from:0x02219388 kind:load to:0x027e1b9c module:dtcm
 from:0x022193ac kind:arm_call to:0x01ffbb90 module:itcm
 from:0x022193b4 kind:arm_call to:0x0202d5e4 module:main
 from:0x022193bc kind:arm_call to:0x020115a4 module:main
-from:0x022193c8 kind:load to:0x020d40bc module:main
+from:0x022193c8 kind:load to:0x020d40b4 module:main add:8
 from:0x022193cc kind:load to:0x027e1b9c module:dtcm
 from:0x022193d8 kind:load to:0x021f174c module:overlay(3)
 from:0x022193e4 kind:load to:0x021f171c module:overlay(3)

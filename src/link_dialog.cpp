@@ -54,7 +54,24 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 
 extern struct TouchState * gTouchSt;
 
-extern struct ProcCmd data_020caccc[];
+class LinkDialogBlink;
+
+EC void LinkDialogBlink_Loop(LinkDialogBlink * proc);
+
+// clang-format off
+
+struct ProcCmd ProcScr_LinkDialogBlink[] =
+{
+    PROC_NAME,
+    PROC_NAME,
+    PROC_SLEEP(0),
+
+    PROC_REPEAT(LinkDialogBlink_Loop),
+
+    PROC_END,
+};
+
+// clang-format on
 
 struct UnkStruct_020efc84
 {
@@ -342,7 +359,7 @@ public:
 
         Menu::vfunc_11c();
 
-        proc = new (func_01ffbf90(data_020caccc, PROC_TREE_3)) LinkDialogBlink(this->unk_20);
+        proc = new (func_01ffbf90(ProcScr_LinkDialogBlink, PROC_TREE_3)) LinkDialogBlink(this->unk_20);
         func_01ffbfd0(proc);
 
         return;
@@ -350,7 +367,7 @@ public:
 
     virtual ~_LinkDialogNone()
     {
-        Proc_EndEach(data_020caccc);
+        Proc_EndEach(ProcScr_LinkDialogBlink);
     }
 };
 
@@ -447,7 +464,7 @@ public:
     }
 };
 
-EC void func_020147c0(LinkDialogBlink * proc)
+EC void LinkDialogBlink_Loop(LinkDialogBlink * proc)
 {
     proc->Loop();
     return;
