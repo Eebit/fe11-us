@@ -16,6 +16,11 @@
 #include "sound_manager.hpp"
 #include "unit.hpp"
 
+namespace arena
+{
+class Arena;
+};
+
 extern struct UnkStruct_021970c4 * data_021970c4;
 
 EC void func_0200ac20(char *, ProcPtr, s32);
@@ -87,23 +92,18 @@ class ArenaBGMCont : public ProcEx
 public:
     ArenaBGMCont() {};
 
+    virtual void Loop();
     virtual ~ArenaBGMCont() {};
 };
-
-EC void func_ov000_021d8ed4(struct ArenaProc * proc);
-EC void func_ov000_021d9078(struct ArenaProc * proc);
-EC void func_ov000_021d9120(struct ArenaProc * proc);
-EC void func_ov000_021d9024(struct ArenaProc * proc);
 
 namespace arena
 {
 class Arena : public ProcEx
 {
 public:
-    /* 38 */ struct Unit * unk_38;
-    /* 3C */ struct Unit * unk_3c;
-    /* 40 */ struct Item unk_40[1];
-    /* 44 */ STRUCT_PAD(0x44, 0x54);
+    /* 38 */ Unit * unk_38;
+    /* 3C */ Unit * unk_3c;
+    /* 40 */ Item unk_40[5];
     /* 54 */ s32 unk_54;
     /* 58 */ u8 unk_58;
     /* 59 */ u8 unk_59;
@@ -117,7 +117,7 @@ public:
     /* 6D */ s8 unk_6d;
     /* 6E */ s8 unk_6e;
 
-    Arena(struct Unit * unit)
+    Arena(Unit * unit)
     {
         func_02039eac("shop");
 
@@ -126,7 +126,7 @@ public:
         this->unk_5c = 0;
         this->unk_5b = 0;
 
-        func_ov000_021d8ed4((struct ArenaProc *)this);
+        this->_021d8ed4();
 
         gpActiveScreenSt->dispIo->bldcnt.effect = 1;
 
@@ -148,7 +148,7 @@ public:
         gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 1;
 
         func_ov000_021a5810(gMapStateManager->unk_0c, 1);
-        func_ov000_021d9078((struct ArenaProc *)this);
+        this->_021d9078();
     }
 
     virtual ~Arena()
@@ -156,14 +156,44 @@ public:
         gpActiveScreenSt->dispIo->bldcnt.effect = 0;
 
         func_ov000_021a57e4(gMapStateManager->unk_0c, 1);
-        func_ov000_021d9120((struct ArenaProc *)this);
-        func_ov000_021d9024((struct ArenaProc *)this);
+        this->_021d9120();
+        this->_021d9024();
 
-        delete this->unk_60;
+        if (this->unk_60 != NULL)
+        {
+            delete this->unk_60;
+        }
         delete this->unk_5c;
 
         func_02039f00("shop", 0);
     }
+
+    void _021d7d1c(void);
+    void _021d7d50(void);
+    void _021d7d98(void);
+    s32 _021d7db8(Unit *, s32);
+    void _021d7e1c(void);
+    void _021d8014(void);
+    void _021d8064(void);
+    u8 * _021d80a4(Unit *, s32);
+    void _021d8104(void);
+    void _021d8604(void);
+    void _021d8694(void);
+    void _021d86e0(void);
+    void _021d87a4(void);
+    void _021d881c(void);
+    void _021d882c(BOOL);
+    ArenaProc_unk_5c * _021d8bbc(void);
+    void * _021d8bfc(void);
+    void _021d8c2c(void);
+    void _021d8c90(void);
+    void _021d8ccc(void);
+    void StartChoice(void);
+    void _021d8e28(void);
+    void _021d8ed4(void);
+    void _021d9024(void);
+    void _021d9078(void);
+    void _021d9120(void);
 };
 }; // namespace arena
 
@@ -179,59 +209,50 @@ EC void func_ov000_021c97ec(struct ArenaProc_unk_5c *);
 EC void func_ov000_021c9b1c(struct ArenaProc_unk_5c *);
 EC void func_ov000_021c9f8c(struct ArenaProc_unk_5c *, u32);
 EC struct Unit * func_ov000_021ca0b8(struct ArenaProc_unk_5c *);
-EC void * func_ov000_021cf59c(struct ArenaProc *);
-EC void func_ov000_021d3b00(struct Unit *, struct ArenaProc *, s32, s32);
-EC void func_ov002_021ef134(struct ArenaProc *, struct ArenaProc_unk_5c *);
+EC void * func_ov000_021cf59c(arena::Arena *);
+EC void func_ov000_021d3b00(struct Unit *, arena::Arena *, s32, s32);
+EC void func_ov002_021ef134(arena::Arena *, struct ArenaProc_unk_5c *);
 
 EC struct ArenaEnemy * func_ov000_021d7c90(u32);
-EC void func_ov000_021d7d98(struct ArenaProc * proc);
-EC void func_ov000_021d7e1c(struct ArenaProc * proc);
-EC void func_ov000_021d8014(struct ArenaProc * proc);
-EC void func_ov000_021d8064(struct ArenaProc * proc);
-EC void func_ov000_021d8104(struct ArenaProc * proc);
-EC void func_ov000_021d8ed4(struct ArenaProc * proc);
 
-EC void func_ov000_021d8604(struct ArenaProc * proc);
-EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1);
-
-EC void func_ov000_021d915c(struct ArenaProc *);
-EC void func_ov000_021d91a0(struct ArenaProc *);
-EC void func_ov000_021d91e4(struct ArenaProc *);
-EC void func_ov000_021d91f0(struct ArenaProc *);
-EC void func_ov000_021d920c(struct ArenaProc *);
-EC void func_ov000_021d9228(struct ArenaProc *);
-EC void func_ov000_021d9244(struct ArenaProc *);
-EC void func_ov000_021d9250(struct ArenaProc *);
-EC void func_ov000_021d9310(struct ArenaProc *);
-EC void func_ov000_021d932c(struct ArenaProc *);
-EC void func_ov000_021d9348(struct ArenaProc *);
-EC void func_ov000_021d9364(struct ArenaProc *);
-EC void func_ov000_021d93d0(struct ArenaProc *);
-EC void func_ov000_021d93ec(struct ArenaProc *);
-EC void func_ov000_021d9408(struct ArenaProc *);
-EC void func_ov000_021d9424(struct ArenaProc *);
-EC void func_ov000_021d9440(struct ArenaProc *);
-EC void func_ov000_021d945c(struct ArenaProc *);
-EC void func_ov000_021d94f4(struct ArenaProc *);
-EC void func_ov000_021d9478(struct ArenaProc *);
-EC void func_ov000_021d9484(struct ArenaProc *);
-EC void func_ov000_021d9490(struct ArenaProc *);
-EC void func_ov000_021d949c(struct ArenaProc *);
-EC void func_ov000_021d94ac(struct ArenaProc *);
-EC void func_ov000_021d94b8(struct ArenaProc *);
-EC void func_ov000_021d94c4(struct ArenaProc *);
-EC void func_ov000_021d94d0(struct ArenaProc *);
-EC void func_ov000_021d94dc(struct ArenaProc *);
-EC void func_ov000_021d94e8(struct ArenaProc *);
-EC void func_ov000_021d9500(struct ArenaProc *);
-EC void func_ov000_021d9520(struct ArenaProc *);
-EC void func_ov000_021d9538(struct ArenaProc *);
-EC void func_ov000_021d95b0(struct ArenaProc *);
-EC void func_ov000_021d95d8(void);
+EC void Arena_ov000_021d915c(arena::Arena *);
+EC void func_ov000_021d91a0(arena::Arena *);
+EC void Arena_ov000_021d91e4(arena::Arena *);
+EC void Arena_WelcomeDialogue(arena::Arena *);
+EC void Arena_WagerDialogue(arena::Arena *);
+EC void Arena_UpToTheChallengeDialogue(arena::Arena *);
+EC void Arena_ov000_021d9244(arena::Arena *);
+EC void Arena_ov000_021d9250(arena::Arena *);
+EC void Arena_BattleInstructionsDialogue(arena::Arena *);
+EC void Arena_CancelDialogue(arena::Arena *);
+EC void Arena_InsufficientGoldDialogue(arena::Arena *);
+EC void Arena_OnVictory(arena::Arena *);
+EC void Arena_OnDefeat(arena::Arena *);
+EC void Arena_OnDraw(arena::Arena *);
+EC void Arena_OnYield(arena::Arena *);
+EC void Arena_ForfeitGoldDialogue(arena::Arena *);
+EC void Arena_RetryDialogue(arena::Arena *);
+EC void Arena_ExitDialogue(arena::Arena *);
+EC void Arena_ov000_021d94f4(arena::Arena *);
+EC void Arena_ov000_021d9478(arena::Arena *);
+EC void Arena_ov000_021d9484(arena::Arena *);
+EC void Arena_ov000_021d9490(arena::Arena *);
+EC void Arena_ov000_021d949c(arena::Arena *);
+EC void Arena_ov000_021d94ac(arena::Arena *);
+EC void Arena_ov000_021d94b8(arena::Arena *);
+EC void Arena_AddGold(arena::Arena *);
+EC void Arena_DeductGold(arena::Arena *);
+EC void Arena_ov000_021d94dc(arena::Arena *);
+EC void Arena_ov000_021d94e8(arena::Arena *);
+EC void Arena_ov000_021d9500(arena::Arena *);
+EC void Arena_ov000_021d9520(arena::Arena *);
+EC void Arena_ov000_021d9538(arena::Arena *);
+EC void Arena_StartBGMCont(arena::Arena *);
+EC void Arena_EndBGMCont(void);
 
 // clang-format off
 
-struct ProcCmd data_ov000_021e2f38[] =
+struct ProcCmd ProcScr_Arena[] =
 {
     PROC_NAME,
     PROC_NAME,
@@ -241,96 +262,96 @@ struct ProcCmd data_ov000_021e2f38[] =
     PROC_CALL(func_0204b39c),
     PROC_WHILE(func_0204b1e0),
 
-    PROC_CALL(func_ov000_021d915c),
+    PROC_CALL(Arena_ov000_021d915c),
     PROC_CALL(func_0204b3d4),
     PROC_CALL(func_0204ac18),
-    PROC_CALL(func_ov000_021d91e4),
-    PROC_CALL(func_ov000_021d91f0),
+    PROC_CALL(Arena_ov000_021d91e4),
+    PROC_CALL(Arena_WelcomeDialogue),
 
     // fallthrough
 
 PROC_LABEL(3),
-    PROC_CALL(func_ov000_021d920c),
-    PROC_CALL(func_ov000_021d9228),
-    PROC_CALL(func_ov000_021d9244),
-    PROC_CALL(func_ov000_021d9250),
-    PROC_CALL(func_ov000_021d9310),
-    PROC_CALL(func_ov000_021d95d8),
+    PROC_CALL(Arena_WagerDialogue),
+    PROC_CALL(Arena_UpToTheChallengeDialogue),
+    PROC_CALL(Arena_ov000_021d9244),
+    PROC_CALL(Arena_ov000_021d9250),
+    PROC_CALL(Arena_BattleInstructionsDialogue),
+    PROC_CALL(Arena_EndBGMCont),
 
     // fallthrough
 
 PROC_LABEL(4),
-    PROC_CALL(func_ov000_021d9478),
+    PROC_CALL(Arena_ov000_021d9478),
 
     // fallthrough
 
 PROC_LABEL(5),
-    PROC_CALL(func_ov000_021d9484),
-    PROC_06(0, func_ov000_021d94ac),
-    PROC_CALL(func_ov000_021d9490),
+    PROC_CALL(Arena_ov000_021d9484),
+    PROC_06(0, Arena_ov000_021d94ac),
+    PROC_CALL(Arena_ov000_021d9490),
     PROC_06(0, NULL),
-    PROC_CALL(func_ov000_021d949c),
+    PROC_CALL(Arena_ov000_021d949c),
 
     // fallthrough
 
 PROC_LABEL(6),
-    PROC_CALL(func_ov000_021d9538),
+    PROC_CALL(Arena_ov000_021d9538),
     PROC_SLEEP(1),
 
-    PROC_CALL(func_ov000_021d94b8),
-    PROC_CALL(func_ov000_021d9500),
+    PROC_CALL(Arena_ov000_021d94b8),
+    PROC_CALL(Arena_ov000_021d9500),
 
     PROC_SLEEP(0),
 
-    PROC_CALL(func_ov000_021d9520),
-    PROC_CALL(func_ov000_021d9364),
-    PROC_CALL(func_ov000_021d94c4),
-    PROC_CALL(func_ov000_021d95b0),
-    PROC_CALL(func_ov000_021d9440),
-    PROC_CALL(func_ov000_021d94dc),
-    PROC_CALL(func_ov000_021d94e8),
+    PROC_CALL(Arena_ov000_021d9520),
+    PROC_CALL(Arena_OnVictory),
+    PROC_CALL(Arena_AddGold),
+    PROC_CALL(Arena_StartBGMCont),
+    PROC_CALL(Arena_RetryDialogue),
+    PROC_CALL(Arena_ov000_021d94dc),
+    PROC_CALL(Arena_ov000_021d94e8),
 
     PROC_02,
 
 PROC_LABEL(7),
-    PROC_CALL(func_ov000_021d93d0),
-    PROC_CALL(func_ov000_021d9424),
-    PROC_CALL(func_ov000_021d94d0),
+    PROC_CALL(Arena_OnDefeat),
+    PROC_CALL(Arena_ForfeitGoldDialogue),
+    PROC_CALL(Arena_DeductGold),
     PROC_SLEEP(0),
 
     PROC_GOTO(10),
 
 PROC_LABEL(8),
-    PROC_CALL(func_ov000_021d9408),
-    PROC_CALL(func_ov000_021d9424),
-    PROC_CALL(func_ov000_021d94d0),
+    PROC_CALL(Arena_OnYield),
+    PROC_CALL(Arena_ForfeitGoldDialogue),
+    PROC_CALL(Arena_DeductGold),
     PROC_SLEEP(0),
 
     PROC_GOTO(10),
 
 PROC_LABEL(9),
-    PROC_CALL(func_ov000_021d93ec),
+    PROC_CALL(Arena_OnDraw),
 
     PROC_GOTO(10),
 
 PROC_LABEL(0),
-    PROC_CALL(func_ov000_021d932c),
+    PROC_CALL(Arena_CancelDialogue),
 
     PROC_GOTO(10),
 
 PROC_LABEL(1),
-    PROC_CALL(func_ov000_021d9348),
+    PROC_CALL(Arena_InsufficientGoldDialogue),
 
     PROC_GOTO(10),
 
 PROC_LABEL(2),
-    PROC_CALL(func_ov000_021d945c),
+    PROC_CALL(Arena_ExitDialogue),
 
     PROC_GOTO(10),
 
 PROC_LABEL(10),
-    PROC_CALL(func_ov000_021d94f4),
-    PROC_CALL(func_ov000_021d95d8),
+    PROC_CALL(Arena_ov000_021d94f4),
+    PROC_CALL(Arena_EndBGMCont),
     PROC_CALL(func_ov000_021d91a0),
 
     PROC_CALL(func_0204aca8),
@@ -388,45 +409,40 @@ EC u8 * func_ov000_021d7cd8(u32 count)
     return arenaWeapon;
 }
 
-EC void func_ov000_021d7d1c(struct ArenaProc * proc)
+void arena::Arena::_021d7d1c(void)
 {
-    Force * pUnit;
-    struct Unit * unit;
+    this->_021d8014();
 
-    func_ov000_021d8014(proc);
+    this->unk_3c = Force::Get(4)->head;
+    func_0203bd34(this->unk_3c, 1, 1);
 
-    pUnit = Force::Get(4);
-    unit = pUnit->head;
-    proc->unk_3c = unit;
-    func_0203bd34(unit, 1, 1);
-
-    func_ov000_021d7d98(proc);
+    this->_021d7d98();
 
     return;
 }
 
-EC void func_ov000_021d7d50(struct ArenaProc * proc)
+void arena::Arena::_021d7d50(void)
 {
-    if ((proc->unk_38->state2 & 8) != 0)
+    if ((this->unk_38->state2 & 8) != 0)
     {
         data_021974fc->unk_00 = 0;
     }
 
-    func_0203bd34(proc->unk_3c, 4, 1);
-    func_ov000_021d8064(proc);
+    func_0203bd34(this->unk_3c, 4, 1);
+    this->_021d8064();
 
     return;
 }
 
-EC void func_ov000_021d7d98(struct ArenaProc * proc)
+void arena::Arena::_021d7d98(void)
 {
-    func_ov000_021d7e1c(proc);
-    func_ov000_021d8104(proc);
-    func_ov000_021d8604(proc);
+    this->_021d7e1c();
+    this->_021d8104();
+    this->_021d8604();
     return;
 }
 
-EC s32 func_ov000_021d7db8(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
+s32 arena::Arena::_021d7db8(Unit * unit, s32 arg_2)
 {
     s32 wpnLevel;
     s32 bestWpnType;
@@ -462,7 +478,7 @@ EC s32 func_ov000_021d7db8(struct ArenaProc * proc, struct Unit * unit, s32 arg_
     return bestWpnType;
 }
 
-EC void func_ov000_021d7e1c(struct ArenaProc * proc)
+void arena::Arena::_021d7e1c(void)
 {
     s32 set;
     s32 rng;
@@ -472,17 +488,17 @@ EC void func_ov000_021d7e1c(struct ArenaProc * proc)
     struct PersonData * pPersonData;
     struct JobData * pJobData;
 
-    s32 bestWeaponType = func_ov000_021d7db8(proc, proc->unk_38, 0);
+    s32 bestWeaponType = this->_021d7db8(this->unk_38, 0);
 
     BOOL isPromotedOrHighLevel = FALSE;
 
-    if (CheckUnitAttribute(proc->unk_38, 0x800))
+    if (CheckUnitAttribute(this->unk_38, 0x800))
     {
         isPromotedOrHighLevel = TRUE;
     }
-    else if (proc->unk_38->pJobData->pPromoteJob == NULL)
+    else if (this->unk_38->pJobData->pPromoteJob == NULL)
     {
-        if ((s32)proc->unk_38->level >= 16)
+        if ((s32)this->unk_38->level >= 16)
         {
             isPromotedOrHighLevel = TRUE;
         }
@@ -490,7 +506,7 @@ EC void func_ov000_021d7e1c(struct ArenaProc * proc)
 
     if (isPromotedOrHighLevel)
     {
-        if (CheckUnitAttribute(proc->unk_38, 0x400))
+        if (CheckUnitAttribute(this->unk_38, 0x400))
         {
             set = 7;
         }
@@ -517,7 +533,7 @@ EC void func_ov000_021d7e1c(struct ArenaProc * proc)
     }
     else
     {
-        if (CheckUnitAttribute(proc->unk_38, 0x400) != 0)
+        if (CheckUnitAttribute(this->unk_38, 0x400) != 0)
         {
             set = 3;
         }
@@ -559,9 +575,9 @@ EC void func_ov000_021d7e1c(struct ArenaProc * proc)
     pPersonData = GetPersonData() + arenaEnemy->pid;
     pJobData = GetJobData() + arenaEnemy->jid;
 
-    level = proc->unk_38->level;
+    level = this->unk_38->level;
 
-    if (CheckUnitAttribute(proc->unk_38, 0x800) != 0)
+    if (CheckUnitAttribute(this->unk_38, 0x800) != 0)
     {
         level += 15;
     }
@@ -578,56 +594,56 @@ EC void func_ov000_021d7e1c(struct ArenaProc * proc)
     // TODO: Clamp macro
     level = (level > iVar7) ? iVar7 : (level >= 1) ? level : 1;
 
-    func_0203a728(proc->unk_3c, pPersonData, pJobData, level);
-    proc->unk_3c->state2 |= 0x1000;
+    func_0203a728(this->unk_3c, pPersonData, pJobData, level);
+    this->unk_3c->state2 |= 0x1000;
 
     if (RollRN(0, 9) != 0)
     {
-        proc->unk_5a = 0;
+        this->unk_5a = 0;
     }
     else
     {
-        proc->unk_5a = 1;
+        this->unk_5a = 1;
     }
 
-    proc->unk_6c = 0;
-    proc->unk_6d = 0;
-    proc->unk_6e = 0;
+    this->unk_6c = 0;
+    this->unk_6d = 0;
+    this->unk_6e = 0;
 
     return;
 }
 
-EC void func_ov000_021d8014(struct ArenaProc * proc)
+void arena::Arena::_021d8014(void)
 {
     s32 i;
 
     for (i = 0; i < 5; i++)
     {
-        proc->unk_40[i] = &proc->unk_38->items[i];
-        proc->unk_38->items[i].Clear();
+        this->unk_40[i] = &this->unk_38->items[i];
+        this->unk_38->items[i].Clear();
     }
 
     return;
 }
 
 /* NONMATCHING: https://decomp.me/scratch/SlQqe */
-EC void func_ov000_021d8064(struct ArenaProc * proc)
+void arena::Arena::_021d8064(void)
 {
     s32 i;
 
     for (i = 0; i < 5; i++)
     {
-        proc->unk_38->items[i] = &proc->unk_40[i];
+        this->unk_38->items[i] = &this->unk_40[i];
     }
 
     return;
 }
 
-EC u8 * func_ov000_021d80a4(struct ArenaProc * proc, struct Unit * unit, s32 arg_2)
+u8 * arena::Arena::_021d80a4(Unit * unit, s32 arg_2)
 {
     u32 uVar1;
 
-    switch (func_ov000_021d7db8(proc, unit, arg_2))
+    switch (this->_021d7db8(unit, arg_2))
     {
         case 0:
         default:
@@ -663,7 +679,7 @@ EC u8 * func_ov000_021d80a4(struct ArenaProc * proc, struct Unit * unit, s32 arg
 }
 
 /* NONMATCHING: https://decomp.me/scratch/BcOxD */
-EC void func_ov000_021d8104(struct ArenaProc * proc)
+void arena::Arena::_021d8104(void)
 {
     s32 r0;
     s32 r4;
@@ -678,32 +694,32 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
     s32 wpnLevel;
     s32 wpnType;
 
-    sp_04 = func_ov000_021d80a4(proc, proc->unk_38, 0);
-    r5 = func_ov000_021d80a4(proc, proc->unk_3c, 1);
+    sp_04 = this->_021d80a4(this->unk_38, 0);
+    r5 = this->_021d80a4(this->unk_3c, 1);
 
     r6 = func_02038348(&gFE11Database->pItem[*sp_04]);
     r7 = func_02038348(&gFE11Database->pItem[*r5]);
 
-    r8 = func_0203dbd4(proc->unk_38, r6, r7);
+    r8 = func_0203dbd4(this->unk_38, r6, r7);
 
     for (r4 = 0; r4 < 10; r4++)
     {
-        r0 = func_0203dbd4(proc->unk_3c, r7, r6);
+        r0 = func_0203dbd4(this->unk_3c, r7, r6);
 
-        if (proc->unk_5a != 0)
+        if (this->unk_5a != 0)
         {
             if (r8 < r0)
             {
                 if ((r8 * 115) / 100 < r0)
                 {
-                    func_0203de10(proc->unk_3c);
-                    proc->unk_6c--;
+                    func_0203de10(this->unk_3c);
+                    this->unk_6c--;
                     continue;
                 }
                 else if ((r8 * 110) / 100 > r0)
                 {
-                    func_0203dd48(proc->unk_3c);
-                    proc->unk_6c++;
+                    func_0203dd48(this->unk_3c);
+                    this->unk_6c++;
                     continue;
                 }
                 else
@@ -713,8 +729,8 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
             }
             else
             {
-                func_0203dd48(proc->unk_3c);
-                proc->unk_6c++;
+                func_0203dd48(this->unk_3c);
+                this->unk_6c++;
                 continue;
             }
         }
@@ -722,8 +738,8 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         {
             if ((r8 * 115) / 100 < r0)
             {
-                func_0203de10(proc->unk_3c);
-                proc->unk_6c--;
+                func_0203de10(this->unk_3c);
+                this->unk_6c--;
                 continue;
             }
             else
@@ -735,8 +751,8 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         {
             if (r8 > ((r0 * 110) / 100))
             {
-                func_0203dd48(proc->unk_3c);
-                proc->unk_6c++;
+                func_0203dd48(this->unk_3c);
+                this->unk_6c++;
             }
             else
             {
@@ -750,21 +766,21 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
 
     if (wpnType < 6)
     {
-        if (func_0203c7ac(proc->unk_3c, wpnType) != 0)
+        if (func_0203c7ac(this->unk_3c, wpnType) != 0)
         {
             wpnLevel = item->wpnLevel;
-            if (wpnLevel > func_0203c7ac(proc->unk_3c, wpnType))
+            if (wpnLevel > func_0203c7ac(this->unk_3c, wpnType))
             {
                 s32 idk = item->wpnLevel;
-                idk -= func_0203c7ac(proc->unk_3c, wpnType);
+                idk -= func_0203c7ac(this->unk_3c, wpnType);
 
-                if (idk + proc->unk_3c->unk_84[wpnType] <= 0xFF)
+                if (idk + this->unk_3c->unk_84[wpnType] <= 0xFF)
                 {
-                    proc->unk_3c->unk_84[wpnType] += idk;
+                    this->unk_3c->unk_84[wpnType] += idk;
                 }
                 else
                 {
-                    proc->unk_3c->unk_84[wpnType] = 0xFF;
+                    this->unk_3c->unk_84[wpnType] = 0xFF;
                 }
             }
         }
@@ -782,14 +798,14 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         if (r6 != 0)
         {
             playerMight = gFE11Database->pItem[*sp_04].might;
-            playerAttack = GetUnitMag(proc->unk_38, NULL, TRUE);
-            opponentDefense = GetUnitRes(proc->unk_3c, NULL, TRUE);
+            playerAttack = GetUnitMag(this->unk_38, NULL, TRUE);
+            opponentDefense = GetUnitRes(this->unk_3c, NULL, TRUE);
         }
         else
         {
             playerMight = gFE11Database->pItem[*sp_04].might;
-            playerAttack = GetUnitStr(proc->unk_38, NULL, TRUE);
-            opponentDefense = GetUnitDef(proc->unk_3c, NULL, TRUE);
+            playerAttack = GetUnitStr(this->unk_38, NULL, TRUE);
+            opponentDefense = GetUnitDef(this->unk_3c, NULL, TRUE);
         }
 
         playerMight = ((playerMight + playerAttack) - opponentDefense);
@@ -797,52 +813,52 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
         if (r7 != 0)
         {
             opponentMight = gFE11Database->pItem[*r5].might;
-            opponentAttack = GetUnitMag(proc->unk_3c, NULL, TRUE);
-            playerDefense = GetUnitRes(proc->unk_38, NULL, TRUE);
+            opponentAttack = GetUnitMag(this->unk_3c, NULL, TRUE);
+            playerDefense = GetUnitRes(this->unk_38, NULL, TRUE);
         }
         else
         {
             opponentMight = gFE11Database->pItem[*r5].might;
-            opponentAttack = GetUnitStr(proc->unk_3c, NULL, TRUE);
-            playerDefense = GetUnitDef(proc->unk_38, NULL, TRUE);
+            opponentAttack = GetUnitStr(this->unk_3c, NULL, TRUE);
+            playerDefense = GetUnitDef(this->unk_38, NULL, TRUE);
         }
 
         opponentMight = ((opponentMight + opponentAttack) - playerDefense);
 
-        if ((playerMight * 6) < GetUnitMaxHp(proc->unk_3c))
+        if ((playerMight * 6) < GetUnitMaxHp(this->unk_3c))
         {
             if (r6 != 0)
             {
-                if (GetUnitRes(proc->unk_3c, 0, TRUE) > 0)
+                if (GetUnitRes(this->unk_3c, 0, TRUE) > 0)
                 {
-                    proc->unk_3c->unk_50[7]--;
-                    proc->unk_6e--;
+                    this->unk_3c->unk_50[7]--;
+                    this->unk_6e--;
                 }
             }
             else
             {
-                if (GetUnitDef(proc->unk_3c, 0, TRUE) > 0)
+                if (GetUnitDef(this->unk_3c, 0, TRUE) > 0)
                 {
-                    proc->unk_3c->unk_50[6]--;
-                    proc->unk_6e--;
+                    this->unk_3c->unk_50[6]--;
+                    this->unk_6e--;
                 }
             }
         }
 
-        if ((opponentMight * 6) < GetUnitMaxHp(proc->unk_38))
+        if ((opponentMight * 6) < GetUnitMaxHp(this->unk_38))
         {
             s32 idk;
 
             if (r7 != 0)
             {
-                proc->unk_3c->unk_50[2]++;
+                this->unk_3c->unk_50[2]++;
             }
             else
             {
-                proc->unk_3c->unk_50[1]++;
+                this->unk_3c->unk_50[1]++;
             }
 
-            proc->unk_6d++;
+            this->unk_6d++;
 
             if (*(r5 + 1) != 0)
             {
@@ -857,53 +873,53 @@ EC void func_ov000_021d8104(struct ArenaProc * proc)
                 continue;
             }
 
-            if (func_0203c7ac(proc->unk_3c, wpnType) == 0)
+            if (func_0203c7ac(this->unk_3c, wpnType) == 0)
             {
                 continue;
             }
 
             wpnLevel = item->wpnLevel;
 
-            if (wpnLevel <= func_0203c7ac(proc->unk_3c, wpnType))
+            if (wpnLevel <= func_0203c7ac(this->unk_3c, wpnType))
             {
                 continue;
             }
 
             idk = item->wpnLevel;
-            idk -= func_0203c7ac(proc->unk_3c, wpnType);
+            idk -= func_0203c7ac(this->unk_3c, wpnType);
 
-            if (idk + proc->unk_3c->unk_84[wpnType] <= 0xFF)
+            if (idk + this->unk_3c->unk_84[wpnType] <= 0xFF)
             {
-                proc->unk_3c->unk_84[wpnType] += idk;
+                this->unk_3c->unk_84[wpnType] += idk;
             }
             else
             {
-                proc->unk_3c->unk_84[wpnType] = 0xFF;
+                this->unk_3c->unk_84[wpnType] = 0xFF;
             }
         }
     }
 
-    proc->unk_38->items[0].InitFromIid(*sp_04);
-    proc->unk_38->items[0].flags |= 0x10;
+    this->unk_38->items[0].InitFromIid(*sp_04);
+    this->unk_38->items[0].flags |= 0x10;
 
-    proc->unk_3c->items[0].InitFromIid(*r5);
-    proc->unk_3c->items[0].flags |= 0x10;
+    this->unk_3c->items[0].InitFromIid(*r5);
+    this->unk_3c->items[0].flags |= 0x10;
 
     return;
 }
 
-EC void func_ov000_021d8604(struct ArenaProc * proc)
+void arena::Arena::_021d8604(void)
 {
     s32 iVar1;
     s32 iVar5;
     u32 uVar3;
     u32 uVar4;
 
-    uVar3 = func_02038348(proc->unk_38->items[GetUnitEquippedWeaponSlot(proc->unk_38)].GetData());
-    uVar4 = func_02038348(proc->unk_3c->items[GetUnitEquippedWeaponSlot(proc->unk_3c)].GetData());
+    uVar3 = func_02038348(this->unk_38->items[GetUnitEquippedWeaponSlot(this->unk_38)].GetData());
+    uVar4 = func_02038348(this->unk_3c->items[GetUnitEquippedWeaponSlot(this->unk_3c)].GetData());
 
-    iVar1 = func_0203dbd4(proc->unk_3c, uVar4, uVar3);
-    iVar5 = func_0203dbd4(proc->unk_38, uVar3, uVar4);
+    iVar1 = func_0203dbd4(this->unk_3c, uVar4, uVar3);
+    iVar5 = func_0203dbd4(this->unk_38, uVar3, uVar4);
 
     iVar1 = (iVar1 - (iVar5 >> 1)) * 10;
     if (iVar1 < 0)
@@ -911,59 +927,58 @@ EC void func_ov000_021d8604(struct ArenaProc * proc)
         iVar1 = 0;
     }
 
-    proc->unk_54 = iVar1 + 500;
+    this->unk_54 = iVar1 + 500;
 
-    func_02039f40(0, proc->unk_54);
+    func_02039f40(0, this->unk_54);
 
     return;
 }
 
-EC void func_ov000_021d8694(struct ArenaProc * proc)
+void arena::Arena::_021d8694(void)
 {
     gSoundManager->unk_a8->vfunc_3c(0x10, 9, 0);
 
-    proc->unk_64 = 0;
-    proc->unk_68 = 0;
-    proc->unk_59 = 0;
-    proc->unk_5b = 1;
+    this->unk_64 = 0;
+    this->unk_68 = 0;
+    this->unk_59 = 0;
+    this->unk_5b = 1;
 
     return;
 }
 
-EC void func_ov000_021d86e0(struct ArenaProc * proc)
+void arena::Arena::_021d86e0(void)
 {
-    struct ArenaProc_unk_5c * unk_5c;
     u32 kind;
 
-    proc->unk_38->items[0].uses = proc->unk_38->items[0].GetData()->uses;
-    proc->unk_3c->items[0].uses = proc->unk_3c->items[0].GetData()->uses;
+    this->unk_38->items[0].uses = this->unk_38->items[0].GetData()->uses;
+    this->unk_3c->items[0].uses = this->unk_3c->items[0].GetData()->uses;
 
     kind = 1;
-    if (proc->unk_38->items[0].GetData()->type == 3 || proc->unk_3c->items[0].GetData()->type == 3)
+    if (this->unk_38->items[0].GetData()->type == 3 || this->unk_3c->items[0].GetData()->type == 3)
     {
         kind = 2;
     }
 
-    proc->unk_60 = new ArenaProc_unk_60();
+    this->unk_60 = new ArenaProc_unk_60();
 
-    func_ov000_021c8b28(proc->unk_60, proc->unk_38, proc->unk_3c, kind);
+    func_ov000_021c8b28(this->unk_60, this->unk_38, this->unk_3c, kind);
 
-    proc->unk_5c = new ArenaProc_unk_5c(proc->unk_60);
+    this->unk_5c = new ArenaProc_unk_5c(this->unk_60);
 
-    func_ov000_021c97ec(proc->unk_5c);
+    func_ov000_021c97ec(this->unk_5c);
 
-    proc->unk_64++;
+    this->unk_64++;
 
     return;
 }
 
-EC void func_ov000_021d87a4(struct ArenaProc * proc)
+void arena::Arena::_021d87a4(void)
 {
     u8 tmp;
 
     if ((gKeySt->pressed & KEY_BUTTON_B) || (func_ov000_021a5650(gMapStateManager->unk_0c, 0) != 0))
     {
-        proc->unk_59 = 1;
+        this->unk_59 = 1;
     }
 
     // TODO: Most likely an inline
@@ -971,49 +986,45 @@ EC void func_ov000_021d87a4(struct ArenaProc * proc)
 
     if ((tmp & 0xFF) != 0)
     {
-        func_ov000_021d3b00(proc->unk_38, proc, 0, 0);
+        func_ov000_021d3b00(this->unk_38, this, 0, 0);
     }
 
     return;
 }
 
-EC void func_ov000_021d881c(struct ArenaProc * proc)
+void arena::Arena::_021d881c(void)
 {
-    func_ov002_021ef134(proc, proc->unk_5c);
+    func_ov002_021ef134(this, this->unk_5c);
     return;
 }
 
-// TODO: FIXME - need to resolve the inline issue with "func_0203c378"
-
-/* NONMATCHING: https://decomp.me/scratch/eLqmo */
-EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
+void arena::Arena::_021d882c(BOOL arg_1)
 {
     struct Unit * pUnit;
     s32 uVar6;
-    struct ArenaProc_unk_5c * unk_5c;
 
     BOOL idk = 0;
-    if (func_ov000_021ca0b8(proc->unk_5c) != NULL)
+    if (func_ov000_021ca0b8(this->unk_5c) != NULL)
     {
         idk = 1;
     }
 
-    func_ov000_021c9b1c(proc->unk_5c);
+    func_ov000_021c9b1c(this->unk_5c);
 
-    if (!(proc->unk_59 == 0 && !idk) || (proc->unk_64 >= 6))
+    if (!(this->unk_59 == 0 && !idk) || (this->unk_64 >= 6))
     {
-        pUnit = func_0203c378(proc->unk_38);
+        pUnit = func_0203c378(this->unk_38);
 
         if (pUnit->unk_30.unk_00 < 9999)
         {
             pUnit->unk_30.unk_00++;
         }
 
-        if (func_ov000_021ca0b8(proc->unk_5c) == proc->unk_3c)
+        if (func_ov000_021ca0b8(this->unk_5c) == this->unk_3c)
         {
             func_ov000_021a5810(gMapStateManager->unk_0c, 0);
-            Proc_Goto(proc, 6, 0);
-            pUnit = func_0203c378(proc->unk_38);
+            Proc_Goto(this, 6, 0);
+            pUnit = func_0203c378(this->unk_38);
 
             if (pUnit->unk_30.unk_02 < 9999)
             {
@@ -1024,27 +1035,27 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
         }
         else
         {
-            if (func_ov000_021ca0b8(proc->unk_5c) == proc->unk_38)
+            if (func_ov000_021ca0b8(this->unk_5c) == this->unk_38)
             {
                 func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
-                Proc_Goto(proc, 7, 0);
+                Proc_Goto(this, 7, 0);
                 uVar6 = -1;
             }
-            else if (proc->unk_59 != 0)
+            else if (this->unk_59 != 0)
             {
                 func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
-                Proc_Goto(proc, 8, 0);
+                Proc_Goto(this, 8, 0);
                 uVar6 = -1;
             }
             else
             {
                 func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
-                Proc_Goto(proc, 9, 0);
+                Proc_Goto(this, 9, 0);
                 uVar6 = -1;
             }
         }
 
-        if (data_02196f24->enableBgm != 0 && uVar6 != -2)
+        if (data_02196f24->enableBgm && uVar6 != -2)
         {
             if (uVar6 != -1)
             {
@@ -1056,43 +1067,43 @@ EC void func_ov000_021d882c(struct ArenaProc * proc, BOOL arg_1)
             }
         }
 
-        proc->unk_5b = 0;
+        this->unk_5b = 0;
     }
     else
     {
-        delete proc->unk_60;
-        delete proc->unk_5c;
+        delete this->unk_60;
+        delete this->unk_5c;
     }
 }
 
-EC struct ArenaProc_unk_5c * func_ov000_021d8bbc(struct ArenaProc * proc)
+struct ArenaProc_unk_5c * arena::Arena::_021d8bbc(void)
 {
-    if ((proc->unk_59 != 0) || (proc->unk_64 >= 6))
+    if ((this->unk_59 != 0) || (this->unk_64 >= 6))
     {
         return NULL;
     }
 
-    func_ov000_021d882c(proc, TRUE);
-    func_ov000_021d86e0(proc);
+    this->_021d882c(TRUE);
+    this->_021d86e0();
 
-    return proc->unk_5c;
+    return this->unk_5c;
 }
 
-EC void * func_ov000_021d8bfc(struct ArenaProc * proc)
+void * arena::Arena::_021d8bfc(void)
 {
-    func_ov000_021c9f8c(proc->unk_5c, proc->unk_68);
+    func_ov000_021c9f8c(this->unk_5c, this->unk_68);
 
-    if (proc->unk_5c->unk_24 == 0)
+    if (this->unk_5c->unk_24 == 0)
     {
-        return proc->unk_5c;
+        return this->unk_5c;
     }
 
-    return func_ov000_021cf59c(proc);
+    return func_ov000_021cf59c(this);
 }
 
-EC void func_ov000_021d8c2c(struct ArenaProc * proc)
+void arena::Arena::_021d8c2c(void)
 {
-    s32 iVar1 = proc->unk_54;
+    s32 iVar1 = this->unk_54;
     iVar1 = (u32)data_02196f20->unk_190 + iVar1;
 
     if (iVar1 > 999999)
@@ -1104,16 +1115,16 @@ EC void func_ov000_021d8c2c(struct ArenaProc * proc)
         data_02196f20->unk_190 = iVar1;
     }
 
-    func_ov000_021d8ed4(proc);
+    this->_021d8ed4();
 
     gSoundManager->unk_b0->vfunc_28(SE_MAP_MONEY1, 0, 0);
 
     return;
 }
 
-EC void func_ov000_021d8c90(struct ArenaProc * proc)
+void arena::Arena::_021d8c90(void)
 {
-    s32 iVar1 = -proc->unk_54;
+    s32 iVar1 = -this->unk_54;
     iVar1 = (u32)data_02196f20->unk_190 + iVar1;
 
     if (iVar1 > 999999)
@@ -1125,36 +1136,36 @@ EC void func_ov000_021d8c90(struct ArenaProc * proc)
         data_02196f20->unk_190 = iVar1;
     }
 
-    func_ov000_021d8ed4(proc);
+    this->_021d8ed4();
 
     return;
 }
 
-EC void func_ov000_021d8ccc(struct ArenaProc * proc)
+void arena::Arena::_021d8ccc(void)
 {
-    if (proc->unk_58 != 0)
+    if (this->unk_58 != 0)
     {
-        delete proc->unk_60;
-        delete proc->unk_5c;
+        delete this->unk_60;
+        delete this->unk_5c;
 
-        proc->unk_60 = NULL;
-        proc->unk_5c = NULL;
+        this->unk_60 = NULL;
+        this->unk_5c = NULL;
 
-        func_0203a94c(proc->unk_3c);
-        func_ov000_021d7d98(proc);
+        func_0203a94c(this->unk_3c);
+        this->_021d7d98();
 
-        Proc_Goto(proc, 3, 0);
+        Proc_Goto(this, 3, 0);
         return;
     }
 
-    Proc_Goto(proc, 2, 0);
+    Proc_Goto(this, 2, 0);
 
     return;
 }
 
 EC void func_ov000_021d8d4c(s32 arg_0)
 {
-    struct ArenaProc * proc = static_cast<ArenaProc *>(Proc_Find(data_ov000_021e2f38));
+    arena::Arena * proc = static_cast<arena::Arena *>(Proc_Find(ProcScr_Arena));
     proc->unk_58 = arg_0;
     return;
 }
@@ -1176,19 +1187,31 @@ public:
 class DI_ArenaYes : public DialogItemYes
 {
 public:
-    /* 01C */ virtual s32 vfunc_1c(void); // func_ov000_021d9940
+    /* 01C */ virtual s32 vfunc_1c(void)
+    {
+        func_ov000_021d8d4c(1);
+        return 0x41;
+    }
 };
 
 class DI_ArenaNo : public DialogItemNo
 {
 public:
-    /* 014 */ virtual s32 vfunc_14(void); // func_ov000_021d9938
-    /* 01C */ virtual s32 vfunc_1c(void); // func_ov000_021d9924
+    /* 014 */ virtual s32 vfunc_14(void)
+    {
+        return 0;
+    }
+
+    /* 01C */ virtual s32 vfunc_1c(void)
+    {
+        func_ov000_021d8d4c(0);
+        return 0x81;
+    }
 };
 
-EC void func_ov000_021d8d68(struct ArenaProc * proc)
+void arena::Arena::StartChoice(void)
 {
-    DialogYesNo * puVar2;
+    DialogYesNo * dialog;
 
     static DI_ArenaYes sArenaYes;
     static DI_ArenaNo sArenaNo;
@@ -1201,18 +1224,18 @@ EC void func_ov000_021d8d68(struct ArenaProc * proc)
     };
     // clang-format on
 
-    func_02039f40(0, proc->unk_54);
+    func_02039f40(0, this->unk_54);
 
-    puVar2 = new map::BMapDialogYesNo();
+    dialog = new map::BMapDialogYesNo();
 
-    func_020303bc(puVar2, func_02039e10("MD_賭金"), data_ov000_021e2ca0, proc, 1, 0);
+    func_020303bc(dialog, func_02039e10("MD_賭金"), data_ov000_021e2ca0, this, 1, 0);
 
     return;
 }
 
-EC void func_ov000_021d8e28(struct ArenaProc * proc)
+void arena::Arena::_021d8e28(void)
 {
-    DialogYesNo * puVar4;
+    DialogYesNo * dialog;
 
     static DI_ArenaYes sArenaYes;
     static DI_ArenaNo sArenaNo;
@@ -1225,49 +1248,44 @@ EC void func_ov000_021d8e28(struct ArenaProc * proc)
     };
     // clang-format on
 
-    puVar4 = new map::BMapDialogYesNo();
+    dialog = new map::BMapDialogYesNo();
 
-    func_020303bc(puVar4, func_02039e10("MD_再挑戦"), data_ov000_021e2cac, proc, 1, 0);
+    func_020303bc(dialog, func_02039e10("MD_再挑戦"), data_ov000_021e2cac, this, 1, 0);
 
     return;
 }
 
 /* NONMATCHING: https://decomp.me/scratch/KlfJk */
-EC void func_ov000_021d8ed4(struct ArenaProc * proc)
+void arena::Arena::_021d8ed4(void)
 {
-    u8 bVar1;
-    u16 uVar2;
+    u32 uVar2;
+    u32 bVar1;
     struct VmMap_Common * pUVar3;
-    u32 uVar4;
-    int iVar5;
-    u32 uVar6;
-    int iVar7;
-    int iVar8;
+    u32 bg;
 
     pUVar3 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font"));
-    uVar6 = pUVar3->unk_07;
+    bg = pUVar3->unk_07;
     uVar2 = pUVar3->unk_04;
     bVar1 = pUVar3->unk_06;
 
-    func_02010f98(gpActiveScreenSt->tilemap[uVar6] + 0xa8, 0xb, 2);
+    func_02010f98(gpActiveScreenSt->tilemap[bg] + 0x54, 0xb, 2);
 
-    iVar7 = func_020295ec(
-        data_021970c4, func_02039e10("MD_MONEY"), gpActiveScreenSt->bgTiles[uVar6],
-        gpActiveScreenSt->tilemap[uVar6], 0x14, 2, uVar2, bVar1, 0, 0);
-    iVar7 = uVar2 + iVar7;
-    iVar8 = func_020295ec(
-        data_021970c4, func_02039e10("MD_GOLD"), gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6],
-        0x1e, 2, iVar7, bVar1, 0, 0);
+    uVar2 += func_020295ec(
+        data_021970c4, func_02039e10("MD_MONEY"), gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg],
+        0x14, 2, uVar2, bVar1, 0, 0);
+    uVar2 += func_020295ec(
+        data_021970c4, func_02039e10("MD_GOLD"), gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg],
+        0x1e, 2, uVar2, bVar1, 0, 0);
     func_02029850(
-        data_021970c4, data_02196f20->unk_190, gpActiveScreenSt->bgTiles[uVar6], gpActiveScreenSt->tilemap[uVar6], 0x1d,
-        2, iVar7 + iVar8, bVar1, 0);
+        data_021970c4, data_02196f20->unk_190, gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg], 0x1d,
+        2, uVar2, bVar1, 0);
 
-    gpActiveScreenSt->unk_3e |= 1 << uVar6;
+    gpActiveScreenSt->unk_3e |= 1 << bg;
 
     return;
 }
 
-EC void func_ov000_021d9024(struct ArenaProc * proc)
+void arena::Arena::_021d9024(void)
 {
     u8 bVar1;
     struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Font"));
@@ -1280,7 +1298,7 @@ EC void func_ov000_021d9024(struct ArenaProc * proc)
 }
 
 /* NONMATCHING: https://decomp.me/scratch/LWUIx */
-EC void func_ov000_021d9078(struct ArenaProc * proc)
+void arena::Arena::_021d9078(void)
 {
     u32 uVar4;
     u16 uVar2;
@@ -1295,14 +1313,14 @@ EC void func_ov000_021d9078(struct ArenaProc * proc)
 
     func_0201177c("money.cg", ((u32)(gpActiveScreenSt->bgTiles[uVar4])) + uVar2 * 0x20);
     func_02011a70("money.cl", bVar1 * 0x20, 0, 0);
-    func_02011a30("money.rect", gpActiveScreenSt->tilemap[uVar4] + 0x20, uVar2, bVar1);
+    func_02011a30("money.rect", gpActiveScreenSt->tilemap[uVar4] + 0x10, uVar2, bVar1);
 
     gpActiveScreenSt->unk_3e |= 1 << uVar4;
 
     return;
 }
 
-EC void func_ov000_021d9120(struct ArenaProc * proc)
+void arena::Arena::_021d9120(void)
 {
     u8 bVar1;
     struct VmMap_Common * pUVar2 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_BG2Free"));
@@ -1314,21 +1332,21 @@ EC void func_ov000_021d9120(struct ArenaProc * proc)
     return;
 }
 
-EC void func_ov000_021d915c(struct ArenaProc * proc)
+EC void Arena_ov000_021d915c(arena::Arena * proc)
 {
-    if (data_02196f24->enableBgm == 0)
+    if (!data_02196f24->enableBgm)
     {
         return;
     }
 
-    StartSoundWaitTo_02017518(gSoundManager->unk_a8, gSoundManager->unk_a4, 0x10, 0x34, 0x10);
+    StartSoundWaitTo_02017518(gSoundManager->unk_a8, gSoundManager->unk_a4, 0x10, BGM_SYS_TOUGIJOU1, 0x10);
 
     return;
 }
 
-EC void func_ov000_021d91a0(struct ArenaProc * unused)
+EC void func_ov000_021d91a0(arena::Arena * unused)
 {
-    if (data_02196f24->enableBgm == 0)
+    if (!data_02196f24->enableBgm)
     {
         return;
     }
@@ -1336,45 +1354,49 @@ EC void func_ov000_021d91a0(struct ArenaProc * unused)
     if ((data_ov000_021e3340->unk_06 & 8) != 0)
     {
         func_ov000_021a43e8();
-        return;
+    }
+    else
+    {
+        func_ov000_021a4694();
     }
 
-    func_ov000_021a4694();
-
     return;
 }
 
-EC void func_ov000_021d91e4(struct ArenaProc * proc)
+EC void Arena_ov000_021d91e4(arena::Arena * proc)
 {
-    func_ov000_021d7d1c(proc);
+    proc->_021d7d1c();
     return;
 }
 
-EC void func_ov000_021d91f0(struct ArenaProc * proc)
+EC void Arena_WelcomeDialogue(arena::Arena * proc)
 {
+    // "BBG23|Well, well. This 'ere's an arena.[NL]You 'ere for a fight, mate?"
     func_0200ac20("M闘技場_WELCOME", proc, 0);
     return;
 }
 
-EC void func_ov000_021d920c(struct ArenaProc * proc)
+EC void Arena_WagerDialogue(arena::Arena * proc)
 {
+    // "The wager's 0 gold."
     func_0200ac20("M闘技場_PRICE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9228(struct ArenaProc * proc)
+EC void Arena_UpToTheChallengeDialogue(arena::Arena * proc)
 {
+    // "Reckon you're up to the challenge?"
     func_0200ac20("M闘技場_CHALLENGE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9244(struct ArenaProc * proc)
+EC void Arena_ov000_021d9244(arena::Arena * proc)
 {
-    func_ov000_021d8d68(proc);
+    proc->StartChoice();
     return;
 }
 
-EC void func_ov000_021d9250(struct ArenaProc * proc)
+EC void Arena_ov000_021d9250(arena::Arena * proc)
 {
     if (proc->unk_58 != 0)
     {
@@ -1401,192 +1423,214 @@ EC void func_ov000_021d9250(struct ArenaProc * proc)
     return;
 }
 
-EC void func_ov000_021d9310(struct ArenaProc * proc)
+EC void Arena_BattleInstructionsDialogue(arena::Arena * proc)
 {
+    // "Rules is easy: keep tradin' blows till one of[NL]ya drops, or press the B Button to yield.[NL]Don't get yerself killed, huh?"
     func_0200ac20("M闘技場_BATTLE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d932c(struct ArenaProc * proc)
+EC void Arena_CancelDialogue(arena::Arena * proc)
 {
+    // "If you ain't payin', you ain't stayin'.[NL]Beat it."
     func_0200ac20("M闘技場_GETOUT", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9348(struct ArenaProc * proc)
+EC void Arena_InsufficientGoldDialogue(arena::Arena * proc)
 {
+    // "What, no gold?[NL]Then it's time you strolled."
     func_0200ac20("M闘技場_POOR", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9364(struct ArenaProc * proc)
+EC void Arena_OnVictory(arena::Arena * proc)
 {
     func_02039f40(0, proc->unk_54);
+    // "ARENA|Nice fightin', mate.[NL]'Ere's yer reward: 0 gold."
     func_0200ac20("M闘技場_WIN", proc, 0);
 
-    if (data_02196f24->enableBgm == 0)
+    if (!data_02196f24->enableBgm)
     {
         return;
     }
 
-    gSoundManager->unk_a8->vfunc_3c(0x10, 0x35, 0);
+    gSoundManager->unk_a8->vfunc_3c(0x10, BGM_SYS_TOUGIJOU2, 0);
 
     return;
 }
 
-EC void func_ov000_021d93d0(struct ArenaProc * proc)
+EC void Arena_OnDefeat(arena::Arena * proc)
 {
+    // "ARENA|Agh, another 'un bites the dust...[NL]No profit in death, eh?"
     func_0200ac20("M闘技場_LOSE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d93ec(struct ArenaProc * proc)
+EC void Arena_OnDraw(arena::Arena * proc)
 {
+    // "ARENA|Looks like nobody wins.[NL]But everybody lives, and ain't that what[NL]counts?"
     func_0200ac20("M闘技場_DRAW", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9408(struct ArenaProc * proc)
+EC void Arena_OnYield(arena::Arena * proc)
 {
+    // "ARENA|What, givin' up already?"
     func_0200ac20("M闘技場_STOP", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9424(struct ArenaProc * proc)
+EC void Arena_ForfeitGoldDialogue(arena::Arena * proc)
 {
+    // "Guess I'll be pocketin' yer wager."
     func_0200ac20("M闘技場_FORFEIT", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9440(struct ArenaProc * proc)
+EC void Arena_RetryDialogue(arena::Arena * proc)
 {
+    // "Feel like goin' another round?"
     func_0200ac20("M闘技場_RETRY", proc, 0);
     return;
 }
 
-EC void func_ov000_021d945c(struct ArenaProc * proc)
+EC void Arena_ExitDialogue(arena::Arena * proc)
 {
+    // "So long, then."
     func_0200ac20("M闘技場_BYE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9478(struct ArenaProc * proc)
+EC void Arena_ov000_021d9478(arena::Arena * proc)
 {
-    func_ov000_021d8694(proc);
+    proc->_021d8694();
     return;
 }
 
-EC void func_ov000_021d9484(struct ArenaProc * proc)
+EC void Arena_ov000_021d9484(arena::Arena * proc)
 {
-    func_ov000_021d86e0(proc);
+    proc->_021d86e0();
     return;
 }
 
-EC void func_ov000_021d9490(struct ArenaProc * proc)
+EC void Arena_ov000_021d9490(arena::Arena * proc)
 {
-    func_ov000_021d881c(proc);
+    proc->_021d881c();
     return;
 }
 
-EC void func_ov000_021d949c(struct ArenaProc * proc)
+EC void Arena_ov000_021d949c(arena::Arena * proc)
 {
-    func_ov000_021d882c(proc, 0);
+    proc->_021d882c(0);
     return;
 }
 
-EC void func_ov000_021d94ac(struct ArenaProc * proc)
+EC void Arena_ov000_021d94ac(arena::Arena * proc)
 {
-    func_ov000_021d87a4(proc);
+    proc->_021d87a4();
     return;
 }
 
-EC void func_ov000_021d94b8(struct ArenaProc * proc)
+EC void Arena_ov000_021d94b8(arena::Arena * proc)
 {
-    func_ov000_021d8bfc(proc);
+    proc->_021d8bfc();
     return;
 }
 
-EC void func_ov000_021d94c4(struct ArenaProc * proc)
+EC void Arena_AddGold(arena::Arena * proc)
 {
-    func_ov000_021d8c2c(proc);
+    proc->_021d8c2c();
     return;
 }
 
-EC void func_ov000_021d94d0(struct ArenaProc * proc)
+EC void Arena_DeductGold(arena::Arena * proc)
 {
-    func_ov000_021d8c90(proc);
+    proc->_021d8c90();
     return;
 }
 
-EC void func_ov000_021d94dc(struct ArenaProc * proc)
+EC void Arena_ov000_021d94dc(arena::Arena * proc)
 {
-    func_ov000_021d8e28(proc);
+    proc->_021d8e28();
     return;
 }
 
-EC void func_ov000_021d94e8(struct ArenaProc * proc)
+EC void Arena_ov000_021d94e8(arena::Arena * proc)
 {
-    func_ov000_021d8ccc(proc);
+    proc->_021d8ccc();
     return;
 }
 
-EC void func_ov000_021d94f4(struct ArenaProc * proc)
+EC void Arena_ov000_021d94f4(arena::Arena * proc)
 {
-    func_ov000_021d7d50(proc);
+    proc->_021d7d50();
     return;
 }
 
-EC void func_ov000_021d9500(struct ArenaProc * unused)
+EC void Arena_ov000_021d9500(arena::Arena * unused)
 {
     func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
     return;
 }
 
-EC void func_ov000_021d9520(struct ArenaProc * proc)
+EC void Arena_ov000_021d9520(arena::Arena * proc)
 {
-    func_ov000_021d9078(proc);
-    func_ov000_021d8ed4(proc);
+    proc->_021d9078();
+    proc->_021d8ed4();
     return;
 }
 
-EC void func_ov000_021d9538(struct ArenaProc * proc)
+EC void Arena_ov000_021d9538(arena::Arena * proc)
 {
-    func_ov000_021d9120(proc);
-    func_ov000_021d9024(proc);
+    proc->_021d9120();
+    proc->_021d9024();
     return;
 }
 
-EC void func_ov000_021d9550(struct ArenaProc * proc)
+EC void ArenaBGMCont_Loop(ArenaBGMCont * proc)
 {
-    proc->proc_funcTable->unk_08(proc);
+    proc->Loop();
     return;
 }
 
-EC void func_ov000_021d9564(struct ArenaProc * proc)
+void ArenaBGMCont::Loop(void)
 {
-    if (func_02016250(0x35))
+    if (func_02016250(BGM_SYS_TOUGIJOU2))
     {
         return;
     }
 
     gSoundManager->unk_a8->vfunc_28(BGM_SYS_TOUGIJOU1, 0, 0);
 
-    Proc_End(proc);
+    Proc_End(this);
 
     return;
 }
 
-extern struct ProcCmd data_ov000_021e2cb8[];
+// clang-format off
 
-EC void func_ov000_021d95b0(struct ArenaProc * parent)
+struct ProcCmd ProcScr_ArenaBGMCont[] =
 {
-    new (Proc_Start(data_ov000_021e2cb8, parent)) ArenaBGMCont();
+    PROC_NAME,
+
+    PROC_SLEEP(0),
+    PROC_REPEAT(ArenaBGMCont_Loop),
+
+    PROC_END,
+};
+
+// clang-format on
+
+EC void Arena_StartBGMCont(arena::Arena * parent)
+{
+    new (Proc_Start(ProcScr_ArenaBGMCont, parent)) ArenaBGMCont();
     return;
 }
 
-EC void func_ov000_021d95d8(void)
+EC void Arena_EndBGMCont(void)
 {
-    Proc_EndEach(data_ov000_021e2cb8);
+    Proc_EndEach(ProcScr_ArenaBGMCont);
     return;
 }
 
@@ -1624,40 +1668,40 @@ struct Unknown_021e3320
 
 extern u8 data_ov000_021e3320[];
 
-EC void func_ov000_021d95ec(ProcPtr parent)
+EC void StartArena(ProcPtr parent)
 {
-    struct ArenaProc * proc;
-    struct Unit * iVar4;
+    Unit * unit;
 
     if (gActionSt->unitId == 0)
     {
-        iVar4 = NULL;
+        unit = NULL;
     }
     else
     {
-        iVar4 = gUnitList + gActionSt->unitId - 1;
+        unit = gUnitList + gActionSt->unitId - 1;
     }
 
-    if (data_ov000_021e3320[iVar4->force->id] == 1)
+    if (data_ov000_021e3320[unit->force->id] == 1)
     {
-        data_021974fc->unk_00 = iVar4;
-        func_0204b194(iVar4->xPos, iVar4->yPos);
+        data_021974fc->unk_00 = unit;
+        func_0204b194(unit->xPos, unit->yPos);
     }
 
-    new (Proc_StartBlocking(data_ov000_021e2f38, parent)) arena::Arena(gMapStateManager->unk_04->unk_00);
+    new (Proc_StartBlocking(ProcScr_Arena, parent)) arena::Arena(gMapStateManager->unk_04->unk_00);
 
     return;
 }
 
 EC void func_ov000_021d98ec(void)
 {
-    func_ov000_021d8bbc(static_cast<struct ArenaProc *>(Proc_Find(data_ov000_021e2f38)));
+    arena::Arena * arena = static_cast<arena::Arena *>(Proc_Find(ProcScr_Arena));
+    arena->_021d8bbc();
     return;
 }
 
 EC u32 func_ov000_021d9904(void)
 {
-    struct ArenaProc * proc = static_cast<struct ArenaProc *>(Proc_Find(data_ov000_021e2f38));
+    arena::Arena * proc = static_cast<arena::Arena *>(Proc_Find(ProcScr_Arena));
 
     if (proc != NULL)
     {
@@ -1665,21 +1709,4 @@ EC u32 func_ov000_021d9904(void)
     }
 
     return 0;
-}
-
-EC s32 func_ov000_021d9924(void)
-{
-    func_ov000_021d8d4c(0);
-    return 0x81;
-}
-
-EC s32 func_ov000_021d9938(void)
-{
-    return 0;
-}
-
-EC s32 func_ov000_021d9940(void)
-{
-    func_ov000_021d8d4c(1);
-    return 0x41;
 }
