@@ -92,7 +92,7 @@ class ArenaBGMCont : public ProcEx
 public:
     ArenaBGMCont() {};
 
-    virtual void Loop(); // func_ov000_021d9564
+    virtual void Loop();
     virtual ~ArenaBGMCont() {};
 };
 
@@ -159,41 +159,41 @@ public:
         this->_021d9120();
         this->_021d9024();
 
-        delete this->unk_60;
+        if (this->unk_60 != NULL)
+        {
+            delete this->unk_60;
+        }
         delete this->unk_5c;
 
         func_02039f00("shop", 0);
     }
 
-    void _021d7d1c(void); // func_ov000_021d7d1c
-    void _021d7d50(void); // func_ov000_021d7d50
-    void _021d7d98(void); // func_ov000_021d7d98
-    s32 _021d7db8(Unit *, s32); // func_ov000_021d7db8
-    void _021d7e1c(void); // func_ov000_021d7e1c
-    void _021d8014(void); // func_ov000_021d8014
-    void _021d8064(void); // func_ov000_021d8064
-    u8 * _021d80a4(Unit *, s32); // func_ov000_021d80a4
-    void _021d8104(void); // func_ov000_021d8104
-    void _021d8604(void); // func_ov000_021d8604
-    void _021d8694(void); // func_ov000_021d8694
-    void _021d86e0(void); // func_ov000_021d86e0
-    void _021d87a4(void); // func_ov000_021d87a4
-    void _021d881c(void); // func_ov000_021d881c
-    void _021d882c(BOOL); // func_ov000_021d882c
-    ArenaProc_unk_5c * _021d8bbc(void); // func_ov000_021d8bbc
-    void * _021d8bfc(void); // func_ov000_021d8bfc
-    void _021d8c2c(void); // func_ov000_021d8c2c
-    void _021d8c90(void); // func_ov000_021d8c90
-    void _021d8ccc(void); // func_ov000_021d8ccc
-
-    static void _021d8d4c(s32); // func_ov000_021d8d4c
-
-    void _021d8d68(void); // func_ov000_021d8d68
-    void _021d8e28(void); // func_ov000_021d8e28
-    void _021d8ed4(void); // func_ov000_021d8ed4
-    void _021d9024(void); // func_ov000_021d9024
-    void _021d9078(void); // func_ov000_021d9078
-    void _021d9120(void); // func_ov000_021d9120
+    void _021d7d1c(void);
+    void _021d7d50(void);
+    void _021d7d98(void);
+    s32 _021d7db8(Unit *, s32);
+    void _021d7e1c(void);
+    void _021d8014(void);
+    void _021d8064(void);
+    u8 * _021d80a4(Unit *, s32);
+    void _021d8104(void);
+    void _021d8604(void);
+    void _021d8694(void);
+    void _021d86e0(void);
+    void _021d87a4(void);
+    void _021d881c(void);
+    void _021d882c(BOOL);
+    ArenaProc_unk_5c * _021d8bbc(void);
+    void * _021d8bfc(void);
+    void _021d8c2c(void);
+    void _021d8c90(void);
+    void _021d8ccc(void);
+    void StartChoice(void);
+    void _021d8e28(void);
+    void _021d8ed4(void);
+    void _021d9024(void);
+    void _021d9078(void);
+    void _021d9120(void);
 };
 }; // namespace arena
 
@@ -215,44 +215,44 @@ EC void func_ov002_021ef134(arena::Arena *, struct ArenaProc_unk_5c *);
 
 EC struct ArenaEnemy * func_ov000_021d7c90(u32);
 
-EC void func_ov000_021d915c(arena::Arena *);
+EC void Arena_ov000_021d915c(arena::Arena *);
 EC void func_ov000_021d91a0(arena::Arena *);
-EC void func_ov000_021d91e4(arena::Arena *);
-EC void func_ov000_021d91f0(arena::Arena *);
-EC void func_ov000_021d920c(arena::Arena *);
-EC void func_ov000_021d9228(arena::Arena *);
-EC void func_ov000_021d9244(arena::Arena *);
-EC void func_ov000_021d9250(arena::Arena *);
-EC void func_ov000_021d9310(arena::Arena *);
-EC void func_ov000_021d932c(arena::Arena *);
-EC void func_ov000_021d9348(arena::Arena *);
-EC void func_ov000_021d9364(arena::Arena *);
-EC void func_ov000_021d93d0(arena::Arena *);
-EC void func_ov000_021d93ec(arena::Arena *);
-EC void func_ov000_021d9408(arena::Arena *);
-EC void func_ov000_021d9424(arena::Arena *);
-EC void func_ov000_021d9440(arena::Arena *);
-EC void func_ov000_021d945c(arena::Arena *);
-EC void func_ov000_021d94f4(arena::Arena *);
-EC void func_ov000_021d9478(arena::Arena *);
-EC void func_ov000_021d9484(arena::Arena *);
-EC void func_ov000_021d9490(arena::Arena *);
-EC void func_ov000_021d949c(arena::Arena *);
-EC void func_ov000_021d94ac(arena::Arena *);
-EC void func_ov000_021d94b8(arena::Arena *);
-EC void func_ov000_021d94c4(arena::Arena *);
-EC void func_ov000_021d94d0(arena::Arena *);
-EC void func_ov000_021d94dc(arena::Arena *);
-EC void func_ov000_021d94e8(arena::Arena *);
-EC void func_ov000_021d9500(arena::Arena *);
-EC void func_ov000_021d9520(arena::Arena *);
-EC void func_ov000_021d9538(arena::Arena *);
-EC void func_ov000_021d95b0(arena::Arena *);
-EC void func_ov000_021d95d8(void);
+EC void Arena_ov000_021d91e4(arena::Arena *);
+EC void Arena_WelcomeDialogue(arena::Arena *);
+EC void Arena_WagerDialogue(arena::Arena *);
+EC void Arena_UpToTheChallengeDialogue(arena::Arena *);
+EC void Arena_ov000_021d9244(arena::Arena *);
+EC void Arena_ov000_021d9250(arena::Arena *);
+EC void Arena_BattleInstructionsDialogue(arena::Arena *);
+EC void Arena_CancelDialogue(arena::Arena *);
+EC void Arena_InsufficientGoldDialogue(arena::Arena *);
+EC void Arena_OnVictory(arena::Arena *);
+EC void Arena_OnDefeat(arena::Arena *);
+EC void Arena_OnDraw(arena::Arena *);
+EC void Arena_OnYield(arena::Arena *);
+EC void Arena_ForfeitGoldDialogue(arena::Arena *);
+EC void Arena_RetryDialogue(arena::Arena *);
+EC void Arena_ExitDialogue(arena::Arena *);
+EC void Arena_ov000_021d94f4(arena::Arena *);
+EC void Arena_ov000_021d9478(arena::Arena *);
+EC void Arena_ov000_021d9484(arena::Arena *);
+EC void Arena_ov000_021d9490(arena::Arena *);
+EC void Arena_ov000_021d949c(arena::Arena *);
+EC void Arena_ov000_021d94ac(arena::Arena *);
+EC void Arena_ov000_021d94b8(arena::Arena *);
+EC void Arena_AddGold(arena::Arena *);
+EC void Arena_DeductGold(arena::Arena *);
+EC void Arena_ov000_021d94dc(arena::Arena *);
+EC void Arena_ov000_021d94e8(arena::Arena *);
+EC void Arena_ov000_021d9500(arena::Arena *);
+EC void Arena_ov000_021d9520(arena::Arena *);
+EC void Arena_ov000_021d9538(arena::Arena *);
+EC void Arena_StartBGMCont(arena::Arena *);
+EC void Arena_EndBGMCont(void);
 
 // clang-format off
 
-struct ProcCmd data_ov000_021e2f38[] =
+struct ProcCmd ProcScr_Arena[] =
 {
     PROC_NAME,
     PROC_NAME,
@@ -262,96 +262,96 @@ struct ProcCmd data_ov000_021e2f38[] =
     PROC_CALL(func_0204b39c),
     PROC_WHILE(func_0204b1e0),
 
-    PROC_CALL(func_ov000_021d915c),
+    PROC_CALL(Arena_ov000_021d915c),
     PROC_CALL(func_0204b3d4),
     PROC_CALL(func_0204ac18),
-    PROC_CALL(func_ov000_021d91e4),
-    PROC_CALL(func_ov000_021d91f0),
+    PROC_CALL(Arena_ov000_021d91e4),
+    PROC_CALL(Arena_WelcomeDialogue),
 
     // fallthrough
 
 PROC_LABEL(3),
-    PROC_CALL(func_ov000_021d920c),
-    PROC_CALL(func_ov000_021d9228),
-    PROC_CALL(func_ov000_021d9244),
-    PROC_CALL(func_ov000_021d9250),
-    PROC_CALL(func_ov000_021d9310),
-    PROC_CALL(func_ov000_021d95d8),
+    PROC_CALL(Arena_WagerDialogue),
+    PROC_CALL(Arena_UpToTheChallengeDialogue),
+    PROC_CALL(Arena_ov000_021d9244),
+    PROC_CALL(Arena_ov000_021d9250),
+    PROC_CALL(Arena_BattleInstructionsDialogue),
+    PROC_CALL(Arena_EndBGMCont),
 
     // fallthrough
 
 PROC_LABEL(4),
-    PROC_CALL(func_ov000_021d9478),
+    PROC_CALL(Arena_ov000_021d9478),
 
     // fallthrough
 
 PROC_LABEL(5),
-    PROC_CALL(func_ov000_021d9484),
-    PROC_06(0, func_ov000_021d94ac),
-    PROC_CALL(func_ov000_021d9490),
+    PROC_CALL(Arena_ov000_021d9484),
+    PROC_06(0, Arena_ov000_021d94ac),
+    PROC_CALL(Arena_ov000_021d9490),
     PROC_06(0, NULL),
-    PROC_CALL(func_ov000_021d949c),
+    PROC_CALL(Arena_ov000_021d949c),
 
     // fallthrough
 
 PROC_LABEL(6),
-    PROC_CALL(func_ov000_021d9538),
+    PROC_CALL(Arena_ov000_021d9538),
     PROC_SLEEP(1),
 
-    PROC_CALL(func_ov000_021d94b8),
-    PROC_CALL(func_ov000_021d9500),
+    PROC_CALL(Arena_ov000_021d94b8),
+    PROC_CALL(Arena_ov000_021d9500),
 
     PROC_SLEEP(0),
 
-    PROC_CALL(func_ov000_021d9520),
-    PROC_CALL(func_ov000_021d9364),
-    PROC_CALL(func_ov000_021d94c4),
-    PROC_CALL(func_ov000_021d95b0),
-    PROC_CALL(func_ov000_021d9440),
-    PROC_CALL(func_ov000_021d94dc),
-    PROC_CALL(func_ov000_021d94e8),
+    PROC_CALL(Arena_ov000_021d9520),
+    PROC_CALL(Arena_OnVictory),
+    PROC_CALL(Arena_AddGold),
+    PROC_CALL(Arena_StartBGMCont),
+    PROC_CALL(Arena_RetryDialogue),
+    PROC_CALL(Arena_ov000_021d94dc),
+    PROC_CALL(Arena_ov000_021d94e8),
 
     PROC_02,
 
 PROC_LABEL(7),
-    PROC_CALL(func_ov000_021d93d0),
-    PROC_CALL(func_ov000_021d9424),
-    PROC_CALL(func_ov000_021d94d0),
+    PROC_CALL(Arena_OnDefeat),
+    PROC_CALL(Arena_ForfeitGoldDialogue),
+    PROC_CALL(Arena_DeductGold),
     PROC_SLEEP(0),
 
     PROC_GOTO(10),
 
 PROC_LABEL(8),
-    PROC_CALL(func_ov000_021d9408),
-    PROC_CALL(func_ov000_021d9424),
-    PROC_CALL(func_ov000_021d94d0),
+    PROC_CALL(Arena_OnYield),
+    PROC_CALL(Arena_ForfeitGoldDialogue),
+    PROC_CALL(Arena_DeductGold),
     PROC_SLEEP(0),
 
     PROC_GOTO(10),
 
 PROC_LABEL(9),
-    PROC_CALL(func_ov000_021d93ec),
+    PROC_CALL(Arena_OnDraw),
 
     PROC_GOTO(10),
 
 PROC_LABEL(0),
-    PROC_CALL(func_ov000_021d932c),
+    PROC_CALL(Arena_CancelDialogue),
 
     PROC_GOTO(10),
 
 PROC_LABEL(1),
-    PROC_CALL(func_ov000_021d9348),
+    PROC_CALL(Arena_InsufficientGoldDialogue),
 
     PROC_GOTO(10),
 
 PROC_LABEL(2),
-    PROC_CALL(func_ov000_021d945c),
+    PROC_CALL(Arena_ExitDialogue),
 
     PROC_GOTO(10),
 
 PROC_LABEL(10),
-    PROC_CALL(func_ov000_021d94f4),
-    PROC_CALL(func_ov000_021d95d8),
+    PROC_CALL(Arena_ov000_021d94f4),
+    PROC_CALL(Arena_EndBGMCont),
     PROC_CALL(func_ov000_021d91a0),
 
     PROC_CALL(func_0204aca8),
@@ -1165,7 +1165,7 @@ void arena::Arena::_021d8ccc(void)
 
 EC void func_ov000_021d8d4c(s32 arg_0)
 {
-    arena::Arena * proc = static_cast<arena::Arena *>(Proc_Find(data_ov000_021e2f38));
+    arena::Arena * proc = static_cast<arena::Arena *>(Proc_Find(ProcScr_Arena));
     proc->unk_58 = arg_0;
     return;
 }
@@ -1187,7 +1187,6 @@ public:
 class DI_ArenaYes : public DialogItemYes
 {
 public:
-    // func_ov000_021d9940
     /* 01C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021d8d4c(1);
@@ -1198,13 +1197,11 @@ public:
 class DI_ArenaNo : public DialogItemNo
 {
 public:
-    // func_ov000_021d9938
     /* 014 */ virtual s32 vfunc_14(void)
     {
         return 0;
     }
 
-    // func_ov000_021d9924
     /* 01C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021d8d4c(0);
@@ -1212,7 +1209,7 @@ public:
     }
 };
 
-void arena::Arena::_021d8d68(void)
+void arena::Arena::StartChoice(void)
 {
     DialogYesNo * dialog;
 
@@ -1335,14 +1332,14 @@ void arena::Arena::_021d9120(void)
     return;
 }
 
-EC void func_ov000_021d915c(arena::Arena * proc)
+EC void Arena_ov000_021d915c(arena::Arena * proc)
 {
     if (!data_02196f24->enableBgm)
     {
         return;
     }
 
-    StartSoundWaitTo_02017518(gSoundManager->unk_a8, gSoundManager->unk_a4, 0x10, 0x34, 0x10);
+    StartSoundWaitTo_02017518(gSoundManager->unk_a8, gSoundManager->unk_a4, 0x10, BGM_SYS_TOUGIJOU1, 0x10);
 
     return;
 }
@@ -1366,37 +1363,40 @@ EC void func_ov000_021d91a0(arena::Arena * unused)
     return;
 }
 
-EC void func_ov000_021d91e4(arena::Arena * proc)
+EC void Arena_ov000_021d91e4(arena::Arena * proc)
 {
     proc->_021d7d1c();
     return;
 }
 
-EC void func_ov000_021d91f0(arena::Arena * proc)
+EC void Arena_WelcomeDialogue(arena::Arena * proc)
 {
+    // "BBG23|Well, well. This 'ere's an arena.[NL]You 'ere for a fight, mate?"
     func_0200ac20("M闘技場_WELCOME", proc, 0);
     return;
 }
 
-EC void func_ov000_021d920c(arena::Arena * proc)
+EC void Arena_WagerDialogue(arena::Arena * proc)
 {
+    // "The wager's 0 gold."
     func_0200ac20("M闘技場_PRICE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9228(arena::Arena * proc)
+EC void Arena_UpToTheChallengeDialogue(arena::Arena * proc)
 {
+    // "Reckon you're up to the challenge?"
     func_0200ac20("M闘技場_CHALLENGE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9244(arena::Arena * proc)
+EC void Arena_ov000_021d9244(arena::Arena * proc)
 {
-    proc->_021d8d68();
+    proc->StartChoice();
     return;
 }
 
-EC void func_ov000_021d9250(arena::Arena * proc)
+EC void Arena_ov000_021d9250(arena::Arena * proc)
 {
     if (proc->unk_58 != 0)
     {
@@ -1423,171 +1423,180 @@ EC void func_ov000_021d9250(arena::Arena * proc)
     return;
 }
 
-EC void func_ov000_021d9310(arena::Arena * proc)
+EC void Arena_BattleInstructionsDialogue(arena::Arena * proc)
 {
+    // "Rules is easy: keep tradin' blows till one of[NL]ya drops, or press the B Button to yield.[NL]Don't get yerself killed, huh?"
     func_0200ac20("M闘技場_BATTLE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d932c(arena::Arena * proc)
+EC void Arena_CancelDialogue(arena::Arena * proc)
 {
+    // "If you ain't payin', you ain't stayin'.[NL]Beat it."
     func_0200ac20("M闘技場_GETOUT", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9348(arena::Arena * proc)
+EC void Arena_InsufficientGoldDialogue(arena::Arena * proc)
 {
+    // "What, no gold?[NL]Then it's time you strolled."
     func_0200ac20("M闘技場_POOR", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9364(arena::Arena * proc)
+EC void Arena_OnVictory(arena::Arena * proc)
 {
     func_02039f40(0, proc->unk_54);
+    // "ARENA|Nice fightin', mate.[NL]'Ere's yer reward: 0 gold."
     func_0200ac20("M闘技場_WIN", proc, 0);
 
-    if (data_02196f24->enableBgm == 0)
+    if (!data_02196f24->enableBgm)
     {
         return;
     }
 
-    gSoundManager->unk_a8->vfunc_3c(0x10, 0x35, 0);
+    gSoundManager->unk_a8->vfunc_3c(0x10, BGM_SYS_TOUGIJOU2, 0);
 
     return;
 }
 
-EC void func_ov000_021d93d0(arena::Arena * proc)
+EC void Arena_OnDefeat(arena::Arena * proc)
 {
+    // "ARENA|Agh, another 'un bites the dust...[NL]No profit in death, eh?"
     func_0200ac20("M闘技場_LOSE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d93ec(arena::Arena * proc)
+EC void Arena_OnDraw(arena::Arena * proc)
 {
+    // "ARENA|Looks like nobody wins.[NL]But everybody lives, and ain't that what[NL]counts?"
     func_0200ac20("M闘技場_DRAW", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9408(arena::Arena * proc)
+EC void Arena_OnYield(arena::Arena * proc)
 {
+    // "ARENA|What, givin' up already?"
     func_0200ac20("M闘技場_STOP", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9424(arena::Arena * proc)
+EC void Arena_ForfeitGoldDialogue(arena::Arena * proc)
 {
+    // "Guess I'll be pocketin' yer wager."
     func_0200ac20("M闘技場_FORFEIT", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9440(arena::Arena * proc)
+EC void Arena_RetryDialogue(arena::Arena * proc)
 {
+    // "Feel like goin' another round?"
     func_0200ac20("M闘技場_RETRY", proc, 0);
     return;
 }
 
-EC void func_ov000_021d945c(arena::Arena * proc)
+EC void Arena_ExitDialogue(arena::Arena * proc)
 {
+    // "So long, then."
     func_0200ac20("M闘技場_BYE", proc, 0);
     return;
 }
 
-EC void func_ov000_021d9478(arena::Arena * proc)
+EC void Arena_ov000_021d9478(arena::Arena * proc)
 {
     proc->_021d8694();
     return;
 }
 
-EC void func_ov000_021d9484(arena::Arena * proc)
+EC void Arena_ov000_021d9484(arena::Arena * proc)
 {
     proc->_021d86e0();
     return;
 }
 
-EC void func_ov000_021d9490(arena::Arena * proc)
+EC void Arena_ov000_021d9490(arena::Arena * proc)
 {
     proc->_021d881c();
     return;
 }
 
-EC void func_ov000_021d949c(arena::Arena * proc)
+EC void Arena_ov000_021d949c(arena::Arena * proc)
 {
     proc->_021d882c(0);
     return;
 }
 
-EC void func_ov000_021d94ac(arena::Arena * proc)
+EC void Arena_ov000_021d94ac(arena::Arena * proc)
 {
     proc->_021d87a4();
     return;
 }
 
-EC void func_ov000_021d94b8(arena::Arena * proc)
+EC void Arena_ov000_021d94b8(arena::Arena * proc)
 {
     proc->_021d8bfc();
     return;
 }
 
-EC void func_ov000_021d94c4(arena::Arena * proc)
+EC void Arena_AddGold(arena::Arena * proc)
 {
     proc->_021d8c2c();
     return;
 }
 
-EC void func_ov000_021d94d0(arena::Arena * proc)
+EC void Arena_DeductGold(arena::Arena * proc)
 {
     proc->_021d8c90();
     return;
 }
 
-EC void func_ov000_021d94dc(arena::Arena * proc)
+EC void Arena_ov000_021d94dc(arena::Arena * proc)
 {
     proc->_021d8e28();
     return;
 }
 
-EC void func_ov000_021d94e8(arena::Arena * proc)
+EC void Arena_ov000_021d94e8(arena::Arena * proc)
 {
     proc->_021d8ccc();
     return;
 }
 
-EC void func_ov000_021d94f4(arena::Arena * proc)
+EC void Arena_ov000_021d94f4(arena::Arena * proc)
 {
     proc->_021d7d50();
     return;
 }
 
-EC void func_ov000_021d9500(arena::Arena * unused)
+EC void Arena_ov000_021d9500(arena::Arena * unused)
 {
     func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
     return;
 }
 
-EC void func_ov000_021d9520(arena::Arena * proc)
+EC void Arena_ov000_021d9520(arena::Arena * proc)
 {
     proc->_021d9078();
     proc->_021d8ed4();
     return;
 }
 
-EC void func_ov000_021d9538(arena::Arena * proc)
+EC void Arena_ov000_021d9538(arena::Arena * proc)
 {
     proc->_021d9120();
     proc->_021d9024();
     return;
 }
 
-EC void func_ov000_021d9550(ArenaBGMCont * proc)
+EC void ArenaBGMCont_Loop(ArenaBGMCont * proc)
 {
     proc->Loop();
     return;
 }
 
-// func_ov000_021d9564
 void ArenaBGMCont::Loop(void)
 {
-    if (func_02016250(0x35))
+    if (func_02016250(BGM_SYS_TOUGIJOU2))
     {
         return;
     }
@@ -1599,17 +1608,29 @@ void ArenaBGMCont::Loop(void)
     return;
 }
 
-extern struct ProcCmd data_ov000_021e2cb8[];
+// clang-format off
 
-EC void func_ov000_021d95b0(arena::Arena * parent)
+struct ProcCmd ProcScr_ArenaBGMCont[] =
 {
-    new (Proc_Start(data_ov000_021e2cb8, parent)) ArenaBGMCont();
+    PROC_NAME,
+
+    PROC_SLEEP(0),
+    PROC_REPEAT(ArenaBGMCont_Loop),
+
+    PROC_END,
+};
+
+// clang-format on
+
+EC void Arena_StartBGMCont(arena::Arena * parent)
+{
+    new (Proc_Start(ProcScr_ArenaBGMCont, parent)) ArenaBGMCont();
     return;
 }
 
-EC void func_ov000_021d95d8(void)
+EC void Arena_EndBGMCont(void)
 {
-    Proc_EndEach(data_ov000_021e2cb8);
+    Proc_EndEach(ProcScr_ArenaBGMCont);
     return;
 }
 
@@ -1647,9 +1668,9 @@ struct Unknown_021e3320
 
 extern u8 data_ov000_021e3320[];
 
-EC void func_ov000_021d95ec(ProcPtr parent)
+EC void StartArena(ProcPtr parent)
 {
-    struct Unit * unit;
+    Unit * unit;
 
     if (gActionSt->unitId == 0)
     {
@@ -1666,21 +1687,21 @@ EC void func_ov000_021d95ec(ProcPtr parent)
         func_0204b194(unit->xPos, unit->yPos);
     }
 
-    new (Proc_StartBlocking(data_ov000_021e2f38, parent)) arena::Arena(gMapStateManager->unk_04->unk_00);
+    new (Proc_StartBlocking(ProcScr_Arena, parent)) arena::Arena(gMapStateManager->unk_04->unk_00);
 
     return;
 }
 
 EC void func_ov000_021d98ec(void)
 {
-    arena::Arena * arena = static_cast<arena::Arena *>(Proc_Find(data_ov000_021e2f38));
+    arena::Arena * arena = static_cast<arena::Arena *>(Proc_Find(ProcScr_Arena));
     arena->_021d8bbc();
     return;
 }
 
 EC u32 func_ov000_021d9904(void)
 {
-    arena::Arena * proc = static_cast<arena::Arena *>(Proc_Find(data_ov000_021e2f38));
+    arena::Arena * proc = static_cast<arena::Arena *>(Proc_Find(ProcScr_Arena));
 
     if (proc != NULL)
     {

@@ -1034,7 +1034,7 @@ EC void func_ov000_021ad49c(void)
 EC void func_ov000_021ad580(ProcPtr proc)
 {
     gMapStateManager->unk_04->unk_04->ClearValues();
-    func_ov000_021d95ec(proc);
+    StartArena(proc);
     return;
 }
 
