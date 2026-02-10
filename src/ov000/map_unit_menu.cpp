@@ -137,7 +137,7 @@ public:
 
     /* 10 */ virtual s32 vfunc_10(void)
     {
-        return 5;
+        return MENU_COLOR_GREEN;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -157,7 +157,7 @@ public:
 
         if (func_ov000_021a47e4())
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         xCur = gMapStateManager->unk_04->unk_00->xPos;
@@ -218,13 +218,13 @@ public:
                             (u32)func_0203c378(psVar6)->pPersonData,
                             (u32)func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData))
                     {
-                        return 0;
+                        return MENU_ENABLED;
                     }
                 }
             }
         }
 
-        return 2;
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -250,7 +250,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021ae180(0x11, 9, 0);
-        return 0x48;
+        return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
 
@@ -292,7 +292,7 @@ public:
     {
         func_ov000_021ae180(0xc, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x48;
+        return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
 
@@ -334,7 +334,7 @@ public:
     {
         func_ov000_021ae180(0xc, 1, 0);
         func_ov000_021d6dfc(0);
-        return 0x48;
+        return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
 
@@ -375,7 +375,7 @@ public:
     {
         func_ov000_021ae180(0xc, 4, 0);
         func_ov000_021d6dfc(0);
-        return 0x48;
+        return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
 
@@ -415,7 +415,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021ae180(0x11, 7, 0);
-        return 0x48;
+        return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
 
@@ -429,7 +429,7 @@ public:
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
     {
-        return 5;
+        return MENU_COLOR_GREEN;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -438,16 +438,16 @@ public:
         {
             if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 2))
             {
-                return 0;
+                return MENU_ENABLED;
             }
         }
 
         if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 9))
         {
-            return 0;
+            return MENU_ENABLED;
         }
 
-        return 2;
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -491,7 +491,7 @@ public:
         func_ov000_021ae180(0x28, 0, 0);
         func_ov000_021d6dfc(0);
 
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 
@@ -505,7 +505,7 @@ public:
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
     {
-        return 5;
+        return MENU_COLOR_GREEN;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -539,7 +539,7 @@ public:
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_DOOR, 0);
         func_ov000_021ae180(0x28, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 
@@ -553,7 +553,7 @@ public:
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
     {
-        return 5;
+        return MENU_COLOR_GREEN;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -587,7 +587,7 @@ public:
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_BRIDGE, 0);
         func_ov000_021ae180(0x28, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 
@@ -602,23 +602,23 @@ public:
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
     {
-        return 5;
+        return MENU_COLOR_GREEN;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (!func_0203d1f4(gMapStateManager->unk_04->unk_00))
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         if (!func_ov000_021d49f4(
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_CHEST))
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
-        return 0;
+        return MENU_ENABLED;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -647,7 +647,7 @@ public:
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_CHEST, 0);
         func_ov000_021ae180(0x28, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 
@@ -656,6 +656,7 @@ class MIU_WeaponShop : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
+        // "Armory"
         return func_02039e10("MUM_武器屋");
     }
 
@@ -663,16 +664,16 @@ public:
     {
         if (func_ov000_021a47e4())
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         if (!EventCaller::CanStartVisitEvent(
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xa))
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
-        return 0;
+        return MENU_ENABLED;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -697,10 +698,10 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        gActionSt->actionId = 0xa;
+        gActionSt->actionId = ACTION_ARMORY;
         func_ov000_021ae180(0x15, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 
@@ -716,16 +717,16 @@ public:
     {
         if (func_ov000_021a47e4())
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         if (!EventCaller::CanStartVisitEvent(
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xb))
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
-        return 0;
+        return MENU_ENABLED;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -750,10 +751,10 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        gActionSt->actionId = 0xb;
+        gActionSt->actionId = ACTION_VENDOR;
         func_ov000_021ae180(0x15, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 
@@ -792,10 +793,10 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        gActionSt->actionId = 0xc;
+        gActionSt->actionId = ACTION_SECRET_SHOP;
         func_ov000_021ae180(0x15, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 
@@ -838,10 +839,10 @@ public:
         {
             func_ov000_021ae180(0x16, 0, 0);
             func_ov000_021d6dfc(0);
-            return 0x41;
+            return MENU_ACTION_x40 | MENU_ACTION_x1;
         }
 
-        return 0x100;
+        return MENU_ACTION_x100;
     }
 };
 
@@ -884,11 +885,10 @@ public:
         {
             func_ov000_021ae180(0x22, 0, 0);
             func_ov000_021d6dfc(0);
-
-            return 0x41;
+            return MENU_ACTION_x40 | MENU_ACTION_x1;
         }
 
-        return 0x100;
+        return MENU_ACTION_x100;
     }
 };
 
@@ -903,7 +903,7 @@ public:
         func_ov000_021bfa3c();
         func_ov000_021d6dfc(0);
 
-        return 0x44;
+        return MENU_ACTION_x40 | MENU_ACTION_x4;
     }
 };
 
@@ -918,7 +918,7 @@ public:
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
     {
-        return 5;
+        return MENU_COLOR_GREEN;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -928,11 +928,11 @@ public:
         {
             if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 2))
             {
-                return 0;
+                return MENU_ENABLED;
             }
         }
 
-        return 2;
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -958,7 +958,7 @@ public:
     /* 24 */ virtual s32 vfunc_24(Menu * menu, MenuItemState * menuItemState)
     {
         func_ov000_021bfa60(menu->unk_10);
-        return 0x40;
+        return MENU_ACTION_x40;
     }
 };
 
@@ -974,32 +974,32 @@ public:
     {
         if ((menuItemState->unk_09 & 7) != 1)
         {
-            return 5;
+            return MENU_COLOR_GREEN;
         }
 
-        return 2;
+        return MENU_COLOR_GRAY;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (func_ov000_021a47e4())
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0x10))
         {
             if (!func_0201f680())
             {
-                return 1;
+                return MENU_DISABLED;
             }
             else
             {
-                return 0;
+                return MENU_ENABLED;
             }
         }
 
-        return 2;
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -1028,10 +1028,10 @@ public:
         {
             func_ov000_021ae180(0xe, 0, 0);
             func_ov000_021d6dfc(0);
-            return 0x48;
+            return MENU_ACTION_x40 | MENU_ACTION_x8;
         }
 
-        return 0x100;
+        return MENU_ACTION_x100;
     }
 };
 
@@ -1072,7 +1072,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021ae180(0x11, 10, 0);
-        return 0x48;
+        return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
 
@@ -1091,7 +1091,7 @@ public:
         func_ov000_021bfa3c();
         func_ov000_021d6dfc(0);
 
-        return 0x44;
+        return MENU_ACTION_x40 | MENU_ACTION_x4;
     }
 };
 
@@ -1107,25 +1107,25 @@ public:
     {
         if ((menuItemState->unk_09 & 7) != 1)
         {
-            return 5;
+            return MENU_COLOR_GREEN;
         }
 
-        return 2;
+        return MENU_COLOR_GRAY;
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (func_ov000_021a47e4())
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         if (!func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0x13))
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
-        return 0;
+        return MENU_ENABLED;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -1149,7 +1149,7 @@ public:
     /* 24 */ virtual s32 vfunc_24(Menu * menu, MenuItemState * menuItemState)
     {
         func_ov000_021bfaf0(menu->unk_10);
-        return 0x40;
+        return MENU_ACTION_x40;
     }
 };
 
@@ -1188,7 +1188,7 @@ public:
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_WAIT, 0);
         func_ov000_021ae180(0x28, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
 };
 

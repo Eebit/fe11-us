@@ -15,9 +15,9 @@ enum
     ACTION_BRIDGE = 0x07,
     // 0x08
     // 0x09
-    // 0x0A
-    // 0x0B
-    // 0x0C
+    ACTION_ARMORY = 0x0A,
+    ACTION_VENDOR = 0x0B,
+    ACTION_SECRET_SHOP = 0x0C,
     // 0x0D
     ACTION_SEIZE = 0x0E,
     ACTION_ESCAPE = 0x0F,

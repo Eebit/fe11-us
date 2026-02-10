@@ -28,6 +28,21 @@ enum
     MENU_ACTIVE = 8,
 };
 
+enum
+{
+    MENU_ACTION_x1 = (1 << 0),
+    MENU_ACTION_x2 = (1 << 1),
+    MENU_ACTION_x4 = (1 << 2),
+    MENU_ACTION_x8 = (1 << 3), // end this menu?
+    MENU_ACTION_x10 = (1 << 4), // end parent menu?
+    MENU_ACTION_x20 = (1 << 5), // end all menus?
+    MENU_ACTION_x40 = (1 << 6), // process success?
+    MENU_ACTION_x80 = (1 << 7), // process cancel?
+    MENU_ACTION_x100 = (1 << 8), // process failure?
+
+    MENU_ACTION_x1000 = (1 << 12), // block?
+};
+
 class ProcMenu;
 class MenuItem;
 class MenuItemState;
