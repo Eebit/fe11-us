@@ -831,7 +831,7 @@ EC void func_ov000_021acc7c(ProcPtr proc)
 EC void func_ov000_021accfc(ProcPtr proc)
 {
     func_ov000_021a5774(gMapStateManager->unk_0c, 0x8b);
-    func_ov000_021bfb80(proc);
+    StartUnitMenu(proc);
 
     if (CHECK_02())
     {
