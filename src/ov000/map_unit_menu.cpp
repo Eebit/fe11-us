@@ -1192,11 +1192,54 @@ public:
     }
 };
 
+class BMapDialogYesNo : public DialogYesNo
+{
+public:
+    /* 000 */ virtual void vfunc_00(void); // func_ov000_021be6d8
+    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be934
+    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be91c
+    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov000_021bea74
+    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov000_021beab0
+};
+
 } // namespace map
 
 EC void StartChildMenu(Menu *, void *, ProcPtr, u32, u32);
+EC void func_020303bc(Dialog *, char *, void *, ProcPtr, s32, s32);
 
-EC void StartUnitMenu(ProcPtr param_1)
+EC void func_ov000_021bfa60(ProcPtr proc)
+{
+    static map::DI_CompleteYes sCompleteYes;
+
+    // clang-format off
+    static MenuItem * data_ov000_021de5c8[] =
+    {
+        &sCompleteYes,
+    };
+    // clang-format on
+
+    // "Proceed to the next chapter?"
+    func_020303bc(new map::BMapDialogYesNo(), func_02039e10("MD_制圧"), data_ov000_021de5c8, proc, 1, 0);
+    return;
+}
+
+EC void func_ov000_021bfaf0(ProcPtr proc)
+{
+    static map::DI_LureYes sLureYes;
+
+    // clang-format off
+    static MenuItem * data_ov000_021de5bc[] =
+    {
+        &sLureYes,
+    };
+    // clang-format on
+
+    // "Make this unit a decoy?"
+    func_020303bc(new map::BMapDialogYesNo(), func_02039e10("MD_囮"), data_ov000_021de5bc, proc, 1, 0);
+    return;
+}
+
+EC void StartUnitMenu(ProcPtr proc)
 {
     static map::MIU_Talk sTalk;
     static map::MIU_Attack sAttack;
@@ -1245,7 +1288,7 @@ EC void StartUnitMenu(ProcPtr param_1)
     };
     // clang-format on
 
-    StartChildMenu(new map::UnitMenu(), data_ov000_021de82c, param_1, 1, 0);
+    StartChildMenu(new map::UnitMenu(), data_ov000_021de82c, proc, 1, 0);
 
     return;
 }
