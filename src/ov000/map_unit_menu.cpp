@@ -8,6 +8,32 @@
 #include "proc_ex.hpp"
 #include "unit.hpp"
 
+#include "unknown_types.hpp"
+
+extern struct UnkStruct_02196f24 * data_02196f24;
+extern Unit * gUnitList;
+
+inline Unit * GetUnit(s32 unitId)
+{
+    if (unitId != 0)
+    {
+        return gUnitList + unitId - 1;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, int f, int g);
+EC void func_01ff9420(MapStateManager_08 *, Unit *, s32, s32);
+EC void func_01ff95a4(MapStateManager_08 *, Unit *, s32, s32);
+
+EC s32 func_0203935c(Unit *, s32);
+EC BOOL func_0203d184(Unit *);
+EC BOOL func_0203d1bc(Unit *);
+EC s32 func_02039400(s32, s32);
+EC u64 func_0203cbc4(Unit *, u64);
 EC BOOL func_0201f680(void);
 
 EC BOOL func_0203d1f4(Unit *);
@@ -27,8 +53,6 @@ EC void func_ov000_021bfa3c(void);
 EC void func_ov000_021d6a9c(char *, s32);
 
 extern struct UnkStruct_021e3340 * data_ov000_021e3340;
-
-extern Unit gUnitList[];
 
 namespace map
 {
@@ -142,81 +166,55 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        s16 ix;
-        s32 xDiff;
-        s32 yDiff;
-        s32 unitId;
-        Unit * psVar6;
-        s32 xCur;
-        s32 yCur;
-        s16 xMax;
-        s16 yMax;
+        s32 ux;
+        s32 uy;
         s16 xMin;
         s16 yMin;
+        s16 xMax;
+        s16 yMax;
+        s16 ix;
         s16 iy;
+        Unit * unit;
 
         if (func_ov000_021a47e4())
         {
             return MENU_NOTSHOWN;
         }
 
-        xCur = gMapStateManager->unk_04->unk_00->xPos;
-        yCur = gMapStateManager->unk_04->unk_00->yPos;
+        ux = gMapStateManager->unk_04->unk_00->xPos;
+        uy = gMapStateManager->unk_04->unk_00->yPos;
 
-        xMin = xCur - 1;
-        if (xMin <= gMapStateManager->unk_24)
-        {
-            xMin = gMapStateManager->unk_24;
-        }
+        xMin = MAX(ux - 1, gMapStateManager->unk_24);
+        yMin = MAX(uy - 1, gMapStateManager->unk_25);
 
-        yMin = yCur - 1;
-        if (yMin <= gMapStateManager->unk_25)
-        {
-            yMin = gMapStateManager->unk_25;
-        }
+        xMax = MIN(ux + 1, gMapStateManager->unk_26 - 1);
+        yMax = MIN(uy + 1, gMapStateManager->unk_27 - 1);
 
-        xMax = xCur + 1;
-        xCur = gMapStateManager->unk_26 - 1;
-        if (xCur <= xMax)
+        for (iy = yMin; iy <= yMax; iy++)
         {
-            xMax = xCur;
-        }
-
-        yMax = yCur + 1;
-        yCur = gMapStateManager->unk_27 - 1;
-        if (yCur <= yMax)
-        {
-            yMax = yCur;
-        }
-
-        for (iy = yMin; iy >= yMax; iy++)
-        {
-            for (ix = xMin; ix >= xMax; ix++)
+            for (ix = xMin; ix <= xMax; ix++)
             {
+                s32 xDiff;
+                s32 yDiff;
+                char * personA;
+                char * personB;
+
                 yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
                 xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
 
-                if ((xDiff + yDiff > 0) && (xDiff + yDiff < 2))
+                if ((xDiff + yDiff >= 1) && (xDiff + yDiff <= 1))
                 {
-                    unitId = gMapStateManager->unk_028[(ix | iy << 5)];
+                    unit = GetUnit(gMapStateManager->unk_028[(ix | iy << 5)]);
 
-                    if (unitId == 0)
-                    {
-                        psVar6 = NULL;
-                    }
-                    else
-                    {
-                        psVar6 = gUnitList + unitId - 1;
-                    }
-
-                    if (psVar6 == NULL)
+                    if (unit == NULL)
                     {
                         continue;
                     }
 
-                    if (EventCaller::CanStartTalkEvent(
-                            (u32)func_0203c378(psVar6)->pPersonData,
-                            (u32)func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData))
+                    personB = func_0203c378(unit)->pPersonData->unk_00;
+                    personA = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->unk_00;
+
+                    if (EventCaller::CanStartTalkEvent((u32)personA, (u32)personB))
                     {
                         return MENU_ENABLED;
                     }
@@ -265,7 +263,50 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        s32 unitId;
+        Unit * unit;
+        s16 ix;
+        s16 iy;
+
+        func_01ff9420(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, -1);
+
+        for (iy = gMapStateManager->unk_25; iy < gMapStateManager->unk_27; iy++)
+        {
+            for (ix = gMapStateManager->unk_24; ix < gMapStateManager->unk_26; ix++)
+            {
+                s32 unk = gMapStateManager->unk_08->unk_0854[ix | (iy << 5)];
+
+                if (unk < 0)
+                {
+                    continue;
+                }
+
+                unitId = gMapStateManager->unk_028[(ix | (iy << 5))];
+
+                if (unitId != 0)
+                {
+                    unit = gUnitList + unitId - 1;
+                }
+                else
+                {
+                    unit = NULL;
+                }
+
+                if (unit == NULL)
+                {
+                    continue;
+                }
+
+                if (func_02039088(gMapStateManager->unk_04->unk_00, ix, iy, unk, 1, 0, -1) < 0)
+                {
+                    continue;
+                }
+
+                return 0;
+            }
+        }
+
+        return 2;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -307,7 +348,42 @@ public:
 
     /* 18 */ virtual s32 vfunc_18(void)
     {
-        // TODO
+        s16 ix;
+        s16 iy;
+
+        if (func_0203935c(gMapStateManager->unk_04->unk_00, -1) != -1)
+        {
+            return 0;
+        }
+
+        func_01ff95a4(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, -1);
+
+        for (iy = gMapStateManager->unk_25; iy < gMapStateManager->unk_27; iy++)
+        {
+            for (ix = gMapStateManager->unk_24; ix < gMapStateManager->unk_26; ix++)
+            {
+                if (gMapStateManager->unk_08->unk_0854[ix | (iy << 5)] < 0)
+                {
+                    continue;
+                }
+
+                if (func_02039400(ix, iy) == 0)
+                {
+                    continue;
+                }
+
+                if (func_02039088(
+                        gMapStateManager->unk_04->unk_00, ix, iy, gMapStateManager->unk_08->unk_0854[ix | (iy << 5)], 1,
+                        0, -1) < 0)
+                {
+                    continue;
+                }
+
+                return 0;
+            }
+        }
+
+        return 2;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -348,7 +424,17 @@ public:
 
     /* 18 */ virtual s32 vfunc_18(void)
     {
-        // TODO
+        if ((data_02196f24->enableTutorials != 0) && (((data_ov000_021e3324->unk_1c & 1) ? TRUE : FALSE) & 0xFF))
+        {
+            return 2;
+        }
+
+        if (!((gMapStateManager->unk_04->unk_00->items[0].id != 0 ? TRUE : FALSE) & 0xFF))
+        {
+            return 2;
+        }
+
+        return 0;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -389,7 +475,74 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        s32 ux;
+        s32 uy;
+        s16 xMin;
+        s16 yMin;
+        s16 xMax;
+        s16 yMax;
+        s16 ix;
+        s16 iy;
+        s32 xDiff;
+        s32 yDiff;
+        s32 itemId;
+        Unit * unit;
+
+        if (data_ov000_021e3340->unk_06 & 1)
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        itemId = (((gMapStateManager->unk_04->unk_00->items[0].id != 0) ? TRUE : FALSE) & 0xFF);
+
+        ux = gMapStateManager->unk_04->unk_00->xPos;
+        uy = gMapStateManager->unk_04->unk_00->yPos;
+
+        xMin = MAX(ux - 1, gMapStateManager->unk_24);
+        yMin = MAX(uy - 1, gMapStateManager->unk_25);
+
+        xMax = MIN(ux + 1, gMapStateManager->unk_26 - 1);
+        yMax = MIN(uy + 1, gMapStateManager->unk_27 - 1);
+
+        for (iy = yMin; iy <= yMax; iy++)
+        {
+            for (ix = xMin; ix <= xMax; ix++)
+            {
+                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+
+                if (xDiff + yDiff < 1)
+                {
+                    continue;
+                }
+
+                if (xDiff + yDiff > 1)
+                {
+                    continue;
+                }
+
+                unit = GetUnit(gMapStateManager->unk_028[(ix | iy << 5)]);
+
+                if (unit == NULL)
+                {
+                    continue;
+                }
+
+                if (gMapStateManager->unk_04->unk_00->force->id != unit->force->id)
+                {
+                    continue;
+                }
+
+                if (!itemId && !(((unit->items[0].id != 0) ? TRUE : FALSE) & 0xFF))
+                {
+                    continue;
+                }
+
+                return MENU_ENABLED;
+            }
+        }
+
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -510,7 +663,59 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        s16 xMax;
+        s16 yMax;
+        s16 xMin;
+        s16 yMin;
+        s16 ix;
+        s16 iy;
+        s32 ux;
+        s32 uy;
+
+        if (!func_0203d184(gMapStateManager->unk_04->unk_00))
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        ux = gMapStateManager->unk_04->unk_00->xPos;
+        uy = gMapStateManager->unk_04->unk_00->yPos;
+
+        xMin = MAX(ux - 1, gMapStateManager->unk_24);
+        yMin = MAX(uy - 1, gMapStateManager->unk_25);
+
+        xMax = MIN(ux + 1, gMapStateManager->unk_26 - 1);
+        yMax = MIN(uy + 1, gMapStateManager->unk_27 - 1);
+
+        for (iy = yMin; iy <= yMax; iy++)
+        {
+            for (ix = xMin; ix <= xMax; ix++)
+            {
+                s32 xDiff;
+                s32 yDiff;
+
+                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+
+                if (xDiff + yDiff < 1)
+                {
+                    continue;
+                }
+
+                if (xDiff + yDiff > 1)
+                {
+                    continue;
+                }
+
+                if (!func_ov000_021d49f4(ix, iy, 5))
+                {
+                    continue;
+                }
+
+                return MENU_ENABLED;
+            }
+        }
+
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -558,7 +763,59 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        s16 xMax;
+        s16 yMax;
+        s16 xMin;
+        s16 yMin;
+        s16 ix;
+        s16 iy;
+        s32 ux;
+        s32 uy;
+
+        if (!func_0203d1bc(gMapStateManager->unk_04->unk_00))
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        ux = gMapStateManager->unk_04->unk_00->xPos;
+        uy = gMapStateManager->unk_04->unk_00->yPos;
+
+        xMin = MAX(ux - 1, gMapStateManager->unk_24);
+        yMin = MAX(uy - 1, gMapStateManager->unk_25);
+
+        xMax = MIN(ux + 1, gMapStateManager->unk_26 - 1);
+        yMax = MIN(uy + 1, gMapStateManager->unk_27 - 1);
+
+        for (iy = yMin; iy <= yMax; iy++)
+        {
+            for (ix = xMin; ix <= xMax; ix++)
+            {
+                s32 xDiff;
+                s32 yDiff;
+
+                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+
+                if (xDiff + yDiff < 0)
+                {
+                    continue;
+                }
+
+                if (xDiff + yDiff > 1)
+                {
+                    continue;
+                }
+
+                if (!func_ov000_021d49f4(ix, iy, 7))
+                {
+                    continue;
+                }
+
+                return MENU_ENABLED;
+            }
+        }
+
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -768,7 +1025,22 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        if (func_ov000_021a47e4())
+        {
+            return 2;
+        }
+
+        if (EventCaller::CanStartVisitEvent(
+                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xc))
+        {
+
+            if (func_0203cbc4(gMapStateManager->unk_04->unk_00, 0x1000000) != 0)
+            {
+                return 0;
+            }
+        }
+
+        return 2;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -810,7 +1082,33 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        s32 i;
+
+        if (func_ov000_021a47e4())
+        {
+            return 2;
+        }
+
+        if (gMapStateManager
+                ->unk_828[gMapStateManager->unk_04->unk_00->xPos | gMapStateManager->unk_04->unk_00->yPos << 5] != 0x17)
+        {
+            return 2;
+        }
+
+        for (i = 0; i < 6; i++)
+        {
+            if (i == 5)
+            {
+                continue;
+            }
+
+            if (func_0203c7ac(gMapStateManager->unk_04->unk_00, i))
+            {
+                return 0;
+            }
+        }
+
+        return 1;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -856,7 +1154,87 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        s16 xMax;
+        s16 yMax;
+        s16 xMin;
+        s16 yMin;
+        s16 iy;
+        s16 ix;
+        s32 ux;
+        s32 uy;
+        Unit * unit;
+
+        if (func_ov000_021a47e4())
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        if (data_02196f0c->state & 0x4000)
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        if (data_ov000_021e3340->unk_06 & 0x10)
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 0x2))
+        {
+            return MENU_ENABLED;
+        }
+
+        ux = gMapStateManager->unk_04->unk_00->xPos;
+        uy = gMapStateManager->unk_04->unk_00->yPos;
+
+        xMin = MAX(ux - 1, gMapStateManager->unk_24);
+        yMin = MAX(uy - 1, gMapStateManager->unk_25);
+
+        xMax = MIN(ux + 1, gMapStateManager->unk_26 - 1);
+        yMax = MIN(uy + 1, gMapStateManager->unk_27 - 1);
+
+        for (iy = yMin; iy <= yMax; iy++)
+        {
+            for (ix = xMin; ix <= xMax; ix++)
+            {
+                s32 xDiff;
+                s32 yDiff;
+
+                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+
+                if (xDiff + yDiff < 1)
+                {
+                    continue;
+                }
+
+                if (xDiff + yDiff > 1)
+                {
+                    continue;
+                }
+
+                unit = GetUnit(gMapStateManager->unk_028[(ix | iy << 5)]);
+
+                if (unit == NULL)
+                {
+                    continue;
+                }
+
+                if (unit->force->id != gMapStateManager->unk_04->unk_00->force->id)
+                {
+                    continue;
+                }
+
+                if (!CheckUnitAttribute(unit, 2))
+                {
+                    continue;
+                }
+
+                return MENU_ENABLED;
+            }
+        }
+
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -1046,7 +1424,77 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        // TODO
+        s16 xMax;
+        s16 yMax;
+        s16 xMin;
+        s16 yMin;
+        s16 iy;
+        s16 ix;
+        s32 ux;
+        s32 uy;
+        Unit * unit;
+
+        if (gMapStateManager->unk_04->unk_00->state2 & 0x8000)
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 0x8000))
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        ux = gMapStateManager->unk_04->unk_00->xPos;
+        uy = gMapStateManager->unk_04->unk_00->yPos;
+
+        xMin = MAX(ux - 1, gMapStateManager->unk_24);
+        yMin = MAX(uy - 1, gMapStateManager->unk_25);
+
+        xMax = MIN(ux + 1, gMapStateManager->unk_26 - 1);
+        yMax = MIN(uy + 1, gMapStateManager->unk_27 - 1);
+
+        for (iy = yMin; iy <= yMax; iy++)
+        {
+            for (ix = xMin; ix <= xMax; ix++)
+            {
+                s32 xDiff;
+                s32 yDiff;
+
+                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+
+                if (xDiff + yDiff < 1)
+                {
+                    continue;
+                }
+
+                if (xDiff + yDiff > 1)
+                {
+                    continue;
+                }
+
+                unit = GetUnit(gMapStateManager->unk_028[(ix | iy << 5)]);
+
+                if (unit == NULL)
+                {
+                    continue;
+                }
+
+                if (unit->force->id != gMapStateManager->unk_04->unk_00->force->id)
+                {
+                    continue;
+                }
+
+                if (CheckUnitAttribute(unit, 0x1000000))
+                {
+                    continue;
+                }
+
+                return MENU_ENABLED;
+            }
+        }
+
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
