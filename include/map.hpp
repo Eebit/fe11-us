@@ -176,26 +176,53 @@ struct MapStateManager_08
     /* 10F8 */ s8 unk_10f8[0x80];
 };
 
+class Button;
+
 struct MapStateManager_0C
 {
 // +0x10 contains last touch coords
 // +0x14 contains current touch coords
 // +0x18 contains key handlers
-    STRUCT_PAD(0x00, 0x1C);
+    Button * unk_00[4];
+    s16 unk_10;
+    s16 unk_12;
+    s16 unk_14;
+    s16 unk_16;
+    u16 unk_18;
+    u16 unk_1a;
     u16 unk_1c;
     u8 unk_1e;
     u8 unk_1f;
     u8 unk_20;
     u8 unk_21_0 : 2;
-    u8 unk_21_2 : 1;
-    u8 unk_21_3 : 1;
+    u8 unk_21_2 : 2;
     u8 unk_21_4 : 2;
-    u8 unk_21_6 : 1;
-    u8 unk_21_7 : 1;
-    u8 unk_21_8 : 1;
-    STRUCT_PAD(0x22, 0x23);
+    u8 unk_21_6 : 2;
+    u8 unk_22;
+    u8 unk_23;
     u8 unk_24;
-    STRUCT_PAD(0x25, 0x28);
+    u8 unk_25;
+    u8 unk_26;
+    s8 unk_27;
+
+    void _021a5318(void);
+    void _021a5388(void);
+    void _021a561c(void);
+    BOOL _021a5650(s32);
+    void _021a5688(void);
+    BOOL _021a5768(u8);
+    void _021a5774(s32);
+    void _021a57e4(s32);
+    void _021a5810(s32);
+    void _021a5840(s32);
+    void _021a585c(s32);
+    BOOL _021a5abc(s32, s32, BOOL);
+    BOOL _021a5c80(s32, s32);
+    void _021a5d08(void);
+    void _021a5d5c(s32);
+    BOOL _021a63cc(s32, s32);
+    void _021a6438(void);
+    BOOL _021a6800(void);
 };
 
 class Cursor

@@ -5781,7 +5781,7 @@ EC void func_ov000_021a5810(void *, u32);
 // EC ??? func_ov000_021a5abc
 // EC ??? func_ov000_021a5c80
 // EC ??? func_ov000_021a5d08
-EC void func_ov000_021a5d5c(void *, u32);
+// EC void func_ov000_021a5d5c(void *, u32);
 // EC ??? func_ov000_021a63cc
 // EC ??? func_ov000_021a6438
 // EC ??? func_ov000_021a6800
