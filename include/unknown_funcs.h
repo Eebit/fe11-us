@@ -5765,15 +5765,15 @@ EC void _ZN6Camera19func_ov000_021a516cEv(s32);
 // EC ??? _ZN6Camera19func_ov000_021a52c8Elll
 // EC ??? _ZN6Camera19func_ov000_021a52d0Elll
 // EC ??? _ZN6Camera19func_ov000_021a52f8EllP4Vec3
-// EC ??? _ZN12InputHandler9_021a5318Ev
-// EC ??? _ZN12InputHandler9_021a5388Ev
-// EC ??? _ZN12InputHandler9_021a561cEv
+// EC ??? _ZN12InputHandler4InitEv
+// EC ??? _ZN12InputHandler13CreateButtonsEv
+// EC ??? _ZN12InputHandler14DestroyButtonsEv
 EC BOOL _ZN12InputHandler9_021a5650El(void *, u32);
 // EC ??? _ZN12InputHandler9_021a5688Ev
-EC BOOL _ZN12InputHandler9_021a5768Eh(void *, u32);
-EC void _ZN12InputHandler9_021a5774El(void *, u32);
-EC void _ZN12InputHandler9_021a57e4El(void *, u32);
-EC void _ZN12InputHandler9_021a5810El(void *, u32);
+EC BOOL _ZN12InputHandler15IsButtonVisibleEh(void *, u32);
+EC void _ZN12InputHandler19SetButtonVisibilityEl(void *, u32);
+EC void _ZN12InputHandler10HideButtonEl(void *, u32);
+EC void _ZN12InputHandler10ShowButtonEl(void *, u32);
 // EC ??? _ZN12InputHandler9_021a5840El
 // EC ??? _ZN12InputHandler9_021a585cEl
 // EC ??? func_ov000_021a5954

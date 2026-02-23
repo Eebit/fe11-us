@@ -376,7 +376,7 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 void MapStateManager::func_ov000_021a28cc(void)
 {
     gMapStateManager->camera->func_ov000_021a4a7c();
-    gMapStateManager->inputHandler->_021a5318();
+    gMapStateManager->inputHandler->Init();
     gMapStateManager->cursor->Init();
     func_ov000_021b9a10(gMapStateManager->unk_14);
     return;

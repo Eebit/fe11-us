@@ -178,43 +178,47 @@ struct MapStateManager_08
 
 class Button;
 
+enum
+{
+    INPUT_TYPE_NONE = 0,
+    INPUT_TYPE_KEY = 1,
+    INPUT_TYPE_TOUCH = 2,
+};
+
 class InputHandler
 {
 public:
-// +0x10 contains last touch coords
-// +0x14 contains current touch coords
-// +0x18 contains key handlers
-    Button * unk_00[4];
-    s16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
-    u16 unk_18;
-    u16 unk_1a;
-    u16 unk_1c;
-    u8 unk_1e;
-    u8 unk_1f;
-    u8 unk_20;
-    u8 unk_21_0 : 2;
-    u8 unk_21_2 : 2;
-    u8 unk_21_4 : 2;
-    u8 unk_21_6 : 2;
-    u8 unk_22;
-    u8 unk_23;
-    u8 unk_24;
-    u8 unk_25;
-    u8 unk_26;
-    s8 unk_27;
+    /* 00 */ Button * buttons[4];
+    /* 10 */ s16 xTouchPrev;
+    /* 12 */ s16 yTouchPrev;
+    /* 14 */ s16 xTouchCur;
+    /* 16 */ s16 yTouchCur;
+    /* 18 */ u16 keyHeld;
+    /* 1A */ u16 keyRepeated;
+    /* 1C */ u16 keyPressed;
+    /* 1E */ u8 unk_1e;
+    /* 1F */ u8 inputType;
+    /* 20 */ u8 unk_20;
+    /* 21 */ u8 unk_21_0 : 2;
+    /* 21 */ u8 unk_21_2 : 2;
+    /* 21 */ u8 unk_21_4 : 2;
+    /* 21 */ u8 unk_21_6 : 2;
+    /* 22 */ u8 buttonVisibilityMask;
+    /* 23 */ u8 unk_23;
+    /* 24 */ u8 unk_24;
+    /* 25 */ u8 unk_25;
+    /* 26 */ u8 unk_26;
+    /* 27 */ s8 unk_27;
 
-    void _021a5318(void);
-    void _021a5388(void);
-    void _021a561c(void);
+    void Init(void);
+    void CreateButtons(void);
+    void DestroyButtons(void);
     BOOL _021a5650(s32);
     void _021a5688(void);
-    BOOL _021a5768(u8);
-    void _021a5774(s32);
-    void _021a57e4(s32);
-    void _021a5810(s32);
+    BOOL IsButtonVisible(u8);
+    void SetButtonVisibility(s32);
+    void HideButton(s32);
+    void ShowButton(s32);
     void _021a5840(s32);
     void _021a585c(s32);
     BOOL _021a5abc(s32, s32, BOOL);
@@ -224,6 +228,11 @@ public:
     BOOL _021a63cc(s32, s32);
     void _021a6438(void);
     BOOL _021a6800(void);
+
+    inline BOOL IsUsingKeyInputs(void)
+    {
+        return this->inputType == INPUT_TYPE_KEY;
+    }
 };
 
 class Cursor

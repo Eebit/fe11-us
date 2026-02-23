@@ -46,16 +46,15 @@ public:
 };
 } // namespace map
 
-// _ZN12InputHandler9_021a5318Ev
-void InputHandler::_021a5318(void)
+void InputHandler::Init(void)
 {
     s32 i;
 
-    this->unk_18 = 0;
-    this->unk_1a = 0;
-    this->unk_1c = 0;
+    this->keyHeld = 0;
+    this->keyRepeated = 0;
+    this->keyPressed = 0;
     this->unk_1e = 0;
-    this->unk_1f = 0;
+    this->inputType = INPUT_TYPE_NONE;
     this->unk_20 = 0;
     this->unk_23 = 0;
     this->unk_21_0 = 0;
@@ -65,11 +64,11 @@ void InputHandler::_021a5318(void)
     this->unk_24 = 0;
     this->unk_25 = 0;
     this->unk_26 = 0;
-    this->unk_22 = 0;
+    this->buttonVisibilityMask = 0;
 
     for (i = 0; i < 4; i++)
     {
-        this->unk_00[i] = NULL;
+        this->buttons[i] = NULL;
     }
 
     return;
@@ -77,67 +76,64 @@ void InputHandler::_021a5318(void)
 
 extern struct ProcCmd ProcScr_020ce750[];
 
-// _ZN12InputHandler9_021a5388Ev
-void InputHandler::_021a5388(void)
+void InputHandler::CreateButtons(void)
 {
     struct VmMap_Common * iVar1 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Common"));
 
-    this->unk_00[0] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Main;
+    this->buttons[0] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Main;
 
-    this->unk_00[0]->func_02034838(BUTTON_KIND_A_MENU, iVar1->unk_04, iVar1->unk_06, 0, 2);
-    this->unk_00[0]->proc_mark = PROC_MARK_6;
-    this->unk_00[0]->SetPosition(112, 0);
-    this->unk_00[0]->func_020354bc(0);
-    this->unk_00[0]->SetVisible(TRUE);
+    this->buttons[0]->func_02034838(BUTTON_KIND_A_MENU, iVar1->unk_04, iVar1->unk_06, 0, 2);
+    this->buttons[0]->proc_mark = PROC_MARK_6;
+    this->buttons[0]->SetPosition(112, 0);
+    this->buttons[0]->func_020354bc(0);
+    this->buttons[0]->SetVisible(TRUE);
 
-    this->unk_00[1] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Common;
+    this->buttons[1] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Common;
 
-    this->unk_00[1]->func_02034838(BUTTON_KIND_R_CHANGE, iVar1->unk_04 + 0x18, iVar1->unk_06, 0, 2);
-    this->unk_00[1]->proc_mark = PROC_MARK_6;
-    this->unk_00[1]->SetPosition(200, 0);
-    this->unk_00[1]->func_020354bc(0);
-    this->unk_00[1]->SetVisible(TRUE);
+    this->buttons[1]->func_02034838(BUTTON_KIND_R_CHANGE, iVar1->unk_04 + 0x18, iVar1->unk_06, 0, 2);
+    this->buttons[1]->proc_mark = PROC_MARK_6;
+    this->buttons[1]->SetPosition(200, 0);
+    this->buttons[1]->func_020354bc(0);
+    this->buttons[1]->SetVisible(TRUE);
 
-    this->unk_00[2] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Common;
+    this->buttons[2] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Common;
 
-    this->unk_00[2]->func_02034838(BUTTON_KIND_X_DANGER, iVar1->unk_04 + 0x24, iVar1->unk_06, 0, 2);
-    this->unk_00[2]->proc_mark = PROC_MARK_6;
-    this->unk_00[2]->SetPosition(156, 0);
-    this->unk_00[2]->func_020354bc(0);
-    this->unk_00[2]->SetVisible(TRUE);
+    this->buttons[2]->func_02034838(BUTTON_KIND_X_DANGER, iVar1->unk_04 + 0x24, iVar1->unk_06, 0, 2);
+    this->buttons[2]->proc_mark = PROC_MARK_6;
+    this->buttons[2]->SetPosition(156, 0);
+    this->buttons[2]->func_020354bc(0);
+    this->buttons[2]->SetVisible(TRUE);
 
     if ((data_02196f0c->state & 0x40) != 0)
     {
-        this->unk_00[3] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Common;
+        this->buttons[3] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Common;
 
-        this->unk_00[3]->func_02034838(BUTTON_KIND_START_START, iVar1->unk_04 + 0x30, iVar1->unk_06, 0, 2);
-        this->unk_00[3]->proc_mark = PROC_MARK_6;
-        this->unk_00[3]->SetPosition(68, 0);
-        this->unk_00[3]->func_020354bc(0);
-        this->unk_00[3]->SetVisible(TRUE);
+        this->buttons[3]->func_02034838(BUTTON_KIND_START_START, iVar1->unk_04 + 0x30, iVar1->unk_06, 0, 2);
+        this->buttons[3]->proc_mark = PROC_MARK_6;
+        this->buttons[3]->SetPosition(68, 0);
+        this->buttons[3]->func_020354bc(0);
+        this->buttons[3]->SetVisible(TRUE);
     }
 
     return;
 }
 
-// _ZN12InputHandler9_021a561cEv
-void InputHandler::_021a561c(void)
+void InputHandler::DestroyButtons(void)
 {
     s32 i;
 
     for (i = 0; i < 4; i++)
     {
-        if (this->unk_00[i] != NULL)
+        if (this->buttons[i] != NULL)
         {
-            Proc_End(this->unk_00[i]);
-            this->unk_00[i] = NULL;
+            Proc_End(this->buttons[i]);
+            this->buttons[i] = NULL;
         }
     }
 
     return;
 }
 
-// _ZN12InputHandler9_021a5650El
 BOOL InputHandler::_021a5650(s32 param_2)
 {
     if (data_02196f24->controlSettings == 0)
@@ -145,9 +141,9 @@ BOOL InputHandler::_021a5650(s32 param_2)
         return FALSE;
     }
 
-    if (this->unk_00[param_2] != NULL)
+    if (this->buttons[param_2] != NULL)
     {
-        return this->unk_00[param_2]->func_02035450();
+        return this->buttons[param_2]->func_02035450();
     }
 
     return FALSE;
@@ -156,7 +152,6 @@ BOOL InputHandler::_021a5650(s32 param_2)
 EC s32 func_02034f74(s32);
 EC void func_02034930(s32, s32, s32);
 
-// _ZN12InputHandler9_021a5688Ev
 void InputHandler::_021a5688(void)
 {
     VmMap_Common * iVar1;
@@ -198,32 +193,30 @@ void InputHandler::_021a5688(void)
     return;
 }
 
-// _ZN12InputHandler9_021a5768Eh
-BOOL InputHandler::_021a5768(u8 param_2)
+BOOL InputHandler::IsButtonVisible(u8 mask)
 {
-    return this->unk_22 & param_2;
+    return this->buttonVisibilityMask & mask;
 }
 
-// _ZN12InputHandler9_021a5774El
-void InputHandler::_021a5774(s32 param_2)
+void InputHandler::SetButtonVisibility(s32 param_2)
 {
     s32 i;
 
-    this->unk_22 = param_2;
+    this->buttonVisibilityMask = param_2;
 
     for (i = 0; i < 4; i++)
     {
-        if (this->unk_00[i] != NULL)
+        if (this->buttons[i] != NULL)
         {
             if ((param_2 & (1 << i)) != 0)
             {
-                this->unk_00[i]->func_020354a0();
-                this->unk_00[i]->SetVisible(FALSE);
+                this->buttons[i]->func_020354a0();
+                this->buttons[i]->SetVisible(FALSE);
             }
             else
             {
-                this->unk_00[i]->func_020354bc(0);
-                this->unk_00[i]->SetVisible(TRUE);
+                this->buttons[i]->func_020354bc(0);
+                this->buttons[i]->SetVisible(TRUE);
             }
         }
     }
@@ -231,43 +224,40 @@ void InputHandler::_021a5774(s32 param_2)
     return;
 }
 
-// _ZN12InputHandler9_021a57e4El
-void InputHandler::_021a57e4(s32 i)
+void InputHandler::HideButton(s32 i)
 {
-    if (this->unk_00[i] == NULL)
+    if (this->buttons[i] == NULL)
     {
         return;
     }
 
-    this->unk_00[i]->func_020354a0();
-    this->unk_00[i]->SetVisible(FALSE);
+    this->buttons[i]->func_020354a0();
+    this->buttons[i]->SetVisible(FALSE);
 
     return;
 }
 
-// _ZN12InputHandler9_021a5810El
-void InputHandler::_021a5810(s32 i)
+void InputHandler::ShowButton(s32 i)
 {
-    if (this->unk_00[i] == NULL)
+    if (this->buttons[i] == NULL)
     {
         return;
     }
 
-    this->unk_00[i]->func_020354bc(0);
-    this->unk_00[i]->SetVisible(TRUE);
+    this->buttons[i]->func_020354bc(0);
+    this->buttons[i]->SetVisible(TRUE);
 
     return;
 }
 
-// _ZN12InputHandler9_021a5840El
 void InputHandler::_021a5840(s32 i)
 {
-    if (this->unk_00[i] == NULL)
+    if (this->buttons[i] == NULL)
     {
         return;
     }
 
-    this->unk_00[i]->func_020354bc(0);
+    this->buttons[i]->func_020354bc(0);
 
     return;
 }
@@ -275,7 +265,6 @@ void InputHandler::_021a5840(s32 i)
 extern KeyState * gKeySt;
 extern TouchState * gTouchSt;
 
-// _ZN12InputHandler9_021a585cEl
 void InputHandler::_021a585c(s32 param_2)
 {
     struct Vec3 auStack_18;
@@ -287,8 +276,8 @@ void InputHandler::_021a585c(s32 param_2)
 
     if ((gTouchSt->unk_12 == 0) && !(gTouchSt->unk_15 != 0))
     {
-        this->unk_14 = -1;
-        this->unk_16 = -1;
+        this->xTouchCur = -1;
+        this->yTouchCur = -1;
 
         return;
     }
@@ -297,19 +286,19 @@ void InputHandler::_021a585c(s32 param_2)
     {
         gMapStateManager->camera->func_ov000_021a5228(gTouchSt->unk_00, gTouchSt->unk_02, &auStack_18);
 
-        this->unk_10 = auStack_18.x;
-        this->unk_12 = auStack_18.y;
+        this->xTouchPrev = auStack_18.x;
+        this->yTouchPrev = auStack_18.y;
 
         if (gTouchSt->unk_14 != 0)
         {
-            this->unk_14 = this->unk_10;
-            this->unk_16 = this->unk_12;
+            this->xTouchCur = this->xTouchPrev;
+            this->yTouchCur = this->yTouchPrev;
         }
     }
     else
     {
-        this->unk_10 = gMapStateManager->cursor->xTile;
-        this->unk_12 = gMapStateManager->cursor->yTile;
+        this->xTouchPrev = gMapStateManager->cursor->xTile;
+        this->yTouchPrev = gMapStateManager->cursor->yTile;
     }
 
     this->unk_1e = 1;
@@ -388,7 +377,6 @@ extern struct Unit * gUnitList;
 
 extern struct UnkStruct_021e3528 data_ov000_021e3528;
 
-// _ZN12InputHandler9_021a5abcElll
 BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
 {
     s32 uVar1;
@@ -408,8 +396,8 @@ BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
 
     if (param_4 == 0)
     {
-        uVar2 = this->unk_16;
-        uVar1 = this->unk_14;
+        uVar2 = this->yTouchCur;
+        uVar1 = this->xTouchCur;
         unitId = gMapStateManager->unk_028[uVar1 | uVar2 << 5];
 
         if (unitId == 0)
@@ -461,7 +449,7 @@ BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
     }
     else
     {
-        if (x == this->unk_14 && y == this->unk_16)
+        if (x == this->xTouchCur && y == this->yTouchCur)
         {
             if (gMapStateManager->unk_08->unk_0854[pos] >= 0)
             {
@@ -505,24 +493,23 @@ extern UnkStruct_021e3348 * data_ov000_021e3348;
 
 EC BOOL func_ov000_021b6264(void *, s32, s32);
 
-// _ZN12InputHandler9_021a5c80Ell
 BOOL InputHandler::_021a5c80(s32 param_2, s32 param_3)
 {
     s32 i;
 
     for (i = 0; i < 4; i++)
     {
-        if (this->unk_00[i] == NULL)
+        if (this->buttons[i] == NULL)
         {
             continue;
         }
 
-        if (!this->unk_00[i]->func_020353b8())
+        if (!this->buttons[i]->func_020353b8())
         {
             continue;
         }
 
-        if (this->unk_00[i]->func_020353e0(param_2, param_3))
+        if (this->buttons[i]->func_020353e0(param_2, param_3))
         {
             return TRUE;
         }
@@ -539,12 +526,11 @@ BOOL InputHandler::_021a5c80(s32 param_2, s32 param_3)
     return FALSE;
 }
 
-// _ZN12InputHandler9_021a5d08Ev
 void InputHandler::_021a5d08(void)
 {
-    this->unk_18 = 0;
-    this->unk_1a = 0;
-    this->unk_1c = 0;
+    this->keyHeld = 0;
+    this->keyRepeated = 0;
+    this->keyPressed = 0;
     this->unk_1e = 0;
     this->unk_20 = 0;
     this->unk_23 = 0;
@@ -580,7 +566,6 @@ struct UnkStruct_021e3344
 
 extern struct UnkStruct_021e3344 * data_ov000_021e3344;
 
-// _ZN12InputHandler9_021a5d5cEl
 void InputHandler::_021a5d5c(s32 param_2)
 {
     struct Unit * pUnit;
@@ -596,9 +581,9 @@ void InputHandler::_021a5d5c(s32 param_2)
     uVar7 = gMapStateManager->cursor->xTile;
     uVar8 = gMapStateManager->cursor->yTile;
 
-    this->unk_18 = 0;
-    this->unk_1a = 0;
-    this->unk_1c = 0;
+    this->keyHeld = 0;
+    this->keyRepeated = 0;
+    this->keyPressed = 0;
     this->unk_1e = 0;
     this->unk_21_0 = 0;
     this->unk_21_4 = 0;
@@ -619,18 +604,18 @@ void InputHandler::_021a5d5c(s32 param_2)
 
     if (this->unk_1e != 0)
     {
-        this->unk_1f = 2;
+        this->inputType = INPUT_TYPE_TOUCH;
 
-        uVar7 = this->unk_10;
+        uVar7 = this->xTouchPrev;
 
-        if (this->unk_10 < gMapStateManager->unk_24)
+        if (this->xTouchPrev < gMapStateManager->unk_24)
         {
             uVar7 = gMapStateManager->unk_24;
         }
 
-        uVar8 = this->unk_12;
+        uVar8 = this->yTouchPrev;
 
-        if (this->unk_12 < gMapStateManager->unk_25)
+        if (this->yTouchPrev < gMapStateManager->unk_25)
         {
             uVar8 = gMapStateManager->unk_25;
         }
@@ -660,7 +645,7 @@ void InputHandler::_021a5d5c(s32 param_2)
 
         if (gTouchSt->unk_14 != 0)
         {
-            if ((pUnit == 0 && unaff_r4 == 0) && (this->_021a5abc(this->unk_10, this->unk_12, param_2) != 0))
+            if ((pUnit == 0 && unaff_r4 == 0) && (this->_021a5abc(this->xTouchPrev, this->yTouchPrev, param_2) != 0))
             {
                 this->unk_21_2 = 1;
                 this->unk_23 = 1;
@@ -692,7 +677,7 @@ void InputHandler::_021a5d5c(s32 param_2)
 
                     if (this->unk_23 != 0)
                     {
-                        if (this->_021a5abc(this->unk_10, this->unk_12, param_2) != 0)
+                        if (this->_021a5abc(this->xTouchPrev, this->yTouchPrev, param_2) != 0)
                         {
                             this->unk_21_0 = 1;
                         }
@@ -716,7 +701,7 @@ void InputHandler::_021a5d5c(s32 param_2)
                     this->unk_23 = 0;
                 }
 
-                if ((this->unk_23 != 0) && (this->_021a5abc(this->unk_10, this->unk_12, param_2) == 0))
+                if ((this->unk_23 != 0) && (this->_021a5abc(this->xTouchPrev, this->yTouchPrev, param_2) == 0))
                 {
                     this->unk_23 = 0;
                 }
@@ -731,9 +716,9 @@ void InputHandler::_021a5d5c(s32 param_2)
             this->unk_25 = 0;
             this->unk_23 = 0;
 
-            this->unk_18 = gKeySt->held;
-            this->unk_1a = gKeySt->repeated;
-            this->unk_1c = gKeySt->pressed;
+            this->keyHeld = gKeySt->held;
+            this->keyRepeated = gKeySt->repeated;
+            this->keyPressed = gKeySt->pressed;
 
             if ((gKeySt->pressed == 0) && ((gKeySt->held & KEY_BUTTON_Y) != 0))
             {
@@ -746,7 +731,7 @@ void InputHandler::_021a5d5c(s32 param_2)
             if (((gKeySt->repeated & KEY_DPAD_ANY) != 0) ||
                 (this->unk_24 != 0 && ((gKeySt->held & KEY_DPAD_ANY) != 0) && ((gKeySt->repeatClock & 1) == 0)))
             {
-                this->unk_1f = 1;
+                this->inputType = INPUT_TYPE_KEY;
 
                 uVar10 = uVar7;
 
@@ -880,7 +865,6 @@ void InputHandler::_021a5d5c(s32 param_2)
 
 EC Menu * func_0202ffb4(ProcPtr proc);
 
-// _ZN12InputHandler9_021a63ccEll
 BOOL InputHandler::_021a63cc(s32 arg1, s32 arg2)
 {
     s32 temp_r2;
@@ -925,7 +909,6 @@ EC s32 func_ov000_021b60e8(void *, s32, s32, s32);
 EC s32 func_ov000_021b615c(void);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
 
-// _ZN12InputHandler9_021a6438Ev
 void InputHandler::_021a6438(void)
 {
     s32 var_r0_2;
@@ -934,9 +917,9 @@ void InputHandler::_021a6438(void)
     s32 var_r7;
     s32 var_r4;
 
-    this->unk_18 = 0;
-    this->unk_1a = 0;
-    this->unk_1c = 0;
+    this->keyHeld = 0;
+    this->keyRepeated = 0;
+    this->keyPressed = 0;
     this->unk_1e = 0;
 
     var_r4 = -1;
@@ -961,7 +944,7 @@ void InputHandler::_021a6438(void)
 
     if (this->unk_1e != 0)
     {
-        this->unk_1f = 2;
+        this->inputType = INPUT_TYPE_TOUCH;
 
         var_r4 = -1;
 
@@ -981,7 +964,7 @@ void InputHandler::_021a6438(void)
 
         if ((var_r5 == 0) && (var_r6 == 0))
         {
-            var_r4 = func_ov000_021b60e8(data_ov000_021e3348, this->unk_10, this->unk_12, 0);
+            var_r4 = func_ov000_021b60e8(data_ov000_021e3348, this->xTouchPrev, this->yTouchPrev, 0);
 
             if ((func_0202ffb4(NULL) != 0) && (gTouchSt->unk_14 == 0) && (var_r4 != 0x7F))
             {
@@ -1069,13 +1052,13 @@ void InputHandler::_021a6438(void)
         this->unk_20 = 0;
         this->unk_25 = 0;
 
-        this->unk_18 = gKeySt->held & ~0;
-        this->unk_1a = gKeySt->repeated & ~0;
-        this->unk_1c = gKeySt->pressed & ~0;
+        this->keyHeld = gKeySt->held & ~0;
+        this->keyRepeated = gKeySt->repeated & ~0;
+        this->keyPressed = gKeySt->pressed & ~0;
 
         if (gKeySt->held & KEY_DPAD_ANY)
         {
-            this->unk_1f = 1;
+            this->inputType = INPUT_TYPE_KEY;
         }
 
         if (gKeySt->pressed & KEY_BUTTON_A)
@@ -1111,7 +1094,6 @@ void InputHandler::_021a6438(void)
     return;
 }
 
-// _ZN12InputHandler9_021a6800Ev
 BOOL InputHandler::_021a6800(void)
 {
     if ((gMapStateManager->cursor->isVisible || data_ov000_021e3348 != 0) &&

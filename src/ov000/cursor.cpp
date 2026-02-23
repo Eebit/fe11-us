@@ -169,12 +169,12 @@ void Cursor::_021a6bd0(void)
     this->xDisplay = this->xTile * GetTileSize();
     this->yDisplay = this->yTile * GetTileSize();
 
-    if ((gMapStateManager->inputHandler->unk_1f == 1 ? TRUE : FALSE) == 0)
+    if (gMapStateManager->inputHandler->IsUsingKeyInputs())
     {
-        return;
+        gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
     }
 
-    gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
+    return;
 }
 
 void Cursor::_021a6c38(void)
@@ -209,12 +209,10 @@ void Cursor::_021a6c38(void)
         return;
     }
 
-    if (((gMapStateManager->inputHandler->unk_1f == 1) ? TRUE : FALSE) == 0)
+    if (gMapStateManager->inputHandler->IsUsingKeyInputs())
     {
-        return;
+        gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
     }
-
-    gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
 
     return;
 }
