@@ -349,7 +349,7 @@ void Camera::func_ov000_021a4fb4(void)
 
     range = this->unk_12;
 
-    if (gMapStateManager->unk_0c->unk_24)
+    if (gMapStateManager->inputHandler->unk_24)
     {
         range *= 2;
     }

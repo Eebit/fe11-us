@@ -5765,26 +5765,26 @@ EC void _ZN6Camera19func_ov000_021a516cEv(s32);
 // EC ??? _ZN6Camera19func_ov000_021a52c8Elll
 // EC ??? _ZN6Camera19func_ov000_021a52d0Elll
 // EC ??? _ZN6Camera19func_ov000_021a52f8EllP4Vec3
-// EC ??? func_ov000_021a5318
-// EC ??? func_ov000_021a5388
-// EC ??? func_ov000_021a561c
-EC BOOL func_ov000_021a5650(void *, u32);
-// EC ??? func_ov000_021a5688
-EC BOOL func_ov000_021a5768(void *, u32);
-EC void func_ov000_021a5774(void *, u32);
-EC void func_ov000_021a57e4(void *, u32);
-EC void func_ov000_021a5810(void *, u32);
-// EC ??? func_ov000_021a5840
-// EC ??? func_ov000_021a585c
+// EC ??? _ZN12InputHandler4InitEv
+// EC ??? _ZN12InputHandler13CreateButtonsEv
+// EC ??? _ZN12InputHandler14DestroyButtonsEv
+EC BOOL _ZN12InputHandler9_021a5650El(void *, u32);
+// EC ??? _ZN12InputHandler9_021a5688Ev
+EC BOOL _ZN12InputHandler15IsButtonVisibleEh(void *, u32);
+EC void _ZN12InputHandler19SetButtonVisibilityEl(void *, u32);
+EC void _ZN12InputHandler10HideButtonEl(void *, u32);
+EC void _ZN12InputHandler10ShowButtonEl(void *, u32);
+// EC ??? _ZN12InputHandler9_021a5840El
+// EC ??? _ZN12InputHandler9_021a585cEl
 // EC ??? func_ov000_021a5954
 // EC ??? func_ov000_021a59cc
-// EC ??? func_ov000_021a5abc
-// EC ??? func_ov000_021a5c80
-// EC ??? func_ov000_021a5d08
-EC void func_ov000_021a5d5c(void *, u32);
-// EC ??? func_ov000_021a63cc
-// EC ??? func_ov000_021a6438
-// EC ??? func_ov000_021a6800
+// EC ??? _ZN12InputHandler9_021a5abcElll
+// EC ??? _ZN12InputHandler9_021a5c80Ell
+// EC ??? _ZN12InputHandler9_021a5d08Ev
+// EC void _ZN12InputHandler9_021a5d5cEl(void *, u32);
+// EC ??? _ZN12InputHandler9_021a63ccEll
+// EC ??? _ZN12InputHandler9_021a6438Ev
+// EC ??? _ZN12InputHandler9_021a6800Ev
 // EC ??? _ZN6Cursor4InitEv
 // EC ??? _ZN6Cursor6SetPosElll
 // EC ??? _ZN6Cursor14SetPosAnimatedElllh

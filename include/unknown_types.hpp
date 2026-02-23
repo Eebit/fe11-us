@@ -71,12 +71,14 @@ struct UnkStruct_02196f24
 {
     STRUCT_PAD(0x00, 0x03);
     u8 unk_03;
-    STRUCT_PAD(0x04, 0x07);
+    /* 04 */ u8 controlSettings;
+    STRUCT_PAD(0x05, 0x07);
     /* 07 */ u8 enableBgm;
     /* 08 */ u8 enableSoundEffects;
     STRUCT_PAD(0x09, 0x0C);
     /* 0C */ u8 enableTutorials;
-    STRUCT_PAD(0x0D, 0x10);
+    /* 0D */ u8 unk_0d;
+    STRUCT_PAD(0x0E, 0x10);
 };
 
 struct UnkStruct_02196f20

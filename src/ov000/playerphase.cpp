@@ -123,7 +123,7 @@ EC void func_ov000_021aa210(void)
     data_ov000_021e332c.unk_14->unk_03 = 0;
 
     func_ov000_021d6e30(0);
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
+    gMapStateManager->inputHandler->SetButtonVisibility(0xf);
 
     return;
 }
@@ -221,7 +221,7 @@ EC void func_ov000_021abd58(void)
 
 EC void func_ov000_021abd9c(void)
 {
-    func_ov000_021a5d5c(gMapStateManager->unk_0c, 2);
+    gMapStateManager->inputHandler->_021a5d5c(2);
 
     if (func_ov000_021a471c() != 0)
     {
@@ -229,8 +229,8 @@ EC void func_ov000_021abd9c(void)
         return;
     }
 
-    if ((((gMapStateManager->unk_0c->unk_1c & 0x400) != 0) ||
-         (func_ov000_021a5650(gMapStateManager->unk_0c, 2) != 0)) &&
+    if ((((gMapStateManager->inputHandler->keyPressed & 0x400) != 0) ||
+         (gMapStateManager->inputHandler->_021a5650(2) != 0)) &&
         (func_ov000_021a9cac() != 0))
     {
         if (data_ov000_021e3324->unk_03 != 0)
@@ -251,7 +251,7 @@ EC void func_ov000_021abd9c(void)
         func_ov000_021abbc8();
     }
 
-    if (gMapStateManager->unk_0c->unk_21_0 != 0)
+    if (gMapStateManager->inputHandler->unk_21_0 != 0)
     {
         if (func_ov000_021abf30())
         {
@@ -259,9 +259,9 @@ EC void func_ov000_021abd9c(void)
         }
     }
 
-    if (gMapStateManager->unk_0c->unk_21_4 == 0)
+    if (gMapStateManager->inputHandler->unk_21_4 == 0)
     {
-        if (!func_ov000_021a5650(gMapStateManager->unk_0c, 0))
+        if (!gMapStateManager->inputHandler->_021a5650(0))
         {
             return;
         }
@@ -568,7 +568,7 @@ EC void func_ov000_021ac6a0(void)
     {
         if (func_02050474() == 0)
         {
-            if ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (func_ov000_021a5650(gMapStateManager->unk_0c, 1) != 0))
+            if ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (gMapStateManager->inputHandler->_021a5650(1) != 0))
             {
                 if (func_0204b1f8(0) != 0)
                 {
@@ -588,7 +588,7 @@ EC void func_ov000_021ac6a0(void)
         }
     }
 
-    if (func_ov000_021a5768(gMapStateManager->unk_0c, -1) == 0)
+    if (gMapStateManager->inputHandler->IsButtonVisible(-1) == 0)
     {
         return;
     }
@@ -671,7 +671,7 @@ EC void func_ov000_021ac8b4(void)
     }
 
     gMapStateManager->cursor->isVisible = TRUE;
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
+    gMapStateManager->inputHandler->SetButtonVisibility(0xf);
 
     if ((data_02196f0c->state & 0x40) != 0)
     {
@@ -817,7 +817,7 @@ static inline BOOL CHECK_02(void)
 
 EC void func_ov000_021acc7c(ProcPtr proc)
 {
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0x8b);
+    gMapStateManager->inputHandler->SetButtonVisibility(0x8b);
     func_ov000_021bec24(proc);
 
     if (CHECK_02())
@@ -830,7 +830,7 @@ EC void func_ov000_021acc7c(ProcPtr proc)
 
 EC void func_ov000_021accfc(ProcPtr proc)
 {
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0x8b);
+    gMapStateManager->inputHandler->SetButtonVisibility(0x8b);
     StartUnitMenu(proc);
 
     if (CHECK_02())
@@ -870,7 +870,7 @@ EC void func_ov000_021acd8c(void)
     gMapStateManager->unk_14->unk_04->unk_15 = 1;
 
     func_ov000_021d3fa8();
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0x8f);
+    gMapStateManager->inputHandler->SetButtonVisibility(0x8f);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 6, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1059,7 +1059,7 @@ EC void func_ov000_021ad5bc(void)
 
 EC void func_ov000_021ad674(ProcPtr proc)
 {
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
+    gMapStateManager->inputHandler->SetButtonVisibility(0);
     StartProcMind(proc);
     return;
 }
@@ -1181,7 +1181,7 @@ EC void func_ov000_021ad8c4(struct PlayerPhaseProc * proc)
 
 EC void func_ov000_021ad97c(ProcPtr proc)
 {
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
+    gMapStateManager->inputHandler->SetButtonVisibility(0);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x18, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
     data_ov000_021e332c.unk_14->unk_03 = 0;
@@ -1193,7 +1193,7 @@ EC void func_ov000_021ad97c(ProcPtr proc)
 
 EC void func_ov000_021ad9d4(ProcPtr proc)
 {
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
+    gMapStateManager->inputHandler->SetButtonVisibility(0);
     func_ov000_021d604c(0x1b, proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 0x1a, 0);
     data_ov000_021e332c.unk_14->unk_02 = 0;
@@ -1253,7 +1253,7 @@ EC void func_ov000_021adb48(void)
         data_ov000_021e332c.unk_14->unk_02 = 0;
         data_ov000_021e332c.unk_14->unk_03 = 0;
 
-        func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
+        gMapStateManager->inputHandler->SetButtonVisibility(0xf);
         func_ov000_021d6e30(0);
 
         return;
@@ -1284,7 +1284,7 @@ EC void func_ov000_021adbf0(void)
         func_ov000_021d6e30(0);
     }
 
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
+    gMapStateManager->inputHandler->SetButtonVisibility(0xf);
 
     return;
 }
@@ -1301,7 +1301,7 @@ EC void func_ov000_021adc98(u32 arg_0)
     func_0204eb24();
     func_02062a54(arg_0);
 
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
+    gMapStateManager->inputHandler->SetButtonVisibility(0xf);
 
     return;
 }
@@ -1353,7 +1353,7 @@ EC void func_ov000_021addec(void)
 EC void func_ov000_021ade2c(void)
 {
     func_02067510();
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0xf);
+    gMapStateManager->inputHandler->SetButtonVisibility(0xf);
     return;
 }
 
@@ -1446,7 +1446,7 @@ EC void func_ov000_021ae0a8(ProcPtr proc)
 {
     s32 phase;
 
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
+    gMapStateManager->inputHandler->SetButtonVisibility(0);
 
     phase = data_ov000_021e3324->phase;
 

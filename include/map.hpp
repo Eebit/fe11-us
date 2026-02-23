@@ -176,26 +176,63 @@ struct MapStateManager_08
     /* 10F8 */ s8 unk_10f8[0x80];
 };
 
-struct MapStateManager_0C
+class Button;
+
+enum
 {
-// +0x10 contains last touch coords
-// +0x14 contains current touch coords
-// +0x18 contains key handlers
-    STRUCT_PAD(0x00, 0x1C);
-    u16 unk_1c;
-    u8 unk_1e;
-    u8 unk_1f;
-    u8 unk_20;
-    u8 unk_21_0 : 2;
-    u8 unk_21_2 : 1;
-    u8 unk_21_3 : 1;
-    u8 unk_21_4 : 2;
-    u8 unk_21_6 : 1;
-    u8 unk_21_7 : 1;
-    u8 unk_21_8 : 1;
-    STRUCT_PAD(0x22, 0x23);
-    u8 unk_24;
-    STRUCT_PAD(0x25, 0x28);
+    INPUT_TYPE_NONE = 0,
+    INPUT_TYPE_KEY = 1,
+    INPUT_TYPE_TOUCH = 2,
+};
+
+class InputHandler
+{
+public:
+    /* 00 */ Button * buttons[4];
+    /* 10 */ s16 xTouchPrev;
+    /* 12 */ s16 yTouchPrev;
+    /* 14 */ s16 xTouchCur;
+    /* 16 */ s16 yTouchCur;
+    /* 18 */ u16 keyHeld;
+    /* 1A */ u16 keyRepeated;
+    /* 1C */ u16 keyPressed;
+    /* 1E */ u8 unk_1e;
+    /* 1F */ u8 inputType;
+    /* 20 */ u8 unk_20;
+    /* 21 */ u8 unk_21_0 : 2;
+    /* 21 */ u8 unk_21_2 : 2;
+    /* 21 */ u8 unk_21_4 : 2;
+    /* 21 */ u8 unk_21_6 : 2;
+    /* 22 */ u8 buttonVisibilityMask;
+    /* 23 */ u8 unk_23;
+    /* 24 */ u8 unk_24;
+    /* 25 */ u8 unk_25;
+    /* 26 */ u8 unk_26;
+    /* 27 */ s8 unk_27;
+
+    void Init(void);
+    void CreateButtons(void);
+    void DestroyButtons(void);
+    BOOL _021a5650(s32);
+    void _021a5688(void);
+    BOOL IsButtonVisible(u8);
+    void SetButtonVisibility(s32);
+    void HideButton(s32);
+    void ShowButton(s32);
+    void _021a5840(s32);
+    void _021a585c(s32);
+    BOOL _021a5abc(s32, s32, BOOL);
+    BOOL _021a5c80(s32, s32);
+    void _021a5d08(void);
+    void _021a5d5c(s32);
+    BOOL _021a63cc(s32, s32);
+    void _021a6438(void);
+    BOOL _021a6800(void);
+
+    inline BOOL IsUsingKeyInputs(void)
+    {
+        return this->inputType == INPUT_TYPE_KEY;
+    }
 };
 
 class Cursor
@@ -332,7 +369,7 @@ public:
     /* 000 */ Camera * camera;
     /* 004 */ struct MapStateManager_04 * unk_04;
     /* 008 */ struct MapStateManager_08 * unk_08;
-    /* 00C */ struct MapStateManager_0C * unk_0c;
+    /* 00C */ InputHandler * inputHandler;
     /* 010 */ Cursor * cursor;
     /* 014 */ struct MapStateManager_14 * unk_14;
     /* 018 */ void * unk_18;
