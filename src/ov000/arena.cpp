@@ -147,7 +147,7 @@ public:
         gpActiveScreenSt->dispIo->bldcnt.target2_obj_on = 0;
         gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 1;
 
-        func_ov000_021a5810(gMapStateManager->unk_0c, 1);
+        gMapStateManager->inputHandler->_021a5810(1);
         this->_021d9078();
     }
 
@@ -155,7 +155,7 @@ public:
     {
         gpActiveScreenSt->dispIo->bldcnt.effect = 0;
 
-        func_ov000_021a57e4(gMapStateManager->unk_0c, 1);
+        gMapStateManager->inputHandler->_021a57e4(1);
         this->_021d9120();
         this->_021d9024();
 
@@ -976,7 +976,7 @@ void arena::Arena::_021d87a4(void)
 {
     u8 tmp;
 
-    if ((gKeySt->pressed & KEY_BUTTON_B) || (func_ov000_021a5650(gMapStateManager->unk_0c, 0) != 0))
+    if ((gKeySt->pressed & KEY_BUTTON_B) || (gMapStateManager->inputHandler->_021a5650(0)))
     {
         this->unk_59 = 1;
     }
@@ -1022,7 +1022,7 @@ void arena::Arena::_021d882c(BOOL arg_1)
 
         if (func_ov000_021ca0b8(this->unk_5c) == this->unk_3c)
         {
-            func_ov000_021a5810(gMapStateManager->unk_0c, 0);
+            gMapStateManager->inputHandler->_021a5810(0);
             Proc_Goto(this, 6, 0);
             pUnit = func_0203c378(this->unk_38);
 
@@ -1037,19 +1037,19 @@ void arena::Arena::_021d882c(BOOL arg_1)
         {
             if (func_ov000_021ca0b8(this->unk_5c) == this->unk_38)
             {
-                func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
+                gMapStateManager->inputHandler->_021a57e4(0);
                 Proc_Goto(this, 7, 0);
                 uVar6 = -1;
             }
             else if (this->unk_59 != 0)
             {
-                func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
+                gMapStateManager->inputHandler->_021a57e4(0);
                 Proc_Goto(this, 8, 0);
                 uVar6 = -1;
             }
             else
             {
-                func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
+                gMapStateManager->inputHandler->_021a57e4(0);
                 Proc_Goto(this, 9, 0);
                 uVar6 = -1;
             }
@@ -1570,7 +1570,7 @@ EC void Arena_ov000_021d94f4(arena::Arena * proc)
 
 EC void Arena_ov000_021d9500(arena::Arena * unused)
 {
-    func_ov000_021a57e4(gMapStateManager->unk_0c, 0);
+    gMapStateManager->inputHandler->_021a57e4(0);
     return;
 }
 

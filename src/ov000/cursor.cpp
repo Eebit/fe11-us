@@ -126,7 +126,7 @@ void Cursor::_021a6b4c(s32 xPx, s32 yPx)
     s32 diff;
     s32 var_r4 = gMapStateManager->camera->unk_12;
 
-    if (gMapStateManager->unk_0c->unk_24 != 0)
+    if (gMapStateManager->inputHandler->unk_24 != 0)
     {
         var_r4 *= 2;
     }
@@ -169,7 +169,7 @@ void Cursor::_021a6bd0(void)
     this->xDisplay = this->xTile * GetTileSize();
     this->yDisplay = this->yTile * GetTileSize();
 
-    if ((gMapStateManager->unk_0c->unk_1f == 1 ? TRUE : FALSE) == 0)
+    if ((gMapStateManager->inputHandler->unk_1f == 1 ? TRUE : FALSE) == 0)
     {
         return;
     }
@@ -185,7 +185,7 @@ void Cursor::_021a6c38(void)
     xDisp = this->xTile * GetTileSize();
     yDisp = this->yTile * GetTileSize();
 
-    if (gMapStateManager->unk_0c->unk_1e != 0)
+    if (gMapStateManager->inputHandler->unk_1e != 0)
     {
         xDisp = this->xTile * GetTileSize();
         yDisp = this->yTile * GetTileSize();
@@ -209,7 +209,7 @@ void Cursor::_021a6c38(void)
         return;
     }
 
-    if (((gMapStateManager->unk_0c->unk_1f == 1) ? TRUE : FALSE) == 0)
+    if (((gMapStateManager->inputHandler->unk_1f == 1) ? TRUE : FALSE) == 0)
     {
         return;
     }

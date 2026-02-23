@@ -46,8 +46,8 @@ public:
 };
 } // namespace map
 
-// func_ov000_021a5318
-void MapStateManager_0C::_021a5318(void)
+// _ZN12InputHandler9_021a5318Ev
+void InputHandler::_021a5318(void)
 {
     s32 i;
 
@@ -77,8 +77,8 @@ void MapStateManager_0C::_021a5318(void)
 
 extern struct ProcCmd ProcScr_020ce750[];
 
-// func_ov000_021a5388
-void MapStateManager_0C::_021a5388(void)
+// _ZN12InputHandler9_021a5388Ev
+void InputHandler::_021a5388(void)
 {
     struct VmMap_Common * iVar1 = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Common"));
 
@@ -120,8 +120,8 @@ void MapStateManager_0C::_021a5388(void)
     return;
 }
 
-// func_ov000_021a561c
-void MapStateManager_0C::_021a561c(void)
+// _ZN12InputHandler9_021a561cEv
+void InputHandler::_021a561c(void)
 {
     s32 i;
 
@@ -137,8 +137,8 @@ void MapStateManager_0C::_021a561c(void)
     return;
 }
 
-// func_ov000_021a5650
-BOOL MapStateManager_0C::_021a5650(s32 param_2)
+// _ZN12InputHandler9_021a5650El
+BOOL InputHandler::_021a5650(s32 param_2)
 {
     if (data_02196f24->controlSettings == 0)
     {
@@ -156,8 +156,8 @@ BOOL MapStateManager_0C::_021a5650(s32 param_2)
 EC s32 func_02034f74(s32);
 EC void func_02034930(s32, s32, s32);
 
-// func_ov000_021a5688
-void MapStateManager_0C::_021a5688(void)
+// _ZN12InputHandler9_021a5688Ev
+void InputHandler::_021a5688(void)
 {
     VmMap_Common * iVar1;
     s32 iVar2;
@@ -198,14 +198,14 @@ void MapStateManager_0C::_021a5688(void)
     return;
 }
 
-// func_ov000_021a5768
-BOOL MapStateManager_0C::_021a5768(u8 param_2)
+// _ZN12InputHandler9_021a5768Eh
+BOOL InputHandler::_021a5768(u8 param_2)
 {
     return this->unk_22 & param_2;
 }
 
-// func_ov000_021a5774
-void MapStateManager_0C::_021a5774(s32 param_2)
+// _ZN12InputHandler9_021a5774El
+void InputHandler::_021a5774(s32 param_2)
 {
     s32 i;
 
@@ -231,8 +231,8 @@ void MapStateManager_0C::_021a5774(s32 param_2)
     return;
 }
 
-// func_ov000_021a57e4
-void MapStateManager_0C::_021a57e4(s32 i)
+// _ZN12InputHandler9_021a57e4El
+void InputHandler::_021a57e4(s32 i)
 {
     if (this->unk_00[i] == NULL)
     {
@@ -245,8 +245,8 @@ void MapStateManager_0C::_021a57e4(s32 i)
     return;
 }
 
-// func_ov000_021a5810
-void MapStateManager_0C::_021a5810(s32 i)
+// _ZN12InputHandler9_021a5810El
+void InputHandler::_021a5810(s32 i)
 {
     if (this->unk_00[i] == NULL)
     {
@@ -259,8 +259,8 @@ void MapStateManager_0C::_021a5810(s32 i)
     return;
 }
 
-// func_ov000_021a5840
-void MapStateManager_0C::_021a5840(s32 i)
+// _ZN12InputHandler9_021a5840El
+void InputHandler::_021a5840(s32 i)
 {
     if (this->unk_00[i] == NULL)
     {
@@ -275,8 +275,8 @@ void MapStateManager_0C::_021a5840(s32 i)
 extern KeyState * gKeySt;
 extern TouchState * gTouchSt;
 
-// func_ov000_021a585c
-void MapStateManager_0C::_021a585c(s32 param_2)
+// _ZN12InputHandler9_021a585cEl
+void InputHandler::_021a585c(s32 param_2)
 {
     struct Vec3 auStack_18;
 
@@ -388,8 +388,8 @@ extern struct Unit * gUnitList;
 
 extern struct UnkStruct_021e3528 data_ov000_021e3528;
 
-// func_ov000_021a5abc
-BOOL MapStateManager_0C::_021a5abc(s32 x, s32 y, BOOL param_4)
+// _ZN12InputHandler9_021a5abcElll
+BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
 {
     s32 uVar1;
     s32 uVar2;
@@ -505,8 +505,8 @@ extern UnkStruct_021e3348 * data_ov000_021e3348;
 
 EC BOOL func_ov000_021b6264(void *, s32, s32);
 
-// func_ov000_021a5c80
-BOOL MapStateManager_0C::_021a5c80(s32 param_2, s32 param_3)
+// _ZN12InputHandler9_021a5c80Ell
+BOOL InputHandler::_021a5c80(s32 param_2, s32 param_3)
 {
     s32 i;
 
@@ -539,8 +539,8 @@ BOOL MapStateManager_0C::_021a5c80(s32 param_2, s32 param_3)
     return FALSE;
 }
 
-// func_ov000_021a5d08
-void MapStateManager_0C::_021a5d08(void)
+// _ZN12InputHandler9_021a5d08Ev
+void InputHandler::_021a5d08(void)
 {
     this->unk_18 = 0;
     this->unk_1a = 0;
@@ -559,7 +559,7 @@ void MapStateManager_0C::_021a5d08(void)
     return;
 }
 
-EC BOOL func_ov000_021a63cc(MapStateManager_0C *, s32, s32);
+EC BOOL _ZN12InputHandler9_021a63ccEll(InputHandler *, s32, s32);
 
 struct UnkStruct_021e3344
 {
@@ -580,8 +580,8 @@ struct UnkStruct_021e3344
 
 extern struct UnkStruct_021e3344 * data_ov000_021e3344;
 
-// func_ov000_021a5d5c
-void MapStateManager_0C::_021a5d5c(s32 param_2)
+// _ZN12InputHandler9_021a5d5cEl
+void InputHandler::_021a5d5c(s32 param_2)
 {
     struct Unit * pUnit;
     s32 unitId;
@@ -880,8 +880,8 @@ void MapStateManager_0C::_021a5d5c(s32 param_2)
 
 EC Menu * func_0202ffb4(ProcPtr proc);
 
-// func_ov000_021a63cc
-BOOL MapStateManager_0C::_021a63cc(s32 arg1, s32 arg2)
+// _ZN12InputHandler9_021a63ccEll
+BOOL InputHandler::_021a63cc(s32 arg1, s32 arg2)
 {
     s32 temp_r2;
     s32 temp_r3;
@@ -925,8 +925,8 @@ EC s32 func_ov000_021b60e8(void *, s32, s32, s32);
 EC s32 func_ov000_021b615c(void);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
 
-// func_ov000_021a6438
-void MapStateManager_0C::_021a6438(void)
+// _ZN12InputHandler9_021a6438Ev
+void InputHandler::_021a6438(void)
 {
     s32 var_r0_2;
     s32 var_r5;
@@ -948,7 +948,7 @@ void MapStateManager_0C::_021a6438(void)
 
     if ((gTouchSt->unk_12 != 0) || (gTouchSt->unk_15 != 0))
     {
-        var_r6 = func_ov000_021a63cc(this, gTouchSt->unk_00, gTouchSt->unk_02);
+        var_r6 = this->_021a63cc(gTouchSt->unk_00, gTouchSt->unk_02);
         var_r7 = this->_021a5c80(gTouchSt->unk_00, gTouchSt->unk_02);
 
         if ((var_r6 == 0) && (var_r7 == 0))
@@ -1111,18 +1111,19 @@ void MapStateManager_0C::_021a6438(void)
     return;
 }
 
-// func_ov000_021a6800
-BOOL MapStateManager_0C::_021a6800(void)
+// _ZN12InputHandler9_021a6800Ev
+BOOL InputHandler::_021a6800(void)
 {
-    if ((gMapStateManager->cursor->isVisible || data_ov000_021e3348 != 0) && (gMapStateManager->unk_0c->unk_1e != 0) &&
-        (!((gMapStateManager->unk_0c->unk_20 != 8 ? FALSE : TRUE) & 0xFF)))
+    if ((gMapStateManager->cursor->isVisible || data_ov000_021e3348 != 0) &&
+        (gMapStateManager->inputHandler->unk_1e != 0) &&
+        (!((gMapStateManager->inputHandler->unk_20 != 8 ? FALSE : TRUE) & 0xFF)))
     {
         if ((this->unk_26 == 0) && (this->_021a5c80(gTouchSt->unk_00, gTouchSt->unk_02) != 0))
         {
             return FALSE;
         }
 
-        if (func_ov000_021a63cc(this, gTouchSt->unk_00, gTouchSt->unk_02))
+        if (this->_021a63cc(gTouchSt->unk_00, gTouchSt->unk_02))
         {
             return FALSE;
         }

@@ -178,8 +178,9 @@ struct MapStateManager_08
 
 class Button;
 
-struct MapStateManager_0C
+class InputHandler
 {
+public:
 // +0x10 contains last touch coords
 // +0x14 contains current touch coords
 // +0x18 contains key handlers
@@ -359,7 +360,7 @@ public:
     /* 000 */ Camera * camera;
     /* 004 */ struct MapStateManager_04 * unk_04;
     /* 008 */ struct MapStateManager_08 * unk_08;
-    /* 00C */ struct MapStateManager_0C * unk_0c;
+    /* 00C */ InputHandler * inputHandler;
     /* 010 */ Cursor * cursor;
     /* 014 */ struct MapStateManager_14 * unk_14;
     /* 018 */ void * unk_18;

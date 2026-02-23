@@ -26,7 +26,6 @@ EC void func_0204f080(struct UnkStruct_021974fc *);
 
 EC void func_ov000_021a2eb0(struct SaveBuffer *, s32);
 
-EC void func_ov000_021a5318(MapStateManager_0C *);
 EC void func_ov000_021b9a10(MapStateManager_14 *);
 EC void func_ov000_021a37c4(void);
 
@@ -282,7 +281,7 @@ MapStateManager::MapStateManager()
     this->unk_04 = new MapStateManager_04;
 
     this->unk_08 = (MapStateManager_08 *)func_02000c70();
-    this->unk_0c = new struct MapStateManager_0C;
+    this->inputHandler = new InputHandler;
     this->cursor = new Cursor;
 
     this->unk_14 = new MapStateManager_14;
@@ -310,7 +309,7 @@ MapStateManager::~MapStateManager()
 
     delete this->camera;
     delete this->unk_04;
-    delete this->unk_0c;
+    delete this->inputHandler;
     delete this->cursor;
 
     delete this->unk_14;
@@ -377,7 +376,7 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 void MapStateManager::func_ov000_021a28cc(void)
 {
     gMapStateManager->camera->func_ov000_021a4a7c();
-    func_ov000_021a5318(gMapStateManager->unk_0c);
+    gMapStateManager->inputHandler->_021a5318();
     gMapStateManager->cursor->Init();
     func_ov000_021b9a10(gMapStateManager->unk_14);
     return;
