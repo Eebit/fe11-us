@@ -263,9 +263,9 @@ func_ov000_021adf58 kind:function(arm,size=0xc0) addr:0x021adf58
 func_ov000_021ae018 kind:function(arm,size=0x90) addr:0x021ae018
 func_ov000_021ae0a8 kind:function(arm,size=0x5c) addr:0x021ae0a8
 func_ov000_021ae104 kind:function(arm,size=0x2c) addr:0x021ae104
-func_ov000_021ae130 kind:function(arm,size=0x50) addr:0x021ae130
-func_ov000_021ae180 kind:function(arm,size=0x3c) addr:0x021ae180
-func_ov000_021ae1bc kind:function(arm,size=0x14) addr:0x021ae1bc
+StartPlayerPhase kind:function(arm,size=0x50) addr:0x021ae130
+PlayerPhase_GotoLabel kind:function(arm,size=0x3c) addr:0x021ae180
+GetPlayerPhaseProc kind:function(arm,size=0x14) addr:0x021ae1bc
 func_ov000_021ae1d0 kind:function(arm,size=0x2c) addr:0x021ae1d0
 func_ov000_021ae1fc kind:function(arm,size=0x2c) addr:0x021ae1fc
 func_ov000_021ae228 kind:function(arm,size=0x44) addr:0x021ae228
@@ -1475,7 +1475,7 @@ data_ov000_021dbe58 kind:data(any) addr:0x021dbe58
 data_ov000_021dbed0 kind:data(any) addr:0x021dbed0
 data_ov000_021dbf68 kind:data(any) addr:0x021dbf68
 data_ov000_021dc028 kind:data(any) addr:0x021dc028
-data_ov000_021dc190 kind:data(any) addr:0x021dc190
+ProcScr_map_ProcPL kind:data(any) addr:0x021dc190
 data_ov000_021dc4e8 kind:data(any) addr:0x021dc4e8
 data_ov000_021dc4f4 kind:data(any) addr:0x021dc4f4
 data_ov000_021dc508 kind:data(any) addr:0x021dc508

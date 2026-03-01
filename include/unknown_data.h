@@ -3444,7 +3444,7 @@ extern int data_027e00e0;
 // extern ??? data_ov000_021dbed0
 // extern ??? data_ov000_021dbf68
 // extern ??? data_ov000_021dc028
-// extern ??? data_ov000_021dc190
+// extern ??? ProcScr_map_ProcPL
 // extern ??? data_ov000_021dc4e8
 // extern ??? data_ov000_021dc4f4
 // extern ??? data_ov000_021dc508

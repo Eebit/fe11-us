@@ -13,22 +13,23 @@ enum
     ACTION_DOOR = 0x05,
     ACTION_CHEST = 0x06,
     ACTION_BRIDGE = 0x07,
-    // 0x08
-    // 0x09
+    ACTION_VISIT_08 = 0x08,
+    ACTION_VISIT_09 = 0x09,
     ACTION_ARMORY = 0x0A,
     ACTION_VENDOR = 0x0B,
     ACTION_SECRET_SHOP = 0x0C,
-    // 0x0D
+    ACTION_ARENA = 0x0D,
     ACTION_SEIZE = 0x0E,
     ACTION_ESCAPE = 0x0F,
-    // 0x10
+    ACTION_10 = 0x10,
     ACTION_IMITATION = 0x11,
     // 0x12
     ACTION_DECOY = 0x13,
     ACTION_TALK = 0x14,
     // 0x15
-    // 0x16
+    ACTION_END_TURN = 0x16,
     // 0x17
+    ACTION_SURRENDER = 0x18,
 };
 
 class ActionState

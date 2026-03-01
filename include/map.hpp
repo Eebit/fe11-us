@@ -107,6 +107,11 @@ public:
     void func_ov000_021a52c8(s32, s32, s32);
     void func_ov000_021a52d0(s32, s32, s32);
     BOOL func_ov000_021a52f8(s32, s32, struct Vec3 *);
+
+    inline BOOL Check_18()
+    {
+        return this->unk_18 >= 2;
+    }
 };
 
 class MapStateManager_04_04
@@ -128,6 +133,11 @@ public:
             this->unk_61 = 0;
             this->unk_60 = -1;
         }
+    }
+
+    inline u8 Check_54(void)
+    {
+        return (!(this->unk_54 & 1)) & 0xFF;
     }
 };
 

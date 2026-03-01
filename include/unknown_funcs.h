@@ -1267,7 +1267,7 @@ EC void func_020217b4(void);
 // EC ??? func_02022ed4
 // EC ??? func_02022ef4
 EC void StartGame(void);
-EC void func_02022f28(u32 label);
+EC void GameCtrl_GotoLabel(u32 label);
 // EC ??? func_02022f4c
 // EC ??? func_02022f54
 // EC ??? func_02022f5c
@@ -2509,7 +2509,7 @@ EC void func_0204ae9c(u32, BOOL);
 // EC ??? func_0204b010
 // EC ??? func_0204b0ac
 EC void func_0204b194(s32, s32);
-EC void func_0204b1e0(ProcPtr);
+EC BOOL func_0204b1e0(void);
 EC BOOL func_0204b1f8(u32);
 // EC ??? func_0204b250
 EC BOOL func_0204b260(u32);
@@ -5945,9 +5945,9 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021ae018
 // EC ??? func_ov000_021ae0a8
 // EC ??? func_ov000_021ae104
-// EC ??? func_ov000_021ae130
-// EC ??? func_ov000_021ae180
-// EC ??? func_ov000_021ae1bc
+// EC ??? StartPlayerPhase
+// EC ??? PlayerPhase_GotoLabel
+// EC ??? GetPlayerPhaseProc
 // EC ??? func_ov000_021ae1d0
 // EC ??? func_ov000_021ae1fc
 // EC ??? func_ov000_021ae228
@@ -6490,7 +6490,7 @@ EC void func_ov000_021c52fc(ProcPtr, struct Unit *);
 // EC ??? func_ov000_021c62fc
 // EC ??? func_ov000_021c6368
 EC void func_ov000_021c63f8(void);
-EC void func_ov000_021c669c(void);
+EC void func_ov000_021c669c(ProcPtr);
 // EC ??? func_ov000_021c692c
 // EC ??? func_ov000_021c696c
 // EC ??? func_ov000_021c6994
@@ -6900,7 +6900,7 @@ EC s32 func_ov000_021d4d80(s32, ProcPtr, BOOL);
 // EC ??? func_ov000_021d5fb0
 // EC ??? func_ov000_021d5fbc
 EC void func_ov000_021d604c(s32, ProcPtr);
-EC void func_ov000_021d609c(void);
+EC void func_ov000_021d609c(ProcPtr);
 // EC ??? func_ov000_021d6118
 // EC ??? func_ov000_021d6130
 // EC ??? func_ov000_021d6148
