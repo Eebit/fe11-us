@@ -882,9 +882,9 @@ EC void func_ov000_021acf64(ProcPtr proc)
     return;
 }
 
-EC void func_ov000_021acfd0(ProcPtr proc)
+EC void PlayerPhase_StartSavePointMenu(ProcPtr proc)
 {
-    func_ov000_021d609c(proc);
+    StartMapSave_PointSaveMenu(proc);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
     data_ov000_021e3340->unk_02 = 0;
@@ -1176,7 +1176,7 @@ EC void func_ov000_021ad97c(ProcPtr proc)
 EC void func_ov000_021ad9d4(ProcPtr proc)
 {
     gMapStateManager->inputHandler->SetButtonVisibility(0);
-    func_ov000_021d604c(0x1b, proc);
+    StartMapSave(0x1b, proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 26, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
@@ -1185,7 +1185,7 @@ EC void func_ov000_021ad9d4(ProcPtr proc)
 
 EC void func_ov000_021ada34(ProcPtr proc)
 {
-    func_ov000_021d604c(0x1c, proc);
+    StartMapSave(0x1c, proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 35, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
@@ -1194,7 +1194,7 @@ EC void func_ov000_021ada34(ProcPtr proc)
 
 EC void func_ov000_021ada78(ProcPtr proc)
 {
-    func_ov000_021d604c(0x1d, proc);
+    StartMapSave(0x1d, proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 36, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
@@ -1508,7 +1508,7 @@ PROC_LABEL(13),
     PROC_CALL(func_ov000_021acf64),
 
 PROC_LABEL(L_PLAYERPHASE_SAVE_POINT),
-    PROC_CALL(func_ov000_021acfd0),
+    PROC_CALL(PlayerPhase_StartSavePointMenu),
 
 PROC_LABEL(19),
     PROC_CALL(func_ov000_021ad00c),

@@ -4115,7 +4115,7 @@ extern void * _ZTVN3map15BMapDialogYesNoE[];
 // extern ??? __typestr__N7mapsave13PointSaveMenuE
 // extern ??? __typestr__N7mapsave15DI_PointSaveYesE
 // extern ??? __typestr__N7mapsave20MapPointSaveMenuItemE
-// extern ??? data_ov000_021e27b0
+// extern ??? ProcScr_MapSave
 // extern ??? __vt__N7mapsave15DI_PointSaveYesE
 // extern ??? __vt__N7mapsave20MapPointSaveMenuItemE
 // extern ??? __vt__N7mapsave13PointSaveMenuE
