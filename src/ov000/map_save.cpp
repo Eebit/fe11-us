@@ -25,8 +25,7 @@ EC void func_020512f8(s32, s32, s32);
 // FIXME
 EC void * __func_0201177c(char *, u32);
 
-
-EC void func_ov000_021d5fbc(ProcPtr parent);
+EC void StartChoice_SaveHere(ProcPtr parent);
 EC void PlayerPhase_GotoLabel(s32 label, s32 arg_1, s32 arg_2);
 
 class SaveMenuItem : public MenuItem
@@ -59,11 +58,15 @@ public:
         this->unk_40 = gMapStateManager->unk_14->unk_25;
     }
 
-    // func_ov000_021d673c
-    // func_ov000_021d6740
     virtual ~MapSave()
     {
     }
+
+    void _021d59d0(void);
+    void _021d5d70(void);
+    void _021d5dd4(void);
+    void _021d5e94(void);
+    void _021d5f00(void);
 };
 
 class PointSaveMenu : public Menu
@@ -76,7 +79,6 @@ public:
         this->unk_50 = NULL;
     }
 
-    // func_ov000_021d6460
     /* 000 */ virtual void vfunc_00(void)
     {
         VmMap_Common * iVar1;
@@ -156,7 +158,6 @@ public:
         return;
     }
 
-    // func_ov000_021d6400
     /* 114 */ virtual void vfunc_114(void)
     {
         AnimeInterpreter * pAVar1;
@@ -173,20 +174,17 @@ public:
         return;
     }
 
-    // func_ov000_021d63d4
     /* 0A0 */ virtual BOOL vfunc_a0(void)
     {
         return gMapStateManager->inputHandler->_021a5650(0) != 0;
     }
 
-    // func_ov000_021d639c
     /* 0B8 */ virtual void vfunc_b8(s32 param_2)
     {
         gMapStateManager->unk_14->unk_25 = Interpolate(0, 0, -16, param_2, 4);
         return;
     }
 
-    // func_ov000_021d6350
     /* 028 */ virtual s32 vfunc_28(s32 arg0)
     {
         if (!(((arg0 & 0x3f) == 0) ? TRUE : FALSE))
@@ -199,8 +197,6 @@ public:
         return arg0;
     }
 
-    /* 130 */ // func_ov000_021d62f8
-    /* 134 */ // func_ov000_021d6298
     virtual ~PointSaveMenu()
     {
         VmMap_Common * iVar1;
@@ -213,14 +209,12 @@ public:
         iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Window"));
         func_0202a6a8(iVar1->unk_06, data_ov000_021e3324->unk_01);
     }
-
-    // virtual s32 vfunc_138(void);
 };
 
 class DI_PointSaveYes : public DialogItemYes
 {
 public:
-    // func_ov000_021d6238
+    // _ZN7mapsave15DI_PointSaveYes8vfunc_1cEv
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         if (func_0201f680())
@@ -240,27 +234,23 @@ public:
 class MapPointSaveMenuItem : public SaveMenuItem
 {
 public:
-    // func_ov000_021d6230
     /* D8 */ virtual s32 vfunc_d8(void)
     {
         return 0x10;
     }
 
-    // func_ov000_021d6218
     /* DC */ virtual s32 vfunc_dc(void)
     {
         VmMap_Common * iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_FontMenuSub"));
         return iVar1->unk_04;
     }
 
-    // func_ov000_021d61fc
     /* E0 */ virtual s32 vfunc_e0(void)
     {
         VmMap_Common * iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Window"));
         return iVar1->unk_06 + 7;
     }
 
-    // func_ov000_021d61b8
     /* 74 */ virtual void vfunc_74(MenuItemState * menuItemState)
     {
         VmMap_Common * iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_FontMenuHelp"));
@@ -268,7 +258,6 @@ public:
         return;
     }
 
-    // func_ov000_021d6188
     /* 80 */ virtual void vfunc_80(MenuItemState * menuItemState)
     {
         VmMap_Common * iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_FontMenuHelp"));
@@ -277,13 +266,12 @@ public:
         return;
     }
 
-    // func_ov000_021d6148
     /* 24 */ virtual s32 vfunc_24(Menu * menu, MenuItemState * menuItemState)
     {
         if (func_0201f680())
         {
             gActionSt->unk_37 = menuItemState->unk_08;
-            func_ov000_021d5fbc(menu->unk_10);
+            StartChoice_SaveHere(menu->unk_10);
 
             return 0x40;
         }
@@ -291,14 +279,12 @@ public:
         return 0x100;
     }
 
-    // func_ov000_021d6130
     /* F0 */ virtual s32 vfunc_f0(void)
     {
         VmMap_Common * iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_BG2Free"));
         return iVar1->unk_07;
     }
 
-    // func_ov000_021d6118
     /* F4 */ virtual s32 vfunc_f4(void)
     {
         VmMap_Common * iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Window"));
@@ -341,11 +327,11 @@ extern struct UnkStruct_021970c4 * data_021970c4;
 EC u32 func_02028e7c(UnkStruct_021970c4 *, char *, s32);
 EC s32 func_020290f4(struct UnkStruct_021970c4 *, char *);
 
-EC void func_ov000_021d59d0(mapsave::MapSave * param_1)
+void mapsave::MapSave::_021d59d0(void)
 {
     s32 cVar2;
 
-    if (param_1->unk_3c == 0)
+    if (this->unk_3c == 0)
     {
         VmMap_Common * iVar3 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Font"));
 
@@ -377,19 +363,19 @@ EC void func_ov000_021d59d0(mapsave::MapSave * param_1)
         gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 0;
     }
 
-    param_1->unk_3c++;
+    this->unk_3c++;
 
-    gMapStateManager->unk_14->unk_25 = Interpolate(0, param_1->unk_40, -16, param_1->unk_3c, 4);
+    gMapStateManager->unk_14->unk_25 = Interpolate(0, this->unk_40, -16, this->unk_3c, 4);
 
-    cVar2 = Interpolate(0, -param_1->unk_40 >> 1, 0x10, param_1->unk_3c, 4);
+    cVar2 = Interpolate(0, -this->unk_40 >> 1, 0x10, this->unk_3c, 4);
 
     gpActiveScreenSt->dispIo->blend_coeff_a = cVar2;
     gpActiveScreenSt->dispIo->blend_coeff_b = 16 - cVar2;
 
-    if (param_1->unk_3c == 4)
+    if (this->unk_3c == 4)
     {
-        param_1->unk_3c = 0;
-        Proc_Break(param_1, 1);
+        this->unk_3c = 0;
+        Proc_Break(this, 1);
     }
 
     return;
@@ -397,11 +383,11 @@ EC void func_ov000_021d59d0(mapsave::MapSave * param_1)
 
 EC void func_ov000_021d4cb4(s32, s32);
 
-EC void func_ov000_021d5d70(mapsave::MapSave * param_1)
+void mapsave::MapSave::_021d5d70(void)
 {
     gpActiveScreenSt->dispIo->bldcnt.effect = 0;
 
-    if (param_1->unk_38 == 0x1c)
+    if (this->unk_38 == 0x1c)
     {
         func_ov000_021d4cb4(func_ov000_021d4968(gActionSt->xDecision, gActionSt->yDecision, 0x10), 0);
     }
@@ -414,11 +400,11 @@ EC void func_02023988(s32, ProcPtr);
 
 extern struct UnkStruct_02196f1c * data_02196f1c;
 
-EC void func_ov000_021d5dd4(mapsave::MapSave * param_1)
+void mapsave::MapSave::_021d5dd4(void)
 {
     s32 iVar2;
 
-    switch (param_1->unk_38)
+    switch (this->unk_38)
     {
         case 0x1c:
             iVar2 = gActionSt->unk_37 + 16;
@@ -439,18 +425,18 @@ EC void func_ov000_021d5dd4(mapsave::MapSave * param_1)
     data_02196f20->unk_19b = data_021974fc->unk_10;
     data_02196f20->unk_19c = func_0204b250();
 
-    if (param_1->unk_38 == 0x1c)
+    if (this->unk_38 == 0x1c)
     {
         data_02196f1c->unk_0a = gActionSt->unk_37;
         data_02196f1c->unk_0b = 0;
     }
 
-    func_02023988(iVar2, param_1);
+    func_02023988(iVar2, this);
 
     return;
 }
 
-EC void func_ov000_021d5e94(mapsave::MapSave * unused)
+void mapsave::MapSave::_021d5e94(void)
 {
     VmMap_Common * iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Font"));
 
@@ -462,55 +448,55 @@ EC void func_ov000_021d5e94(mapsave::MapSave * unused)
     return;
 }
 
-EC void func_ov000_021d5f00(mapsave::MapSave * param_1)
+void mapsave::MapSave::_021d5f00(void)
 {
-    param_1->unk_3c++;
+    this->unk_3c++;
 
-    if (param_1->unk_38 != 0x1b)
+    if (this->unk_38 != 0x1b)
     {
-        gMapStateManager->unk_14->unk_25 = Interpolate(0, -16, 0, param_1->unk_3c, 4);
+        gMapStateManager->unk_14->unk_25 = Interpolate(0, -16, 0, this->unk_3c, 4);
     }
 
-    if (param_1->unk_3c == 4)
+    if (this->unk_3c == 4)
     {
-        param_1->unk_3c = 0;
-        Proc_Break(param_1, 1);
+        this->unk_3c = 0;
+        Proc_Break(this, 1);
     }
 
     return;
 }
 
-EC void func_ov000_021d5f80(mapsave::MapSave * proc)
+EC void MapSave_ov000_021d5f80(mapsave::MapSave * proc)
 {
-    func_ov000_021d59d0(proc);
+    proc->_021d59d0();
     return;
 }
 
-EC void func_ov000_021d5f8c(mapsave::MapSave * proc)
+EC void MapSave_ov000_021d5f8c(mapsave::MapSave * proc)
 {
-    func_ov000_021d5d70(proc);
+    proc->_021d5d70();
     return;
 }
 
-EC void func_ov000_021d5f98(mapsave::MapSave * proc)
+EC void MapSave_ov000_021d5f98(mapsave::MapSave * proc)
 {
-    func_ov000_021d5dd4(proc);
+    proc->_021d5dd4();
     return;
 }
 
-EC void func_ov000_021d5fa4(mapsave::MapSave * proc)
+EC void MapSave_ov000_021d5fa4(mapsave::MapSave * proc)
 {
-    func_ov000_021d5e94(proc);
+    proc->_021d5e94();
     return;
 }
 
-EC void func_ov000_021d5fb0(mapsave::MapSave * proc)
+EC void MapSave_ov000_021d5fb0(mapsave::MapSave * proc)
 {
-    func_ov000_021d5f00(proc);
+    proc->_021d5f00();
     return;
 }
 
-EC void func_ov000_021d5fbc(ProcPtr parent)
+EC void StartChoice_SaveHere(ProcPtr parent)
 {
     static mapsave::DI_PointSaveYes sPointSaveYes;
 
@@ -527,30 +513,45 @@ EC void func_ov000_021d5fbc(ProcPtr parent)
     return;
 }
 
-extern struct ProcCmd data_ov000_021e27b0[];
+// clang-format off
 
-// StartMapSaveMaybe
-EC void func_ov000_021d604c(s32 param_1, ProcPtr parent)
+struct ProcCmd ProcScr_MapSave[] =
 {
-    new (Proc_StartBlocking(data_ov000_021e27b0, parent)) mapsave::MapSave(param_1);
+    PROC_NAME,
+    PROC_SLEEP(0),
+
+    PROC_REPEAT(MapSave_ov000_021d5f80),
+    PROC_CALL(MapSave_ov000_021d5f8c),
+    PROC_CALL(MapSave_ov000_021d5f98),
+    PROC_CALL(MapSave_ov000_021d5fa4),
+    PROC_REPEAT(MapSave_ov000_021d5fb0),
+
+    PROC_END,
+};
+
+// clang-format on
+
+EC void StartMapSave(s32 param_1, ProcPtr parent)
+{
+    new (Proc_StartBlocking(ProcScr_MapSave, parent)) mapsave::MapSave(param_1);
 
     return;
 }
 
 EC void StartChildMenu(Menu *, void *, ProcPtr, u32, u32);
 
-EC void func_ov000_021d609c(ProcPtr parent)
+EC void StartMapSave_PointSaveMenu(ProcPtr parent)
 {
     static mapsave::MapPointSaveMenuItem sMapPointSaveMenuItem;
 
     // clang-format off
-    static MenuItem * data_ov000_21e2580[] =
+    static MenuItem * sPointSaveMenuItems[] =
     {
         &sMapPointSaveMenuItem,
     };
     // clang-format on
 
-    StartChildMenu(new mapsave::PointSaveMenu(), data_ov000_21e2580, parent, 1, 0);
+    StartChildMenu(new mapsave::PointSaveMenu(), sPointSaveMenuItems, parent, 1, 0);
 
     return;
 }
