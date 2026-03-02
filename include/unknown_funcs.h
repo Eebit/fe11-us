@@ -5935,7 +5935,7 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021adc98
 // EC ??? func_ov000_021add1c
 // EC ??? func_ov000_021addb4
-// EC ??? func_ov000_021addec
+// EC ??? PlayerPhase_StartGuide
 // EC ??? func_ov000_021ade2c
 // EC ??? func_ov000_021ade50
 // EC ??? func_ov000_021ade88
@@ -6490,14 +6490,14 @@ EC void func_ov000_021c52fc(ProcPtr, struct Unit *);
 // EC ??? func_ov000_021c62fc
 // EC ??? func_ov000_021c6368
 EC void func_ov000_021c63f8(void);
-EC void func_ov000_021c669c(ProcPtr);
-// EC ??? func_ov000_021c692c
-// EC ??? func_ov000_021c696c
-// EC ??? func_ov000_021c6994
-// EC ??? func_ov000_021c6a1c
-// EC ??? func_ov000_021c6a44
-// EC ??? func_ov000_021c6a5c
-// EC ??? func_ov000_021c6a64
+EC void StartGuideMenu(ProcPtr);
+// EC ??? _ZN15TutListMenuItem8vfunc_1cEll
+// EC ??? _ZN15TutListMenuItem8vfunc_48El
+// EC ??? _ZN15TutListMenuItem8vfunc_10Elllllll
+// EC ??? _ZN15TutListMenuItem8vfunc_00El
+// EC ??? _ZN15TutListMenuItem8vfunc_04Ev
+// EC ??? _ZN15TutListMenuItem8vfunc_08Ev
+// EC ??? _ZN11TutListMenu8vfunc_4cEl
 // EC ??? func_ov000_021c6a9c
 // EC ??? func_ov000_021c6ac0
 // EC ??? func_ov000_021c6b10
