@@ -248,8 +248,6 @@ static inline BOOL BoundsCheck(s32 param_1, s32 param_2)
     return FALSE;
 }
 
-extern struct Unit gUnitList[];
-
 EC BOOL func_ov000_021baafc(void *, struct Unit *, BOOL);
 
 EC void func_ov000_021a3974(void *, s32);
@@ -277,18 +275,6 @@ EC void func_ov000_021a340c(void);
 EC void func_ov000_021a36e0(void);
 
 EC void func_ov000_021d9ca8(Spawn *, struct Unit *, s8, s8);
-
-static inline struct Unit * GetUnit(s32 id)
-{
-    if (id == 0)
-    {
-        return NULL;
-    }
-    else
-    {
-        return gUnitList + id - 1;
-    }
-}
 
 void Spawn::func_ov000_021d9adc(struct JobData * job)
 {

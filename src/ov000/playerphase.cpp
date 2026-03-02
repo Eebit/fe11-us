@@ -935,7 +935,7 @@ EC void func_ov000_021ad0f4(ProcPtr param_1)
 
     data_021974fc->unk_00 = GetUnit(gActionSt->unitId);
 
-    func_ov000_021a5774(gMapStateManager->unk_0c, 0);
+    gMapStateManager->inputHandler->SetButtonVisibility(0);
 
     psVar1 = GetUnit(data_ov000_021e3340->unk_02);
 
