@@ -8,6 +8,22 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+extern struct UnkStruct_02196f20 * data_02196f20;
+
+EC BOOL func_0204b1e0(void);
+EC BOOL func_02050304(s32);
+
+struct UnkStruct_021970c4
+{
+    void * unk_00;
+    void * unk_04;
+    void * unk_08;
+};
+
+extern struct UnkStruct_021970c4 * data_021970c4;
+
+EC s32 func_020295ec(struct UnkStruct_021970c4 *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
+
 namespace menu
 {
 class ScrollMenu
@@ -194,7 +210,12 @@ public:
 class TutListMenu : public map::BMapScrollMenu
 {
 public:
-    /* 4C */ void vfunc_4c(s32); // func_ov000_021c6a64
+    // func_ov000_021c6a64
+    /* 4C */ virtual void vfunc_4c(s32 param_2)
+    {
+        gMapStateManager->unk_14->unk_25 = Interpolate(0, 0, -16, param_2, 4);
+        return;
+    }
 
     // d1 func_ov000_021c6be4
     // d0 func_ov000_021c6c38
@@ -203,12 +224,67 @@ public:
 class TutListMenuItem : public menu::ScrollMenuItem
 {
 public:
-    /* 00 */ virtual char * vfunc_00(s32); // func_ov000_021c6a1c
-    /* 04 */ virtual s32 vfunc_04(void); // func_ov000_021c6a44
-    /* 08 */ virtual s32 vfunc_08(void); // func_ov000_021c6a5c
-    /* 10 */ virtual void vfunc_10(s32, s32, s32, s32, s32, s32, s32); // func_ov000_021c6994
-    /* 1C */ virtual s32 vfunc_1c(s32, s32); // func_ov000_021c692c
-    /* 48 */ virtual s32 vfunc_48(s32); // func_ov000_021c696c
+    // func_ov000_021c6a5c
+    /* 08 */ virtual s32 vfunc_08(void)
+    {
+        return 0x10;
+    }
+
+    // func_ov000_021c6a44
+    /* 04 */ virtual s32 vfunc_04(void)
+    {
+        return this->vfunc_08() << 1;
+    }
+
+    // func_ov000_021c6a1c
+    /* 00 */ virtual char * vfunc_00(s32 param_2)
+    {
+        return func_02039e10(gFE11Database->unk_3c[param_2].unk_00);
+    }
+
+    // func_ov000_021c6994
+    /* 10 */ virtual void vfunc_10(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7)
+    {
+        char * str = this->vfunc_00(arg1);
+
+        if (str == NULL)
+        {
+            return;
+        }
+
+        func_020295ec(
+            data_021970c4, str, gpActiveScreenSt->bgTiles[arg2], (void *)arg3, arg4 + 1, arg5, arg6, arg7, 0, 0);
+
+        return;
+    }
+
+    // func_ov000_021c696c
+    /* 48 */ virtual s32 vfunc_48(s32 arg1)
+    {
+        if (!data_02196f20->flagMgr->GetById(arg1))
+        {
+            return MENU_NOTSHOWN;
+        }
+
+        return MENU_ENABLED;
+    }
+
+    // func_ov000_021c692c
+    /* 1C */ virtual s32 vfunc_1c(s32 param_2, s32 param_3)
+    {
+        if (func_0204b1e0())
+        {
+            return 0;
+        }
+
+        if (func_02050304(param_3))
+        {
+            return 0;
+        }
+
+        func_0205038c(param_3, -1);
+        return 0x40;
+    }
 };
 
 EC void func_02031594(menu::ScrollMenu *, menu::ScrollMenuItem **, s32, s32, s32, ProcPtr, s32);
@@ -226,89 +302,5 @@ EC void func_ov000_021c669c(ProcPtr parent)
 
     func_02031594(new TutListMenu(), data_ov000_021e34e0, 0x22, 1, 8, parent, 1);
 
-    return;
-}
-
-extern struct UnkStruct_02196f20 * data_02196f20;
-
-EC BOOL func_0204b1e0(void);
-EC BOOL func_02050304(s32);
-
-// func_ov000_021c692c
-s32 TutListMenuItem::vfunc_1c(s32 param_2, s32 param_3)
-{
-    if (func_0204b1e0())
-    {
-        return 0;
-    }
-
-    if (func_02050304(param_3))
-    {
-        return 0;
-    }
-
-    func_0205038c(param_3, -1);
-    return 0x40;
-}
-
-// func_ov000_021c696c
-s32 TutListMenuItem::vfunc_48(s32 arg1)
-{
-    if (!data_02196f20->flagMgr->GetById(arg1))
-    {
-        return MENU_NOTSHOWN;
-    }
-
-    return MENU_ENABLED;
-}
-
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-
-EC s32 func_020295ec(struct UnkStruct_021970c4 *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
-
-// func_ov000_021c6994
-void TutListMenuItem::vfunc_10(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7)
-{
-    char * str = this->vfunc_00(arg1);
-
-    if (str == NULL)
-    {
-        return;
-    }
-
-    func_020295ec(data_021970c4, str, gpActiveScreenSt->bgTiles[arg2], (void *)arg3, arg4 + 1, arg5, arg6, arg7, 0, 0);
-
-    return;
-}
-
-// func_ov000_021c6a1c
-char * TutListMenuItem::vfunc_00(s32 param_2)
-{
-    return func_02039e10(gFE11Database->unk_3c[param_2].unk_00);
-}
-
-// func_ov000_021c6a44
-s32 TutListMenuItem::vfunc_04(void)
-{
-    return this->vfunc_08() << 1;
-}
-
-// func_ov000_021c6a5c
-s32 TutListMenuItem::vfunc_08(void)
-{
-    return 0x10;
-}
-
-// func_ov000_021c6a64
-void TutListMenu::vfunc_4c(s32 param_2)
-{
-    gMapStateManager->unk_14->unk_25 = Interpolate(0, 0, -16, param_2, 4);
     return;
 }
