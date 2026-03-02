@@ -799,7 +799,7 @@ EC void func_ov000_021acc44(void)
 EC void func_ov000_021acc7c(ProcPtr proc)
 {
     gMapStateManager->inputHandler->SetButtonVisibility(0x8b);
-    func_ov000_021bec24(proc);
+    StartMapMenu(proc);
 
     if (data_ov000_021e3340->Check_02())
     {

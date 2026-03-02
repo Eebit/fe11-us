@@ -35,8 +35,8 @@ EC BOOL func_0201f680(void);
 EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
 
 EC void func_ov000_021be21c(void);
-EC void func_ov000_021beaf4(ProcPtr);
-EC void func_ov000_021beb94(ProcPtr);
+EC void StartChoice_TemporarySave(ProcPtr);
+EC void StartChoice_Surrender(ProcPtr);
 EC void func_ov000_021d6a9c(char *, s32);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
 
@@ -99,19 +99,16 @@ public:
 class MI_Separator : public MenuItem
 {
 public:
-    // func_ov000_021bf8b4
     /* C4 */ virtual u32 vfunc_c4(void)
     {
         return 0;
     }
 
-    // func_ov000_021bf8ac
     /* CC */ virtual u32 vfunc_cc(void)
     {
         return 1;
     }
 
-    // func_ov000_021bf8a4
     /* 14 */ virtual s32 vfunc_14(void)
     {
         return 3;
@@ -129,7 +126,6 @@ public:
 class MapMenu : public BSystemMapMenu
 {
 public:
-    // func_ov000_021bf88c
     /* 000 */ virtual void vfunc_00(void)
     {
         func_ov000_021be21c();
@@ -137,7 +133,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf7e8
     /* 0E8 */ virtual void vfunc_e8(void)
     {
         s32 var_r2;
@@ -164,7 +159,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf75c
     /* 0EC */ virtual void vfunc_ec(void)
     {
         s32 r3;
@@ -186,7 +180,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf5d4
     /* 0D8 */ virtual void vfunc_d8(void)
     {
         s32 uVar2;
@@ -254,7 +247,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf57c
     /* 0DC */ virtual void vfunc_dc(void)
     {
         s32 iVar1;
@@ -275,13 +267,11 @@ public:
         return;
     }
 
-    // func_ov000_021bf574
     /* 024 */ virtual s32 vfunc_24(MenuItemState * menuItemState, s32 arg1)
     {
         return arg1;
     }
 
-    // func_ov000_021bf544
     /* 028 */ virtual s32 vfunc_28(s32 arg0)
     {
         if (!((arg0 & 0x3f) == 0 ? TRUE : FALSE))
@@ -293,8 +283,6 @@ public:
         return arg0;
     }
 
-    // d1 func_ov000_021bf4e0
-    // d0 func_ov000_021bf474
     virtual ~MapMenu()
     {
     }
@@ -309,13 +297,11 @@ public:
         return func_02039e10("MMM_部隊");
     }
 
-    // func_ov000_021bf458
     /* 14 */ virtual s32 vfunc_14(void)
     {
         return 0;
     }
 
-    // func_ov000_021bf42c
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
     {
         if (func_0202dad0(menuItemState, menu))
@@ -327,7 +313,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf410
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Display a list of your units."
@@ -335,7 +320,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf3ec
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         PlayerPhase_GotoLabel(31, 0, 0);
@@ -347,14 +331,12 @@ public:
 class MIM_TutList : public MenuItem
 {
 public:
-    // func_ov000_021bf3d8
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Guide"
         return func_02039e10("MMM_指南");
     }
 
-    // func_ov000_021bf3a0
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (func_ov000_021a47e4())
@@ -370,7 +352,6 @@ public:
         return MENU_ENABLED;
     }
 
-    // func_ov000_021bf374
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
     {
         if (func_0202dad0(menuItemState, menu))
@@ -382,7 +363,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf358
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Review tutorials on how the game is played."
@@ -390,7 +370,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf334
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         PlayerPhase_GotoLabel(32, 0, 0);
@@ -402,14 +381,12 @@ public:
 class MIM_Config : public MenuItem
 {
 public:
-    // func_ov000_021bf320
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Options"
         return func_02039e10("MMM_降参");
     }
 
-    // func_ov000_021bf308
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (func_ov000_021a47e4())
@@ -420,7 +397,6 @@ public:
         return MENU_ENABLED;
     }
 
-    // func_ov000_021bf2dc
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
     {
         if (func_0202dad0(menuItemState, menu))
@@ -432,7 +408,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf2c0
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Adjust game options."
@@ -440,7 +415,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf29c
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         PlayerPhase_GotoLabel(33, 0, 0);
@@ -452,7 +426,6 @@ public:
 class TemporarySaveDialogYesNo : public BMapDialogYesNo
 {
 public:
-    // func_ov000_021bf264
     /* B8 */ virtual void vfunc_b8(s32 param_2)
     {
         gMapStateManager->unk_14->unk_25 = Interpolate(0, 0, -16, param_2, 4);
@@ -463,7 +436,6 @@ public:
 class DI_TemporarySave : public DialogItemYes
 {
 public:
-    // func_ov000_021bf208
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021d6dfc(0);
@@ -486,7 +458,6 @@ public:
 class MIM_TemporarySave : public MenuItem
 {
 public:
-    // func_ov000_021bf1d8
     /* 00 */ virtual char * vfunc_00(void)
     {
         if (func_ov000_021a47e4())
@@ -501,7 +472,6 @@ public:
         }
     }
 
-    // func_ov000_021bf1c0
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
     {
         if ((menuItemState->unk_09 & 7) != 1)
@@ -512,7 +482,6 @@ public:
         return 2;
     }
 
-    // func_ov000_021bf184
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (func_ov000_021a478c())
@@ -528,7 +497,6 @@ public:
         return MENU_DISABLED;
     }
 
-    // func_ov000_021bf148
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
     {
         char * str;
@@ -554,7 +522,6 @@ public:
         return;
     }
 
-    // func_ov000_021bf11c
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         char * str;
@@ -575,12 +542,11 @@ public:
         return;
     }
 
-    // func_ov000_021bf0f4
     /* 24 */ virtual s32 vfunc_24(Menu * menu, MenuItemState * menuItemState)
     {
         if ((menuItemState->unk_09 & 7) != 1)
         {
-            func_ov000_021beaf4(menu->unk_10);
+            StartChoice_TemporarySave(menu->unk_10);
             return 0x40;
         }
 
@@ -591,25 +557,16 @@ public:
 class SurrenderDialogYesNo : public BMapDialogYesNo
 {
 public:
-    // func_ov000_021bf0bc
     /* 0B8 */ virtual void vfunc_b8(s32 arg0)
     {
         gMapStateManager->unk_14->unk_25 = Interpolate(0, 0, -16, arg0, 4);
         return;
     }
-
-    // virtual ~SurrenderDialogYesNo()
-    // // func_ov000_021bf93c
-    // // func_ov000_021bf978
-    // virtual ~SurrenderDialogYesNo()
-    // {
-    // }
 };
 
 class DI_Surrender : public DialogItemYes
 {
 public:
-    // func_ov000_021bf084
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021d6dfc(0);
@@ -622,14 +579,12 @@ public:
 class MIM_Surrender : public MenuItem
 {
 public:
-    // func_ov000_021bf070
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Surrender"
         return func_02039e10("MMM_降参");
     }
 
-    // func_ov000_021bf058
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
     {
         if ((menuItemState->unk_09 & 7) != 1)
@@ -640,7 +595,6 @@ public:
         return 2;
     }
 
-    // func_ov000_021bf040
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (func_ov000_021a478c())
@@ -651,7 +605,6 @@ public:
         return MENU_NOTSHOWN;
     }
 
-    // func_ov000_021bf014
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
     {
         if (func_0202dad0(menuItemState, menu))
@@ -663,7 +616,6 @@ public:
         return;
     }
 
-    // func_ov000_021beff8
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Surrender and end wireless play."
@@ -671,12 +623,11 @@ public:
         return;
     }
 
-    // func_ov000_021befd0
     /* 24 */ virtual s32 vfunc_24(Menu * menu, MenuItemState * menuItemState)
     {
         if ((menuItemState->unk_09 & 7) != 1)
         {
-            func_ov000_021beb94(menu->unk_10);
+            StartChoice_Surrender(menu->unk_10);
             return 0x40;
         }
 
@@ -687,14 +638,12 @@ public:
 class MIM_TurnEnd : public MenuItem
 {
 public:
-    // func_ov000_021befbc
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "End"
         return func_02039e10("MMM_終了");
     }
 
-    // func_ov000_021bef90
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
     {
         if (func_0202dad0(menuItemState, menu))
@@ -706,7 +655,6 @@ public:
         return;
     }
 
-    // func_ov000_021bef74
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "End the player phase. The enemy will move next."
@@ -714,7 +662,6 @@ public:
         return;
     }
 
-    // func_ov000_021bef50
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         PlayerPhase_GotoLabel(23, 0, 0);
@@ -728,7 +675,6 @@ public:
 class BMapSallyEndYesNo : public DialogYesNo
 {
 public:
-    // func_ov000_021bef1c
     /* 0C0 */ virtual void vfunc_c0(void)
     {
         gSoundManager->unk_b0->vfunc_28(SE_SYS_START1, 0, 0);
@@ -739,7 +685,6 @@ public:
 class BMapSallyEndYes : public DialogItemNo
 {
 public:
-    // func_ov000_021bef00
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         PlayerPhase_GotoLabel(3, 0, 0);
@@ -750,7 +695,6 @@ public:
 class BMapSallyEndNo : public DialogItemNo
 {
 public:
-    // func_ov000_021bee60
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         gMapStateManager->inputHandler->HideButton(3);
@@ -776,7 +720,7 @@ public:
 EC void StartChildMenu(Menu *, void *, ProcPtr, u32, u32);
 EC void func_020303bc(Dialog *, char *, void *, ProcPtr, s32, s32);
 
-EC void func_ov000_021bec24(ProcPtr param_1)
+EC void StartMapMenu(ProcPtr parent)
 {
     static map::MIM_UnitList sUnitList;
     static map::MIM_TutList sTutList;
@@ -799,12 +743,12 @@ EC void func_ov000_021bec24(ProcPtr param_1)
     };
     // clang-format on
 
-    StartChildMenu(new map::MapMenu(), data_ov000_021dd268, param_1, 1, 0);
+    StartChildMenu(new map::MapMenu(), data_ov000_021dd268, parent, 1, 0);
 
     return;
 }
 
-EC void func_ov000_021beaf4(ProcPtr param_1)
+EC void StartChoice_TemporarySave(ProcPtr parent)
 {
     static map::DI_TemporarySave sTemporarySave;
 
@@ -817,12 +761,12 @@ EC void func_ov000_021beaf4(ProcPtr param_1)
 
     func_020303bc(
         new map::TemporarySaveDialogYesNo(), func_02039e10((char *)(func_ov000_021a47e4() ? "MD_中断" : "MD_練習終了")),
-        data_ov000_021dd25c, param_1, 1, 0);
+        data_ov000_021dd25c, parent, 1, 0);
 
     return;
 }
 
-EC void func_ov000_021beb94(ProcPtr param_1)
+EC void StartChoice_Surrender(ProcPtr parent)
 {
     static map::DI_Surrender sSurrender;
 
@@ -833,12 +777,12 @@ EC void func_ov000_021beb94(ProcPtr param_1)
     };
     // clang-format on
 
-    func_020303bc(new map::SurrenderDialogYesNo(), func_02039e10("MD_降参"), data_ov000_021dd244, param_1, 1, 0);
+    func_020303bc(new map::SurrenderDialogYesNo(), func_02039e10("MD_降参"), data_ov000_021dd244, parent, 1, 0);
 
     return;
 }
 
-EC void func_ov000_021bed70(ProcPtr param_1)
+EC void StartChoice_EndPreparations(ProcPtr parent)
 {
     gMapStateManager->cursor->isVisible = FALSE;
 
@@ -857,20 +801,10 @@ EC void func_ov000_021bed70(ProcPtr param_1)
     // clang-format on
 
     // "Conclude preparations?"
-    func_020303bc(new BMapSallyEndYesNo(), func_02039e10("MD_進撃終了"), data_ov000_021dd250, param_1, 1, 0);
+    func_020303bc(new BMapSallyEndYesNo(), func_02039e10("MD_進撃終了"), data_ov000_021dd250, parent, 1, 0);
 
     return;
 }
-
-// ~TemporarySaveDialogYesNo
-
-// func_ov000_021bf93c
-// func_ov000_021bf978
-// ~SurrenderDialogYesNo()
-
-// func_ov000_021bf9bc
-// func_ov000_021bf9f8
-// ~BMapSallyEndYesNo
 
 EC void func_ov000_021bfa3c(void)
 {
