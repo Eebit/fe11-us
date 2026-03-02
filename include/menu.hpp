@@ -284,6 +284,7 @@ public:
     /* 12C */ virtual void vfunc_12c(void);
     /* 130 */ virtual void vfunc_130(/* ? */); // ?
     /* 134 */ virtual void vfunc_134(/* ? */); // ?
+    virtual s32 vfunc_138(void);
 
     virtual ~Menu();
 
