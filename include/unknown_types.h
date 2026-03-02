@@ -207,17 +207,6 @@ struct MapFile
 
 // Overlay 000:
 
-struct UnkStruct_021e3340
-{
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 unk_03;
-    STRUCT_PAD(0x04, 0x06);
-    u8 unk_06;
-    u8 unk_07;
-};
-
 struct UnkStruct_021e3508
 {
     void * unk_00;

@@ -49,7 +49,7 @@ EC void FE11Database::Init(void)
     this->unk_30 = HashTable::Get2("WeaponBonus");
     this->unk_34 = HashTable::Get2("WeaponDeadlock");
     this->unk_38 = static_cast<Unit_unk_a4 *>(HashTable::Get2("StringTable"));
-    this->unk_3c = HashTable::Get2("Tutorial");
+    this->unk_3c = static_cast<struct TutorialData *>(HashTable::Get2("Tutorial"));
     this->unk_40 = HashTable::Get2("TutHelp");
     this->unk_44 = HashTable::Get2("Charm");
     this->pDBFE11Footer = static_cast<struct DBFE11Footer *>(HashTable::Get2("DBFE11Footer"));

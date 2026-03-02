@@ -215,6 +215,20 @@ inline struct Unit * func_0203c378(struct Unit * unit)
     return m ? func_0203c378(unit->unk_a0) : unit;
 }
 
+extern Unit * gUnitList;
+
+inline Unit * GetUnit(s32 unitId)
+{
+    if (unitId != 0)
+    {
+        return gUnitList + unitId - 1;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
 EXTERN_C_END
 
 #endif // UNIT_HPP

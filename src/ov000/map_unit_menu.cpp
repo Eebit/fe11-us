@@ -11,19 +11,6 @@
 #include "unknown_types.hpp"
 
 extern struct UnkStruct_02196f24 * data_02196f24;
-extern Unit * gUnitList;
-
-inline Unit * GetUnit(s32 unitId)
-{
-    if (unitId != 0)
-    {
-        return gUnitList + unitId - 1;
-    }
-    else
-    {
-        return NULL;
-    }
-}
 
 EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, int f, int g);
 EC void func_01ff9420(MapStateManager_08 *, Unit *, s32, s32);
@@ -48,7 +35,7 @@ EC void func_ov000_021be21c(void);
 EC s32 func_ov000_021d49f4(s32, s32, s32);
 
 EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
-EC void func_ov000_021ae180(s32, s32, s32);
+EC void PlayerPhase_GotoLabel(s32, s32, s32);
 EC void func_ov000_021bfa3c(void);
 EC void func_ov000_021d6a9c(char *, s32);
 
@@ -140,7 +127,7 @@ public:
         {
             func_ov000_021b0de8(
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_WAIT, 0);
-            func_ov000_021ae180(0x28, 0, 0);
+            PlayerPhase_GotoLabel(40, 0, 0);
             func_ov000_021bfa3c();
 
             return 0x81;
@@ -247,7 +234,7 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        func_ov000_021ae180(0x11, 9, 0);
+        PlayerPhase_GotoLabel(17, 9, 0);
         return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
@@ -331,7 +318,7 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        func_ov000_021ae180(0xc, 0, 0);
+        PlayerPhase_GotoLabel(12, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
@@ -408,7 +395,7 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        func_ov000_021ae180(0xc, 1, 0);
+        PlayerPhase_GotoLabel(12, 1, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
@@ -459,7 +446,7 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        func_ov000_021ae180(0xc, 4, 0);
+        PlayerPhase_GotoLabel(12, 4, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
@@ -567,7 +554,7 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        func_ov000_021ae180(0x11, 7, 0);
+        PlayerPhase_GotoLabel(17, 7, 0);
         return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
@@ -625,23 +612,23 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        s32 uVar2 = 0;
+        s32 actionId = ACTION_NONE;
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 8))
+        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_VISIT_08))
         {
             if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 2))
             {
-                uVar2 = 8;
+                actionId = ACTION_VISIT_08;
             }
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 9))
+        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_VISIT_09))
         {
-            uVar2 = 9;
+            actionId = ACTION_VISIT_09;
         }
 
-        func_ov000_021b0de8(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, uVar2, 0);
-        func_ov000_021ae180(0x28, 0, 0);
+        func_ov000_021b0de8(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, actionId, 0);
+        PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
 
         return MENU_ACTION_x40 | MENU_ACTION_x1;
@@ -742,7 +729,7 @@ public:
     {
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_DOOR, 0);
-        func_ov000_021ae180(0x28, 0, 0);
+        PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
@@ -842,7 +829,7 @@ public:
     {
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_BRIDGE, 0);
-        func_ov000_021ae180(0x28, 0, 0);
+        PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
@@ -902,7 +889,7 @@ public:
     {
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_CHEST, 0);
-        func_ov000_021ae180(0x28, 0, 0);
+        PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
@@ -956,7 +943,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         gActionSt->actionId = ACTION_ARMORY;
-        func_ov000_021ae180(0x15, 0, 0);
+        PlayerPhase_GotoLabel(21, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
@@ -1009,7 +996,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         gActionSt->actionId = ACTION_VENDOR;
-        func_ov000_021ae180(0x15, 0, 0);
+        PlayerPhase_GotoLabel(21, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
@@ -1066,7 +1053,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         gActionSt->actionId = ACTION_SECRET_SHOP;
-        func_ov000_021ae180(0x15, 0, 0);
+        PlayerPhase_GotoLabel(21, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
@@ -1135,7 +1122,7 @@ public:
     {
         if ((menuItemState->unk_09 & 7) != 1)
         {
-            func_ov000_021ae180(0x16, 0, 0);
+            PlayerPhase_GotoLabel(22, 0, 0);
             func_ov000_021d6dfc(0);
             return MENU_ACTION_x40 | MENU_ACTION_x1;
         }
@@ -1261,7 +1248,7 @@ public:
     {
         if ((menuItemState->unk_09 & 7) != 1)
         {
-            func_ov000_021ae180(0x22, 0, 0);
+            PlayerPhase_GotoLabel(34, 0, 0);
             func_ov000_021d6dfc(0);
             return MENU_ACTION_x40 | MENU_ACTION_x1;
         }
@@ -1277,7 +1264,7 @@ public:
     {
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_SEIZE, 0);
-        func_ov000_021ae180(0x28, 0, 0);
+        PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021bfa3c();
         func_ov000_021d6dfc(0);
 
@@ -1404,7 +1391,7 @@ public:
     {
         if ((menuItemState->unk_09 & 7) != 1)
         {
-            func_ov000_021ae180(0xe, 0, 0);
+            PlayerPhase_GotoLabel(14, 0, 0);
             func_ov000_021d6dfc(0);
             return MENU_ACTION_x40 | MENU_ACTION_x8;
         }
@@ -1519,7 +1506,7 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(void)
     {
-        func_ov000_021ae180(0x11, 10, 0);
+        PlayerPhase_GotoLabel(17, 10, 0);
         return MENU_ACTION_x40 | MENU_ACTION_x8;
     }
 };
@@ -1535,7 +1522,7 @@ public:
     {
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_DECOY, 0);
-        func_ov000_021ae180(0x28, 0, 0);
+        PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021bfa3c();
         func_ov000_021d6dfc(0);
 
@@ -1634,7 +1621,7 @@ public:
     {
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_WAIT, 0);
-        func_ov000_021ae180(0x28, 0, 0);
+        PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }

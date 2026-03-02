@@ -25,6 +25,9 @@ src/ov000/playerphase.cpp:
 src/ov000/mind.cpp:
     .text       start:0x021af79c end:0x021b06fc
 
+src/ov000/map_menu.cpp:
+    .text       start:0x021beaf4 end:0x021bfa60
+
 src/ov000/map_unit_menu.cpp:
     .text       start:0x021bfa60 end:0x021c1e18
     .data       start:0x021de3a8 end:0x021dfc20

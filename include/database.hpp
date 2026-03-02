@@ -33,6 +33,12 @@ struct CharmData
     char * unk_04;
 };
 
+struct TutorialData
+{
+    char * unk_00;
+    STRUCT_PAD(0x04, 0x18);
+};
+
 struct DBFE11Footer
 {
     s32 pidTableLength;
@@ -61,7 +67,7 @@ public:
     /* 30 */ void * unk_30;
     /* 34 */ void * unk_34;
     /* 38 */ struct Unit_unk_a4 * unk_38;
-    /* 3C */ void * unk_3c;
+    /* 3C */ struct TutorialData * unk_3c;
     /* 40 */ void * unk_40;
     /* 44 */ void * unk_44;
     /* 48 */ struct DBFE11Footer * pDBFE11Footer;

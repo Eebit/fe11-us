@@ -277,7 +277,7 @@ EC void TitleSeq_ov008_0220508c(ProcPtr proc)
             return;
 
         case 0:
-            func_02022f28(3);
+            GameCtrl_GotoLabel(3);
             Proc_End(proc);
             return;
     }

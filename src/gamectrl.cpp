@@ -21,7 +21,7 @@ extern void data_ov010_02209e54(ProcPtr);
 EC void func_020136bc(ProcPtr);
 EC void func_0201fd44(ProcPtr);
 
-EC void func_0204b1e0(ProcPtr);
+EC BOOL func_0204b1e0(void);
 
 EC void func_02021b00(void);
 EC void func_02021b14(void);
@@ -472,7 +472,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 // Forward declarations
 EC void InitOnlineShopItemFlags(void);
 EC void InitOnlineShopItemAmounts(void);
-EC void func_02022f28(u32 label);
+EC void GameCtrl_GotoLabel(u32 label);
 
 EC void func_020217b4(void)
 {
@@ -899,7 +899,7 @@ EC void func_02022324(void)
         return;
     }
 
-    func_02022f28(7);
+    GameCtrl_GotoLabel(7);
 
     return;
 }
@@ -957,7 +957,7 @@ EC void func_02022458(void)
         return;
     }
 
-    func_02022f28(10);
+    GameCtrl_GotoLabel(10);
 
     return;
 }
@@ -1180,7 +1180,7 @@ EC void func_0202284c(ProcPtr proc)
             break;
 
         case 3:
-            func_02022f28(35);
+            GameCtrl_GotoLabel(35);
             break;
     }
 
@@ -1366,7 +1366,7 @@ EC void func_02022bb0(ProcPtr proc)
         data_02196f10->unk_04 = var;
 
         func_020228ec(proc);
-        func_02022f28(30);
+        GameCtrl_GotoLabel(30);
 
         gSoundManager->unk_a4->vfunc_3c(0x10, 0x48, 0);
     }
@@ -1436,7 +1436,7 @@ EC void func_02022d00(ProcPtr proc)
         }
 
         data_02196f0c->state &= ~0x2000;
-        func_02022f28(13);
+        GameCtrl_GotoLabel(13);
 
         return;
     }
@@ -1444,7 +1444,7 @@ EC void func_02022d00(ProcPtr proc)
     if (data_02196f0c->state & 0x10000)
     {
         data_02196f0c->state &= ~0x10000;
-        func_02022f28(54);
+        GameCtrl_GotoLabel(54);
 
         return;
     }
@@ -1538,7 +1538,7 @@ EC void StartGame(void)
     return;
 }
 
-EC void func_02022f28(u32 label)
+EC void GameCtrl_GotoLabel(u32 label)
 {
     Proc_Goto(Proc_Find(ProcScr_GameCtrl), label, 0);
     return;

@@ -679,7 +679,9 @@ class DialogYesNo : public Dialog
 {
 public:
     DialogYesNo() {};
-    virtual ~DialogYesNo();
+    virtual ~DialogYesNo()
+    {
+    }
 };
 
 class DialogItem : public MenuItem
