@@ -1324,9 +1324,9 @@ EC void func_ov000_021addb4(void)
     return;
 }
 
-EC void func_ov000_021addec(ProcPtr proc)
+EC void PlayerPhase_StartGuide(ProcPtr proc)
 {
-    func_ov000_021c669c(proc);
+    StartGuideMenu(proc);
     Proc_Goto(data_ov000_021e332c.unk_00[4], 10, 0);
     data_ov000_021e3340->unk_02 = -1;
     data_ov000_021e3340->unk_03 = 0;
@@ -1557,7 +1557,7 @@ PROC_LABEL(L_PLAYERPHASE_UNIT_LIST),
     PROC_CALL(func_ov000_021addb4),
 
 PROC_LABEL(L_PLAYERPHASE_GUIDE),
-    PROC_CALL(func_ov000_021addec),
+    PROC_CALL(PlayerPhase_StartGuide),
 
 PROC_LABEL(L_PLAYERPHASE_CONFIG),
     PROC_CALL(func_ov000_021ae2c4),

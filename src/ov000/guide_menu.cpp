@@ -210,7 +210,6 @@ public:
 class TutListMenu : public map::BMapScrollMenu
 {
 public:
-    // func_ov000_021c6a64
     /* 4C */ virtual void vfunc_4c(s32 param_2)
     {
         gMapStateManager->unk_14->unk_25 = Interpolate(0, 0, -16, param_2, 4);
@@ -224,25 +223,21 @@ public:
 class TutListMenuItem : public menu::ScrollMenuItem
 {
 public:
-    // func_ov000_021c6a5c
     /* 08 */ virtual s32 vfunc_08(void)
     {
         return 0x10;
     }
 
-    // func_ov000_021c6a44
     /* 04 */ virtual s32 vfunc_04(void)
     {
         return this->vfunc_08() << 1;
     }
 
-    // func_ov000_021c6a1c
     /* 00 */ virtual char * vfunc_00(s32 param_2)
     {
         return func_02039e10(gFE11Database->unk_3c[param_2].unk_00);
     }
 
-    // func_ov000_021c6994
     /* 10 */ virtual void vfunc_10(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7)
     {
         char * str = this->vfunc_00(arg1);
@@ -258,7 +253,6 @@ public:
         return;
     }
 
-    // func_ov000_021c696c
     /* 48 */ virtual s32 vfunc_48(s32 arg1)
     {
         if (!data_02196f20->flagMgr->GetById(arg1))
@@ -269,7 +263,6 @@ public:
         return MENU_ENABLED;
     }
 
-    // func_ov000_021c692c
     /* 1C */ virtual s32 vfunc_1c(s32 param_2, s32 param_3)
     {
         if (func_0204b1e0())
@@ -283,24 +276,25 @@ public:
         }
 
         func_0205038c(param_3, -1);
+
         return 0x40;
     }
 };
 
 EC void func_02031594(menu::ScrollMenu *, menu::ScrollMenuItem **, s32, s32, s32, ProcPtr, s32);
 
-EC void func_ov000_021c669c(ProcPtr parent)
+EC void StartGuideMenu(ProcPtr parent)
 {
     static TutListMenuItem sTutListMenuItem;
 
     // clang-format off
-    static menu::ScrollMenuItem * data_ov000_021e34e0[] =
+    static menu::ScrollMenuItem * sGuideMenuItems[] =
     {
         &sTutListMenuItem,
     };
     // clang-format on
 
-    func_02031594(new TutListMenu(), data_ov000_021e34e0, 0x22, 1, 8, parent, 1);
+    func_02031594(new TutListMenu(), sGuideMenuItems, 0x22, 1, 8, parent, 1);
 
     return;
 }

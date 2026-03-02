@@ -4245,7 +4245,7 @@ extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 // extern ??? data_ov000_021e34cc
 // extern ??? data_ov000_021e34d0
 // extern ??? data_ov000_021e34d8
-// extern ??? data_ov000_021e34e0
+// extern ??? sGuideMenuItems
 // extern ??? data_ov000_021e34e4
 // extern ??? data_ov000_021e34e8
 // extern ??? data_ov000_021e34ec
