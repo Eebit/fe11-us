@@ -15,8 +15,7 @@
 
 EC void func_020210d0(struct MapData *, s32);
 
-// TODO: Not actually data?
-extern void data_ov010_02209e54(ProcPtr);
+EC void func_ov004_02209e54(ProcPtr);
 
 EC void func_020136bc(ProcPtr);
 EC void func_0201fd44(ProcPtr);
@@ -120,7 +119,7 @@ PROC_LABEL(5),
 
 PROC_LABEL(6),
     PROC_OVERLAY_LOAD(4),
-    PROC_CALL(data_ov010_02209e54),
+    PROC_CALL(func_ov004_02209e54),
     PROC_OVERLAY_UNLOAD(4),
 
     // fallthrough

@@ -228,7 +228,7 @@ EC void func_ov000_021abd9c(void)
         return;
     }
 
-    if ((((gMapStateManager->inputHandler->keyPressed & 0x400) != 0) ||
+    if ((((gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_X) != 0) ||
          (gMapStateManager->inputHandler->_021a5650(2) != 0)) &&
         (func_ov000_021a9cac() != 0))
     {

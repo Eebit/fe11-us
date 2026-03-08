@@ -5349,7 +5349,7 @@ EC void func_020b6c98(char *, char *); // strcpy?
 // EC ??? func_020b6d78
 EC s32 func_020b6de0(char *); // strlen?
 // EC ??? func_020b6e08
-EC int func_020b6e2c(char *, char *);
+EC s32 func_020b6e2c(char *, char *);
 // EC ??? func_020b6e58
 // EC ??? func_020b6e98
 // EC ??? func_020b6ec0
