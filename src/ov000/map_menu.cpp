@@ -37,7 +37,7 @@ EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
 EC void func_ov000_021be21c(void);
 EC void StartChoice_TemporarySave(ProcPtr);
 EC void StartChoice_Surrender(ProcPtr);
-EC void func_ov000_021d6a9c(char *, s32);
+EC void StartSubtitleHelp(char *, s32);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
 
 class UnkStruct_02217560
@@ -307,7 +307,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Display a list of your units."
-            func_ov000_021d6a9c(func_02039e10("MMMH_部隊"), 0);
+            StartSubtitleHelp(func_02039e10("MMMH_部隊"), 0);
         }
 
         return;
@@ -316,7 +316,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Display a list of your units."
-        func_ov000_021d6a9c(func_02039e10("MMMH_部隊"), 0);
+        StartSubtitleHelp(func_02039e10("MMMH_部隊"), 0);
         return;
     }
 
@@ -357,7 +357,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Review tutorials on how the game is played."
-            func_ov000_021d6a9c(func_02039e10("MMMH_指南"), 0);
+            StartSubtitleHelp(func_02039e10("MMMH_指南"), 0);
         }
 
         return;
@@ -366,7 +366,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Review tutorials on how the game is played."
-        func_ov000_021d6a9c(func_02039e10("MMMH_指南"), 0);
+        StartSubtitleHelp(func_02039e10("MMMH_指南"), 0);
         return;
     }
 
@@ -402,7 +402,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Adjust game options."
-            func_ov000_021d6a9c(func_02039e10("MMMH_環境"), 0);
+            StartSubtitleHelp(func_02039e10("MMMH_環境"), 0);
         }
 
         return;
@@ -411,7 +411,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Adjust game options."
-        func_ov000_021d6a9c(func_02039e10("MMMH_環境"), 0);
+        StartSubtitleHelp(func_02039e10("MMMH_環境"), 0);
         return;
     }
 
@@ -517,7 +517,7 @@ public:
             str = "MMMH_中断";
         }
 
-        func_ov000_021d6a9c(func_02039e10(str), 0);
+        StartSubtitleHelp(func_02039e10(str), 0);
 
         return;
     }
@@ -537,7 +537,7 @@ public:
             str = "MMMH_中断";
         }
 
-        func_ov000_021d6a9c(func_02039e10(str), 0);
+        StartSubtitleHelp(func_02039e10(str), 0);
 
         return;
     }
@@ -610,7 +610,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Surrender and end wireless play."
-            func_ov000_021d6a9c(func_02039e10("MMMH_降参"), 0);
+            StartSubtitleHelp(func_02039e10("MMMH_降参"), 0);
         }
 
         return;
@@ -619,7 +619,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Surrender and end wireless play."
-        func_ov000_021d6a9c(func_02039e10("MMMH_降参"), 0);
+        StartSubtitleHelp(func_02039e10("MMMH_降参"), 0);
         return;
     }
 
@@ -649,7 +649,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "End the player phase. The enemy will move next."
-            func_ov000_021d6a9c(func_02039e10("MMMH_終了"), 0);
+            StartSubtitleHelp(func_02039e10("MMMH_終了"), 0);
         }
 
         return;
@@ -658,7 +658,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "End the player phase. The enemy will move next."
-        func_ov000_021d6a9c(func_02039e10("MMMH_終了"), 0);
+        StartSubtitleHelp(func_02039e10("MMMH_終了"), 0);
         return;
     }
 
@@ -711,7 +711,7 @@ public:
         gMapStateManager->cursor->isVisible = TRUE;
 
         // "Select two units to have them trade starting positions."
-        func_ov000_021d6a9c(func_02039e10("MSH_位置変更"), 0);
+        StartSubtitleHelp(func_02039e10("MSH_位置変更"), 0);
 
         return 0x81;
     }

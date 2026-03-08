@@ -228,7 +228,7 @@ EC void func_ov000_021abd9c(void)
         return;
     }
 
-    if ((((gMapStateManager->inputHandler->keyPressed & 0x400) != 0) ||
+    if ((((gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_X) != 0) ||
          (gMapStateManager->inputHandler->_021a5650(2) != 0)) &&
         (func_ov000_021a9cac() != 0))
     {
@@ -741,7 +741,7 @@ EC void func_ov000_021acb34(void)
 
 EC void func_ov000_021acb78(ProcPtr proc)
 {
-    func_ov000_021d6f1c(proc, 0);
+    TryShowTutCardForMenu(proc, 0);
     return;
 }
 

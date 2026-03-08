@@ -37,7 +37,7 @@ EC s32 func_ov000_021d49f4(s32, s32, s32);
 EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
 EC void func_ov000_021bfa3c(void);
-EC void func_ov000_021d6a9c(char *, s32);
+EC void StartSubtitleHelp(char *, s32);
 
 extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 
@@ -85,7 +85,7 @@ public:
 
     /* 11C */ virtual void vfunc_11c(void)
     {
-        func_ov000_021d6f1c(this->unk_10, 1);
+        TryShowTutCardForMenu(this->unk_10, 1);
         return;
     }
 
@@ -220,7 +220,7 @@ public:
         }
 
         // "Talk to a neighboring unit. (Shortcuts: ┳┫, ┻╋)"
-        func_ov000_021d6a9c(func_02039e10("MUMH_話す"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_話す"), 0);
 
         return;
     }
@@ -228,7 +228,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Talk to a neighboring unit. (Shortcuts: ┳┫, ┻╋)"
-        func_ov000_021d6a9c(func_02039e10("MUMH_話す"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_話す"), 0);
         return;
     }
 
@@ -304,7 +304,7 @@ public:
         }
 
         // Attack with an available weapon. (Shortcuts: ┳┫, ┻╋)
-        func_ov000_021d6a9c(func_02039e10("MUMH_攻撃"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_攻撃"), 0);
 
         return;
     }
@@ -312,7 +312,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // Attack with an available weapon. (Shortcuts: ┳┫, ┻╋)
-        func_ov000_021d6a9c(func_02039e10("MUMH_攻撃"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_攻撃"), 0);
         return;
     }
 
@@ -381,7 +381,7 @@ public:
         }
 
         // Use an available staff. (Shortcuts: ┳┫, ┻╋)
-        func_ov000_021d6a9c(func_02039e10("MUMH_杖"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_杖"), 0);
 
         return;
     }
@@ -389,7 +389,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // Use an available staff. (Shortcuts: ┳┫, ┻╋)
-        func_ov000_021d6a9c(func_02039e10("MUMH_杖"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_杖"), 0);
         return;
     }
 
@@ -432,7 +432,7 @@ public:
         }
 
         // "Use, discard, or otherwise manage items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_持ち物"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_持ち物"), 0);
 
         return;
     }
@@ -440,7 +440,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Use, discard, or otherwise manage items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_持ち物"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_持ち物"), 0);
         return;
     }
 
@@ -540,7 +540,7 @@ public:
         }
 
         // "Trade items with a neighboring unit."
-        func_ov000_021d6a9c(func_02039e10("MUMH_交換"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_交換"), 0);
 
         return;
     }
@@ -548,7 +548,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Trade items with a neighboring unit."
-        func_ov000_021d6a9c(func_02039e10("MUMH_交換"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_交換"), 0);
         return;
     }
 
@@ -598,7 +598,7 @@ public:
         }
 
         // "Visit this village or home."
-        func_ov000_021d6a9c(func_02039e10("MUMH_訪問"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_訪問"), 0);
 
         return;
     }
@@ -606,7 +606,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit this village or home."
-        func_ov000_021d6a9c(func_02039e10("MUMH_訪問"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_訪問"), 0);
         return;
     }
 
@@ -713,7 +713,7 @@ public:
         }
 
         // "Open this door so units can pass through."
-        func_ov000_021d6a9c(func_02039e10("MUMH_扉"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_扉"), 0);
 
         return;
     }
@@ -721,7 +721,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Open this door so units can pass through."
-        func_ov000_021d6a9c(func_02039e10("MUMH_扉"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_扉"), 0);
         return;
     }
 
@@ -813,7 +813,7 @@ public:
         }
 
         // "Lower this drawbridge so units can cross it."
-        func_ov000_021d6a9c(func_02039e10("MUMH_橋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_橋"), 0);
 
         return;
     }
@@ -821,7 +821,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Lower this drawbridge so units can cross it."
-        func_ov000_021d6a9c(func_02039e10("MUMH_橋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_橋"), 0);
         return;
     }
 
@@ -873,7 +873,7 @@ public:
         }
 
         // "Open this chest and claim the item inside."
-        func_ov000_021d6a9c(func_02039e10("MUMH_宝箱"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_宝箱"), 0);
 
         return;
     }
@@ -881,7 +881,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Open this chest and claim the item inside."
-        func_ov000_021d6a9c(func_02039e10("MUMH_宝箱"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_宝箱"), 0);
         return;
     }
 
@@ -928,7 +928,7 @@ public:
         }
 
         // "Visit the armory to buy and sell weapons."
-        func_ov000_021d6a9c(func_02039e10("MUMH_武器屋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_武器屋"), 0);
 
         return;
     }
@@ -936,7 +936,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit the armory to buy and sell weapons."
-        func_ov000_021d6a9c(func_02039e10("MUMH_武器屋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_武器屋"), 0);
         return;
     }
 
@@ -981,7 +981,7 @@ public:
         }
 
         // "Visit the vendor to buy and sell magic tomes, staves, and items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_道具屋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_道具屋"), 0);
 
         return;
     }
@@ -989,7 +989,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit the vendor to buy and sell magic tomes, staves, and items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_道具屋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_道具屋"), 0);
         return;
     }
 
@@ -1038,7 +1038,7 @@ public:
         }
 
         // "Visit this hidden shop to buy and sell weapons and items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_秘密屋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_秘密屋"), 0);
 
         return;
     }
@@ -1046,7 +1046,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit this hidden shop to buy and sell weapons and items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_秘密屋"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_秘密屋"), 0);
         return;
     }
 
@@ -1106,7 +1106,7 @@ public:
         }
 
         // "Visit the arena to test your might with gold at stake."
-        func_ov000_021d6a9c(func_02039e10("MUMH_闘技場"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_闘技場"), 0);
 
         return;
     }
@@ -1114,7 +1114,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit the arena to test your might with gold at stake."
-        func_ov000_021d6a9c(func_02039e10("MUMH_闘技場"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_闘技場"), 0);
         return;
     }
 
@@ -1232,7 +1232,7 @@ public:
         }
 
         // "Summon the convoy to store and retrieve items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_輸送隊"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_輸送隊"), 0);
 
         return;
     }
@@ -1240,7 +1240,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Summon the convoy to store and retrieve items."
-        func_ov000_021d6a9c(func_02039e10("MUMH_輸送隊"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_輸送隊"), 0);
         return;
     }
 
@@ -1308,7 +1308,7 @@ public:
         }
 
         // "End the battle by securing this vital position."
-        func_ov000_021d6a9c(func_02039e10("MUMH_制圧"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_制圧"), 0);
 
         return;
     }
@@ -1316,7 +1316,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "End the battle by securing this vital position."
-        func_ov000_021d6a9c(func_02039e10("MUMH_制圧"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_制圧"), 0);
         return;
     }
 
@@ -1375,7 +1375,7 @@ public:
         }
 
         // "Save your progress. You can only use this savepoint once."
-        func_ov000_021d6a9c(func_02039e10("MUMH_Ｐ記録"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_Ｐ記録"), 0);
 
         return;
     }
@@ -1383,7 +1383,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Save your progress. You can only use this savepoint once."
-        func_ov000_021d6a9c(func_02039e10("MUMH_Ｐ記録"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_Ｐ記録"), 0);
         return;
     }
 
@@ -1492,7 +1492,7 @@ public:
         }
 
         // "Transform into a neighboring allied unit. The transformation lasts five turns."
-        func_ov000_021d6a9c(func_02039e10("MUMH_ものまね"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_ものまね"), 0);
 
         return;
     }
@@ -1500,7 +1500,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // Transform into a neighboring allied unit. The transformation lasts five turns.
-        func_ov000_021d6a9c(func_02039e10("MUMH_ものまね"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_ものまね"), 0);
         return;
     }
 
@@ -1570,14 +1570,14 @@ public:
             return;
         }
 
-        func_ov000_021d6a9c(func_02039e10("MUMH_囮"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_囮"), 0);
 
         return;
     }
 
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
-        func_ov000_021d6a9c(func_02039e10("MUMH_囮"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_囮"), 0);
         return;
     }
 
@@ -1605,7 +1605,7 @@ public:
         }
 
         // End this unit's turn.
-        func_ov000_021d6a9c(func_02039e10("MUMH_待機"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_待機"), 0);
 
         return;
     }
@@ -1613,7 +1613,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // End this unit's turn.
-        func_ov000_021d6a9c(func_02039e10("MUMH_待機"), 0);
+        StartSubtitleHelp(func_02039e10("MUMH_待機"), 0);
         return;
     }
 

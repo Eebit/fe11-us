@@ -5349,7 +5349,7 @@ EC void func_020b6c98(char *, char *); // strcpy?
 // EC ??? func_020b6d78
 EC s32 func_020b6de0(char *); // strlen?
 // EC ??? func_020b6e08
-EC int func_020b6e2c(char *, char *);
+EC s32 func_020b6e2c(char *, char *);
 // EC ??? func_020b6e58
 // EC ??? func_020b6e98
 // EC ??? func_020b6ec0
@@ -6923,21 +6923,21 @@ EC void StartMapSave_PointSaveMenu(ProcPtr);
 // EC ??? func_ov000_021d67d0
 // EC ??? func_ov000_021d67e4
 // EC ??? func_ov000_021d67fc
-// EC ??? func_ov000_021d6810
-// EC ??? func_ov000_021d6824
-// EC ??? func_ov000_021d68a8
-// EC ??? func_ov000_021d68bc
-// EC ??? func_ov000_021d6a9c
+// EC ??? LineHelp_ov000_021d6810
+// EC ??? _ZN12ProcLineHelp4InitEv
+// EC ??? LineHelp_ov000_021d68a8
+// EC ??? _ZN12ProcLineHelp4LoopEv
+// EC ??? StartSubtitleHelp
 EC void func_ov000_021d6dfc(u32);
 EC void func_ov000_021d6e30(u32);
 // EC ??? func_ov000_021d6ed4
-EC void func_ov000_021d6f1c(ProcPtr, u32);
+EC void TryShowTutCardForMenu(ProcPtr, u32);
 // EC ??? func_ov000_021d6f7c
-// EC ??? func_ov000_021d6fac
-// EC ??? func_ov000_021d6fd4
-// EC ??? func_ov000_021d7028
-// EC ??? func_ov000_021d7074
-// EC ??? func_ov000_021d7078
+// EC ??? _ZN22ProcTutCardShowForMenu4InitEv
+// EC ??? _ZN12ProcLineHelpD0Ev
+// EC ??? _ZN12ProcLineHelpD1Ev
+// EC ??? _ZN22ProcTutCardShowForMenuD1Ev
+// EC ??? _ZN22ProcTutCardShowForMenuD0Ev
 // EC ??? Map_LoadTextures
 // EC ??? Map_UnloadTextures
 // EC ??? Map_RenderLayers
