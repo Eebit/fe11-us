@@ -741,7 +741,7 @@ EC void func_ov000_021acb34(void)
 
 EC void func_ov000_021acb78(ProcPtr proc)
 {
-    func_ov000_021d6f1c(proc, 0);
+    TryShowTutCardForMenu(proc, 0);
     return;
 }
 

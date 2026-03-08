@@ -28,7 +28,7 @@ public:
     {
     }
 
-    // func_ov000_021d6fac
+    // _ZN22ProcTutCardShowForMenu4InitEv
     virtual void Init(void);
 };
 
@@ -77,9 +77,10 @@ public:
             gHeap.Free(this->unk_40);
         }
     }
-};
 
-extern struct ProcCmd data_ov000_021e2bc4[];
+    virtual void Init(void);
+    virtual void Loop(void);
+};
 
 struct UnkStruct_021970c4
 {
@@ -95,72 +96,72 @@ EC s32 func_02029ae8(struct UnkStruct_021970c4 *, void *, void *, s32, s32, s32,
 
 EC char * func_020b6d18(char *, char *, s32);
 
-EC void func_ov000_021d6810(ProcLineHelp * param_1)
+EC void LineHelp_ov000_021d6810(ProcLineHelp * proc)
 {
-    param_1->Init();
+    proc->Init();
     return;
 }
 
-EC void func_ov000_021d6824(ProcLineHelp * param_1)
+void ProcLineHelp::Init(void)
 {
-    if (param_1->unk_64 != 0)
+    if (this->unk_64 != 0)
     {
-        if (param_1->unk_54 < 0x10)
+        if (this->unk_54 < 0x10)
         {
-            param_1->unk_54 += 4;
+            this->unk_54 += 4;
         }
 
-        param_1->unk_50--;
+        this->unk_50--;
 
-        if (param_1->unk_50 < -(param_1->unk_44 + 0x40))
+        if (this->unk_50 < -(this->unk_44 + 0x40))
         {
-            param_1->unk_50 += (param_1->unk_44 + 0x40);
+            this->unk_50 += (this->unk_44 + 0x40);
         }
     }
     else
     {
-        if (param_1->unk_54 > 0)
+        if (this->unk_54 > 0)
         {
-            param_1->unk_54 -= 4;
+            this->unk_54 -= 4;
         }
         else
         {
-            Proc_End(param_1);
+            Proc_End(this);
             return;
         }
     }
 
-    gMapStateManager->unk_14->unk_29 = param_1->unk_54;
+    gMapStateManager->unk_14->unk_29 = this->unk_54;
 
     return;
 }
 
-EC void func_ov000_021d68a8(ProcLineHelp * param_1)
+EC void LineHelp_ov000_021d68a8(ProcLineHelp * proc)
 {
-    param_1->Loop();
+    proc->Loop();
     return;
 }
 
 extern u16 data_027e0010[];
 
-EC void func_ov000_021d68bc(ProcLineHelp * param_1)
+void ProcLineHelp::Loop(void)
 {
     s32 uVar1;
     s32 iVar2;
     s32 iVar3;
 
-    if (param_1->unk_44 == 0)
+    if (this->unk_44 == 0)
     {
         return;
     }
 
     iVar2 = 0;
 
-    for (uVar1 = param_1->unk_50; uVar1 <= -0x40;)
+    for (uVar1 = this->unk_50; uVar1 <= -0x40;)
     {
-        if (iVar2 == param_1->unk_4c)
+        if (iVar2 == this->unk_4c)
         {
-            uVar1 = uVar1 + (0x40 - (param_1->unk_4c * 0x20 - param_1->unk_44));
+            uVar1 = uVar1 + (0x40 - (this->unk_4c * 0x20 - this->unk_44));
             iVar2 = 0;
         }
         else
@@ -170,46 +171,46 @@ EC void func_ov000_021d68bc(ProcLineHelp * param_1)
         }
     }
 
-    if (param_1->unk_40 != 0)
+    if (this->unk_40 != 0)
     {
-        if (param_1->unk_58 == param_1->unk_60)
+        if (this->unk_58 == this->unk_60)
         {
-            param_1->unk_58 = param_1->unk_58 + 0x60;
+            this->unk_58 = this->unk_58 + 0x60;
         }
         else
         {
-            param_1->unk_58 = param_1->unk_60;
+            this->unk_58 = this->unk_60;
         }
     }
 
     for (iVar3 = 0; uVar1 < 0x100;)
     {
-        if (iVar2 == param_1->unk_4c)
+        if (iVar2 == this->unk_4c)
         {
             iVar2 = 0;
-            uVar1 = uVar1 + (0x40 - (param_1->unk_4c * 0x20 - param_1->unk_44));
+            uVar1 = uVar1 + (0x40 - (this->unk_4c * 0x20 - this->unk_44));
         }
         else
         {
-            if (iVar2 < param_1->unk_44)
+            if (iVar2 < this->unk_44)
             {
-                if (param_1->unk_40 == 0)
+                if (this->unk_40 == 0)
                 {
                     func_01ffc404(
-                        uVar1 & 0x1ff, 0xc0 - param_1->unk_54 & 0xff,
-                        (param_1->unk_5c << 0x1c) >> 0x10 | 0xc00 |
-                            (param_1->unk_58 + iVar2 * 8) >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14 & 0x3ff,
+                        uVar1 & 0x1ff, 0xc0 - this->unk_54 & 0xff,
+                        (this->unk_5c << 0x1c) >> 0x10 | 0xc00 |
+                            (this->unk_58 + iVar2 * 8) >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14 & 0x3ff,
                         data_027e0010, 0);
                 }
                 else
                 {
                     func_020a5780(
-                        (u8 *)param_1->unk_40 + iVar2 * 0x100,
-                        (u8 *)gpActiveScreenSt->objVram + (param_1->unk_58 + iVar3) * 0x20, 0x100);
+                        (u8 *)this->unk_40 + iVar2 * 0x100,
+                        (u8 *)gpActiveScreenSt->objVram + (this->unk_58 + iVar3) * 0x20, 0x100);
                     func_01ffc404(
-                        uVar1 & 0x1ff, 0xc0 - param_1->unk_54 & 0xff,
-                        (param_1->unk_5c << 0x1c) >> 0x10 | 0xc00 |
-                            (param_1->unk_58 + iVar3) >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14 & 0x3ff,
+                        uVar1 & 0x1ff, 0xc0 - this->unk_54 & 0xff,
+                        (this->unk_5c << 0x1c) >> 0x10 | 0xc00 |
+                            (this->unk_58 + iVar3) >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14 & 0x3ff,
                         data_027e0010, 0);
                     iVar3 = iVar3 + 8;
                 }
@@ -222,7 +223,23 @@ EC void func_ov000_021d68bc(ProcLineHelp * param_1)
     return;
 }
 
-EC void func_ov000_021d6a9c(char * param_1, char * param_2)
+// clang-format off
+
+struct ProcCmd ProcScr_LineHelp[] =
+{
+    PROC_NAME,
+    PROC_NAME,
+    PROC_SLEEP(0),
+
+    PROC_06(0, LineHelp_ov000_021d68a8),
+    PROC_REPEAT(LineHelp_ov000_021d6810),
+
+    PROC_END
+};
+
+// clang-format on
+
+EC void StartSubtitleHelp(char * param_1, char * param_2)
 {
     char * buf;
     char * pcVar4;
@@ -234,11 +251,11 @@ EC void func_ov000_021d6a9c(char * param_1, char * param_2)
         return;
     }
 
-    proc = static_cast<ProcLineHelp *>(Proc_Find(data_ov000_021e2bc4));
+    proc = static_cast<ProcLineHelp *>(Proc_Find(ProcScr_LineHelp));
 
     if (proc == NULL)
     {
-        proc = new (Proc_Start(data_ov000_021e2bc4, PROC_TREE_A)) ProcLineHelp();
+        proc = new (Proc_Start(ProcScr_LineHelp, PROC_TREE_A)) ProcLineHelp();
     }
 
     if (param_1 != NULL && proc->unk_38 != NULL && func_020b6e2c(param_1, proc->unk_38) == 0)
@@ -356,7 +373,7 @@ EC void func_ov000_021d6a9c(char * param_1, char * param_2)
 
 EC void func_ov000_021d6dfc(u32 param_1)
 {
-    ProcLineHelp * proc = static_cast<ProcLineHelp *>(Proc_Find(data_ov000_021e2bc4));
+    ProcLineHelp * proc = static_cast<ProcLineHelp *>(Proc_Find(ProcScr_LineHelp));
 
     if (proc == NULL)
     {
@@ -398,7 +415,9 @@ EC void func_ov000_021d6e30(u32 param_1)
 
     tutHelp = &gFE11Database->unk_40[data_ov000_021e3324->unk_18[param_1]];
 
-    func_ov000_021d6a9c(func_02039e10(tutHelp->unk_00), func_02039e10(tutHelp->unk_04));
+    StartSubtitleHelp(func_02039e10(tutHelp->unk_00), func_02039e10(tutHelp->unk_04));
+
+    return;
 }
 
 EC BOOL func_ov000_021d6ed4(void)
@@ -416,7 +435,7 @@ EC BOOL func_ov000_021d6ed4(void)
     return data_02196f20->unk_19a != 0;
 }
 
-EC void func_ov000_021d6f1c(ProcPtr param_1, u32 param_2)
+EC void TryShowTutCardForMenu(ProcPtr parent, u32 param_2)
 {
     if (EventCaller::func_02048e60(param_2) == 0)
     {
@@ -425,7 +444,7 @@ EC void func_ov000_021d6f1c(ProcPtr param_1, u32 param_2)
 
     if (func_0204b1e0())
     {
-        new (Proc_StartBlocking(ProcScr_020ce750, param_1)) ProcTutCardShowForMenu(param_2);
+        new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcTutCardShowForMenu(param_2);
     }
     else
     {
