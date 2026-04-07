@@ -25,7 +25,7 @@ EC BOOL func_02038348(struct ItemData * item)
         return TRUE;
     }
 
-    if (item->attributes & IA_FORTIFY)
+    if (item->attributes & IA_MAGIC)
     {
         return TRUE;
     }
@@ -51,7 +51,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
     int slot;
     int i;
 
-    if (!CheckItemAttr(item, 1))
+    if (!CheckItemAttr(item, IA_USABLE))
     {
         return FALSE;
     }
@@ -419,7 +419,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
         return FALSE;
     }
 
-    if (item->type != ITYPE_MAGIC)
+    if (item->type != ITYPE_STAFF)
     {
         return FALSE;
     }
