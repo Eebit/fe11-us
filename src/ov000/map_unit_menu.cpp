@@ -198,8 +198,8 @@ public:
                         continue;
                     }
 
-                    personB = func_0203c378(unit)->pPersonData->unk_00;
-                    personA = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->unk_00;
+                    personB = func_0203c378(unit)->pPersonData->pid;
+                    personA = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->pid;
 
                     if (EventCaller::CanStartTalkEvent((u32)personA, (u32)personB))
                     {
@@ -576,7 +576,7 @@ public:
     {
         if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 8))
         {
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 2))
+            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
             {
                 return MENU_ENABLED;
             }
@@ -616,7 +616,7 @@ public:
 
         if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_VISIT_08))
         {
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 2))
+            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
             {
                 actionId = ACTION_VISIT_08;
             }
@@ -1166,7 +1166,7 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 0x2))
+        if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
         {
             return MENU_ENABLED;
         }
@@ -1212,7 +1212,7 @@ public:
                     continue;
                 }
 
-                if (!CheckUnitAttribute(unit, 2))
+                if (!CheckUnitAttribute(unit, CA_UNK_1))
                 {
                     continue;
                 }
@@ -1291,7 +1291,7 @@ public:
         if (EventCaller::CanStartVisitEvent(
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xe))
         {
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 2))
+            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
             {
                 return MENU_ENABLED;
             }
@@ -1426,7 +1426,7 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 0x8000))
+        if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_FREELANCER))
         {
             return MENU_NOTSHOWN;
         }
@@ -1472,7 +1472,7 @@ public:
                     continue;
                 }
 
-                if (CheckUnitAttribute(unit, 0x1000000))
+                if (CheckUnitAttribute(unit, CA_UNK_24))
                 {
                     continue;
                 }

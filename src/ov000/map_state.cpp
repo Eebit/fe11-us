@@ -1204,7 +1204,7 @@ EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
                 pPersonDataA = func_0203c378(it)->pPersonData;
                 pPersonDataB = func_0203c378(unit)->pPersonData;
 
-                if (!_ZN11EventCaller13func_02048610EPcS0_(pPersonDataA->unk_00, pPersonDataB->unk_00))
+                if (!_ZN11EventCaller13func_02048610EPcS0_(pPersonDataA->pid, pPersonDataB->pid))
                 {
                     continue;
                 }

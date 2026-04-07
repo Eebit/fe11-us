@@ -176,7 +176,7 @@ EC void SetSpriteDirectoryForJob(s32 jid, BOOL isMovingMapSprite)
 
     job = gFE11Database->pJob + jid;
 
-    func_020a8f40(job->unk_00 + 4);
+    func_020a8f40(job->jid + 4);
 
     return;
 }
@@ -897,10 +897,10 @@ s32 MovingMapSprite::DrawSpriteExt(s32 x, s32 y, s32 arg3, s32 arg4, s32 animId,
 
             pJob = gFE11Database->pJob + this->jid;
             it = str;
-            func_020b6c98(it + 3, pJob->unk_00 + 4);
+            func_020b6c98(it + 3, pJob->jid + 4);
 
             it = str + 3;
-            it[func_020b6de0(pJob->unk_00 + 4)] = '/';
+            it[func_020b6de0(pJob->jid + 4)] = '/';
 
             if (this->unk_22 & 1)
             {

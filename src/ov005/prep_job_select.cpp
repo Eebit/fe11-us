@@ -138,12 +138,12 @@ public:
                 continue;
             }
 
-            if (!CheckUnitAttribute(this->unk_3c, 0x20000000) && job == GetJobByJidStr("JID_FALCONKNIGHT_F"))
+            if (!CheckUnitAttribute(this->unk_3c, CA_UNK_29) && job == GetJobByJidStr("JID_FALCONKNIGHT_F"))
             {
                 continue;
             }
 
-            if (CheckUnitAttribute(this->unk_3c, 0x20000000) && job == GetJobByJidStr("JID_DRAGONKNIGHT_F"))
+            if (CheckUnitAttribute(this->unk_3c, CA_UNK_29) && job == GetJobByJidStr("JID_DRAGONKNIGHT_F"))
             {
                 continue;
             }
