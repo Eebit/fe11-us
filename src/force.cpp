@@ -1,6 +1,7 @@
 #include "global.h"
 
 #include "database.hpp"
+#include "item.hpp"
 #include "save.hpp"
 #include "unit.hpp"
 
@@ -485,12 +486,12 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
             unit->force = Force::Get(0);
             unit->unk_90 = 0;
 
-            for (var_r7 = 0; var_r7 < 5; var_r7++)
+            for (var_r7 = 0; var_r7 < UNIT_ITEM_COUNT; var_r7++)
             {
                 struct Item * item = &unit->items[var_r7];
                 temp_r0_2 = item->GetData();
 
-                if (!(temp_r0_2->attributes & 0x80000000))
+                if (!(temp_r0_2->attributes & IA_UNK_31))
                 {
                     continue;
                 }
@@ -574,7 +575,7 @@ EC u32 func_020406bc(struct Unit * unit, u32 param_2)
 
         level = unit->level;
 
-        if ((unit->pJobData->attributes & 0x800) != 0)
+        if (unit->pJobData->attributes & CA_PROMOTED)
         {
             level += param_2;
         }
@@ -616,7 +617,7 @@ EC s32 func_0204071c(struct Unit * unit)
 
         iVar2++;
 
-        if ((unit->pJobData->attributes & 0x800) != 0)
+        if (unit->pJobData->attributes & CA_PROMOTED)
         {
             level += 20;
         }
@@ -670,7 +671,7 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
 
         level = cur->level;
 
-        if (cur->pJobData->attributes & 0x800)
+        if (cur->pJobData->attributes & CA_PROMOTED)
         {
             level += 20;
         }
@@ -683,12 +684,12 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
         {
             if (cur->level >= GetJobMaxLevel(cur->pJobData))
             {
-                if (cur->pJobData->pPromoteJob == NULL)
+                if (cur->pJobData->pPromoteToJob == NULL)
                 {
                     break;
                 }
 
-                if (CheckUnitAttribute(cur, 0x800000))
+                if (CheckUnitAttribute(cur, CA_UNK_23))
                 {
                     break;
                 }

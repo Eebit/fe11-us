@@ -3,6 +3,7 @@
 #include "unknown_funcs.h"
 
 #include "database.hpp"
+#include "item.hpp"
 #include "save.hpp"
 
 #include "unit.hpp"
@@ -36,7 +37,7 @@ EC void func_0203a94c(struct Unit * unit)
 
     unit->unk_6d = 0;
 
-    for (j = 0; j < 5; j++)
+    for (j = 0; j < UNIT_ITEM_COUNT; j++)
     {
         unit->items[j].Clear();
     }
@@ -103,7 +104,7 @@ EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src)
 
     dst->SetPos(src->xPos, src->yPos);
 
-    for (j = 0; j < 5; j++)
+    for (j = 0; j < UNIT_ITEM_COUNT; j++)
     {
         dst->items[j] = &src->items[j];
     }
@@ -190,7 +191,7 @@ EC void SaveUnit(struct Unit * unit, struct SaveBuffer * buf)
     buf->WriteByte(unit->xPos);
     buf->WriteByte(unit->yPos);
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
         unit->items[i].Save(buf);
     }
@@ -294,7 +295,7 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     y = buf->ReadByte();
     unit->SetPos(x, y);
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
         unit->items[i].Load(buf, param_3);
     }
@@ -505,7 +506,7 @@ EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
     arg_0->unk_94 = pUVar5->unk_94;
     arg_0->unk_a4 = pUVar5->unk_a4;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
         struct Item * dst;
         arg_0->items[i] = &pUVar5->items[i];
@@ -560,7 +561,7 @@ EC void func_0203bf68(struct Unit * srcUnit, u32 arg_1, u32 arg_2, u32 arg_3)
     dstUnit->unk_94 = srcUnit->unk_94;
     dstUnit->unk_a4 = srcUnit->unk_a4;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
         struct Item * dst;
         dstUnit->items[i] = &srcUnit->items[i];
@@ -612,7 +613,7 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
     arg_0->unk_94 = pUVar7->unk_94;
     arg_0->unk_a4 = pUVar7->unk_a4;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
         struct Item * pUVar9;
         arg_0->items[i] = &pUVar7->items[i];
@@ -631,8 +632,8 @@ EC void func_0203c068(struct Unit * arg_0, struct Unit * arg_1)
         pUVar9->flags &= ~0x10;
     }
 
-    arg_0->state1 &= ~0x1002;
-    arg_0->state1 |= CheckUnitAttribute(pUVar7, 0x00001002);
+    arg_0->state1 &= ~(CA_UNK_1 | CA_UNK_12);
+    arg_0->state1 |= CheckUnitAttribute(pUVar7, CA_UNK_1 | CA_UNK_12);
 
     arg_0->unk_a0 = pUVar7;
     arg_0->state2 |= 0x40000;
@@ -661,7 +662,7 @@ EC void func_0203c19c(struct Unit * srcUnit)
 
     dstUnit->unk_a4 = srcUnit->unk_a4;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
         struct Item * dst;
         dstUnit->items[i] = &srcUnit->items[i];
@@ -711,12 +712,12 @@ EC s32 GetUnitMaxHp(struct Unit * unit)
     struct JobData * job = unit->pJobData;
     s32 hp;
 
-    hp = unit->pPersonData->bases[0] + job->bases[0];
-    hp += unit->unk_50[0];
+    hp = unit->pPersonData->bases[UNIT_STAT_HP] + job->bases[UNIT_STAT_HP];
+    hp += unit->unk_50[UNIT_STAT_HP];
 
-    if (hp >= job->caps[0])
+    if (hp >= job->caps[UNIT_STAT_HP])
     {
-        hp = job->caps[0];
+        hp = job->caps[UNIT_STAT_HP];
     }
 
     return hp;
@@ -736,17 +737,17 @@ EC s32 GetUnitStr(struct Unit * unit, struct ItemData * item, BOOL unused)
         job = GetJInfoFromItem(item, unit);
     }
 
-    str = unit->pPersonData->bases[1] + job->bases[1];
-    str += unit->unk_50[1];
+    str = unit->pPersonData->bases[UNIT_STAT_STR] + job->bases[UNIT_STAT_STR];
+    str += unit->unk_50[UNIT_STAT_STR];
 
     if (str < 0)
     {
         str = 0;
     }
 
-    if (str >= job->caps[1])
+    if (str >= job->caps[UNIT_STAT_STR])
     {
-        str = job->caps[1];
+        str = job->caps[UNIT_STAT_STR];
     }
 
     return str;
@@ -766,17 +767,17 @@ EC s32 GetUnitMag(struct Unit * unit, struct ItemData * item, BOOL unused)
         job = GetJInfoFromItem(item, unit);
     }
 
-    mag = unit->pPersonData->bases[2] + job->bases[2];
-    mag += unit->unk_50[2];
+    mag = unit->pPersonData->bases[UNIT_STAT_MAG] + job->bases[UNIT_STAT_MAG];
+    mag += unit->unk_50[UNIT_STAT_MAG];
 
     if (mag < 0)
     {
         mag = 0;
     }
 
-    if (mag >= job->caps[2])
+    if (mag >= job->caps[UNIT_STAT_MAG])
     {
-        mag = job->caps[2];
+        mag = job->caps[UNIT_STAT_MAG];
     }
 
     return mag;
@@ -796,17 +797,17 @@ EC s32 GetUnitSkl(struct Unit * unit, struct ItemData * item, BOOL unused)
         job = GetJInfoFromItem(item, unit);
     }
 
-    skl = unit->pPersonData->bases[3] + job->bases[3];
-    skl += unit->unk_50[3];
+    skl = unit->pPersonData->bases[UNIT_STAT_SKL] + job->bases[UNIT_STAT_SKL];
+    skl += unit->unk_50[UNIT_STAT_SKL];
 
     if (skl < 0)
     {
         skl = 0;
     }
 
-    if (skl >= job->caps[3])
+    if (skl >= job->caps[UNIT_STAT_SKL])
     {
-        skl = job->caps[3];
+        skl = job->caps[UNIT_STAT_SKL];
     }
 
     return skl;
@@ -826,17 +827,17 @@ EC s32 GetUnitSpd(struct Unit * unit, struct ItemData * item, BOOL unused)
         job = GetJInfoFromItem(item, unit);
     }
 
-    spd = unit->pPersonData->bases[4] + job->bases[4];
-    spd += unit->unk_50[4];
+    spd = unit->pPersonData->bases[UNIT_STAT_SPD] + job->bases[UNIT_STAT_SPD];
+    spd += unit->unk_50[UNIT_STAT_SPD];
 
     if (spd < 0)
     {
         spd = 0;
     }
 
-    if (spd >= job->caps[4])
+    if (spd >= job->caps[UNIT_STAT_SPD])
     {
-        spd = job->caps[4];
+        spd = job->caps[UNIT_STAT_SPD];
     }
 
     return spd;
@@ -856,17 +857,17 @@ EC s32 GetUnitLuk(struct Unit * unit, struct ItemData * item, BOOL unused)
         job = GetJInfoFromItem(item, unit);
     }
 
-    luk = unit->pPersonData->bases[5] + job->bases[5];
-    luk += unit->unk_50[5];
+    luk = unit->pPersonData->bases[UNIT_STAT_LUK] + job->bases[UNIT_STAT_LUK];
+    luk += unit->unk_50[UNIT_STAT_LUK];
 
     if (luk < 0)
     {
         luk = 0;
     }
 
-    if (luk >= job->caps[5])
+    if (luk >= job->caps[UNIT_STAT_LUK])
     {
-        luk = job->caps[5];
+        luk = job->caps[UNIT_STAT_LUK];
     }
 
     return luk;
@@ -886,17 +887,17 @@ EC s32 GetUnitDef(struct Unit * unit, struct ItemData * item, BOOL unused)
         job = GetJInfoFromItem(item, unit);
     }
 
-    def = unit->pPersonData->bases[6] + job->bases[6];
-    def += unit->unk_50[6];
+    def = unit->pPersonData->bases[UNIT_STAT_DEF] + job->bases[UNIT_STAT_DEF];
+    def += unit->unk_50[UNIT_STAT_DEF];
 
     if (def < 0)
     {
         def = 0;
     }
 
-    if (def >= job->caps[6])
+    if (def >= job->caps[UNIT_STAT_DEF])
     {
-        def = job->caps[6];
+        def = job->caps[UNIT_STAT_DEF];
     }
 
     return def;
@@ -916,8 +917,8 @@ EC s32 GetUnitRes(struct Unit * unit, struct ItemData * item, BOOL arg_2)
         job = GetJInfoFromItem(item, unit);
     }
 
-    res = unit->pPersonData->bases[7] + job->bases[7];
-    res += unit->unk_50[7];
+    res = unit->pPersonData->bases[UNIT_STAT_RES] + job->bases[UNIT_STAT_RES];
+    res += unit->unk_50[UNIT_STAT_RES];
 
     if (res < 0)
     {
@@ -929,15 +930,15 @@ EC s32 GetUnitRes(struct Unit * unit, struct ItemData * item, BOOL arg_2)
         res += unit->unk_91;
     }
 
-    if (res >= job->caps[7])
+    if (res >= job->caps[UNIT_STAT_RES])
     {
-        res = job->caps[7];
+        res = job->caps[UNIT_STAT_RES];
     }
 
     return res;
 }
 
-EC s32 GetUnitStat(struct Unit * unit, u32 arg_1, struct ItemData * item, s32 arg_3)
+EC s32 GetUnitStat(struct Unit * unit, u32 statIdx, struct ItemData * item, s32 arg_3)
 {
     struct JobData * job;
     s32 stat;
@@ -951,22 +952,22 @@ EC s32 GetUnitStat(struct Unit * unit, u32 arg_1, struct ItemData * item, s32 ar
         job = GetJInfoFromItem(item, unit);
     }
 
-    stat = unit->pPersonData->bases[arg_1] + job->bases[arg_1];
-    stat += unit->unk_50[arg_1];
+    stat = unit->pPersonData->bases[statIdx] + job->bases[statIdx];
+    stat += unit->unk_50[statIdx];
 
     if (stat < 0)
     {
         stat = 0;
     }
 
-    if ((arg_3 != 0) && (arg_1 == 7))
+    if ((arg_3 != 0) && (statIdx == UNIT_STAT_RES))
     {
         stat += unit->unk_91;
     }
 
-    if (stat >= job->caps[arg_1])
+    if (stat >= job->caps[statIdx])
     {
-        stat = job->caps[arg_1];
+        stat = job->caps[statIdx];
     }
 
     return stat;
@@ -974,7 +975,7 @@ EC s32 GetUnitStat(struct Unit * unit, u32 arg_1, struct ItemData * item, s32 ar
 
 EC BOOL func_0203c73c(struct Unit * unit, s32 arg_1)
 {
-    if ((arg_1 == 7) && (unit->unk_91 != 0))
+    if ((arg_1 == UNIT_STAT_RES) && (unit->unk_91 != 0))
     {
         return TRUE;
     }
@@ -984,8 +985,8 @@ EC BOOL func_0203c73c(struct Unit * unit, s32 arg_1)
 
 EC u32 func_0203c75c(struct Unit * unit)
 {
-    u32 base = unit->pPersonData->bases[7] + unit->pJobData->bases[7];
-    return base + unit->unk_50[7];
+    u32 base = unit->pPersonData->bases[UNIT_STAT_RES] + unit->pJobData->bases[UNIT_STAT_RES];
+    return base + unit->unk_50[UNIT_STAT_RES];
 }
 
 EC s32 func_0203c77c(struct Unit * unit)
@@ -1004,7 +1005,7 @@ EC s32 func_0203c7ac(struct Unit * unit, u32 arg_1)
 
     if (uVar1 != 0)
     {
-        return uVar1 + unit->pPersonData->enemyGrowths[arg_1] + unit->unk_84[arg_1];
+        return uVar1 + unit->pPersonData->weaponLevels[arg_1] + unit->unk_84[arg_1];
     }
 
     return 0;
@@ -1014,7 +1015,7 @@ EC s32 func_0203c7e4(struct Unit * unit, u32 arg_1)
 {
     if (unit->pJobData->weaponLevels[arg_1] != 0)
     {
-        return unit->pJobData->weaponLevels[arg_1] + unit->pPersonData->enemyGrowths[arg_1];
+        return unit->pJobData->weaponLevels[arg_1] + unit->pPersonData->weaponLevels[arg_1];
     }
 
     return 0;
@@ -1022,7 +1023,7 @@ EC s32 func_0203c7e4(struct Unit * unit, u32 arg_1)
 
 static inline u32 PersonUnk24(struct Unit * unit)
 {
-    return unit->pPersonData->unk_24;
+    return unit->pPersonData->attributes;
 }
 
 static inline u32 JobUnk38(struct Unit * unit)
@@ -1039,19 +1040,19 @@ EC BOOL func_0203c834(struct Unit * unit, struct ItemData * item, s32 arg_2)
 {
     s32 itemType = item->type;
 
-    if (arg_2 == 0 && itemType == 5)
+    if (arg_2 == 0 && itemType == ITYPE_STAFF)
     {
         return FALSE;
     }
 
-    if (itemType == 6)
+    if (itemType == ITYPE_DRAGONSTONE)
     {
         if (!(unit->pJobData->unitType & 0x40))
         {
             return FALSE;
         }
     }
-    else if (itemType == 7)
+    else if (itemType == ITYPE_BALLISTA)
     {
         if (!(unit->pJobData->unitType & 8))
         {
@@ -1060,13 +1061,13 @@ EC BOOL func_0203c834(struct Unit * unit, struct ItemData * item, s32 arg_2)
     }
     else
     {
-        if (itemType >= 6)
+        if (itemType >= ITYPE_DRAGONSTONE)
         {
             return FALSE;
         }
 
-        if (((item->attributes & 0x1000000000000) && CheckUnitAttribute(unit, 0x100)) ||
-            ((item->attributes & 0x2000000000000) && CheckUnitAttribute(unit, 0x80)))
+        if (((item->attributes & IA_AURA_WLVL) && CheckUnitAttribute(unit, CA_UNK_8)) ||
+            ((item->attributes & IA_EXCALIBUR_WLVL) && CheckUnitAttribute(unit, CA_UNK_7)))
         {
             s32 wlvl = gFE11Database->pWeaponLevel[4];
             if (wlvl > func_0203c7ac(unit, itemType))
@@ -1084,54 +1085,54 @@ EC BOOL func_0203c834(struct Unit * unit, struct ItemData * item, s32 arg_2)
         }
     }
 
-    if ((item->attributes & 0x0FFC000000000000))
+    if (item->attributes & (IA_UNK_50 | IA_MARTH_LOCK | IA_PRINCESS_LOCK | IA_CAEDA_LOCK | IA_LENA_LOCK | IA_UNK_55 | IA_UNK_56 | IA_LONGBOW | IA_EXCALIBUR_LOCK | IA_AURA_LOCK))
     {
-        if ((item->attributes & 0x4000000000000) && !CheckUnitAttribute(unit, 2))
+        if ((item->attributes & IA_UNK_50) && !CheckUnitAttribute(unit, CA_UNK_1))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x8000000000000) && !CheckUnitAttribute(unit, 4))
+        if ((item->attributes & IA_MARTH_LOCK) && !CheckUnitAttribute(unit, CA_LORD))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x10000000000000) && !CheckUnitAttribute(unit, 8))
+        if ((item->attributes & IA_PRINCESS_LOCK) && !CheckUnitAttribute(unit, CA_PRINCESS))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x20000000000000) && !CheckUnitAttribute(unit, 0x20))
+        if ((item->attributes & IA_CAEDA_LOCK) && !CheckUnitAttribute(unit, CA_UNK_5))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x40000000000000) && !CheckUnitAttribute(unit, 0x40))
+        if ((item->attributes & IA_LENA_LOCK) && !CheckUnitAttribute(unit, CA_UNK_6))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x80000000000000) && !CheckUnitAttribute(unit, 0x10))
+        if ((item->attributes & IA_UNK_55) && !CheckUnitAttribute(unit, CA_UNK_4))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x100000000000000) && !CheckUnitAttribute(unit, 0x200))
+        if ((item->attributes & IA_UNK_56) && !CheckUnitAttribute(unit, CA_UNK_9))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x200000000000000) && !(unit->pJobData->unitType & 0x80))
+        if ((item->attributes & IA_LONGBOW) && !(unit->pJobData->unitType & 0x80))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x400000000000000) && CheckUnitAttribute(unit, 1))
+        if ((item->attributes & IA_EXCALIBUR_LOCK) && CheckUnitAttribute(unit, CA_FEMALE))
         {
             return FALSE;
         }
 
-        if ((item->attributes & 0x800000000000000) && !CheckUnitAttribute(unit, 1))
+        if ((item->attributes & IA_AURA_LOCK) && !CheckUnitAttribute(unit, CA_FEMALE))
         {
             return FALSE;
         }
@@ -1150,7 +1151,7 @@ EC s32 GetUnitEquippedWeaponSlot(struct Unit * unit)
     s32 i;
     struct Item * item = unit->items;
 
-    for (i = 0; i < 5; i++, item++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, item++)
     {
         if (!(item->flags & 0x10))
         {
@@ -1174,7 +1175,7 @@ EC u64 func_0203cbc4(struct Unit * unit, u64 arg_1)
 
     it = unit->items;
 
-    for (i = 0; i < 5; i++, it++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         item = it->GetData();
         ret |= item->attributes & arg_1;
@@ -1194,7 +1195,7 @@ EC u64 func_0203cc1c(struct Unit * unit, u64 arg_1)
 
     it = unit->items;
 
-    for (i = 0; i < 5; i++, it++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         if (!func_0203cb6c(unit, i, 0))
         {
@@ -1241,7 +1242,7 @@ EC BOOL func_0203cd30(struct Unit * unit, s32 arg_1)
 
     if (arg_1 == -1)
     {
-        for (i = 0; i < 5; i++)
+        for (i = 0; i < UNIT_ITEM_COUNT; i++)
         {
             if (!func_0203cb6c(unit, i, 0))
             {
@@ -1285,7 +1286,7 @@ EC void func_0203ce08(struct Unit * unit, s32 slot, BOOL arg_2)
 {
     if (arg_2)
     {
-        for (; slot < 4; slot++)
+        for (; slot < UNIT_ITEM_COUNT - 1; slot++)
         {
             unit->items[slot] = &unit->items[slot + 1];
         }
@@ -1303,7 +1304,7 @@ EC void func_0203ce6c(struct Unit * unit)
 {
     s32 i;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
         func_0203ce08(unit, i, FALSE);
     }
@@ -1316,7 +1317,7 @@ EC BOOL func_0203ce9c(struct Unit * unit, s32 arg_1, u32 arg_2)
     s32 i;
     struct Item * item = unit->items;
 
-    for (i = 0; i < 5; i++, item++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, item++)
     {
         if (item->id == 0)
         {
@@ -1324,7 +1325,7 @@ EC BOOL func_0203ce9c(struct Unit * unit, s32 arg_1, u32 arg_2)
         }
     }
 
-    if (i != 5)
+    if (i != UNIT_ITEM_COUNT)
     {
         item = unit->items + i;
         item->InitFromIid(arg_1);
@@ -1345,7 +1346,7 @@ EC BOOL func_0203cf20(struct Unit * unit, struct Item * item)
     s32 i;
     struct Item * it = unit->items;
 
-    for (i = 0; i < 5; i++, it++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         if (it->id == 0)
         {
@@ -1371,7 +1372,7 @@ EC void func_0203cf68(struct Unit * unit)
     while (TRUE)
     {
         struct Item * it = unitItems;
-        for (i = 0; i < 5; i++, it++)
+        for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
         {
             if (it->id == 0)
             {
@@ -1384,7 +1385,7 @@ EC void func_0203cf68(struct Unit * unit)
             return;
         }
 
-        for (j = i + 1; j < 5; j++)
+        for (j = i + 1; j < UNIT_ITEM_COUNT; j++)
         {
             it = unitItems + j;
 
@@ -1394,7 +1395,7 @@ EC void func_0203cf68(struct Unit * unit)
             }
         }
 
-        if (j == 5)
+        if (j == UNIT_ITEM_COUNT)
         {
             return;
         }
@@ -1409,7 +1410,7 @@ EC s32 func_0203cff4(struct Unit * unit)
     s32 i;
     struct Item * it = unit->items;
 
-    for (i = 0; i < 5; i++, it++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         if (it->id == 0)
         {
@@ -1430,11 +1431,11 @@ EC s32 func_0203d01c(struct Unit * unit)
 
     it = unit->items;
 
-    for (i = 0; i < 5; i++, it++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         struct ItemData * item = it->GetData();
 
-        if (ret != -1 && !(item->attributes & 0x8000000))
+        if (ret != -1 && !(item->attributes & IA_UNK_27))
         {
             continue;
         }
@@ -1460,11 +1461,11 @@ EC s32 func_0203d094(struct Unit * unit)
 
     it = unit->items;
 
-    for (i = 0; i < 5; i++, it++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         struct ItemData * item = it->GetData();
 
-        if (found != -1 && !(item->attributes & 0x8000000))
+        if (found != -1 && !(item->attributes & IA_UNK_27))
         {
             continue;
         }
@@ -1490,11 +1491,11 @@ EC s32 func_0203d10c(struct Unit * unit)
 
     it = unit->items;
 
-    for (i = 0; i < 5; i++, it++)
+    for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         struct ItemData * item = it->GetData();
 
-        if (found != -1 && !(item->attributes & 0x8000000))
+        if (found != -1 && !(item->attributes & IA_UNK_27))
         {
             continue;
         }
@@ -1512,7 +1513,7 @@ EC s32 func_0203d10c(struct Unit * unit)
 
 EC BOOL func_0203d184(struct Unit * unit)
 {
-    if (CheckUnitAttribute(unit, 0x400))
+    if (CheckUnitAttribute(unit, CA_UNK_10))
     {
         return TRUE;
     }
@@ -1522,7 +1523,7 @@ EC BOOL func_0203d184(struct Unit * unit)
 
 EC BOOL func_0203d1bc(struct Unit * unit)
 {
-    if (CheckUnitAttribute(unit, 0x400))
+    if (CheckUnitAttribute(unit, CA_UNK_10))
     {
         return TRUE;
     }
@@ -1532,7 +1533,7 @@ EC BOOL func_0203d1bc(struct Unit * unit)
 
 EC BOOL func_0203d1f4(struct Unit * unit)
 {
-    if (CheckUnitAttribute(unit, 0x400))
+    if (CheckUnitAttribute(unit, CA_UNK_10))
     {
         return TRUE;
     }
@@ -1605,14 +1606,14 @@ EC s32 ComputeHitRate(struct Unit * unit, struct ItemData * item, BOOL arg_2)
         hit += func_0203d45c(unit, item);
     }
 
-    if (CheckUnitAttribute(unit, 0x30000) != 0)
+    if (CheckUnitAttribute(unit, CA_UNK_16 | CA_UNK_17))
     {
-        if (CheckUnitAttribute(unit, 0x10000) != 0) // Sniper attr
+        if (CheckUnitAttribute(unit, CA_UNK_16)) // Sniper attr
         {
             hit += 5;
         }
 
-        if (CheckUnitAttribute(unit, 0x20000) != 0) // Swordmaster attr
+        if (CheckUnitAttribute(unit, CA_UNK_17)) // Swordmaster attr
         {
             hit += 10;
         }
@@ -1650,14 +1651,14 @@ EC s32 ComputeCritRate(struct Unit * unit, struct ItemData * item)
     critical = item->critical;
     critical += GetUnitSkl(unit, item, 1) >> 1;
 
-    if (CheckUnitAttribute(unit, 0xc0000) != 0)
+    if (CheckUnitAttribute(unit, CA_UNK_18 | CA_UNK_19))
     {
-        if (CheckUnitAttribute(unit, 0x40000) != 0) // Sniper attr
+        if (CheckUnitAttribute(unit, CA_UNK_18)) // Sniper attr
         {
             critical += 5;
         }
 
-        if (CheckUnitAttribute(unit, 0x80000) != 0) // Berserker attr
+        if (CheckUnitAttribute(unit, CA_UNK_19)) // Berserker attr
         {
             critical += 10;
         }
@@ -1789,7 +1790,7 @@ EC void func_0203d6dc(struct Unit * unit)
             iVar3 = IntSys_Div(unit->unk_58[i] + unit->unk_50[i] * 100, 10);
         }
 
-        iVar4 = unit->pPersonData->unk_14[i] + unit->pJobData->unk_10[i] - iVar3;
+        iVar4 = unit->pPersonData->growths[i] + unit->pJobData->unk_10[i] - iVar3;
         iVar6 = unit->unk_50[i];
         iVar3 = iVar6;
 
@@ -1815,7 +1816,7 @@ EC void func_0203d6dc(struct Unit * unit)
 
         if ((iVar6 < iVar3) || (GetUnitStat(unit, i, NULL, 0) < unit->pJobData->caps[i]))
         {
-            iVar3 = unit->pPersonData->unk_14[i] + unit->pJobData->unk_10[i];
+            iVar3 = unit->pPersonData->growths[i] + unit->pJobData->unk_10[i];
 
             if (iVar3 < 1)
             {
@@ -1833,7 +1834,7 @@ EC void func_0203d840(struct Unit * unit, struct JobData * job, BOOL arg_2)
 {
     if (job == NULL)
     {
-        job = unit->pJobData->pPromoteJob;
+        job = unit->pJobData->pPromoteToJob;
     }
 
     unit->level = 1;
@@ -1874,7 +1875,7 @@ EC void func_0203de10(struct Unit * unit)
 
     for (i = 0; i < 8; i++)
     {
-        iVar4 = (unit->pPersonData->unk_14[i] + unit->pJobData->unk_10[i]) >> 1;
+        iVar4 = (unit->pPersonData->growths[i] + unit->pJobData->unk_10[i]) >> 1;
         iVar3 = unit->unk_50[i];
 
         if (iVar4 >= 100)

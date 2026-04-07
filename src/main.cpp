@@ -52,7 +52,7 @@ EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
     struct Unit * unit = gMapStateManager->unk_04->unk_00;
 
     tmp1 = func_0203c77c(unit);
-    if (CheckUnitAttribute(unit, 0x8000000))
+    if (CheckUnitAttribute(unit, CA_UNK_27))
         tmp1 = 0;
 
     tmp2 = func_02001770(buf, a, b);

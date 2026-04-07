@@ -11,6 +11,7 @@
 #include "database.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
+#include "item.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -452,9 +453,9 @@ s32 arena::Arena::_021d7db8(Unit * unit, s32 arg_2)
     bestWpnType = -1;
     bestWpnLevel = 0;
 
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < ITYPE_DRAGONSTONE; i++)
     {
-        if (i == 5)
+        if (i == ITYPE_STAFF)
         {
             continue;
         }
@@ -492,11 +493,11 @@ void arena::Arena::_021d7e1c(void)
 
     BOOL isPromotedOrHighLevel = FALSE;
 
-    if (CheckUnitAttribute(this->unk_38, 0x800))
+    if (CheckUnitAttribute(this->unk_38, CA_PROMOTED))
     {
         isPromotedOrHighLevel = TRUE;
     }
-    else if (this->unk_38->pJobData->pPromoteJob == NULL)
+    else if (this->unk_38->pJobData->pPromoteToJob == NULL)
     {
         if ((s32)this->unk_38->level >= 16)
         {
@@ -506,7 +507,7 @@ void arena::Arena::_021d7e1c(void)
 
     if (isPromotedOrHighLevel)
     {
-        if (CheckUnitAttribute(this->unk_38, 0x400))
+        if (CheckUnitAttribute(this->unk_38, CA_UNK_10))
         {
             set = 7;
         }
@@ -514,18 +515,18 @@ void arena::Arena::_021d7e1c(void)
         {
             switch (bestWeaponType)
             {
-                case 0:
-                case 1:
-                case 2:
+                case ITYPE_SWORD:
+                case ITYPE_LANCE:
+                case ITYPE_AXE:
                 default:
                     set = 4;
                     break;
 
-                case 3:
+                case ITYPE_BOW:
                     set = 5;
                     break;
 
-                case 4:
+                case ITYPE_MAGIC:
                     set = 6;
                     break;
             }
@@ -533,7 +534,7 @@ void arena::Arena::_021d7e1c(void)
     }
     else
     {
-        if (CheckUnitAttribute(this->unk_38, 0x400) != 0)
+        if (CheckUnitAttribute(this->unk_38, CA_UNK_10))
         {
             set = 3;
         }
@@ -541,18 +542,18 @@ void arena::Arena::_021d7e1c(void)
         {
             switch (bestWeaponType)
             {
-                case 0:
-                case 1:
-                case 2:
+                case ITYPE_SWORD:
+                case ITYPE_LANCE:
+                case ITYPE_AXE:
                 default:
                     set = 0;
                     break;
 
-                case 3:
+                case ITYPE_BOW:
                     set = 1;
                     break;
 
-                case 4:
+                case ITYPE_MAGIC:
                     set = 2;
                     break;
             }
@@ -577,12 +578,12 @@ void arena::Arena::_021d7e1c(void)
 
     level = this->unk_38->level;
 
-    if (CheckUnitAttribute(this->unk_38, 0x800) != 0)
+    if (CheckUnitAttribute(this->unk_38, CA_PROMOTED))
     {
         level += 15;
     }
 
-    if ((pJobData->attributes & 0x800) != 0)
+    if (pJobData->attributes & CA_PROMOTED)
     {
         level -= 15;
     }
@@ -764,7 +765,7 @@ void arena::Arena::_021d8104(void)
     item = &gFE11Database->pItem[*r5];
     wpnType = item->type;
 
-    if (wpnType < 6)
+    if (wpnType < ITYPE_DRAGONSTONE)
     {
         if (func_0203c7ac(this->unk_3c, wpnType) != 0)
         {

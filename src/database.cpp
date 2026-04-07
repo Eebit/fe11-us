@@ -4,6 +4,7 @@
 
 #include "database.hpp"
 #include "hashtable.hpp"
+#include "item.hpp"
 #include "unit.hpp"
 
 extern s32 data_020eea90;
@@ -56,17 +57,17 @@ EC void FE11Database::Init(void)
 
     for (i = 0; i < gFE11Database->pDBFE11Footer->pidTableLength; i++)
     {
-        HashTable::Put(gFE11Database->pPerson[i].unk_00, &gFE11Database->pPerson[i]);
+        HashTable::Put(gFE11Database->pPerson[i].pid, &gFE11Database->pPerson[i]);
     }
 
     for (i = 0; i < gFE11Database->pDBFE11Footer->jidTableLength; i++)
     {
-        HashTable::Put(gFE11Database->pJob[i].unk_00, &gFE11Database->pJob[i]);
+        HashTable::Put(gFE11Database->pJob[i].jid, &gFE11Database->pJob[i]);
     }
 
     for (i = 0; i < gFE11Database->pDBFE11Footer->iidTableLength; i++)
     {
-        HashTable::Put(gFE11Database->pItem[i].id, &gFE11Database->pItem[i]);
+        HashTable::Put(gFE11Database->pItem[i].iid, &gFE11Database->pItem[i]);
     }
 
     for (puVar4 = this->unk_38; puVar4->unk_00 != NULL; puVar4++)
@@ -204,14 +205,14 @@ EC s32 GetPersonDBIndex(struct PersonData * pPerson)
 
 EC char * func_02037eb8(struct PersonData * pPerson)
 {
-    if (pPerson->unk_08 != NULL)
+    if (pPerson->mpid != NULL)
     {
-        return func_02039e10(pPerson->unk_08);
+        return func_02039e10(pPerson->mpid);
     }
 
-    if (pPerson->unk_04 != NULL)
+    if (pPerson->fid != NULL)
     {
-        return func_020076d4(pPerson->unk_04);
+        return func_020076d4(pPerson->fid);
     }
 
     return "NoName";
@@ -228,14 +229,14 @@ EC char * func_02037ef0(struct PersonData * pPerson, Unit * pUnit)
             return pUnit->pJobData->unk_48;
         }
 
-        if (CheckUnitAttribute(pUnit, 0x4000000) != 0)
+        if (CheckUnitAttribute(pUnit, CA_UNK_26))
         {
             bVar4 = TRUE;
         }
     }
     else
     {
-        if ((pPerson->unk_24 & 0x4000000) != 0)
+        if (pPerson->attributes & CA_UNK_26)
         {
             bVar4 = TRUE;
         }
@@ -246,7 +247,7 @@ EC char * func_02037ef0(struct PersonData * pPerson, Unit * pUnit)
         return "FID_S_MARS";
     }
 
-    return pPerson->unk_04;
+    return pPerson->fid;
 }
 
 EC void * func_02037f88(struct PersonData * pPerson, Unit * pUnit)
@@ -261,17 +262,17 @@ EC s32 GetJobDBIndex(struct JobData * pJob)
 
 EC char * func_02037fc8(struct JobData * pJob)
 {
-    return func_02039e10(pJob->unk_04);
+    return func_02039e10(pJob->mjid);
 }
 
 EC s32 GetJobMaxLevel(struct JobData * pJob)
 {
-    if ((pJob->attributes & 0x800) != 0)
+    if (pJob->attributes & CA_PROMOTED)
     {
         return 20;
     }
 
-    if (pJob->pPromoteJob != NULL)
+    if (pJob->pPromoteToJob != NULL)
     {
         return 20;
     }
@@ -290,17 +291,17 @@ EC char * func_0203802c(struct ItemData * pItem)
 
     if (GetItemDBIndex(pItem) >= len)
     {
-        return pItem->pName;
+        return pItem->miid;
     }
 
-    return func_02039e10(pItem->pName);
+    return func_02039e10(pItem->miid);
 }
 
 EC char * func_02038060(struct ItemData * pItem)
 {
-    if (pItem->pDescription != NULL)
+    if (pItem->mih != NULL)
     {
-        return func_02039e10(pItem->pDescription);
+        return func_02039e10(pItem->mih);
     }
 
     return NULL;
@@ -311,18 +312,18 @@ func_0203807c(struct ItemData * dst, struct ItemData * src, char * str, s32 migh
 {
     char * uVar1;
 
-    uVar1 = dst->id;
+    uVar1 = dst->iid;
     func_020a58b8(src, dst, sizeof(struct ItemData));
-    dst->id = uVar1;
+    dst->iid = uVar1;
 
     dst->might += might;
     dst->hit += hit;
     dst->critical += critical;
     dst->weight += weight;
 
-    dst->pName = str;
+    dst->miid = str;
 
-    dst->attributes |= 0x8000000000000000;
+    dst->attributes |= IA_UNK_63;
 
     dst->unk_3b = 4;
 

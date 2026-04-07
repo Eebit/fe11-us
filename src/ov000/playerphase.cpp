@@ -939,8 +939,8 @@ EC void func_ov000_021ad0f4(ProcPtr param_1)
 
     psVar1 = GetUnit(data_ov000_021e3340->unk_02);
 
-    uVar10 = func_0203c378(psVar1)->pPersonData->unk_00;
-    iVar3 = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->unk_00;
+    uVar10 = func_0203c378(psVar1)->pPersonData->pid;
+    iVar3 = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->pid;
 
     EventCaller::TryStartTalkEvent(param_1, (u32)iVar3, (u32)uVar10, (u32)psVar7);
 

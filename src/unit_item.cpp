@@ -80,7 +80,7 @@ BOOL Item::func_0203e09c(struct Unit * unit)
 {
     struct ItemData * itemData = this->GetData();
 
-    if ((itemData->attributes & 0x8000000) != 0)
+    if (itemData->attributes & CA_UNK_27)
     {
         return FALSE;
     }

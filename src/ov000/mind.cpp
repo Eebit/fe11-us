@@ -263,17 +263,17 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             break;
 
-        case 0xa:
-        case 0xb:
-        case 0xc:
-        case 0xd:
+        case ACTION_ARMORY:
+        case ACTION_VENDOR:
+        case ACTION_SECRET_SHOP:
+        case ACTION_ARENA:
             Proc_Goto(proc, 1, 0);
 
             break;
 
-        case 8:
-        case 9:
-        case 0xe:
+        case ACTION_VISIT_08:
+        case ACTION_VISIT_09:
+        case ACTION_SEIZE:
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
                 if ((data_ov000_021e332c.unk_08->unk_06 == 0) || data_ov000_021e332c.unk_08->Get06() == 2)
@@ -338,7 +338,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
             break;
         }
 
-        case 5:
+        case ACTION_DOOR:
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
                 if ((data_ov000_021e332c.unk_08->unk_06 == 0) || data_ov000_021e332c.unk_08->Get06() == 2)
@@ -347,7 +347,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 0x400) == 0)
+            if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_10))
             {
                 iVar3 = func_0203d01c(gMapStateManager->unk_04->unk_00);
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
@@ -383,7 +383,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             break;
 
-        case 7:
+        case ACTION_BRIDGE:
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
                 if ((data_ov000_021e332c.unk_08->unk_06 == 0) || data_ov000_021e332c.unk_08->Get06() == 2)
@@ -392,7 +392,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 0x400) == 0)
+            if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_10))
             {
                 iVar3 = func_0203d094(gMapStateManager->unk_04->unk_00);
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
@@ -428,7 +428,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             break;
 
-        case 6:
+        case ACTION_CHEST:
             if (!data_ov000_021e332c.unk_08->Check06_State4())
             {
                 if ((data_ov000_021e332c.unk_08->unk_06 == 0) || data_ov000_021e332c.unk_08->Get06() == 2)
@@ -437,7 +437,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, 0x400) == 0)
+            if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_10))
             {
                 iVar3 = func_0203d10c(gMapStateManager->unk_04->unk_00);
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
@@ -501,7 +501,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 unit = 0;
             }
 
-            pidStrA = func_0203c378(iVar4)->pPersonData->unk_00;
+            pidStrA = func_0203c378(iVar4)->pPersonData->pid;
 
             if (gActionSt->unitId != 0)
             {
@@ -512,7 +512,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 iVar5 = 0;
             }
 
-            pidStrB = func_0203c378(iVar5)->pPersonData->unk_00;
+            pidStrB = func_0203c378(iVar5)->pPersonData->pid;
 
             EventCaller::TryStartTalkEvent(proc, (u32)pidStrB, (u32)pidStrA, (u32)unit);
 
@@ -520,11 +520,11 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             break;
 
-        case 0x10:
+        case ACTION_10:
             Proc_Goto(proc, 1, 0);
             break;
 
-        case 0x13:
+        case ACTION_DECOY:
             Proc_Goto(proc, 1, 0);
             break;
 

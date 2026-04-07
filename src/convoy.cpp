@@ -1,5 +1,6 @@
 #include "global.h"
 
+#include "item.hpp"
 #include "save.hpp"
 #include "unit.hpp"
 
@@ -62,7 +63,7 @@ EC void AddItemToConvoy(Item * item)
         struct Item * it = &gConvoy[i];
         struct ItemData * itemData = it->GetData();
 
-        if (itemData->attributes & 0x2000000)
+        if (itemData->attributes & IA_UNSELLABLE)
         {
             continue;
         }
