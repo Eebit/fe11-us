@@ -1,6 +1,8 @@
 #ifndef ITEM_HPP
 #define ITEM_HPP
 
+#include "global.h"
+
 enum
 {
     ITYPE_SWORD       = 0,
@@ -33,54 +35,62 @@ enum
     ITEM_EFFECT_DIVINESTONE    = 14,
 };
 
+#pragma enumsalwaysint off
+#pragma longlong_enums on
+
 enum
 {
-    IA_USABLE = (1 << 0),
-    IA_BRAVE = (1 << 1),
-    IA_MAGIC = (1 << 2),
-    IA_SIEGE = (1 << 3), // ballista? long range?
-    IA_FORTIFY = (1 << 4),
-    IA_HEAL_STAFF = (1 << 5), // TODO: Bad name? Applies to Mend, Physic, Fortify
-    IA_DEVIL = (1 << 6),
+    IA_USABLE = (1ull << 0),
+    IA_BRAVE = (1ull << 1),
+    IA_MAGIC = (1ull << 2),
+    IA_SIEGE = (1ull << 3), // ballista? long range?
+    IA_FORTIFY = (1ull << 4),
+    IA_HEAL_STAFF = (1ull << 5), // TODO: Bad name? Applies to Mend, Physic, Fortify
+    IA_DEVIL = (1ull << 6),
 
-    IA_INVINCIBLE = (1 << 10), // Prevent enemy attack, maybe?
-    IA_NEGATE_INVINCIBLE = (1 << 11),
+    IA_INVINCIBLE = (1ull << 10), // Prevent enemy attack, maybe?
+    IA_NEGATE_INVINCIBLE = (1ull << 11),
 
-    IA_LIGHTSPHERE = (1 << 16), // Negate terrain effect, maybe?
+    IA_LIGHTSPHERE = (1ull << 16), // Negate terrain effect, maybe?
 
-    IA_UNLOCK_CHEST = (1 << 19),
-    IA_UNLOCK_DOOR = (1 << 20),
-    IA_UNLOCK_BRIDGE = (1 << 21),
-    IA_UNK_22 = (1 << 22), // TODO: Name - possibly thief-related?
-    IA_SILVER_CARD = (1 << 23),
-    IA_MEMBER_CARD = (1 << 24),
-    IA_UNSELLABLE = (1 << 25), // TODO: Confirm; applies to Aura, Excalibur, Starlight
-    IA_FIRE_EMBLEM = (1 << 26), // TODO: What does it do?
-    IA_UNK_27 = (1 << 27), // TODO: Name - applies to Imhullu, Fire Emblem
-    IA_UNK_28 = (1 << 28), // TODO: Name - applies to Starsphere; maybe prevents reducing uses?
+    IA_UNLOCK_CHEST = (1ull << 19),
+    IA_UNLOCK_DOOR = (1ull << 20),
+    IA_UNLOCK_BRIDGE = (1ull << 21),
+    IA_UNK_22 = (1ull << 22), // TODO: Name - possibly thief-related?
+    IA_SILVER_CARD = (1ull << 23),
+    IA_MEMBER_CARD = (1ull << 24),
+    IA_UNSELLABLE = (1ull << 25), // TODO: Confirm; applies to Aura, Excalibur, Starlight
+    IA_FIRE_EMBLEM = (1ull << 26), // TODO: What does it do?
+    IA_UNK_27 = (1ull << 27), // TODO: Name - applies to Imhullu, Fire Emblem
+    IA_UNK_28 = (1ull << 28), // TODO: Name - applies to Starsphere; maybe prevents reducing uses?
 
-    IA_UNK_31 = (1 << 31),
+    IA_UNK_31 = (1ull << 31),
 
-    IA_FALSE_IMHULLU = (1 << 33),
-    IA_ELYSIAN_WHIP = (1 << 34),
-    IA_UNK_35 = (1 << 35), // TODO: Name - applies to Lightsphere, Starsphere, Fire Emblem
-    IA_GRADIUS_LOCK = (1 << 36),
+    IA_FALSE_IMHULLU = (1ull << 33),
+    IA_ELYSIAN_WHIP = (1ull << 34),
+    IA_UNK_35 = (1ull << 35), // TODO: Name - applies to Lightsphere, Starsphere, Fire Emblem
+    IA_GRADIUS_LOCK = (1ull << 36),
 
-    IA_AURA_WLVL = (1 << 48), // Allow Linde to use at rank E
-    IA_EXCALIBUR_WLVL = (1 << 49), // Allow Merric to use at rank E
-    IA_UNK_50 = (1 << 50),
-    IA_MARTH_LOCK = (1 << 51), // Rapier
-    IA_PRINCESS_LOCK = (1 << 52), // Aum
-    IA_CAEDA_LOCK = (1 << 53), // Winged Spear
-    IA_LENA_LOCK = (1 << 54), // Hammerne
-    IA_UNK_55 = (1 << 55),
-    IA_UNK_56 = (1 << 56),
-    IA_LONGBOW = (1 << 57),
-    IA_EXCALIBUR_LOCK = (1 << 58), // Lock to males only
-    IA_AURA_LOCK = (1 << 59), // Lock to females only
+    IA_AURA_WLVL = (1ull << 48), // Allow Linde to use at rank E
+    IA_EXCALIBUR_WLVL = (1ull << 49), // Allow Merric to use at rank E
+    IA_UNK_50 = (1ull << 50),
+    IA_MARTH_LOCK = (1ull << 51), // Rapier
+    IA_PRINCESS_LOCK = (1ull << 52), // Aum
+    IA_CAEDA_LOCK = (1ull << 53), // Winged Spear
+    IA_LENA_LOCK = (1ull << 54), // Hammerne
+    IA_UNK_55 = (1ull << 55),
+    IA_UNK_56 = (1ull << 56),
+    IA_LONGBOW = (1ull << 57),
+    IA_EXCALIBUR_LOCK = (1ull << 58), // Lock to males only
+    IA_AURA_LOCK = (1ull << 59), // Lock to females only
 
-    IA_UNK_62 = (1 << 62), // TODO: Name - applies to Devil Axe, Devil Sword, Hauteclare, Parthia, Firestone, Earthstone, Magestone, Divinestone, Imhullu (false)
-    IA_UNK_63 = (1 << 63),
+    IA_UNK_62 = (1ull << 62), // TODO: Name - applies to Devil Axe, Devil Sword, Hauteclare, Parthia, Firestone, Earthstone, Magestone, Divinestone, Imhullu (false)
+    IA_UNK_63 = (1ull << 63),
+
+    _IA_FORCE_ULONGLONG = 0xFFFFFFFFFFFFFFF,
 };
+
+#pragma longlong_enums reset
+#pragma enumsalwaysint reset
 
 #endif // ITEM_HPP

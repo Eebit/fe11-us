@@ -1085,7 +1085,7 @@ EC BOOL func_0203c834(struct Unit * unit, struct ItemData * item, s32 arg_2)
         }
     }
 
-    if ((item->attributes & (IA_UNK_50 | IA_MARTH_LOCK | IA_PRINCESS_LOCK | IA_CAEDA_LOCK | IA_LENA_LOCK | (1 << 55) | (1 << 56) | (1 << 57) | (1 << 58) | (1 << 59))))
+    if (item->attributes & (IA_UNK_50 | IA_MARTH_LOCK | IA_PRINCESS_LOCK | IA_CAEDA_LOCK | IA_LENA_LOCK | IA_UNK_55 | IA_UNK_56 | IA_LONGBOW | IA_EXCALIBUR_LOCK | IA_AURA_LOCK))
     {
         if ((item->attributes & IA_UNK_50) && !CheckUnitAttribute(unit, CA_UNK_1))
         {
