@@ -76,9 +76,7 @@ struct PersonData
     /* 14 */ s8 growths[8];
     /* 1C */ u8 weaponLevels[8];
     /* 24 */ u32 attributes;
-    STRUCT_PAD(0x28, 0x2C);
-    u8 unk_2c[4]; // weapon locks?
-    STRUCT_PAD(0x31, 0x50);
+    /* 28 */ struct SupportData supports[5];
 };
 
 struct JobData
