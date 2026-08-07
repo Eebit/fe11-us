@@ -17,6 +17,21 @@
 
 #include "constants/sounds.h"
 
+enum
+{
+    TARGET_SELECT_KIND_0 = 0,
+    TARGET_SELECT_KIND_1 = 1,
+    TARGET_SELECT_KIND_2 = 2,
+    TARGET_SELECT_KIND_3 = 3,
+    TARGET_SELECT_KIND_4 = 4,
+    TARGET_SELECT_KIND_5 = 5,
+    TARGET_SELECT_KIND_6 = 6,
+    TARGET_SELECT_KIND_7 = 7,
+    TARGET_SELECT_KIND_8 = 8,
+    TARGET_SELECT_KIND_9 = 9,
+    TARGET_SELECT_KIND_10 = 10,
+};
+
 class TargetSelectState
 {
 public:
@@ -28,11 +43,11 @@ public:
     /* 126 */ u8 xOrigin;
     /* 127 */ u8 yOrigin;
     /* 128 */ s8 unk_128;
-    /* 129 */ s8 unk_129;
+    /* 129 */ s8 itemSlot;
     /* 12A */ s8 unk_12a;
     /* 12B */ s8 unk_12b;
-    /* 12C */ u8 unk_12c;
-    /* 12D */ s8 unk_12d;
+    /* 12C */ u8 kind;
+    /* 12D */ s8 defaultSelection;
     /* 12E */ u8 itemUses;
     /* 12F */ STRUCT_PAD(0x12F, 0x130);
 
@@ -46,40 +61,38 @@ public:
         return (this->unk_000[this->selected][1] & 0x7f);
     }
 
-    void _021b4224(void); // func_ov000_021b4224
-    void _021b4358(void); // func_ov000_021b4358
-    void _021b4430(void); // func_ov000_021b4430
-    s32 _021b456c(void); // func_ov000_021b456c
-    s32 _021b480c(void); // func_ov000_021b480c
-    s32 _021b4ab4(void); // func_ov000_021b4ab4
-    void _021b4bc4(void); // func_ov000_021b4bc4
-    void _021b4f90(void); // func_ov000_021b4f90
-    void _021b53bc(void); // func_ov000_021b53bc
-    void _021b5810(void); // func_ov000_021b5810
-    void _021b5890(void); // func_ov000_021b5890
-    void _021b589c(void); // func_ov000_021b589c
-    void _021b5a7c(void); // func_ov000_021b5a7c
-    void _021b5dc4(void); // func_ov000_021b5dc4
-    void _021b5f6c(void); // func_ov000_021b5f6c
-    void _021b5fe4(void); // func_ov000_021b5fe4
-    s32 _021b60e8(s32, s32, s32); // func_ov000_021b60e8
-    s32 _021b615c(void); // func_ov000_021b615c
-    void _021b61c8(ProcPtr); // func_ov000_021b61c8
-    BOOL _021b6264(s32, s32); // func_ov000_021b6264
-    void _021b62c8(void); // func_ov000_021b62c8
-    void _021b63c0(void); // func_ov000_021b63c0
-    s32 _021b665c(s32 *); // func_ov000_021b665c
-    void _021b6740(void); // func_ov000_021b6740
-    BOOL _021b6cb0(void); // func_ov000_021b6cb0
-    void _021b6e98(void); // func_ov000_021b6e98
-    void _021b7468(void); // func_ov000_021b7468
-    void _021b7944(s32, s32, s32); // func_ov000_021b7944
-    void _021b7984(void); // func_ov000_021b7984
+    void _021b4224(void);
+    void _021b4358(void);
+    void _021b4430(void);
+    s32 Previous(void);
+    s32 Next(void);
+    s32 _021b4ab4(void);
+    void EnlistAttackTargets(void);
+    void EnlistStaffTargets(void);
+    void EnlistTargets_021b53bc(void);
+    void _021b5810(void);
+    void _021b5890(void);
+    void EnlistTradeTargets(void);
+    void EnlistTalkTargets(void);
+    void EnlistImitateTargets(void);
+    void EnlistTargets(void);
+    void ReloadNewItemTargets(void);
+    s32 _021b60e8(s32, s32, s32);
+    s32 FindNearest(void);
+    void StartScrollButtons(ProcPtr);
+    BOOL IsScrollButtonTouched(s32, s32);
+    void _021b62c8(void);
+    void _021b63c0(void);
+    s32 _021b665c(s32 *);
+    void Loop(void);
+    BOOL _021b6cb0(void);
+    void Confirm(void);
+    void Cancel(void);
+    void Init(s32, s32, s32);
+    void Start(void);
 };
 
-extern TargetSelectState * data_ov000_021e3348;
-
-EC void func_ov000_021b6740(TargetSelectState *);
+extern TargetSelectState * gTargetSelectSt;
 
 struct TargetInfo_38
 {
@@ -152,11 +165,6 @@ public:
 
 extern struct ProcCmd ProcScr_TargetInfo[];
 
-EC s32 func_ov000_021b665c(TargetSelectState *, s32 *);
-EC s32 func_ov000_021b4ab4(TargetSelectState *);
-EC void func_ov000_021b62c8(TargetSelectState *);
-EC void func_ov000_021b63c0(TargetSelectState *);
-
 EC s32 func_02034f74(s32);
 
 EC s32 GetUnitEquippedWeaponSlot(Unit * unit);
@@ -167,24 +175,24 @@ void TargetSelectState::_021b4224(void)
 {
     this->pItemData = NULL;
 
-    if (this->unk_129 == -1)
+    if (this->itemSlot == -1)
     {
         return;
     }
 
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            this->pItemData = gMapStateManager->unk_04->unk_00->items[this->unk_129].GetData();
-            this->itemUses = gMapStateManager->unk_04->unk_00->items[this->unk_129].uses;
+        case TARGET_SELECT_KIND_0:
+        case TARGET_SELECT_KIND_1:
+        case TARGET_SELECT_KIND_2:
+        case TARGET_SELECT_KIND_3:
+            this->pItemData = gMapStateManager->unk_04->unk_00->items[this->itemSlot].GetData();
+            this->itemUses = gMapStateManager->unk_04->unk_00->items[this->itemSlot].uses;
 
             if (this->pItemData->type != ITYPE_STAFF)
             {
                 this->unk_128 = GetUnitEquippedWeaponSlot(gMapStateManager->unk_04->unk_00);
-                func_0203cd30(gMapStateManager->unk_04->unk_00, this->unk_129);
+                func_0203cd30(gMapStateManager->unk_04->unk_00, this->itemSlot);
                 this->unk_12a = 0;
             }
             else
@@ -193,11 +201,11 @@ void TargetSelectState::_021b4224(void)
 
                 if (GetUnitEquippedWeaponSlot(gMapStateManager->unk_04->unk_00) >= 0)
                 {
-                    this->unk_12a = this->unk_129;
+                    this->unk_12a = this->itemSlot;
                 }
                 else
                 {
-                    func_0203cc94(gMapStateManager->unk_04->unk_00, this->unk_129, 0);
+                    func_0203cc94(gMapStateManager->unk_04->unk_00, this->itemSlot, 0);
                     this->unk_12a = 0;
                 }
             }
@@ -214,20 +222,20 @@ EC BOOL func_0203cd30(Unit * unit, s32 arg_1);
 
 void TargetSelectState::_021b4358(void)
 {
-    if (this->unk_129 == -1)
+    if (this->itemSlot == -1)
     {
         return;
     }
 
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
+        case TARGET_SELECT_KIND_0:
+        case TARGET_SELECT_KIND_1:
+        case TARGET_SELECT_KIND_2:
+        case TARGET_SELECT_KIND_3:
             if (this->pItemData->type != ITYPE_STAFF)
             {
-                func_0203cc94(gMapStateManager->unk_04->unk_00, this->unk_12a, this->unk_129);
+                func_0203cc94(gMapStateManager->unk_04->unk_00, this->unk_12a, this->itemSlot);
 
                 if (this->unk_128 != -1)
                 {
@@ -241,7 +249,7 @@ void TargetSelectState::_021b4358(void)
             }
             else
             {
-                func_0203cc94(gMapStateManager->unk_04->unk_00, this->unk_12a, this->unk_129);
+                func_0203cc94(gMapStateManager->unk_04->unk_00, this->unk_12a, this->itemSlot);
             }
 
             break;
@@ -273,13 +281,13 @@ void TargetSelectState::_021b4430(void)
 
     dist = xDiff + yDiff;
 
-    this->unk_129 = func_02039088(
+    this->itemSlot = func_02039088(
         gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !r5 ? TRUE : FALSE, r5,
         data_ov000_021e3350[r5][MIN(dist, 3)]);
 
-    if (this->unk_129 == -1)
+    if (this->itemSlot == -1)
     {
-        this->unk_129 = func_02039088(
+        this->itemSlot = func_02039088(
             gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !r5 ? TRUE : FALSE, r5, -1);
     }
 
@@ -288,7 +296,7 @@ void TargetSelectState::_021b4430(void)
     return;
 }
 
-s32 TargetSelectState::_021b456c(void)
+s32 TargetSelectState::Previous(void)
 {
     s32 uVar6;
     s32 flag;
@@ -305,7 +313,7 @@ s32 TargetSelectState::_021b456c(void)
         return 0;
     }
 
-    if (this->unk_12c == 1)
+    if (this->kind == TARGET_SELECT_KIND_1)
     {
         flag = 1;
     }
@@ -327,7 +335,7 @@ s32 TargetSelectState::_021b456c(void)
 
     if (range == -1)
     {
-        range = this->unk_129;
+        range = this->itemSlot;
     }
 
     for (i = range - 1; i >= 0; i--)
@@ -346,8 +354,7 @@ s32 TargetSelectState::_021b456c(void)
         for (i = 4; i >= range; i--)
         {
             uVar6 = func_02039088(
-                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag,
-                i);
+                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
 
             if (uVar6 != -1)
             {
@@ -356,7 +363,7 @@ s32 TargetSelectState::_021b456c(void)
         }
     }
 
-    if (this->unk_129 != uVar6)
+    if (this->itemSlot != uVar6)
     {
         // clang-format off
         for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->unk_00->items[uVar6].GetData(), gMapStateManager->unk_04->unk_00), 3); j++)
@@ -365,7 +372,7 @@ s32 TargetSelectState::_021b456c(void)
             data_ov000_021e3350[flag][j] = uVar6;
         }
 
-        this->unk_129 = uVar6;
+        this->itemSlot = uVar6;
 
         result = 1;
     }
@@ -379,7 +386,7 @@ s32 TargetSelectState::_021b456c(void)
     return result & 0xff;
 }
 
-s32 TargetSelectState::_021b480c(void)
+s32 TargetSelectState::Next(void)
 {
     u8 result;
     s32 flag;
@@ -396,7 +403,7 @@ s32 TargetSelectState::_021b480c(void)
         return 0;
     }
 
-    if (this->unk_12c == 1)
+    if (this->kind == TARGET_SELECT_KIND_1)
     {
         flag = 1;
     }
@@ -418,7 +425,7 @@ s32 TargetSelectState::_021b480c(void)
 
     if (range == -1)
     {
-        range = this->unk_129;
+        range = this->itemSlot;
     }
 
     for (i = range + 1; i < 5; i++)
@@ -437,8 +444,7 @@ s32 TargetSelectState::_021b480c(void)
         for (i = 0; i <= range; i++)
         {
             uVar6 = func_02039088(
-                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag,
-                i);
+                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
 
             if (uVar6 != -1)
             {
@@ -447,7 +453,7 @@ s32 TargetSelectState::_021b480c(void)
         }
     }
 
-    if (this->unk_129 != uVar6)
+    if (this->itemSlot != uVar6)
     {
         // clang-format off
         for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->unk_00->items[uVar6].GetData(), gMapStateManager->unk_04->unk_00), 3); j++)
@@ -456,7 +462,7 @@ s32 TargetSelectState::_021b480c(void)
             data_ov000_021e3350[flag][j] = uVar6;
         }
 
-        this->unk_129 = uVar6;
+        this->itemSlot = uVar6;
 
         result = 1;
     }
@@ -477,7 +483,7 @@ s32 TargetSelectState::_021b4ab4(void)
     s32 i;
     s32 flag;
 
-    if (this->unk_12c == 9)
+    if (this->kind == TARGET_SELECT_KIND_9)
     {
         return 0;
     }
@@ -487,7 +493,7 @@ s32 TargetSelectState::_021b4ab4(void)
         return 0;
     }
 
-    if (this->unk_12c == 1)
+    if (this->kind == TARGET_SELECT_KIND_1)
     {
         flag = 1;
     }
@@ -507,8 +513,8 @@ s32 TargetSelectState::_021b4ab4(void)
         }
 
         if (func_02039088(
-                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), xDiff + yDiff, !flag ? TRUE : FALSE,
-                flag, i) != -1)
+                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), xDiff + yDiff, !flag ? TRUE : FALSE, flag,
+                i) != -1)
         {
             return 1;
         }
@@ -519,9 +525,8 @@ s32 TargetSelectState::_021b4ab4(void)
 
 EC s32 func_02039400(s32, s32);
 EC BOOL func_ov000_021a47e4(void);
-EC s32 func_ov000_021b615c(TargetSelectState *);
 
-void TargetSelectState::_021b4bc4(void)
+void TargetSelectState::EnlistAttackTargets(void)
 {
     s16 ix;
     s16 iy;
@@ -592,7 +597,7 @@ void TargetSelectState::_021b4bc4(void)
             this->unk_000[slot][0] = xPos;
             this->unk_000[slot][1] = yPos;
 
-            if ((unit != NULL) && (this->unk_12d == unit->unk_68))
+            if ((unit != NULL) && (this->defaultSelection == unit->unk_68))
             {
                 this->selected = this->targetCount;
             }
@@ -603,13 +608,13 @@ void TargetSelectState::_021b4bc4(void)
 
     if (this->selected == -1)
     {
-        this->selected = this->_021b615c();
+        this->selected = this->FindNearest();
     }
 
     return;
 }
 
-void TargetSelectState::_021b4f90(void)
+void TargetSelectState::EnlistStaffTargets(void)
 {
     s16 ix;
     s16 iy;
@@ -679,7 +684,7 @@ void TargetSelectState::_021b4f90(void)
 
                 unit = GetUnit(gMapStateManager->unk_028[ix | (iy << 5)]);
 
-                if ((unit != NULL) && (this->unk_12d == unit->unk_68))
+                if ((unit != NULL) && (this->defaultSelection == unit->unk_68))
                 {
                     this->selected = this->targetCount;
                 }
@@ -703,18 +708,17 @@ void TargetSelectState::_021b4f90(void)
 
     if (this->selected == -1)
     {
-        this->selected = this->_021b615c();
+        this->selected = this->FindNearest();
     }
 
     return;
 }
 
-void TargetSelectState::_021b53bc(void)
+void TargetSelectState::EnlistTargets_021b53bc(void)
 {
     s32 yDiff;
     s32 xDiff;
     s32 dist;
-    s32 unitId;
     s32 slot;
     s32 xPos;
     s32 yPos;
@@ -731,16 +735,7 @@ void TargetSelectState::_021b53bc(void)
     {
         for (ix = (s32)gMapStateManager->unk_24; ix < gMapStateManager->unk_26; ix++)
         {
-            unitId = gMapStateManager->unk_028[ix | (iy << 5)];
-
-            if (unitId == 0)
-            {
-                unit = NULL;
-            }
-            else
-            {
-                unit = gUnitList + unitId - 1;
-            }
+            unit = GetUnit(gMapStateManager->unk_028[ix | (iy << 5)]);
 
             if (!func_02039400(ix, iy))
             {
@@ -766,7 +761,7 @@ void TargetSelectState::_021b53bc(void)
 
                     this->unk_000[slot][1] |= 0x80;
 
-                    if ((unit != NULL) && (this->unk_12d == unit->unk_68))
+                    if ((unit != NULL) && (this->defaultSelection == unit->unk_68))
                     {
                         this->selected = this->targetCount;
                     }
@@ -786,7 +781,7 @@ void TargetSelectState::_021b53bc(void)
                 this->unk_000[slot][0] = xPos;
                 this->unk_000[slot][1] = yPos;
 
-                if ((unit != NULL) && (this->unk_12d == unit->unk_68))
+                if ((unit != NULL) && (this->defaultSelection == unit->unk_68))
                 {
                     this->selected = this->targetCount;
                 }
@@ -804,7 +799,7 @@ void TargetSelectState::_021b53bc(void)
 
                     this->unk_000[slot][0] |= 0x80;
 
-                    if ((unit != NULL) && (this->unk_12d == unit->unk_68))
+                    if ((unit != NULL) && (this->defaultSelection == unit->unk_68))
                     {
                         this->selected = this->targetCount;
                     }
@@ -824,7 +819,7 @@ void TargetSelectState::_021b5810(void)
 {
     s32 i;
 
-    this->_021b53bc();
+    this->EnlistTargets_021b53bc();
 
     if (this->selected != -1)
     {
@@ -852,13 +847,11 @@ void TargetSelectState::_021b5810(void)
 
 void TargetSelectState::_021b5890(void)
 {
-    this->_021b53bc();
+    this->EnlistTargets_021b53bc();
     return;
 }
 
-EC s32 func_ov000_021b615c(TargetSelectState *);
-
-void TargetSelectState::_021b589c(void)
+void TargetSelectState::EnlistTradeTargets(void)
 {
     s16 ix;
     s16 iy;
@@ -919,12 +912,12 @@ void TargetSelectState::_021b589c(void)
         }
     }
 
-    this->selected = this->_021b615c();
+    this->selected = this->FindNearest();
 
     return;
 }
 
-void TargetSelectState::_021b5a7c(void)
+void TargetSelectState::EnlistTalkTargets(void)
 {
     s16 ix;
     s16 iy;
@@ -987,12 +980,12 @@ void TargetSelectState::_021b5a7c(void)
         }
     }
 
-    this->selected = this->_021b615c();
+    this->selected = this->FindNearest();
 
     return;
 }
 
-void TargetSelectState::_021b5dc4(void)
+void TargetSelectState::EnlistImitateTargets(void)
 {
     s16 ix;
     s16 iy;
@@ -1050,63 +1043,60 @@ void TargetSelectState::_021b5dc4(void)
         }
     }
 
-    this->selected = this->_021b615c();
+    this->selected = this->FindNearest();
 
     return;
 }
 
-EC void func_ov000_021b4f90(TargetSelectState *);
-EC void func_ov000_021b5810(TargetSelectState *);
-
 EC void func_01ff9300(void *, s32, s32, s32, s32);
 
-void TargetSelectState::_021b5f6c(void)
+void TargetSelectState::EnlistTargets(void)
 {
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-            this->_021b4bc4();
+        case TARGET_SELECT_KIND_0:
+            this->EnlistAttackTargets();
             return;
 
-        case 1:
-            this->_021b4f90();
+        case TARGET_SELECT_KIND_1:
+            this->EnlistStaffTargets();
             return;
 
-        case 2:
+        case TARGET_SELECT_KIND_2:
             this->_021b5810();
             return;
 
-        case 3:
+        case TARGET_SELECT_KIND_3:
             this->_021b5890();
             return;
 
-        case 7:
-        case 8:
-            this->_021b589c();
+        case TARGET_SELECT_KIND_7:
+        case TARGET_SELECT_KIND_8:
+            this->EnlistTradeTargets();
             return;
 
-        case 9:
-            this->_021b5a7c();
+        case TARGET_SELECT_KIND_9:
+            this->EnlistTalkTargets();
             return;
 
-        case 10:
-            this->_021b5dc4();
+        case TARGET_SELECT_KIND_10:
+            this->EnlistImitateTargets();
             return;
     }
 
     return;
 }
 
-void TargetSelectState::_021b5fe4(void)
+void TargetSelectState::ReloadNewItemTargets(void)
 {
     s32 x;
     s32 y;
     s32 i;
 
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-        case 1:
+        case TARGET_SELECT_KIND_0:
+        case TARGET_SELECT_KIND_1:
             break;
 
         default:
@@ -1117,19 +1107,18 @@ void TargetSelectState::_021b5fe4(void)
     y = this->GetY();
 
     func_01ff9300(
-        gMapStateManager->unk_08, this->xOrigin, this->yOrigin, this->pItemData->minRange,
-        this->pItemData->maxRange);
+        gMapStateManager->unk_08, this->xOrigin, this->yOrigin, this->pItemData->minRange, this->pItemData->maxRange);
 
     gMapStateManager->unk_14->unk_04->unk_16 = 1;
 
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-            this->_021b4bc4();
+        case TARGET_SELECT_KIND_0:
+            this->EnlistAttackTargets();
             break;
 
-        case 1:
-            this->_021b4f90();
+        case TARGET_SELECT_KIND_1:
+            this->EnlistStaffTargets();
             break;
     }
 
@@ -1179,7 +1168,7 @@ s32 TargetSelectState::_021b60e8(s32 param_2, s32 param_3, s32 param_4)
     return -1;
 }
 
-s32 TargetSelectState::_021b615c(void)
+s32 TargetSelectState::FindNearest(void)
 {
     s32 xDiff;
     s32 result;
@@ -1205,7 +1194,7 @@ s32 TargetSelectState::_021b615c(void)
     return result;
 }
 
-void TargetSelectState::_021b61c8(ProcPtr param_2)
+void TargetSelectState::StartScrollButtons(ProcPtr param_2)
 {
     s32 bVar1;
     s32 uVar2;
@@ -1219,14 +1208,15 @@ void TargetSelectState::_021b61c8(ProcPtr param_2)
     this->pScrollButtons[0]->func_020354bc(1);
     this->pScrollButtons[0]->SetPosition(0, -16);
 
-    this->pScrollButtons[1] = StartButton(param_2, BUTTON_KIND_SCROLLER_RIGHT, uVar2 + func_02034f74(0x12), bVar1 + 8, 2);
+    this->pScrollButtons[1] =
+        StartButton(param_2, BUTTON_KIND_SCROLLER_RIGHT, uVar2 + func_02034f74(0x12), bVar1 + 8, 2);
     this->pScrollButtons[1]->func_020354bc(1);
     this->pScrollButtons[1]->SetPosition(0, -16);
 
     return;
 }
 
-BOOL TargetSelectState::_021b6264(s32 param_2, s32 param_3)
+BOOL TargetSelectState::IsScrollButtonTouched(s32 param_2, s32 param_3)
 {
     s32 i;
 
@@ -1253,25 +1243,22 @@ BOOL TargetSelectState::_021b6264(s32 param_2, s32 param_3)
     return FALSE;
 }
 
-EC void func_ov000_021b4224(TargetSelectState *);
-EC void func_ov000_021b5f6c(TargetSelectState *);
-
 void TargetSelectState::_021b62c8(void)
 {
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-        case 1:
-        case 3:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
+        case TARGET_SELECT_KIND_0:
+        case TARGET_SELECT_KIND_1:
+        case TARGET_SELECT_KIND_3:
+        case TARGET_SELECT_KIND_7:
+        case TARGET_SELECT_KIND_8:
+        case TARGET_SELECT_KIND_9:
+        case TARGET_SELECT_KIND_10:
             this->xOrigin = gMapStateManager->unk_04->unk_00->xPos;
             this->yOrigin = gMapStateManager->unk_04->unk_00->yPos;
             break;
 
-        case 2:
+        case TARGET_SELECT_KIND_2:
             this->xOrigin = gMapStateManager->unk_08->unk_0042;
             this->yOrigin = gMapStateManager->unk_08->unk_0043;
             break;
@@ -1279,16 +1266,16 @@ void TargetSelectState::_021b62c8(void)
 
     this->pItemData = NULL;
 
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-        case 1:
-        case 2:
+        case TARGET_SELECT_KIND_0:
+        case TARGET_SELECT_KIND_1:
+        case TARGET_SELECT_KIND_2:
             this->_021b4224();
             break;
 
-        case 3:
-            if (this->unk_12d != -1)
+        case TARGET_SELECT_KIND_3:
+            if (this->defaultSelection != -1)
             {
                 this->_021b4224();
             }
@@ -1296,7 +1283,7 @@ void TargetSelectState::_021b62c8(void)
             break;
     }
 
-    this->_021b5f6c();
+    this->EnlistTargets();
 
     return;
 }
@@ -1305,7 +1292,7 @@ void TargetSelectState::_021b63c0(void)
 {
     s32 i;
 
-    if (this->unk_12c != 3)
+    if (this->kind != TARGET_SELECT_KIND_3)
     {
         gMapStateManager->cursor->isVisible = 1;
         gMapStateManager->cursor->unk_0e = 1;
@@ -1321,19 +1308,19 @@ void TargetSelectState::_021b63c0(void)
                 GetUnit(gMapStateManager->unk_028[(this->GetY() << 5) | this->GetX()])->yPos, 0);
         }
 
-        switch (this->unk_12c)
+        switch (this->kind)
         {
-            case 2:
+            case TARGET_SELECT_KIND_2:
                 func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 1, 2, 3);
                 break;
 
-            case 7:
-            case 8:
-            case 10:
+            case TARGET_SELECT_KIND_7:
+            case TARGET_SELECT_KIND_8:
+            case TARGET_SELECT_KIND_10:
                 func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 1, 2, 5);
                 break;
 
-            case 9:
+            case TARGET_SELECT_KIND_9:
                 func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 1, 2, 6);
                 break;
         }
@@ -1346,7 +1333,7 @@ void TargetSelectState::_021b63c0(void)
         }
     }
 
-    if (this->unk_12d != -1)
+    if (this->defaultSelection != -1)
     {
         return;
     }
@@ -1364,13 +1351,13 @@ s32 TargetSelectState::_021b665c(s32 * param_2)
 {
     *param_2 = 0;
 
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
+        case TARGET_SELECT_KIND_0:
             return 1;
 
-        case 2:
-        case 3:
+        case TARGET_SELECT_KIND_2:
+        case TARGET_SELECT_KIND_3:
             if (this->unk_000[this->selected][1] & 0x80)
             {
                 return 2;
@@ -1383,30 +1370,30 @@ s32 TargetSelectState::_021b665c(s32 * param_2)
 
             break;
 
-        case 7:
-        case 8:
+        case TARGET_SELECT_KIND_7:
+        case TARGET_SELECT_KIND_8:
             return 4;
 
-        case 9:
-        case 10:
+        case TARGET_SELECT_KIND_9:
+        case TARGET_SELECT_KIND_10:
             return 2;
     }
 
     switch (this->pItemData->effect)
     {
-        case 0:
+        case ITEM_EFFECT_HEAL:
             *param_2 = 1;
             break;
 
-        case 3:
-            if (this->pItemData->statBoost[7] != 0)
+        case ITEM_EFFECT_TEMP_RES_BOOST:
+            if (this->pItemData->statBoost[UNIT_STAT_RES] != 0)
             {
                 *param_2 = 2;
             }
 
             break;
 
-        case 8:
+        case ITEM_EFFECT_REPAIR:
             return 5;
     }
 
@@ -1418,12 +1405,8 @@ EC void PlayerPhase_GotoLabel(s32 label, s32 arg_1, s32 arg_2);
 EC TargetInfo * func_ov000_021b4210(void);
 EC void func_ov000_021b3e68(TargetInfo *, Unit *, ItemData *, s32, s32, s32, s32);
 EC void func_0202ff08(void);
-EC s32 func_ov000_021b456c(TargetSelectState *);
-EC s32 func_ov000_021b480c(TargetSelectState *);
-EC void func_ov000_021b7468(TargetSelectState *);
-EC void func_ov000_021b6e98(TargetSelectState *);
 
-void TargetSelectState::_021b6740(void)
+void TargetSelectState::Loop(void)
 {
     s8 prevIdx;
     s32 flag;
@@ -1452,7 +1435,7 @@ void TargetSelectState::_021b6740(void)
             {
                 if (this->selected != 0)
                 {
-                    this->selected = this->selected - 1;
+                    this->selected--;
                 }
                 else
                 {
@@ -1463,7 +1446,7 @@ void TargetSelectState::_021b6740(void)
             {
                 if (this->selected < this->targetCount - 1)
                 {
-                    this->selected = this->selected + 1;
+                    this->selected++;
                 }
                 else
                 {
@@ -1481,22 +1464,23 @@ void TargetSelectState::_021b6740(void)
             }
         }
 
-        if ((this->unk_12c != 7) && (this->unk_12c != 8) && (this->unk_12c != 9) && (this->unk_12c != 10))
+        if ((this->kind != TARGET_SELECT_KIND_7) && (this->kind != TARGET_SELECT_KIND_8) &&
+            (this->kind != TARGET_SELECT_KIND_9) && (this->kind != TARGET_SELECT_KIND_10))
         {
             if ((gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_X) || this->pScrollButtons[1]->func_02035450())
             {
-                flag = this->_021b480c();
+                flag = this->Next();
             }
             else if (
                 (gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_Y) || this->pScrollButtons[0]->func_02035450())
             {
-                flag = this->_021b456c();
+                flag = this->Previous();
             }
 
             if (flag != 0)
             {
                 gSoundManager->unk_b0->vfunc_28(SE_SYS_CURSOL2_WIN1, 0, 0);
-                this->_021b5fe4();
+                this->ReloadNewItemTargets();
             }
         }
     }
@@ -1531,10 +1515,10 @@ void TargetSelectState::_021b6740(void)
 
     if (this->selected != prevIdx)
     {
-        switch (this->unk_12c)
+        switch (this->kind)
         {
-            case 2:
-            case 3:
+            case TARGET_SELECT_KIND_2:
+            case TARGET_SELECT_KIND_3:
                 this->_021b4430();
                 break;
         }
@@ -1553,7 +1537,7 @@ void TargetSelectState::_021b6740(void)
         unit = GetUnit(gMapStateManager->unk_028[this->GetX() | (this->GetY() << 5)]);
 
         func_ov000_021b3e68(
-            func_ov000_021b4210(), unit, this->pItemData, this->itemUses, iVar, local, func_ov000_021b4ab4(this));
+            func_ov000_021b4210(), unit, this->pItemData, this->itemUses, iVar, local, this->_021b4ab4());
     }
 
     if (uVar2 != -1)
@@ -1561,27 +1545,28 @@ void TargetSelectState::_021b6740(void)
         func_ov000_021b3fd4(func_ov000_021b4210(), 0);
     }
 
-    if ((this->selected == -1) || (uVar2 == 0x7f))
+    if ((this->selected != -1) && (uVar2 != 0x7f))
+    {
+        if (func_ov000_021a471c())
+        {
+            this->Cancel();
+            return;
+        }
+
+        if (gMapStateManager->inputHandler->unk_21_0 != 0)
+        {
+            this->Confirm();
+            return;
+        }
+
+        if ((gMapStateManager->inputHandler->unk_21_4 != 0) || gMapStateManager->inputHandler->_021a5650(0))
+        {
+            this->Cancel();
+        }
+    }
+    else
     {
         func_ov000_021a471c();
-        return;
-    }
-
-    if (func_ov000_021a471c())
-    {
-        this->_021b7468();
-        return;
-    }
-
-    if (gMapStateManager->inputHandler->unk_21_0 != 0)
-    {
-        this->_021b6e98();
-        return;
-    }
-
-    if ((gMapStateManager->inputHandler->unk_21_4 != 0) || gMapStateManager->inputHandler->_021a5650(0))
-    {
-        this->_021b7468();
     }
 
     return;
@@ -1593,9 +1578,9 @@ BOOL TargetSelectState::_021b6cb0(void)
 {
     s32 unitId;
 
-    if (this->unk_12c != 1)
+    if (this->kind != TARGET_SELECT_KIND_1)
     {
-        if ((this->unk_12c != 2) && (this->unk_12c != 3))
+        if ((this->kind != TARGET_SELECT_KIND_2) && (this->kind != TARGET_SELECT_KIND_3))
         {
             return FALSE;
         }
@@ -1617,15 +1602,15 @@ BOOL TargetSelectState::_021b6cb0(void)
 
     switch (gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->effect)
     {
-        case 7:
+        case ITEM_EFFECT_WARP:
             PlayerPhase_GotoLabel(7, 0, 0);
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
             StartSubtitleHelp(func_02039e10("MSPMH_ワープ"), 0);
             break;
 
-        case 8:
+        case ITEM_EFFECT_REPAIR:
             PlayerPhase_GotoLabel(12, 11, unitId);
-            gMapStateManager->cursor->isVisible = 0;
+            gMapStateManager->cursor->isVisible = FALSE;
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
             func_ov000_021d6dfc(0);
             break;
@@ -1634,7 +1619,7 @@ BOOL TargetSelectState::_021b6cb0(void)
             return FALSE;
     }
 
-    data_ov000_021e3340->unk_07 = this->unk_12c;
+    data_ov000_021e3340->unk_07 = this->kind;
 
     func_ov000_021b0e34(this->xOrigin, this->yOrigin, ACTION_STAFF, unitId, this->unk_12a);
 
@@ -1644,19 +1629,18 @@ BOOL TargetSelectState::_021b6cb0(void)
 EC void func_ov000_021a72a8(void *);
 EC BOOL func_02002038(void *, void *);
 
-void TargetSelectState::_021b6e98(void)
+void TargetSelectState::Confirm(void)
 {
     s32 bVar1;
     s32 unitId;
     s32 x;
     s32 y;
-    struct Unit * psVar5;
 
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-        case 1:
-        case 3:
+        case TARGET_SELECT_KIND_0:
+        case TARGET_SELECT_KIND_1:
+        case TARGET_SELECT_KIND_3:
             if (this->_021b6cb0())
             {
                 break;
@@ -1666,7 +1650,7 @@ void TargetSelectState::_021b6e98(void)
 
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
-            if ((this->xOrigin == (this->GetX())) && (this->yOrigin == (this->GetY())))
+            if (this->xOrigin == this->GetX() && this->yOrigin == this->GetY())
             {
                 bVar1 = gMapStateManager->unk_04->unk_00->unk_68;
             }
@@ -1676,11 +1660,11 @@ void TargetSelectState::_021b6e98(void)
                 bVar1 = GetUnit(unitId)->unk_68;
             }
 
-            if (this->unk_12c == 0)
+            if (this->kind == TARGET_SELECT_KIND_0)
             {
                 func_ov000_021b0e34(this->xOrigin, this->yOrigin, ACTION_FIGHT, bVar1, this->unk_12a);
             }
-            else if (this->unk_12c == 1)
+            else if (this->kind == TARGET_SELECT_KIND_1)
             {
                 func_ov000_021b0e34(this->xOrigin, this->yOrigin, ACTION_STAFF, bVar1, this->unk_12a);
             }
@@ -1709,7 +1693,7 @@ void TargetSelectState::_021b6e98(void)
 
             break;
 
-        case 2:
+        case TARGET_SELECT_KIND_2:
             if (this->_021b6cb0())
             {
                 break;
@@ -1719,7 +1703,6 @@ void TargetSelectState::_021b6e98(void)
 
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
-            psVar5 = NULL;
             gMapStateManager->unk_14->unk_04->unk_15 = 0;
 
             if ((this->unk_000[this->selected][1] & 0x80) != 0)
@@ -1761,13 +1744,13 @@ void TargetSelectState::_021b6e98(void)
 
             break;
 
-        case 4:
-        case 5:
-        case 6:
+        case TARGET_SELECT_KIND_4:
+        case TARGET_SELECT_KIND_5:
+        case TARGET_SELECT_KIND_6:
             break;
 
-        case 7:
-        case 8:
+        case TARGET_SELECT_KIND_7:
+        case TARGET_SELECT_KIND_8:
             gMapStateManager->cursor->isVisible = FALSE;
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
@@ -1778,7 +1761,7 @@ void TargetSelectState::_021b6e98(void)
 
             break;
 
-        case 9:
+        case TARGET_SELECT_KIND_9:
             gMapStateManager->cursor->isVisible = FALSE;
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
@@ -1789,7 +1772,7 @@ void TargetSelectState::_021b6e98(void)
 
             break;
 
-        case 10:
+        case TARGET_SELECT_KIND_10:
             gMapStateManager->cursor->isVisible = FALSE;
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
@@ -1804,24 +1787,24 @@ void TargetSelectState::_021b6e98(void)
     }
 
     gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
-    func_ov000_021b79f8();
+    EndTargetSelect();
 
     return;
 }
 
-void TargetSelectState::_021b7468(void)
+void TargetSelectState::Cancel(void)
 {
-    switch (this->unk_12c)
+    switch (this->kind)
     {
-        case 0:
-        case 1:
+        case TARGET_SELECT_KIND_0:
+        case TARGET_SELECT_KIND_1:
             this->_021b4358();
 
-            this->unk_129 = this->unk_12b;
+            this->itemSlot = this->unk_12b;
 
             this->_021b4224();
 
-            PlayerPhase_GotoLabel(12, this->unk_12c, 0);
+            PlayerPhase_GotoLabel(12, this->kind, 0);
             func_ov000_021d6dfc(0);
 
             gMapStateManager->cursor->isVisible = 0;
@@ -1832,7 +1815,7 @@ void TargetSelectState::_021b7468(void)
 
             break;
 
-        case 2:
+        case TARGET_SELECT_KIND_2:
             this->_021b4358();
 
             func_01ff8d88(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, 6, 1, 1);
@@ -1848,7 +1831,7 @@ void TargetSelectState::_021b7468(void)
 
             break;
 
-        case 3:
+        case TARGET_SELECT_KIND_3:
             this->_021b4358();
 
             gMapStateManager->cursor->isVisible = FALSE;
@@ -1861,16 +1844,16 @@ void TargetSelectState::_021b7468(void)
 
             break;
 
-        case 7:
-        case 8:
-        case 9:
-        case 10:
+        case TARGET_SELECT_KIND_7:
+        case TARGET_SELECT_KIND_8:
+        case TARGET_SELECT_KIND_9:
+        case TARGET_SELECT_KIND_10:
             gMapStateManager->cursor->isVisible = FALSE;
             gMapStateManager->cursor->SetPosAnimated(this->xOrigin, this->yOrigin, 1, 1);
 
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
 
-            if (this->unk_12c != 8)
+            if (this->kind != TARGET_SELECT_KIND_8)
             {
                 PlayerPhase_GotoLabel(11, -1, 0);
             }
@@ -1888,30 +1871,30 @@ void TargetSelectState::_021b7468(void)
 
     gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
 
-    func_ov000_021b79f8();
+    EndTargetSelect();
 
     return;
 }
 
-EC void func_ov000_021b7748(void)
+EC void TargetSelect_InitState(void)
 {
-    data_ov000_021e3348->_021b62c8();
+    gTargetSelectSt->_021b62c8();
     return;
 }
 
-EC void func_ov000_021b7760(void)
+EC void TargetSelect_021b7760(void)
 {
-    data_ov000_021e3348->_021b63c0();
+    gTargetSelectSt->_021b63c0();
     return;
 }
 
-EC void func_ov000_021b7778(ProcPtr proc)
+EC void TargetSelect_StartButtons(ProcPtr proc)
 {
-    data_ov000_021e3348->_021b61c8(proc);
+    gTargetSelectSt->StartScrollButtons(proc);
     return;
 }
 
-EC void func_ov000_021b7794(ProcPtr proc)
+EC void TargetSelect_StartTargetInfo(ProcPtr proc)
 {
     s32 unitId;
     s8 selected;
@@ -1920,18 +1903,18 @@ EC void func_ov000_021b7794(ProcPtr proc)
     s32 local_30;
     s32 local_28;
 
-    selected = data_ov000_021e3348->selected;
+    selected = gTargetSelectSt->selected;
 
     if ((selected != -1 ? TRUE : FALSE) & 0xFF)
     {
         unitId = gMapStateManager->unk_028
-                    [(data_ov000_021e3348->unk_000[selected][0] & 0x7f) |
-                     ((data_ov000_021e3348->unk_000[selected][1] & 0x7f) << 5)];
+                     [(gTargetSelectSt->unk_000[selected][0] & 0x7f) |
+                      ((gTargetSelectSt->unk_000[selected][1] & 0x7f) << 5)];
 
         pUnit = GetUnit(unitId);
 
-        local_2c = data_ov000_021e3348->_021b665c(&local_28);
-        local_30 = data_ov000_021e3348->_021b4ab4();
+        local_2c = gTargetSelectSt->_021b665c(&local_28);
+        local_30 = gTargetSelectSt->_021b4ab4();
     }
     else
     {
@@ -1942,28 +1925,28 @@ EC void func_ov000_021b7794(ProcPtr proc)
     }
 
     new (Proc_Start(ProcScr_TargetInfo, proc)) TargetInfo(
-        pUnit, local_28, local_2c, local_30, data_ov000_021e3348->xOrigin, data_ov000_021e3348->itemUses,
-        data_ov000_021e3348->yOrigin, gMapStateManager->unk_04->unk_00, (u32)data_ov000_021e3348->pScrollButtons[1],
-        (u32)data_ov000_021e3348->pScrollButtons[0], (u32)data_ov000_021e3348->pItemData);
+        pUnit, local_28, local_2c, local_30, gTargetSelectSt->xOrigin, gTargetSelectSt->itemUses,
+        gTargetSelectSt->yOrigin, gMapStateManager->unk_04->unk_00, (u32)gTargetSelectSt->pScrollButtons[1],
+        (u32)gTargetSelectSt->pScrollButtons[0], (u32)gTargetSelectSt->pItemData);
 
     return;
 }
 
-EC void func_ov000_021b792c(void)
+EC void TargetSelect_Loop(void)
 {
-    data_ov000_021e3348->_021b6740();
+    gTargetSelectSt->Loop();
     return;
 }
 
-void TargetSelectState::_021b7944(s32 param_2, s32 param_3, s32 param_4)
+void TargetSelectState::Init(s32 kind, s32 itemSlot, s32 defaultSelection)
 {
     this->targetCount = 0;
     this->selected = 0;
-    this->unk_12c = param_2;
+    this->kind = kind;
     this->unk_128 = -1;
-    this->unk_129 = param_3;
-    this->unk_12b = param_3;
-    this->unk_12d = param_4;
+    this->itemSlot = itemSlot;
+    this->unk_12b = itemSlot;
+    this->defaultSelection = defaultSelection;
     this->unk_12a = -1;
     this->pScrollButtons[0] = NULL;
     this->pScrollButtons[1] = NULL;
@@ -1975,48 +1958,48 @@ struct ProcCmd ProcScr_TargetSelect[] =
 {
     PROC_NAME,
 
-    PROC_CALL(func_ov000_021b7748),
+    PROC_CALL(TargetSelect_InitState),
     PROC_SLEEP(0),
 
-    PROC_CALL(func_ov000_021b7760),
+    PROC_CALL(TargetSelect_021b7760),
     PROC_SLEEP(0),
 
-    PROC_CALL(func_ov000_021b7778),
+    PROC_CALL(TargetSelect_StartButtons),
     PROC_SLEEP(0),
 
-    PROC_CALL(func_ov000_021b7794),
+    PROC_CALL(TargetSelect_StartTargetInfo),
 
-    PROC_REPEAT(func_ov000_021b792c),
+    PROC_REPEAT(TargetSelect_Loop),
 
     PROC_END
 };
 // clang-format on
 
-EC void func_ov000_021b7984(TargetSelectState * self)
+void TargetSelectState::Start(void)
 {
     Proc_Start(ProcScr_TargetSelect, PROC_TREE_9);
     return;
 }
 
-EC void func_ov000_021b799c(s32 param_1, s32 param_2, s32 param_3)
+EC void StartTargetSelect(s32 param_1, s32 param_2, s32 param_3)
 {
-    if (data_ov000_021e3348 == NULL)
+    if (gTargetSelectSt == NULL)
     {
-        data_ov000_021e3348 = new TargetSelectState();
+        gTargetSelectSt = new TargetSelectState();
     }
 
-    data_ov000_021e3348->_021b7944(param_1, param_2, param_3);
-    data_ov000_021e3348->_021b7984();
+    gTargetSelectSt->Init(param_1, param_2, param_3);
+    gTargetSelectSt->Start();
 
     return;
 }
 
-EC void func_ov000_021b79f8(void)
+EC void EndTargetSelect(void)
 {
     Proc_EndEach(ProcScr_TargetSelect);
 
-    delete data_ov000_021e3348;
-    data_ov000_021e3348 = NULL;
+    delete gTargetSelectSt;
+    gTargetSelectSt = NULL;
 
     gMapStateManager->cursor->unk_0e = 0;
 

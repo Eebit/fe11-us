@@ -808,7 +808,7 @@ EC void StartChoice_EndPreparations(ProcPtr parent)
 
 EC void func_ov000_021bfa3c(void)
 {
-    func_ov000_021b79f8();
+    EndTargetSelect();
     func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
     return;
 }
