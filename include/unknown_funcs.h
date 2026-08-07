@@ -1947,7 +1947,7 @@ EC BOOL func_02038edc(struct ItemData *, struct Unit *);
 EC BOOL func_02038f38(struct ItemData *, struct Unit *);
 // EC ??? func_02038f94
 EC struct JobData * GetJInfoFromItem(struct ItemData *, struct Unit *);
-EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, int f, int g);
+EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, u8 f, int g);
 // EC ??? func_020391e0
 // EC ??? func_0203935c
 // EC ??? func_02039400
