@@ -3462,8 +3462,8 @@ extern int data_027e00e0;
 // extern ??? __typeinfo__10TargetInfo
 // extern ??? __typestr__10TargetInfo
 // extern ??? __vt__10TargetInfo
-// extern ??? data_ov000_021dc5f4
-// extern ??? data_ov000_021dc634
+// extern ??? ProcScr_TargetInfo
+// extern ??? ProcScr_TargetSelect
 // extern ??? data_ov000_021dc684
 // extern ??? data_ov000_021dc690
 // extern ??? data_ov000_021dc69c

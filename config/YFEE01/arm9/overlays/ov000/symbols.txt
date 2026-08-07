@@ -1493,8 +1493,8 @@ data_ov000_021dc5b8 kind:data(any) addr:0x021dc5b8
 __typeinfo__10TargetInfo kind:data(any) addr:0x021dc5c0
 __typestr__10TargetInfo kind:data(any) addr:0x021dc5cc
 __vt__10TargetInfo kind:data(any) addr:0x021dc5e4
-data_ov000_021dc5f4 kind:data(any) addr:0x021dc5f4
-data_ov000_021dc634 kind:data(any) addr:0x021dc634
+ProcScr_TargetInfo kind:data(any) addr:0x021dc5f4
+ProcScr_TargetSelect kind:data(any) addr:0x021dc634
 data_ov000_021dc684 kind:data(any) addr:0x021dc684
 data_ov000_021dc690 kind:data(any) addr:0x021dc690
 data_ov000_021dc69c kind:data(any) addr:0x021dc69c

@@ -468,28 +468,28 @@ BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
     return FALSE;
 }
 
-class UnkStruct_021e3348
+class TargetSelectState
 {
 public:
     u8 unk_000[1];
     STRUCT_PAD(0x001, 0x118);
-    ItemData * unk_118;
-    Button * unk_11c[2];
-    u8 unk_124;
-    s8 unk_125;
-    u8 unk_126;
-    u8 unk_127;
+    ItemData * pItemData;
+    Button * pScrollButtons[2];
+    u8 targetCount;
+    s8 selected;
+    u8 xOrigin;
+    u8 yOrigin;
     s8 unk_128;
     s8 unk_129;
     s8 unk_12a;
     s8 unk_12b;
     u8 unk_12c;
     s8 unk_12d;
-    u8 unk_12e;
+    u8 itemUses;
     STRUCT_PAD(0x12F, 0x130);
 };
 
-extern UnkStruct_021e3348 * data_ov000_021e3348;
+extern TargetSelectState * data_ov000_021e3348;
 
 EC BOOL func_ov000_021b6264(void *, s32, s32);
 
@@ -1073,7 +1073,7 @@ void InputHandler::_021a6438(void)
 
         if (gKeySt->pressed & (KEY_BUTTON_X | KEY_BUTTON_Y))
         {
-            if (!(((data_ov000_021e3348->unk_125 != -1) ? TRUE : FALSE) & 0xFF))
+            if (!(((data_ov000_021e3348->selected != -1) ? TRUE : FALSE) & 0xFF))
             {
                 var_r4 = func_ov000_021b615c();
                 if (var_r4 != -1)
