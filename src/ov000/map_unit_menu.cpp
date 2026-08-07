@@ -12,7 +12,7 @@
 
 extern struct UnkStruct_02196f24 * data_02196f24;
 
-EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, int f, int g);
+EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, u8 f, int g);
 EC void func_01ff9420(MapStateManager_08 *, Unit *, s32, s32);
 EC void func_01ff95a4(MapStateManager_08 *, Unit *, s32, s32);
 

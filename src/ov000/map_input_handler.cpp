@@ -468,30 +468,67 @@ BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
     return FALSE;
 }
 
-class UnkStruct_021e3348
+class TargetSelectState
 {
 public:
-    u8 unk_000[1];
-    STRUCT_PAD(0x001, 0x118);
-    ItemData * unk_118;
-    Button * unk_11c[2];
-    u8 unk_124;
-    s8 unk_125;
-    u8 unk_126;
-    u8 unk_127;
-    s8 unk_128;
-    s8 unk_129;
-    s8 unk_12a;
-    s8 unk_12b;
-    u8 unk_12c;
-    s8 unk_12d;
-    u8 unk_12e;
-    STRUCT_PAD(0x12F, 0x130);
+    /* 000 */ u8 unk_000[140][2];
+    /* 118 */ ItemData * pItemData;
+    /* 11C */ Button * pScrollButtons[2];
+    /* 124 */ u8 targetCount;
+    /* 125 */ s8 selected;
+    /* 126 */ u8 xOrigin;
+    /* 127 */ u8 yOrigin;
+    /* 128 */ s8 unk_128;
+    /* 129 */ s8 itemSlot;
+    /* 12A */ s8 unk_12a;
+    /* 12B */ s8 unk_12b;
+    /* 12C */ u8 kind;
+    /* 12D */ s8 defaultSelection;
+    /* 12E */ u8 itemUses;
+    /* 12F */ STRUCT_PAD(0x12F, 0x130);
+
+    inline s32 GetX(void)
+    {
+        return (this->unk_000[this->selected][0] & 0x7f);
+    }
+
+    inline s32 GetY(void)
+    {
+        return (this->unk_000[this->selected][1] & 0x7f);
+    }
+
+    void _021b4224(void); // _ZN17TargetSelectState9_021b4224Ev
+    void _021b4358(void); // _ZN17TargetSelectState9_021b4358Ev
+    void _021b4430(void); // _ZN17TargetSelectState9_021b4430Ev
+    s32 Previous(void); // _ZN17TargetSelectState8PreviousEv
+    s32 Next(void); // _ZN17TargetSelectState4NextEv
+    s32 _021b4ab4(void); // _ZN17TargetSelectState9_021b4ab4Ev
+    void EnlistAttackTargets(void); // _ZN17TargetSelectState19EnlistAttackTargetsEv
+    void EnlistStaffTargets(void); // _ZN17TargetSelectState18EnlistStaffTargetsEv
+    void EnlistTargets_021b53bc(void); // _ZN17TargetSelectState22EnlistTargets_021b53bcEv
+    void _021b5810(void); // _ZN17TargetSelectState9_021b5810Ev
+    void _021b5890(void); // _ZN17TargetSelectState9_021b5890Ev
+    void EnlistTradeTargets(void); // _ZN17TargetSelectState18EnlistTradeTargetsEv
+    void EnlistTalkTargets(void); // _ZN17TargetSelectState17EnlistTalkTargetsEv
+    void EnlistImitateTargets(void); // _ZN17TargetSelectState20EnlistImitateTargetsEv
+    void EnlistTargets(void); // _ZN17TargetSelectState13EnlistTargetsEv
+    void ReloadNewItemTargets(void); // _ZN17TargetSelectState20ReloadNewItemTargetsEv
+    s32 _021b60e8(s32, s32, s32); // _ZN17TargetSelectState9_021b60e8Elll
+    s32 FindNearest(void); // _ZN17TargetSelectState11FindNearestEv
+    void StartScrollButtons(ProcPtr); // _ZN17TargetSelectState18StartScrollButtonsEPv
+    BOOL IsScrollButtonTouched(s32, s32); // _ZN17TargetSelectState21IsScrollButtonTouchedEll
+    void _021b62c8(void); // _ZN17TargetSelectState9_021b62c8Ev
+    void _021b63c0(void); // _ZN17TargetSelectState9_021b63c0Ev
+    s32 _021b665c(s32 *); // _ZN17TargetSelectState9_021b665cEPl
+    void Loop(void); // _ZN17TargetSelectState4LoopEv
+    BOOL _021b6cb0(void); // _ZN17TargetSelectState9_021b6cb0Ev
+    void Confirm(void); // _ZN17TargetSelectState7ConfirmEv
+    void Cancel(void); // _ZN17TargetSelectState6CancelEv
+    void Init(s32, s32, s32); // _ZN17TargetSelectState4InitElll
+    void Start(void); // _ZN17TargetSelectState5StartEv
 };
 
-extern UnkStruct_021e3348 * data_ov000_021e3348;
-
-EC BOOL func_ov000_021b6264(void *, s32, s32);
+extern TargetSelectState * gTargetSelectSt;
 
 BOOL InputHandler::_021a5c80(s32 param_2, s32 param_3)
 {
@@ -515,9 +552,9 @@ BOOL InputHandler::_021a5c80(s32 param_2, s32 param_3)
         }
     }
 
-    if (data_ov000_021e3348 != NULL)
+    if (gTargetSelectSt != NULL)
     {
-        if (func_ov000_021b6264(data_ov000_021e3348, param_2, param_3))
+        if (gTargetSelectSt->IsScrollButtonTouched(param_2, param_3))
         {
             return TRUE;
         }
@@ -904,9 +941,6 @@ BOOL InputHandler::_021a63cc(s32 arg1, s32 arg2)
     return TRUE;
 }
 
-EC s32 func_ov000_021b60e8(void *, s32, s32, s32);
-
-EC s32 func_ov000_021b615c(void);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
 
 void InputHandler::_021a6438(void)
@@ -964,7 +998,7 @@ void InputHandler::_021a6438(void)
 
         if ((var_r5 == 0) && (var_r6 == 0))
         {
-            var_r4 = func_ov000_021b60e8(data_ov000_021e3348, this->xTouchPrev, this->yTouchPrev, 0);
+            var_r4 = gTargetSelectSt->_021b60e8(this->xTouchPrev, this->yTouchPrev, 0);
 
             if ((func_0202ffb4(NULL) != 0) && (gTouchSt->unk_14 == 0) && (var_r4 != 0x7F))
             {
@@ -1073,9 +1107,9 @@ void InputHandler::_021a6438(void)
 
         if (gKeySt->pressed & (KEY_BUTTON_X | KEY_BUTTON_Y))
         {
-            if (!(((data_ov000_021e3348->unk_125 != -1) ? TRUE : FALSE) & 0xFF))
+            if (!(((gTargetSelectSt->selected != -1) ? TRUE : FALSE) & 0xFF))
             {
-                var_r4 = func_ov000_021b615c();
+                var_r4 = gTargetSelectSt->FindNearest();
                 if (var_r4 != -1)
                 {
                     PlayerPhase_GotoLabel(39, 0, 0);
@@ -1096,7 +1130,7 @@ void InputHandler::_021a6438(void)
 
 BOOL InputHandler::_021a6800(void)
 {
-    if ((gMapStateManager->cursor->isVisible || data_ov000_021e3348 != 0) &&
+    if ((gMapStateManager->cursor->isVisible || gTargetSelectSt != 0) &&
         (gMapStateManager->inputHandler->unk_1e != 0) &&
         (!((gMapStateManager->inputHandler->unk_20 != 8 ? FALSE : TRUE) & 0xFF)))
     {

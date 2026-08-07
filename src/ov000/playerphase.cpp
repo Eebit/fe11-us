@@ -21,8 +21,10 @@ enum
 
     L_PLAYERPHASE_END_PREP = 3,
 
-    L_PLAYERPHASE_ACT = 12, // 0 attack, 1 staff, 4 item, 7 trade, 10 imitate
+    L_PLAYERPHASE_WARP = 7,
 
+    L_PLAYERPHASE_ACT = 12, // 0 attack, 1 staff, 4 item, 7 trade, 10 imitate
+    L_PLAYERPHASE_TRADE = 13,
     L_PLAYERPHASE_SAVE_POINT = 14,
 
     L_PLAYERPHASE_TALK = 17,
@@ -819,7 +821,7 @@ EC void func_ov000_021accfc(ProcPtr proc)
         gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_OPEN1, 0, 0);
     }
 
-    func_ov000_021b799c(3, -1, -1);
+    StartTargetSelect(3, -1, -1);
 
     return;
 }
@@ -829,7 +831,7 @@ EC void func_ov000_021acd8c(void)
     struct MapStateManager_14_04 * ptr;
     struct Unit * pUnit = gMapStateManager->unk_04->unk_00;
 
-    func_ov000_021b79f8();
+    EndTargetSelect();
 
     gMapStateManager->cursor->SetPosImmediate(pUnit->xPos, pUnit->yPos);
     gMapStateManager->camera->func_ov000_021a4cec(pUnit->xPos, pUnit->yPos, 0, 0x20, 0);
@@ -871,9 +873,9 @@ EC void func_ov000_021acef4(ProcPtr proc)
     return;
 }
 
-EC void func_ov000_021acf64(ProcPtr proc)
+EC void PlayerPhase_StartTrade(ProcPtr proc)
 {
-    func_ov000_021c52fc(proc, GetUnit(data_ov000_021e3340->unk_02));
+    StartTradeMenu(proc, GetUnit(data_ov000_021e3340->unk_02));
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
     data_ov000_021e3340->unk_02 = 0;
@@ -906,7 +908,7 @@ EC void func_ov000_021ad00c(void)
 
 EC void func_ov000_021ad048(void)
 {
-    func_ov000_021b799c(data_ov000_021e3340->unk_02, data_ov000_021e3340->unk_03, -1);
+    StartTargetSelect(data_ov000_021e3340->unk_02, data_ov000_021e3340->unk_03, -1);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
     data_ov000_021e3340->unk_02 = 0;
@@ -917,7 +919,7 @@ EC void func_ov000_021ad048(void)
 
 EC void func_ov000_021ad098(void)
 {
-    func_ov000_021b799c(data_ov000_021e3340->unk_07, gActionSt->unk_37, gActionSt->unk_34);
+    StartTargetSelect(data_ov000_021e3340->unk_07, gActionSt->unk_37, gActionSt->unk_34);
 
     Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
     data_ov000_021e3340->unk_02 = 0;
@@ -1480,7 +1482,7 @@ PROC_LABEL(5),
 PROC_LABEL(6),
     PROC_REPEAT(func_ov000_021acb88),
 
-PROC_LABEL(7),
+PROC_LABEL(L_PLAYERPHASE_WARP),
     PROC_CALL(func_ov000_021acbc8),
     PROC_REPEAT(func_ov000_021acbd4),
 
@@ -1504,8 +1506,8 @@ PROC_LABEL(11),
 PROC_LABEL(L_PLAYERPHASE_ACT),
     PROC_CALL(func_ov000_021acef4),
 
-PROC_LABEL(13),
-    PROC_CALL(func_ov000_021acf64),
+PROC_LABEL(L_PLAYERPHASE_TRADE),
+    PROC_CALL(PlayerPhase_StartTrade),
 
 PROC_LABEL(L_PLAYERPHASE_SAVE_POINT),
     PROC_CALL(PlayerPhase_StartSavePointMenu),

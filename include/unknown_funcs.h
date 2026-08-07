@@ -1947,7 +1947,7 @@ EC BOOL func_02038edc(struct ItemData *, struct Unit *);
 EC BOOL func_02038f38(struct ItemData *, struct Unit *);
 // EC ??? func_02038f94
 EC struct JobData * GetJInfoFromItem(struct ItemData *, struct Unit *);
-EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, int f, int g);
+EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, u8 f, int g);
 // EC ??? func_020391e0
 // EC ??? func_0203935c
 // EC ??? func_02039400
@@ -5908,7 +5908,7 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021accfc
 // EC ??? func_ov000_021acd8c
 // EC ??? func_ov000_021acef4
-// EC ??? func_ov000_021acf64
+// EC ??? PlayerPhase_StartTrade
 // EC ??? PlayerPhase_StartSavePointMenu
 // EC ??? func_ov000_021ad00c
 // EC ??? func_ov000_021ad048
@@ -6063,42 +6063,42 @@ EC void _ZN11ActionState19func_ov000_021b0eb4EP4Unit(void *, struct Unit *);
 // EC ??? func_ov000_021b4120
 // EC ??? func_ov000_021b413c
 // EC ??? func_ov000_021b4210
-// EC ??? func_ov000_021b4224
-// EC ??? func_ov000_021b4358
-// EC ??? func_ov000_021b4430
-// EC ??? func_ov000_021b456c
-// EC ??? func_ov000_021b480c
-// EC ??? func_ov000_021b4ab4
-// EC ??? func_ov000_021b4bc4
-// EC ??? func_ov000_021b4f90
-// EC ??? func_ov000_021b53bc
-// EC ??? func_ov000_021b5810
-// EC ??? func_ov000_021b5890
-// EC ??? func_ov000_021b589c
-// EC ??? func_ov000_021b5a7c
-// EC ??? func_ov000_021b5dc4
-// EC ??? func_ov000_021b5f6c
-// EC ??? func_ov000_021b5fe4
-// EC ??? func_ov000_021b60e8
-// EC ??? func_ov000_021b615c
-// EC ??? func_ov000_021b61c8
-// EC ??? func_ov000_021b6264
-// EC ??? func_ov000_021b62c8
-// EC ??? func_ov000_021b63c0
-// EC ??? func_ov000_021b665c
-// EC ??? func_ov000_021b6740
-// EC ??? func_ov000_021b6cb0
-// EC ??? func_ov000_021b6e98
-// EC ??? func_ov000_021b7468
-// EC ??? func_ov000_021b7748
-// EC ??? func_ov000_021b7760
-// EC ??? func_ov000_021b7778
-// EC ??? func_ov000_021b7794
-// EC ??? func_ov000_021b792c
-// EC ??? func_ov000_021b7944
-// EC ??? func_ov000_021b7984
-EC void func_ov000_021b799c(s32, s32, s32);
-EC void func_ov000_021b79f8(void);
+// EC ??? _ZN17TargetSelectState9_021b4224Ev
+// EC ??? _ZN17TargetSelectState9_021b4358Ev
+// EC ??? _ZN17TargetSelectState9_021b4430Ev
+// EC ??? _ZN17TargetSelectState8PreviousEv
+// EC ??? _ZN17TargetSelectState4NextEv
+// EC ??? _ZN17TargetSelectState9_021b4ab4Ev
+// EC ??? _ZN17TargetSelectState19EnlistAttackTargetsEv
+// EC ??? _ZN17TargetSelectState18EnlistStaffTargetsEv
+// EC ??? _ZN17TargetSelectState22EnlistTargets_021b53bcEv
+// EC ??? _ZN17TargetSelectState9_021b5810Ev
+// EC ??? _ZN17TargetSelectState9_021b5890Ev
+// EC ??? _ZN17TargetSelectState18EnlistTradeTargetsEv
+// EC ??? _ZN17TargetSelectState17EnlistTalkTargetsEv
+// EC ??? _ZN17TargetSelectState20EnlistImitateTargetsEv
+// EC ??? _ZN17TargetSelectState13EnlistTargetsEv
+// EC ??? _ZN17TargetSelectState20ReloadNewItemTargetsEv
+// EC ??? _ZN17TargetSelectState9_021b60e8Elll
+// EC ??? _ZN17TargetSelectState11FindNearestEv
+// EC ??? _ZN17TargetSelectState18StartScrollButtonsEPv
+// EC ??? _ZN17TargetSelectState21IsScrollButtonTouchedEll
+// EC ??? _ZN17TargetSelectState9_021b62c8Ev
+// EC ??? _ZN17TargetSelectState9_021b63c0Ev
+// EC ??? _ZN17TargetSelectState9_021b665cEPl
+// EC ??? _ZN17TargetSelectState4LoopEv
+// EC ??? _ZN17TargetSelectState9_021b6cb0Ev
+// EC ??? _ZN17TargetSelectState7ConfirmEv
+// EC ??? _ZN17TargetSelectState6CancelEv
+// EC ??? TargetSelect_InitState
+// EC ??? TargetSelect_021b7760
+// EC ??? TargetSelect_StartButtons
+// EC ??? TargetSelect_StartTargetInfo
+// EC ??? TargetSelect_Loop
+// EC ??? _ZN17TargetSelectState4InitElll
+// EC ??? _ZN17TargetSelectState5StartEv
+EC void StartTargetSelect(s32, s32, s32);
+EC void EndTargetSelect(void);
 // EC ??? func_ov000_021b7a3c
 // EC ??? func_ov000_021b7a80
 // EC ??? func_ov000_021b7abc
@@ -6468,7 +6468,7 @@ EC void func_ov000_021c266c(ProcPtr, s32, struct Unit *);
 // EC ??? func_ov000_021c51f8
 // EC ??? func_ov000_021c523c
 // EC ??? func_ov000_021c52a8
-EC void func_ov000_021c52fc(ProcPtr, struct Unit *);
+EC void StartTradeMenu(ProcPtr, struct Unit *);
 // EC ??? func_ov000_021c5380
 // EC ??? func_ov000_021c57c4
 // EC ??? func_ov000_021c5820

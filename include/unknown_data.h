@@ -3462,8 +3462,8 @@ extern int data_027e00e0;
 // extern ??? __typeinfo__10TargetInfo
 // extern ??? __typestr__10TargetInfo
 // extern ??? __vt__10TargetInfo
-// extern ??? data_ov000_021dc5f4
-// extern ??? data_ov000_021dc634
+// extern ??? ProcScr_TargetInfo
+// extern ??? ProcScr_TargetSelect
 // extern ??? data_ov000_021dc684
 // extern ??? data_ov000_021dc690
 // extern ??? data_ov000_021dc69c
@@ -4194,7 +4194,7 @@ extern void * _ZTV11DI_ArenaYes[];
 // extern ??? data_ov000_021e332c
 extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 // extern ??? gActionSt
-// extern ??? data_ov000_021e3348
+// extern ??? gTargetSelectSt
 // extern ??? data_ov000_021e334c
 // extern ??? data_ov000_021e3350
 // extern ??? data_ov000_021e3358
