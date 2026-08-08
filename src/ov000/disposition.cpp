@@ -1062,11 +1062,11 @@ void DisposGroupProcessor::func_ov000_021dab34(BOOL param_2, BOOL param_3)
 
     if (!param_2)
     {
-        gMapStateManager->camera->func_ov000_021a4cec(xCamera, yCamera, 1, 0x20, 0);
+        gMapStateManager->camera->Scroll(xCamera, yCamera, 1, 0x20, 0);
         return;
     }
 
-    gMapStateManager->camera->func_ov000_021a4e84(xCamera, yCamera, 1);
+    gMapStateManager->camera->ScrollInstant(xCamera, yCamera, 1);
 
     return;
 }
@@ -1123,7 +1123,7 @@ void DisposGroupProcessor::func_ov000_021dad04(void)
 
     if ((this->flags & 2) != 0)
     {
-        if (gMapStateManager->camera->unk_18 >= 2 ? TRUE : FALSE)
+        if (gMapStateManager->camera->IsMoving())
         {
             return;
         }

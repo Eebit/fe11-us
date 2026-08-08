@@ -143,7 +143,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Talk"
-        return func_02039e10("MUM_話す");
+        return GetText("MUM_話す");
     }
 
     /* 10 */ virtual s32 vfunc_10(void)
@@ -220,7 +220,7 @@ public:
         }
 
         // "Talk to a neighboring unit. (Shortcuts: ┳┫, ┻╋)"
-        StartSubtitleHelp(func_02039e10("MUMH_話す"), 0);
+        StartSubtitleHelp(GetText("MUMH_話す"), 0);
 
         return;
     }
@@ -228,7 +228,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Talk to a neighboring unit. (Shortcuts: ┳┫, ┻╋)"
-        StartSubtitleHelp(func_02039e10("MUMH_話す"), 0);
+        StartSubtitleHelp(GetText("MUMH_話す"), 0);
         return;
     }
 
@@ -245,7 +245,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // Attack
-        return func_02039e10("MUM_攻撃");
+        return GetText("MUM_攻撃");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -304,7 +304,7 @@ public:
         }
 
         // Attack with an available weapon. (Shortcuts: ┳┫, ┻╋)
-        StartSubtitleHelp(func_02039e10("MUMH_攻撃"), 0);
+        StartSubtitleHelp(GetText("MUMH_攻撃"), 0);
 
         return;
     }
@@ -312,7 +312,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // Attack with an available weapon. (Shortcuts: ┳┫, ┻╋)
-        StartSubtitleHelp(func_02039e10("MUMH_攻撃"), 0);
+        StartSubtitleHelp(GetText("MUMH_攻撃"), 0);
         return;
     }
 
@@ -330,7 +330,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // Staff
-        return func_02039e10("MUM_杖");
+        return GetText("MUM_杖");
     }
 
     /* 18 */ virtual s32 vfunc_18(void)
@@ -381,7 +381,7 @@ public:
         }
 
         // Use an available staff. (Shortcuts: ┳┫, ┻╋)
-        StartSubtitleHelp(func_02039e10("MUMH_杖"), 0);
+        StartSubtitleHelp(GetText("MUMH_杖"), 0);
 
         return;
     }
@@ -389,7 +389,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // Use an available staff. (Shortcuts: ┳┫, ┻╋)
-        StartSubtitleHelp(func_02039e10("MUMH_杖"), 0);
+        StartSubtitleHelp(GetText("MUMH_杖"), 0);
         return;
     }
 
@@ -406,7 +406,7 @@ class MIU_Item : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_持ち物");
+        return GetText("MUM_持ち物");
     }
 
     /* 18 */ virtual s32 vfunc_18(void)
@@ -432,7 +432,7 @@ public:
         }
 
         // "Use, discard, or otherwise manage items."
-        StartSubtitleHelp(func_02039e10("MUMH_持ち物"), 0);
+        StartSubtitleHelp(GetText("MUMH_持ち物"), 0);
 
         return;
     }
@@ -440,7 +440,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Use, discard, or otherwise manage items."
-        StartSubtitleHelp(func_02039e10("MUMH_持ち物"), 0);
+        StartSubtitleHelp(GetText("MUMH_持ち物"), 0);
         return;
     }
 
@@ -457,7 +457,7 @@ class MIU_Trade : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_交換");
+        return GetText("MUM_交換");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -540,7 +540,7 @@ public:
         }
 
         // "Trade items with a neighboring unit."
-        StartSubtitleHelp(func_02039e10("MUMH_交換"), 0);
+        StartSubtitleHelp(GetText("MUMH_交換"), 0);
 
         return;
     }
@@ -548,7 +548,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Trade items with a neighboring unit."
-        StartSubtitleHelp(func_02039e10("MUMH_交換"), 0);
+        StartSubtitleHelp(GetText("MUMH_交換"), 0);
         return;
     }
 
@@ -564,7 +564,7 @@ class MIU_Visit : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_訪問");
+        return GetText("MUM_訪問");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -598,7 +598,7 @@ public:
         }
 
         // "Visit this village or home."
-        StartSubtitleHelp(func_02039e10("MUMH_訪問"), 0);
+        StartSubtitleHelp(GetText("MUMH_訪問"), 0);
 
         return;
     }
@@ -606,7 +606,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit this village or home."
-        StartSubtitleHelp(func_02039e10("MUMH_訪問"), 0);
+        StartSubtitleHelp(GetText("MUMH_訪問"), 0);
         return;
     }
 
@@ -640,7 +640,7 @@ class MIU_Door : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_扉");
+        return GetText("MUM_扉");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -713,7 +713,7 @@ public:
         }
 
         // "Open this door so units can pass through."
-        StartSubtitleHelp(func_02039e10("MUMH_扉"), 0);
+        StartSubtitleHelp(GetText("MUMH_扉"), 0);
 
         return;
     }
@@ -721,7 +721,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Open this door so units can pass through."
-        StartSubtitleHelp(func_02039e10("MUMH_扉"), 0);
+        StartSubtitleHelp(GetText("MUMH_扉"), 0);
         return;
     }
 
@@ -740,7 +740,7 @@ class MIU_Bridge : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_橋");
+        return GetText("MUM_橋");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -813,7 +813,7 @@ public:
         }
 
         // "Lower this drawbridge so units can cross it."
-        StartSubtitleHelp(func_02039e10("MUMH_橋"), 0);
+        StartSubtitleHelp(GetText("MUMH_橋"), 0);
 
         return;
     }
@@ -821,7 +821,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Lower this drawbridge so units can cross it."
-        StartSubtitleHelp(func_02039e10("MUMH_橋"), 0);
+        StartSubtitleHelp(GetText("MUMH_橋"), 0);
         return;
     }
 
@@ -841,7 +841,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Chest"
-        return func_02039e10("MUM_宝箱");
+        return GetText("MUM_宝箱");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -873,7 +873,7 @@ public:
         }
 
         // "Open this chest and claim the item inside."
-        StartSubtitleHelp(func_02039e10("MUMH_宝箱"), 0);
+        StartSubtitleHelp(GetText("MUMH_宝箱"), 0);
 
         return;
     }
@@ -881,7 +881,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Open this chest and claim the item inside."
-        StartSubtitleHelp(func_02039e10("MUMH_宝箱"), 0);
+        StartSubtitleHelp(GetText("MUMH_宝箱"), 0);
         return;
     }
 
@@ -901,7 +901,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Armory"
-        return func_02039e10("MUM_武器屋");
+        return GetText("MUM_武器屋");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -928,7 +928,7 @@ public:
         }
 
         // "Visit the armory to buy and sell weapons."
-        StartSubtitleHelp(func_02039e10("MUMH_武器屋"), 0);
+        StartSubtitleHelp(GetText("MUMH_武器屋"), 0);
 
         return;
     }
@@ -936,7 +936,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit the armory to buy and sell weapons."
-        StartSubtitleHelp(func_02039e10("MUMH_武器屋"), 0);
+        StartSubtitleHelp(GetText("MUMH_武器屋"), 0);
         return;
     }
 
@@ -954,7 +954,7 @@ class MIU_ItemShop : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_道具屋");
+        return GetText("MUM_道具屋");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -981,7 +981,7 @@ public:
         }
 
         // "Visit the vendor to buy and sell magic tomes, staves, and items."
-        StartSubtitleHelp(func_02039e10("MUMH_道具屋"), 0);
+        StartSubtitleHelp(GetText("MUMH_道具屋"), 0);
 
         return;
     }
@@ -989,7 +989,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit the vendor to buy and sell magic tomes, staves, and items."
-        StartSubtitleHelp(func_02039e10("MUMH_道具屋"), 0);
+        StartSubtitleHelp(GetText("MUMH_道具屋"), 0);
         return;
     }
 
@@ -1007,7 +1007,7 @@ class MIU_SecretShop : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_秘密屋");
+        return GetText("MUM_秘密屋");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -1038,7 +1038,7 @@ public:
         }
 
         // "Visit this hidden shop to buy and sell weapons and items."
-        StartSubtitleHelp(func_02039e10("MUMH_秘密屋"), 0);
+        StartSubtitleHelp(GetText("MUMH_秘密屋"), 0);
 
         return;
     }
@@ -1046,7 +1046,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit this hidden shop to buy and sell weapons and items."
-        StartSubtitleHelp(func_02039e10("MUMH_秘密屋"), 0);
+        StartSubtitleHelp(GetText("MUMH_秘密屋"), 0);
         return;
     }
 
@@ -1064,7 +1064,7 @@ class MIU_Arena : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_闘技場");
+        return GetText("MUM_闘技場");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -1106,7 +1106,7 @@ public:
         }
 
         // "Visit the arena to test your might with gold at stake."
-        StartSubtitleHelp(func_02039e10("MUMH_闘技場"), 0);
+        StartSubtitleHelp(GetText("MUMH_闘技場"), 0);
 
         return;
     }
@@ -1114,7 +1114,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Visit the arena to test your might with gold at stake."
-        StartSubtitleHelp(func_02039e10("MUMH_闘技場"), 0);
+        StartSubtitleHelp(GetText("MUMH_闘技場"), 0);
         return;
     }
 
@@ -1136,7 +1136,7 @@ class MIU_Transporter : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_輸送隊");
+        return GetText("MUM_輸送隊");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -1232,7 +1232,7 @@ public:
         }
 
         // "Summon the convoy to store and retrieve items."
-        StartSubtitleHelp(func_02039e10("MUMH_輸送隊"), 0);
+        StartSubtitleHelp(GetText("MUMH_輸送隊"), 0);
 
         return;
     }
@@ -1240,7 +1240,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Summon the convoy to store and retrieve items."
-        StartSubtitleHelp(func_02039e10("MUMH_輸送隊"), 0);
+        StartSubtitleHelp(GetText("MUMH_輸送隊"), 0);
         return;
     }
 
@@ -1278,7 +1278,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Seize"
-        return func_02039e10("MUM_制圧");
+        return GetText("MUM_制圧");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -1308,7 +1308,7 @@ public:
         }
 
         // "End the battle by securing this vital position."
-        StartSubtitleHelp(func_02039e10("MUMH_制圧"), 0);
+        StartSubtitleHelp(GetText("MUMH_制圧"), 0);
 
         return;
     }
@@ -1316,7 +1316,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "End the battle by securing this vital position."
-        StartSubtitleHelp(func_02039e10("MUMH_制圧"), 0);
+        StartSubtitleHelp(GetText("MUMH_制圧"), 0);
         return;
     }
 
@@ -1332,7 +1332,7 @@ class MIU_Save : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_Ｐ記録");
+        return GetText("MUM_Ｐ記録");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -1375,7 +1375,7 @@ public:
         }
 
         // "Save your progress. You can only use this savepoint once."
-        StartSubtitleHelp(func_02039e10("MUMH_Ｐ記録"), 0);
+        StartSubtitleHelp(GetText("MUMH_Ｐ記録"), 0);
 
         return;
     }
@@ -1383,7 +1383,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Save your progress. You can only use this savepoint once."
-        StartSubtitleHelp(func_02039e10("MUMH_Ｐ記録"), 0);
+        StartSubtitleHelp(GetText("MUMH_Ｐ記録"), 0);
         return;
     }
 
@@ -1406,7 +1406,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Imitate"
-        return func_02039e10("MUM_ものまね");
+        return GetText("MUM_ものまね");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -1492,7 +1492,7 @@ public:
         }
 
         // "Transform into a neighboring allied unit. The transformation lasts five turns."
-        StartSubtitleHelp(func_02039e10("MUMH_ものまね"), 0);
+        StartSubtitleHelp(GetText("MUMH_ものまね"), 0);
 
         return;
     }
@@ -1500,7 +1500,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // Transform into a neighboring allied unit. The transformation lasts five turns.
-        StartSubtitleHelp(func_02039e10("MUMH_ものまね"), 0);
+        StartSubtitleHelp(GetText("MUMH_ものまね"), 0);
         return;
     }
 
@@ -1535,7 +1535,7 @@ class MIU_Lure : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("MUM_囮");
+        return GetText("MUM_囮");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -1570,14 +1570,14 @@ public:
             return;
         }
 
-        StartSubtitleHelp(func_02039e10("MUMH_囮"), 0);
+        StartSubtitleHelp(GetText("MUMH_囮"), 0);
 
         return;
     }
 
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
-        StartSubtitleHelp(func_02039e10("MUMH_囮"), 0);
+        StartSubtitleHelp(GetText("MUMH_囮"), 0);
         return;
     }
 
@@ -1594,7 +1594,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // Wait
-        return func_02039e10("MUM_待機");
+        return GetText("MUM_待機");
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -1605,7 +1605,7 @@ public:
         }
 
         // End this unit's turn.
-        StartSubtitleHelp(func_02039e10("MUMH_待機"), 0);
+        StartSubtitleHelp(GetText("MUMH_待機"), 0);
 
         return;
     }
@@ -1613,7 +1613,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // End this unit's turn.
-        StartSubtitleHelp(func_02039e10("MUMH_待機"), 0);
+        StartSubtitleHelp(GetText("MUMH_待機"), 0);
         return;
     }
 
@@ -1654,7 +1654,7 @@ EC void func_ov000_021bfa60(ProcPtr proc)
     // clang-format on
 
     // "Proceed to the next chapter?"
-    func_020303bc(new map::BMapDialogYesNo(), func_02039e10("MD_制圧"), data_ov000_021de5c8, proc, 1, 0);
+    func_020303bc(new map::BMapDialogYesNo(), GetText("MD_制圧"), data_ov000_021de5c8, proc, 1, 0);
     return;
 }
 
@@ -1670,7 +1670,7 @@ EC void func_ov000_021bfaf0(ProcPtr proc)
     // clang-format on
 
     // "Make this unit a decoy?"
-    func_020303bc(new map::BMapDialogYesNo(), func_02039e10("MD_囮"), data_ov000_021de5bc, proc, 1, 0);
+    func_020303bc(new map::BMapDialogYesNo(), GetText("MD_囮"), data_ov000_021de5bc, proc, 1, 0);
     return;
 }
 

@@ -336,10 +336,10 @@ void mapsave::MapSave::_021d59d0(void)
         VmMap_Common * iVar3 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Font"));
 
         func_020295ec(
-            data_021970c4, func_02039e10("MNT_SAVE"), gpActiveScreenSt->bgTiles[iVar3->unk_07],
+            data_021970c4, GetText("MNT_SAVE"), gpActiveScreenSt->bgTiles[iVar3->unk_07],
             gpActiveScreenSt->tilemap[iVar3->unk_07],
-            0x100 - (func_02028e7c(data_021970c4, func_02039e10("MNT_SAVE"), 0) + 7 & ~7) >> 4,
-            0xc - func_020290f4(data_021970c4, func_02039e10("MNT_SAVE")), iVar3->unk_04, iVar3->unk_06, 0, 0);
+            0x100 - (func_02028e7c(data_021970c4, GetText("MNT_SAVE"), 0) + 7 & ~7) >> 4,
+            0xc - func_020290f4(data_021970c4, GetText("MNT_SAVE")), iVar3->unk_04, iVar3->unk_06, 0, 0);
 
         gpActiveScreenSt->unk_3e |= 1 << iVar3->unk_07;
 
@@ -508,7 +508,7 @@ EC void StartChoice_SaveHere(ProcPtr parent)
     // clang-format on
 
     // "Save here?\nPrevious data will be overwritten."
-    func_020303bc(new map::BMapDialogYesNo(), func_02039e10("MD_セーブ"), data_ov000_021e2574, parent, 1, 0);
+    func_020303bc(new map::BMapDialogYesNo(), GetText("MD_セーブ"), data_ov000_021e2574, parent, 1, 0);
 
     return;
 }

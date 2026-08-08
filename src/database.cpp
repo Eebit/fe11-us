@@ -15,7 +15,7 @@ EC void * LoadFileAndCache(char *, u32);
 EC BOOL CheckUnitAttribute(struct Unit *, s32);
 EC Unit * func_0203fd84(struct PersonData *);
 
-EC char * func_02039e10(char *);
+EC char * GetText(char *);
 EC char * func_020076d4(char *);
 
 EC char * func_02038328(struct UnkData *);
@@ -207,7 +207,7 @@ EC char * func_02037eb8(struct PersonData * pPerson)
 {
     if (pPerson->mpid != NULL)
     {
-        return func_02039e10(pPerson->mpid);
+        return GetText(pPerson->mpid);
     }
 
     if (pPerson->fid != NULL)
@@ -262,7 +262,7 @@ EC s32 GetJobDBIndex(struct JobData * pJob)
 
 EC char * func_02037fc8(struct JobData * pJob)
 {
-    return func_02039e10(pJob->mjid);
+    return GetText(pJob->mjid);
 }
 
 EC s32 GetJobMaxLevel(struct JobData * pJob)
@@ -294,14 +294,14 @@ EC char * func_0203802c(struct ItemData * pItem)
         return pItem->miid;
     }
 
-    return func_02039e10(pItem->miid);
+    return GetText(pItem->miid);
 }
 
 EC char * func_02038060(struct ItemData * pItem)
 {
     if (pItem->mih != NULL)
     {
-        return func_02039e10(pItem->mih);
+        return GetText(pItem->mih);
     }
 
     return NULL;
@@ -385,7 +385,7 @@ EC void * func_02038188(struct MapData * pMap)
 
 EC char * func_020381c8(struct TerrainData * pTerrain)
 {
-    return func_02039e10(pTerrain->unk_00);
+    return GetText(pTerrain->unk_00);
 }
 
 static inline s32 min(s32 a, s32 b)
@@ -454,7 +454,7 @@ char * data_020d4734[] =
 
 EC char * func_020382e0(s32 idx)
 {
-    return func_02039e10(data_020d4734[idx]);
+    return GetText(data_020d4734[idx]);
 }
 
 // clang-format off
@@ -475,7 +475,7 @@ char * data_020d4754[] =
 
 EC char * func_020382f8(s32 idx)
 {
-    return func_02039e10(data_020d4754[idx]);
+    return GetText(data_020d4754[idx]);
 }
 
 // clang-format off
@@ -494,7 +494,7 @@ char * data_020d471c[] =
 
 EC char * func_02038310(s32 idx)
 {
-    return func_02039e10(data_020d471c[idx]);
+    return GetText(data_020d471c[idx]);
 }
 
 // clang-format off
@@ -512,10 +512,10 @@ char * data_020d470c[] =
 
 EC char * func_02038328(struct UnkData * param_1)
 {
-    return func_02039e10(param_1->unk_00);
+    return GetText(param_1->unk_00);
 }
 
 EC char * func_02038338(struct CharmData * pCharm)
 {
-    return func_02039e10(pCharm->unk_04);
+    return GetText(pCharm->unk_04);
 }

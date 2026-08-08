@@ -1456,9 +1456,9 @@ void TargetSelectState::Loop(void)
         }
         else if (gMapStateManager->inputHandler->IsUsingKeyInputs())
         {
-            if (gMapStateManager->camera->func_ov000_021a4f7c(this->GetX(), this->GetY(), 0))
+            if (gMapStateManager->camera->NeedsScroll(this->GetX(), this->GetY(), 0))
             {
-                gMapStateManager->camera->func_ov000_021a4cec(this->GetX(), this->GetY(), 0, 8, 0);
+                gMapStateManager->camera->Scroll(this->GetX(), this->GetY(), 0, 8, 0);
 
                 func_ov000_021b3fd4(func_ov000_021b4210(), 0);
             }
@@ -1605,7 +1605,7 @@ BOOL TargetSelectState::_021b6cb0(void)
         case ITEM_EFFECT_WARP:
             PlayerPhase_GotoLabel(7, 0, 0);
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
-            StartSubtitleHelp(func_02039e10("MSPMH_ワープ"), 0);
+            StartSubtitleHelp(GetText("MSPMH_ワープ"), 0);
             break;
 
         case ITEM_EFFECT_REPAIR:

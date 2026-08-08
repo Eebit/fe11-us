@@ -199,7 +199,7 @@ public:
             func_0202a4dc(1, 0);
 
             func_020295ec(
-                data_021970c4, func_02039e10("MTHL_編成"), gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1],
+                data_021970c4, GetText("MTHL_編成"), gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1],
                 2, 0x15, 0x18c, 1, 0, 0);
 
             gpActiveScreenSt->unk_3e |= 2;
@@ -265,7 +265,7 @@ public:
         this->unk_44 = func_0202a564(1);
 
         func_0202972c(
-            data_021970c4, func_02039e10("MSH_コマンド"), gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1],
+            data_021970c4, GetText("MSH_コマンド"), gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1],
             0xf, 0x12, 0x170, 1, 0x70, 0x70, 0);
 
         gpActiveScreenSt->unk_3e |= 2;
@@ -377,7 +377,7 @@ EC void func_ov005_022055d8(ProcMenu * proc)
 
     sally::SallyDialogYesNo * puVar1 = new sally::SallyDialogYesNo();
 
-    func_020303bc(puVar1, func_02039e10("MD_進撃終了"), data_ov005_022132a0, proc, 1, 0);
+    func_020303bc(puVar1, GetText("MD_進撃終了"), data_ov005_022132a0, proc, 1, 0);
 
     return;
 }
@@ -397,7 +397,7 @@ EC void func_ov005_022056d8(ProcMenu * proc)
 
     sally::SallyCancelDialogYesNo * puVar1 = new sally::SallyCancelDialogYesNo();
 
-    func_020303bc(puVar1, func_02039e10("MD_編成中止"), data_ov005_02213294, proc, 1, 0);
+    func_020303bc(puVar1, GetText("MD_編成中止"), data_ov005_02213294, proc, 1, 0);
 
     return;
 }
@@ -530,11 +530,11 @@ void sally::MIS_SallyEnd::vfunc_70(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
     {
-        func_ov005_02205518(func_02039e10("MSH_編成終了"));
+        func_ov005_02205518(GetText("MSH_編成終了"));
     }
     else
     {
-        func_ov005_02205518(func_02039e10("MSH_開始"));
+        func_ov005_02205518(GetText("MSH_開始"));
     }
 
     return;
@@ -571,11 +571,11 @@ char * sally::MIS_SallyEnd::vfunc_00(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
     {
-        return func_02039e10("MSM_編成終了");
+        return GetText("MSM_編成終了");
     }
     else
     {
-        return func_02039e10("MSM_開始");
+        return GetText("MSM_開始");
     }
 }
 
@@ -593,7 +593,7 @@ s32 sally::MIS_SallySave::vfunc_20(MenuItemState * param_2)
 
 void sally::MIS_SallySave::vfunc_70(void)
 {
-    func_ov005_02205518(func_02039e10("MSH_記録"));
+    func_ov005_02205518(GetText("MSH_記録"));
     return;
 }
 
@@ -627,7 +627,7 @@ s32 sally::MIS_SallySave::vfunc_14(void)
 
 char * sally::MIS_SallySave::vfunc_00(void)
 {
-    return func_02039e10("MSM_記録");
+    return GetText("MSM_記録");
 }
 
 s32 sally::MIS_Config::vfunc_1c(void)
@@ -639,7 +639,7 @@ s32 sally::MIS_Config::vfunc_1c(void)
 
 void sally::MIS_Config::vfunc_70(void)
 {
-    func_ov005_02205518(func_02039e10("MSH_環境"));
+    func_ov005_02205518(GetText("MSH_環境"));
     return;
 }
 
@@ -662,7 +662,7 @@ s32 sally::MIS_Config::vfunc_14(void)
 
 char * sally::MIS_Config::vfunc_00(void)
 {
-    return func_02039e10("MSM_環境");
+    return GetText("MSM_環境");
 }
 
 s32 sally::MIS_WeaponShop::vfunc_1c(void)
@@ -674,7 +674,7 @@ s32 sally::MIS_WeaponShop::vfunc_1c(void)
 
 void sally::MIS_WeaponShop::vfunc_70(void)
 {
-    func_ov005_02205518(func_02039e10("MSH_武器屋"));
+    func_ov005_02205518(GetText("MSH_武器屋"));
     return;
 }
 
@@ -697,7 +697,7 @@ s32 sally::MIS_WeaponShop::vfunc_14(void)
 
 char * sally::MIS_WeaponShop::vfunc_00(void)
 {
-    return func_02039e10("MSM_武器屋");
+    return GetText("MSM_武器屋");
 }
 
 s32 sally::MIS_JobSlide::vfunc_1c(void)
@@ -710,7 +710,7 @@ s32 sally::MIS_JobSlide::vfunc_1c(void)
 
 void sally::MIS_JobSlide::vfunc_70(void)
 {
-    func_ov005_02205518(func_02039e10("MSH_兵種変更"));
+    func_ov005_02205518(GetText("MSH_兵種変更"));
     return;
 }
 
@@ -728,7 +728,7 @@ s32 sally::MIS_JobSlide::vfunc_14(void)
 
 char * sally::MIS_JobSlide::vfunc_00(void)
 {
-    return func_02039e10("MSM_兵種変更");
+    return GetText("MSM_兵種変更");
 }
 
 s32 sally::MIS_ItemSetting::vfunc_1c(void)
@@ -741,7 +741,7 @@ s32 sally::MIS_ItemSetting::vfunc_1c(void)
 
 void sally::MIS_ItemSetting::vfunc_70(void)
 {
-    func_ov005_02205518(func_02039e10("MSH_持ち物"));
+    func_ov005_02205518(GetText("MSH_持ち物"));
     return;
 }
 
@@ -759,7 +759,7 @@ s32 sally::MIS_ItemSetting::vfunc_14(void)
 
 char * sally::MIS_ItemSetting::vfunc_00(void)
 {
-    return func_02039e10("MSM_持ち物");
+    return GetText("MSM_持ち物");
 }
 
 s32 sally::MIS_PosChange::vfunc_1c(void)
@@ -771,7 +771,7 @@ s32 sally::MIS_PosChange::vfunc_1c(void)
 
 void sally::MIS_PosChange::vfunc_70(void)
 {
-    func_ov005_02205518(func_02039e10("MSH_マップ"));
+    func_ov005_02205518(GetText("MSH_マップ"));
     return;
 }
 
@@ -794,7 +794,7 @@ s32 sally::MIS_PosChange::vfunc_14(void)
 
 char * sally::MIS_PosChange::vfunc_00(void)
 {
-    return func_02039e10("MSM_マップ");
+    return GetText("MSM_マップ");
 }
 
 s32 sally::MIS_SallySelect::vfunc_1c(void)
@@ -809,11 +809,11 @@ void sally::MIS_SallySelect::vfunc_70(void)
 {
     if (data_ov005_02217560->unk_11 != 0)
     {
-        func_ov005_02205518(func_02039e10("MSH_ユニット編成"));
+        func_ov005_02205518(GetText("MSH_ユニット編成"));
     }
     else
     {
-        func_ov005_02205518(func_02039e10("MSH_ユニット"));
+        func_ov005_02205518(GetText("MSH_ユニット"));
     }
 
     return;
@@ -833,7 +833,7 @@ s32 sally::MIS_SallySelect::vfunc_14(void)
 
 char * sally::MIS_SallySelect::vfunc_00(void)
 {
-    return func_02039e10("MSM_ユニット");
+    return GetText("MSM_ユニット");
 }
 
 BOOL sally::SallyMenu::vfunc_a0(void)

@@ -422,7 +422,7 @@ class LinkDialogItemNext : public DialogItem
 public:
     /* 000 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("M_NEXT");
+        return GetText("M_NEXT");
     }
 
     /* 01C */ virtual s32 vfunc_1c(void)
@@ -436,7 +436,7 @@ class LinkDialogItemOk : public DialogItem
 public:
     /* 000 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("M_OK");
+        return GetText("M_OK");
     }
 
     /* 01C */ virtual s32 vfunc_1c(void)
@@ -743,7 +743,7 @@ EC void func_02014e10(LinkErrorDialog * param_1)
 {
     if (data_020efc84 == 0 && data_020efc9c == NULL)
     {
-        func_02014834(param_1, func_02039e10(param_1->unk_38), 2, 1, 1, 1);
+        func_02014834(param_1, GetText(param_1->unk_38), 2, 1, 1, 1);
         Proc_Break(param_1, 0);
     }
 

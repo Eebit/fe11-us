@@ -1229,7 +1229,7 @@ void arena::Arena::StartChoice(void)
 
     dialog = new map::BMapDialogYesNo();
 
-    func_020303bc(dialog, func_02039e10("MD_賭金"), data_ov000_021e2ca0, this, 1, 0);
+    func_020303bc(dialog, GetText("MD_賭金"), data_ov000_021e2ca0, this, 1, 0);
 
     return;
 }
@@ -1251,7 +1251,7 @@ void arena::Arena::_021d8e28(void)
 
     dialog = new map::BMapDialogYesNo();
 
-    func_020303bc(dialog, func_02039e10("MD_再挑戦"), data_ov000_021e2cac, this, 1, 0);
+    func_020303bc(dialog, GetText("MD_再挑戦"), data_ov000_021e2cac, this, 1, 0);
 
     return;
 }
@@ -1272,10 +1272,10 @@ void arena::Arena::_021d8ed4(void)
     func_02010f98(gpActiveScreenSt->tilemap[bg] + 0x54, 0xb, 2);
 
     uVar2 += func_020295ec(
-        data_021970c4, func_02039e10("MD_MONEY"), gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg],
+        data_021970c4, GetText("MD_MONEY"), gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg],
         0x14, 2, uVar2, bVar1, 0, 0);
     uVar2 += func_020295ec(
-        data_021970c4, func_02039e10("MD_GOLD"), gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg],
+        data_021970c4, GetText("MD_GOLD"), gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg],
         0x1e, 2, uVar2, bVar1, 0, 0);
     func_02029850(
         data_021970c4, data_02196f20->unk_190, gpActiveScreenSt->bgTiles[bg], gpActiveScreenSt->tilemap[bg], 0x1d,

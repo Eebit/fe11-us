@@ -7,8 +7,8 @@
 
 extern vu8 gMainLoopBlocked;
 extern vu8 data_027e125c;
-extern vu32 gClock;
-extern vu32 data_027e1264;
+extern vu32 gAnimClock;
+extern vu32 gElapsedFrames;
 
 struct UnkStruct_020eea00
 {
@@ -89,8 +89,8 @@ void System_Init(void)
     ScreenState * tmp;
     s32 i;
 
-    gClock = 0;
-    data_027e1264 = 0;
+    gAnimClock = 0;
+    gElapsedFrames = 0;
     gMainLoopBlocked = 0;
     data_027e125c = 0;
 
@@ -155,7 +155,7 @@ EC void func_0200f04c(void)
         return;
 
     func_02070468();
-    gClock++;
+    gAnimClock++;
 
     KeyState_Poll();
     func_02010398();
@@ -208,7 +208,7 @@ EC void func_0200f0f0(void)
         gMainLoopBlocked = TRUE;
     }
 
-    data_027e1264++;
+    gElapsedFrames++;
 
     gpActiveScreenSt = tmp;
     data_027e125c = 0;

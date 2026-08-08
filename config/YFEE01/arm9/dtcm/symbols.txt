@@ -18,8 +18,8 @@ data_027e00e0 kind:bss addr:0x027e00e0
 data_027e0fce kind:bss addr:0x027e0fce
 gMainLoopBlocked kind:bss addr:0x027e1258
 data_027e125c kind:bss addr:0x027e125c
-gClock kind:bss addr:0x027e1260
-data_027e1264 kind:bss addr:0x027e1264
+gAnimClock kind:bss addr:0x027e1260
+gElapsedFrames kind:bss addr:0x027e1264
 gpActiveScreenSt kind:bss addr:0x027e1268
 gMainScreenSt kind:bss addr:0x027e126c
 gSubScreenSt kind:bss addr:0x027e12b0

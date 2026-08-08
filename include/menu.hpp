@@ -6,7 +6,7 @@
 #include "heap.hpp"
 #include "proc_ex.hpp"
 
-EC char * func_02039e10(char *);
+EC char * GetText(char *);
 
 enum
 {
@@ -694,7 +694,7 @@ class DialogItemYes : public DialogItem
 public:
     /* 000 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("M_はい");
+        return GetText("M_はい");
     }
 
     /* 028 */ virtual s32 vfunc_28(void)
@@ -708,7 +708,7 @@ class DialogItemNo : public DialogItem
 public:
     /* 000 */ virtual char * vfunc_00(void)
     {
-        return func_02039e10("M_いいえ");
+        return GetText("M_いいえ");
     }
 
     /* 014 */ virtual s32 vfunc_14(void)

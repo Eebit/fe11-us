@@ -145,12 +145,12 @@ EC void func_ov005_02204dd0(s32 param_1)
 
         if (param_1 == 0)
         {
-            gMapStateManager->camera->func_ov000_021a4cec(
+            gMapStateManager->camera->Scroll(
                 gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile, 1, 0x20, 0);
         }
         else
         {
-            gMapStateManager->camera->func_ov000_021a4e84(
+            gMapStateManager->camera->ScrollInstant(
                 gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile, 1);
         }
     }
@@ -181,7 +181,7 @@ EC void func_ov005_02204ee8(ProcPtr proc)
         return;
     }
 
-    if ((gMapStateManager->camera->unk_18 >= 2 ? TRUE : FALSE))
+    if (gMapStateManager->camera->IsMoving())
     {
         return;
     }

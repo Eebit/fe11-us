@@ -155,7 +155,7 @@ struct MovingMapSprite
 #define GFX_FIFO_VERTEX_16 *(vu32 *)(0x0400048c)
 #define GFX_FIFO_VERTEX_XY *(vu32 *)(0x04000494)
 
-extern vu32 data_027e1264;
+extern vu32 gElapsedFrames;
 
 extern const u8 data_020c515c[];
 
@@ -714,7 +714,7 @@ EC void func_0203ee78(s32 jid, s32 arg1, s32 x, s32 y, s32 arg4, s32 palId, s32 
         isFlipped = 0x1000;
     }
 
-    uVar1 = IntSys_Div(data_027e1264, 10);
+    uVar1 = IntSys_Div(gElapsedFrames, 10);
     iVar2 = IntSys_Mod(uVar1, 6);
 
     func_01ffc404(
@@ -995,7 +995,7 @@ EC s32 func_0203f6d0(s32 jid, s32 animId, s32 time, s32 arg3, u8 arg4)
             }
             else
             {
-                var_r3 = IntSys_Mod(IntSys_Div(data_027e1264, 10), 6);
+                var_r3 = IntSys_Mod(IntSys_Div(gElapsedFrames, 10), 6);
                 return data_020c515c[var_r3];
             }
 

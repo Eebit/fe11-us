@@ -74,7 +74,7 @@ EC BOOL func_ov000_021a47ac(void);
 extern struct UnkStruct_02196f0c * data_02196f0c;
 extern struct UnkStruct_02196f10 * data_02196f10;
 
-extern vu32 data_027e1264;
+extern vu32 gElapsedFrames;
 
 extern u8 data_ov000_021e3320[];
 
@@ -375,7 +375,7 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 
 void MapStateManager::func_ov000_021a28cc(void)
 {
-    gMapStateManager->camera->func_ov000_021a4a7c();
+    gMapStateManager->camera->Init();
     gMapStateManager->inputHandler->Init();
     gMapStateManager->cursor->Init();
     func_ov000_021b9a10(gMapStateManager->unk_14);
@@ -520,8 +520,8 @@ EC void func_ov000_021a2b08(struct SaveBuffer * buf)
     func_020a58b8(gMapStateManager->unk_d30, buf->unk_04, 0x80);
     buf->unk_04 += 0x80;
 
-    buf->WriteShort(gMapStateManager->camera->unk_14);
-    buf->WriteShort(gMapStateManager->camera->unk_16);
+    buf->WriteShort(gMapStateManager->camera->xTarget);
+    buf->WriteShort(gMapStateManager->camera->yTarget);
     buf->WriteByte(gMapStateManager->cursor->xTile);
     buf->WriteByte(gMapStateManager->cursor->yTile);
 
@@ -588,11 +588,11 @@ EC void func_ov000_021a2eb0(struct SaveBuffer * buf, s32 arg_1)
 
     unk_14 = buf->ReadShort();
     unk_16 = buf->ReadShort();
-    gMapStateManager->camera->unk_14 = unk_14;
-    gMapStateManager->camera->unk_16 = unk_16;
+    gMapStateManager->camera->xTarget = unk_14;
+    gMapStateManager->camera->yTarget = unk_16;
 
-    gMapStateManager->camera->func_ov000_021a52c8(
-        gMapStateManager->camera->unk_14, gMapStateManager->camera->unk_16, 0);
+    gMapStateManager->camera->SetPos(
+        gMapStateManager->camera->xTarget, gMapStateManager->camera->yTarget, 0);
 
     gMapStateManager->cursor->SetPosImmediate(buf->ReadByte(), buf->ReadByte());
 
@@ -1449,7 +1449,7 @@ EC void func_ov000_021a46b8(void)
 EC void func_ov000_021a46cc(struct Unit * unit, u32 arg_1)
 {
     gMapStateManager->cursor->SetPosImmediate(unit->xPos, unit->yPos);
-    gMapStateManager->camera->func_ov000_021a4e84(unit->xPos, unit->yPos, arg_1);
+    gMapStateManager->camera->ScrollInstant(unit->xPos, unit->yPos, arg_1);
     return;
 }
 
@@ -1570,13 +1570,13 @@ EC s32 func_ov000_021a4854(struct Unit * unit)
 EC void func_ov000_021a48b0(u32 arg_0)
 {
     data_ov000_021e3324->unk_08 = arg_0;
-    data_ov000_021e3324->unk_10 = data_027e1264;
+    data_ov000_021e3324->unk_10 = gElapsedFrames;
     return;
 }
 
 EC void func_ov000_021a48d8(void)
 {
-    s32 iVar1 = data_027e1264;
+    s32 iVar1 = gElapsedFrames;
     s32 uVar3 = iVar1 - data_ov000_021e3324->unk_10;
 
     if (data_ov000_021e3324->unk_08 > uVar3)
@@ -1629,7 +1629,7 @@ void ProcMapLow::Init(void)
 {
     gMapStateManager->cursor->Update();
     func_ov000_021b9bc4(gMapStateManager->unk_14);
-    gMapStateManager->camera->func_ov000_021a5128();
+    gMapStateManager->camera->Update();
 
     if (gMapStateManager->unk_eb8 == 0)
     {

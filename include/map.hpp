@@ -70,47 +70,47 @@ struct Vec3
 class Camera
 {
 public:
-    /* 00 */ s32 unk_00; // camera x
-    /* 04 */ s32 unk_04; // camera y
-    /* 08 */ s32 unk_08; // camera z??
-    /* 0C */ s16 unk_0c;
-    /* 0E */ s16 unk_0e;
-    /* 10 */ s16 unk_10;
-    /* 12 */ s16 unk_12;
-    /* 14 */ s16 unk_14; // next camera x?
-    /* 16 */ s16 unk_16; // next camera y?
-    /* 18 */ u8 unk_18;
+    /* 00 */ s32 x; // camera x
+    /* 04 */ s32 y; // camera y
+    /* 08 */ s32 z; // camera z??
+    /* 0C */ s16 tileSize;
+    /* 0E */ s16 screenWidthTiles;
+    /* 10 */ s16 screenHeightTiles;
+    /* 12 */ s16 speed;
+    /* 14 */ s16 xTarget; // next camera x?
+    /* 16 */ s16 yTarget; // next camera y?
+    /* 18 */ u8 state;
     /* 19 */ u8 unk_19;
     /* 1A */ u8 unk_1a;
-    /* 1C */ s16 unk_1c;
-    /* 1E */ s16 unk_1e;
-    /* 20 */ u16 unk_20;
-    /* 22 */ u16 unk_22;
+    /* 1C */ s16 xStart;
+    /* 1E */ s16 yStart;
+    /* 20 */ u16 duration;
+    /* 22 */ u16 timer;
 
-    void func_ov000_021a4a7c(void);
-    void func_ov000_021a4ae0(s32, s32, BOOL);
-    void func_ov000_021a4ba0(s32, s32, BOOL);
-    BOOL func_ov000_021a4c30(s32, s32);
-    void func_ov000_021a4cec(s32, s32, s32, s32, u8);
-    void func_ov000_021a4dc0(s32, s32, s32, s32, s32, u8);
-    void func_ov000_021a4e84(s32, s32, s32);
-    void func_ov000_021a4ea8(void);
-    BOOL func_ov000_021a4f4c(void);
-    BOOL func_ov000_021a4f7c(s32, s32, s32);
-    void func_ov000_021a4fb4(void);
-    void func_ov000_021a5030(s32);
-    void func_ov000_021a5128(void);
-    void func_ov000_021a516c(void);
-    BOOL func_ov000_021a51b8(s32, s32, struct Vec3 *);
-    BOOL func_ov000_021a5228(s32, s32, struct Vec3 *);
-    void func_ov000_021a52b0(void);
-    void func_ov000_021a52c8(s32, s32, s32);
-    void func_ov000_021a52d0(s32, s32, s32);
-    BOOL func_ov000_021a52f8(s32, s32, struct Vec3 *);
+    void Init(void);
+    void SetGoalTile(s32, s32, BOOL);
+    void SetGoalPx(s32, s32, BOOL);
+    BOOL _021a4c30(s32, s32);
+    void Scroll(s32, s32, s32, s32, u8);
+    void ScrollEx(s32, s32, s32, s32, s32, u8);
+    void ScrollInstant(s32, s32, s32);
+    void Clamp(void);
+    BOOL IsAtEdge(void);
+    BOOL NeedsScroll(s32, s32, s32);
+    void _021a4fb4(void);
+    void _021a5030(s32);
+    void Update(void);
+    void StopScroll(void);
+    BOOL _021a51b8(s32, s32, struct Vec3 *);
+    BOOL _021a5228(s32, s32, struct Vec3 *);
+    void ResetPos(void);
+    void SetPos(s32, s32, s32);
+    void AddPos(s32, s32, s32);
+    BOOL _021a52f8(s32, s32, struct Vec3 *);
 
-    inline BOOL Check_18()
+    inline BOOL IsMoving()
     {
-        return this->unk_18 >= 2;
+        return this->state >= 2;
     }
 };
 

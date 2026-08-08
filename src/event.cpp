@@ -88,7 +88,7 @@ void Event::func_0204745c(void)
 
     if (gMapStateManager != NULL)
     {
-        gMapStateManager->camera->func_ov000_021a516c();
+        gMapStateManager->camera->StopScroll();
     }
 
     Disposition_021db624();
