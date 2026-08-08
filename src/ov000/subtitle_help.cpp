@@ -415,7 +415,7 @@ EC void func_ov000_021d6e30(u32 param_1)
 
     tutHelp = &gFE11Database->unk_40[data_ov000_021e3324->unk_18[param_1]];
 
-    StartSubtitleHelp(func_02039e10(tutHelp->unk_00), func_02039e10(tutHelp->unk_04));
+    StartSubtitleHelp(GetText(tutHelp->unk_00), GetText(tutHelp->unk_04));
 
     return;
 }

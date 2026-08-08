@@ -1605,7 +1605,7 @@ BOOL TargetSelectState::_021b6cb0(void)
         case ITEM_EFFECT_WARP:
             PlayerPhase_GotoLabel(7, 0, 0);
             func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
-            StartSubtitleHelp(func_02039e10("MSPMH_ワープ"), 0);
+            StartSubtitleHelp(GetText("MSPMH_ワープ"), 0);
             break;
 
         case ITEM_EFFECT_REPAIR:

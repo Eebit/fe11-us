@@ -1955,7 +1955,7 @@ EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, u8 f, int g
 // EC ??? func_0203983c
 // EC ??? func_02039854
 // EC ??? func_02039d4c
-EC char * func_02039e10(char *);
+EC char * GetText(char *);
 // EC ??? func_02039e4c
 EC BOOL func_02039e7c(char *);
 EC void func_02039eac(char *);

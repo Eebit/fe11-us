@@ -230,7 +230,7 @@ public:
 
         // "Free Units"
         iVar10 = func_020295ec(
-            data_021970c4, func_02039e10("MMMINFO_未行動"), gpActiveScreenSt->bgTiles[this->unk_2c],
+            data_021970c4, GetText("MMMINFO_未行動"), gpActiveScreenSt->bgTiles[this->unk_2c],
             gpActiveScreenSt->tilemap[this->unk_2c], 0x17, iVar7, uVar3, uVar2, 0, 0);
 
         if (iVar5 != 0)
@@ -294,7 +294,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Units"
-        return func_02039e10("MMM_部隊");
+        return GetText("MMM_部隊");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -307,7 +307,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Display a list of your units."
-            StartSubtitleHelp(func_02039e10("MMMH_部隊"), 0);
+            StartSubtitleHelp(GetText("MMMH_部隊"), 0);
         }
 
         return;
@@ -316,7 +316,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Display a list of your units."
-        StartSubtitleHelp(func_02039e10("MMMH_部隊"), 0);
+        StartSubtitleHelp(GetText("MMMH_部隊"), 0);
         return;
     }
 
@@ -334,7 +334,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Guide"
-        return func_02039e10("MMM_指南");
+        return GetText("MMM_指南");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -357,7 +357,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Review tutorials on how the game is played."
-            StartSubtitleHelp(func_02039e10("MMMH_指南"), 0);
+            StartSubtitleHelp(GetText("MMMH_指南"), 0);
         }
 
         return;
@@ -366,7 +366,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Review tutorials on how the game is played."
-        StartSubtitleHelp(func_02039e10("MMMH_指南"), 0);
+        StartSubtitleHelp(GetText("MMMH_指南"), 0);
         return;
     }
 
@@ -384,7 +384,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Options"
-        return func_02039e10("MMM_降参");
+        return GetText("MMM_降参");
     }
 
     /* 14 */ virtual s32 vfunc_14(void)
@@ -402,7 +402,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Adjust game options."
-            StartSubtitleHelp(func_02039e10("MMMH_環境"), 0);
+            StartSubtitleHelp(GetText("MMMH_環境"), 0);
         }
 
         return;
@@ -411,7 +411,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Adjust game options."
-        StartSubtitleHelp(func_02039e10("MMMH_環境"), 0);
+        StartSubtitleHelp(GetText("MMMH_環境"), 0);
         return;
     }
 
@@ -463,12 +463,12 @@ public:
         if (func_ov000_021a47e4())
         {
             // "Exit"
-            return func_02039e10("MMM_練習終了");
+            return GetText("MMM_練習終了");
         }
         else
         {
             // "Suspend"
-            return func_02039e10("MMM_中断");
+            return GetText("MMM_中断");
         }
     }
 
@@ -517,7 +517,7 @@ public:
             str = "MMMH_中断";
         }
 
-        StartSubtitleHelp(func_02039e10(str), 0);
+        StartSubtitleHelp(GetText(str), 0);
 
         return;
     }
@@ -537,7 +537,7 @@ public:
             str = "MMMH_中断";
         }
 
-        StartSubtitleHelp(func_02039e10(str), 0);
+        StartSubtitleHelp(GetText(str), 0);
 
         return;
     }
@@ -582,7 +582,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "Surrender"
-        return func_02039e10("MMM_降参");
+        return GetText("MMM_降参");
     }
 
     /* 10 */ virtual s32 vfunc_10(MenuItemState * menuItemState)
@@ -610,7 +610,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "Surrender and end wireless play."
-            StartSubtitleHelp(func_02039e10("MMMH_降参"), 0);
+            StartSubtitleHelp(GetText("MMMH_降参"), 0);
         }
 
         return;
@@ -619,7 +619,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "Surrender and end wireless play."
-        StartSubtitleHelp(func_02039e10("MMMH_降参"), 0);
+        StartSubtitleHelp(GetText("MMMH_降参"), 0);
         return;
     }
 
@@ -641,7 +641,7 @@ public:
     /* 00 */ virtual char * vfunc_00(void)
     {
         // "End"
-        return func_02039e10("MMM_終了");
+        return GetText("MMM_終了");
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -649,7 +649,7 @@ public:
         if (func_0202dad0(menuItemState, menu))
         {
             // "End the player phase. The enemy will move next."
-            StartSubtitleHelp(func_02039e10("MMMH_終了"), 0);
+            StartSubtitleHelp(GetText("MMMH_終了"), 0);
         }
 
         return;
@@ -658,7 +658,7 @@ public:
     /* 78 */ virtual void vfunc_78(Menu * menu, MenuItemState * menuItemState)
     {
         // "End the player phase. The enemy will move next."
-        StartSubtitleHelp(func_02039e10("MMMH_終了"), 0);
+        StartSubtitleHelp(GetText("MMMH_終了"), 0);
         return;
     }
 
@@ -711,7 +711,7 @@ public:
         gMapStateManager->cursor->isVisible = TRUE;
 
         // "Select two units to have them trade starting positions."
-        StartSubtitleHelp(func_02039e10("MSH_位置変更"), 0);
+        StartSubtitleHelp(GetText("MSH_位置変更"), 0);
 
         return 0x81;
     }
@@ -760,7 +760,7 @@ EC void StartChoice_TemporarySave(ProcPtr parent)
     // clang-format on
 
     func_020303bc(
-        new map::TemporarySaveDialogYesNo(), func_02039e10((char *)(func_ov000_021a47e4() ? "MD_中断" : "MD_練習終了")),
+        new map::TemporarySaveDialogYesNo(), GetText((char *)(func_ov000_021a47e4() ? "MD_中断" : "MD_練習終了")),
         data_ov000_021dd25c, parent, 1, 0);
 
     return;
@@ -777,7 +777,7 @@ EC void StartChoice_Surrender(ProcPtr parent)
     };
     // clang-format on
 
-    func_020303bc(new map::SurrenderDialogYesNo(), func_02039e10("MD_降参"), data_ov000_021dd244, parent, 1, 0);
+    func_020303bc(new map::SurrenderDialogYesNo(), GetText("MD_降参"), data_ov000_021dd244, parent, 1, 0);
 
     return;
 }
@@ -801,7 +801,7 @@ EC void StartChoice_EndPreparations(ProcPtr parent)
     // clang-format on
 
     // "Conclude preparations?"
-    func_020303bc(new BMapSallyEndYesNo(), func_02039e10("MD_進撃終了"), data_ov000_021dd250, parent, 1, 0);
+    func_020303bc(new BMapSallyEndYesNo(), GetText("MD_進撃終了"), data_ov000_021dd250, parent, 1, 0);
 
     return;
 }

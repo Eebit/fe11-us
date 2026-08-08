@@ -235,7 +235,7 @@ public:
 
     /* 00 */ virtual char * vfunc_00(s32 param_2)
     {
-        return func_02039e10(gFE11Database->unk_3c[param_2].unk_00);
+        return GetText(gFE11Database->unk_3c[param_2].unk_00);
     }
 
     /* 10 */ virtual void vfunc_10(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7)

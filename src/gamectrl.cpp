@@ -1478,7 +1478,7 @@ EC void func_02022dd8(void)
         return;
     }
 
-    func_02039e10("MBackup_LoadError\0\0");
+    GetText("MBackup_LoadError\0\0");
     func_0201f8a0();
 
     return;
