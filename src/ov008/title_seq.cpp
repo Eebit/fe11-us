@@ -21,7 +21,7 @@ struct UnkStruct_02197798
 extern AbstCtrl * data_02197718;
 extern AbstCtrl * data_021976fc;
 
-extern u32 gClock;
+extern u32 gAnimClock;
 
 struct PressStart_unk_48
 {
@@ -138,7 +138,7 @@ void PressStart::Loop(void)
 
     if (this->unk_55 == 0)
     {
-        uVar2 = gClock % 0x80;
+        uVar2 = gAnimClock % 0x80;
 
         if ((uVar2) > 0x40)
         {
@@ -169,7 +169,7 @@ void PressStart::Loop(void)
     this->unk_4c->unk_00->dispIo->blend_coeff_a = 0x10;
     this->unk_4c->unk_00->dispIo->blend_coeff_b = 0;
 
-    if ((gClock & 4) != 0)
+    if ((gAnimClock & 4) != 0)
     {
         func_02004348(this->unk_48->unk_14, this->unk_50, 1, 0x80, 0x60, 0x3c0);
     }

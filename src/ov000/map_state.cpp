@@ -74,7 +74,7 @@ EC BOOL func_ov000_021a47ac(void);
 extern struct UnkStruct_02196f0c * data_02196f0c;
 extern struct UnkStruct_02196f10 * data_02196f10;
 
-extern vu32 data_027e1264;
+extern vu32 gElapsedFrames;
 
 extern u8 data_ov000_021e3320[];
 
@@ -1570,13 +1570,13 @@ EC s32 func_ov000_021a4854(struct Unit * unit)
 EC void func_ov000_021a48b0(u32 arg_0)
 {
     data_ov000_021e3324->unk_08 = arg_0;
-    data_ov000_021e3324->unk_10 = data_027e1264;
+    data_ov000_021e3324->unk_10 = gElapsedFrames;
     return;
 }
 
 EC void func_ov000_021a48d8(void)
 {
-    s32 iVar1 = data_027e1264;
+    s32 iVar1 = gElapsedFrames;
     s32 uVar3 = iVar1 - data_ov000_021e3324->unk_10;
 
     if (data_ov000_021e3324->unk_08 > uVar3)

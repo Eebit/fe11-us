@@ -21,7 +21,7 @@ struct MapRenderState
 extern struct MapRenderState gMapRenderState;
 
 extern s16 data_020c53b0[]; // gSinLut?
-extern vu32 gClock;
+extern vu32 gAnimClock;
 
 EC void Map_LoadTAFile(MapFile *);
 EC void Map_UnloadTAFile(MapFile *);
@@ -185,10 +185,10 @@ EC void Map_RenderLayers(MapFile * map)
                     {
                         case 1:
                         {
-                            s32 a = layer_10->unk_0e * cos((0x10000 / layer_10->unk_0c) * gClock);
-                            s32 x = (((layer_10->unk_04 * gClock) + (a * 0x10)));
-                            s32 b = layer_10->unk_12 * sin((0x10000 / layer_10->unk_10) * gClock);
-                            s32 y = (((layer_10->unk_08 * gClock) + (b * 0x10)));
+                            s32 a = layer_10->unk_0e * cos((0x10000 / layer_10->unk_0c) * gAnimClock);
+                            s32 x = (((layer_10->unk_04 * gAnimClock) + (a * 0x10)));
+                            s32 b = layer_10->unk_12 * sin((0x10000 / layer_10->unk_10) * gAnimClock);
+                            s32 y = (((layer_10->unk_08 * gAnimClock) + (b * 0x10)));
                             MatrixTranslate(
                                 x & ((texture->unk_1c << 0x10) - 1), y & ((texture->unk_1e << 0x10) - 1), 0);
                             break;
@@ -196,7 +196,7 @@ EC void Map_RenderLayers(MapFile * map)
 
                         case 2:
                         {
-                            s32 temp_r0_8 = (gClock % (layer_10->unk_0a * layer_10->unk_08)) / layer_10->unk_0a;
+                            s32 temp_r0_8 = (gAnimClock % (layer_10->unk_0a * layer_10->unk_08)) / layer_10->unk_0a;
                             s32 temp_r0_9 = texture->unk_1c / layer_10->unk_04;
                             MatrixTranslate(
                                 (layer_10->unk_04 << 0x10) * (temp_r0_8 % temp_r0_9),
@@ -242,17 +242,17 @@ EC void Map_RenderLayers(MapFile * map)
                     {
                         case 1:
                         {
-                            s32 a = layer_10->unk_0e * cos((0x10000 / layer_10->unk_0c) * gClock);
-                            s32 x = (((layer_10->unk_04 * gClock) + (a * 0x10)));
-                            s32 b = layer_10->unk_12 * sin((0x10000 / layer_10->unk_10) * gClock);
-                            s32 y = (((layer_10->unk_08 * gClock) + (b * 0x10)));
+                            s32 a = layer_10->unk_0e * cos((0x10000 / layer_10->unk_0c) * gAnimClock);
+                            s32 x = (((layer_10->unk_04 * gAnimClock) + (a * 0x10)));
+                            s32 b = layer_10->unk_12 * sin((0x10000 / layer_10->unk_10) * gAnimClock);
+                            s32 y = (((layer_10->unk_08 * gAnimClock) + (b * 0x10)));
                             MatrixTranslate(
                                 x & ((texture->unk_1c << 0x10) - 1), y & ((texture->unk_1e << 0x10) - 1), 0);
                             break;
                         }
                         case 2:
                         {
-                            s32 temp_r0_8 = (gClock % (layer_10->unk_0a * layer_10->unk_08)) / layer_10->unk_0a;
+                            s32 temp_r0_8 = (gAnimClock % (layer_10->unk_0a * layer_10->unk_08)) / layer_10->unk_0a;
                             s32 temp_r0_9 = texture->unk_1c / layer_10->unk_04;
                             MatrixTranslate(
                                 (layer_10->unk_04 << 0x10) * (temp_r0_8 % temp_r0_9),

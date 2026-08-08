@@ -3329,8 +3329,8 @@ extern int data_027e00e0;
 // extern ??? data_027e0fce
 // extern ??? gMainLoopBlocked
 // extern ??? data_027e125c
-// extern ??? gClock
-// extern ??? data_027e1264
+// extern ??? gAnimClock
+// extern ??? gElapsedFrames
 // extern ??? gpActiveScreenSt
 // extern ??? gMainScreenSt
 // extern ??? gSubScreenSt

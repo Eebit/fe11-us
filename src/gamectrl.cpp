@@ -452,7 +452,7 @@ extern u32 data_020efcb4;
 
 extern struct Unit * gUnitList;
 
-extern vu32 data_027e1264;
+extern vu32 gElapsedFrames;
 
 extern struct UnkStruct_02196f18 * data_02196f18;
 
@@ -653,7 +653,7 @@ EC void func_02021d70(void)
         return;
     }
 
-    lr = data_027e1264;
+    lr = gElapsedFrames;
     r3 = lr - data_02196f20->unk_18c;
 
     r1 = 0x7fffffff;

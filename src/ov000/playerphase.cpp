@@ -89,7 +89,7 @@ extern struct UnkStruct_02196f10 * data_02196f10;
 
 extern struct TouchState * gTouchSt;
 
-extern vu32 data_027e1264;
+extern vu32 gElapsedFrames;
 
 namespace map
 {
@@ -551,7 +551,7 @@ EC void func_ov000_021ac644(void)
 
     func_ov000_021a9ce4();
 
-    data_ov000_021e3324->unk_10 = data_027e1264;
+    data_ov000_021e3324->unk_10 = gElapsedFrames;
 
     return;
 }
