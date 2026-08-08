@@ -66,9 +66,9 @@ void Cursor::SetPosAnimated(s32 x, s32 y, s32 param_4, u8 param_5)
     {
         this->unk_0b = 2;
 
-        if (gMapStateManager->camera->func_ov000_021a4f7c(x, y, 0))
+        if (gMapStateManager->camera->NeedsScroll(x, y, 0))
         {
-            gMapStateManager->camera->func_ov000_021a4cec(x, y, 0, param_4 != 0 ? 8 : 0x10, 0);
+            gMapStateManager->camera->Scroll(x, y, 0, param_4 != 0 ? 8 : 0x10, 0);
         }
 
         this->xLerpStart = this->xDisplay;
@@ -88,7 +88,7 @@ void Cursor::SetPosAnimated(s32 x, s32 y, s32 param_4, u8 param_5)
             yNew = -yNew;
         }
 
-        this->lerpDuration = IntSys_Div(IntSys_Sqrt(xNew * xNew + yNew * yNew), gMapStateManager->camera->unk_12);
+        this->lerpDuration = IntSys_Div(IntSys_Sqrt(xNew * xNew + yNew * yNew), gMapStateManager->camera->speed);
 
         if (this->lerpDuration > 4)
         {
@@ -113,8 +113,8 @@ void Cursor::SetPosImmediate(s16 x, s16 y)
 
 void Cursor::CenterOnCamera(void)
 {
-    s32 x = gMapStateManager->camera->unk_00;
-    s32 y = gMapStateManager->camera->unk_04;
+    s32 x = gMapStateManager->camera->x;
+    s32 y = gMapStateManager->camera->y;
 
     this->SetPosImmediate(IntSys_Div(x + 0x80, GetTileSize()), IntSys_Div(y + 0x60, GetTileSize()));
 
@@ -124,7 +124,7 @@ void Cursor::CenterOnCamera(void)
 void Cursor::_021a6b4c(s32 xPx, s32 yPx)
 {
     s32 diff;
-    s32 var_r4 = gMapStateManager->camera->unk_12;
+    s32 var_r4 = gMapStateManager->camera->speed;
 
     if (gMapStateManager->inputHandler->unk_24 != 0)
     {
@@ -171,7 +171,7 @@ void Cursor::_021a6bd0(void)
 
     if (gMapStateManager->inputHandler->IsUsingKeyInputs())
     {
-        gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
+        gMapStateManager->camera->SetGoalPx(this->xDisplay, this->yDisplay, 0);
     }
 
     return;
@@ -211,7 +211,7 @@ void Cursor::_021a6c38(void)
 
     if (gMapStateManager->inputHandler->IsUsingKeyInputs())
     {
-        gMapStateManager->camera->func_ov000_021a4ba0(this->xDisplay, this->yDisplay, 0);
+        gMapStateManager->camera->SetGoalPx(this->xDisplay, this->yDisplay, 0);
     }
 
     return;
@@ -262,7 +262,7 @@ void Cursor::_021a6d48(void)
         }
     }
 
-    if (this->lerpDuration == 0 && !(gMapStateManager->camera->unk_18 < 2 ? FALSE : TRUE))
+    if (this->lerpDuration == 0 && !(gMapStateManager->camera->IsMoving()))
     {
         this->unk_0b = 1;
     }
@@ -299,11 +299,11 @@ BOOL Cursor::_021a6ea8(s32 param_2)
 
     if (param_2 != 0)
     {
-        iVar3 = gMapStateManager->camera->unk_14;
+        iVar3 = gMapStateManager->camera->xTarget;
     }
     else
     {
-        iVar3 = gMapStateManager->camera->unk_00;
+        iVar3 = gMapStateManager->camera->x;
     }
 
     if ((idk - iVar3) < 0x80)

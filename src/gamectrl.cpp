@@ -821,7 +821,7 @@ EC void func_0202214c(ProcPtr proc)
         return;
     }
 
-    gMapStateManager->camera->func_ov000_021a4e84(unit->xPos, unit->yPos, 1);
+    gMapStateManager->camera->ScrollInstant(unit->xPos, unit->yPos, 1);
 
     return;
 }

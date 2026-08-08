@@ -5,151 +5,151 @@
 
 // TODO: Constants for screen height, width, and tile size
 
-void Camera::func_ov000_021a4a7c(void)
+void Camera::Init(void)
 {
-    this->unk_0c = 24;
-    this->unk_0e = 0x100 / this->unk_0c;
-    this->unk_10 = 0xC0 / this->unk_0c;
-    this->unk_12 = this->unk_0c / 4;
-    this->unk_14 = 0;
-    this->unk_16 = 0;
-    this->unk_18 = 1;
+    this->tileSize = 24;
+    this->screenWidthTiles = 0x100 / this->tileSize;
+    this->screenHeightTiles = 0xC0 / this->tileSize;
+    this->speed = this->tileSize / 4;
+    this->xTarget = 0;
+    this->yTarget = 0;
+    this->state = 1;
     this->unk_19 = 1;
 
-    this->func_ov000_021a52b0();
+    this->ResetPos();
 
     return;
 }
 
-void Camera::func_ov000_021a4ae0(s32 x, s32 y, BOOL snapToCenter)
+void Camera::SetGoalTile(s32 x, s32 y, BOOL snapToCenter)
 {
     if (snapToCenter)
     {
-        this->unk_14 = x * 0x18 - 0x74;
-        this->unk_16 = y * 0x18 - 0x54;
+        this->xTarget = x * 0x18 - 0x74;
+        this->yTarget = y * 0x18 - 0x54;
     }
     else
     {
-        this->unk_14 = this->unk_00;
-        this->unk_16 = this->unk_04;
+        this->xTarget = this->x;
+        this->yTarget = this->y;
 
-        if (this->unk_00 >= (x - 2) * 0x18 - 1)
+        if (this->x >= (x - 2) * 0x18 - 1)
         {
-            this->unk_14 = (x - 2) * 0x18;
+            this->xTarget = (x - 2) * 0x18;
         }
 
-        if (this->unk_00 + 0x100 <= (x + 3) * 0x18 + 1)
+        if (this->x + 0x100 <= (x + 3) * 0x18 + 1)
         {
-            this->unk_14 = (x + 3) * 0x18 - 0x100;
+            this->xTarget = (x + 3) * 0x18 - 0x100;
         }
 
-        if (this->unk_04 >= (y - 2) * 0x18 - 1)
+        if (this->y >= (y - 2) * 0x18 - 1)
         {
-            this->unk_16 = (y - 2) * 0x18;
+            this->yTarget = (y - 2) * 0x18;
         }
 
-        if (this->unk_04 + 0xc0 <= (y + 3) * 0x18 + 1)
+        if (this->y + 0xc0 <= (y + 3) * 0x18 + 1)
         {
-            this->unk_16 = (y + 3) * 0x18 - 0xc0;
+            this->yTarget = (y + 3) * 0x18 - 0xc0;
         }
     }
 
-    this->func_ov000_021a4ea8();
+    this->Clamp();
 
     return;
 }
 
-void Camera::func_ov000_021a4ba0(s32 x, s32 y, BOOL snapToCenter)
+void Camera::SetGoalPx(s32 x, s32 y, BOOL snapToCenter)
 {
     if (snapToCenter)
     {
-        this->unk_14 = x - 0x80;
-        this->unk_16 = y - 0x60;
+        this->xTarget = x - 0x80;
+        this->yTarget = y - 0x60;
     }
     else
     {
-        this->unk_14 = this->unk_00;
-        this->unk_16 = this->unk_04;
+        this->xTarget = this->x;
+        this->yTarget = this->y;
 
-        if (this->unk_00 >= x - 0x31)
+        if (this->x >= x - 0x31)
         {
-            this->unk_14 = x - 0x30;
+            this->xTarget = x - 0x30;
         }
 
-        if (this->unk_00 + 0x100 <= x + 0x49)
+        if (this->x + 0x100 <= x + 0x49)
         {
-            this->unk_14 = x - 0xb8;
+            this->xTarget = x - 0xb8;
         }
 
-        if (this->unk_04 >= y - 0x31)
+        if (this->y >= y - 0x31)
         {
-            this->unk_16 = y - 0x30;
+            this->yTarget = y - 0x30;
         }
 
-        if (this->unk_04 + 0xc0 <= y + 0x49)
+        if (this->y + 0xc0 <= y + 0x49)
         {
-            this->unk_16 = y - 0x78;
+            this->yTarget = y - 0x78;
         }
     }
 
-    this->func_ov000_021a4ea8();
+    this->Clamp();
 
     return;
 }
 
-BOOL Camera::func_ov000_021a4c30(s32 x, s32 y)
+BOOL Camera::_021a4c30(s32 x, s32 y)
 {
-    s16 sVar1 = this->unk_14;
-    s16 sVar2 = this->unk_16;
+    s16 xTarget = this->xTarget;
+    s16 yTarget = this->yTarget;
 
     if (x < 0x10)
     {
         if (x < 8)
         {
-            this->unk_14 = this->unk_00 - 8;
+            this->xTarget = this->x - 8;
         }
         else
         {
-            this->unk_14 = this->unk_00 - 4;
+            this->xTarget = this->x - 4;
         }
     }
     else if (x >= 0xf0)
     {
         if (x >= 0xf8)
         {
-            this->unk_14 = this->unk_00 + 8;
+            this->xTarget = this->x + 8;
         }
         else
         {
-            this->unk_14 = this->unk_00 + 4;
+            this->xTarget = this->x + 4;
         }
     }
     if (y < 0x10)
     {
         if (y < 8)
         {
-            this->unk_16 = this->unk_04 - 8;
+            this->yTarget = this->y - 8;
         }
         else
         {
-            this->unk_16 = this->unk_04 - 4;
+            this->yTarget = this->y - 4;
         }
     }
     else if (y >= 0xb0)
     {
         if (y >= 0xb8)
         {
-            this->unk_16 = this->unk_04 + 8;
+            this->yTarget = this->y + 8;
         }
         else
         {
-            this->unk_16 = this->unk_04 + 4;
+            this->yTarget = this->y + 4;
         }
     }
 
-    this->func_ov000_021a4ea8();
+    this->Clamp();
 
-    return sVar1 != this->unk_14 || sVar2 != this->unk_16;
+    return xTarget != this->xTarget || yTarget != this->yTarget;
 }
 
 static inline s32 SQRT_WRAPPER(s32 a, s32 b, s32 c, s32 d)
@@ -160,7 +160,7 @@ static inline s32 SQRT_WRAPPER(s32 a, s32 b, s32 c, s32 d)
     return IntSys_Sqrt(iVar5 * iVar5 + iVar3 * iVar3);
 }
 
-void Camera::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCenter, s32 duration, u8 flag)
+void Camera::Scroll(s32 x, s32 y, BOOL snapToCenter, s32 duration, u8 flag)
 {
     s32 d;
     s32 c;
@@ -168,17 +168,17 @@ void Camera::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCenter, s32 duration, 
     s32 a;
     s32 sqrt;
 
-    if (this->func_ov000_021a4f7c(x, y, snapToCenter) != 0)
+    if (this->NeedsScroll(x, y, snapToCenter) != 0)
     {
-        this->unk_1c = this->unk_00;
-        this->unk_1e = this->unk_04;
+        this->xStart = this->x;
+        this->yStart = this->y;
 
-        this->func_ov000_021a4ae0(x, y, snapToCenter);
+        this->SetGoalTile(x, y, snapToCenter);
 
-        a = this->unk_1c;
-        b = this->unk_14;
-        c = this->unk_1e;
-        d = this->unk_16;
+        a = this->xStart;
+        b = this->xTarget;
+        c = this->yStart;
+        d = this->yTarget;
 
         // This is silly, but the combination of macros and the static inline function seem to prompt the compiler
         // to create the matching ASM sequence...
@@ -187,32 +187,32 @@ void Camera::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCenter, s32 duration, 
 
         sqrt = SQRT_WRAPPER(a, b, c, d);
 
-        this->unk_20 = IntSys_Div(sqrt, this->unk_12);
+        this->duration = IntSys_Div(sqrt, this->speed);
 
-        if (this->unk_20 < 4)
+        if (this->duration < 4)
         {
-            this->unk_20 = 4;
+            this->duration = 4;
         }
 
-        if (this->unk_20 > duration)
+        if (this->duration > duration)
         {
-            this->unk_20 = duration;
+            this->duration = duration;
         }
 
-        this->unk_22 = 0;
+        this->timer = 0;
 
-        if (this->unk_18 < 2)
+        if (this->state < 2)
         {
-            this->unk_19 = this->unk_18;
+            this->unk_19 = this->state;
         }
 
         if (flag != 0)
         {
-            this->unk_18 = 3;
+            this->state = 3;
         }
         else
         {
-            this->unk_18 = 2;
+            this->state = 2;
         }
 
         this->unk_1a = 4;
@@ -221,96 +221,96 @@ void Camera::func_ov000_021a4cec(s32 x, s32 y, BOOL snapToCenter, s32 duration, 
     return;
 }
 
-void Camera::func_ov000_021a4dc0(s32 x, s32 y, s32 snapToCenter, s32 duration, s32 interpolateKind, u8 flag)
+void Camera::ScrollEx(s32 x, s32 y, s32 snapToCenter, s32 duration, s32 interpolateKind, u8 flag)
 {
     if (duration == -1)
     {
-        this->func_ov000_021a4cec(x, y, snapToCenter, 0x20, 0);
+        this->Scroll(x, y, snapToCenter, 0x20, 0);
         this->unk_1a = interpolateKind;
         return;
     }
 
-    if (this->func_ov000_021a4f7c(x, y, snapToCenter) != 0)
+    if (this->NeedsScroll(x, y, snapToCenter) != 0)
     {
         this->unk_1a = interpolateKind;
 
-        this->unk_1c = this->unk_00;
-        this->unk_1e = this->unk_04;
+        this->xStart = this->x;
+        this->yStart = this->y;
 
-        this->func_ov000_021a4ae0(x, y, snapToCenter);
+        this->SetGoalTile(x, y, snapToCenter);
 
-        this->unk_20 = duration;
-        this->unk_22 = 0;
+        this->duration = duration;
+        this->timer = 0;
 
-        if (this->unk_18 < 2)
+        if (this->state < 2)
         {
-            this->unk_19 = this->unk_18;
+            this->unk_19 = this->state;
         }
 
         if (flag != 0)
         {
-            this->unk_18 = 3;
+            this->state = 3;
         }
         else
         {
-            this->unk_18 = 2;
+            this->state = 2;
         }
     }
 
     return;
 }
 
-void Camera::func_ov000_021a4e84(s32 x, s32 y, BOOL snapToCenter)
+void Camera::ScrollInstant(s32 x, s32 y, BOOL snapToCenter)
 {
-    this->func_ov000_021a4ae0(x, y, snapToCenter);
-    this->func_ov000_021a52c8(this->unk_14, this->unk_16, 0);
+    this->SetGoalTile(x, y, snapToCenter);
+    this->SetPos(this->xTarget, this->yTarget, 0);
 
     return;
 }
 
-void Camera::func_ov000_021a4ea8(void)
+void Camera::Clamp(void)
 {
-    s32 iVar3;
+    s32 var;
 
-    s32 sVar1 = this->unk_14;
-    s32 sVar2 = this->unk_16;
+    s32 xTarget = this->xTarget;
+    s32 yTarget = this->yTarget;
 
-    iVar3 = gMapStateManager->unk_24 * 0x18;
+    var = gMapStateManager->unk_24 * 0x18;
 
-    if (sVar1 < iVar3 - 0x18)
+    if (xTarget < var - 0x18)
     {
-        this->unk_14 = iVar3 - 0x18;
+        this->xTarget = var - 0x18;
     }
 
-    iVar3 = gMapStateManager->unk_26 * 0x18;
+    var = gMapStateManager->unk_26 * 0x18;
 
-    if (sVar1 + 0x100 > iVar3 + 0x18)
+    if (xTarget + 0x100 > var + 0x18)
     {
-        this->unk_14 = iVar3 - 0xe8;
+        this->xTarget = var - 0xe8;
     }
 
-    iVar3 = gMapStateManager->unk_25 * 0x18;
+    var = gMapStateManager->unk_25 * 0x18;
 
-    if (sVar2 < iVar3 - 0x18)
+    if (yTarget < var - 0x18)
     {
-        this->unk_16 = iVar3 - 0x18;
+        this->yTarget = var - 0x18;
     }
 
-    iVar3 = gMapStateManager->unk_27 * 0x18;
+    var = gMapStateManager->unk_27 * 0x18;
 
-    if (sVar2 + 0xc0 > iVar3 + 0x18)
+    if (yTarget + 0xc0 > var + 0x18)
     {
-        this->unk_16 = iVar3 - 0xa8;
+        this->yTarget = var - 0xa8;
     }
 
     return;
 }
 
-BOOL Camera::func_ov000_021a4f4c(void)
+BOOL Camera::IsAtEdge(void)
 {
     s32 val = gMapStateManager->unk_25 * 0x18;
 
-    if (this->unk_04 > val - 0x18)
+    if (this->y > val - 0x18)
     {
         return TRUE;
     }
@@ -318,25 +318,25 @@ BOOL Camera::func_ov000_021a4f4c(void)
     return FALSE;
 }
 
-BOOL Camera::func_ov000_021a4f7c(s32 x, s32 y, BOOL snapToCenter)
+BOOL Camera::NeedsScroll(s32 x, s32 y, BOOL snapToCenter)
 {
-    s32 sVar1 = this->unk_14;
-    s32 sVar2 = this->unk_16;
+    s32 xTarget = this->xTarget;
+    s32 yTarget = this->yTarget;
 
-    this->func_ov000_021a4ae0(x, y, snapToCenter);
+    this->SetGoalTile(x, y, snapToCenter);
 
-    if (this->unk_14 == sVar1 && this->unk_16 == sVar2)
+    if (this->xTarget == xTarget && this->yTarget == yTarget)
     {
         return FALSE;
     }
 
-    this->unk_14 = sVar1;
-    this->unk_16 = sVar2;
+    this->xTarget = xTarget;
+    this->yTarget = yTarget;
 
     return TRUE;
 }
 
-void Camera::func_ov000_021a4fb4(void)
+void Camera::_021a4fb4(void)
 {
     s32 x;
     s32 xclamp;
@@ -344,18 +344,18 @@ void Camera::func_ov000_021a4fb4(void)
     s32 yclamp;
     s32 range;
 
-    x = this->unk_14;
-    xclamp = this->unk_00;
+    x = this->xTarget;
+    xclamp = this->x;
 
-    range = this->unk_12;
+    range = this->speed;
 
     if (gMapStateManager->inputHandler->unk_24)
     {
         range *= 2;
     }
 
-    y = this->unk_04;
-    yclamp = this->unk_16;
+    y = this->y;
+    yclamp = this->yTarget;
 
     if (x - xclamp > range)
     {
@@ -383,96 +383,96 @@ void Camera::func_ov000_021a4fb4(void)
         y = yclamp;
     }
 
-    this->func_ov000_021a52c8(x, y, 0);
+    this->SetPos(x, y, 0);
 
     return;
 }
 
-void Camera::func_ov000_021a5030(BOOL boostSpeed)
+void Camera::_021a5030(BOOL boostSpeed)
 {
     s32 x;
     s32 y;
 
-    this->unk_22++;
+    this->timer++;
 
-    if (boostSpeed && this->unk_22 < this->unk_20 && func_020252fc())
+    if (boostSpeed && this->timer < this->duration && func_020252fc())
     {
-        this->unk_22++;
+        this->timer++;
     }
 
-    if (this->unk_20 <= 4)
+    if (this->duration <= 4)
     {
-        x = Interpolate(0, this->unk_1c, this->unk_14, this->unk_22, this->unk_20);
-        y = Interpolate(0, this->unk_1e, this->unk_16, this->unk_22, this->unk_20);
+        x = Interpolate(0, this->xStart, this->xTarget, this->timer, this->duration);
+        y = Interpolate(0, this->yStart, this->yTarget, this->timer, this->duration);
     }
     else
     {
-        x = Interpolate(this->unk_1a, this->unk_1c, this->unk_14, this->unk_22, this->unk_20);
-        y = Interpolate(this->unk_1a, this->unk_1e, this->unk_16, this->unk_22, this->unk_20);
+        x = Interpolate(this->unk_1a, this->xStart, this->xTarget, this->timer, this->duration);
+        y = Interpolate(this->unk_1a, this->yStart, this->yTarget, this->timer, this->duration);
     }
 
-    this->func_ov000_021a52c8(x, y, 0);
+    this->SetPos(x, y, 0);
 
-    if (this->unk_22 != this->unk_20)
+    if (this->timer != this->duration)
     {
         return;
     }
 
-    this->unk_18 = this->unk_19;
-    this->unk_22 = 0;
-    this->unk_20 = 0;
+    this->state = this->unk_19;
+    this->timer = 0;
+    this->duration = 0;
 
     return;
 }
 
-void Camera::func_ov000_021a5128(void)
+void Camera::Update(void)
 {
-    switch (this->unk_18)
+    switch (this->state)
     {
         case 1:
-            this->func_ov000_021a4fb4();
+            this->_021a4fb4();
             break;
 
         case 2:
-            this->func_ov000_021a5030(FALSE);
+            this->_021a5030(FALSE);
             break;
 
         case 3:
-            this->func_ov000_021a5030(TRUE);
+            this->_021a5030(TRUE);
             break;
     }
 
     return;
 }
 
-void Camera::func_ov000_021a516c(void)
+void Camera::StopScroll(void)
 {
-    if (this->unk_18 == 1)
+    if (this->state == 1)
     {
         return;
     }
 
-    if (this->unk_18 != 2 && this->unk_18 != 3)
+    if (this->state != 2 && this->state != 3)
     {
         return;
     }
 
-    this->func_ov000_021a52c8(this->unk_14, this->unk_16, 0);
+    this->SetPos(this->xTarget, this->yTarget, 0);
 
-    this->unk_18 = this->unk_19;
+    this->state = this->unk_19;
 
-    this->unk_22 = 0;
-    this->unk_20 = 0;
+    this->timer = 0;
+    this->duration = 0;
 
     return;
 }
 
-BOOL Camera::func_ov000_021a51b8(s32 x, s32 y, struct Vec3 * pos)
+BOOL Camera::_021a51b8(s32 x, s32 y, struct Vec3 * pos)
 {
-    pos->x = x * this->unk_0c - this->unk_00;
-    pos->y = y * this->unk_0c - this->unk_04;
+    pos->x = x * this->tileSize - this->x;
+    pos->y = y * this->tileSize - this->y;
 
-    if ((pos->x + this->unk_0c <= 0) || (pos->x >= 0x100) || (pos->y + this->unk_0c <= 0) || (pos->y >= 0xc0))
+    if ((pos->x + this->tileSize <= 0) || (pos->x >= 0x100) || (pos->y + this->tileSize <= 0) || (pos->y >= 0xc0))
     {
         return FALSE;
     }
@@ -480,11 +480,11 @@ BOOL Camera::func_ov000_021a51b8(s32 x, s32 y, struct Vec3 * pos)
     return TRUE;
 }
 
-BOOL Camera::func_ov000_021a5228(s32 x, s32 y, struct Vec3 * pos)
+BOOL Camera::_021a5228(s32 x, s32 y, struct Vec3 * pos)
 {
     struct Vec3 local;
 
-    this->func_ov000_021a52f8(x, y, &local);
+    this->_021a52f8(x, y, &local);
 
     if (local.x < 0)
     {
@@ -502,35 +502,35 @@ BOOL Camera::func_ov000_021a5228(s32 x, s32 y, struct Vec3 * pos)
     return 1;
 }
 
-void Camera::func_ov000_021a52b0(void)
+void Camera::ResetPos(void)
 {
-    this->func_ov000_021a52c8(0, 0, 0);
+    this->SetPos(0, 0, 0);
 
     return;
 }
 
-void Camera::func_ov000_021a52c8(s32 x, s32 y, s32 z)
+void Camera::SetPos(s32 x, s32 y, s32 z)
 {
-    this->unk_00 = x;
-    this->unk_04 = y;
-    this->unk_08 = z;
+    this->x = x;
+    this->y = y;
+    this->z = z;
 
     return;
 }
 
-void Camera::func_ov000_021a52d0(s32 x, s32 y, s32 z)
+void Camera::AddPos(s32 x, s32 y, s32 z)
 {
-    this->unk_00 += x;
-    this->unk_04 += y;
-    this->unk_08 += z;
+    this->x += x;
+    this->y += y;
+    this->z += z;
 
     return;
 }
 
-BOOL Camera::func_ov000_021a52f8(s32 x, s32 y, struct Vec3 * pos)
+BOOL Camera::_021a52f8(s32 x, s32 y, struct Vec3 * pos)
 {
-    pos->x = x + this->unk_00;
-    pos->y = y + this->unk_04;
+    pos->x = x + this->x;
+    pos->y = y + this->y;
 
     return TRUE;
 }

@@ -375,7 +375,7 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 
 void MapStateManager::func_ov000_021a28cc(void)
 {
-    gMapStateManager->camera->func_ov000_021a4a7c();
+    gMapStateManager->camera->Init();
     gMapStateManager->inputHandler->Init();
     gMapStateManager->cursor->Init();
     func_ov000_021b9a10(gMapStateManager->unk_14);
@@ -520,8 +520,8 @@ EC void func_ov000_021a2b08(struct SaveBuffer * buf)
     func_020a58b8(gMapStateManager->unk_d30, buf->unk_04, 0x80);
     buf->unk_04 += 0x80;
 
-    buf->WriteShort(gMapStateManager->camera->unk_14);
-    buf->WriteShort(gMapStateManager->camera->unk_16);
+    buf->WriteShort(gMapStateManager->camera->xTarget);
+    buf->WriteShort(gMapStateManager->camera->yTarget);
     buf->WriteByte(gMapStateManager->cursor->xTile);
     buf->WriteByte(gMapStateManager->cursor->yTile);
 
@@ -588,11 +588,11 @@ EC void func_ov000_021a2eb0(struct SaveBuffer * buf, s32 arg_1)
 
     unk_14 = buf->ReadShort();
     unk_16 = buf->ReadShort();
-    gMapStateManager->camera->unk_14 = unk_14;
-    gMapStateManager->camera->unk_16 = unk_16;
+    gMapStateManager->camera->xTarget = unk_14;
+    gMapStateManager->camera->yTarget = unk_16;
 
-    gMapStateManager->camera->func_ov000_021a52c8(
-        gMapStateManager->camera->unk_14, gMapStateManager->camera->unk_16, 0);
+    gMapStateManager->camera->SetPos(
+        gMapStateManager->camera->xTarget, gMapStateManager->camera->yTarget, 0);
 
     gMapStateManager->cursor->SetPosImmediate(buf->ReadByte(), buf->ReadByte());
 
@@ -1449,7 +1449,7 @@ EC void func_ov000_021a46b8(void)
 EC void func_ov000_021a46cc(struct Unit * unit, u32 arg_1)
 {
     gMapStateManager->cursor->SetPosImmediate(unit->xPos, unit->yPos);
-    gMapStateManager->camera->func_ov000_021a4e84(unit->xPos, unit->yPos, arg_1);
+    gMapStateManager->camera->ScrollInstant(unit->xPos, unit->yPos, arg_1);
     return;
 }
 
@@ -1629,7 +1629,7 @@ void ProcMapLow::Init(void)
 {
     gMapStateManager->cursor->Update();
     func_ov000_021b9bc4(gMapStateManager->unk_14);
-    gMapStateManager->camera->func_ov000_021a5128();
+    gMapStateManager->camera->Update();
 
     if (gMapStateManager->unk_eb8 == 0)
     {

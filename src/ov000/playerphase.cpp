@@ -519,7 +519,7 @@ EC void func_ov000_021ac218(void)
     }
 
     func_ov000_021a378c();
-    gMapStateManager->camera->func_ov000_021a4cec(x, y, 0, 0x20, 0);
+    gMapStateManager->camera->Scroll(x, y, 0, 0x20, 0);
     gMapStateManager->cursor->SetPosImmediate((s16)x, (s16)y);
 
     if (bVar5)
@@ -627,7 +627,7 @@ EC BOOL func_ov000_021ac80c(void)
 
     if (data_ov000_021e3340->unk_09 != 0)
     {
-        if (gMapStateManager->camera->Check_18())
+        if (gMapStateManager->camera->IsMoving())
         {
             return TRUE;
         }
@@ -834,7 +834,7 @@ EC void func_ov000_021acd8c(void)
     EndTargetSelect();
 
     gMapStateManager->cursor->SetPosImmediate(pUnit->xPos, pUnit->yPos);
-    gMapStateManager->camera->func_ov000_021a4cec(pUnit->xPos, pUnit->yPos, 0, 0x20, 0);
+    gMapStateManager->camera->Scroll(pUnit->xPos, pUnit->yPos, 0, 0x20, 0);
 
     data_ov000_021e3340->unk_09 = 1;
 
@@ -1050,7 +1050,7 @@ EC void func_ov000_021ad674(ProcPtr proc)
 
 EC void func_ov000_021ad6a0(map::ProcPL * proc)
 {
-    if (gMapStateManager->camera->Check_18())
+    if (gMapStateManager->camera->IsMoving())
     {
         return;
     }

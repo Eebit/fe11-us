@@ -284,7 +284,7 @@ void InputHandler::_021a585c(s32 param_2)
 
     if (param_2 != 0)
     {
-        gMapStateManager->camera->func_ov000_021a5228(gTouchSt->unk_00, gTouchSt->unk_02, &auStack_18);
+        gMapStateManager->camera->_021a5228(gTouchSt->unk_00, gTouchSt->unk_02, &auStack_18);
 
         this->xTouchPrev = auStack_18.x;
         this->yTouchPrev = auStack_18.y;
@@ -669,8 +669,8 @@ void InputHandler::_021a5d5c(s32 param_2)
 
         if (this->unk_25 != 0)
         {
-            gMapStateManager->camera->func_ov000_021a4c30(gTouchSt->unk_00, gTouchSt->unk_02);
-            if (gMapStateManager->camera->func_ov000_021a4f4c())
+            gMapStateManager->camera->_021a4c30(gTouchSt->unk_00, gTouchSt->unk_02);
+            if (gMapStateManager->camera->IsAtEdge())
             {
                 this->unk_26 = 1;
             }
@@ -984,9 +984,9 @@ void InputHandler::_021a6438(void)
 
         if ((var_r6 == 0) && (this->unk_25 != 0))
         {
-            var_r5 = gMapStateManager->camera->func_ov000_021a4c30(gTouchSt->unk_00, gTouchSt->unk_02);
+            var_r5 = gMapStateManager->camera->_021a4c30(gTouchSt->unk_00, gTouchSt->unk_02);
 
-            if (gMapStateManager->camera->func_ov000_021a4f4c() != 0)
+            if (gMapStateManager->camera->IsAtEdge() != 0)
             {
                 this->unk_26 = 1;
             }

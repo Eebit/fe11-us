@@ -5745,26 +5745,26 @@ EC void func_ov000_021a48d8(void);
 // EC ??? _ZN11ProcMapDrawD0Ev
 // EC ??? _ZN10ProcMapEndD1Ev
 // EC ??? _ZN10ProcMapEndD0Ev
-// EC ??? _ZN6Camera19func_ov000_021a4a7cEv
-// EC ??? _ZN6Camera19func_ov000_021a4ae0Elll
-// EC ??? _ZN6Camera19func_ov000_021a4ba0Elll
-// EC ??? _ZN6Camera19func_ov000_021a4c30Ell
-EC void _ZN6Camera19func_ov000_021a4cecEllllh(void *, s32, s32, s32, s32, s32);
-// EC ??? _ZN6Camera19func_ov000_021a4dc0Elllllh
-// EC ??? _ZN6Camera19func_ov000_021a4e84Elll
-// EC ??? _ZN6Camera19func_ov000_021a4ea8Ev
-// EC ??? _ZN6Camera19func_ov000_021a4f4cEv
-// EC ??? _ZN6Camera19func_ov000_021a4f7cElll
-// EC ??? _ZN6Camera19func_ov000_021a4fb4Ev
-// EC ??? _ZN6Camera19func_ov000_021a5030El
-// EC ??? _ZN6Camera19func_ov000_021a5128Ev
-EC void _ZN6Camera19func_ov000_021a516cEv(s32);
-// EC ??? _ZN6Camera19func_ov000_021a51b8EllP4Vec3
-// EC ??? _ZN6Camera19func_ov000_021a5228EllP4Vec3
-// EC ??? _ZN6Camera19func_ov000_021a52b0Ev
-// EC ??? _ZN6Camera19func_ov000_021a52c8Elll
-// EC ??? _ZN6Camera19func_ov000_021a52d0Elll
-// EC ??? _ZN6Camera19func_ov000_021a52f8EllP4Vec3
+// EC ??? _ZN6Camera4InitEv
+// EC ??? _ZN6Camera11SetGoalTileElll
+// EC ??? _ZN6Camera9SetGoalPxElll
+// EC ??? _ZN6Camera9_021a4c30Ell
+EC void _ZN6Camera6ScrollEllllh(void *, s32, s32, s32, s32, s32);
+// EC ??? _ZN6Camera8ScrollExElllllh
+// EC ??? _ZN6Camera13ScrollInstantElll
+// EC ??? _ZN6Camera5ClampEv
+// EC ??? _ZN6Camera8IsAtEdgeEv
+// EC ??? _ZN6Camera11NeedsScrollElll
+// EC ??? _ZN6Camera9_021a4fb4Ev
+// EC ??? _ZN6Camera9_021a5030El
+// EC ??? _ZN6Camera6UpdateEv
+EC void _ZN6Camera10StopScrollEv(s32);
+// EC ??? _ZN6Camera9_021a51b8EllP4Vec3
+// EC ??? _ZN6Camera9_021a5228EllP4Vec3
+// EC ??? _ZN6Camera8ResetPosEv
+// EC ??? _ZN6Camera6SetPosElll
+// EC ??? _ZN6Camera6AddPosElll
+// EC ??? _ZN6Camera9_021a52f8EllP4Vec3
 // EC ??? _ZN12InputHandler4InitEv
 // EC ??? _ZN12InputHandler13CreateButtonsEv
 // EC ??? _ZN12InputHandler14DestroyButtonsEv
