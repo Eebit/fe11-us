@@ -139,7 +139,126 @@ EC void func_ov000_021aa210(void)
 
 // #func_ov000_021ab4f0
 
-// #func_ov000_021ab768
+EC void func_ov000_021a72a8(void *);
+EC BOOL func_02002038(void *, void *);
+EC BOOL func_020015f8(struct MapStateManager_08 *, s32, s32);
+EC BOOL func_020015b4(struct MapStateManager_08 *, s32, s32, s32);
+EC void func_ov000_021a9f98(void);
+EC void func_ov000_021d3fac(void);
+
+EC void func_ov000_021ab768(void)
+{
+    struct Unit * pUnit;
+    u8 x;
+    u8 y;
+
+    gMapStateManager->inputHandler->_021a5d5c(1);
+
+    func_020015f8(gMapStateManager->unk_08, gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile);
+
+    if (func_ov000_021a471c() != 0)
+    {
+        func_ov000_021a9f98();
+        return;
+    }
+
+    if ((((gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_X) != 0) ||
+         (gMapStateManager->inputHandler->_021a5650(2) != 0)) &&
+        (func_ov000_021a9cac() != 0))
+    {
+        if (data_ov000_021e3324->unk_03 != 0)
+        {
+            data_ov000_021e3324->unk_03 = 0;
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
+        }
+        else
+        {
+            data_ov000_021e3324->unk_03 = 1;
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_ON1, 0, 0);
+        }
+
+        func_ov000_021a3498(gMapStateManager->unk_04->unk_00, 1, -1, -1);
+        func_ov000_021a35a0();
+
+        func_ov000_021a354c(gMapStateManager->unk_04->unk_00, -1, -1);
+
+        func_01ff8d88(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, 2, 1, 1);
+    }
+
+    if (gMapStateManager->inputHandler->unk_21_0 != 0)
+    {
+        x = gMapStateManager->cursor->xTile;
+        y = gMapStateManager->cursor->yTile;
+
+        pUnit = GetUnit(gMapStateManager->unk_028[x | y << 5]);
+
+        if (pUnit == NULL && gMapStateManager->unk_08->unk_0854[x | y << 5] >= 0)
+        {
+            gMapStateManager->cursor->isVisible = FALSE;
+
+            func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+            gMapStateManager->unk_14->unk_04->unk_15 = 0;
+
+            if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00) != 0)
+            {
+                func_ov000_021b0de8(gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
+
+                Proc_Goto(data_ov000_021e332c.unk_00[4], L_PLAYERPHASE_40, 0);
+            }
+            else
+            {
+                Proc_Goto(data_ov000_021e332c.unk_00[4], 8, 0);
+            }
+
+            data_ov000_021e332c.unk_14->unk_02 = 0;
+            data_ov000_021e332c.unk_14->unk_03 = 0;
+
+            if ((x != gMapStateManager->unk_04->unk_00->xPos) || (y != gMapStateManager->unk_04->unk_00->yPos))
+            {
+                gMapStateManager->inputHandler->SetButtonVisibility(0);
+            }
+
+            func_ov000_021a72a8(gMapStateManager->unk_04);
+            func_ov000_021d3fac();
+
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
+
+            return;
+        }
+
+        if ((func_020015b4(gMapStateManager->unk_08, x, y, 2) != 0) ||
+            (func_020015b4(gMapStateManager->unk_08, x, y, 0) != 0) ||
+            (func_020015b4(gMapStateManager->unk_08, x, y, 1) != 0))
+        {
+            Proc_Goto(data_ov000_021e332c.unk_00[4], L_PLAYERPHASE_TALK, 0);
+
+            data_ov000_021e332c.unk_14->unk_02 = 2;
+            data_ov000_021e332c.unk_14->unk_03 = gMapStateManager->unk_08->unk_0048;
+            data_ov000_021e332c.unk_14->unk_04 = x;
+            data_ov000_021e332c.unk_14->unk_05 = y;
+
+            func_ov000_021d3fac();
+
+            gMapStateManager->inputHandler->SetButtonVisibility(0x8b);
+
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
+
+            return;
+        }
+
+        gSoundManager->unk_b0->vfunc_28(SE_SYS_MISS1, 0, 0);
+
+        return;
+    }
+
+    if ((gMapStateManager->inputHandler->unk_21_4 != 0) || (gMapStateManager->inputHandler->_021a5650(0) != 0))
+    {
+        func_ov000_021a9f98();
+    }
+
+    return;
+}
 
 EC void func_ov000_021abbc8(void)
 {
