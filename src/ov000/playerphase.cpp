@@ -115,7 +115,250 @@ EC void func_ov000_021aa210(void)
     return;
 }
 
-// #func_ov000_021aa278
+EC BOOL func_ov000_021a475c(void);
+EC BOOL func_ov000_021a47ac(void);
+EC void func_ov000_021aa18c(Unit *);
+EC void PlayerPhase_GotoLabel(s32 label, s32 arg_1, s32 arg_2);
+EC void StartChoice_EndPreparations(ProcPtr);
+EC BOOL func_ov000_021aaad8(s32, s32, s32);
+EC BOOL func_ov000_021aad64(s32, s32, s32);
+EC BOOL func_ov000_021ab180(s32, s32, s32);
+EC s32 func_02012410(void);
+EC BOOL func_020146c4(s32);
+EC BOOL func_ov000_021ab4f0(s32, s32, s32, s32);
+
+EC void func_ov000_021aa278(s32 param)
+{
+    s32 x;
+    s32 y;
+    s32 unitId;
+    Unit * pUnit;
+
+    u32 flag = 0;
+
+    gMapStateManager->inputHandler->_021a5d5c(0);
+
+    x = gMapStateManager->cursor->xTile;
+    y = gMapStateManager->cursor->yTile;
+
+    if (gMapStateManager->cursor->changed != 0)
+    {
+        if ((gMapStateManager->unk_14->unk_04->unk_10 != 0) && (gMapStateManager->unk_14->unk_04->unk_13 > 0))
+        {
+            flag = 2;
+        }
+
+        func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+        func_ov000_021aa1d0();
+    }
+
+    if ((gMapStateManager->unk_14->unk_04->unk_10 == 0) && (gMapStateManager->cursor->changed != 0))
+    {
+        pUnit = GetUnit(gMapStateManager->unk_028[x | y << 5]);
+
+        if (pUnit != NULL)
+        {
+            if (pUnit->force->id == data_ov000_021e3324->phase)
+            {
+                if ((pUnit->state2 & 1) == 0)
+                {
+                    func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
+                    func_ov000_021a3ee4(pUnit, 1);
+
+                    func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 1, flag & 0xff, 0);
+
+                    gMapStateManager->unk_14->unk_04->SetUnk14Unk16(4, 0);
+
+                    func_ov000_021aa18c(pUnit);
+                }
+            }
+            else
+            {
+                func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
+
+                if (CheckUnitAttribute(pUnit, 0x8000000) != 0)
+                {
+                    gMapStateManager->unk_08->unk_0854[pUnit->xPos | pUnit->yPos << 5] = -1;
+                }
+
+                func_020a5734(0, gMapStateManager->unk_e30, 0x80);
+
+                func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 1, flag & 0xff, 0);
+
+                gMapStateManager->unk_14->unk_04->SetUnk14Unk16(4, 0);
+            }
+        }
+        else
+        {
+            func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+        }
+    }
+
+    if (func_ov000_021a47ac() != 0)
+    {
+        func_ov000_021aa1d0();
+
+        gMapStateManager->cursor->isVisible = FALSE;
+
+        func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+        gMapStateManager->inputHandler->SetButtonVisibility(0);
+        func_ov000_021d6dfc(0);
+
+        Proc_Goto(data_ov000_021e333c, 37, 0);
+        data_ov000_021e3340->unk_02 = 0;
+        data_ov000_021e3340->unk_03 = 0;
+
+        return;
+    }
+
+    if (func_ov000_021a475c() != 0)
+    {
+        func_ov000_021aa1d0();
+
+        gMapStateManager->cursor->isVisible = FALSE;
+
+        func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+        gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
+
+        PlayerPhase_GotoLabel(L_PLAYERPHASE_END_TURN, 0, 0);
+
+        func_ov000_021d6dfc(0);
+
+        return;
+    }
+
+    if (gMapStateManager->inputHandler->unk_21_2 != 0)
+    {
+        if (func_ov000_021aaad8(x, y, param) != 0)
+        {
+            return;
+        }
+    }
+
+    if (gMapStateManager->inputHandler->unk_21_0 != 0)
+    {
+        if (func_ov000_021aad64(x, y, param) != 0)
+        {
+            return;
+        }
+    }
+
+    if (gMapStateManager->inputHandler->unk_21_4 != 0)
+    {
+        if (func_ov000_021ab180(x, y, param) != 0)
+        {
+            return;
+        }
+    }
+
+    if ((gMapStateManager->inputHandler->_021a5650(0) != 0) ||
+        ((gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_SELECT) != 0))
+    {
+        if (func_ov000_021ab4f0(x, y, param, gMapStateManager->inputHandler->IsKeyPressed(KEY_BUTTON_SELECT)))
+        {
+            return;
+        }
+    }
+
+    if ((((gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_X) != 0) ||
+         (gMapStateManager->inputHandler->_021a5650(2) != 0)) &&
+        (func_ov000_021a9cac() != 0))
+    {
+        if (data_ov000_021e3324->unk_03 != 0)
+        {
+            data_ov000_021e3324->unk_03 = 0;
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
+        }
+        else
+        {
+            data_ov000_021e3324->unk_03 = 1;
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_ON1, 0, 0);
+        }
+
+        func_ov000_021a35a0();
+
+        unitId = gMapStateManager->unk_028[x | y << 5];
+
+        if (GetUnit(unitId) != NULL)
+        {
+            func_01ff8db8(gMapStateManager->unk_08, GetUnit(unitId), -1, 2, 1, 1);
+        }
+    }
+
+    if (param != 0)
+    {
+        if ((gMapStateManager->inputHandler->_021a5650(3) != 0) ||
+            ((gMapStateManager->inputHandler->keyPressed & KEY_BUTTON_START) != 0))
+        {
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_OPEN1, 0, 0);
+
+            func_ov000_021d6dfc(0);
+
+            StartChoice_EndPreparations(data_ov000_021e333c);
+
+            return;
+        }
+    }
+
+    if ((gMapStateManager->inputHandler->keyRepeated & 0x200) == 0)
+    {
+        return;
+    }
+
+    if ((func_ov000_021a478c() != 0) && (func_020146c4(func_02012410()) != 0) &&
+        (func_020146c4((func_02012410() + 1) & 1) != 0))
+    {
+        return;
+    }
+
+    pUnit = (struct Unit *)func_ov000_021a995c((u32)GetUnit(gMapStateManager->unk_028[x | y << 5]), data_ov000_021e3324->phase);
+
+    if (pUnit == NULL)
+    {
+        return;
+    }
+
+    if ((gMapStateManager->unk_14->unk_04->unk_10 != 0) && (gMapStateManager->unk_14->unk_04->unk_13 > 0))
+    {
+        flag = 2;
+    }
+
+    func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+    func_ov000_021aa1d0();
+
+    gMapStateManager->cursor->SetPosAnimated(pUnit->xPos, pUnit->yPos, 0, 0);
+
+    gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_INFO1, 0, 0);
+
+    if (pUnit->force->id == data_ov000_021e3324->phase)
+    {
+        func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
+        func_ov000_021a3ee4(pUnit, 1);
+        func_ov000_021aa18c(pUnit);
+    }
+    else
+    {
+        func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
+
+        if (CheckUnitAttribute(pUnit, 0x8000000) != 0)
+        {
+            gMapStateManager->unk_08->unk_0854[pUnit->xPos | pUnit->yPos << 5] = -1;
+        }
+
+        func_020a5734(0, gMapStateManager->unk_e30, 0x80);
+    }
+
+    func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 1, flag & 0xff, 0);
+
+    gMapStateManager->unk_14->unk_04->SetUnk14Unk16(4, 0);
+
+    func_0204e1a4(pUnit, 2, 1);
+    func_0204eab8(pUnit->xPos, pUnit->yPos, 2);
+
+    return;
+}
 
 EC void func_ov000_021a9d98(struct Unit *);
 extern struct UnkStruct_021e3528 data_ov000_021e3528;
@@ -210,11 +453,254 @@ EC BOOL func_ov000_021aaad8(s32 x, s32 y, s32 param_3)
     return FALSE;
 }
 
-// #func_ov000_021aad64
+EC void func_ov000_021a36f8(struct Unit *, BOOL, BOOL);
 
-// #func_ov000_021ab180
+EC BOOL func_ov000_021aad64(s32 x, s32 y, s32 param)
+{
+    struct Unit * pUnit;
+    s32 i;
+    BOOL found;
 
-EC void PlayerPhase_GotoLabel(s32 label, s32 arg_1, s32 arg_2);
+    pUnit = GetUnit(gMapStateManager->unk_028[x | y << 5]);
+
+    if ((param != 0) && (gMapStateManager->inputHandler->unk_1e == 0))
+    {
+        found = FALSE;
+
+        for (i = 0; i < data_ov000_021e3528.unk_2e; i++)
+        {
+            if (x == data_ov000_021e3528.unk_00[i * 2 + 0] && y == data_ov000_021e3528.unk_00[i * 2 + 1])
+            {
+                found = TRUE;
+                break;
+            }
+        }
+
+        if (found)
+        {
+            if ((((x == data_ov005_02217560->unk_00) && (y == data_ov005_02217560->unk_04))) ||
+                ((pUnit != NULL) && ((pUnit->state2 & 0x400) != 0)))
+            {
+                if ((data_ov005_02217560->unk_00 != -1 ? TRUE : FALSE) & 0xff)
+                {
+                    data_ov005_02217560->unk_00 = x;
+                    data_ov005_02217560->unk_04 = y;
+
+                    gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
+
+                    gMapStateManager->inputHandler->SetButtonVisibility(0x8f);
+                }
+                else
+                {
+                    func_ov000_021aa1d0();
+                    func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+                    func_ov000_021a7a90(
+                        data_ov005_02217560->unk_00, data_ov005_02217560->unk_04, x, y, data_ov000_021e333c);
+
+                    data_ov005_02217560->unk_00 = -1;
+                    data_ov005_02217560->unk_04 = -1;
+
+                    gMapStateManager->inputHandler->SetButtonVisibility(0xf);
+                }
+
+                return TRUE;
+            }
+        }
+    }
+
+    if (pUnit == NULL)
+    {
+        if (param == 0)
+        {
+            func_ov000_021aa1d0();
+            func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+            gMapStateManager->cursor->isVisible = FALSE;
+
+            Proc_Goto(data_ov000_021e333c, 10, 0);
+            data_ov000_021e3340->unk_02 = 0;
+            data_ov000_021e3340->unk_03 = 0;
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    if (pUnit->force->id == data_ov000_021e3324->phase)
+    {
+        if ((pUnit->state2 & 1) == 0)
+        {
+            return FALSE;
+        }
+
+        if (gMapStateManager->inputHandler->unk_1e != 0)
+        {
+            return FALSE;
+        }
+
+        if (param != 0)
+        {
+            gMapStateManager->inputHandler->_021a5840(0);
+            gMapStateManager->inputHandler->_021a5840(1);
+            gMapStateManager->inputHandler->_021a5840(3);
+
+            Proc_Goto(data_ov000_021e333c, 2, 0);
+        }
+        else
+        {
+            func_ov000_021aa1d0();
+            func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+            gMapStateManager->cursor->isVisible = FALSE;
+
+            Proc_Goto(data_ov000_021e333c, 10, 0);
+        }
+
+        data_ov000_021e3340->unk_02 = 0;
+        data_ov000_021e3340->unk_03 = 0;
+
+        return TRUE;
+    }
+
+    if (!((data_ov000_021e3324->phase == pUnit->force->id ? TRUE : FALSE) & 0xff))
+    {
+        if ((pUnit->state2 & 0x2000) == 0)
+        {
+            pUnit->state2 |= 0x2000;
+
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_ON1, 0, 0);
+
+            if (data_ov000_021e3324->unk_03 == 0)
+            {
+                func_ov000_021a36f8(pUnit, 0, 1);
+            }
+        }
+        else
+        {
+            pUnit->state2 &= ~0x2000;
+
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
+
+            if (data_ov000_021e3324->unk_03 == 0)
+            {
+                func_ov000_021a35a0();
+                func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+EC BOOL func_ov000_021ab180(s32 x, s32 y, s32 param_3)
+{
+    Unit * pUnit = GetUnit(gMapStateManager->unk_028[x | y << 5]);
+
+    if (pUnit == NULL)
+    {
+        if (param_3 != 0)
+        {
+            if ((data_ov005_02217560->unk_00 != -1 ? TRUE : FALSE) & 0xff)
+            {
+                data_ov005_02217560->unk_00 = -1;
+                data_ov005_02217560->unk_04 = -1;
+
+                gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
+
+                gMapStateManager->inputHandler->SetButtonVisibility(0xf);
+            }
+            else
+            {
+                gMapStateManager->cursor->isVisible = FALSE;
+
+                Proc_Goto(data_ov000_021e333c, 2, 0);
+            }
+
+            data_ov000_021e3340->unk_02 = 0;
+            data_ov000_021e3340->unk_03 = 0;
+
+            return TRUE;
+        }
+    }
+    else if ((data_ov000_021e3324->phase == pUnit->force->id ? TRUE : FALSE) & 0xff)
+    {
+        if (param_3 != 0)
+        {
+            if ((data_ov005_02217560->unk_00 != -1 ? TRUE : FALSE) & 0xff)
+            {
+                data_ov005_02217560->unk_00 = -1;
+                data_ov005_02217560->unk_04 = -1;
+
+                gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
+
+                gMapStateManager->inputHandler->SetButtonVisibility(0xf);
+            }
+            else
+            {
+                gMapStateManager->cursor->isVisible = FALSE;
+
+                Proc_Goto(data_ov000_021e333c, 2, 0);
+            }
+
+            data_ov000_021e3340->unk_02 = 0;
+            data_ov000_021e3340->unk_03 = 0;
+
+            return TRUE;
+        }
+    }
+    else if ((pUnit->state2 & 0x2000) != 0)
+    {
+        pUnit->state2 &= ~0x2000;
+
+        gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
+
+        if (data_ov000_021e3324->unk_03 == 0)
+        {
+            func_ov000_021a35a0();
+            func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
+        }
+    }
+    else
+    {
+        BOOL changed;
+        s32 forceId;
+        struct Unit * it;
+
+        changed = FALSE;
+
+        for (forceId = 0; forceId < 2; forceId++)
+        {
+            if (((data_ov000_021e3324->phase == forceId) ? TRUE : FALSE) & 0xff)
+            {
+                continue;
+            }
+
+            for (it = Force::Get(forceId)->head; it != NULL; it = it->unk_3c)
+            {
+                if ((it->state2 & 0x2000) != 0)
+                {
+                    it->state2 &= ~0x2000;
+                    changed = TRUE;
+                }
+            }
+        }
+
+        if (changed)
+        {
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
+        }
+
+        if (data_ov000_021e3324->unk_03 == 0)
+        {
+            func_ov000_021a35a0();
+            func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
+        }
+    }
+
+    return FALSE;
+}
 
 EC BOOL func_ov000_021ab4f0(s32 x, s32 y, s32 arg2, s32 arg3)
 {
@@ -417,20 +903,10 @@ EC void func_ov000_021ab768(void)
 EC void func_ov000_021abbc8(void)
 {
     struct Unit * pUnitA;
-    int unitId;
     s16 ix;
     s16 iy;
 
-    unitId = gActionSt->unk_34;
-
-    if (unitId != 0)
-    {
-        pUnitA = gUnitList + unitId - 1;
-    }
-    else
-    {
-        pUnitA = NULL;
-    }
+    pUnitA = GetUnit(gActionSt->unk_34);
 
     func_02000d14(gMapStateManager->unk_08, -1);
 
@@ -455,16 +931,7 @@ EC void func_ov000_021abbc8(void)
                 continue;
             }
 
-            unitId = gMapStateManager->unk_028[(ix | iy << 5)];
-
-            if (unitId != 0)
-            {
-                pUnitB = gUnitList + unitId - 1;
-            }
-            else
-            {
-                pUnitB = NULL;
-            }
+            pUnitB = GetUnit(gMapStateManager->unk_028[(ix | iy << 5)]);
 
             if (pUnitB != NULL)
             {
@@ -596,32 +1063,31 @@ EC BOOL func_ov000_021abf30(void)
 
 EC BOOL func_ov000_021ac0c0(void)
 {
-    u32 uVar7;
-
     Proc_Goto(data_ov000_021e333c, 18, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
     gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
 
-    if (data_ov000_021e3340->unk_05 == 1)
+    if (data_ov000_021e3340->unk_07 == 1)
     {
-        void * r9;
         struct Unit * r5;
         struct ItemData * r4;
         struct ItemData * r6_;
+        int r6;
         int r7;
         int r8;
-        int r6;
+        struct MapStateManager_08 * r9;
         int sp_00;
+        u32 uVar7;
 
-        r9 = gMapStateManager->unk_08;
         r5 = gMapStateManager->unk_04->unk_00;
         r4 = gMapStateManager->unk_04->unk_00->items[gActionSt->unk_37].GetData();
         r6_ = gMapStateManager->unk_04->unk_00->items[gActionSt->unk_37].GetData();
+        r6 = r6_->minRange;
         r7 = gActionSt->yDecision;
         r8 = gActionSt->xDecision;
-        r6 = r6_->minRange;
+        r9 = gMapStateManager->unk_08;
         sp_00 = GetItemMaxRange(r4, r5);
 
         func_01ff9300(r9, r8, r7, r6, sp_00);
@@ -635,7 +1101,7 @@ EC BOOL func_ov000_021ac0c0(void)
             uVar7 = 1;
         }
 
-        func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 0, uVar7, 2);
+        func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 0, uVar7 & 0xff, 2);
     }
 
     gMapStateManager->unk_04->unk_08 = 1;
@@ -671,7 +1137,7 @@ EC void func_ov000_021ac218(void)
 
     func_ov000_021a7284();
 
-    gMapStateManager->unk_04[1].unk_00 = NULL;
+    gMapStateManager->unk_04->unk_08 = 0;
 
     pUnit->state2 &= ~0x20000;
 
@@ -711,12 +1177,12 @@ EC void func_ov000_021ac218(void)
             sp_04 = gActionSt->unk_2e;
             sp_00 = gActionSt->unk_2d;
 
-            // FIXME: Function signature issues
-            // func_ov000_021a3c84(
-            //     gMapStateManager->unk_db0, data_ov000_021e3324->phase, fp, sp_00, sp_04, sp_08, sp_0c, sp_10);
-            // func_ov000_021a3c84(
-            //     gMapStateManager->unk_d30, data_ov000_021e3324->unk_01, fp, sp_00, sp_04, sp_08, sp_0c,
-            //     sp_10);
+            func_ov000_021a3c84(
+                gMapStateManager->unk_db0, data_ov000_021e3324->phase, fp, sp_10, sp_00, sp_04, sp_08,
+                (u8 *)sp_0c);
+            func_ov000_021a3c84(
+                gMapStateManager->unk_d30, data_ov000_021e3324->unk_01, fp, sp_10, sp_00, sp_04, sp_08,
+                (u8 *)sp_0c);
         }
         else
         {
@@ -780,7 +1246,7 @@ EC void func_ov000_021ac218(void)
 
     if (data_02196f0c->flagMgr->GetByName("gf_complete"))
     {
-        pUnit->state2 &= ~2;
+        pUnit->state2 &= ~1;
 
         Proc_Goto(data_ov000_021e333c, 24, 0);
         data_ov000_021e3340->unk_02 = 0;
@@ -1565,19 +2031,7 @@ EC void func_ov000_021adc98(u32 arg_0)
 
 EC void func_ov000_021add1c(void)
 {
-    s32 unitId;
-    struct Unit * pUnit;
-
-    unitId = gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5];
-
-    if (unitId != 0)
-    {
-        pUnit = gUnitList + unitId - 1;
-    }
-    else
-    {
-        pUnit = NULL;
-    }
+    Unit * pUnit = GetUnit(gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5]);
 
     if (pUnit != NULL)
     {

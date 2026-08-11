@@ -246,6 +246,11 @@ public:
         return this->inputType == INPUT_TYPE_KEY;
     }
 
+    inline u8 IsKeyPressed(s32 key)
+    {
+        return this->keyPressed & key ? TRUE : FALSE;
+    }
+
     inline void SetValues(s32 a, s32 b, s32 c)
     {
         this->unk_23 = a;
@@ -300,13 +305,20 @@ class MapStateManager_14_04
 public:
     STRUCT_PAD(0x00, 0x10);
     u8 unk_10;
-    STRUCT_PAD(0x11, 0x14);
+    STRUCT_PAD(0x11, 0x13);
+    s8 unk_13;
     u8 unk_14;
     u8 unk_15;
     u8 unk_16;
     /* 17 */ u8 unk_17;
     /* 18 */ u8 unk_18;
     u8 unk_19;
+
+    inline void SetUnk14Unk16(s32 a, s32 b)
+    {
+        this->unk_14 = a;
+        this->unk_16 = b;
+    }
 };
 
 class MapStateManager_14
