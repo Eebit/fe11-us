@@ -117,13 +117,181 @@ EC void func_ov000_021aa210(void)
 
 // #func_ov000_021aa278
 
-// #func_ov000_021aaad8
+EC void func_ov000_021a9d98(struct Unit *);
+extern struct UnkStruct_021e3528 data_ov000_021e3528;
+
+class UnkStruct_02217560
+{
+public:
+    u32 unk_00;
+    u32 unk_04;
+};
+
+extern UnkStruct_02217560 * data_ov005_02217560;
+
+EC void func_ov000_021a7a90(u32, u32, s32, s32, ProcPtr);
+
+EC BOOL func_ov000_021aaad8(s32 x, s32 y, s32 param_3)
+{
+    s32 i;
+    BOOL found;
+
+    struct Unit * pUnit = GetUnit(gMapStateManager->unk_028[x | y << 5]);
+
+    if (param_3 != 0)
+    {
+        found = FALSE;
+
+        for (i = 0; i < data_ov000_021e3528.unk_2e; i++)
+        {
+            if (x == data_ov000_021e3528.unk_00[i * 2 + 0] && y == data_ov000_021e3528.unk_00[i * 2 + 1])
+            {
+                found = TRUE;
+                break;
+            }
+        }
+
+        if (found)
+        {
+            if ((x != data_ov005_02217560->unk_00) || (y != data_ov005_02217560->unk_04))
+            {
+                if (((pUnit == NULL) || ((pUnit->state2 & 0x400) != 0)) &&
+                    !(((data_ov005_02217560->unk_00 != -1) ? TRUE : FALSE) & 0xFF))
+                {
+                    data_ov005_02217560->unk_00 = x;
+                    data_ov005_02217560->unk_04 = y;
+
+                    gSoundManager->unk_b0->vfunc_28(SE_SYS_SELECT1, 0, 0);
+
+                    gMapStateManager->inputHandler->SetButtonVisibility(0x8f);
+                }
+                else
+                {
+                    func_ov000_021aa1d0();
+                    func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+                    func_ov000_021a7a90(
+                        data_ov005_02217560->unk_00, data_ov005_02217560->unk_04, x, y, data_ov000_021e333c);
+
+                    data_ov005_02217560->unk_00 = -1;
+                    data_ov005_02217560->unk_04 = -1;
+
+                    gMapStateManager->inputHandler->SetButtonVisibility(0xf);
+                }
+            }
+
+            gMapStateManager->inputHandler->SetValues(0, 0, 0);
+
+            return TRUE;
+        }
+        else
+        {
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_MISS1, 0, 0);
+        }
+    }
+
+    if (pUnit == NULL)
+    {
+        return FALSE;
+    }
+
+    if ((pUnit->force->id == data_ov000_021e3324->phase) && (param_3 == 0))
+    {
+        if ((pUnit->state2 & 1) == 0)
+        {
+            func_ov000_021aa1d0();
+            func_ov000_021a9d98(pUnit);
+
+            gMapStateManager->inputHandler->SetValues(0, 0, 0);
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
 
 // #func_ov000_021aad64
 
 // #func_ov000_021ab180
 
-// #func_ov000_021ab4f0
+EC void PlayerPhase_GotoLabel(s32 label, s32 arg_1, s32 arg_2);
+
+EC BOOL func_ov000_021ab4f0(s32 x, s32 y, s32 arg2, s32 arg3)
+{
+    struct Unit * pUnit;
+
+    if (arg3 != 0)
+    {
+        pUnit = GetUnit(gMapStateManager->unk_028[(x | y << 5)]);
+
+        if (pUnit != NULL)
+        {
+            if ((pUnit->items[0].id != 0 ? TRUE : FALSE) & 0xff)
+            {
+                func_ov000_021aa1d0();
+
+                gMapStateManager->unk_04->unk_00 = pUnit;
+
+                PlayerPhase_GotoLabel(L_PLAYERPHASE_ACT, 6, 0);
+
+                func_ov000_021d6dfc(0);
+
+                gMapStateManager->inputHandler->SetButtonVisibility(0x83);
+
+                gSoundManager->unk_b0->vfunc_28(SE_SYS_WINDOW_OPEN1, 0, 0);
+            }
+            else
+            {
+                gSoundManager->unk_b0->vfunc_28(SE_SYS_MISS1, 0, 0);
+            }
+
+            return TRUE;
+        }
+    }
+
+    if (arg2 != 0)
+    {
+        if (arg3 == 0)
+        {
+            if (!((data_ov005_02217560->unk_00 != -1 ? TRUE : FALSE) & 0xFF))
+            {
+                gMapStateManager->inputHandler->_021a5840(0);
+                gMapStateManager->inputHandler->_021a5840(1);
+                gMapStateManager->inputHandler->_021a5840(3);
+
+                Proc_Goto(data_ov000_021e333c, 2, 0);
+                data_ov000_021e3340->unk_02 = 0;
+                data_ov000_021e3340->unk_03 = 0;
+
+                return TRUE;
+            }
+
+            data_ov005_02217560->unk_00 = -1;
+            data_ov005_02217560->unk_04 = -1;
+
+            gMapStateManager->inputHandler->SetButtonVisibility(0xf);
+
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
+
+            return TRUE;
+        }
+    }
+    else if (arg3 == 0)
+    {
+        func_ov000_021aa1d0();
+        func_ov000_021bc9e4(gMapStateManager->unk_14->unk_04);
+
+        gMapStateManager->cursor->isVisible = FALSE;
+
+        Proc_Goto(data_ov000_021e333c, 10, 0);
+        data_ov000_021e3340->unk_02 = 0;
+        data_ov000_021e3340->unk_03 = 0;
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
 
 EC void func_ov000_021a72a8(void *);
 EC BOOL func_02002038(void *, void *);

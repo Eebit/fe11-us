@@ -245,6 +245,13 @@ public:
     {
         return this->inputType == INPUT_TYPE_KEY;
     }
+
+    inline void SetValues(s32 a, s32 b, s32 c)
+    {
+        this->unk_23 = a;
+        this->unk_21_0 = b;
+        this->unk_21_4 = c;
+    }
 };
 
 class Cursor
