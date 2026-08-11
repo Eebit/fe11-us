@@ -61,27 +61,13 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 extern struct UnkStruct_02196f24 * data_02196f24;
 extern struct UnkStruct_021974fc * data_021974fc;
 
-struct UnkStruct_021e332c_14
-{
-    u8 unk_00;
-    s8 unk_01;
-    s8 unk_02;
-    u8 unk_03;
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    u8 unk_07;
-    u8 unk_08;
-    u8 unk_09;
-};
-
-struct UnkStruct_021e332c
-{
-    ProcPtr unk_00[5];
-    struct UnkStruct_021e332c_14 * unk_14;
-};
-
-extern struct UnkStruct_021e332c data_ov000_021e332c;
+void * data_ov000_021e332c = {}; // sizeof = 4
+ProcPtr data_ov000_021e3330 = {};
+void * data_ov000_021e3334 = {}; // CpSkip
+ProcPtr data_ov000_021e3338 = {};
+ProcPtr data_ov000_021e333c = {}; // ProcPL
+struct UnkStruct_021e3340 * data_ov000_021e3340 = {};
+// 0x021e3344 // gActionSt
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
@@ -101,7 +87,7 @@ public:
 
     ProcPL()
     {
-        data_ov000_021e332c.unk_00[4] = this;
+        data_ov000_021e333c = this;
         gMapStateManager->unk_14->unk_27 = 1;
     }
 
@@ -119,7 +105,7 @@ EC void func_ov000_021aa210(void)
 {
     gMapStateManager->cursor->isVisible = TRUE;
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 0);
+    Proc_Goto(data_ov000_021e333c, 4, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -204,15 +190,15 @@ EC void func_ov000_021ab768(void)
             {
                 func_ov000_021b0de8(gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
 
-                Proc_Goto(data_ov000_021e332c.unk_00[4], L_PLAYERPHASE_40, 0);
+                Proc_Goto(data_ov000_021e333c, L_PLAYERPHASE_40, 0);
             }
             else
             {
-                Proc_Goto(data_ov000_021e332c.unk_00[4], 8, 0);
+                Proc_Goto(data_ov000_021e333c, 8, 0);
             }
 
-            data_ov000_021e332c.unk_14->unk_02 = 0;
-            data_ov000_021e332c.unk_14->unk_03 = 0;
+            data_ov000_021e3340->unk_02 = 0;
+            data_ov000_021e3340->unk_03 = 0;
 
             if ((x != gMapStateManager->unk_04->unk_00->xPos) || (y != gMapStateManager->unk_04->unk_00->yPos))
             {
@@ -231,12 +217,12 @@ EC void func_ov000_021ab768(void)
             (func_020015b4(gMapStateManager->unk_08, x, y, 0) != 0) ||
             (func_020015b4(gMapStateManager->unk_08, x, y, 1) != 0))
         {
-            Proc_Goto(data_ov000_021e332c.unk_00[4], L_PLAYERPHASE_TALK, 0);
+            Proc_Goto(data_ov000_021e333c, L_PLAYERPHASE_TALK, 0);
 
-            data_ov000_021e332c.unk_14->unk_02 = 2;
-            data_ov000_021e332c.unk_14->unk_03 = gMapStateManager->unk_08->unk_0048;
-            data_ov000_021e332c.unk_14->unk_04 = x;
-            data_ov000_021e332c.unk_14->unk_05 = y;
+            data_ov000_021e3340->unk_02 = 2;
+            data_ov000_021e3340->unk_03 = gMapStateManager->unk_08->unk_0048;
+            data_ov000_021e3340->unk_04 = x;
+            data_ov000_021e3340->unk_05 = y;
 
             func_ov000_021d3fac();
 
@@ -428,7 +414,7 @@ EC BOOL func_ov000_021abf30(void)
 
         gMapStateManager->unk_04->unk_08 = 1;
 
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 40, 0);
+        Proc_Goto(data_ov000_021e333c, 40, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -444,7 +430,7 @@ EC BOOL func_ov000_021ac0c0(void)
 {
     u32 uVar7;
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 18, 0);
+    Proc_Goto(data_ov000_021e333c, 18, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -615,7 +601,7 @@ EC void func_ov000_021ac218(void)
 
     if (data_02196f0c->flagMgr->GetByName("gf_gameover"))
     {
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 0);
+        Proc_Goto(data_ov000_021e333c, 24, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -628,7 +614,7 @@ EC void func_ov000_021ac218(void)
     {
         pUnit->state2 &= ~2;
 
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 0);
+        Proc_Goto(data_ov000_021e333c, 24, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -653,7 +639,7 @@ EC void func_ov000_021ac218(void)
     func_0204eab8(x, y, 0);
     func_0204bbb4(0);
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 9, 0);
+    Proc_Goto(data_ov000_021e333c, 9, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -785,13 +771,13 @@ EC void func_ov000_021ac8b4(void)
 
     if ((data_02196f0c->state & 0x40) != 0)
     {
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 1, 0);
+        Proc_Goto(data_ov000_021e333c, 1, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
     }
     else
     {
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 0);
+        Proc_Goto(data_ov000_021e333c, 4, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -817,7 +803,7 @@ EC void func_ov000_021aca50(void)
 {
     gSoundManager->unk_b0->vfunc_28(SE_SYS_CANSEL1, 0, 0);
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], L_PLAYERPHASE_END, 0);
+    Proc_Goto(data_ov000_021e333c, L_PLAYERPHASE_END, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -834,7 +820,7 @@ EC void func_ov000_021acac4(void)
 
     gMapStateManager->unk_14->unk_04->unk_19 = 0;
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 0);
+    Proc_Goto(data_ov000_021e333c, 24, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -911,7 +897,7 @@ EC void func_ov000_021acc08(ProcPtr proc)
 
 EC void func_ov000_021acc44(void)
 {
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 11, 1);
+    Proc_Goto(data_ov000_021e333c, 11, 1);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -974,7 +960,7 @@ EC void func_ov000_021acd8c(void)
     func_ov000_021d3fa8();
     gMapStateManager->inputHandler->SetButtonVisibility(0x8f);
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 6, 0);
+    Proc_Goto(data_ov000_021e333c, 6, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -985,7 +971,7 @@ EC void func_ov000_021acef4(ProcPtr proc)
 {
     func_ov000_021c266c(proc, data_ov000_021e3340->unk_02, GetUnit(data_ov000_021e3340->unk_03));
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
+    Proc_Goto(data_ov000_021e333c, 39, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -996,7 +982,7 @@ EC void PlayerPhase_StartTrade(ProcPtr proc)
 {
     StartTradeMenu(proc, GetUnit(data_ov000_021e3340->unk_02));
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
+    Proc_Goto(data_ov000_021e333c, 39, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1007,7 +993,7 @@ EC void PlayerPhase_StartSavePointMenu(ProcPtr proc)
 {
     StartMapSave_PointSaveMenu(proc);
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
+    Proc_Goto(data_ov000_021e333c, 39, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1018,7 +1004,7 @@ EC void func_ov000_021ad00c(void)
 {
     func_ov000_021c63f8();
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
+    Proc_Goto(data_ov000_021e333c, 39, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1029,7 +1015,7 @@ EC void func_ov000_021ad048(void)
 {
     StartTargetSelect(data_ov000_021e3340->unk_02, data_ov000_021e3340->unk_03, -1);
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
+    Proc_Goto(data_ov000_021e333c, 39, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1040,7 +1026,7 @@ EC void func_ov000_021ad098(void)
 {
     StartTargetSelect(data_ov000_021e3340->unk_07, gActionSt->unk_37, gActionSt->unk_34);
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 39, 0);
+    Proc_Goto(data_ov000_021e333c, 39, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1072,7 +1058,7 @@ EC void func_ov000_021ad0f4(ProcPtr param_1)
 
 EC void func_ov000_021ad388(void)
 {
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 11, 0);
+    Proc_Goto(data_ov000_021e333c, 11, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1116,7 +1102,7 @@ EC void func_ov000_021ad49c(void)
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, gActionSt->actionId, 0);
 
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 40, 0);
+        Proc_Goto(data_ov000_021e333c, 40, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
         return;
@@ -1124,7 +1110,7 @@ EC void func_ov000_021ad49c(void)
 
     func_ov000_021bc5a8(gMapStateManager->unk_04->unk_04);
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 11, 0);
+    Proc_Goto(data_ov000_021e333c, 11, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1144,14 +1130,14 @@ EC void func_ov000_021ad5bc(void)
     {
         func_ov000_021b0de8(
             gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_ARENA, 0);
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 40, 0);
+        Proc_Goto(data_ov000_021e333c, 40, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
     }
     else
     {
         func_ov000_021bc5a8(gMapStateManager->unk_04->unk_04);
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 11, 0);
+        Proc_Goto(data_ov000_021e333c, 11, 0);
 
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
@@ -1201,7 +1187,7 @@ EC void func_ov000_021ad740(void)
     if (data_02196f0c->flagMgr->GetByName("gf_gameover"))
     {
         func_ov000_021a46b8();
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 0);
+        Proc_Goto(data_ov000_021e333c, 24, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
         func_ov000_021a969c(9);
@@ -1211,7 +1197,7 @@ EC void func_ov000_021ad740(void)
     if (data_02196f0c->flagMgr->GetByName("gf_complete"))
     {
         func_ov000_021a46b8();
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 0);
+        Proc_Goto(data_ov000_021e333c, 24, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
         func_ov000_021a969c(8);
@@ -1221,14 +1207,14 @@ EC void func_ov000_021ad740(void)
     if (gActionSt->actionId == ACTION_10)
     {
         func_ov000_021a43e8();
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 28, 1);
+        Proc_Goto(data_ov000_021e333c, 28, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
         return;
     }
 
     func_ov000_021a46b8();
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 35, 1);
+    Proc_Goto(data_ov000_021e333c, 35, 1);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1258,13 +1244,13 @@ EC void func_ov000_021ad8c4(map::ProcPL * proc)
 {
     if (func_02014b20(proc, 1) != 0)
     {
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 36, 0);
+        Proc_Goto(data_ov000_021e333c, 36, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
         return;
     }
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 26, 0);
+    Proc_Goto(data_ov000_021e333c, 26, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1285,7 +1271,7 @@ EC void func_ov000_021ad8c4(map::ProcPL * proc)
 EC void func_ov000_021ad97c(ProcPtr proc)
 {
     gMapStateManager->inputHandler->SetButtonVisibility(0);
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 0);
+    Proc_Goto(data_ov000_021e333c, 24, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1298,7 +1284,7 @@ EC void func_ov000_021ad9d4(ProcPtr proc)
 {
     gMapStateManager->inputHandler->SetButtonVisibility(0);
     StartMapSave(0x1b, proc);
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 26, 0);
+    Proc_Goto(data_ov000_021e333c, 26, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1307,7 +1293,7 @@ EC void func_ov000_021ad9d4(ProcPtr proc)
 EC void func_ov000_021ada34(ProcPtr proc)
 {
     StartMapSave(0x1c, proc);
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 35, 0);
+    Proc_Goto(data_ov000_021e333c, 35, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1316,7 +1302,7 @@ EC void func_ov000_021ada34(ProcPtr proc)
 EC void func_ov000_021ada78(ProcPtr proc)
 {
     StartMapSave(0x1d, proc);
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 36, 0);
+    Proc_Goto(data_ov000_021e333c, 36, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1352,7 +1338,7 @@ EC void func_ov000_021adb48(void)
     if (func_ov000_021adabc(0, 0) == 0)
     {
         gMapStateManager->cursor->isVisible = TRUE;
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 1);
+        Proc_Goto(data_ov000_021e333c, 4, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -1362,7 +1348,7 @@ EC void func_ov000_021adb48(void)
         return;
     }
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 23, 1);
+    Proc_Goto(data_ov000_021e333c, 23, 1);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -1375,13 +1361,13 @@ EC void func_ov000_021adbf0(void)
 
     if (data_02196f0c->state & 0x40)
     {
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 1, 1);
+        Proc_Goto(data_ov000_021e333c, 1, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
     }
     else
     {
-        Proc_Goto(data_ov000_021e332c.unk_00[4], 4, 1);
+        Proc_Goto(data_ov000_021e333c, 4, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
         func_ov000_021d6e30(0);
@@ -1439,7 +1425,7 @@ EC void func_ov000_021add1c(void)
 
 EC void func_ov000_021addb4(void)
 {
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 36, 0);
+    Proc_Goto(data_ov000_021e333c, 36, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1448,7 +1434,7 @@ EC void func_ov000_021addb4(void)
 EC void PlayerPhase_StartGuide(ProcPtr proc)
 {
     StartGuideMenu(proc);
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 10, 0);
+    Proc_Goto(data_ov000_021e333c, 10, 0);
     data_ov000_021e3340->unk_02 = -1;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1463,7 +1449,7 @@ EC void func_ov000_021ade2c(void)
 
 EC void func_ov000_021ade50(void)
 {
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 36, 0);
+    Proc_Goto(data_ov000_021e333c, 36, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1494,7 +1480,7 @@ EC void func_ov000_021adeec(void)
 
 EC void func_ov000_021adf20(void)
 {
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 11, 0);
+    Proc_Goto(data_ov000_021e333c, 11, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -1511,7 +1497,7 @@ EC void func_ov000_021adf58(void)
         func_0204eb24();
     }
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 1);
+    Proc_Goto(data_ov000_021e333c, 24, 1);
 
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
@@ -1533,7 +1519,7 @@ EC void func_ov000_021ae018(void)
         func_02012b64(gActionSt, sizeof(ActionState));
     }
 
-    Proc_Goto(data_ov000_021e332c.unk_00[4], 24, 0);
+    Proc_Goto(data_ov000_021e333c, 24, 0);
 
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
