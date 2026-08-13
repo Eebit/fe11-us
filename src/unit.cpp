@@ -413,7 +413,7 @@ EC void func_0203bcf4(struct Unit * unit)
         return;
     }
 
-    func_0203bf68(unit, unit->state2, 0, prevState);
+    func_0203bf68(unit);
 
     return;
 }
@@ -533,7 +533,7 @@ EC void func_0203be30(struct Unit * arg_0, struct Unit * arg_1)
     return;
 }
 
-EC void func_0203bf68(struct Unit * srcUnit, u32 arg_1, u32 arg_2, u32 arg_3)
+EC void func_0203bf68(struct Unit * srcUnit)
 {
     struct Unit * dstUnit;
     s32 i;
@@ -691,18 +691,16 @@ EC void func_0203c19c(struct Unit * srcUnit)
     return;
 }
 
-EC void func_0203c284(struct Unit * unit)
+EC char * func_0203c284(struct Unit * unit)
 {
     unit = func_0203c378(unit);
 
     if ((unit->state2 & 0x80000) != 0)
     {
-        func_020423e4(unit->unk_96);
-        return;
+        return func_020423e4(unit->unk_96);
     }
 
-    func_02037eb8(unit->pPersonData);
-    return;
+    return func_02037eb8(unit->pPersonData);
 }
 
 // #func_0203c378

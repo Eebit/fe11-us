@@ -6,10 +6,12 @@
 #include "unknown_types.hpp"
 
 #include "action.hpp"
+#include "anime.hpp"
 #include "database.hpp"
 #include "event.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
+#include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 #include "unit.hpp"
@@ -61,12 +63,63 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 extern struct UnkStruct_02196f24 * data_02196f24;
 extern struct UnkStruct_021974fc * data_021974fc;
 
-void * data_ov000_021e332c = {}; // sizeof = 4
-ProcPtr data_ov000_021e3330 = {};
-void * data_ov000_021e3334 = {}; // CpSkip
-ProcPtr data_ov000_021e3338 = {};
-ProcPtr data_ov000_021e333c = {}; // ProcPL
-struct UnkStruct_021e3340 * data_ov000_021e3340 = {};
+struct UnkStruct_021e332c
+{
+    STRUCT_PAD(0x00, 0x04);
+};
+
+class CpSkip : public Skip
+{
+public:
+    CpSkip(s32 a) : Skip(a)
+    {
+    }
+
+    u8 Get06() const
+    {
+        return this->unk_06;
+    };
+
+    BOOL Check06__()
+    {
+        if (this->unk_06 == 4)
+        {
+            return FALSE;
+        }
+        else if (this->unk_06 == 0)
+        {
+            return FALSE;
+        }
+        else if (this->unk_06 == 1)
+        {
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    BOOL Check06_State4()
+    {
+        return this->unk_06 == 4;
+    }
+
+    BOOL Check06(s32 state)
+    {
+        return this->unk_06 == state;
+    }
+
+    BOOL Check06_Other()
+    {
+        return (this->unk_06 == 0) || (this->unk_06 == 2);
+    }
+};
+
+struct UnkStruct_021e332c * data_ov000_021e332c; // sizeof = 4
+ProcPtr data_ov000_021e3330;
+CpSkip * data_ov000_021e3334; // CpSkip
+ProcPtr data_ov000_021e3338;
+ProcPtr data_ov000_021e333c; // ProcPL
+struct UnkStruct_021e3340 * data_ov000_021e3340;
 // 0x021e3344 // gActionSt
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
@@ -89,6 +142,14 @@ public:
     {
         data_ov000_021e333c = this;
         gMapStateManager->unk_14->unk_27 = 1;
+    }
+
+    virtual ~ProcPL()
+    {
+        gMapStateManager->inputHandler->_021a5d08();
+        gMapStateManager->unk_14->unk_27 = 0;
+        data_ov000_021e3340->unk_06 = 0;
+        data_ov000_021e333c = NULL;
     }
 
     // func_ov000_021b0964 d1
@@ -313,7 +374,7 @@ EC void func_ov000_021aa278(s32 param)
         return;
     }
 
-    pUnit = (struct Unit *)func_ov000_021a995c((u32)GetUnit(gMapStateManager->unk_028[x | y << 5]), data_ov000_021e3324->phase);
+    pUnit = func_ov000_021a995c(GetUnit(gMapStateManager->unk_028[x | y << 5]), data_ov000_021e3324->phase);
 
     if (pUnit == NULL)
     {
@@ -1178,11 +1239,9 @@ EC void func_ov000_021ac218(void)
             sp_00 = gActionSt->unk_2d;
 
             func_ov000_021a3c84(
-                gMapStateManager->unk_db0, data_ov000_021e3324->phase, fp, sp_10, sp_00, sp_04, sp_08,
-                (u8 *)sp_0c);
+                gMapStateManager->unk_db0, data_ov000_021e3324->phase, fp, sp_10, sp_00, sp_04, sp_08, (u8 *)sp_0c);
             func_ov000_021a3c84(
-                gMapStateManager->unk_d30, data_ov000_021e3324->unk_01, fp, sp_10, sp_00, sp_04, sp_08,
-                (u8 *)sp_0c);
+                gMapStateManager->unk_d30, data_ov000_021e3324->unk_01, fp, sp_10, sp_00, sp_04, sp_08, (u8 *)sp_0c);
         }
         else
         {
@@ -1603,7 +1662,7 @@ EC void func_ov000_021acd8c(void)
 
 EC void func_ov000_021acef4(ProcPtr proc)
 {
-    func_ov000_021c266c(proc, data_ov000_021e3340->unk_02, GetUnit(data_ov000_021e3340->unk_03));
+    func_ov000_021c266c(proc, (s8)data_ov000_021e3340->unk_02, GetUnit(data_ov000_021e3340->unk_03));
 
     Proc_Goto(data_ov000_021e333c, 39, 0);
     data_ov000_021e3340->unk_02 = 0;
@@ -1678,6 +1737,7 @@ EC void func_ov000_021ad0f4(ProcPtr param_1)
 
     gMapStateManager->inputHandler->SetButtonVisibility(0);
 
+    psVar7 = GetUnit(data_ov000_021e3340->unk_02);
     psVar1 = GetUnit(data_ov000_021e3340->unk_02);
 
     uVar10 = func_0203c378(psVar1)->pPersonData->pid;
@@ -1942,7 +2002,7 @@ EC void func_ov000_021ada78(ProcPtr proc)
     return;
 }
 
-EC BOOL func_ov000_021adabc(s32 arg_0, s32 arg_1)
+EC BOOL func_ov000_021adabc(struct Unit * arg_0, s32 arg_1)
 {
     if (GetPlayerPhaseProc() == NULL)
     {
@@ -2031,7 +2091,8 @@ EC void func_ov000_021adc98(u32 arg_0)
 
 EC void func_ov000_021add1c(void)
 {
-    Unit * pUnit = GetUnit(gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5]);
+    Unit * pUnit =
+        GetUnit(gMapStateManager->unk_028[gMapStateManager->cursor->xTile | gMapStateManager->cursor->yTile << 5]);
 
     if (pUnit != NULL)
     {

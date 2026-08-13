@@ -43,9 +43,9 @@ public:
     /* 08 */ u16 unk_08;
     /* 0A */ u16 unk_0a;
 
-    Skip()
+    Skip(s32 a)
     {
-        this->unk_0a = 0;
+        this->unk_0a = a;
     }
 
     /* 00 */ virtual BOOL vfunc_00();
@@ -68,8 +68,21 @@ public:
     inline void SkipTransitionFrom2To0Or4To5(void);
     inline void SkipTransition1To0(void);
     inline void SkipTransition0Or2To1(void);
-    inline BOOL IsSkipState4(void);
-    inline BOOL IsSkipState1(void);
+
+    inline BOOL IsSkipState4(void)
+    {
+        if (this->unk_06 == 4)
+        {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    inline BOOL IsSkipState1(void)
+    {
+        return this->unk_06 == 1 ? TRUE : FALSE;
+    }
 };
 
 class EventSkip : public Skip

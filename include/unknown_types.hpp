@@ -69,16 +69,22 @@ public:
 
 struct UnkStruct_02196f24
 {
-    STRUCT_PAD(0x00, 0x03);
-    u8 unk_03;
+    /* 00 */ u8 gameSpeed;
+    /* 01 */ u8 messageSpeed;
+    /* 02 */ u8 autoCursorEnabled;
+    /* 03 */ u8 unk_03;
     /* 04 */ u8 controlSettings;
-    STRUCT_PAD(0x05, 0x07);
+    /* 05 */ u8 unk_05;
+    /* 06 */ u8 animations;
     /* 07 */ u8 enableBgm;
     /* 08 */ u8 enableSoundEffects;
-    STRUCT_PAD(0x09, 0x0C);
+    /* 09 */ u8 gridThickness;
+    /* 0A */ s8 mapBrightness;
+    /* 0B */ u8 soundChannels;
     /* 0C */ u8 enableTutorials;
     /* 0D */ u8 unk_0d;
-    STRUCT_PAD(0x0E, 0x10);
+    /* 0E */ u8 unk_0e;
+    STRUCT_PAD(0x0F, 0x10);
 };
 
 struct UnkStruct_02196f20
@@ -96,7 +102,9 @@ struct UnkStruct_02196f20
     u8 unk_19b;
     s8 unk_19c;
     s8 unk_19d;
-    STRUCT_PAD(0x19E, 0x1A4);
+    STRUCT_PAD(0x19E, 0x1A1);
+    u8 unk_1a1;
+    STRUCT_PAD(0x1A2, 0x1A4);
 };
 
 struct UnkStruct_02196f1c
@@ -113,7 +121,7 @@ class UnkStruct_021e3340
 public:
     u8 unk_00;
     s8 unk_01;
-    s8 unk_02;
+    u8 unk_02;
     u8 unk_03;
     s8 unk_04;
     s8 unk_05;
@@ -121,6 +129,7 @@ public:
     u8 unk_07;
     u8 unk_08;
     u8 unk_09;
+    STRUCT_PAD(0x0A, 0x0C);
 
     inline BOOL Check_02()
     {

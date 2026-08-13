@@ -1910,10 +1910,10 @@ EC struct ItemData * GetItemByIidStr(char *);
 // EC ??? func_02037dfc
 // EC ??? func_02037e44
 // EC ??? GetPersonDBIndex
-EC void func_02037eb8(struct PersonData *);
+EC char * func_02037eb8(struct PersonData *);
 // EC ??? func_02037ef0
 // EC ??? func_02037f88
-// EC ??? GetJobDBIndex
+EC s32 GetJobDBIndex(struct JobData *);
 // EC ??? func_02037fc8
 EC s32 GetJobMaxLevel(struct JobData *);
 EC s32 GetItemDBIndex(struct ItemData *);
@@ -1979,7 +1979,7 @@ EC void func_0203a94c(struct Unit *);
 EC void func_0203bd34(struct Unit *, s32, s32);
 // EC ??? func_0203bdd0
 // EC ??? func_0203be30
-EC void func_0203bf68(struct Unit * unit, u32 arg_1, u32 arg_2, u32 arg_3);
+EC void func_0203bf68(struct Unit * unit);
 // EC ??? func_0203c068
 EC void func_0203c19c(struct Unit *);
 // EC ??? func_0203c284
@@ -2168,7 +2168,7 @@ EC s32 func_02041928(void);
 // EC ??? func_02041d7c
 // EC ??? func_02042110
 EC void func_020421c4(struct Unit *, s32);
-EC void func_020423e4(s32);
+EC char * func_020423e4(s32);
 EC void func_020423fc(void);
 EC void func_02042420(const char *);
 EC void func_02042460(char *);
@@ -2503,7 +2503,7 @@ EC void func_0204ac18(void);
 EC void func_0204aca8(void);
 EC BOOL func_0204ad38(s32, s32, s32);
 EC void func_0204ae60(s32, s32);
-EC void func_0204ae9c(u32, BOOL);
+EC BOOL func_0204ae9c(u32, BOOL);
 // EC ??? func_0204af0c
 // EC ??? func_0204af48
 // EC ??? func_0204b010
@@ -5868,11 +5868,11 @@ EC void func_ov000_021a9714(void *);
 // EC ??? func_ov000_021a9870
 EC void func_ov000_021a98a4(ProcPtr, s32, s32, s32);
 EC BOOL func_ov000_021a98ec(s32, s32);
-EC BOOL func_ov000_021a995c(u32, s32);
+EC struct Unit * func_ov000_021a995c(struct Unit *, s32);
 EC void func_ov000_021a9a48(void);
 EC BOOL func_ov000_021a9cac(void);
 EC void func_ov000_021a9ce4(void);
-// EC ??? func_ov000_021a9d98
+EC void func_ov000_021a9d98(struct Unit *);
 // EC ??? func_ov000_021a9f98
 // EC ??? func_ov000_021aa164
 // EC ??? func_ov000_021aa18c
@@ -5955,10 +5955,10 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021ae298
 // EC ??? func_ov000_021ae2c4
 EC ProcPtr func_ov000_021ae2dc(ProcPtr);
-EC void func_ov000_021ae2f4(/* ??? */);
-EC void func_ov000_021ae30c(/* ??? */);
+EC ProcPtr func_ov000_021ae2f4(ProcPtr);
+EC ProcPtr func_ov000_021ae30c(ProcPtr);
 // EC ??? func_ov000_021ae324
-// EC ??? func_ov000_021ae364
+EC void func_ov000_021ae364(void);
 // EC ??? func_ov000_021ae6c0
 // EC ??? func_ov000_021ae6dc
 // EC ??? func_ov000_021ae72c
