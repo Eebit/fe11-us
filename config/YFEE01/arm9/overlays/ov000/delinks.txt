@@ -19,12 +19,10 @@ src/ov000/map_input_handler.cpp:
 src/ov000/cursor.cpp:
     .text       start:0x021a68c0 end:0x021a6f10
 
-src/ov000/playerphase.cpp:
-    .text       start:0x021aa210 end:0x021ae2f4
+src/ov000/map_sequence.cpp:
+    .text       start:0x021a81d4 end:0x021b0de8
+    .data       start:0x021dba44 end:0x021dc5c0
     .bss        start:0x021e332c end:0x021e3348
-
-src/ov000/mind.cpp:
-    .text       start:0x021af79c end:0x021b06fc
 
 src/ov000/target_select.cpp:
     .text       start:0x021b4224 end:0x021b7abc
