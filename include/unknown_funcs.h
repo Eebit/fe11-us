@@ -1910,10 +1910,10 @@ EC struct ItemData * GetItemByIidStr(char *);
 // EC ??? func_02037dfc
 // EC ??? func_02037e44
 // EC ??? GetPersonDBIndex
-EC void func_02037eb8(struct PersonData *);
+EC char * func_02037eb8(struct PersonData *);
 // EC ??? func_02037ef0
 // EC ??? func_02037f88
-// EC ??? GetJobDBIndex
+EC s32 GetJobDBIndex(struct JobData *);
 // EC ??? func_02037fc8
 EC s32 GetJobMaxLevel(struct JobData *);
 EC s32 GetItemDBIndex(struct ItemData *);
@@ -1979,7 +1979,7 @@ EC void func_0203a94c(struct Unit *);
 EC void func_0203bd34(struct Unit *, s32, s32);
 // EC ??? func_0203bdd0
 // EC ??? func_0203be30
-EC void func_0203bf68(struct Unit * unit, u32 arg_1, u32 arg_2, u32 arg_3);
+EC void func_0203bf68(struct Unit * unit);
 // EC ??? func_0203c068
 EC void func_0203c19c(struct Unit *);
 // EC ??? func_0203c284
@@ -2168,7 +2168,7 @@ EC s32 func_02041928(void);
 // EC ??? func_02041d7c
 // EC ??? func_02042110
 EC void func_020421c4(struct Unit *, s32);
-EC void func_020423e4(s32);
+EC char * func_020423e4(s32);
 EC void func_020423fc(void);
 EC void func_02042420(const char *);
 EC void func_02042460(char *);
@@ -2503,7 +2503,7 @@ EC void func_0204ac18(void);
 EC void func_0204aca8(void);
 EC BOOL func_0204ad38(s32, s32, s32);
 EC void func_0204ae60(s32, s32);
-EC void func_0204ae9c(u32, BOOL);
+EC BOOL func_0204ae9c(u32, BOOL);
 // EC ??? func_0204af0c
 // EC ??? func_0204af48
 // EC ??? func_0204b010
@@ -5720,7 +5720,7 @@ EC void func_ov000_021a3ee4(struct Unit *, s32);
 EC void func_ov000_021a43e8(void);
 // EC ??? func_ov000_021a45cc
 EC void func_ov000_021a4694(void);
-EC void func_ov000_021a46b8(void);
+EC void CpuPhase_021a46b8(void);
 // EC ??? func_ov000_021a46cc
 EC void func_ov000_021a4718(void);
 EC BOOL func_ov000_021a471c(void);
@@ -5833,8 +5833,8 @@ EC BOOL func_ov000_021a8248(void);
 // EC ??? func_ov000_021a82c0
 // EC ??? func_ov000_021a8304
 // EC ??? func_ov000_021a83d0
-// EC ??? func_ov000_021a8438
-// EC ??? func_ov000_021a8464
+// EC ??? ProcSeq_Init
+// EC ??? ProcSeq_OnEnd
 // EC ??? func_ov000_021a8480
 // EC ??? func_ov000_021a8650
 // EC ??? func_ov000_021a8868
@@ -5845,8 +5845,8 @@ EC BOOL func_ov000_021a8248(void);
 // EC ??? func_ov000_021a8e34
 // EC ??? func_ov000_021a8e84
 // EC ??? func_ov000_021a8eec
-// EC ??? func_ov000_021a8f38
-// EC ??? func_ov000_021a8f88
+// EC ??? StartTurnRegenerateExec
+// EC ??? ProcSeq_SwitchPhases
 // EC ??? func_ov000_021a8ff4
 // EC ??? func_ov000_021a9044
 // EC ??? func_ov000_021a9138
@@ -5858,24 +5858,24 @@ EC BOOL func_ov000_021a8248(void);
 // EC ??? func_ov000_021a9550
 // EC ??? func_ov000_021a95b4
 // EC ??? func_ov000_021a9650
-// EC ??? func_ov000_021a9670
-EC void func_ov000_021a969c(s32);
+// EC ??? ProcSeq_HideButtonsAndCursor
+EC void ProcSeq_GotoLabel(s32);
 EC void StartProcSeq(ProcPtr); // Starts "ProcSeq" proc
 EC void func_ov000_021a9714(void *);
-// EC ??? func_ov000_021a97b8
-// EC ??? func_ov000_021a97cc
-// EC ??? func_ov000_021a9824
-// EC ??? func_ov000_021a9870
-EC void func_ov000_021a98a4(ProcPtr, s32, s32, s32);
+// EC ??? EventFixed_StartAreaEvent
+// EC ??? EventFixed_StartDecoyEvent
+// EC ??? EventFixed_ScrollCamera
+// EC ??? EventFixed_Loop_WaitForCamera
+EC void StartEventFixed(ProcPtr, s32, s32, s32);
 EC BOOL func_ov000_021a98ec(s32, s32);
-EC BOOL func_ov000_021a995c(u32, s32);
+EC struct Unit * func_ov000_021a995c(struct Unit *, s32);
 EC void func_ov000_021a9a48(void);
 EC BOOL func_ov000_021a9cac(void);
 EC void func_ov000_021a9ce4(void);
-// EC ??? func_ov000_021a9d98
+EC void func_ov000_021a9d98(struct Unit *);
 // EC ??? func_ov000_021a9f98
-// EC ??? func_ov000_021aa164
-// EC ??? func_ov000_021aa18c
+// EC ??? MotionDispDelay_Loop_Countdown
+// EC ??? StartMotionDispDelay
 EC void func_ov000_021aa1d0(void);
 // EC ??? func_ov000_021aa210
 // EC ??? func_ov000_021aa278
@@ -5955,19 +5955,19 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021ae298
 // EC ??? func_ov000_021ae2c4
 EC ProcPtr func_ov000_021ae2dc(ProcPtr);
-EC void func_ov000_021ae2f4(/* ??? */);
-EC void func_ov000_021ae30c(/* ??? */);
+EC ProcPtr func_ov000_021ae2f4(ProcPtr);
+EC ProcPtr func_ov000_021ae30c(ProcPtr);
 // EC ??? func_ov000_021ae324
-// EC ??? func_ov000_021ae364
-// EC ??? func_ov000_021ae6c0
-// EC ??? func_ov000_021ae6dc
-// EC ??? func_ov000_021ae72c
-// EC ??? func_ov000_021ae7b4
-// EC ??? func_ov000_021ae8d8
-// EC ??? func_ov000_021ae8fc
-// EC ??? func_ov000_021ae958
-// EC ??? func_ov000_021ae9fc
-// EC ??? func_ov000_021aea68
+EC void CpuPhase_021ae364(void);
+// EC ??? CpuPhase_Tick
+// EC ??? CpuPhase_021ae6dc
+// EC ??? CpuPhase_Loop_021ae72c
+// EC ??? CpuPhase_021ae7b4
+// EC ??? CpuPhase_021ae8d8
+// EC ??? CpuPhase_021ae8fc
+// EC ??? CpuPhase_021ae958
+// EC ??? CpuPhase_End
+// EC ??? StartCpuPhase
 // EC ??? func_ov000_021aeb70
 // EC ??? func_ov000_021aebb0
 // EC ??? func_ov000_021aefac
@@ -5982,7 +5982,7 @@ EC void func_ov000_021ae30c(/* ??? */);
 // EC ??? func_ov000_021af62c
 // EC ??? func_ov000_021af6ac
 // EC ??? func_ov000_021af6d4
-// EC ??? func_ov000_021af740
+// EC ??? StartProcLink
 // EC ??? ProcMind_ov000_021af79c
 // EC ??? ProcMind_ov000_021af944
 // EC ??? ProcMind_ov000_021af9bc
@@ -5990,29 +5990,29 @@ EC void func_ov000_021ae30c(/* ??? */);
 // EC ??? ProcMind_ov000_021b0538
 // EC ??? ProcMind_ov000_021b06ac
 EC void StartProcMind(ProcPtr);
-// EC ??? func_ov000_021b06fc
-// EC ??? func_ov000_021b0760
-// EC ??? func_ov000_021b07bc
-// EC ??? func_ov000_021b0818
-// EC ??? func_ov000_021b086c
-// EC ??? func_ov000_021b08bc
-// EC ??? func_ov000_021b0904
-// EC ??? func_ov000_021b0964
+// EC ??? _ZN3map8ProcLinkD0Ev
+// EC ??? _ZN3map8ProcLinkD1Ev
+// EC ??? _ZN3map6ProcCPD0Ev
+// EC ??? _ZN3map6ProcCPD1Ev
+// EC ??? _ZN15MotionDispDelayD0Ev
+// EC ??? _ZN15MotionDispDelayD1Ev
+// EC ??? _ZN3map6ProcPLD0Ev
+// EC ??? _ZN3map6ProcPLD1Ev
 // EC ??? func_ov000_021b09bc
 // EC ??? func_ov000_021b09f4
 // EC ??? func_ov000_021b0d20
-// EC ??? func_ov000_021b0d58
-// EC ??? func_ov000_021b0d5c
-// EC ??? func_ov000_021b0d70
-// EC ??? func_ov000_021b0d74
-// EC ??? func_ov000_021b0d88
-// EC ??? func_ov000_021b0d8c
-// EC ??? func_ov000_021b0da0
-// EC ??? func_ov000_021b0da4
-// EC ??? func_ov000_021b0db8
-// EC ??? func_ov000_021b0dbc
-// EC ??? func_ov000_021b0dd0
-// EC ??? func_ov000_021b0dd4
+// EC ??? _ZN7ProcSeqD1Ev
+// EC ??? _ZN7ProcSeqD0Ev
+// EC ??? _ZN18TurnRegenerateExecD1Ev
+// EC ??? _ZN18TurnRegenerateExecD0Ev
+// EC ??? _ZN13ProcArenaSyncD1Ev
+// EC ??? _ZN13ProcArenaSyncD0Ev
+// EC ??? _ZN23SallyPosChangeHelpFirstD1Ev
+// EC ??? _ZN23SallyPosChangeHelpFirstD0Ev
+// EC ??? _ZN10EventFixedD1Ev
+// EC ??? _ZN10EventFixedD0Ev
+// EC ??? _ZN8ProcMindD1Ev
+// EC ??? _ZN8ProcMindD0Ev
 EC void func_ov000_021b0de8(s32 x, s32 y, s32 actionId, s32 itemSlot);
 EC void func_ov000_021b0e34(s32 x, s32 y, s32 actionId, s32 targetUnitId, s32 itemSlot);
 EC void func_ov000_021b0e84(s32 x, s32 y, s32 actionId, s32 itemSlot);

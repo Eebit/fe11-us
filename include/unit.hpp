@@ -242,8 +242,8 @@ public:
     /* 8F */ u8 alpha;
     u8 unk_90;
     u8 unk_91;
-    u8 unk_92;
-    u8 unk_93;
+    u8 unk_92; // torch duration
+    u8 unk_93; // imitate duration
     u8 unk_94;
     u8 unk_95;
     u8 unk_96;

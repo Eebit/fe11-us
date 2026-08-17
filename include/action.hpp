@@ -53,7 +53,7 @@ public:
 
     void func_ov000_021b0eb4(struct Unit *);
     void func_ov000_021b0ee8(struct Unit *);
-    void func_ov000_021b0f1c(struct Unit *);
+    BOOL func_ov000_021b0f1c(struct Unit *);
 };
 
 extern struct ActionState * gActionSt;

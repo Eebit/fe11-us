@@ -34,16 +34,6 @@ inline BOOL Skip::CheckSkipStateVarious(void)
     return FALSE;
 }
 
-inline BOOL Skip::IsSkipState4(void)
-{
-    if (this->unk_06 == 4)
-    {
-        return TRUE;
-    }
-
-    return FALSE;
-}
-
 inline void Skip::SkipTransitionFrom2To0Or4To5(void)
 {
     if (this->unk_06 == 2)
@@ -75,11 +65,6 @@ inline void Skip::SkipTransition0Or2To1(void)
     }
 
     return;
-}
-
-inline BOOL Skip::IsSkipState1(void)
-{
-    return this->unk_06 == 1 ? TRUE : FALSE;
 }
 
 void Event::func_0204745c(void)
@@ -158,7 +143,7 @@ BOOL Event::StartEventByInfo(struct EventInfo * arg_0, ProcPtr parent)
 
 void Event::func_020476a0(void)
 {
-    data_021974e8.unk_00 = new EventSkip;
+    data_021974e8.unk_00 = new EventSkip(0);
     data_021974e8.unk_00->Init();
     return;
 }

@@ -1439,7 +1439,7 @@ EC void func_ov000_021a4694(void)
     return;
 }
 
-EC void func_ov000_021a46b8(void)
+EC void CpuPhase_021a46b8(void)
 {
     func_ov000_021a45cc(NULL, 0);
     return;

@@ -117,7 +117,9 @@ public:
 class MapStateManager_04_04
 {
 public:
-    STRUCT_PAD(0x00, 0x54);
+    STRUCT_PAD(0x00, 0x04);
+    void * unk_04;
+    STRUCT_PAD(0x04, 0x54);
     u16 unk_54;
     STRUCT_PAD(0x56, 0x5f);
     s8 unk_5f;
@@ -158,10 +160,18 @@ public:
 
 struct MapStateManager_08
 {
-    STRUCT_PAD(0x0000, 0x0042);
+    u8 unk_0000;
+    STRUCT_PAD(0x0001, 0x0040);
+    s8 unk_0040;
+    s8 unk_0041;
     s8 unk_0042;
     s8 unk_0043;
-    STRUCT_PAD(0x0044, 0x0854);
+    s8 unk_0044;
+    s8 unk_0045;
+    u8 unk_0046;
+    u8 unk_0047;
+    s8 unk_0048;
+    STRUCT_PAD(0x0049, 0x0854);
 
     /* 0854 */ s8 * unk_0854;
     /* 0858 */ void * unk_0858;
@@ -243,6 +253,18 @@ public:
     {
         return this->inputType == INPUT_TYPE_KEY;
     }
+
+    inline u8 IsKeyPressed(s32 key)
+    {
+        return this->keyPressed & key ? TRUE : FALSE;
+    }
+
+    inline void SetValues(s32 a, s32 b, s32 c)
+    {
+        this->unk_23 = a;
+        this->unk_21_0 = b;
+        this->unk_21_4 = c;
+    }
 };
 
 class Cursor
@@ -284,6 +306,14 @@ public:
     BOOL _021a6ea8(s32);
 };
 
+class MapStateManager_14_00
+{
+public:
+    STRUCT_PAD(0x00, 0x08);
+    u16 unk_08;
+    u16 unk_0a;
+};
+
 EC void func_ov000_021b9a1c(struct MapStateManager_14 *);
 
 class MapStateManager_14_04
@@ -291,19 +321,27 @@ class MapStateManager_14_04
 public:
     STRUCT_PAD(0x00, 0x10);
     u8 unk_10;
-    STRUCT_PAD(0x11, 0x14);
+    STRUCT_PAD(0x11, 0x13);
+    s8 unk_13;
     u8 unk_14;
     u8 unk_15;
     u8 unk_16;
     /* 17 */ u8 unk_17;
     /* 18 */ u8 unk_18;
     u8 unk_19;
+    u8 unk_1a;
+
+    inline void SetUnk14Unk16(s32 a, s32 b)
+    {
+        this->unk_14 = a;
+        this->unk_16 = b;
+    }
 };
 
 class MapStateManager_14
 {
 public:
-    /* 00 */ void * unk_00;
+    /* 00 */ MapStateManager_14_00 * unk_00;
     /* 04 */ MapStateManager_14_04 * unk_04;
     /* 08 */ u32 unk_08;
     /* 0C */ u32 unk_0c;
