@@ -143,7 +143,7 @@ BOOL Event::StartEventByInfo(struct EventInfo * arg_0, ProcPtr parent)
 
 void Event::func_020476a0(void)
 {
-    data_021974e8.unk_00 = new EventSkip;
+    data_021974e8.unk_00 = new EventSkip(0);
     data_021974e8.unk_00->Init();
     return;
 }

@@ -92,6 +92,10 @@ public:
     /* 04 */ virtual BOOL vfunc_04();
     /* 08 */ virtual void vfunc_08();
 
+    EventSkip(s32 a) : Skip(a)
+    {
+    }
+
     static void SkipTransitionFrom0To2(void);
     static void SkipTransitionFrom2To0Or4To5(void);
     static void SkipTransition1To0(void);
