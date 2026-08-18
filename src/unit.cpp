@@ -395,14 +395,153 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     return;
 }
 
-// #func_0203b720
+EC void func_0203b720(struct Unit * unit, struct SaveBuffer * buf)
+{
+    s32 startPos;
+    s32 endPos;
+    s32 sum;
+    s32 i;
 
-// #func_0203ba20
+    startPos = (u32)buf->unk_04 - buf->unk_00;
+    buf->WriteByte(1);
+
+    if (unit->pPersonData != NULL)
+    {
+        buf->WriteShort(GetPersonDBIndex(unit->pPersonData));
+    }
+    else
+    {
+        buf->WriteShort(0xffff);
+    }
+
+    if (unit->pJobData != NULL)
+    {
+        buf->WriteShort(GetJobDBIndex(unit->pJobData));
+    }
+    else
+    {
+        buf->WriteShort(0xffff);
+    }
+
+    func_020a58b8(unit->unk_50, buf->unk_04, sizeof(unit->unk_50));
+    buf->unk_04 += sizeof(unit->unk_50);
+
+    func_020a58b8(unit->unk_58, buf->unk_04, sizeof(unit->unk_58));
+    buf->unk_04 += sizeof(unit->unk_58);
+
+    buf->WriteByte(unit->level);
+    buf->WriteByte(unit->exp);
+    buf->WriteByte(unit->hp);
+    buf->WriteByte(unit->unk_6d);
+    buf->WriteByte(unit->force->id);
+
+    for (i = 0; i < 6; i++)
+    {
+        buf->WriteByte(unit->unk_84[i]);
+    }
+
+    buf->WriteWord(unit->state1);
+    buf->WriteWord(unit->state2);
+
+    endPos = (u32)buf->unk_04 - buf->unk_00;
+
+    sum = 0;
+
+    for (i = startPos; i < endPos; i++)
+    {
+        sum += ((u8 *)(buf->unk_00))[i];
+    }
+
+    buf->WriteWord(sum);
+
+    return;
+}
+
+EC BOOL func_0203ba20(struct Unit * unit, struct SaveBuffer * buf)
+{
+    s32 startPos;
+    s32 endPos;
+    s32 storedSum;
+    s32 sum;
+    s32 i;
+    s32 type;
+    u16 idx;
+
+    startPos = (u32)buf->unk_04 - buf->unk_00;
+    type = buf->ReadByte();
+
+    idx = buf->ReadShort();
+
+    if (idx == 0xffff)
+    {
+        unit->pPersonData = NULL;
+    }
+    else
+    {
+        unit->pPersonData = &gFE11Database->pPerson[idx];
+    }
+
+    idx = buf->ReadShort();
+
+    if (idx == 0xffff)
+    {
+        unit->pJobData = NULL;
+    }
+    else
+    {
+        unit->pJobData = &gFE11Database->pJob[idx];
+    }
+
+    func_020a58b8(buf->unk_04, unit->unk_50, sizeof(unit->unk_50));
+    buf->unk_04 += sizeof(unit->unk_50);
+
+    func_020a58b8(buf->unk_04, unit->unk_58, sizeof(unit->unk_58));
+    buf->unk_04 += sizeof(unit->unk_58);
+
+    unit->level = buf->ReadByte();
+    unit->exp = buf->ReadByte();
+    unit->hp = buf->ReadByte();
+    unit->unk_6d = buf->ReadByte();
+
+    unit->force = Force::Get(buf->ReadByte());
+
+    for (i = 0; i < 6; i++)
+    {
+        unit->unk_84[i] = buf->ReadByte();
+    }
+
+    unit->state1 = buf->ReadWord();
+    unit->state2 = buf->ReadWord();
+
+    if ((type < 5) && (unit->state2 & 0x10000))
+    {
+        unit->state2 &= ~0x10000;
+        unit->state1 |= 0x20000000;
+    }
+
+    if (type >= 1)
+    {
+        endPos = (u32)buf->unk_04 - buf->unk_00;
+        storedSum = buf->ReadWord();
+
+        sum = 0;
+
+        for (i = startPos; i < endPos; i++)
+        {
+            sum += ((u8 *)(buf->unk_00))[i];
+        }
+
+        if (storedSum != sum)
+        {
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
 
 EC void func_0203bcf4(struct Unit * unit)
 {
-    u32 prevState = unit->state2;
-
     unit->state2 &= 0xFFFD91BE;
     unit->unk_91 = 0;
     unit->unk_92 = 0;
