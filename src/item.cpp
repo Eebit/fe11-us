@@ -306,11 +306,11 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
 
                 if (unk_1b < 0x20)
                 {
-                    unit->unk_6d = unit->unk_6d + item->movBoost;
+                    unit->mov = unit->mov + item->movBoost;
                 }
                 else
                 {
-                    unit->unk_6d = 0x20 - unit->pJobData->mov;
+                    unit->mov = 0x20 - unit->pJobData->mov;
                 }
             }
 

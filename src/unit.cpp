@@ -36,7 +36,7 @@ EC void func_0203a94c(struct Unit * unit)
     unit->hp = 0;
     unit->SetPos(0, 0);
 
-    unit->unk_6d = 0;
+    unit->mov = 0;
 
     for (j = 0; j < UNIT_ITEM_COUNT; j++)
     {
@@ -101,7 +101,7 @@ EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src)
     dst->level = src->level;
     dst->exp = src->exp;
     dst->hp = src->hp;
-    dst->unk_6d = src->unk_6d;
+    dst->mov = src->mov;
 
     dst->SetPos(src->xPos, src->yPos);
 
@@ -188,7 +188,7 @@ EC void SaveUnit(struct Unit * unit, struct SaveBuffer * buf)
     buf->WriteByte(unit->level);
     buf->WriteByte(unit->exp);
     buf->WriteByte(unit->hp);
-    buf->WriteByte(unit->unk_6d);
+    buf->WriteByte(unit->mov);
     buf->WriteByte(unit->xPos);
     buf->WriteByte(unit->yPos);
 
@@ -290,7 +290,7 @@ EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3)
     unit->level = buf->ReadByte();
     unit->exp = buf->ReadByte();
     unit->hp = buf->ReadByte();
-    unit->unk_6d = buf->ReadByte();
+    unit->mov = buf->ReadByte();
 
     x = buf->ReadByte();
     y = buf->ReadByte();
@@ -432,7 +432,7 @@ EC void func_0203b720(struct Unit * unit, struct SaveBuffer * buf)
     buf->WriteByte(unit->level);
     buf->WriteByte(unit->exp);
     buf->WriteByte(unit->hp);
-    buf->WriteByte(unit->unk_6d);
+    buf->WriteByte(unit->mov);
     buf->WriteByte(unit->force->id);
 
     for (i = 0; i < 6; i++)
@@ -501,7 +501,7 @@ EC BOOL func_0203ba20(struct Unit * unit, struct SaveBuffer * buf)
     unit->level = buf->ReadByte();
     unit->exp = buf->ReadByte();
     unit->hp = buf->ReadByte();
-    unit->unk_6d = buf->ReadByte();
+    unit->mov = buf->ReadByte();
 
     unit->force = Force::Get(buf->ReadByte());
 
@@ -1129,7 +1129,7 @@ EC u32 func_0203c75c(struct Unit * unit)
 
 EC s32 func_0203c77c(struct Unit * unit)
 {
-    return unit->pJobData->mov + unit->unk_6d;
+    return unit->pJobData->mov + unit->mov;
 }
 
 EC s32 func_0203c790(struct Unit * unit)
@@ -1989,9 +1989,82 @@ EC void func_0203d840(struct Unit * unit, struct JobData * job, BOOL arg_2)
     return;
 }
 
-// #func_0203d874
+EC void func_0203d874(struct Unit * unit)
+{
+    struct Unit * supporterUnit;
+    struct SupportData * support;
+    s32 rank;
+    s32 points;
+    s32 i;
 
-// #func_0203dad4
+    for (i = 0; i < 5; i++)
+    {
+        support = &unit->pPersonData->supports[i];
+
+        if (support->supporter == NULL)
+        {
+            continue;
+        }
+
+        supporterUnit = unit->force->func_02040d68(support->supporter);
+
+        if (supporterUnit == NULL)
+        {
+            continue;
+        }
+
+        points = func_0203c378(unit)->unk_8a[i];
+
+        if (points >= support->pointsA)
+        {
+            rank = 3;
+        }
+        else if (points >= support->pointsB)
+        {
+            rank = 2;
+        }
+        else if (points >= support->pointsC)
+        {
+            rank = 1;
+        }
+        else
+        {
+            rank = 0;
+        }
+
+        if (rank == 3 ? TRUE : FALSE)
+        {
+            continue;
+        }
+
+        func_0203c378(unit)->unk_8a[i]++;
+    }
+
+    return;
+}
+
+EC BOOL func_0203dad4(struct Unit * unit, struct Unit * other)
+{
+    char ** pidStr;
+    struct Unit_unk_a4 * unk_a4 = unit->unk_a4;
+
+    if (unk_a4 == NULL)
+    {
+        return FALSE;
+    }
+
+    for (pidStr = unk_a4->unk_08; *pidStr != NULL; pidStr++)
+    {
+        struct PersonData * pPersonData = other->pPersonData;
+
+        if (pPersonData == GetPersonByPidStr(*pidStr))
+        {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
 
 EC s32 func_0203db28(struct Unit * unit)
 {

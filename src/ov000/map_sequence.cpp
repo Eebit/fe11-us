@@ -628,7 +628,7 @@ EC void func_ov000_021a8650(void)
                         case 0xc:
                             if ((pUnit->pJobData->unitType & 4) != 0)
                             {
-                                pUnit->unk_6d++;
+                                pUnit->mov++;
                             }
                     }
                 }
@@ -647,7 +647,7 @@ EC void func_ov000_021a8650(void)
                         case 0xd:
                             if ((pUnit->pJobData->unitType & 0x20) != 0)
                             {
-                                pUnit->unk_6d--;
+                                pUnit->mov--;
                             }
 
                             break;

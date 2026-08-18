@@ -202,6 +202,7 @@ struct Unit_unk_a4
 {
     char * unk_00;
     u16 unk_04;
+    char * unk_08[0];
 };
 
 class Unit
@@ -233,12 +234,12 @@ public:
     /* 6A */ u8 level;
     /* 6B */ u8 exp;
     /* 6C */ s8 hp;
-    s8 unk_6d;
+    /* 6D */ s8 mov;
     /* 6E */ s8 xPos;
     /* 6F */ s8 yPos;
     /* 70 */ struct Item items[UNIT_ITEM_COUNT];
     u8 unk_84[6];
-    u8 unk_8a[5];
+    /* 8A */ u8 unk_8a[5]; // Support points?
     /* 8F */ u8 alpha;
     u8 unk_90;
     u8 unk_91; // pure water duration
