@@ -55,6 +55,22 @@ enum
     CA_UNK_29 = (1 << 29),
 };
 
+enum
+{
+    US_ACTED = (1 << 0),
+
+    US_DEAD = (1 << 3),
+
+    US_ITEMS_TO_CONVOY = (1 << 7),
+
+    US_NOT_PRESENT = (1 << 12),
+    US_DANGER_ZONE_ACTIVE = (1 << 13),
+
+    US_HOVERED = (1 << 17),
+
+    US_EVENT_DEAD = (1 << 29), // Died as a "decoy" for Marth
+};
+
 class Unit;
 struct PersonData;
 
