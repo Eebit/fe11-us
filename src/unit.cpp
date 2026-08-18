@@ -1726,7 +1726,54 @@ EC s32 func_0203d294(struct Unit * unit, s32 slot, BOOL arg_2)
     return 0;
 }
 
-// #func_0203d2e4
+struct WeaponBonus
+{
+    s8 unk_00; // type?
+    STRUCT_PAD(0x01, 0x02);
+    s8 unk_02[0x0A];
+};
+
+EC s32 func_0203d2e4(struct Unit * unit, struct ItemData * item)
+{
+    struct WeaponBonus * row;
+    s32 type;
+    s32 wlvl;
+    u8 * levels;
+    s32 rank;
+
+    if (item == NULL)
+    {
+        return 0;
+    }
+
+    type = item->type;
+
+    if (type >= ITYPE_DRAGONSTONE)
+    {
+        return 0;
+    }
+
+    for (row = (struct WeaponBonus *)gFE11Database->unk_30; row->unk_00 != -1; row++)
+    {
+        if (row->unk_00 == type)
+        {
+            break;
+        }
+    }
+
+    wlvl = func_0203c7ac(unit, type);
+    levels = gFE11Database->pWeaponLevel;
+
+    for (rank = 0; rank < 5; rank++)
+    {
+        if (wlvl >= levels[rank])
+        {
+            break;
+        }
+    }
+
+    return row->unk_02[rank];
+}
 
 EC s32 ComputeHitRate(struct Unit * unit, struct ItemData * item, BOOL arg_2)
 {
@@ -1777,7 +1824,47 @@ EC s32 func_0203d40c(struct Unit * unit, s32 slot, BOOL arg_2)
     return 0;
 }
 
-// #func_0203d45c
+EC s32 func_0203d45c(struct Unit * unit, struct ItemData * item)
+{
+    struct WeaponBonus * row;
+    s32 type;
+    s32 wlvl;
+    u8 * levels;
+    s32 rank;
+
+    if (item == NULL)
+    {
+        return 0;
+    }
+
+    type = item->type;
+
+    if (type >= ITYPE_DRAGONSTONE)
+    {
+        return 0;
+    }
+
+    for (row = (struct WeaponBonus *)gFE11Database->unk_30; row->unk_00 != -1; row++)
+    {
+        if (row->unk_00 == type)
+        {
+            break;
+        }
+    }
+
+    wlvl = func_0203c7ac(unit, type);
+    levels = gFE11Database->pWeaponLevel;
+
+    for (rank = 0; rank < 5; rank++)
+    {
+        if (wlvl >= levels[rank])
+        {
+            break;
+        }
+    }
+
+    return row->unk_02[rank];
+}
 
 EC s32 ComputeCritRate(struct Unit * unit, struct ItemData * item)
 {
