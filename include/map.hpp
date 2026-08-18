@@ -3,6 +3,7 @@
 
 #include "global.h"
 
+#include "disposition.hpp"
 #include "heap.hpp"
 
 class UnkStruct_021e334c
@@ -420,7 +421,7 @@ public:
     /* 00C */ InputHandler * inputHandler;
     /* 010 */ Cursor * cursor;
     /* 014 */ struct MapStateManager_14 * unk_14;
-    /* 018 */ void * unk_18;
+    /* 018 */ struct DisposGroup * unk_18;
     /* 01C */ struct MapStateManager_1C * unk_1c;
     /* 020 */ u16 unk_20;
     /* 022 */ u16 unk_22;

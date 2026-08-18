@@ -72,8 +72,8 @@ struct PersonData
     /* 00 */ char * pid; // Identifier in database
     /* 04 */ char * fid; // Identifier in face.bin
     /* 08 */ char * mpid; // "Message PID" - string for character; used for generics
-    /* 0C */ s8 bases[8];
-    /* 14 */ s8 growths[8];
+    /* 0C */ s8 bases[UNIT_STAT_COUNT];
+    /* 14 */ s8 growths[UNIT_STAT_COUNT];
     /* 1C */ u8 weaponLevels[8];
     /* 24 */ u32 attributes;
     /* 28 */ struct SupportData supports[5];
@@ -83,10 +83,10 @@ struct JobData
 {
     /* 00 */ char * jid; // Identifier in database
     /* 04 */ char * mjid; // "Message JID" - string for class name
-    /* 08 */ s8 bases[8];
-    /* 10 */ s8 unk_10[8]; // growths
-    /* 18 */ u8 unk_18[8]; // enemy growths
-    /* 20 */ s8 caps[8];
+    /* 08 */ s8 bases[UNIT_STAT_COUNT];
+    /* 10 */ s8 growths[UNIT_STAT_COUNT];
+    /* 18 */ u8 unk_18[UNIT_STAT_COUNT]; // enemy growths
+    /* 20 */ s8 caps[UNIT_STAT_COUNT];
     /* 28 */ u8 unk_28;
     /* 29 */ u8 mov;
     /* 2A */ u8 unk_2a;
@@ -125,7 +125,7 @@ struct ItemData
     /* 19 */ u8 minRange;
     /* 1A */ u8 maxRange;
     /* 1B */ u8 movBoost;
-    /* 1C */ s8 statBoost[8];
+    /* 1C */ s8 statBoost[UNIT_STAT_COUNT];
     /* 24 */ u64 attributes;
     STRUCT_PAD(0x2C, 0x30);
     /* 30 */ char * mapAnimFile;
@@ -236,12 +236,12 @@ public:
     s8 unk_6d;
     /* 6E */ s8 xPos;
     /* 6F */ s8 yPos;
-    /* 70 */ struct Item items[5];
+    /* 70 */ struct Item items[UNIT_ITEM_COUNT];
     u8 unk_84[6];
     u8 unk_8a[5];
     /* 8F */ u8 alpha;
     u8 unk_90;
-    u8 unk_91;
+    u8 unk_91; // pure water duration
     u8 unk_92; // torch duration
     u8 unk_93; // imitate duration
     u8 unk_94;

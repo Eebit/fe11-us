@@ -379,14 +379,14 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             s8 * r2;
             int i;
 
-            for (r2 = item->statBoost, i = 0; i < 8; i++)
+            for (r2 = item->statBoost, i = 0; i < UNIT_STAT_COUNT; i++)
             {
                 if (r2[i] == 0)
                 {
                     continue;
                 }
 
-                if (i != 7)
+                if (i != UNIT_STAT_RES)
                 {
                     continue;
                 }

@@ -4,6 +4,7 @@
 
 #include "database.hpp"
 #include "item.hpp"
+#include "map.hpp"
 #include "save.hpp"
 
 #include "unit.hpp"
@@ -1083,7 +1084,9 @@ EC BOOL func_0203c834(struct Unit * unit, struct ItemData * item, s32 arg_2)
         }
     }
 
-    if (item->attributes & (IA_UNK_50 | IA_MARTH_LOCK | IA_PRINCESS_LOCK | IA_CAEDA_LOCK | IA_LENA_LOCK | IA_UNK_55 | IA_UNK_56 | IA_LONGBOW | IA_EXCALIBUR_LOCK | IA_AURA_LOCK))
+    if (item->attributes &
+        (IA_UNK_50 | IA_MARTH_LOCK | IA_PRINCESS_LOCK | IA_CAEDA_LOCK | IA_LENA_LOCK | IA_UNK_55 | IA_UNK_56 |
+         IA_LONGBOW | IA_EXCALIBUR_LOCK | IA_AURA_LOCK))
     {
         if ((item->attributes & IA_UNK_50) && !CheckUnitAttribute(unit, CA_UNK_1))
         {
@@ -1788,7 +1791,7 @@ EC void func_0203d6dc(struct Unit * unit)
             iVar3 = IntSys_Div(unit->unk_58[i] + unit->unk_50[i] * 100, 10);
         }
 
-        iVar4 = unit->pPersonData->growths[i] + unit->pJobData->unk_10[i] - iVar3;
+        iVar4 = unit->pPersonData->growths[i] + unit->pJobData->growths[i] - iVar3;
         iVar6 = unit->unk_50[i];
         iVar3 = iVar6;
 
@@ -1814,7 +1817,7 @@ EC void func_0203d6dc(struct Unit * unit)
 
         if ((iVar6 < iVar3) || (GetUnitStat(unit, i, NULL, 0) < unit->pJobData->caps[i]))
         {
-            iVar3 = unit->pPersonData->growths[i] + unit->pJobData->unk_10[i];
+            iVar3 = unit->pPersonData->growths[i] + unit->pJobData->growths[i];
 
             if (iVar3 < 1)
             {
@@ -1851,19 +1854,152 @@ EC void func_0203d840(struct Unit * unit, struct JobData * job, BOOL arg_2)
 
 // #func_0203dad4
 
-// #func_0203db28
+EC s32 func_0203db28(struct Unit * unit)
+{
+    return gMapStateManager->unk_18->spawns[unit->unk_69].xFinal;
+}
 
-// #func_0203db50
+EC s32 func_0203db50(struct Unit * unit)
+{
+    return gMapStateManager->unk_18->spawns[unit->unk_69].yFinal;
+}
 
-// #func_0203db78
+EC void func_0204003c(struct Unit *);
 
-// #func_0203db94
+EC void func_0203db78(struct Unit * unit)
+{
+    if (unit->unk_05 == 0)
+    {
+        unit->unk_05 = 1;
+    }
 
-// #func_0203dbc0
+    func_0204003c(unit);
 
-// #func_0203dbd4
+    return;
+}
 
-// #func_0203dd48
+EC void func_0203db94(struct Unit * unit, s32 arg_1)
+{
+    u16 flags = unit->unk_00;
+
+    if (arg_1 == 0)
+    {
+        if (!(flags & 0x1000))
+        {
+            return;
+        }
+    }
+    else
+    {
+        if (!(flags & 0x2000))
+        {
+            return;
+        }
+    }
+
+    func_0203db78(unit);
+
+    return;
+}
+
+EC s32 func_0203dbc0(void)
+{
+    return RollRN(0, 99);
+}
+
+EC s32 func_0203dbd4(struct Unit * unit, s32 useMag, s32 useRes)
+{
+    s32 sum;
+    s32 stat;
+
+    sum = GetUnitMaxHp(unit);
+
+    if (useMag)
+    {
+        stat = GetUnitMag(unit, NULL, TRUE);
+    }
+    else
+    {
+        stat = GetUnitStr(unit, NULL, TRUE);
+    }
+
+    sum += stat * 3;
+
+    sum += GetUnitSkl(unit, NULL, TRUE);
+    sum += GetUnitSpd(unit, NULL, TRUE) * 2;
+    sum += GetUnitLuk(unit, NULL, TRUE);
+
+    if (useRes)
+    {
+        stat = GetUnitRes(unit, NULL, TRUE);
+    }
+    else
+    {
+        stat = GetUnitDef(unit, NULL, TRUE);
+    }
+
+    sum += stat * 2;
+
+    if (unit->pJobData == GetJobByJidStr("JID_SWORDMASTER") || unit->pJobData == GetJobByJidStr("JID_SWORDMASTER_F"))
+    {
+        sum += GetUnitSkl(unit, NULL, TRUE);
+    }
+
+    if (unit->pJobData == GetJobByJidStr("JID_SNIPER") || unit->pJobData == GetJobByJidStr("JID_SNIPER_F"))
+    {
+        sum += (GetUnitStr(unit, NULL, TRUE) + GetUnitSkl(unit, NULL, TRUE)) >> 1;
+    }
+
+    if (unit->pJobData == GetJobByJidStr("JID_BERSERKER"))
+    {
+        sum += GetUnitStr(unit, NULL, TRUE);
+    }
+
+    return sum;
+}
+
+EC void func_0203dd48(struct Unit * unit)
+{
+    s32 iVar3;
+    s32 iVar4;
+    s32 cap;
+    s32 i;
+
+    for (i = 0; i < UNIT_STAT_COUNT; i++)
+    {
+        iVar4 = (unit->pPersonData->growths[i] + unit->pJobData->growths[i]) >> 1;
+        iVar3 = unit->unk_50[i];
+
+        if (iVar4 >= 100)
+        {
+            cap = unit->pJobData->caps[i];
+            iVar4 -= 100;
+
+            if (GetUnitStat(unit, i, NULL, FALSE) < cap)
+            {
+                iVar3++;
+            }
+        }
+
+        unit->unk_50[i] = iVar3;
+
+        if (func_0203dbc0() < iVar4)
+        {
+            cap = unit->pJobData->caps[i];
+
+            if (GetUnitStat(unit, i, NULL, FALSE) < cap)
+            {
+                iVar3++;
+            }
+        }
+
+        unit->unk_50[i] = iVar3;
+    }
+
+    unit->hp = GetUnitMaxHp(unit);
+
+    return;
+}
 
 EC void func_0203de10(struct Unit * unit)
 {
@@ -1873,7 +2009,7 @@ EC void func_0203de10(struct Unit * unit)
 
     for (i = 0; i < 8; i++)
     {
-        iVar4 = (unit->pPersonData->growths[i] + unit->pJobData->unk_10[i]) >> 1;
+        iVar4 = (unit->pPersonData->growths[i] + unit->pJobData->growths[i]) >> 1;
         iVar3 = unit->unk_50[i];
 
         if (iVar4 >= 100)
