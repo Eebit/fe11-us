@@ -1897,7 +1897,7 @@ EC void func_02035f20(void *);
 // EC ??? func_02037890
 // EC ??? func_0203793c
 EC void func_020379c0(void);
-EC struct MapFile * LoadFileAndCache(char *, u32);
+EC void * LoadFileAndCache(char *, u32);
 // EC ??? _ZN12FE11Database4InitEv
 EC struct PersonData * GetPersonByPidStr(char *);
 EC struct JobData * GetJobByJidStr(char *);
