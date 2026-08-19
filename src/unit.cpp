@@ -11,7 +11,6 @@
 
 EC void func_0203df78(struct Unit_unk_30 *);
 
-// _ZN4Unit4InitEv
 void Unit::Init(void)
 {
     s32 i;
@@ -76,7 +75,6 @@ void Unit::Init(void)
     return;
 }
 
-// _ZN4Unit4CopyEPS_
 Unit * Unit::Copy(Unit * src)
 {
     s16 * psVar2;
@@ -172,7 +170,6 @@ EC void func_020a58b8(void *, void *, s32);
 
 extern struct Unit * gUnitList;
 
-// _ZN4Unit4SaveEP10SaveBuffer
 void Unit::Save(struct SaveBuffer * buf)
 {
     s32 i;
@@ -271,7 +268,6 @@ void Unit::Save(struct SaveBuffer * buf)
     return;
 }
 
-// _ZN4Unit4LoadEP10SaveBufferl
 void Unit::Load(struct SaveBuffer * buf, s32 param_3)
 {
     s32 i;
@@ -399,7 +395,6 @@ void Unit::Load(struct SaveBuffer * buf, s32 param_3)
     return;
 }
 
-// _ZN4Unit9_0203b720EP10SaveBuffer
 void Unit::_0203b720(struct SaveBuffer * buf)
 {
     s32 startPos;
@@ -462,7 +457,6 @@ void Unit::_0203b720(struct SaveBuffer * buf)
     return;
 }
 
-// _ZN4Unit9_0203ba20EP10SaveBuffer
 BOOL Unit::_0203ba20(struct SaveBuffer * buf)
 {
     s32 startPos;
@@ -546,7 +540,6 @@ BOOL Unit::_0203ba20(struct SaveBuffer * buf)
     return TRUE;
 }
 
-// _ZN4Unit9_0203bcf4Ev
 void Unit::_0203bcf4(void)
 {
     this->state2 &= 0xFFFD91BE;
@@ -565,8 +558,7 @@ void Unit::_0203bcf4(void)
     return;
 }
 
-// _ZN4Unit9_0203bd34Ell
-void Unit::_0203bd34(s32 factionId, BOOL append)
+void Unit::MoveToForce(s32 factionId, BOOL append)
 {
     if (((this->force->id < 2) && (factionId >= 2)) && (factionId != 5))
     {
@@ -595,7 +587,6 @@ void Unit::_0203bd34(s32 factionId, BOOL append)
     }
 }
 
-// _ZN4Unit9_0203bdd0Eh
 Unit * Unit::_0203bdd0(u8 arg_1)
 {
     s32 i;
@@ -624,7 +615,6 @@ Unit * Unit::_0203bdd0(u8 arg_1)
     return NULL;
 }
 
-// _ZN4Unit9_0203be30EPS_
 EC void Unit::_0203be30(struct Unit * arg_1)
 {
     s32 i;
@@ -633,7 +623,7 @@ EC void Unit::_0203be30(struct Unit * arg_1)
 
     pUVar5 = Force::Get(4)->head;
 
-    pUVar5->_0203bd34(5, TRUE);
+    pUVar5->MoveToForce(5, TRUE);
 
     pUVar5->Copy(this);
     this->Copy(arg_1);
@@ -667,7 +657,7 @@ EC void Unit::_0203be30(struct Unit * arg_1)
             continue;
         }
 
-        if (this->_0203cb6c(i, 0))
+        if (this->CanEquip(i, 0))
         {
             continue;
         }
@@ -683,7 +673,6 @@ EC void Unit::_0203be30(struct Unit * arg_1)
     return;
 }
 
-// _ZN4Unit9_0203bf68Ev
 void Unit::_0203bf68(void)
 {
     struct Unit * dstUnit;
@@ -719,36 +708,35 @@ void Unit::_0203bf68(void)
 
         dst = &dstUnit->items[i];
 
-        if (!(dst->flags & 0x10))
+        if (!(dst->flags & ITEM_FLAG_EQUIPPED))
         {
             continue;
         }
 
-        if (dstUnit->_0203cb6c(i, 0))
+        if (dstUnit->CanEquip(i, 0))
         {
             continue;
         }
 
-        dst->flags &= ~0x10;
+        dst->flags &= ~ITEM_FLAG_EQUIPPED;
     }
 
     this->Copy(dstUnit);
 
     this->state2 &= ~0x8000;
 
-    dstUnit->_0203bd34(4, TRUE);
+    dstUnit->MoveToForce(4, TRUE);
 
     return;
 }
 
-// _ZN4Unit9_0203c068EPS_
 void Unit::_0203c068(struct Unit * arg_1)
 {
     s32 i;
 
     struct Unit * pUVar7 = Force::Get(4)->head;
 
-    pUVar7->_0203bd34(5, TRUE);
+    pUVar7->MoveToForce(5, TRUE);
 
     pUVar7->Copy(this);
     this->Copy(arg_1);
@@ -771,17 +759,17 @@ void Unit::_0203c068(struct Unit * arg_1)
         this->items[i] = &pUVar7->items[i];
         pUVar9 = &this->items[i];
 
-        if (!(pUVar9->flags & 0x10))
+        if (!(pUVar9->flags & ITEM_FLAG_EQUIPPED))
         {
             continue;
         }
 
-        if (this->_0203cb6c(i, 0))
+        if (this->CanEquip(i, 0))
         {
             continue;
         }
 
-        pUVar9->flags &= ~0x10;
+        pUVar9->flags &= ~ITEM_FLAG_EQUIPPED;
     }
 
     this->state1 &= ~(CA_UNK_1 | CA_UNK_12);
@@ -793,7 +781,6 @@ void Unit::_0203c068(struct Unit * arg_1)
     return;
 }
 
-// _ZN4Unit9_0203c19cEv
 void Unit::_0203c19c(void)
 {
     struct Unit * dstUnit;
@@ -822,29 +809,28 @@ void Unit::_0203c19c(void)
 
         dst = &dstUnit->items[i];
 
-        if (!(dst->flags & 0x10))
+        if (!(dst->flags & ITEM_FLAG_EQUIPPED))
         {
             continue;
         }
 
-        if (dstUnit->_0203cb6c(i, 0))
+        if (dstUnit->CanEquip(i, 0))
         {
             continue;
         }
 
-        dst->flags &= ~0x10;
+        dst->flags &= ~ITEM_FLAG_EQUIPPED;
     }
 
     this->Copy(dstUnit);
 
     this->state2 &= ~0x40000;
 
-    dstUnit->_0203bd34(4, TRUE);
+    dstUnit->MoveToForce(4, TRUE);
 
     return;
 }
 
-// _ZN4Unit9_0203c284Ev
 char * Unit::_0203c284(void)
 {
     Unit * unit = func_0203c378(this);
@@ -859,7 +845,6 @@ char * Unit::_0203c284(void)
 
 // #func_0203c378
 
-// _ZN4Unit8GetMaxHpEv
 s32 Unit::GetMaxHp(void)
 {
     struct JobData * job = this->pJobData;
@@ -876,7 +861,6 @@ s32 Unit::GetMaxHp(void)
     return hp;
 }
 
-// _ZN4Unit6GetStrEP8ItemDatal
 s32 Unit::GetStr(ItemData * item, BOOL unused)
 {
     struct JobData * job;
@@ -907,7 +891,6 @@ s32 Unit::GetStr(ItemData * item, BOOL unused)
     return str;
 }
 
-// _ZN4Unit6GetMagEP8ItemDatal
 s32 Unit::GetMag(ItemData * item, BOOL unused)
 {
     struct JobData * job;
@@ -938,7 +921,6 @@ s32 Unit::GetMag(ItemData * item, BOOL unused)
     return mag;
 }
 
-// _ZN4Unit6GetSklEP8ItemDatal
 s32 Unit::GetSkl(ItemData * item, BOOL unused)
 {
     struct JobData * job;
@@ -969,7 +951,6 @@ s32 Unit::GetSkl(ItemData * item, BOOL unused)
     return skl;
 }
 
-// _ZN4Unit6GetSpdEP8ItemDatal
 s32 Unit::GetSpd(ItemData * item, BOOL unused)
 {
     struct JobData * job;
@@ -1000,7 +981,6 @@ s32 Unit::GetSpd(ItemData * item, BOOL unused)
     return spd;
 }
 
-// _ZN4Unit6GetLukEP8ItemDatal
 s32 Unit::GetLuk(ItemData * item, BOOL unused)
 {
     struct JobData * job;
@@ -1031,7 +1011,6 @@ s32 Unit::GetLuk(ItemData * item, BOOL unused)
     return luk;
 }
 
-// _ZN4Unit6GetDefEP8ItemDatal
 s32 Unit::GetDef(ItemData * item, BOOL unused)
 {
     struct JobData * job;
@@ -1062,7 +1041,6 @@ s32 Unit::GetDef(ItemData * item, BOOL unused)
     return def;
 }
 
-// _ZN4Unit6GetResEP8ItemDatal
 s32 Unit::GetRes(ItemData * item, BOOL arg_2)
 {
     struct JobData * job;
@@ -1098,7 +1076,6 @@ s32 Unit::GetRes(ItemData * item, BOOL arg_2)
     return res;
 }
 
-// _ZN4Unit7GetStatEmP8ItemDatal
 s32 Unit::GetStat(u32 statIdx, ItemData * item, s32 arg_3)
 {
     struct JobData * job;
@@ -1134,7 +1111,6 @@ s32 Unit::GetStat(u32 statIdx, ItemData * item, s32 arg_3)
     return stat;
 }
 
-// _ZN4Unit9_0203c73cEl
 BOOL Unit::_0203c73c(s32 arg_1)
 {
     if ((arg_1 == UNIT_STAT_RES) && (this->unk_91 != 0))
@@ -1145,40 +1121,35 @@ BOOL Unit::_0203c73c(s32 arg_1)
     return FALSE;
 }
 
-// _ZN4Unit9_0203c75cEv
 u32 Unit::_0203c75c(void)
 {
     u32 base = this->pPersonData->bases[UNIT_STAT_RES] + this->pJobData->bases[UNIT_STAT_RES];
     return base + this->unk_50[UNIT_STAT_RES];
 }
 
-// _ZN4Unit6GetMovEv
 s32 Unit::GetMov(void)
 {
     return this->pJobData->mov + this->mov;
 }
 
-// _ZN4Unit9_0203c790Ev
 s32 Unit::_0203c790(void)
 {
     return this->pJobData->unk_2a + (((this->unk_92 + 1) & ~1) >> 1);
 }
 
-// _ZN4Unit9_0203c7acEm
-s32 Unit::_0203c7ac(u32 arg_1)
+s32 Unit::GetWeaponLevel(u32 type)
 {
-    u32 uVar1 = this->pJobData->weaponLevels[arg_1];
+    u32 uVar1 = this->pJobData->weaponLevels[type];
 
     if (uVar1 != 0)
     {
-        return uVar1 + this->pPersonData->weaponLevels[arg_1] + this->unk_84[arg_1];
+        return uVar1 + this->pPersonData->weaponLevels[type] + this->unk_84[type];
     }
 
     return 0;
 }
 
-// _ZN4Unit9_0203c7e4Em
-s32 Unit::_0203c7e4(u32 arg_1)
+s32 Unit::GetBaseWeaponLevel(u32 arg_1)
 {
     if (this->pJobData->weaponLevels[arg_1] != 0)
     {
@@ -1188,14 +1159,12 @@ s32 Unit::_0203c7e4(u32 arg_1)
     return 0;
 }
 
-// _ZN4Unit14CheckAttributeEm
 s32 Unit::CheckAttribute(u32 attribute)
 {
     return (this->state1 & attribute) | (this->GetPersonAttr() & attribute) | (this->GetJobAttr() & attribute);
 }
 
-// _ZN4Unit9_0203c834EP8ItemDatal
-BOOL Unit::_0203c834(ItemData * item, s32 arg_2)
+BOOL Unit::CanEquip(ItemData * item, s32 arg_2)
 {
     s32 itemType = item->type;
 
@@ -1229,7 +1198,7 @@ BOOL Unit::_0203c834(ItemData * item, s32 arg_2)
             ((item->attributes & IA_EXCALIBUR_WLVL) && this->CheckAttribute(CA_UNK_7)))
         {
             s32 wlvl = gFE11Database->pWeaponLevel[4];
-            if (wlvl > this->_0203c7ac(itemType))
+            if (wlvl > this->GetWeaponLevel(itemType))
             {
                 return FALSE;
             }
@@ -1237,7 +1206,7 @@ BOOL Unit::_0203c834(ItemData * item, s32 arg_2)
         else
         {
             s32 wlvl = item->wpnLevel;
-            if (wlvl > this->_0203c7ac(itemType))
+            if (wlvl > this->GetWeaponLevel(itemType))
             {
                 return FALSE;
             }
@@ -1302,13 +1271,11 @@ BOOL Unit::_0203c834(ItemData * item, s32 arg_2)
     return TRUE;
 }
 
-// _ZN4Unit9_0203cb6cEll
-BOOL Unit::_0203cb6c(s32 slot, s32 arg_2)
+BOOL Unit::CanEquip(s32 slot, s32 arg_2)
 {
-    return this->_0203c834(this->items[slot].GetData(), arg_2);
+    return this->CanEquip(this->items[slot].GetData(), arg_2);
 }
 
-// _ZN4Unit21GetEquippedWeaponSlotEv
 s32 Unit::GetEquippedWeaponSlot(void)
 {
     s32 i;
@@ -1327,8 +1294,7 @@ s32 Unit::GetEquippedWeaponSlot(void)
     return -1;
 }
 
-// _ZN4Unit9_0203cbc4Ey
-u64 Unit::_0203cbc4(u64 arg_1)
+u64 Unit::GetItemAttributes(u64 mask)
 {
     struct ItemData * item;
     u64 ret;
@@ -1342,118 +1308,113 @@ u64 Unit::_0203cbc4(u64 arg_1)
     for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
         item = it->GetData();
-        ret |= item->attributes & arg_1;
+        ret |= item->attributes & mask;
     }
 
     return ret;
 }
 
-// _ZN4Unit9_0203cc1cEy
-u64 Unit::_0203cc1c(u64 arg_1)
+u64 Unit::GetEquippableItemAttributes(u64 mask)
 {
     struct ItemData * item;
-    u64 uVar2;
+    u64 ret;
     s32 i;
     struct Item * it;
 
-    uVar2 = 0;
+    ret = 0;
 
     it = this->items;
 
     for (i = 0; i < UNIT_ITEM_COUNT; i++, it++)
     {
-        if (!this->_0203cb6c(i, 0))
+        if (!this->CanEquip(i, 0))
         {
             continue;
         }
 
         item = it->GetData();
-        uVar2 |= item->attributes & arg_1;
+        ret |= item->attributes & mask;
     }
 
-    return uVar2;
+    return ret;
 }
 
-// _ZN4Unit9_0203cc94Ell
-void Unit::_0203cc94(s32 slot, s32 arg_2)
+void Unit::MoveItem(s32 from, s32 to)
 {
     struct Item tmp;
 
-    tmp = &this->items[slot];
+    tmp = &this->items[from];
 
-    if (slot >= arg_2)
+    if (from >= to)
     {
-        for (; slot > arg_2; slot--)
+        for (; from > to; from--)
         {
-            this->items[slot] = &this->items[slot - 1];
+            this->items[from] = &this->items[from - 1];
         }
     }
-    else if (slot < arg_2)
+    else if (from < to)
     {
-        for (; slot < arg_2; slot++)
+        for (; from < to; from++)
         {
-            this->items[slot] = &this->items[slot + 1];
+            this->items[from] = &this->items[from + 1];
         }
     }
 
-    this->items[arg_2] = &tmp;
+    this->items[to] = &tmp;
 
     return;
 }
 
-// _ZN4Unit9_0203cd30El
-BOOL Unit::_0203cd30(s32 arg_1)
+BOOL Unit::EquipItem(s32 slot)
 {
-    s32 slot;
+    s32 equippedSlot;
     s32 i;
 
-    if (arg_1 == -1)
+    if (slot == -1)
     {
         for (i = 0; i < UNIT_ITEM_COUNT; i++)
         {
-            if (!this->_0203cb6c(i, 0))
+            if (!this->CanEquip(i, 0))
             {
                 continue;
             }
 
-            this->_0203cd30(i);
+            this->EquipItem(i);
             return TRUE;
         }
 
         return FALSE;
     }
 
-    if (!this->_0203cb6c(arg_1, 0))
+    if (!this->CanEquip(slot, 0))
     {
         return FALSE;
     }
 
-    slot = this->GetEquippedWeaponSlot();
+    equippedSlot = this->GetEquippedWeaponSlot();
 
-    if (slot != -1)
+    if (equippedSlot != -1)
     {
-        struct Item * item = this->items + slot;
+        struct Item * item = this->items + equippedSlot;
         item->flags &= ~ITEM_FLAG_EQUIPPED;
     }
 
-    this->_0203cc94(arg_1, 0);
+    this->MoveItem(slot, 0);
     this->items[0].flags |= ITEM_FLAG_EQUIPPED;
 
     return TRUE;
 }
 
-// _ZN4Unit9_0203cdf0El
-void Unit::_0203cdf0(s32 slot)
+void Unit::UnequipItem(s32 slot)
 {
     struct Item * item = this->items + slot;
     item->flags &= ~ITEM_FLAG_EQUIPPED;
     return;
 }
 
-// _ZN4Unit9_0203ce08Ell
-void Unit::_0203ce08(s32 slot, BOOL arg_2)
+void Unit::ClearItemAtSlot(s32 slot, BOOL shiftDown)
 {
-    if (arg_2)
+    if (shiftDown)
     {
         for (; slot < UNIT_ITEM_COUNT - 1; slot++)
         {
@@ -1466,24 +1427,23 @@ void Unit::_0203ce08(s32 slot, BOOL arg_2)
     }
 
     this->items[slot].Clear();
+
     return;
 }
 
-// _ZN4Unit9_0203ce6cEv
-void Unit::_0203ce6c(void)
+void Unit::ClearItems(void)
 {
     s32 i;
 
     for (i = 0; i < UNIT_ITEM_COUNT; i++)
     {
-        this->_0203ce08(i, FALSE);
+        this->ClearItemAtSlot(i, FALSE);
     }
 
     return;
 }
 
-// _ZN4Unit9_0203ce9cElm
-BOOL Unit::_0203ce9c(s32 arg_1, u32 arg_2)
+BOOL Unit::AddItem(s32 iid, u32 flags)
 {
     s32 i;
     struct Item * item = this->items;
@@ -1499,22 +1459,20 @@ BOOL Unit::_0203ce9c(s32 arg_1, u32 arg_2)
     if (i != UNIT_ITEM_COUNT)
     {
         item = this->items + i;
-        item->InitFromIid(arg_1);
-        item->flags |= arg_2;
+        item->InitFromIid(iid);
+        item->flags |= flags;
         return TRUE;
     }
 
     return FALSE;
 }
 
-// _ZN4Unit9_0203cef8EP8ItemDatam
-BOOL Unit::_0203cef8(ItemData * item, u32 arg_2)
+BOOL Unit::AddItem(ItemData * item, u32 flags)
 {
-    return this->_0203ce9c(GetItemDBIndex(item), arg_2);
+    return this->AddItem(GetItemDBIndex(item), flags);
 }
 
-// _ZN4Unit9_0203cf20EP4Item
-BOOL Unit::_0203cf20(Item * item)
+BOOL Unit::AddItem(Item * item)
 {
     s32 i;
     struct Item * it = this->items;
@@ -1536,8 +1494,7 @@ BOOL Unit::_0203cf20(Item * item)
     return FALSE;
 }
 
-// _ZN4Unit9_0203cf68Ev
-void Unit::_0203cf68(void)
+void Unit::CompactItems(void)
 {
     s32 j;
     s32 i;
@@ -1579,8 +1536,7 @@ void Unit::_0203cf68(void)
     }
 }
 
-// _ZN4Unit9_0203cff4Ev
-s32 Unit::_0203cff4(void)
+s32 Unit::GetItemCount(void)
 {
     s32 i;
     struct Item * it = this->items;
@@ -1596,7 +1552,6 @@ s32 Unit::_0203cff4(void)
     return i;
 }
 
-// _ZN4Unit9_0203d01cEv
 s32 Unit::_0203d01c(void)
 {
     s32 i;
@@ -1627,7 +1582,6 @@ s32 Unit::_0203d01c(void)
     return ret;
 }
 
-// _ZN4Unit9_0203d094Ev
 s32 Unit::_0203d094(void)
 {
     s32 i;
@@ -1658,7 +1612,6 @@ s32 Unit::_0203d094(void)
     return found;
 }
 
-// _ZN4Unit9_0203d10cEv
 s32 Unit::_0203d10c(void)
 {
     s32 i;
@@ -1689,7 +1642,6 @@ s32 Unit::_0203d10c(void)
     return found;
 }
 
-// _ZN4Unit9_0203d184Ev
 BOOL Unit::_0203d184(void)
 {
     if (this->CheckAttribute(CA_UNK_10))
@@ -1700,7 +1652,6 @@ BOOL Unit::_0203d184(void)
     return this->_0203d01c() != -1;
 }
 
-// _ZN4Unit9_0203d1bcEv
 BOOL Unit::_0203d1bc(void)
 {
     if (this->CheckAttribute(CA_UNK_10))
@@ -1711,7 +1662,6 @@ BOOL Unit::_0203d1bc(void)
     return this->_0203d094() != -1;
 }
 
-// _ZN4Unit9_0203d1f4Ev
 BOOL Unit::_0203d1f4(void)
 {
     if (this->CheckAttribute(CA_UNK_10))
@@ -1722,7 +1672,6 @@ BOOL Unit::_0203d1f4(void)
     return this->_0203d10c() != -1;
 }
 
-// _ZN4Unit12ComputeMightEP8ItemDatal
 s32 Unit::ComputeMight(ItemData * item, BOOL arg_2)
 {
     s32 might;
@@ -1753,8 +1702,7 @@ s32 Unit::ComputeMight(ItemData * item, BOOL arg_2)
     return might;
 }
 
-// _ZN4Unit9_0203d294Ell
-s32 Unit::_0203d294(s32 slot, BOOL arg_2)
+s32 Unit::ComputeMight(s32 slot, BOOL arg_2)
 {
     if (slot == -1)
     {
@@ -1776,7 +1724,6 @@ struct WeaponBonus
     s8 unk_02[0x0A];
 };
 
-// _ZN4Unit9_0203d2e4EP8ItemData
 s32 Unit::_0203d2e4(ItemData * item)
 {
     struct WeaponBonus * row;
@@ -1805,7 +1752,7 @@ s32 Unit::_0203d2e4(ItemData * item)
         }
     }
 
-    wlvl = this->_0203c7ac(type);
+    wlvl = this->GetWeaponLevel(type);
     levels = gFE11Database->pWeaponLevel;
 
     for (rank = 0; rank < 5; rank++)
@@ -1819,7 +1766,6 @@ s32 Unit::_0203d2e4(ItemData * item)
     return row->unk_02[rank];
 }
 
-// _ZN4Unit14ComputeHitRateEP8ItemDatal
 s32 Unit::ComputeHitRate(ItemData * item, BOOL arg_2)
 {
     s32 hit;
@@ -1854,8 +1800,7 @@ s32 Unit::ComputeHitRate(ItemData * item, BOOL arg_2)
     return hit;
 }
 
-// _ZN4Unit9_0203d40cEll
-s32 Unit::_0203d40c(s32 slot, BOOL arg_2)
+s32 Unit::ComputeHitRate(s32 slot, BOOL arg_2)
 {
     if (slot == -1)
     {
@@ -1870,7 +1815,6 @@ s32 Unit::_0203d40c(s32 slot, BOOL arg_2)
     return 0;
 }
 
-// _ZN4Unit9_0203d45cEP8ItemData
 s32 Unit::_0203d45c(ItemData * item)
 {
     struct WeaponBonus * row;
@@ -1899,7 +1843,7 @@ s32 Unit::_0203d45c(ItemData * item)
         }
     }
 
-    wlvl = this->_0203c7ac(type);
+    wlvl = this->GetWeaponLevel(type);
     levels = gFE11Database->pWeaponLevel;
 
     for (rank = 0; rank < 5; rank++)
@@ -1913,7 +1857,6 @@ s32 Unit::_0203d45c(ItemData * item)
     return row->unk_02[rank];
 }
 
-// _ZN4Unit15ComputeCritRateEP8ItemData
 s32 Unit::ComputeCritRate(ItemData * item)
 {
     s32 critical;
@@ -1942,8 +1885,7 @@ s32 Unit::ComputeCritRate(ItemData * item)
     return critical;
 }
 
-// _ZN4Unit9_0203d554El
-s32 Unit::_0203d554(s32 slot)
+s32 Unit::ComputeCritRate(s32 slot)
 {
     if (slot == -1)
     {
@@ -1958,7 +1900,6 @@ s32 Unit::_0203d554(s32 slot)
     return 0;
 }
 
-// _ZN4Unit18ComputeAttackSpeedEP8ItemData
 s32 Unit::ComputeAttackSpeed(ItemData * item)
 {
     s32 attackSpeed;
@@ -1991,15 +1932,13 @@ s32 Unit::ComputeAttackSpeed(ItemData * item)
     return attackSpeed;
 }
 
-// _ZN4Unit12ComputeAvoidEP8ItemData
 s32 Unit::ComputeAvoid(ItemData * item)
 {
     s32 attackSpeed = this->ComputeAttackSpeed(item);
     return attackSpeed + (this->GetLuk(item, TRUE) >> 1);
 }
 
-// _ZN4Unit9_0203d618El
-s32 Unit::_0203d618(s32 slot)
+s32 Unit::ComputeAvoid(s32 slot)
 {
     struct ItemData * item;
 
@@ -2020,14 +1959,12 @@ s32 Unit::_0203d618(s32 slot)
     return this->ComputeAvoid(item);
 }
 
-// _ZN4Unit9_0203d660EP8ItemData
 s32 Unit::_0203d660(ItemData * item)
 {
     return this->GetLuk(item, TRUE);
 }
 
-// _ZN4Unit9_0203d670El
-s32 Unit::_0203d670(s32 exp)
+s32 Unit::GainExp(s32 exp)
 {
     s32 level = this->level;
 
@@ -2052,8 +1989,7 @@ s32 Unit::_0203d670(s32 exp)
     return exp;
 }
 
-// _ZN4Unit9_0203d6dcEv
-void Unit::_0203d6dc(void)
+void Unit::LevelUp(void)
 {
     u8 bVar1;
     s32 iVar2;
@@ -2112,8 +2048,7 @@ void Unit::_0203d6dc(void)
     return;
 }
 
-// _ZN4Unit9_0203d840EP7JobDatal
-void Unit::_0203d840(struct JobData * job, BOOL arg_2)
+void Unit::ChangeJob(struct JobData * job, BOOL arg_2)
 {
     if (job == NULL)
     {
@@ -2132,7 +2067,6 @@ void Unit::_0203d840(struct JobData * job, BOOL arg_2)
     return;
 }
 
-// _ZN4Unit9_0203d874Ev
 void Unit::_0203d874(void)
 {
     struct Unit * supporterUnit;
@@ -2187,7 +2121,6 @@ void Unit::_0203d874(void)
     return;
 }
 
-// _ZN4Unit9_0203dad4EPS_
 BOOL Unit::_0203dad4(Unit * other)
 {
     char ** pidStr;
@@ -2211,21 +2144,18 @@ BOOL Unit::_0203dad4(Unit * other)
     return FALSE;
 }
 
-// _ZN4Unit9_0203db28Ev
-s32 Unit::_0203db28(void)
+s32 Unit::GetSpawnX(void)
 {
     return gMapStateManager->unk_18->spawns[this->unk_69].xFinal;
 }
 
-// _ZN4Unit9_0203db50Ev
-s32 Unit::_0203db50(void)
+s32 Unit::GetSpawnY(void)
 {
     return gMapStateManager->unk_18->spawns[this->unk_69].yFinal;
 }
 
 EC void func_0204003c(struct Unit *);
 
-// _ZN4Unit9_0203db78Ev
 void Unit::_0203db78(void)
 {
     if (this->unk_05 == 0)
@@ -2238,7 +2168,6 @@ void Unit::_0203db78(void)
     return;
 }
 
-// _ZN4Unit9_0203db94El
 void Unit::_0203db94(s32 arg_1)
 {
     u16 flags = this->unk_00;
@@ -2263,13 +2192,11 @@ void Unit::_0203db94(s32 arg_1)
     return;
 }
 
-// _ZN4Unit9_0203dbc0Ev
 s32 Unit::_0203dbc0(void)
 {
     return RollRN(0, 99);
 }
 
-// _ZN4Unit9_0203dbd4Ell
 s32 Unit::_0203dbd4(BOOL useMag, BOOL useRes)
 {
     s32 sum;
@@ -2321,7 +2248,6 @@ s32 Unit::_0203dbd4(BOOL useMag, BOOL useRes)
     return sum;
 }
 
-// _ZN4Unit9_0203dd48Ev
 void Unit::_0203dd48(void)
 {
     s32 iVar3;
@@ -2365,7 +2291,6 @@ void Unit::_0203dd48(void)
     return;
 }
 
-// _ZN4Unit9_0203de10Ev
 void Unit::_0203de10(void)
 {
     s32 iVar3;
@@ -2416,7 +2341,6 @@ void Unit::_0203de10(void)
     return;
 }
 
-// _ZN4Unit9_0203df18Ev
 void Unit::_0203df18(void)
 {
     s32 i;

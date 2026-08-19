@@ -87,7 +87,7 @@ BOOL Item::func_0203e09c(struct Unit * unit)
 
     if (unit != NULL)
     {
-        if (unit->_0203cbc4(IA_UNK_28) != 0)
+        if (unit->GetItemAttributes(IA_UNK_28) != 0)
         {
             return FALSE;
         }

@@ -1016,7 +1016,7 @@ public:
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xc))
         {
 
-            if (gMapStateManager->unk_04->unk_00->_0203cbc4(0x1000000) != 0)
+            if (gMapStateManager->unk_04->unk_00->GetItemAttributes(0x1000000) != 0)
             {
                 return 0;
             }
@@ -1084,7 +1084,7 @@ public:
                 continue;
             }
 
-            if (gMapStateManager->unk_04->unk_00->_0203c7ac(i))
+            if (gMapStateManager->unk_04->unk_00->GetWeaponLevel(i))
             {
                 return 0;
             }

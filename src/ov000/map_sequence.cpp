@@ -2978,11 +2978,11 @@ EC void func_ov000_021ac218(void)
 
         if (pUnit->force->id == 0)
         {
-            pUnit->_0203bd34(3, TRUE);
+            pUnit->MoveToForce(3, TRUE);
         }
         else
         {
-            pUnit->_0203bd34(4, TRUE);
+            pUnit->MoveToForce(4, TRUE);
         }
     }
     else
@@ -2993,7 +2993,7 @@ EC void func_ov000_021ac218(void)
 
             if (pUnit->force->id != 0)
             {
-                pUnit->_0203bd34(4, TRUE);
+                pUnit->MoveToForce(4, TRUE);
             }
         }
     }
@@ -4304,18 +4304,18 @@ EC void CpuPhase_021ae364(void)
     {
         if (unit->force->id == 0)
         {
-            unit->_0203bd34(3, TRUE);
+            unit->MoveToForce(3, TRUE);
         }
         else
         {
-            unit->_0203bd34(4, TRUE);
+            unit->MoveToForce(4, TRUE);
         }
     }
     else
     {
         if ((unit->state2 & 0x40) != 0 && unit->force->id != 0)
         {
-            unit->_0203bd34(4, TRUE);
+            unit->MoveToForce(4, TRUE);
         }
     }
 
@@ -4866,11 +4866,11 @@ EC void func_ov000_021aebb0(void)
 
         if (pUnit->force->id == 0)
         {
-            pUnit->_0203bd34(3, TRUE);
+            pUnit->MoveToForce(3, TRUE);
         }
         else
         {
-            pUnit->_0203bd34(4, TRUE);
+            pUnit->MoveToForce(4, TRUE);
         }
     }
     else
@@ -4881,7 +4881,7 @@ EC void func_ov000_021aebb0(void)
 
             if (pUnit->force->id != 0)
             {
-                pUnit->_0203bd34(4, TRUE);
+                pUnit->MoveToForce(4, TRUE);
             }
         }
     }
@@ -5270,7 +5270,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 iVar3 = gMapStateManager->unk_04->unk_00->_0203d01c();
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    gMapStateManager->unk_04->unk_00->_0203ce08(iVar3, 1);
+                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
                 }
             }
 
@@ -5315,7 +5315,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 iVar3 = gMapStateManager->unk_04->unk_00->_0203d094();
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    gMapStateManager->unk_04->unk_00->_0203ce08(iVar3, 1);
+                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
                 }
             }
 
@@ -5360,7 +5360,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 iVar3 = gMapStateManager->unk_04->unk_00->_0203d10c();
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    gMapStateManager->unk_04->unk_00->_0203ce08(iVar3, 1);
+                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
                 }
             }
 

@@ -783,7 +783,7 @@ EC void func_02021f5c(void)
                     break;
                 }
 
-                pUnit->_0203bd34(2, TRUE);
+                pUnit->MoveToForce(2, TRUE);
                 func_020421c4(pUnit, uVar4);
 
                 data_02196f0c->state |= 0x20000;
@@ -1075,7 +1075,7 @@ EC void func_02022588(void)
 
         if ((pUnit->state2 & 0x80000) != 0)
         {
-            pUnit->_0203bd34(4, TRUE);
+            pUnit->MoveToForce(4, TRUE);
         }
     }
 
@@ -1106,7 +1106,7 @@ EC void func_02022588(void)
             }
         }
 
-        pUnit->_0203bd34(2, TRUE);
+        pUnit->MoveToForce(2, TRUE);
     }
 
     if (data_02196f0c->state & 0x800)

@@ -315,7 +315,7 @@ void Spawn::func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y)
         unit->state1 &= ~CA_UNK_27;
     }
 
-    unit->_0203bd34(this->faction, TRUE);
+    unit->MoveToForce(this->faction, TRUE);
 
     return;
 }
@@ -593,7 +593,7 @@ EC void DisposGroupProcessor::func_ov000_021da0fc(s32 index)
         return;
     }
 
-    unit->_0203bd34(spawn->faction + 2, TRUE);
+    unit->MoveToForce(spawn->faction + 2, TRUE);
     func_02039ff8(unit, spawn);
 
     return;

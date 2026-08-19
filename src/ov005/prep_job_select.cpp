@@ -463,7 +463,7 @@ public:
                     item->flags &= ~0x10;
                 }
 
-                this->unk_3c->_0203cd30(-1);
+                this->unk_3c->EquipItem(-1);
                 this->unk_40->Copy(this->unk_3c);
 
                 this->unk_40->SetJob(this->unk_38[this->unk_44]);

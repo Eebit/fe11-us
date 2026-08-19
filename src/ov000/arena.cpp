@@ -415,7 +415,7 @@ void arena::Arena::_021d7d1c(void)
     this->_021d8014();
 
     this->unk_3c = Force::Get(4)->head;
-    this->unk_3c->_0203bd34(1, TRUE);
+    this->unk_3c->MoveToForce(1, TRUE);
 
     this->_021d7d98();
 
@@ -429,7 +429,7 @@ void arena::Arena::_021d7d50(void)
         data_021974fc->unk_00 = 0;
     }
 
-    this->unk_3c->_0203bd34(4, TRUE);
+    this->unk_3c->MoveToForce(4, TRUE);
     this->_021d8064();
 
     return;
@@ -466,7 +466,7 @@ s32 arena::Arena::_021d7db8(Unit * unit, s32 arg_2)
         }
         else
         {
-            wpnLevel = unit->_0203c7ac(i);
+            wpnLevel = unit->GetWeaponLevel(i);
         }
 
         if (wpnLevel > bestWpnLevel)
@@ -767,13 +767,13 @@ void arena::Arena::_021d8104(void)
 
     if (wpnType < ITYPE_DRAGONSTONE)
     {
-        if (this->unk_3c->_0203c7ac(wpnType) != 0)
+        if (this->unk_3c->GetWeaponLevel(wpnType) != 0)
         {
             wpnLevel = item->wpnLevel;
-            if (wpnLevel > this->unk_3c->_0203c7ac(wpnType))
+            if (wpnLevel > this->unk_3c->GetWeaponLevel(wpnType))
             {
                 s32 idk = item->wpnLevel;
-                idk -= this->unk_3c->_0203c7ac(wpnType);
+                idk -= this->unk_3c->GetWeaponLevel(wpnType);
 
                 if (idk + this->unk_3c->unk_84[wpnType] <= 0xFF)
                 {
@@ -874,20 +874,20 @@ void arena::Arena::_021d8104(void)
                 continue;
             }
 
-            if (this->unk_3c->_0203c7ac(wpnType) == 0)
+            if (this->unk_3c->GetWeaponLevel(wpnType) == 0)
             {
                 continue;
             }
 
             wpnLevel = item->wpnLevel;
 
-            if (wpnLevel <= this->unk_3c->_0203c7ac(wpnType))
+            if (wpnLevel <= this->unk_3c->GetWeaponLevel(wpnType))
             {
                 continue;
             }
 
             idk = item->wpnLevel;
-            idk -= this->unk_3c->_0203c7ac(wpnType);
+            idk -= this->unk_3c->GetWeaponLevel(wpnType);
 
             if (idk + this->unk_3c->unk_84[wpnType] <= 0xFF)
             {

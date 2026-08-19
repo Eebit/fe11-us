@@ -58,7 +58,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
     if (item->type < ITYPE_DRAGONSTONE)
     {
-        if (!unit->_0203c834(item, FALSE))
+        if (!unit->CanEquip(item, FALSE))
         {
             return FALSE;
         }
@@ -135,12 +135,12 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (!unit->_0203c7ac(type))
+            if (!unit->GetWeaponLevel(type))
             {
                 return FALSE;
             }
 
-            iVar5 = unit->_0203c7ac(type);
+            iVar5 = unit->GetWeaponLevel(type);
 
             for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
@@ -359,7 +359,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             struct ItemData * pEquippedItem = unit->items[unit->GetEquippedWeaponSlot()].GetData();
             type = pEquippedItem->type;
 
-            iVar5 = unit->_0203c7ac(type);
+            iVar5 = unit->GetWeaponLevel(type);
 
             for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
@@ -370,7 +370,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             }
 
             req = pWeaponLevel[i - 1];
-            unit->unk_84[type] = req - unit->_0203c7e4(type);
+            unit->unk_84[type] = req - unit->GetBaseWeaponLevel(type);
 
             break;
         }
@@ -834,7 +834,7 @@ EC struct JobData * GetJInfoFromItem(struct ItemData * item, struct Unit * unit)
         return unit->pJobData;
     }
 
-    if (!unit->_0203c834(item, 1))
+    if (!unit->CanEquip(item, 1))
     {
         return unit->pJobData;
     }

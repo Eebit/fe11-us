@@ -188,7 +188,7 @@ void TargetSelectState::_021b4224(void)
             if (this->pItemData->type != ITYPE_STAFF)
             {
                 this->unk_128 = gMapStateManager->unk_04->unk_00->GetEquippedWeaponSlot();
-                gMapStateManager->unk_04->unk_00->_0203cd30(this->itemSlot);
+                gMapStateManager->unk_04->unk_00->EquipItem(this->itemSlot);
                 this->unk_12a = 0;
             }
             else
@@ -201,7 +201,7 @@ void TargetSelectState::_021b4224(void)
                 }
                 else
                 {
-                    gMapStateManager->unk_04->unk_00->_0203cc94(this->itemSlot, 0);
+                    gMapStateManager->unk_04->unk_00->MoveItem(this->itemSlot, 0);
                     this->unk_12a = 0;
                 }
             }
@@ -227,21 +227,21 @@ void TargetSelectState::_021b4358(void)
         case TARGET_SELECT_KIND_3:
             if (this->pItemData->type != ITYPE_STAFF)
             {
-                gMapStateManager->unk_04->unk_00->_0203cc94(this->unk_12a, this->itemSlot);
+                gMapStateManager->unk_04->unk_00->MoveItem(this->unk_12a, this->itemSlot);
 
                 if (this->unk_128 != -1)
                 {
-                    gMapStateManager->unk_04->unk_00->_0203cd30(this->unk_128);
+                    gMapStateManager->unk_04->unk_00->EquipItem(this->unk_128);
                 }
                 else
                 {
                     Unit * unit = gMapStateManager->unk_04->unk_00;
-                    unit->_0203cdf0(unit->GetEquippedWeaponSlot());
+                    unit->UnequipItem(unit->GetEquippedWeaponSlot());
                 }
             }
             else
             {
-                gMapStateManager->unk_04->unk_00->_0203cc94(this->unk_12a, this->itemSlot);
+                gMapStateManager->unk_04->unk_00->MoveItem(this->unk_12a, this->itemSlot);
             }
 
             break;

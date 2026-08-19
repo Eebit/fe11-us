@@ -395,7 +395,7 @@ EC void func_020401d8(SaveBuffer * save, u32 faction)
         for (i = 0; i < count; i++)
         {
             struct Unit * unit = force[4].head;
-            unit->_0203bd34(uVar4, TRUE);
+            unit->MoveToForce(uVar4, TRUE);
             unit->Load(save, faction);
         }
     }
@@ -538,7 +538,7 @@ EC void func_02040594(struct UnkStruct_02196f10_00 * arg0, s32 arg1)
         }
 
         unit = force->head;
-        unit->_0203bd34(arg1, 1);
+        unit->MoveToForce(arg1, 1);
         unit->Copy(&arg0->unk_000[i]);
         unit->unk_90 = 0;
     }
@@ -682,11 +682,11 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
                     break;
                 }
 
-                cur->_0203d840(0, 0);
+                cur->ChangeJob(0, 0);
             }
             else
             {
-                cur->_0203d6dc();
+                cur->LevelUp();
             }
 
             cur->hp = cur->GetMaxHp();
@@ -696,7 +696,7 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
         cur->unk_50[0] += (s8)IntSys_Div(expToApply, 3);
         cur->hp = cur->GetMaxHp();
 
-        if (cur->_0203c7ac(4) || cur->_0203c7ac(5))
+        if (cur->GetWeaponLevel(4) || cur->GetWeaponLevel(5))
         {
             cur->unk_50[2] += (s8)IntSys_Div(expToApply, 3);
         }
@@ -915,7 +915,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
         for (it = this->tail; it != NULL; it = next)
         {
             next = it->unk_38;
-            it->_0203bd34(factionId, append);
+            it->MoveToForce(factionId, append);
         }
     }
     else
@@ -923,7 +923,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
         for (it = this->head; it != NULL; it = next)
         {
             next = it->unk_3c;
-            it->_0203bd34(factionId, append);
+            it->MoveToForce(factionId, append);
         }
     }
 

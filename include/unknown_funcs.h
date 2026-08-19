@@ -1976,7 +1976,7 @@ EC void _ZN4Unit4InitEv(struct Unit *);
 // EC ??? _ZN4Unit9_0203b720EP10SaveBuffer
 // EC ??? _ZN4Unit9_0203ba20EP10SaveBuffer
 // EC ??? _ZN4Unit9_0203bcf4Ev
-EC void _ZN4Unit9_0203bd34Ell(struct Unit *, s32, s32);
+EC void _ZN4Unit11MoveToForceEll(struct Unit *, s32, s32);
 // EC ??? _ZN4Unit9_0203bdd0Eh
 // EC ??? _ZN4Unit9_0203be30EPS_
 EC void _ZN4Unit9_0203bf68Ev(struct Unit * unit);
@@ -1997,25 +1997,25 @@ EC s32 _ZN4Unit7GetStatEmP8ItemDatal(struct Unit * unit, u32 arg_1, struct ItemD
 // EC ??? _ZN4Unit9_0203c75cEv
 EC s32 _ZN4Unit6GetMovEv(struct Unit * unit);
 EC s32 _ZN4Unit9_0203c790Ev(struct Unit * unit);
-EC s32 _ZN4Unit9_0203c7acEm(struct Unit * unit, u32 arg_1);
-EC s32 _ZN4Unit9_0203c7e4Em(struct Unit * unit, u32 arg_1);
+EC s32 _ZN4Unit14GetWeaponLevelEm(struct Unit * unit, u32 arg_1);
+EC s32 _ZN4Unit18GetBaseWeaponLevelEm(struct Unit * unit, u32 arg_1);
 EC s32 _ZN4Unit14CheckAttributeEm(struct Unit * unit, u32 attribute);
-EC BOOL _ZN4Unit9_0203c834EP8ItemDatal(struct Unit * unit, struct ItemData * item, s32 arg_2);
-EC BOOL _ZN4Unit9_0203cb6cEll(struct Unit *, s32, s32);
+EC BOOL _ZN4Unit8CanEquipEP8ItemDatal(struct Unit * unit, struct ItemData * item, s32 arg_2);
+EC BOOL _ZN4Unit8CanEquipEll(struct Unit *, s32, s32);
 EC s32 _ZN4Unit21GetEquippedWeaponSlotEv(struct Unit * unit);
-// EC ??? _ZN4Unit9_0203cbc4Ey
-// EC ??? _ZN4Unit9_0203cc1cEy
-// EC ??? _ZN4Unit9_0203cc94Ell
-// EC ??? _ZN4Unit9_0203cd30El
-// EC ??? _ZN4Unit9_0203cdf0El
-EC void _ZN4Unit9_0203ce08Ell(struct Unit *, s32, BOOL);
-// EC ??? _ZN4Unit9_0203ce6cEv
-// EC ??? _ZN4Unit9_0203ce9cElm
-// EC ??? _ZN4Unit9_0203cef8EP8ItemDatam
-// EC ??? _ZN4Unit9_0203cf20EP4Item
-// EC ??? _ZN4Unit9_0203cf68Ev
+// EC ??? _ZN4Unit17GetItemAttributesEy
+// EC ??? _ZN4Unit27GetEquippableItemAttributesEy
+// EC ??? _ZN4Unit8MoveItemEll
+// EC ??? _ZN4Unit9EquipItemEl
+// EC ??? _ZN4Unit11UnequipItemEl
+EC void _ZN4Unit15ClearItemAtSlotEll(struct Unit *, s32, BOOL);
+// EC ??? _ZN4Unit10ClearItemsEv
+// EC ??? _ZN4Unit7AddItemElm
+// EC ??? _ZN4Unit7AddItemEP8ItemDatam
+// EC ??? _ZN4Unit7AddItemEP4Item
+// EC ??? _ZN4Unit12CompactItemsEv
 // EC ??? func_0203cff0
-// EC ??? _ZN4Unit9_0203cff4Ev
+// EC ??? _ZN4Unit12GetItemCountEv
 EC s32 _ZN4Unit9_0203d01cEv(struct Unit * unit);
 EC s32 _ZN4Unit9_0203d094Ev(struct Unit * unit);
 EC s32 _ZN4Unit9_0203d10cEv(struct Unit * unit);
@@ -2023,24 +2023,24 @@ EC s32 _ZN4Unit9_0203d10cEv(struct Unit * unit);
 // EC ??? _ZN4Unit9_0203d1bcEv
 // EC ??? _ZN4Unit9_0203d1f4Ev
 // EC ??? _ZN4Unit12ComputeMightEP8ItemDatal
-// EC ??? _ZN4Unit9_0203d294Ell
+// EC ??? _ZN4Unit12ComputeMightEll
 EC s32 _ZN4Unit9_0203d2e4EP8ItemData(struct Unit *, struct ItemData *);
 // EC ??? _ZN4Unit14ComputeHitRateEP8ItemDatal
-// EC ??? _ZN4Unit9_0203d40cEll
+// EC ??? _ZN4Unit14ComputeHitRateEll
 EC s32 _ZN4Unit9_0203d45cEP8ItemData(struct Unit *, struct ItemData *);
 // EC ??? _ZN4Unit15ComputeCritRateEP8ItemData
-// EC ??? _ZN4Unit9_0203d554El
+// EC ??? _ZN4Unit15ComputeCritRateEl
 // EC ??? _ZN4Unit18ComputeAttackSpeedEP8ItemData
 // EC ??? _ZN4Unit12ComputeAvoidEP8ItemData
-// EC ??? _ZN4Unit9_0203d618El
+// EC ??? _ZN4Unit12ComputeAvoidEl
 // EC ??? _ZN4Unit9_0203d660EP8ItemData
-// EC ??? _ZN4Unit9_0203d670El
-// EC ??? _ZN4Unit9_0203d6dcEv
-// EC ??? _ZN4Unit9_0203d840EP7JobDatal
+// EC ??? _ZN4Unit7GainExpEl
+// EC ??? _ZN4Unit7LevelUpEv
+// EC ??? _ZN4Unit9ChangeJobEP7JobDatal
 // EC ??? _ZN4Unit9_0203d874Ev
 // EC ??? _ZN4Unit9_0203dad4EPS_
-// EC ??? _ZN4Unit9_0203db28Ev
-// EC ??? _ZN4Unit9_0203db50Ev
+// EC ??? _ZN4Unit9GetSpawnXEv
+// EC ??? _ZN4Unit9GetSpawnYEv
 // EC ??? _ZN4Unit9_0203db78Ev
 // EC ??? _ZN4Unit9_0203db94El
 EC s32 _ZN4Unit9_0203dbc0Ev(void);
