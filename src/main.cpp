@@ -48,12 +48,12 @@ EC void func_02000d14(struct MapStateManager_08 * buf, s32 a)
 
 EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
 {
-    s32 tmp1, tmp2;
+    s32 mov, tmp2;
     struct Unit * unit = gMapStateManager->unk_04->unk_00;
 
-    tmp1 = func_0203c77c(unit);
-    if (CheckUnitAttribute(unit, CA_UNK_27))
-        tmp1 = 0;
+    mov = unit->GetMov();
+    if (unit->CheckAttribute(CA_UNK_27))
+        mov = 0;
 
     tmp2 = func_02001770(buf, a, b);
     if (tmp2 >= 0)
@@ -66,7 +66,7 @@ EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
     {
         s32 tmp_r0 = func_020016e8(buf, unit, a, b);
 
-        if ((buf->unk_47 + tmp_r0) <= tmp1)
+        if ((buf->unk_47 + tmp_r0) <= mov)
         {
             s32 tmp_r2 = buf->unk_42;
             s32 tmp_r3 = buf->unk_43;
@@ -98,7 +98,7 @@ EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
         buf->unk_42,
         buf->unk_43,
         unit->pJobData->unk_28,
-        tmp1 - buf->unk_47,
+        mov - buf->unk_47,
         0xA
     );
 

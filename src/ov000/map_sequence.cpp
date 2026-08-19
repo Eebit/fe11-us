@@ -261,7 +261,7 @@ public:
                             continue;
                         }
 
-                        if (unit->hp == GetUnitMaxHp(unit))
+                        if (unit->hp == unit->GetMaxHp())
                         {
                             this->unk_38 = unit->unk_3c;
                             unit = this->unk_38;
@@ -628,7 +628,7 @@ EC void func_ov000_021a8650(void)
                         case 0xc:
                             if ((pUnit->pJobData->unitType & 4) != 0)
                             {
-                                pUnit->unk_6d++;
+                                pUnit->mov++;
                             }
                     }
                 }
@@ -647,7 +647,7 @@ EC void func_ov000_021a8650(void)
                         case 0xd:
                             if ((pUnit->pJobData->unitType & 0x20) != 0)
                             {
-                                pUnit->unk_6d--;
+                                pUnit->mov--;
                             }
 
                             break;
@@ -688,7 +688,7 @@ EC void func_ov000_021a8868(void)
 
         if (((pUnit->state2 & 0x8000) != 0) && (pUnit->unk_93 == 0))
         {
-            func_0203bf68(pUnit);
+            pUnit->_0203bf68();
             func_ov000_021baafc(gMapStateManager->unk_14->unk_00, pUnit, FALSE);
         }
     }
@@ -1116,9 +1116,6 @@ EC void func_ov000_021a9390(ProcPtr proc)
     return;
 }
 
-EC void func_0203bcf4(Unit *);
-EC void func_0203d874(Unit *);
-
 extern struct ProcCmd ProcScr_ProcArenaSync[];
 
 EC void func_ov000_021a93d0(ProcPtr proc)
@@ -1132,9 +1129,9 @@ EC void func_ov000_021a93d0(ProcPtr proc)
         {
             for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
             {
-                func_0203bcf4(it);
+                it->_0203bcf4();
                 func_ov000_021baafc(gMapStateManager->unk_14->unk_00, it, 0);
-                func_0203d874(it);
+                it->_0203d874();
             }
         }
 
@@ -1628,7 +1625,7 @@ EC void func_ov000_021a9a48(void)
 
             for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
             {
-                if (CheckUnitAttribute(it, CA_UNK_12))
+                if (it->CheckAttribute(CA_UNK_12))
                 {
                     iVar1++;
                 }
@@ -1962,7 +1959,7 @@ EC void func_ov000_021aa278(s32 param)
             {
                 func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
 
-                if (CheckUnitAttribute(pUnit, CA_UNK_27) != 0)
+                if (pUnit->CheckAttribute(CA_UNK_27) != 0)
                 {
                     gMapStateManager->unk_08->unk_0854[pUnit->xPos | pUnit->yPos << 5] = -1;
                 }
@@ -2128,7 +2125,7 @@ EC void func_ov000_021aa278(s32 param)
     {
         func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 2, 1, 1);
 
-        if (CheckUnitAttribute(pUnit, CA_UNK_27) != 0)
+        if (pUnit->CheckAttribute(CA_UNK_27) != 0)
         {
             gMapStateManager->unk_08->unk_0854[pUnit->xPos | pUnit->yPos << 5] = -1;
         }
@@ -2981,11 +2978,11 @@ EC void func_ov000_021ac218(void)
 
         if (pUnit->force->id == 0)
         {
-            func_0203bd34(pUnit, 3, 1);
+            pUnit->MoveToForce(3, TRUE);
         }
         else
         {
-            func_0203bd34(pUnit, 4, 1);
+            pUnit->MoveToForce(4, TRUE);
         }
     }
     else
@@ -2996,7 +2993,7 @@ EC void func_ov000_021ac218(void)
 
             if (pUnit->force->id != 0)
             {
-                func_0203bd34(pUnit, 4, 1);
+                pUnit->MoveToForce(4, TRUE);
             }
         }
     }
@@ -4307,18 +4304,18 @@ EC void CpuPhase_021ae364(void)
     {
         if (unit->force->id == 0)
         {
-            func_0203bd34(unit, 3, 1);
+            unit->MoveToForce(3, TRUE);
         }
         else
         {
-            func_0203bd34(unit, 4, 1);
+            unit->MoveToForce(4, TRUE);
         }
     }
     else
     {
         if ((unit->state2 & 0x40) != 0 && unit->force->id != 0)
         {
-            func_0203bd34(unit, 4, 1);
+            unit->MoveToForce(4, TRUE);
         }
     }
 
@@ -4869,11 +4866,11 @@ EC void func_ov000_021aebb0(void)
 
         if (pUnit->force->id == 0)
         {
-            func_0203bd34(pUnit, 3, 1);
+            pUnit->MoveToForce(3, TRUE);
         }
         else
         {
-            func_0203bd34(pUnit, 4, 1);
+            pUnit->MoveToForce(4, TRUE);
         }
     }
     else
@@ -4884,7 +4881,7 @@ EC void func_ov000_021aebb0(void)
 
             if (pUnit->force->id != 0)
             {
-                func_0203bd34(pUnit, 4, 1);
+                pUnit->MoveToForce(4, TRUE);
             }
         }
     }
@@ -5268,12 +5265,12 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_10))
+            if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_10))
             {
-                iVar3 = func_0203d01c(gMapStateManager->unk_04->unk_00);
+                iVar3 = gMapStateManager->unk_04->unk_00->_0203d01c();
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    func_0203ce08(gMapStateManager->unk_04->unk_00, iVar3, 1);
+                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
                 }
             }
 
@@ -5313,12 +5310,12 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_10))
+            if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_10))
             {
-                iVar3 = func_0203d094(gMapStateManager->unk_04->unk_00);
+                iVar3 = gMapStateManager->unk_04->unk_00->_0203d094();
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    func_0203ce08(gMapStateManager->unk_04->unk_00, iVar3, 1);
+                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
                 }
             }
 
@@ -5358,12 +5355,12 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_10))
+            if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_10))
             {
-                iVar3 = func_0203d10c(gMapStateManager->unk_04->unk_00);
+                iVar3 = gMapStateManager->unk_04->unk_00->_0203d10c();
                 if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    func_0203ce08(gMapStateManager->unk_04->unk_00, iVar3, 1);
+                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
                 }
             }
 

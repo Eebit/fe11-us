@@ -326,9 +326,9 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
     s16 x;
     s16 y;
 
-    func_020a8f40("/map\0\0\0");
+    func_020a8f40("/map");
 
-    pMapFile = LoadFileAndCache(mapName, 0);
+    pMapFile = static_cast<struct MapFile *>(LoadFileAndCache(mapName, 0));
 
     this->unk_20 = pMapFile->tileWidth;
     this->unk_22 = pMapFile->tileHeight;
@@ -363,9 +363,9 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 
     func_020a8f40("/dispos");
 
-    if (FileExists(mapName) != 0)
+    if (FileExists(mapName))
     {
-        this->unk_18 = LoadFileAndCache(mapName, 1);
+        this->unk_18 = static_cast<DisposGroup *>(LoadFileAndCache(mapName, 1));
     }
 
     func_ov000_021b95e8(gMapStateManager->unk_14);
@@ -1541,7 +1541,7 @@ EC s32 func_ov000_021a4854(struct Unit * unit)
     BOOL bVar1;
     struct UnkStruct_Func_02021410_Ret * iVar4;
 
-    range = func_0203c790(unit);
+    range = unit->_0203c790();
 
     if (func_ov000_021a4804() != 0)
     {

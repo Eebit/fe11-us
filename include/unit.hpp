@@ -55,6 +55,22 @@ enum
     CA_UNK_29 = (1 << 29),
 };
 
+enum
+{
+    US_ACTED = (1 << 0),
+
+    US_DEAD = (1 << 3),
+
+    US_ITEMS_TO_CONVOY = (1 << 7),
+
+    US_NOT_PRESENT = (1 << 12),
+    US_DANGER_ZONE_ACTIVE = (1 << 13),
+
+    US_HOVERED = (1 << 17),
+
+    US_EVENT_DEAD = (1 << 29), // Died as a "decoy" for Marth
+};
+
 class Unit;
 struct PersonData;
 
@@ -72,8 +88,8 @@ struct PersonData
     /* 00 */ char * pid; // Identifier in database
     /* 04 */ char * fid; // Identifier in face.bin
     /* 08 */ char * mpid; // "Message PID" - string for character; used for generics
-    /* 0C */ s8 bases[8];
-    /* 14 */ s8 growths[8];
+    /* 0C */ s8 bases[UNIT_STAT_COUNT];
+    /* 14 */ s8 growths[UNIT_STAT_COUNT];
     /* 1C */ u8 weaponLevels[8];
     /* 24 */ u32 attributes;
     /* 28 */ struct SupportData supports[5];
@@ -83,10 +99,10 @@ struct JobData
 {
     /* 00 */ char * jid; // Identifier in database
     /* 04 */ char * mjid; // "Message JID" - string for class name
-    /* 08 */ s8 bases[8];
-    /* 10 */ s8 unk_10[8]; // growths
-    /* 18 */ u8 unk_18[8]; // enemy growths
-    /* 20 */ s8 caps[8];
+    /* 08 */ s8 bases[UNIT_STAT_COUNT];
+    /* 10 */ s8 growths[UNIT_STAT_COUNT];
+    /* 18 */ u8 unk_18[UNIT_STAT_COUNT]; // enemy growths
+    /* 20 */ s8 caps[UNIT_STAT_COUNT];
     /* 28 */ u8 unk_28;
     /* 29 */ u8 mov;
     /* 2A */ u8 unk_2a;
@@ -125,7 +141,7 @@ struct ItemData
     /* 19 */ u8 minRange;
     /* 1A */ u8 maxRange;
     /* 1B */ u8 movBoost;
-    /* 1C */ s8 statBoost[8];
+    /* 1C */ s8 statBoost[UNIT_STAT_COUNT];
     /* 24 */ u64 attributes;
     STRUCT_PAD(0x2C, 0x30);
     /* 30 */ char * mapAnimFile;
@@ -202,6 +218,7 @@ struct Unit_unk_a4
 {
     char * unk_00;
     u16 unk_04;
+    char * unk_08[0];
 };
 
 class Unit
@@ -233,15 +250,15 @@ public:
     /* 6A */ u8 level;
     /* 6B */ u8 exp;
     /* 6C */ s8 hp;
-    s8 unk_6d;
+    /* 6D */ s8 mov;
     /* 6E */ s8 xPos;
     /* 6F */ s8 yPos;
-    /* 70 */ struct Item items[5];
+    /* 70 */ struct Item items[UNIT_ITEM_COUNT];
     u8 unk_84[6];
-    u8 unk_8a[5];
+    /* 8A */ u8 unk_8a[5]; // Support points?
     /* 8F */ u8 alpha;
     u8 unk_90;
-    u8 unk_91;
+    u8 unk_91; // pure water duration
     u8 unk_92; // torch duration
     u8 unk_93; // imitate duration
     u8 unk_94;
@@ -255,10 +272,99 @@ public:
 
     Unit() {};
 
+    void Init(void);
+    Unit * Copy(Unit *);
+    void Save(struct SaveBuffer *);
+    void Load(struct SaveBuffer *, s32);
+    void _0203b720(struct SaveBuffer *);
+    BOOL _0203ba20(struct SaveBuffer *);
+    void _0203bcf4(void);
+    void MoveToForce(s32 forceId, BOOL append);
+    Unit * _0203bdd0(u8);
+    void _0203be30(Unit *);
+    void _0203bf68(void);
+    void _0203c068(Unit *);
+    void _0203c19c(void);
+    char * _0203c284(void);
+    // func_0203c378
+    s32 GetMaxHp(void);
+    s32 GetStr(ItemData * item, BOOL);
+    s32 GetMag(ItemData * item, BOOL);
+    s32 GetSkl(ItemData * item, BOOL);
+    s32 GetSpd(ItemData * item, BOOL);
+    s32 GetLuk(ItemData * item, BOOL);
+    s32 GetDef(ItemData * item, BOOL);
+    s32 GetRes(ItemData * item, BOOL);
+    s32 GetStat(u32 statIdx, ItemData * item, BOOL);
+    BOOL _0203c73c(s32);
+    u32 _0203c75c(void);
+    s32 GetMov(void);
+    s32 _0203c790(void);
+    s32 GetWeaponLevel(u32);
+    s32 GetBaseWeaponLevel(u32);
+    s32 CheckAttribute(u32 attr);
+    BOOL CanEquip(ItemData * item, s32);
+    BOOL CanEquip(s32 slot, s32);
+    s32 GetEquippedWeaponSlot(void);
+    u64 GetItemAttributes(u64 mask);
+    u64 GetEquippableItemAttributes(u64 mask);
+    void MoveItem(s32 from, s32 to);
+    BOOL EquipItem(s32 slot);
+    void UnequipItem(s32 slot);
+    void ClearItemAtSlot(s32 slot, BOOL shiftDown);
+    void ClearItems(void);
+    BOOL AddItem(s32 iid, u32 flags);
+    BOOL AddItem(ItemData * item, u32 flags);
+    BOOL AddItem(Item * item);
+    void CompactItems(void);
+    s32 GetItemCount(void);
+    s32 _0203d01c(void);
+    s32 _0203d094(void);
+    s32 _0203d10c(void);
+    BOOL _0203d184(void);
+    BOOL _0203d1bc(void);
+    BOOL _0203d1f4(void);
+    s32 ComputeMight(ItemData * item, BOOL);
+    s32 ComputeMight(s32 slot, BOOL);
+    s32 _0203d2e4(ItemData * item);
+    s32 ComputeHitRate(ItemData * item, BOOL);
+    s32 ComputeHitRate(s32 slot, BOOL);
+    s32 _0203d45c(ItemData * item);
+    s32 ComputeCritRate(ItemData * item);
+    s32 ComputeCritRate(s32 slot);
+    s32 ComputeAttackSpeed(ItemData * item);
+    s32 ComputeAvoid(ItemData * item);
+    s32 ComputeAvoid(s32 slot);
+    s32 _0203d660(ItemData * item);
+    s32 GainExp(s32 exp);
+    void LevelUp(void);
+    void ChangeJob(struct JobData * job, BOOL);
+    void _0203d874(void);
+    BOOL _0203dad4(Unit * other);
+    s32 GetSpawnX(void);
+    s32 GetSpawnY(void);
+    void _0203db78(void);
+    void _0203db94(s32);
+    static s32 _0203dbc0(void);
+    s32 _0203dbd4(BOOL useMag, BOOL useRes);
+    void _0203dd48(void);
+    void _0203de10(void);
+    void _0203df18(void);
+
     inline void SetPos(s32 x, s32 y)
     {
         this->xPos = x;
         this->yPos = y;
+    }
+
+    inline u32 GetPersonAttr(void)
+    {
+        return this->pPersonData->attributes;
+    }
+
+    inline u32 GetJobAttr(void)
+    {
+        return this->pJobData->attributes;
     }
 
     inline void SetJob(struct JobData * job)

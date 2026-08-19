@@ -1,11 +1,11 @@
 #include "global.h"
 
 #include "database.hpp"
+#include "item.hpp"
 #include "unit.hpp"
 
 EC s32 GetItemDBIndex(struct ItemData *);
 EC struct ItemData * GetItemByIidStr(char *);
-EC u64 func_0203cbc4(Unit *, u64);
 
 struct ItemData * Item::GetData(void)
 {
@@ -87,7 +87,7 @@ BOOL Item::func_0203e09c(struct Unit * unit)
 
     if (unit != NULL)
     {
-        if (func_0203cbc4(unit, 0x10000000) != 0)
+        if (unit->GetItemAttributes(IA_UNK_28) != 0)
         {
             return FALSE;
         }
