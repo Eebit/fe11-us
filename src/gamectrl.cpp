@@ -783,7 +783,7 @@ EC void func_02021f5c(void)
                     break;
                 }
 
-                func_0203bd34(pUnit, 2, 1);
+                pUnit->_0203bd34(2, TRUE);
                 func_020421c4(pUnit, uVar4);
 
                 data_02196f0c->state |= 0x20000;
@@ -1046,7 +1046,7 @@ EC void func_02022588(void)
 
         if ((pUnit->state2 & 0x40000) != 0)
         {
-            func_0203c19c(pUnit);
+            pUnit->_0203c19c();
         }
 
         pUnit->state2 &= ~0x100;
@@ -1075,7 +1075,7 @@ EC void func_02022588(void)
 
         if ((pUnit->state2 & 0x80000) != 0)
         {
-            func_0203bd34(pUnit, 4, 1);
+            pUnit->_0203bd34(4, TRUE);
         }
     }
 
@@ -1106,7 +1106,7 @@ EC void func_02022588(void)
             }
         }
 
-        func_0203bd34(pUnit, 2, 1);
+        pUnit->_0203bd34(2, TRUE);
     }
 
     if (data_02196f0c->state & 0x800)
@@ -1431,7 +1431,7 @@ EC void func_02022d00(ProcPtr proc)
                 continue;
             }
 
-            func_0203c19c(pUnit);
+            pUnit->_0203c19c();
         }
 
         data_02196f0c->state &= ~0x2000;

@@ -147,7 +147,6 @@ EC struct TMP * func_ov000_021bb210(void *, struct Unit *);
 EC s32 GetPersonDBIndex(struct PersonData *);
 
 EC void func_02039ff8(struct Unit *, Spawn *);
-EC void func_0203bd34(struct Unit *, s32, s32);
 
 EC void func_01ff8204(void *, s8, s8, s32, s32, u16);
 
@@ -300,23 +299,23 @@ void Spawn::func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y)
 
     if ((this->flags & 0x20) != 0)
     {
-        unit->state1 |= 0x1000;
+        unit->state1 |= CA_UNK_12;
     }
     else
     {
-        unit->state1 &= ~0x1000;
+        unit->state1 &= ~CA_UNK_12;
     }
 
     if ((this->flags & 0x40) != 0)
     {
-        unit->state1 |= 0x8000000;
+        unit->state1 |= CA_UNK_27;
     }
     else
     {
-        unit->state1 &= ~0x8000000;
+        unit->state1 &= ~CA_UNK_27;
     }
 
-    func_0203bd34(unit, this->faction, 1);
+    unit->_0203bd34(this->faction, TRUE);
 
     return;
 }
@@ -594,7 +593,7 @@ EC void DisposGroupProcessor::func_ov000_021da0fc(s32 index)
         return;
     }
 
-    func_0203bd34(unit, spawn->faction + 2, 1);
+    unit->_0203bd34(spawn->faction + 2, TRUE);
     func_02039ff8(unit, spawn);
 
     return;

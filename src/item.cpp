@@ -58,7 +58,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
     if (item->type < ITYPE_DRAGONSTONE)
     {
-        if (!func_0203c834(unit, item, FALSE))
+        if (!unit->_0203c834(item, FALSE))
         {
             return FALSE;
         }
@@ -69,7 +69,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
         case ITEM_EFFECT_HEAL:
             hp = unit->hp;
 
-            if (hp >= GetUnitMaxHp(unit))
+            if (hp >= unit->GetMaxHp())
             {
                 return FALSE;
             }
@@ -84,7 +84,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
             if (item->movBoost != 0)
             {
-                if (func_0203c77c(unit) >= 0x20)
+                if (unit->GetMov() >= 32)
                 {
                     return FALSE;
                 }
@@ -92,9 +92,9 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return TRUE;
             }
 
-            for (i = 0; i < 8; i++)
+            for (i = 0; i < UNIT_STAT_COUNT; i++)
             {
-                int cap;
+                s32 cap;
 
                 if (item->statBoost[i] == 0)
                 {
@@ -103,7 +103,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
                 cap = unit->pJobData->caps[i];
 
-                if (GetUnitStat(unit, i, NULL, 1) >= cap)
+                if (unit->GetStat(i, NULL, TRUE) >= cap)
                 {
                     continue;
                 }
@@ -119,7 +119,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            slot = GetUnitEquippedWeaponSlot(unit);
+            slot = unit->GetEquippedWeaponSlot();
 
             if (slot == -1)
             {
@@ -135,12 +135,12 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (!func_0203c7ac(unit, type))
+            if (!unit->_0203c7ac(type))
             {
                 return FALSE;
             }
 
-            iVar5 = func_0203c7ac(unit, type);
+            iVar5 = unit->_0203c7ac(type);
 
             for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
@@ -178,7 +178,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 }
 
                 cap = unit->pJobData->caps[i];
-                if (GetUnitStat(unit, i, NULL, 1) >= cap)
+                if (unit->GetStat(i, NULL, TRUE) >= cap)
                 {
                     continue;
                 }
@@ -279,9 +279,9 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             s32 hp = unit->hp;
             hp += func_02038e34(item);
 
-            if (hp > GetUnitMaxHp(unit))
+            if (hp > unit->GetMaxHp())
             {
-                hp = GetUnitMaxHp(unit);
+                hp = unit->GetMaxHp();
             }
 
             unit->hp = hp;
@@ -290,27 +290,27 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
         }
         case ITEM_EFFECT_STAT_BOOST:
         {
-            s32 unk_1b;
+            s32 mov;
             s32 i;
             s16 * r7;
             s8 * r8;
             s8 * r9;
             s32 cap;
 
-            unk_1b = item->movBoost;
+            mov = item->movBoost;
 
             if (item->movBoost != 0)
             {
-                unk_1b = item->movBoost;
-                unk_1b += func_0203c77c(unit);
+                mov = item->movBoost;
+                mov += unit->GetMov();
 
-                if (unk_1b < 0x20)
+                if (mov < 32)
                 {
                     unit->mov = unit->mov + item->movBoost;
                 }
                 else
                 {
-                    unit->mov = 0x20 - unit->pJobData->mov;
+                    unit->mov = 32 - unit->pJobData->mov;
                 }
             }
 
@@ -330,10 +330,10 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
 
                     cap = unit->pJobData->caps[i];
 
-                    if (GetUnitStat(unit, i, NULL, 1) < cap)
+                    if (unit->GetStat(i, NULL, TRUE) < cap)
                     {
                         cap = unit->pJobData->caps[i];
-                        r2 = cap - GetUnitStat(unit, i, NULL, 1);
+                        r2 = cap - unit->GetStat(i, NULL, TRUE);
 
                         if (r2 > item->statBoost[i])
                         {
@@ -356,10 +356,10 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             int iVar5;
             int type;
             int req;
-            struct ItemData * pEquippedItem = unit->items[GetUnitEquippedWeaponSlot(unit)].GetData();
+            struct ItemData * pEquippedItem = unit->items[unit->GetEquippedWeaponSlot()].GetData();
             type = pEquippedItem->type;
 
-            iVar5 = func_0203c7ac(unit, type);
+            iVar5 = unit->_0203c7ac(type);
 
             for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
@@ -370,7 +370,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             }
 
             req = pWeaponLevel[i - 1];
-            unit->unk_84[type] = req - func_0203c7e4(unit, type);
+            unit->unk_84[type] = req - unit->_0203c7e4(type);
 
             break;
         }
@@ -447,7 +447,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
                     hp = pUnit->hp;
 
-                    if (hp >= GetUnitMaxHp(pUnit))
+                    if (hp >= pUnit->GetMaxHp())
                     {
                         continue;
                     }
@@ -482,7 +482,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
             hp = pUnit->hp;
 
-            if (hp >= GetUnitMaxHp(pUnit))
+            if (hp >= pUnit->GetMaxHp())
             {
                 return FALSE;
             }
@@ -533,7 +533,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
                 cap = pUnit->pJobData->caps[i];
 
-                if (GetUnitStat(pUnit, i, NULL, 1) >= cap)
+                if (pUnit->GetStat(i, NULL, 1) >= cap)
                 {
                     continue;
                 }
@@ -676,9 +676,9 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
                     hp = pUnit->hp;
                     hp += func_02038e3c(item, unitA);
 
-                    if (hp > GetUnitMaxHp(pUnit))
+                    if (hp > pUnit->GetMaxHp())
                     {
-                        hp = GetUnitMaxHp(pUnit);
+                        hp = pUnit->GetMaxHp();
                     }
 
                     pUnit->hp = hp;
@@ -689,9 +689,9 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
                 hp = unitB->hp;
                 hp += func_02038e3c(item, unitA);
 
-                if (hp > GetUnitMaxHp(unitB))
+                if (hp > unitB->GetMaxHp())
                 {
-                    hp = GetUnitMaxHp(unitB);
+                    hp = unitB->GetMaxHp();
                 }
 
                 unitB->hp = hp;
@@ -728,7 +728,7 @@ EC s32 GetItemMaxRange(struct ItemData * item, struct Unit * unit)
         return item->maxRange;
     }
 
-    return GetUnitMag(unit, NULL, TRUE) >> 1;
+    return unit->GetMag(NULL, TRUE) >> 1;
 }
 
 EC s32 func_02038e34(struct ItemData * item)
@@ -742,7 +742,7 @@ EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit)
 
     if (item->attributes & IA_HEAL_STAFF)
     {
-        var += (GetUnitMag(unit, NULL, TRUE) >> 1);
+        var += (unit->GetMag(NULL, TRUE) >> 1);
     }
 
     return var;
@@ -757,7 +757,7 @@ EC BOOL func_02038e80(struct ItemData * item, struct Unit * unit)
 
     if (item->attributes & IA_UNK_22)
     {
-        if (unit != NULL && CheckUnitAttribute(unit, CA_UNK_10))
+        if (unit != NULL && unit->CheckAttribute(CA_UNK_10))
         {
             return TRUE;
         }
@@ -775,7 +775,7 @@ EC BOOL func_02038edc(struct ItemData * item, struct Unit * unit)
 
     if (item->attributes & IA_UNK_22)
     {
-        if (unit != NULL && CheckUnitAttribute(unit, CA_UNK_10))
+        if (unit != NULL && unit->CheckAttribute(CA_UNK_10))
         {
             return TRUE;
         }
@@ -793,7 +793,7 @@ EC BOOL func_02038f38(struct ItemData * item, struct Unit * unit)
 
     if ((item->attributes & IA_UNK_22))
     {
-        if (unit != NULL && CheckUnitAttribute(unit, CA_UNK_10))
+        if (unit != NULL && unit->CheckAttribute(CA_UNK_10))
         {
             return TRUE;
         }
@@ -834,7 +834,7 @@ EC struct JobData * GetJInfoFromItem(struct ItemData * item, struct Unit * unit)
         return unit->pJobData;
     }
 
-    if (!func_0203c834(unit, item, 1))
+    if (!unit->_0203c834(item, 1))
     {
         return unit->pJobData;
     }

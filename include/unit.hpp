@@ -272,10 +272,99 @@ public:
 
     Unit() {};
 
+    void Init(void); // _ZN4Unit4InitEv
+    Unit * Copy(Unit *); // _ZN4Unit4CopyEPS_
+    void Save(struct SaveBuffer *); // _ZN4Unit4SaveEP10SaveBuffer
+    void Load(struct SaveBuffer *, s32); // _ZN4Unit4LoadEP10SaveBufferl
+    void _0203b720(struct SaveBuffer *); // _ZN4Unit9_0203b720EP10SaveBuffer
+    BOOL _0203ba20(struct SaveBuffer *); // _ZN4Unit9_0203ba20EP10SaveBuffer
+    void _0203bcf4(void); // _ZN4Unit9_0203bcf4Ev
+    void _0203bd34(s32 forceId, BOOL append); // _ZN4Unit9_0203bd34Ell
+    Unit * _0203bdd0(u8); // _ZN4Unit9_0203bdd0Eh
+    void _0203be30(Unit *); // _ZN4Unit9_0203be30EPS_
+    void _0203bf68(void); // _ZN4Unit9_0203bf68Ev
+    void _0203c068(Unit *); // _ZN4Unit9_0203c068EPS_
+    void _0203c19c(void); // _ZN4Unit9_0203c19cEv
+    char * _0203c284(void); // _ZN4Unit9_0203c284Ev
+    // func_0203c378
+    s32 GetMaxHp(void); // _ZN4Unit8GetMaxHpEv
+    s32 GetStr(ItemData * item, BOOL); // _ZN4Unit6GetStrEP8ItemDatal
+    s32 GetMag(ItemData * item, BOOL); // _ZN4Unit6GetMagEP8ItemDatal
+    s32 GetSkl(ItemData * item, BOOL); // _ZN4Unit6GetSklEP8ItemDatal
+    s32 GetSpd(ItemData * item, BOOL); // _ZN4Unit6GetSpdEP8ItemDatal
+    s32 GetLuk(ItemData * item, BOOL); // _ZN4Unit6GetLukEP8ItemDatal
+    s32 GetDef(ItemData * item, BOOL); // _ZN4Unit6GetDefEP8ItemDatal
+    s32 GetRes(ItemData * item, BOOL); // _ZN4Unit6GetResEP8ItemDatal
+    s32 GetStat(u32 statIdx, ItemData * item, BOOL); // _ZN4Unit7GetStatEmP8ItemDatal
+    BOOL _0203c73c(s32); // _ZN4Unit9_0203c73cEl
+    u32 _0203c75c(void); // _ZN4Unit9_0203c75cEv
+    s32 GetMov(void); // _ZN4Unit6GetMovEv
+    s32 _0203c790(void); // _ZN4Unit9_0203c790Ev
+    s32 _0203c7ac(u32); // _ZN4Unit9_0203c7acEm
+    s32 _0203c7e4(u32); // _ZN4Unit9_0203c7e4Em
+    s32 CheckAttribute(u32 attr); // _ZN4Unit14CheckAttributeEm
+    BOOL _0203c834(ItemData * item, s32); // _ZN4Unit9_0203c834EP8ItemDatal
+    BOOL _0203cb6c(s32 slot, s32); // _ZN4Unit9_0203cb6cEll
+    s32 GetEquippedWeaponSlot(void); // _ZN4Unit21GetEquippedWeaponSlotEv
+    u64 _0203cbc4(u64 mask); // _ZN4Unit9_0203cbc4Ey
+    u64 _0203cc1c(u64 mask); // _ZN4Unit9_0203cc1cEy
+    void _0203cc94(s32 slot, s32); // _ZN4Unit9_0203cc94Ell
+    BOOL _0203cd30(s32); // _ZN4Unit9_0203cd30El
+    void _0203cdf0(s32 slot); // _ZN4Unit9_0203cdf0El
+    void _0203ce08(s32 slot, BOOL); // _ZN4Unit9_0203ce08Ell
+    void _0203ce6c(void); // _ZN4Unit9_0203ce6cEv
+    BOOL _0203ce9c(s32, u32); // _ZN4Unit9_0203ce9cElm
+    BOOL _0203cef8(ItemData * item, u32); // _ZN4Unit9_0203cef8EP8ItemDatam
+    BOOL _0203cf20(Item * item); // _ZN4Unit9_0203cf20EP4Item
+    void _0203cf68(void); // _ZN4Unit9_0203cf68Ev
+    s32 _0203cff4(void); // _ZN4Unit9_0203cff4Ev
+    s32 _0203d01c(void); // _ZN4Unit9_0203d01cEv
+    s32 _0203d094(void); // _ZN4Unit9_0203d094Ev
+    s32 _0203d10c(void); // _ZN4Unit9_0203d10cEv
+    BOOL _0203d184(void); // _ZN4Unit9_0203d184Ev
+    BOOL _0203d1bc(void); // _ZN4Unit9_0203d1bcEv
+    BOOL _0203d1f4(void); // _ZN4Unit9_0203d1f4Ev
+    s32 ComputeMight(ItemData * item, BOOL); // _ZN4Unit12ComputeMightEP8ItemDatal
+    s32 _0203d294(s32 slot, BOOL); // _ZN4Unit9_0203d294Ell
+    s32 _0203d2e4(ItemData * item); // _ZN4Unit9_0203d2e4EP8ItemData
+    s32 ComputeHitRate(ItemData * item, BOOL); // _ZN4Unit14ComputeHitRateEP8ItemDatal
+    s32 _0203d40c(s32 slot, BOOL); // _ZN4Unit9_0203d40cEll
+    s32 _0203d45c(ItemData * item); // _ZN4Unit9_0203d45cEP8ItemData
+    s32 ComputeCritRate(ItemData * item); // _ZN4Unit15ComputeCritRateEP8ItemData
+    s32 _0203d554(s32 slot); // _ZN4Unit9_0203d554El
+    s32 ComputeAttackSpeed(ItemData * item); // _ZN4Unit18ComputeAttackSpeedEP8ItemData
+    s32 ComputeAvoid(ItemData * item); // _ZN4Unit12ComputeAvoidEP8ItemData
+    s32 _0203d618(s32 slot); // _ZN4Unit9_0203d618El
+    s32 _0203d660(ItemData * item); // _ZN4Unit9_0203d660EP8ItemData
+    s32 _0203d670(s32 exp); // _ZN4Unit9_0203d670El
+    void _0203d6dc(void); // _ZN4Unit9_0203d6dcEv
+    void _0203d840(struct JobData * job, BOOL); // _ZN4Unit9_0203d840EP7JobDatal
+    void _0203d874(void); // _ZN4Unit9_0203d874Ev
+    BOOL _0203dad4(Unit * other); // _ZN4Unit9_0203dad4EPS_
+    s32 _0203db28(void); // _ZN4Unit9_0203db28Ev
+    s32 _0203db50(void); // _ZN4Unit9_0203db50Ev
+    void _0203db78(void); // _ZN4Unit9_0203db78Ev
+    void _0203db94(s32); // _ZN4Unit9_0203db94El
+    static s32 _0203dbc0(void); // _ZN4Unit9_0203dbc0Ev
+    s32 _0203dbd4(BOOL useMag, BOOL useRes); // _ZN4Unit9_0203dbd4Ell
+    void _0203dd48(void); // _ZN4Unit9_0203dd48Ev
+    void _0203de10(void); // _ZN4Unit9_0203de10Ev
+    void _0203df18(void); // _ZN4Unit9_0203df18Ev
+
     inline void SetPos(s32 x, s32 y)
     {
         this->xPos = x;
         this->yPos = y;
+    }
+
+    inline u32 GetPersonAttr(void)
+    {
+        return this->pPersonData->attributes;
+    }
+
+    inline u32 GetJobAttr(void)
+    {
+        return this->pJobData->attributes;
     }
 
     inline void SetJob(struct JobData * job)

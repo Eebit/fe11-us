@@ -12,7 +12,6 @@ extern s32 data_020eea90;
 EC void func_020a8f40(char *);
 EC void * LoadFileAndCache(char *, u32);
 
-EC BOOL CheckUnitAttribute(struct Unit *, s32);
 EC Unit * func_0203fd84(struct PersonData *);
 
 EC char * GetText(char *);
@@ -24,7 +23,6 @@ EC char * func_0203802c(struct ItemData *);
 EC void func_020a58b8(void *, void *, s32);
 EC void func_020b6c98(char *, char *);
 EC void func_020b6e08(char *, char *);
-EC s32 GetUnitMaxHp(Unit *);
 EC void func_020208b0(s32, s32, s32 *, s32 *);
 
 EC void FE11Database::Init(void)
@@ -229,7 +227,7 @@ EC char * func_02037ef0(struct PersonData * pPerson, Unit * pUnit)
             return pUnit->pJobData->unk_48;
         }
 
-        if (CheckUnitAttribute(pUnit, CA_UNK_26))
+        if (pUnit->CheckAttribute(CA_UNK_26))
         {
             bVar4 = TRUE;
         }
@@ -406,7 +404,7 @@ EC s32 func_020381d8(struct TerrainData * pTerrain, Unit * pUnit, s32 param_3)
     s32 remainder;
 
     curHp = pUnit->hp;
-    maxHp = GetUnitMaxHp(pUnit);
+    maxHp = pUnit->GetMaxHp();
 
     func_020208b0(maxHp * pTerrain->unk_08[3], 100, &quotient, &remainder);
 

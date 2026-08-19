@@ -167,10 +167,6 @@ extern struct ProcCmd ProcScr_TargetInfo[];
 
 EC s32 func_02034f74(s32);
 
-EC s32 GetUnitEquippedWeaponSlot(Unit * unit);
-EC void func_0203cc94(Unit * unit, s32 slot, s32 arg_2);
-EC BOOL func_0203cd30(Unit * unit, s32 arg_1);
-
 void TargetSelectState::_021b4224(void)
 {
     this->pItemData = NULL;
@@ -191,21 +187,21 @@ void TargetSelectState::_021b4224(void)
 
             if (this->pItemData->type != ITYPE_STAFF)
             {
-                this->unk_128 = GetUnitEquippedWeaponSlot(gMapStateManager->unk_04->unk_00);
-                func_0203cd30(gMapStateManager->unk_04->unk_00, this->itemSlot);
+                this->unk_128 = gMapStateManager->unk_04->unk_00->GetEquippedWeaponSlot();
+                gMapStateManager->unk_04->unk_00->_0203cd30(this->itemSlot);
                 this->unk_12a = 0;
             }
             else
             {
                 this->unk_128 = -1;
 
-                if (GetUnitEquippedWeaponSlot(gMapStateManager->unk_04->unk_00) >= 0)
+                if (gMapStateManager->unk_04->unk_00->GetEquippedWeaponSlot() >= 0)
                 {
                     this->unk_12a = this->itemSlot;
                 }
                 else
                 {
-                    func_0203cc94(gMapStateManager->unk_04->unk_00, this->itemSlot, 0);
+                    gMapStateManager->unk_04->unk_00->_0203cc94(this->itemSlot, 0);
                     this->unk_12a = 0;
                 }
             }
@@ -215,10 +211,6 @@ void TargetSelectState::_021b4224(void)
 
     return;
 }
-
-EC void func_0203cc94(Unit * unit, s32 slot, s32 arg_2);
-EC void func_0203cdf0(Unit * unit, s32 slot);
-EC BOOL func_0203cd30(Unit * unit, s32 arg_1);
 
 void TargetSelectState::_021b4358(void)
 {
@@ -235,21 +227,21 @@ void TargetSelectState::_021b4358(void)
         case TARGET_SELECT_KIND_3:
             if (this->pItemData->type != ITYPE_STAFF)
             {
-                func_0203cc94(gMapStateManager->unk_04->unk_00, this->unk_12a, this->itemSlot);
+                gMapStateManager->unk_04->unk_00->_0203cc94(this->unk_12a, this->itemSlot);
 
                 if (this->unk_128 != -1)
                 {
-                    func_0203cd30(gMapStateManager->unk_04->unk_00, this->unk_128);
+                    gMapStateManager->unk_04->unk_00->_0203cd30(this->unk_128);
                 }
                 else
                 {
                     Unit * unit = gMapStateManager->unk_04->unk_00;
-                    func_0203cdf0(unit, GetUnitEquippedWeaponSlot(unit));
+                    unit->_0203cdf0(unit->GetEquippedWeaponSlot());
                 }
             }
             else
             {
-                func_0203cc94(gMapStateManager->unk_04->unk_00, this->unk_12a, this->itemSlot);
+                gMapStateManager->unk_04->unk_00->_0203cc94(this->unk_12a, this->itemSlot);
             }
 
             break;
@@ -1029,7 +1021,7 @@ void TargetSelectState::EnlistImitateTargets(void)
                 continue;
             }
 
-            if (CheckUnitAttribute(unit, CA_UNK_24))
+            if (unit->CheckAttribute(CA_UNK_24))
             {
                 continue;
             }

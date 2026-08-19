@@ -57,11 +57,8 @@ EC void func_01ff9948(s32);
 EC s32 func_02034f74(s32 kind);
 EC void * func_ov002_021f2040(Unit *, s32, s32, s32, s32, ProcPtr);
 
-EC struct Unit * func_0203bdd0(struct Unit * unit, u8 arg_1);
 EC void func_020113d0(u16 *, u16, s32);
 EC char * func_02037fc8(struct JobData * pJob);
-EC void func_0203a94c(struct Unit * unit);
-EC struct Unit * func_0203aa4c(struct Unit * dst, struct Unit * src);
 EC struct Unit * GetLeaderUnitForFaction(s32 factionId);
 
 EC void func_0202a4dc(s32, s32);
@@ -69,8 +66,6 @@ EC void func_02035694(u8 *, s32, s32);
 EC void func_02035700(s32);
 
 // EC void func_ov005_02204c20(ProcEx *, s32);
-
-EC BOOL func_0203cd30(struct Unit * unit, s32 arg_1);
 
 EC void func_020512cc(void *, s32, s32, s32);
 
@@ -116,7 +111,7 @@ public:
             this->unk_50[i] = 0;
         }
 
-        for (var_r10 = GetLeaderUnitForFaction(5); var_r10 != NULL; var_r10 = func_0203bdd0(var_r10, 5))
+        for (var_r10 = GetLeaderUnitForFaction(5); var_r10 != NULL; var_r10 = var_r10->_0203bdd0(5))
         {
             if (func_0203c378(var_r10)->pJobData->unk_35 >= 0)
             {
@@ -138,12 +133,12 @@ public:
                 continue;
             }
 
-            if (!CheckUnitAttribute(this->unk_3c, CA_UNK_29) && job == GetJobByJidStr("JID_FALCONKNIGHT_F"))
+            if (!this->unk_3c->CheckAttribute(CA_UNK_29) && job == GetJobByJidStr("JID_FALCONKNIGHT_F"))
             {
                 continue;
             }
 
-            if (CheckUnitAttribute(this->unk_3c, CA_UNK_29) && job == GetJobByJidStr("JID_DRAGONKNIGHT_F"))
+            if (this->unk_3c->CheckAttribute(CA_UNK_29) && job == GetJobByJidStr("JID_DRAGONKNIGHT_F"))
             {
                 continue;
             }
@@ -164,8 +159,8 @@ public:
         }
 
         this->unk_40 = static_cast<Unit *>(gHeap.Alloc(sizeof(Unit)));
-        func_0203a94c(this->unk_40);
-        func_0203aa4c(this->unk_40, sp1C);
+        this->unk_40->Init();
+        this->unk_40->Copy(sp1C);
         this->unk_40->force = sp1C->force;
 
         func_ov005_02204c20(this, 1);
@@ -310,7 +305,7 @@ public:
             gSoundManager->unk_b0->vfunc_28(0x1001d, 0, 0);
 
             this->unk_40->SetJob(this->unk_38[this->unk_44]);
-            this->unk_40->hp = GetUnitMaxHp(this->unk_40);
+            this->unk_40->hp = this->unk_40->GetMaxHp();
 
             func_ov002_021f0960(this->unk_48, this->unk_40);
 
@@ -385,7 +380,7 @@ public:
             gSoundManager->unk_b0->vfunc_28(0x1001d, 0, 0);
 
             this->unk_40->SetJob(this->unk_38[this->unk_44]);
-            this->unk_40->hp = GetUnitMaxHp(this->unk_40);
+            this->unk_40->hp = this->unk_40->GetMaxHp();
 
             func_ov002_021f0960(this->unk_48, this->unk_40);
 
@@ -459,20 +454,20 @@ public:
                 this->unk_50[unk_35]++;
 
                 this->unk_3c->SetJob(this->unk_38[this->unk_44]);
-                this->unk_3c->hp = GetUnitMaxHp(this->unk_3c);
+                this->unk_3c->hp = this->unk_3c->GetMaxHp();
 
-                wpnSlot = GetUnitEquippedWeaponSlot(this->unk_3c);
+                wpnSlot = this->unk_3c->GetEquippedWeaponSlot();
                 if (wpnSlot != -1)
                 {
                     Item * item = &this->unk_3c->items[wpnSlot];
                     item->flags &= ~0x10;
                 }
 
-                func_0203cd30(this->unk_3c, -1);
-                func_0203aa4c(this->unk_40, this->unk_3c);
+                this->unk_3c->_0203cd30(-1);
+                this->unk_40->Copy(this->unk_3c);
 
                 this->unk_40->SetJob(this->unk_38[this->unk_44]);
-                this->unk_40->hp = GetUnitMaxHp(this->unk_40);
+                this->unk_40->hp = this->unk_40->GetMaxHp();
 
                 func_ov002_021f0960(this->unk_48, this->unk_40);
 

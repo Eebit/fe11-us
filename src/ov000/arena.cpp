@@ -415,7 +415,7 @@ void arena::Arena::_021d7d1c(void)
     this->_021d8014();
 
     this->unk_3c = Force::Get(4)->head;
-    func_0203bd34(this->unk_3c, 1, 1);
+    this->unk_3c->_0203bd34(1, TRUE);
 
     this->_021d7d98();
 
@@ -429,7 +429,7 @@ void arena::Arena::_021d7d50(void)
         data_021974fc->unk_00 = 0;
     }
 
-    func_0203bd34(this->unk_3c, 4, 1);
+    this->unk_3c->_0203bd34(4, TRUE);
     this->_021d8064();
 
     return;
@@ -466,7 +466,7 @@ s32 arena::Arena::_021d7db8(Unit * unit, s32 arg_2)
         }
         else
         {
-            wpnLevel = func_0203c7ac(unit, i);
+            wpnLevel = unit->_0203c7ac(i);
         }
 
         if (wpnLevel > bestWpnLevel)
@@ -493,7 +493,7 @@ void arena::Arena::_021d7e1c(void)
 
     BOOL isPromotedOrHighLevel = FALSE;
 
-    if (CheckUnitAttribute(this->unk_38, CA_PROMOTED))
+    if (this->unk_38->CheckAttribute(CA_PROMOTED))
     {
         isPromotedOrHighLevel = TRUE;
     }
@@ -507,7 +507,7 @@ void arena::Arena::_021d7e1c(void)
 
     if (isPromotedOrHighLevel)
     {
-        if (CheckUnitAttribute(this->unk_38, CA_UNK_10))
+        if (this->unk_38->CheckAttribute(CA_UNK_10))
         {
             set = 7;
         }
@@ -534,7 +534,7 @@ void arena::Arena::_021d7e1c(void)
     }
     else
     {
-        if (CheckUnitAttribute(this->unk_38, CA_UNK_10))
+        if (this->unk_38->CheckAttribute(CA_UNK_10))
         {
             set = 3;
         }
@@ -578,7 +578,7 @@ void arena::Arena::_021d7e1c(void)
 
     level = this->unk_38->level;
 
-    if (CheckUnitAttribute(this->unk_38, CA_PROMOTED))
+    if (this->unk_38->CheckAttribute(CA_PROMOTED))
     {
         level += 15;
     }
@@ -701,11 +701,11 @@ void arena::Arena::_021d8104(void)
     r6 = func_02038348(&gFE11Database->pItem[*sp_04]);
     r7 = func_02038348(&gFE11Database->pItem[*r5]);
 
-    r8 = func_0203dbd4(this->unk_38, r6, r7);
+    r8 = this->unk_38->_0203dbd4(r6, r7);
 
     for (r4 = 0; r4 < 10; r4++)
     {
-        r0 = func_0203dbd4(this->unk_3c, r7, r6);
+        r0 = this->unk_3c->_0203dbd4(r7, r6);
 
         if (this->unk_5a != 0)
         {
@@ -713,13 +713,13 @@ void arena::Arena::_021d8104(void)
             {
                 if ((r8 * 115) / 100 < r0)
                 {
-                    func_0203de10(this->unk_3c);
+                    this->unk_3c->_0203de10();
                     this->unk_6c--;
                     continue;
                 }
                 else if ((r8 * 110) / 100 > r0)
                 {
-                    func_0203dd48(this->unk_3c);
+                    this->unk_3c->_0203dd48();
                     this->unk_6c++;
                     continue;
                 }
@@ -730,7 +730,7 @@ void arena::Arena::_021d8104(void)
             }
             else
             {
-                func_0203dd48(this->unk_3c);
+                this->unk_3c->_0203dd48();
                 this->unk_6c++;
                 continue;
             }
@@ -739,7 +739,7 @@ void arena::Arena::_021d8104(void)
         {
             if ((r8 * 115) / 100 < r0)
             {
-                func_0203de10(this->unk_3c);
+                this->unk_3c->_0203de10();
                 this->unk_6c--;
                 continue;
             }
@@ -752,7 +752,7 @@ void arena::Arena::_021d8104(void)
         {
             if (r8 > ((r0 * 110) / 100))
             {
-                func_0203dd48(this->unk_3c);
+                this->unk_3c->_0203dd48();
                 this->unk_6c++;
             }
             else
@@ -767,13 +767,13 @@ void arena::Arena::_021d8104(void)
 
     if (wpnType < ITYPE_DRAGONSTONE)
     {
-        if (func_0203c7ac(this->unk_3c, wpnType) != 0)
+        if (this->unk_3c->_0203c7ac(wpnType) != 0)
         {
             wpnLevel = item->wpnLevel;
-            if (wpnLevel > func_0203c7ac(this->unk_3c, wpnType))
+            if (wpnLevel > this->unk_3c->_0203c7ac(wpnType))
             {
                 s32 idk = item->wpnLevel;
-                idk -= func_0203c7ac(this->unk_3c, wpnType);
+                idk -= this->unk_3c->_0203c7ac(wpnType);
 
                 if (idk + this->unk_3c->unk_84[wpnType] <= 0xFF)
                 {
@@ -799,14 +799,14 @@ void arena::Arena::_021d8104(void)
         if (r6 != 0)
         {
             playerMight = gFE11Database->pItem[*sp_04].might;
-            playerAttack = GetUnitMag(this->unk_38, NULL, TRUE);
-            opponentDefense = GetUnitRes(this->unk_3c, NULL, TRUE);
+            playerAttack = this->unk_38->GetMag(NULL, TRUE);
+            opponentDefense = this->unk_3c->GetRes(NULL, TRUE);
         }
         else
         {
             playerMight = gFE11Database->pItem[*sp_04].might;
-            playerAttack = GetUnitStr(this->unk_38, NULL, TRUE);
-            opponentDefense = GetUnitDef(this->unk_3c, NULL, TRUE);
+            playerAttack = this->unk_38->GetStr(NULL, TRUE);
+            opponentDefense = this->unk_3c->GetDef(NULL, TRUE);
         }
 
         playerMight = ((playerMight + playerAttack) - opponentDefense);
@@ -814,23 +814,23 @@ void arena::Arena::_021d8104(void)
         if (r7 != 0)
         {
             opponentMight = gFE11Database->pItem[*r5].might;
-            opponentAttack = GetUnitMag(this->unk_3c, NULL, TRUE);
-            playerDefense = GetUnitRes(this->unk_38, NULL, TRUE);
+            opponentAttack = this->unk_3c->GetMag(NULL, TRUE);
+            playerDefense = this->unk_38->GetRes(NULL, TRUE);
         }
         else
         {
             opponentMight = gFE11Database->pItem[*r5].might;
-            opponentAttack = GetUnitStr(this->unk_3c, NULL, TRUE);
-            playerDefense = GetUnitDef(this->unk_38, NULL, TRUE);
+            opponentAttack = this->unk_3c->GetStr(NULL, TRUE);
+            playerDefense = this->unk_38->GetDef(NULL, TRUE);
         }
 
         opponentMight = ((opponentMight + opponentAttack) - playerDefense);
 
-        if ((playerMight * 6) < GetUnitMaxHp(this->unk_3c))
+        if ((playerMight * 6) < this->unk_3c->GetMaxHp())
         {
             if (r6 != 0)
             {
-                if (GetUnitRes(this->unk_3c, 0, TRUE) > 0)
+                if (this->unk_3c->GetRes(0, TRUE) > 0)
                 {
                     this->unk_3c->unk_50[7]--;
                     this->unk_6e--;
@@ -838,7 +838,7 @@ void arena::Arena::_021d8104(void)
             }
             else
             {
-                if (GetUnitDef(this->unk_3c, 0, TRUE) > 0)
+                if (this->unk_3c->GetDef(0, TRUE) > 0)
                 {
                     this->unk_3c->unk_50[6]--;
                     this->unk_6e--;
@@ -846,7 +846,7 @@ void arena::Arena::_021d8104(void)
             }
         }
 
-        if ((opponentMight * 6) < GetUnitMaxHp(this->unk_38))
+        if ((opponentMight * 6) < this->unk_38->GetMaxHp())
         {
             s32 idk;
 
@@ -874,20 +874,20 @@ void arena::Arena::_021d8104(void)
                 continue;
             }
 
-            if (func_0203c7ac(this->unk_3c, wpnType) == 0)
+            if (this->unk_3c->_0203c7ac(wpnType) == 0)
             {
                 continue;
             }
 
             wpnLevel = item->wpnLevel;
 
-            if (wpnLevel <= func_0203c7ac(this->unk_3c, wpnType))
+            if (wpnLevel <= this->unk_3c->_0203c7ac(wpnType))
             {
                 continue;
             }
 
             idk = item->wpnLevel;
-            idk -= func_0203c7ac(this->unk_3c, wpnType);
+            idk -= this->unk_3c->_0203c7ac(wpnType);
 
             if (idk + this->unk_3c->unk_84[wpnType] <= 0xFF)
             {
@@ -916,11 +916,11 @@ void arena::Arena::_021d8604(void)
     u32 uVar3;
     u32 uVar4;
 
-    uVar3 = func_02038348(this->unk_38->items[GetUnitEquippedWeaponSlot(this->unk_38)].GetData());
-    uVar4 = func_02038348(this->unk_3c->items[GetUnitEquippedWeaponSlot(this->unk_3c)].GetData());
+    uVar3 = func_02038348(this->unk_38->items[this->unk_38->GetEquippedWeaponSlot()].GetData());
+    uVar4 = func_02038348(this->unk_3c->items[this->unk_3c->GetEquippedWeaponSlot()].GetData());
 
-    iVar1 = func_0203dbd4(this->unk_3c, uVar4, uVar3);
-    iVar5 = func_0203dbd4(this->unk_38, uVar3, uVar4);
+    iVar1 = this->unk_3c->_0203dbd4(uVar4, uVar3);
+    iVar5 = this->unk_38->_0203dbd4(uVar3, uVar4);
 
     iVar1 = (iVar1 - (iVar5 >> 1)) * 10;
     if (iVar1 < 0)
@@ -1152,7 +1152,7 @@ void arena::Arena::_021d8ccc(void)
         this->unk_60 = NULL;
         this->unk_5c = NULL;
 
-        func_0203a94c(this->unk_3c);
+        this->unk_3c->Init();
         this->_021d7d98();
 
         Proc_Goto(this, 3, 0);

@@ -30,11 +30,6 @@ struct UnkStruct_02196f10_00
 EC void func_020a5824(void *, s32, s32);
 
 EC struct PersonData * GetPersonByPidStr(char *);
-EC void SaveUnit(struct Unit *, struct SaveBuffer *);
-EC void func_0203bd34(struct Unit * unit, s32 arg_1, s32 arg_2);
-EC void LoadUnit(struct Unit * unit, struct SaveBuffer * buf, s32 param_3);
-
-EC void func_0203aa4c(struct Unit *, struct Unit *);
 EC void func_020a58b8(void *, void *, u32);
 
 EC s32 GetItemDBIndex(struct ItemData *);
@@ -44,18 +39,11 @@ extern struct UnkStruct_02196f10_00_348 data_021974e4[];
 EC u16 func_02041294(u16, struct UnkStruct_02196f10_00_348 *, s8, s8, s32, s32, s32, s32); /* extern */
 EC s32 IntSys_Div(s32, s32);
 EC s32 GetJobMaxLevel(struct JobData *);
-EC BOOL CheckUnitAttribute(struct Unit *, s32);
-EC BOOL func_0203c7ac(struct Unit *, s32);
-EC s32 GetUnitMaxHp(struct Unit *);
-EC void func_0203d6dc(struct Unit *);
-EC void func_0203d840(struct Unit *, s32, s32);
 
 EC void func_02041590(UnkStruct_02196f10_00_348 *, SaveBuffer *);
 
 EC s32 func_02022f4c(void);
 EC s32 func_02022f54(void);
-
-EC void func_0203bd34(struct Unit * unit, s32 arg_1, s32 arg_2);
 
 // fwd decl
 
@@ -369,7 +357,7 @@ EC void func_02040094(SaveBuffer * save, u32 faction)
 
         for (unit = force->head; unit != NULL; unit = unit->unk_3c)
         {
-            SaveUnit(unit, save);
+            unit->Save(save);
         }
     }
 
@@ -407,8 +395,8 @@ EC void func_020401d8(SaveBuffer * save, u32 faction)
         for (i = 0; i < count; i++)
         {
             struct Unit * unit = force[4].head;
-            func_0203bd34(unit, uVar4, 1);
-            LoadUnit(unit, save, faction);
+            unit->_0203bd34(uVar4, TRUE);
+            unit->Load(save, faction);
         }
     }
 
@@ -447,7 +435,7 @@ func_020402f8(struct UnkStruct_02196f10_00 * arg0, struct UnkStruct_02196f10_00 
 
     for (i = 0; i < 5; i++)
     {
-        func_0203aa4c(&arg0->unk_000[i], &arg1->unk_000[i]);
+        arg0->unk_000[i].Copy(&arg1->unk_000[i]);
         arg0->unk_000[i].force = arg1->unk_000[i].force;
     }
 
@@ -481,7 +469,7 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
         for (sp4 = 0; sp4 < 5; sp4++)
         {
             struct Unit * unit = &arg0->unk_000[sp4];
-            func_0203aa4c(&arg0->unk_000[sp4], func_0203c378(unit));
+            arg0->unk_000[sp4].Copy(func_0203c378(unit));
 
             unit->force = Force::Get(0);
             unit->unk_90 = 0;
@@ -550,8 +538,8 @@ EC void func_02040594(struct UnkStruct_02196f10_00 * arg0, s32 arg1)
         }
 
         unit = force->head;
-        func_0203bd34(unit, arg1, 1);
-        func_0203aa4c(unit, &arg0->unk_000[i]);
+        unit->_0203bd34(arg1, 1);
+        unit->Copy(&arg0->unk_000[i]);
         unit->unk_90 = 0;
     }
 
@@ -689,26 +677,26 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
                     break;
                 }
 
-                if (CheckUnitAttribute(cur, CA_UNK_23))
+                if (cur->CheckAttribute(CA_UNK_23))
                 {
                     break;
                 }
 
-                func_0203d840(cur, 0, 0);
+                cur->_0203d840(0, 0);
             }
             else
             {
-                func_0203d6dc(cur);
+                cur->_0203d6dc();
             }
 
-            cur->hp = GetUnitMaxHp(cur);
+            cur->hp = cur->GetMaxHp();
             cur->exp = 0;
         }
 
         cur->unk_50[0] += (s8)IntSys_Div(expToApply, 3);
-        cur->hp = GetUnitMaxHp(cur);
+        cur->hp = cur->GetMaxHp();
 
-        if (func_0203c7ac(cur, 4) || func_0203c7ac(cur, 5))
+        if (cur->_0203c7ac(4) || cur->_0203c7ac(5))
         {
             cur->unk_50[2] += (s8)IntSys_Div(expToApply, 3);
         }
@@ -748,7 +736,7 @@ EC void func_020409d0(struct UnkStruct_02196f10_00 * arg0, SaveBuffer * arg1)
     for (i = 0; i < 5; i++)
     {
         struct Unit * var_r5 = &arg0->unk_000[i];
-        SaveUnit(var_r5, arg1);
+        var_r5->Save(arg1);
         arg1->WriteByte(var_r5->force->id);
     }
 
@@ -781,7 +769,7 @@ EC void func_02040abc(struct UnkStruct_02196f10_00 * arg0, SaveBuffer * save)
 
     for (i = 0; i < 5; i++)
     {
-        LoadUnit(&arg0->unk_000[i], save, temp_r6);
+        arg0->unk_000[i].Load(save, temp_r6);
         arg0->unk_000[i].force = Force::Get(save->ReadByte());
     }
 
@@ -927,7 +915,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
         for (it = this->tail; it != NULL; it = next)
         {
             next = it->unk_38;
-            func_0203bd34(it, factionId, append);
+            it->_0203bd34(factionId, append);
         }
     }
     else
@@ -935,7 +923,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
         for (it = this->head; it != NULL; it = next)
         {
             next = it->unk_3c;
-            func_0203bd34(it, factionId, append);
+            it->_0203bd34(factionId, append);
         }
     }
 
@@ -992,7 +980,7 @@ Unit * Force::FindByAttribute(u32 attr)
 
     for (it = this->head; it != NULL; it = it->unk_3c)
     {
-        if (!CheckUnitAttribute(it, attr))
+        if (!it->CheckAttribute(attr))
         {
             continue;
         }

@@ -1541,7 +1541,7 @@ EC s32 func_ov000_021a4854(struct Unit * unit)
     BOOL bVar1;
     struct UnkStruct_Func_02021410_Ret * iVar4;
 
-    range = func_0203c790(unit);
+    range = unit->_0203c790();
 
     if (func_ov000_021a4804() != 0)
     {

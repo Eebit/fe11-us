@@ -17,13 +17,8 @@ EC void func_01ff9420(MapStateManager_08 *, Unit *, s32, s32);
 EC void func_01ff95a4(MapStateManager_08 *, Unit *, s32, s32);
 
 EC s32 func_0203935c(Unit *, s32);
-EC BOOL func_0203d184(Unit *);
-EC BOOL func_0203d1bc(Unit *);
 EC s32 func_02039400(s32, s32);
-EC u64 func_0203cbc4(Unit *, u64);
 EC BOOL func_0201f680(void);
-
-EC BOOL func_0203d1f4(Unit *);
 
 EC void func_ov000_021bfa60(ProcPtr);
 
@@ -576,7 +571,7 @@ public:
     {
         if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 8))
         {
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
+            if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
             {
                 return MENU_ENABLED;
             }
@@ -616,7 +611,7 @@ public:
 
         if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_VISIT_08))
         {
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
+            if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
             {
                 actionId = ACTION_VISIT_08;
             }
@@ -659,7 +654,7 @@ public:
         s32 ux;
         s32 uy;
 
-        if (!func_0203d184(gMapStateManager->unk_04->unk_00))
+        if (!gMapStateManager->unk_04->unk_00->_0203d184())
         {
             return MENU_NOTSHOWN;
         }
@@ -759,7 +754,7 @@ public:
         s32 ux;
         s32 uy;
 
-        if (!func_0203d1bc(gMapStateManager->unk_04->unk_00))
+        if (!gMapStateManager->unk_04->unk_00->_0203d1bc())
         {
             return MENU_NOTSHOWN;
         }
@@ -851,7 +846,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (!func_0203d1f4(gMapStateManager->unk_04->unk_00))
+        if (!gMapStateManager->unk_04->unk_00->_0203d1f4())
         {
             return MENU_NOTSHOWN;
         }
@@ -1021,7 +1016,7 @@ public:
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xc))
         {
 
-            if (func_0203cbc4(gMapStateManager->unk_04->unk_00, 0x1000000) != 0)
+            if (gMapStateManager->unk_04->unk_00->_0203cbc4(0x1000000) != 0)
             {
                 return 0;
             }
@@ -1089,7 +1084,7 @@ public:
                 continue;
             }
 
-            if (func_0203c7ac(gMapStateManager->unk_04->unk_00, i))
+            if (gMapStateManager->unk_04->unk_00->_0203c7ac(i))
             {
                 return 0;
             }
@@ -1166,7 +1161,7 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
+        if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
         {
             return MENU_ENABLED;
         }
@@ -1212,7 +1207,7 @@ public:
                     continue;
                 }
 
-                if (!CheckUnitAttribute(unit, CA_UNK_1))
+                if (!unit->CheckAttribute(CA_UNK_1))
                 {
                     continue;
                 }
@@ -1291,7 +1286,7 @@ public:
         if (EventCaller::CanStartVisitEvent(
                 gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xe))
         {
-            if (CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_UNK_1))
+            if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
             {
                 return MENU_ENABLED;
             }
@@ -1426,7 +1421,7 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (!CheckUnitAttribute(gMapStateManager->unk_04->unk_00, CA_FREELANCER))
+        if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_FREELANCER))
         {
             return MENU_NOTSHOWN;
         }
@@ -1472,7 +1467,7 @@ public:
                     continue;
                 }
 
-                if (CheckUnitAttribute(unit, CA_UNK_24))
+                if (unit->CheckAttribute(CA_UNK_24))
                 {
                     continue;
                 }
