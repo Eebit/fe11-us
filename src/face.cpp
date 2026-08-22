@@ -17,16 +17,16 @@ struct FaceInfo
     /* 08 */ char * faceFile; // face filename in "/f/" directory
     /* 0C */ char * sfImgFile; // face graphic filename in "/sf/" directory
     /* 10 */ char * sfPalFile; // face palette filename in "/sf/" directory
-    /* 14 */ u8 unk_14[5][2]; // mouth frames
-    /* 1E */ u8 unk_1e[2][2]; // blink frames; +0x1e and +0x1f are midblink frame, +0x20 and +0x21 are for closed frame
+    /* 14 */ u8 mouthFrames[5][2];
+    /* 1E */ u8 eyeFrames[2][2]; //  +0x1e and +0x1f are midblink frame, +0x20 and +0x21 are for closed frame
     /* 22 */ STRUCT_PAD(0x22, 0x24);
 };
 
 struct Face
 {
     /* 00 */ struct FaceInfo * pInfo;
-    /* 04 */ s32 unk_04;
-    /* 08 */ s32 unk_08;
+    /* 04 */ s32 chrBase;
+    /* 08 */ s32 palBase;
     /* 0C */ union
     {
         u32 flags;
@@ -49,9 +49,9 @@ struct Face
     /* 17 */ s8 unk_17;
     /* 18 */ s8 unk_18;
     /* 19 */ STRUCT_PAD(0x19, 0x1C);
-    /* 1C */ s32 unk_1c;
-    /* 20 */ s32 unk_20;
-    /* 24 */ s32 unk_24;
+    /* 1C */ s32 blinkCnt;
+    /* 20 */ s32 mouthState;
+    /* 24 */ s32 mouthCnt;
 
     Face() {};
 
@@ -62,7 +62,7 @@ struct Face
 
     inline u32 GetPaletteIndex(void)
     {
-        return this->unk_08 + (this->unk_17 >> 1);
+        return this->palBase + (this->unk_17 >> 1);
     }
 
     inline BOOL CheckUnk15(void)
@@ -70,42 +70,40 @@ struct Face
         return (this->alpha != 0 && this->alpha != 0x10) ? TRUE : FALSE;
     }
 
-    char * GetFid(void); // _ZN4Face6GetFidEv
-    char * GetName(void); // _ZN4Face7GetNameEv
-    u16 * _02007738(void); // _ZN4Face9_02007738Ev
-    s32 _0200775c(s32, s32); // _ZN4Face9_0200775cEll
-    void Init(s32, s32); // _ZN4Face4InitEll
-    void _020077b8(char *, s32, s32, u8); // _ZN4Face9_020077b8EPcllh
-    void _02007874(char *, s32, s32); // _ZN4Face9_02007874EPcll
-    void _020078fc(void); // _ZN4Face9_020078fcEv
-    void _02007a3c(void); // _ZN4Face9_02007a3cEv
-    void _02007c18(void); // _ZN4Face9_02007c18Ev
-    void _02007c94(void); // _ZN4Face9_02007c94Ev
-    void _02007ca8(char * fidStr); // _ZN4Face9_02007ca8EPc
-    void _02007e78(void); // _ZN4Face9_02007e78Ev
-    void _02007efc(void); // _ZN4Face9_02007efcEv
-    void _02008150(void); // _ZN4Face9_02008150Ev
-    void _020081f8(void); // _ZN4Face9_020081f8Ev
-    void _020082c0(s32 x, s32 y, s32); // _ZN4Face9_020082c0Elll
-    void _02008454(void); // _ZN4Face9_02008454Ev
-    void _02008780(void); // _ZN4Face9_02008780Ev
+    char * GetFid(void);
+    char * GetName(void);
+    u16 * GetSprite(void);
+    s32 GetX(s32, s32);
+    void Init(s32, s32);
+    void _020077b8(char *, s32, s32, u8);
+    void _02007874(char *, s32, s32);
+    void Update(void);
+    void Draw(void);
+    void Hide(void);
+    void Clear(void);
+    void LoadGfx(char * fidStr);
+    void UpdateBlink(void);
+    void DrawBlink(void);
+    void UpdateMouth(void);
+    void DrawMouth(void);
+    void DrawMouthExt(s32 x, s32 y, s32);
+    void _02008454(void);
+    void _02008780(void);
 };
 
 class FaceHandle : public ProcEx
 {
 public:
-    /* 38 */ struct Face * unk_38;
+    /* 38 */ struct Face * faces;
 
-    FaceHandle(); // _ZN10FaceHandleC1Ev
+    FaceHandle();
 
-    // _ZN10FaceHandleD1Ev
-    // _ZN10FaceHandleD0Ev
     virtual ~FaceHandle();
 
-    void _02008864(void); // _ZN10FaceHandle9_02008864Ev
-    void _020088a8(void); // _ZN10FaceHandle9_020088a8Ev
-    void _020088d8(void); // _ZN10FaceHandle9_020088d8Ev
-    BOOL _02008908(void); // _ZN10FaceHandle9_02008908Ev
+    void InitFaces(void);
+    void UpdateFaces(void);
+    void DrawFaces(void);
+    BOOL _02008908(void);
 };
 
 extern FaceHandle * gFaceHandle;
@@ -141,14 +139,13 @@ EC char * GetLocalizedName(char * key)
     return GetText(faceInfo->mpid);
 }
 
-extern u16 data_020ca0f8[];
+extern u16 Sprite_HudSmallFace[];
 
-EC u16 * func_020076f8(void)
+EC u16 * GetSmallFaceSprite(void)
 {
-    return data_020ca0f8;
+    return Sprite_HudSmallFace;
 }
 
-// _ZN4Face6GetFidEv
 char * Face::GetFid(void)
 {
     if (this->pInfo != NULL)
@@ -159,7 +156,6 @@ char * Face::GetFid(void)
     return NULL;
 }
 
-// _ZN4Face7GetNameEv
 char * Face::GetName(void)
 {
     if (this->pInfo == NULL)
@@ -173,9 +169,7 @@ char * Face::GetName(void)
 extern u16 Sprite_Face[];
 extern u16 Sprite_FaceFlipped[];
 
-// Get the sprite for either left- or right-facing face graphic
-// _ZN4Face9_02007738Ev
-u16 * Face::_02007738(void)
+u16 * Face::GetSprite(void)
 {
     if (this->isFlipped == 1)
     {
@@ -187,23 +181,21 @@ u16 * Face::_02007738(void)
     }
 }
 
-// _ZN4Face9_0200775cEll
-s32 Face::_0200775c(s32 param_2, s32 param_3)
+s32 Face::GetX(s32 xBase, s32 xOffs)
 {
     if (this->isFlipped == 1)
     {
-        param_2 = (0x80 - param_2) - param_3;
+        xBase = (0x80 - xBase) - xOffs;
     }
 
-    return param_2;
+    return xBase;
 }
 
-// _ZN4Face4InitEll
-void Face::Init(s32 param_2, s32 param_3)
+void Face::Init(s32 chr, s32 pal)
 {
     this->pInfo = NULL;
-    this->unk_04 = param_2;
-    this->unk_08 = param_3;
+    this->chrBase = chr;
+    this->palBase = pal;
     this->flags = 0;
     this->yBase = 0;
     this->xBase = 0;
@@ -212,33 +204,32 @@ void Face::Init(s32 param_2, s32 param_3)
     this->alpha = 0;
     this->unk_17 = 8;
     this->unk_18 = 8;
-    this->unk_1c = 0;
-    this->unk_20 = 0;
-    this->unk_24 = 0;
+    this->blinkCnt = 0;
+    this->mouthState = 0;
+    this->mouthCnt = 0;
 
     return;
 }
 
-// _ZN4Face9_020077b8EPcllh
-void Face::_020077b8(char * fidStr, s32 arg2, s32 arg3, u8 arg4)
+void Face::_020077b8(char * fidStr, s32 slotMaybe, s32 arg3, u8 arg4)
 {
     u32 x;
 
     if (arg4 != 0)
     {
-        switch (arg2)
+        switch (slotMaybe)
         {
             case 1:
-                arg2 = 0;
+                slotMaybe = 0;
                 break;
 
             case 0:
-                arg2 = 1;
+                slotMaybe = 1;
                 break;
         }
     }
 
-    switch (arg2)
+    switch (slotMaybe)
     {
         case 0:
             x = 64;
@@ -264,7 +255,6 @@ void Face::_020077b8(char * fidStr, s32 arg2, s32 arg3, u8 arg4)
     return;
 }
 
-// _ZN4Face9_02007874EPcll
 void Face::_02007874(char * fidStr, s32 x, s32 y)
 {
     this->xBase = x;
@@ -273,7 +263,7 @@ void Face::_02007874(char * fidStr, s32 x, s32 y)
     this->unk_18 = 8;
     this->unk_14 = 10;
 
-    this->_02007ca8(fidStr);
+    this->LoadGfx(fidStr);
 
     switch (this->unk_0c_8_9)
     {
@@ -318,8 +308,7 @@ struct UnkStruct_02197798
 };
 EC struct UnkStruct_02197798 * func_0206ecb0(void);
 
-// _ZN4Face9_020078fcEv
-void Face::_020078fc(void)
+void Face::Update(void)
 {
     u8 alpha;
     struct UnkStruct_02197798 * puVar2;
@@ -361,7 +350,7 @@ void Face::_020078fc(void)
 
     if (this->alpha < 0)
     {
-        this->_02007c94();
+        this->Clear();
         return;
     }
 
@@ -385,8 +374,8 @@ void Face::_020078fc(void)
         this->_02008780();
     }
 
-    this->_02007e78();
-    this->_02008150();
+    this->UpdateBlink();
+    this->UpdateMouth();
 
     return;
 }
@@ -420,8 +409,7 @@ static inline void PutSpriteActiveScreen(u16 xOam1, u16 yOam0, u16 oam2, u16 * s
 }
 
 // Put the current face graphic
-// _ZN4Face9_02007a3cEv
-void Face::_02007a3c(void)
+void Face::Draw(void)
 {
     BOOL fading;
     s32 x;
@@ -450,23 +438,22 @@ void Face::_02007a3c(void)
         return;
     }
 
-    spr = this->_02007738();
+    spr = this->GetSprite();
     y = this->yBase;
     x = this->xBase;
     sp = this->unk_14;
 
     PutSpriteActiveScreen(
-        x & 0x1ff, (y & 0xff) | 0x2000, OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR(this->unk_04 / 2),
+        x & 0x1ff, (y & 0xff) | 0x2000, OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR(this->chrBase / 2),
         spr, sp);
 
-    this->_02007efc();
-    this->_020081f8();
+    this->DrawBlink();
+    this->DrawMouth();
 
     return;
 }
 
-// _ZN4Face9_02007c18Ev
-void Face::_02007c18(void)
+void Face::Hide(void)
 {
     if (!this->HasFaceInfo())
     {
@@ -495,8 +482,7 @@ void Face::_02007c18(void)
     return;
 }
 
-// _ZN4Face9_02007c94Ev
-void Face::_02007c94(void)
+void Face::Clear(void)
 {
     this->pInfo = NULL;
     this->alpha = this->unk_16 = 0;
@@ -512,11 +498,10 @@ EC void func_0206ebd4(void *, s32);
 EC void func_0206ee78(AbstCtrl *, void *, s32, s32);
 EC void func_0206ea7c(void *, void *, s32, s32, s32, s32, s32, s32);
 
-// _ZN4Face9_02007ca8EPc
-void Face::_02007ca8(char * fidStr)
+void Face::LoadGfx(char * fidStr)
 {
-    u8 * temp_r0_3;
-    u8 * temp_r0_2;
+    u8 * palBuf;
+    u8 * faceFile;
 
     this->pInfo = static_cast<struct FaceInfo *>(HashTable::Get1(fidStr));
 
@@ -527,84 +512,82 @@ void Face::_02007ca8(char * fidStr)
 
     func_02012180("/f");
 
-    temp_r0_2 = (u8 *)func_02012164(this->pInfo->faceFile);
-    if (temp_r0_2 == NULL)
+    faceFile = static_cast<u8 *>(func_02012164(this->pInfo->faceFile));
+    if (faceFile == NULL)
     {
         return;
     }
 
     // register the actual graphics to vram probably
-    func_0206ee78(data_02197718, temp_r0_2 + 0x200, this->unk_04 << 6, 0x6400);
+    func_0206ee78(data_02197718, faceFile + 0x200, this->chrBase << 6, 0x6400);
 
-    temp_r0_3 = static_cast<u8 *>(gHeap._01ffb9bc(0xA00));
+    palBuf = static_cast<u8 *>(gHeap._01ffb9bc(0xA00));
 
     // copy the palette to a buffer
-    func_020a5780(temp_r0_2, temp_r0_3, 0x200);
+    func_020a5780(faceFile, palBuf, 0x200);
 
     // compute some variations on the palette to the buffer
-    func_0206ea7c(temp_r0_3, temp_r0_3 + 0x200, 0x80, 0, 0, 0, 0, 0xF);
-    func_0206ea7c(temp_r0_3, temp_r0_3 + 0x400, 0x80, 0, 0, 0, 0, 0xD);
-    func_0206ea7c(temp_r0_3, temp_r0_3 + 0x600, 0x80, 0, 0, 0, 0, 0xB);
-    func_0206ea7c(temp_r0_3, temp_r0_3 + 0x800, 0x80, 0, 0, 0, 0, 0xA);
+    func_0206ea7c(palBuf, palBuf + 0x200, 0x80, 0, 0, 0, 0, 0xF);
+    func_0206ea7c(palBuf, palBuf + 0x400, 0x80, 0, 0, 0, 0, 0xD);
+    func_0206ea7c(palBuf, palBuf + 0x600, 0x80, 0, 0, 0, 0, 0xB);
+    func_0206ea7c(palBuf, palBuf + 0x800, 0x80, 0, 0, 0, 0, 0xA);
 
     if (this->unk_0c_0 != 0)
     {
-        func_0206ebd4(temp_r0_3, 0x280);
+        func_0206ebd4(palBuf, 0x280);
     }
 
-    data_02197718->vfunc_10((s32)temp_r0_3, 0, this->unk_08 << 9, 0xA00, 0);
-    data_0219771c->vfunc_10((s32)temp_r0_3, 0, this->unk_08 << 9, 0xA00, 1);
+    data_02197718->vfunc_10((s32)palBuf, 0, this->palBase << 9, 0xA00, 0);
+    data_0219771c->vfunc_10((s32)palBuf, 0, this->palBase << 9, 0xA00, 1);
 
-    gHeap.Free(temp_r0_2);
+    gHeap.Free(faceFile);
 
     return;
 }
 
 EC s32 RollRN(s32, s32);
 
-// _ZN4Face9_02007e78Ev
-void Face::_02007e78(void)
+void Face::UpdateBlink(void)
 {
     switch (this->unk_0c_4_5)
     {
         case 2:
-            this->unk_1c = 0xb;
+            this->blinkCnt = 11;
             break;
 
         case 3:
-            this->unk_1c = 7;
+            this->blinkCnt = 7;
             return;
 
         case 1:
-            if (this->unk_1c == 4)
+            if (this->blinkCnt == 4)
             {
                 return;
             }
 
-            if (this->unk_1c > 9)
+            if (this->blinkCnt > 9)
             {
-                this->unk_1c = 9;
+                this->blinkCnt = 9;
             }
 
             break;
     }
 
-    if (--this->unk_1c >= 0)
+    if (--this->blinkCnt >= 0)
     {
         return;
     }
 
-    this->unk_1c = RollRN(120, 180);
+    this->blinkCnt = RollRN(120, 180);
 
     return;
 }
 
 extern u16 data_027e0048[];
 
-// _ZN4Face9_02007efcEv
-void Face::_02007efc(void)
+void Face::DrawBlink(void)
 {
-    switch (this->unk_1c)
+    switch (this->blinkCnt)
     {
         case 1:
         case 2:
@@ -620,10 +603,10 @@ void Face::_02007efc(void)
             s32 tmp;
 
             x = (this->xBase - 64);
-            x += this->_0200775c(this->pInfo->unk_1e[0][0], 64);
-            y = this->pInfo->unk_1e[0][1];
+            x += this->GetX(this->pInfo->eyeFrames[0][0], 64);
+            y = this->pInfo->eyeFrames[0][1];
             y += (this->yBase - 127);
-            attr = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR((this->unk_04 + 0x150) / 2);
+            attr = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR((this->chrBase + 0x150) / 2);
 
             if (this->isFlipped == 1)
             {
@@ -651,10 +634,10 @@ void Face::_02007efc(void)
             s32 tmp;
 
             x = (this->xBase - 64);
-            x += this->_0200775c(this->pInfo->unk_1e[1][0], 64);
-            y = this->pInfo->unk_1e[1][1];
+            x += this->GetX(this->pInfo->eyeFrames[1][0], 64);
+            y = this->pInfo->eyeFrames[1][1];
             y += (this->yBase - 127);
-            attr = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR((this->unk_04 + 0x170) / 2);
+            attr = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR((this->chrBase + 0x170) / 2);
 
             if (this->isFlipped == 1)
             {
@@ -677,56 +660,53 @@ void Face::_02007efc(void)
 
 EC u32 func_0201ffd0(void);
 
-// _ZN4Face9_02008150Ev
-void Face::_02008150(void)
+void Face::UpdateMouth(void)
 {
     switch (this->unk_0c_4_5)
     {
         case 2:
-            if (this->unk_20 == 2)
+            if (this->mouthState == 2)
             {
                 return;
             }
 
-            if (this->unk_24 > 3)
+            if (this->mouthCnt > 3)
             {
-                this->unk_24 = 3;
+                this->mouthCnt = 3;
             }
 
             break;
 
         case 3:
-            this->unk_20 = 3;
+            this->mouthState = 3;
             return;
 
         case 0:
-            if (this->unk_20 == 0)
+            if (this->mouthState == 0)
             {
                 return;
             }
 
-            if (this->unk_24 > 3)
+            if (this->mouthCnt > 3)
             {
-                this->unk_24 = 3;
+                this->mouthCnt = 3;
             }
 
             break;
     }
 
-    if (--this->unk_24 >= 0)
+    if (--this->mouthCnt >= 0)
     {
         return;
     }
 
-    this->unk_24 = (func_0201ffd0() & 7) + 1;
-    this->unk_20 = (this->unk_20 + 1) & 3;
+    this->mouthCnt = (func_0201ffd0() & 7) + 1;
+    this->mouthState = (this->mouthState + 1) & 3;
 
     return;
 }
 
-// _ZN4Face9_020081f8Ev => Draw mouth frame
-// _ZN4Face9_020081f8Ev
-void Face::_020081f8(void)
+void Face::DrawMouth(void)
 {
     u32 temp_r1;
 
@@ -739,7 +719,7 @@ void Face::_020081f8(void)
         temp_r1 = 0;
     }
 
-    switch (this->unk_20 + temp_r1)
+    switch (this->mouthState + temp_r1)
     {
         case 0:
             // Closed, neutral mouth; nothing to do
@@ -747,32 +727,31 @@ void Face::_020081f8(void)
 
         case 1:
         case 3:
-            this->_020082c0(this->pInfo->unk_14[0][0], this->pInfo->unk_14[0][1], this->unk_04 + 0x100);
+            this->DrawMouthExt(this->pInfo->mouthFrames[0][0], this->pInfo->mouthFrames[0][1], this->chrBase + 0x100);
             return;
 
         case 2:
-            this->_020082c0(this->pInfo->unk_14[1][0], this->pInfo->unk_14[1][1], this->unk_04 + 0x110);
+            this->DrawMouthExt(this->pInfo->mouthFrames[1][0], this->pInfo->mouthFrames[1][1], this->chrBase + 0x110);
             return;
 
         case 4:
-            this->_020082c0(this->pInfo->unk_14[2][0], this->pInfo->unk_14[2][1], this->unk_04 + 0x120);
+            this->DrawMouthExt(this->pInfo->mouthFrames[2][0], this->pInfo->mouthFrames[2][1], this->chrBase + 0x120);
             return;
 
         case 5:
         case 7:
-            this->_020082c0(this->pInfo->unk_14[3][0], this->pInfo->unk_14[3][1], this->unk_04 + 0x130);
+            this->DrawMouthExt(this->pInfo->mouthFrames[3][0], this->pInfo->mouthFrames[3][1], this->chrBase + 0x130);
             return;
 
         case 6:
-            this->_020082c0(this->pInfo->unk_14[4][0], this->pInfo->unk_14[4][1], this->unk_04 + 0x140);
+            this->DrawMouthExt(this->pInfo->mouthFrames[4][0], this->pInfo->mouthFrames[4][1], this->chrBase + 0x140);
             return;
     }
 }
 
 extern u16 data_027e0028[];
 
-// _ZN4Face9_020082c0Elll
-void Face::_020082c0(s32 x, s32 y, s32 arg3)
+void Face::DrawMouthExt(s32 x, s32 y, s32 arg3)
 {
     s32 temp_r5;
     s32 temp_ip;
@@ -783,7 +762,7 @@ void Face::_020082c0(s32 x, s32 y, s32 arg3)
     s32 hFlip;
 
     temp_r5 = this->xBase - 64;
-    xOam1 = temp_r5 + this->_0200775c(x, 32);
+    xOam1 = temp_r5 + this->GetX(x, 32);
     temp_ip = (this->yBase - 127);
     yOam0 = y + temp_ip;
     oam2 = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR(arg3 / 2);
@@ -838,14 +817,13 @@ EC void func_0206f0fc(AbstCtrl *, s32, s32, s32, s32);
 EC void func_0206f4e0(AbstCtrl *, u8);
 EC void func_0206f580(AbstCtrl *, s32);
 
-// _ZN4Face9_02008454Ev
 void Face::_02008454(void)
 {
     s16 var_r2;
     s32 x;
     s32 y;
 
-    func_0206f0fc(data_0219771c, 0, 1, 0x1E, 0);
+    func_0206f0fc(data_0219771c, 0, 1, 30, 0);
     func_0206f4e0(data_0219771c, 1);
 
     var_r2 = 0;
@@ -857,7 +835,7 @@ void Face::_02008454(void)
     data_0219771c->unk_04->dispIo->unk_38[data_0219771c->unk_10] = var_r2;
     data_0219771c->unk_04->dispIo->unk_40[data_0219771c->unk_10] = 0;
 
-    func_0206ee78(data_0219771c, (void *)(data_02197718->vfunc_00() + (this->unk_04 << 6)), 0x4000, 0x4000);
+    func_0206ee78(data_0219771c, (void *)(data_02197718->vfunc_00() + (this->chrBase << 6)), 0x4000, 0x4000);
     func_0206f580(data_0219771c, 0);
 
     x = (this->xBase / 8) - 8;
@@ -908,67 +886,60 @@ void Face::_02008780(void)
     return;
 }
 
-// _ZN10FaceHandleC1Ev
 FaceHandle::FaceHandle()
 {
-    this->unk_38 = new Face[3];
-    this->_02008864();
+    this->faces = new Face[3];
+    this->InitFaces();
 }
 
-// _ZN10FaceHandleD1Ev
-// _ZN10FaceHandleD0Ev
 FaceHandle::~FaceHandle()
 {
-    if (this->unk_38 != NULL)
+    if (this->faces != NULL)
     {
-        delete[] this->unk_38;
-        this->unk_38 = NULL;
+        delete[] this->faces;
+        this->faces = NULL;
     }
 }
 
-// _ZN10FaceHandle9_02008864Ev
-void FaceHandle::_02008864(void)
+void FaceHandle::InitFaces(void)
 {
-    this->unk_38[0].Init(0, 0);
-    this->unk_38[1].Init(400, 5);
-    this->unk_38[2].Init(0, 0);
+    this->faces[0].Init(0, 0);
+    this->faces[1].Init(400, 5);
+    this->faces[2].Init(0, 0);
     return;
 }
 
-// _ZN10FaceHandle9_020088a8Ev
-void FaceHandle::_020088a8(void)
+void FaceHandle::UpdateFaces(void)
 {
     s32 i;
 
     for (i = 0; i < 3; i++)
     {
-        this->unk_38[i]._020078fc();
+        this->faces[i].Update();
     }
 
     return;
 }
 
-// _ZN10FaceHandle9_020088d8Ev
-void FaceHandle::_020088d8(void)
+void FaceHandle::DrawFaces(void)
 {
     s32 i;
 
     for (i = 0; i < 3; i++)
     {
-        this->unk_38[i]._02007a3c();
+        this->faces[i].Draw();
     }
 
     return;
 }
 
-// _ZN10FaceHandle9_02008908Ev
 BOOL FaceHandle::_02008908(void)
 {
     s32 i;
 
     for (i = 0; i < 3; i++)
     {
-        struct Face * it = &this->unk_38[i];
+        struct Face * it = &this->faces[i];
         BOOL fading = FALSE;
 
         if (it->HasFaceInfo() && it->CheckUnk15())
@@ -985,13 +956,13 @@ BOOL FaceHandle::_02008908(void)
     return FALSE;
 }
 
-EC void func_02008984(FaceHandle * proc)
+EC void FaceHandle_02008984(FaceHandle * proc)
 {
     proc->Init();
     return;
 }
 
-EC void func_02008998(FaceHandle * proc)
+EC void FaceHandle_02008998(FaceHandle * proc)
 {
     proc->Loop();
     return;

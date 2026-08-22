@@ -153,7 +153,7 @@ EXTERN_C
 // extern ??? ProcScr_FaceHandle
 // extern ??? Sprite_Face
 // extern ??? Sprite_FaceFlipped
-// extern ??? data_020ca0f8
+// extern ??? Sprite_HudSmallFace
 // extern ??? data_020ca120
 // extern ??? data_020ca12c
 // extern ??? data_020ca138
