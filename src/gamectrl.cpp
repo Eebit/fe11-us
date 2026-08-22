@@ -545,7 +545,7 @@ EC void func_020217b4(void)
     func_02024f34();
     func_0206ecbc();
     func_ov002_021e69ac();
-    func_020076a8();
+    InitFaceInfo();
     func_02015f64();
 
     func_02039eac("system\0");

@@ -150,9 +150,9 @@ EXTERN_C
 // extern ??? __typeinfo__10FaceHandle
 // extern ??? __typestr__10FaceHandle
 // extern ??? __vt__10FaceHandle
-// extern ??? data_020ca0ac
-// extern ??? data_020ca0c4
-// extern ??? data_020ca0de
+// extern ??? ProcScr_FaceHandle
+// extern ??? Sprite_Face
+// extern ??? Sprite_FaceFlipped
 // extern ??? data_020ca0f8
 // extern ??? data_020ca120
 // extern ??? data_020ca12c
@@ -2843,7 +2843,7 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? data_020e3ccc
 // extern ??? data_020e3cdc
 // extern ??? data_020e3cf8
-// extern ??? data_020e3d40
+// extern ??? gFaceHandle
 // extern ??? data_020e3d44
 // extern ??? data_020e3d48
 // extern ??? data_020e3d68
