@@ -12,38 +12,22 @@ extern BGCtrl * data_0219771c;
 
 struct FaceInfo
 {
-    // +0x00 -> fid string (e.g. "FID_S_MARS")
-    // +0x04 -> "MPID" string (e.g. "MPID_S_MARS")
-    // +0x08 -> "S_MARS"
-    // +0x0c -> "S_MARS"
-    // +0x10 -> "S_MARS.p"
-    char * unk_00;
-    char * unk_04;
-    char * unk_08;
-    STRUCT_PAD(0x0C, 0x14);
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
-    u8 unk_17;
-    u8 unk_18;
-    u8 unk_19;
-    u8 unk_1a;
-    u8 unk_1b;
-    u8 unk_1c;
-    u8 unk_1d;
-    u8 unk_1e;
-    u8 unk_1f;
-    u8 unk_20;
-    u8 unk_21;
-    STRUCT_PAD(0x22, 0x24);
+    /* 00 */ char * fid; // "face ID"? lookup key
+    /* 04 */ char * mpid; // localized name string
+    /* 08 */ char * faceFile; // face filename in "/f/" directory
+    /* 0C */ char * sfImgFile; // face graphic filename in "/sf/" directory
+    /* 10 */ char * sfPalFile; // face palette filename in "/sf/" directory
+    /* 14 */ u8 unk_14[5][2]; // mouth frames
+    /* 1E */ u8 unk_1e[2][2]; // blink frames; +0x1e and +0x1f are midblink frame, +0x20 and +0x21 are for closed frame
+    /* 22 */ STRUCT_PAD(0x22, 0x24);
 };
 
-struct FaceHandle_unk_38
+struct Face
 {
-    struct FaceInfo * unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    union
+    /* 00 */ struct FaceInfo * pInfo;
+    /* 04 */ s32 unk_04;
+    /* 08 */ s32 unk_08;
+    /* 0C */ union
     {
         u32 unk_0c;
         struct
@@ -57,23 +41,23 @@ struct FaceHandle_unk_38
             u32 unk_0c_a : 22;
         };
     };
-    s16 unk_10; // xBase
-    s16 unk_12; // yBase
-    u8 unk_14;
-    s8 unk_15;
-    s8 unk_16;
-    s8 unk_17;
-    s8 unk_18;
-    STRUCT_PAD(0x19, 0x1C);
-    s32 unk_1c;
-    s32 unk_20;
-    s32 unk_24;
+    /* 10 */ s16 xBase;
+    /* 12 */ s16 yBase;
+    /* 14 */ u8 unk_14;
+    /* 15 */ s8 unk_15;
+    /* 16 */ s8 unk_16;
+    /* 17 */ s8 unk_17;
+    /* 18 */ s8 unk_18;
+    /* 19 */ STRUCT_PAD(0x19, 0x1C);
+    /* 1C */ s32 unk_1c;
+    /* 20 */ s32 unk_20;
+    /* 24 */ s32 unk_24;
 
-    FaceHandle_unk_38() {};
+    Face() {};
 
     BOOL HasFaceInfo()
     {
-        return this->unk_00 != NULL;
+        return this->pInfo != NULL;
     }
 
     u32 GetPaletteIndex(void)
@@ -90,7 +74,7 @@ struct FaceHandle_unk_38
 class FaceHandle : public ProcEx
 {
 public:
-    struct FaceHandle_unk_38 * unk_38;
+    /* 38 */ struct Face * unk_38;
 
     FaceHandle(); // func_020087ac
 
@@ -121,16 +105,16 @@ EC void func_020076a8(void)
 
 EC char * GetText(void *);
 
-EC char * func_020076d4(char * param_1)
+EC char * func_020076d4(char * key)
 {
-    struct FaceInfo * iVar1 = static_cast<struct FaceInfo *>(HashTable::Get1(param_1));
+    struct FaceInfo * faceInfo = static_cast<struct FaceInfo *>(HashTable::Get1(key));
 
-    if (iVar1 == NULL)
+    if (faceInfo == NULL)
     {
-        return param_1;
+        return key;
     }
 
-    return GetText(iVar1->unk_04);
+    return GetText(faceInfo->mpid);
 }
 
 extern u16 data_020ca0f8[];
@@ -140,24 +124,24 @@ EC u16 * func_020076f8(void)
     return data_020ca0f8;
 }
 
-EC char * func_02007704(struct FaceHandle_unk_38 * self)
+EC char * func_02007704(struct Face * self)
 {
-    if (self->unk_00 != NULL)
+    if (self->pInfo != NULL)
     {
-        return self->unk_00->unk_00;
+        return self->pInfo->fid;
     }
 
     return NULL;
 }
 
-EC char * func_02007718(struct FaceHandle_unk_38 * self)
+EC char * func_02007718(struct Face * self)
 {
-    if (self->unk_00 == NULL)
+    if (self->pInfo == NULL)
     {
         return NULL;
     }
 
-    return GetText(self->unk_00->unk_04);
+    return GetText(self->pInfo->mpid);
 }
 
 // data_020ca0c4 => left facing?
@@ -166,7 +150,7 @@ extern u16 data_020ca0c4[];
 extern u16 data_020ca0de[];
 
 // Get the sprite for either left- or right-facing face graphic
-EC u16 * func_02007738(struct FaceHandle_unk_38 * self)
+EC u16 * func_02007738(struct Face * self)
 {
     if (self->unk_0c_2 == 1)
     {
@@ -178,7 +162,7 @@ EC u16 * func_02007738(struct FaceHandle_unk_38 * self)
     }
 }
 
-EC s32 func_0200775c(struct FaceHandle_unk_38 * self, s32 param_2, s32 param_3)
+EC s32 func_0200775c(struct Face * self, s32 param_2, s32 param_3)
 {
     if (self->unk_0c_2 == 1)
     {
@@ -188,14 +172,14 @@ EC s32 func_0200775c(struct FaceHandle_unk_38 * self, s32 param_2, s32 param_3)
     return param_2;
 }
 
-EC void func_0200777c(struct FaceHandle_unk_38 * self, s32 param_2, s32 param_3)
+EC void func_0200777c(struct Face * self, s32 param_2, s32 param_3)
 {
-    self->unk_00 = NULL;
+    self->pInfo = NULL;
     self->unk_04 = param_2;
     self->unk_08 = param_3;
     self->unk_0c = 0;
-    self->unk_12 = 0;
-    self->unk_10 = 0;
+    self->yBase = 0;
+    self->xBase = 0;
     self->unk_14 = 0;
     self->unk_16 = 0;
     self->unk_15 = 0;
@@ -208,9 +192,9 @@ EC void func_0200777c(struct FaceHandle_unk_38 * self, s32 param_2, s32 param_3)
     return;
 }
 
-EC void func_02007874(struct FaceHandle_unk_38 *, char *, s32, s32);
+EC void func_02007874(struct Face *, char *, s32, s32);
 
-EC void func_020077b8(struct FaceHandle_unk_38 * self, char * arg1, s32 arg2, u32 arg3, u8 arg4)
+EC void func_020077b8(struct Face * self, char * arg1, s32 arg2, u32 arg3, u8 arg4)
 {
     u32 var_r2_2;
 
@@ -254,12 +238,12 @@ EC void func_020077b8(struct FaceHandle_unk_38 * self, char * arg1, s32 arg2, u3
     return;
 }
 
-EC void func_02007ca8(struct FaceHandle_unk_38 *, char *);
+EC void func_02007ca8(struct Face *, char *);
 
-EC void func_02007874(struct FaceHandle_unk_38 * self, char * param_2, s32 param_3, s32 param_4)
+EC void func_02007874(struct Face * self, char * param_2, s32 param_3, s32 param_4)
 {
-    self->unk_10 = param_3;
-    self->unk_12 = param_4;
+    self->xBase = param_3;
+    self->yBase = param_4;
     self->unk_17 = 8;
     self->unk_18 = 8;
     self->unk_14 = 10;
@@ -288,11 +272,11 @@ EC void func_02007874(struct FaceHandle_unk_38 * self, char * param_2, s32 param
     return;
 }
 
-EC void func_02007e78(struct FaceHandle_unk_38 *);
-EC void func_02008150(struct FaceHandle_unk_38 *);
-EC void func_02008454(struct FaceHandle_unk_38 *);
-EC void func_02008780(struct FaceHandle_unk_38 *);
-EC void func_02007c94(struct FaceHandle_unk_38 *);
+EC void func_02007e78(struct Face *);
+EC void func_02008150(struct Face *);
+EC void func_02008454(struct Face *);
+EC void func_02008780(struct Face *);
+EC void func_02007c94(struct Face *);
 
 struct UnkStruct_02197798
 {
@@ -315,7 +299,7 @@ struct UnkStruct_02197798
 };
 EC struct UnkStruct_02197798 * func_0206ecb0(void);
 
-EC void func_020078fc(struct FaceHandle_unk_38 * self)
+EC void func_020078fc(struct Face * self)
 {
     char cVar1;
     struct UnkStruct_02197798 * puVar2;
@@ -403,8 +387,8 @@ static inline u32 OAM2_LAYER(s32 l)
 }
 
 EC s32 IsAddressInVramRange(s32);
-EC void func_02007efc(struct FaceHandle_unk_38 *); // Draw blink overlay
-EC void func_020081f8(struct FaceHandle_unk_38 *); // Draw mouth overlay
+EC void func_02007efc(struct Face *); // Draw blink overlay
+EC void func_020081f8(struct Face *); // Draw mouth overlay
 EC void SetBldTargetA_Maybe(void *, s32, s32, s32, s32, s32, s32);
 EC void SetBldTargetB_Maybe(void *, s32, s32, s32, s32, s32, s32);
 EC void func_01ffc404(u16, u16, u16, void *, s32);
@@ -418,7 +402,7 @@ static inline void PutSpriteActiveScreen(u16 xOam1, u16 yOam0, u16 oam2, u16 * s
 }
 
 // Put the current face graphic
-EC void func_02007a3c(struct FaceHandle_unk_38 * self)
+EC void func_02007a3c(struct Face * self)
 {
     BOOL fading;
     s32 x;
@@ -448,8 +432,8 @@ EC void func_02007a3c(struct FaceHandle_unk_38 * self)
     }
 
     spr = func_02007738(self);
-    y = self->unk_12;
-    x = self->unk_10;
+    y = self->yBase;
+    x = self->xBase;
     sp = self->unk_14;
 
     PutSpriteActiveScreen(
@@ -462,7 +446,7 @@ EC void func_02007a3c(struct FaceHandle_unk_38 * self)
     return;
 }
 
-EC void func_02007c18(struct FaceHandle_unk_38 * self)
+EC void func_02007c18(struct Face * self)
 {
     if (!self->HasFaceInfo())
     {
@@ -491,9 +475,9 @@ EC void func_02007c18(struct FaceHandle_unk_38 * self)
     return;
 }
 
-EC void func_02007c94(struct FaceHandle_unk_38 * self)
+EC void func_02007c94(struct Face * self)
 {
-    self->unk_00 = NULL;
+    self->pInfo = NULL;
     self->unk_15 = self->unk_16 = 0;
     return;
 }
@@ -507,21 +491,21 @@ EC void func_0206ebd4(void *, s32);
 EC void func_0206ee78(AbstCtrl *, void *, s32, s32);
 EC void func_0206ea7c(void *, void *, s32, s32, s32, s32, s32, s32);
 
-EC void func_02007ca8(struct FaceHandle_unk_38 * self, char * fidStr)
+EC void func_02007ca8(struct Face * self, char * fidStr)
 {
     u8 * temp_r0_3;
     u8 * temp_r0_2;
 
-    self->unk_00 = static_cast<struct FaceInfo *>(HashTable::Get1(fidStr));
+    self->pInfo = static_cast<struct FaceInfo *>(HashTable::Get1(fidStr));
 
-    if (self->unk_00 == NULL)
+    if (self->pInfo == NULL)
     {
-        self->unk_00 = static_cast<struct FaceInfo *>(HashTable::Get1("FID_DUMMY"));
+        self->pInfo = static_cast<struct FaceInfo *>(HashTable::Get1("FID_DUMMY"));
     }
 
     func_02012180("/f");
 
-    temp_r0_2 = (u8 *)func_02012164(self->unk_00->unk_08);
+    temp_r0_2 = (u8 *)func_02012164(self->pInfo->faceFile);
     if (temp_r0_2 == NULL)
     {
         return;
@@ -556,7 +540,7 @@ EC void func_02007ca8(struct FaceHandle_unk_38 * self, char * fidStr)
 
 EC s32 RollRN(s32, s32);
 
-EC void func_02007e78(struct FaceHandle_unk_38 * self)
+EC void func_02007e78(struct Face * self)
 {
     switch (self->unk_0c_4_5)
     {
@@ -592,12 +576,9 @@ EC void func_02007e78(struct FaceHandle_unk_38 * self)
     return;
 }
 
-// func_02007efc => Seems to be related to the blink control
-// FaceInfo +0x1e and +0x1f are midblink frame, +0x20 and +0x21 are for closed frame
-
 extern u16 data_027e0048[];
 
-EC void func_02007efc(struct FaceHandle_unk_38 * self)
+EC void func_02007efc(struct Face * self)
 {
     switch (self->unk_1c)
     {
@@ -614,10 +595,10 @@ EC void func_02007efc(struct FaceHandle_unk_38 * self)
             s32 hFlip;
             s32 tmp;
 
-            x = (self->unk_10 - 64);
-            x += func_0200775c(self, self->unk_00->unk_1e, 64);
-            y = self->unk_00->unk_1f;
-            y += (self->unk_12 - 127);
+            x = (self->xBase - 64);
+            x += func_0200775c(self, self->pInfo->unk_1e[0][0], 64);
+            y = self->pInfo->unk_1e[0][1];
+            y += (self->yBase - 127);
             attr = OAM2_LAYER(1) | OAM2_PAL(self->GetPaletteIndex()) | OAM2_CHR((self->unk_04 + 0x150) / 2);
 
             if (self->unk_0c_2 == 1)
@@ -645,10 +626,10 @@ EC void func_02007efc(struct FaceHandle_unk_38 * self)
             s32 hFlip;
             s32 tmp;
 
-            x = (self->unk_10 - 64);
-            x += func_0200775c(self, self->unk_00->unk_20, 64);
-            y = self->unk_00->unk_21;
-            y += (self->unk_12 - 127);
+            x = (self->xBase - 64);
+            x += func_0200775c(self, self->pInfo->unk_1e[1][0], 64);
+            y = self->pInfo->unk_1e[1][1];
+            y += (self->yBase - 127);
             attr = OAM2_LAYER(1) | OAM2_PAL(self->GetPaletteIndex()) | OAM2_CHR((self->unk_04 + 0x170) / 2);
 
             if (self->unk_0c_2 == 1)
@@ -672,7 +653,7 @@ EC void func_02007efc(struct FaceHandle_unk_38 * self)
 
 EC u32 func_0201ffd0(void);
 
-EC void func_02008150(struct FaceHandle_unk_38 * self)
+EC void func_02008150(struct Face * self)
 {
     switch (self->unk_0c_4_5)
     {
@@ -718,10 +699,10 @@ EC void func_02008150(struct FaceHandle_unk_38 * self)
     return;
 }
 
-EC void func_020082c0(struct FaceHandle_unk_38 *, s32, s32, s32);
+EC void func_020082c0(struct Face *, s32, s32, s32);
 
 // func_020081f8 => Draw mouth frame
-EC void func_020081f8(struct FaceHandle_unk_38 * self)
+EC void func_020081f8(struct Face * self)
 {
     u32 temp_r1;
 
@@ -742,31 +723,31 @@ EC void func_020081f8(struct FaceHandle_unk_38 * self)
 
         case 1:
         case 3:
-            func_020082c0(self, self->unk_00->unk_14, self->unk_00->unk_15, self->unk_04 + 0x100);
+            func_020082c0(self, self->pInfo->unk_14[0][0], self->pInfo->unk_14[0][1], self->unk_04 + 0x100);
             return;
 
         case 2:
-            func_020082c0(self, self->unk_00->unk_16, self->unk_00->unk_17, self->unk_04 + 0x110);
+            func_020082c0(self, self->pInfo->unk_14[1][0], self->pInfo->unk_14[1][1], self->unk_04 + 0x110);
             return;
 
         case 4:
-            func_020082c0(self, self->unk_00->unk_18, self->unk_00->unk_19, self->unk_04 + 0x120);
+            func_020082c0(self, self->pInfo->unk_14[2][0], self->pInfo->unk_14[2][1], self->unk_04 + 0x120);
             return;
 
         case 5:
         case 7:
-            func_020082c0(self, self->unk_00->unk_1a, self->unk_00->unk_1b, self->unk_04 + 0x130);
+            func_020082c0(self, self->pInfo->unk_14[3][0], self->pInfo->unk_14[3][1], self->unk_04 + 0x130);
             return;
 
         case 6:
-            func_020082c0(self, self->unk_00->unk_1c, self->unk_00->unk_1d, self->unk_04 + 0x140);
+            func_020082c0(self, self->pInfo->unk_14[4][0], self->pInfo->unk_14[4][1], self->unk_04 + 0x140);
             return;
     }
 }
 
 extern u16 data_027e0028[];
 
-void func_020082c0(struct FaceHandle_unk_38 * arg0, s32 x, s32 y, s32 arg3)
+void func_020082c0(struct Face * arg0, s32 x, s32 y, s32 arg3)
 {
     s32 temp_r5;
     s32 temp_ip;
@@ -776,9 +757,9 @@ void func_020082c0(struct FaceHandle_unk_38 * arg0, s32 x, s32 y, s32 arg3)
     s32 temp_r4;
     s32 hFlip;
 
-    temp_r5 = arg0->unk_10 - 0x40;
-    xOam1 = temp_r5 + func_0200775c(arg0, x, 0x20);
-    temp_ip = (arg0->unk_12 - 0x7F);
+    temp_r5 = arg0->xBase - 64;
+    xOam1 = temp_r5 + func_0200775c(arg0, x, 32);
+    temp_ip = (arg0->yBase - 127);
     yOam0 = y + temp_ip;
     oam2 = OAM2_LAYER(1) | OAM2_PAL(arg0->GetPaletteIndex()) | OAM2_CHR(arg3 / 2);
 
@@ -830,7 +811,7 @@ EC void func_0206f0fc(AbstCtrl *, s32, s32, s32, s32);
 EC void func_0206f4e0(AbstCtrl *, u8);
 EC void func_0206f580(AbstCtrl *, s32);
 
-EC void func_02008454(struct FaceHandle_unk_38 * self)
+EC void func_02008454(struct Face * self)
 {
     s16 var_r2;
     s32 x;
@@ -851,8 +832,8 @@ EC void func_02008454(struct FaceHandle_unk_38 * self)
     func_0206ee78(data_0219771c, (void *)(data_02197718->vfunc_00() + (self->unk_04 << 6)), 0x4000, 0x4000);
     func_0206f580(data_0219771c, 0);
 
-    x = (self->unk_10 / 8) - 8;
-    y = ((self->unk_12 + 1) / 8) - 0x10;
+    x = (self->xBase / 8) - 8;
+    y = ((self->yBase + 1) / 8) - 16;
 
     if (self->unk_0c_2 == 1)
     {
@@ -890,7 +871,7 @@ EC void func_02008454(struct FaceHandle_unk_38 * self)
 
 EC void func_0206f580(AbstCtrl *, s32);
 
-EC void func_02008780(struct FaceHandle_unk_38 * unused)
+EC void func_02008780(struct Face * unused)
 {
     func_0206f580(data_0219771c, 0);
     func_0206f4e0(data_0219771c, 0);
@@ -902,7 +883,7 @@ EC void func_02008864(FaceHandle *);
 // func_020087ac
 FaceHandle::FaceHandle()
 {
-    this->unk_38 = new FaceHandle_unk_38[3];
+    this->unk_38 = new Face[3];
     func_02008864(this);
 }
 
@@ -955,7 +936,7 @@ EC BOOL func_02008908(FaceHandle * self)
 
     for (i = 0; i < 3; i++)
     {
-        struct FaceHandle_unk_38 * it = &self->unk_38[i];
+        struct Face * it = &self->unk_38[i];
         BOOL fading = FALSE;
 
         if (it->HasFaceInfo() && it->CheckUnk15())
