@@ -5801,9 +5801,9 @@ data_020ca040 kind:data(any) addr:0x020ca040
 data_020ca04c kind:data(any) addr:0x020ca04c
 data_020ca058 kind:data(any) addr:0x020ca058
 data_020ca068 kind:data(any) addr:0x020ca068
-__typeinfo__10FaceHandle kind:data(any) addr:0x020ca078
-__typestr__10FaceHandle kind:data(any) addr:0x020ca084
-__vt__10FaceHandle kind:data(any) addr:0x020ca09c
+_ZTI10FaceHandle kind:data(any) addr:0x020ca078
+_ZTS10FaceHandle kind:data(any) addr:0x020ca084
+_ZTV10FaceHandle kind:data(any) addr:0x020ca094
 ProcScr_FaceHandle kind:data(any) addr:0x020ca0ac
 Sprite_Face kind:data(any) addr:0x020ca0c4
 Sprite_FaceFlipped kind:data(any) addr:0x020ca0de

@@ -724,12 +724,12 @@ from:0x020087a0 kind:arm_call to:0x0206f4e0 module:main
 from:0x020087a8 kind:load to:0x0219771c module:main
 from:0x020087d4 kind:arm_call to:0x020c3bfc module:main
 from:0x020087e0 kind:arm_call to:0x02008864 module:main
-from:0x020087f0 kind:load to:0x020ca09c module:main
+from:0x020087f0 kind:load to:0x020ca094 add:0x8 module:main
 from:0x02008810 kind:arm_call to:0x020115bc module:main
-from:0x02008824 kind:load to:0x020ca09c module:main
+from:0x02008824 kind:load to:0x020ca094 add:0x8 module:main
 from:0x02008844 kind:arm_call to:0x020115bc module:main
 from:0x02008854 kind:arm_call to:0x020115a4 module:main
-from:0x02008860 kind:load to:0x020ca09c module:main
+from:0x02008860 kind:load to:0x020ca094 add:0x8 module:main
 from:0x02008878 kind:arm_call to:0x0200777c module:main
 from:0x0200888c kind:arm_call to:0x0200777c module:main
 from:0x020088a0 kind:arm_call to:0x0200777c module:main

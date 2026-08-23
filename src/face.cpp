@@ -5,6 +5,7 @@
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "heap.hpp"
+#include "oam.h"
 #include "proc_ex.hpp"
 
 extern AbstCtrl * data_02197718;
@@ -139,7 +140,20 @@ EC char * GetLocalizedName(char * key)
     return GetText(faceInfo->mpid);
 }
 
-extern u16 Sprite_HudSmallFace[];
+// clang-format off
+
+u16 Sprite_HudSmallFace[] =
+{
+    OAM0_Y(+0) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(+0) | OAM1_SIZE_64x64, OAM2_CHR(0),
+    OAM0_Y(+64) | OAM0_256COLORS | OAM0_SHAPE_32x8, OAM1_X(+0) | OAM1_SIZE_32x8, OAM2_CHR(128),
+    OAM0_Y(+64) | OAM0_256COLORS | OAM0_SHAPE_32x8, OAM1_X(+32) | OAM1_SIZE_32x8, OAM2_CHR(136),
+    OAM0_Y(+0) | OAM0_256COLORS | OAM0_SHAPE_8x32, OAM1_X(+64) | OAM1_SIZE_8x32, OAM2_CHR(144),
+    OAM0_Y(+32) | OAM0_256COLORS | OAM0_SHAPE_8x32, OAM1_X(+64) | OAM1_SIZE_8x32, OAM2_CHR(152),
+    OAM0_Y(+64) | OAM0_256COLORS | OAM0_SHAPE_8x8, OAM1_X(+64) | OAM1_SIZE_8x8, OAM2_CHR(160),
+    -1,
+};
+
+// clang-format on
 
 EC u16 * GetSmallFaceSprite(void)
 {
@@ -166,8 +180,27 @@ char * Face::GetName(void)
     return GetText(this->pInfo->mpid);
 }
 
-extern u16 Sprite_Face[];
-extern u16 Sprite_FaceFlipped[];
+// clang-format off
+
+u16 Sprite_Face[] =
+{
+    OAM0_Y(-127) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(-64) | OAM1_SIZE_64x64, OAM2_CHR(0),
+    OAM0_Y(-127) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(+0) | OAM1_SIZE_64x64, OAM2_CHR(128),
+    OAM0_Y(-63) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(-64) | OAM1_SIZE_64x64, OAM2_CHR(256),
+    OAM0_Y(-63) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(+0) | OAM1_SIZE_64x64, OAM2_CHR(384),
+    -1,
+};
+
+u16 Sprite_FaceFlipped[] =
+{
+    OAM0_Y(-127) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(+0) | OAM1_HFLIP | OAM1_SIZE_64x64, OAM2_CHR(0),
+    OAM0_Y(-127) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(-64) | OAM1_HFLIP | OAM1_SIZE_64x64, OAM2_CHR(128),
+    OAM0_Y(-63) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(+0) | OAM1_HFLIP | OAM1_SIZE_64x64, OAM2_CHR(256),
+    OAM0_Y(-63) | OAM0_256COLORS | OAM0_SHAPE_64x64, OAM1_X(-64) | OAM1_HFLIP | OAM1_SIZE_64x64, OAM2_CHR(384),
+    -1,
+};
+
+// clang-format on
 
 u16 * Face::GetSprite(void)
 {
@@ -380,21 +413,6 @@ void Face::Update(void)
     return;
 }
 
-static inline u32 OAM2_PAL(s32 idx)
-{
-    return (idx & 0xf) << 0xc;
-}
-
-static inline u32 OAM2_CHR(s32 i)
-{
-    return i & 0x3FF;
-}
-
-static inline u32 OAM2_LAYER(s32 l)
-{
-    return (l & 3) * 0x400;
-}
-
 EC s32 IsAddressInVramRange(s32);
 EC void SetBldTargetA_Maybe(void *, s32, s32, s32, s32, s32, s32);
 EC void SetBldTargetB_Maybe(void *, s32, s32, s32, s32, s32, s32);
@@ -444,7 +462,7 @@ void Face::Draw(void)
     sp = this->unk_14;
 
     PutSpriteActiveScreen(
-        x & 0x1ff, (y & 0xff) | 0x2000, OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR(this->chrBase / 2),
+        OAM1_X(x), OAM0_Y(y) | OAM0_256COLORS, GetOam2Layer(1) | GetOam2Pal(this->GetPaletteIndex()) | GetOam2Chr(this->chrBase / 2),
         spr, sp);
 
     this->DrawBlink();
@@ -606,11 +624,11 @@ void Face::DrawBlink(void)
             x += this->GetX(this->pInfo->eyeFrames[0][0], 64);
             y = this->pInfo->eyeFrames[0][1];
             y += (this->yBase - 127);
-            attr = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR((this->chrBase + 0x150) / 2);
+            attr = GetOam2Layer(1) | GetOam2Pal(this->GetPaletteIndex()) | GetOam2Chr((this->chrBase + 0x150) / 2);
 
             if (this->isFlipped == 1)
             {
-                hFlip = 0x1000;
+                hFlip = OAM1_HFLIP;
             }
             else
             {
@@ -619,7 +637,7 @@ void Face::DrawBlink(void)
 
             tmp = this->unk_14 - 1;
 
-            PutSpriteActiveScreen((x & 0x1ff) | hFlip, (y & 0xff) | 0x2000, attr, data_027e0048, tmp);
+            PutSpriteActiveScreen(OAM1_X(x) | hFlip, OAM0_Y(y) | OAM0_256COLORS, attr, data_027e0048, tmp);
             return;
         }
 
@@ -637,11 +655,11 @@ void Face::DrawBlink(void)
             x += this->GetX(this->pInfo->eyeFrames[1][0], 64);
             y = this->pInfo->eyeFrames[1][1];
             y += (this->yBase - 127);
-            attr = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR((this->chrBase + 0x170) / 2);
+            attr = GetOam2Layer(1) | GetOam2Pal(this->GetPaletteIndex()) | GetOam2Chr((this->chrBase + 0x170) / 2);
 
             if (this->isFlipped == 1)
             {
-                hFlip = 0x1000;
+                hFlip = OAM1_HFLIP;
             }
             else
             {
@@ -650,7 +668,7 @@ void Face::DrawBlink(void)
 
             tmp = this->unk_14 - 1;
 
-            PutSpriteActiveScreen((x & 0x1ff) | hFlip, (y & 0xff) | 0x2000, attr, data_027e0048, tmp);
+            PutSpriteActiveScreen(OAM1_X(x) | hFlip, OAM0_Y(y) | OAM0_256COLORS, attr, data_027e0048, tmp);
             return;
         }
     }
@@ -765,11 +783,11 @@ void Face::DrawMouthExt(s32 x, s32 y, s32 arg3)
     xOam1 = temp_r5 + this->GetX(x, 32);
     temp_ip = (this->yBase - 127);
     yOam0 = y + temp_ip;
-    oam2 = OAM2_LAYER(1) | OAM2_PAL(this->GetPaletteIndex()) | OAM2_CHR(arg3 / 2);
+    oam2 = GetOam2Layer(1) | GetOam2Pal(this->GetPaletteIndex()) | GetOam2Chr(arg3 / 2);
 
     if (this->isFlipped == 1)
     {
-        hFlip = 0x1000;
+        hFlip = OAM1_HFLIP;
     }
     else
     {
@@ -778,7 +796,7 @@ void Face::DrawMouthExt(s32 x, s32 y, s32 arg3)
 
     temp_r4 = this->unk_14 - 1;
 
-    PutSpriteActiveScreen((xOam1 & 0x1FF) | hFlip, (yOam0 & 0xff) | 0x2000, oam2, data_027e0028, temp_r4);
+    PutSpriteActiveScreen(OAM1_X(xOam1) | hFlip, OAM0_Y(yOam0) | OAM0_256COLORS, oam2, data_027e0028, temp_r4);
 
     return;
 }
@@ -845,31 +863,31 @@ void Face::_02008454(void)
     {
         func_02008414(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + 8 + (y << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x500);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x500);
         func_02008414(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + (y << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x540);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x540);
         func_02008414(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + 8 + ((y + 8) << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x580);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x580);
         func_02008414(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + ((y + 8) << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x5C0);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x5C0);
     }
     else
     {
         func_020083d0(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + (y << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x100);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x100);
         func_020083d0(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + 8 + (y << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x140);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x140);
         func_020083d0(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + ((y + 8) << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x180);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x180);
         func_020083d0(
             &data_0219771c->unk_04->tilemap[data_0219771c->unk_10][x + 8 + ((y + 8) << 5)],
-            OAM2_PAL(this->GetPaletteIndex()) + 0x1C0);
+            GetOam2Pal(this->GetPaletteIndex()) + 0x1C0);
     }
 
     data_0219771c->unk_04->unk_3e |= (1 << data_0219771c->unk_10);
@@ -968,7 +986,16 @@ EC void FaceHandle_02008998(FaceHandle * proc)
     return;
 }
 
-extern struct ProcCmd ProcScr_FaceHandle[];
+// clang-format off
+
+struct ProcCmd ProcScr_FaceHandle[] =
+{
+    PROC_06(0, FaceHandle_02008998),
+    PROC_REPEAT(FaceHandle_02008984),
+    PROC_END
+};
+
+// clang-format on
 
 EC void StartFaceHandle(ProcPtr parent)
 {

@@ -147,9 +147,9 @@ EXTERN_C
 // extern ??? data_020ca04c
 // extern ??? data_020ca058
 // extern ??? data_020ca068
-// extern ??? __typeinfo__10FaceHandle
-// extern ??? __typestr__10FaceHandle
-// extern ??? __vt__10FaceHandle
+// extern ??? _ZTI10FaceHandle
+// extern ??? _ZTS10FaceHandle
+// extern ??? _ZTV10FaceHandle
 // extern ??? ProcScr_FaceHandle
 // extern ??? Sprite_Face
 // extern ??? Sprite_FaceFlipped
