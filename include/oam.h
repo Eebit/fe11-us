@@ -1,6 +1,8 @@
 #ifndef OAM_H
 #define OAM_H
 
+#include "global.h"
+
 #define OAM0_Y(ay)          ((ay) & 0x00FF)
 #define OAM0_Y_MASK         0x00FF
 #define OAM0_AFFINE_ENABLE  0x0100
@@ -48,5 +50,20 @@
 #define OAM2_LAYER_MASK     0xC000
 #define OAM2_PAL(ap)        (((ap) & 0xF) * 0x1000)
 #define OAM2_PAL_MASK       0xF000
+
+static inline u32 GetOam2Pal(s32 idx)
+{
+    return (idx & 0xf) << 0xc;
+}
+
+static inline u32 GetOam2Chr(s32 i)
+{
+    return i & 0x3FF;
+}
+
+static inline u32 GetOam2Layer(s32 l)
+{
+    return (l & 3) * 0x400;
+}
 
 #endif // OAM_H

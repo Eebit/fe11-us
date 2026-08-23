@@ -15,7 +15,7 @@ EC void * LoadFileAndCache(char *, u32);
 EC Unit * func_0203fd84(struct PersonData *);
 
 EC char * GetText(char *);
-EC char * func_020076d4(char *);
+EC char * GetLocalizedName(char *);
 
 EC char * func_02038328(struct UnkData *);
 EC char * func_0203802c(struct ItemData *);
@@ -210,7 +210,7 @@ EC char * func_02037eb8(struct PersonData * pPerson)
 
     if (pPerson->fid != NULL)
     {
-        return func_020076d4(pPerson->fid);
+        return GetLocalizedName(pPerson->fid);
     }
 
     return "NoName";
