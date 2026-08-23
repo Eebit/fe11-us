@@ -503,7 +503,7 @@ void Face::UpdateBlink(void)
     return;
 }
 
-extern u16 data_027e0048[];
+extern u16 Sprite_64x32[];
 
 void Face::DrawBlink(void)
 {
@@ -539,7 +539,7 @@ void Face::DrawBlink(void)
 
             tmp = this->unk_14 - 1;
 
-            PutSpriteActiveScreen(OAM1_X(x) | hFlip, OAM0_Y(y) | OAM0_256COLORS, attr, data_027e0048, tmp);
+            PutSpriteActiveScreen(OAM1_X(x) | hFlip, OAM0_Y(y) | OAM0_256COLORS, attr, Sprite_64x32, tmp);
             return;
         }
 
@@ -570,7 +570,7 @@ void Face::DrawBlink(void)
 
             tmp = this->unk_14 - 1;
 
-            PutSpriteActiveScreen(OAM1_X(x) | hFlip, OAM0_Y(y) | OAM0_256COLORS, attr, data_027e0048, tmp);
+            PutSpriteActiveScreen(OAM1_X(x) | hFlip, OAM0_Y(y) | OAM0_256COLORS, attr, Sprite_64x32, tmp);
             return;
         }
     }
@@ -669,7 +669,7 @@ void Face::DrawMouth(void)
     }
 }
 
-extern u16 data_027e0028[];
+extern u16 Sprite_32x32[];
 
 void Face::DrawMouthExt(s32 x, s32 y, s32 arg3)
 {
@@ -698,7 +698,7 @@ void Face::DrawMouthExt(s32 x, s32 y, s32 arg3)
 
     temp_r4 = this->unk_14 - 1;
 
-    PutSpriteActiveScreen(OAM1_X(xOam1) | hFlip, OAM0_Y(yOam0) | OAM0_256COLORS, oam2, data_027e0028, temp_r4);
+    PutSpriteActiveScreen(OAM1_X(xOam1) | hFlip, OAM0_Y(yOam0) | OAM0_256COLORS, oam2, Sprite_32x32, temp_r4);
 
     return;
 }

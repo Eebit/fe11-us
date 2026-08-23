@@ -142,7 +142,7 @@ EC void LineHelp_ov000_021d68a8(ProcLineHelp * proc)
     return;
 }
 
-extern u16 data_027e0010[];
+extern u16 Sprite_32x16[];
 
 void ProcLineHelp::Loop(void)
 {
@@ -200,7 +200,7 @@ void ProcLineHelp::Loop(void)
                         uVar1 & 0x1ff, 0xc0 - this->unk_54 & 0xff,
                         (this->unk_5c << 0x1c) >> 0x10 | 0xc00 |
                             (this->unk_58 + iVar2 * 8) >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14 & 0x3ff,
-                        data_027e0010, 0);
+                        Sprite_32x16, 0);
                 }
                 else
                 {
@@ -211,7 +211,7 @@ void ProcLineHelp::Loop(void)
                         uVar1 & 0x1ff, 0xc0 - this->unk_54 & 0xff,
                         (this->unk_5c << 0x1c) >> 0x10 | 0xc00 |
                             (this->unk_58 + iVar3) >> gpActiveScreenSt->dispIo->dispcnt.bit_13_14 & 0x3ff,
-                        data_027e0010, 0);
+                        Sprite_32x16, 0);
                     iVar3 = iVar3 + 8;
                 }
             }

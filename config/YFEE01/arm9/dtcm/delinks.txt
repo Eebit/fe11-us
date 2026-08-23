@@ -1,2 +1,5 @@
     .data       start:0x027e0000 end:0x027e00e0 kind:data align:32
     .bss        start:0x027e00e0 end:0x027e1bc0 kind:bss align:32
+
+src/dtcm/sprites-dtcm.cpp:
+    .data       start:0x027e0010 end:0x027e0058

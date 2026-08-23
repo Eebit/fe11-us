@@ -159,7 +159,7 @@ extern vu32 gElapsedFrames;
 
 extern const u8 data_020c515c[];
 
-extern u16 data_027e0028[];
+extern u16 Sprite_32x32[];
 
 EC void SetSpriteDirectoryForJob(s32 jid, BOOL isMovingMapSprite)
 {
@@ -721,7 +721,7 @@ EC void func_0203ee78(s32 jid, s32 arg1, s32 x, s32 y, s32 arg4, s32 palId, s32 
         (x & 0x1ff) | isFlipped, (yOam0 & 0xff) | 0x2000,
         (arg4 + data_020c515c[iVar2] * 0x20) >> (gpActiveScreenSt->dispIo->dispcnt.unk_02_bit_0 & 0x3ff) |
             (palId << 0xc),
-        data_027e0028, arg6);
+        Sprite_32x32, arg6);
 
     return;
 }
