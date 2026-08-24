@@ -1150,10 +1150,10 @@ EC void LoadTextureImage(void *, u32, u32);
 // EC ??? func_0201fe6c
 EC void LoadTexturePalette(void *, u32, u32);
 // EC ??? func_0201fee4
-EC void func_0201ff20(void);
-// EC ??? func_0201ffb0
-EC s32 func_0201ffc0(void);
-EC u32 func_0201ffd0(void);
+EC void Random_Init(void);
+// EC ??? Random_SetState
+EC s32 Random_GetState(void);
+EC u32 Random_Next(void);
 EC s32 RollRN(s32, s32);
 // EC ??? func_02020034
 // EC ??? func_020200b8

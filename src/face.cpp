@@ -578,7 +578,7 @@ void Face::DrawBlink(void)
     return;
 }
 
-EC u32 func_0201ffd0(void);
+EC u32 Random_Next(void);
 
 void Face::UpdateMouth(void)
 {
@@ -620,7 +620,7 @@ void Face::UpdateMouth(void)
         return;
     }
 
-    this->mouthCnt = (func_0201ffd0() & 7) + 1;
+    this->mouthCnt = (Random_Next() & 7) + 1;
     this->mouthState = (this->mouthState + 1) & 3;
 
     return;

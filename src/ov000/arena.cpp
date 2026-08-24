@@ -664,7 +664,7 @@ u8 * arena::Arena::_021d80a4(Unit * unit, s32 arg_2)
             break;
 
         case 4:
-            if ((func_0201ffd0() & 1) != 0)
+            if ((Random_Next() & 1) != 0)
             {
                 uVar1 = 4;
             }
