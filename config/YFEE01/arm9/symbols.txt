@@ -1129,10 +1129,10 @@ func_0201fe40 kind:function(arm,size=0x2c) addr:0x0201fe40
 func_0201fe6c kind:function(arm,size=0x54) addr:0x0201fe6c
 LoadTexturePalette kind:function(arm,size=0x24) addr:0x0201fec0
 func_0201fee4 kind:function(arm,size=0x3c) addr:0x0201fee4
-func_0201ff20 kind:function(arm,size=0x90) addr:0x0201ff20
-func_0201ffb0 kind:function(arm,size=0x10) addr:0x0201ffb0
-func_0201ffc0 kind:function(arm,size=0x10) addr:0x0201ffc0
-func_0201ffd0 kind:function(arm,size=0x3c) addr:0x0201ffd0
+Random_Init kind:function(arm,size=0x90) addr:0x0201ff20
+Random_SetState kind:function(arm,size=0x10) addr:0x0201ffb0
+Random_GetState kind:function(arm,size=0x10) addr:0x0201ffc0
+Random_Next kind:function(arm,size=0x3c) addr:0x0201ffd0
 RollRN kind:function(arm,size=0x28) addr:0x0202000c
 func_02020034 kind:function(arm,size=0x84) addr:0x02020034
 func_020200b8 kind:function(arm,size=0x50) addr:0x020200b8
@@ -8559,7 +8559,7 @@ data_02194b2a kind:bss addr:0x02194b2a
 data_02194b2c kind:bss addr:0x02194b2c
 data_02195778 kind:bss addr:0x02195778
 data_02196b2c kind:bss addr:0x02196b2c
-data_02196e04 kind:bss addr:0x02196e04
+gRandomSt kind:bss addr:0x02196e04
 data_02196e0c kind:bss addr:0x02196e0c
 data_02196f0c kind:bss addr:0x02196f0c
 data_02196f10 kind:bss addr:0x02196f10

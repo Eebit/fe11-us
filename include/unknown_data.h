@@ -2902,7 +2902,7 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? data_02194b2c
 // extern ??? data_02195778
 // extern ??? data_02196b2c
-// extern ??? data_02196e04
+// extern ??? gRandomSt
 // extern ??? data_02196e0c
 // extern ??? data_02196f0c
 // extern ??? data_02196f10

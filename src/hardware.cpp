@@ -125,7 +125,7 @@ void System_Init(void)
     func_0200eecc();
     func_0201f3dc();
     rtc_init();
-    func_0201ff20();
+    Random_Init();
     func_020217b4();
 
     tmp = gpActiveScreenSt;

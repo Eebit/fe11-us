@@ -1142,7 +1142,7 @@ EC void func_0202272c(ProcPtr proc)
     data_02196f0c->state &= ~0x20000;
     data_02196f0c->state &= ~0x100000;
 
-    data_02196f20->unk_194 = func_0201ffc0();
+    data_02196f20->unk_194 = Random_GetState();
 
     return;
 }
@@ -1370,7 +1370,7 @@ EC void func_02022bb0(ProcPtr proc)
         gSoundManager->unk_a4->vfunc_3c(0x10, 0x48, 0);
     }
 
-    func_0201ffd0();
+    Random_Next();
 
     return;
 }

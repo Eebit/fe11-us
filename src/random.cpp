@@ -1,12 +1,12 @@
 #include "global.h"
 
-struct UnkStruct_02196e04
+struct RandomState
 {
-    s32 unk_00;
-    u32 unk_04;
+    /* 00 */ s32 unk_00; // unused??
+    /* 04 */ u32 state;
 };
 
-extern struct UnkStruct_02196e04 data_02196e04;
+extern struct RandomState gRandomSt;
 
 struct UnkStruct_Func_020ac374
 {
@@ -26,7 +26,7 @@ struct UnkStruct_Func_020ac420
 EC s32 func_020ac374(struct UnkStruct_Func_020ac374 *);
 EC s32 func_020ac420(struct UnkStruct_Func_020ac420 *);
 
-EC void func_0201ff20(void)
+EC void Random_Init(void)
 {
     struct UnkStruct_Func_020ac374 a;
     struct UnkStruct_Func_020ac420 b;
@@ -40,37 +40,37 @@ EC void func_0201ff20(void)
         state = state * 60 + b.unk_04;
         state = state * 60 + b.unk_08;
 
-        data_02196e04.unk_04 = state;
+        gRandomSt.state = state;
 
         return;
     }
 
-    data_02196e04.unk_04 = 0x12345678;
+    gRandomSt.state = 0x12345678;
 
     return;
 }
 
-EC void func_0201ffb0(u32 state)
+EC void Random_SetState(u32 state)
 {
-    data_02196e04.unk_04 = state;
+    gRandomSt.state = state;
     return;
 }
 
-EC u32 func_0201ffc0(void)
+EC u32 Random_GetState(void)
 {
-    return data_02196e04.unk_04;
+    return gRandomSt.state;
 }
 
-EC u32 func_0201ffd0(void)
+EC u32 Random_Next(void)
 {
-    u32 rand = data_02196e04.unk_04 ^ (0x65AC9365 >> (data_02196e04.unk_04 & 3));
-    data_02196e04.unk_04 = (rand >> 4) ^ (rand >> 3) ^ (rand << 3) ^ (rand << 4) ^ rand;
-    return data_02196e04.unk_04 & 0x7FFFFFFF;
+    u32 rand = gRandomSt.state ^ (0x65AC9365 >> (gRandomSt.state & 3));
+    gRandomSt.state = (rand >> 4) ^ (rand >> 3) ^ (rand << 3) ^ (rand << 4) ^ rand;
+    return gRandomSt.state & 0x7FFFFFFF;
 }
 
 EC s32 IntSys_Mod(s32, s32);
 
 EC s32 RollRN(s32 param_1, s32 param_2)
 {
-    return param_1 + IntSys_Mod(func_0201ffd0() & 0x7fffffff, (param_2 - param_1) + 1);
+    return param_1 + IntSys_Mod(Random_Next() & 0x7fffffff, (param_2 - param_1) + 1);
 }

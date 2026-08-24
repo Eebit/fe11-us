@@ -4691,7 +4691,7 @@ EC void func_ov000_021af044(map::ProcLink * param_1)
 }
 
 EC BOOL func_02012b8c(s32, void *);
-EC void func_0201ffb0(s32);
+EC void Random_SetState(s32);
 
 EC void func_ov000_021af1bc(map::ProcLink * param_1)
 {
@@ -4743,7 +4743,7 @@ EC void func_ov000_021af1bc(map::ProcLink * param_1)
         gMapStateManager->cursor->isVisible = 0;
         param_1->unk_3c = 0;
         Proc_Goto(gMapLinkProc, 1, 0);
-        func_0201ffb0(gActionSt->unk_14);
+        Random_SetState(gActionSt->unk_14);
         func_020a58b8(gActionSt, gMapStateManager->unk_08, 0x14);
         return;
     }
@@ -5085,7 +5085,7 @@ EC void ProcMind_ov000_021af79c(ProcEx * proc)
             delete tempAction;
         }
 
-        gActionSt->unk_14 = func_0201ffc0();
+        gActionSt->unk_14 = Random_GetState();
 
         unit = GetUnit(gActionSt->unitId);
 
