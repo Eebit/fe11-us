@@ -12,8 +12,8 @@
 #include "proc_ex.hpp"
 
 extern u16 data_020ca6c4[];
-extern u16 data_027e0010[];
-extern u16 data_027e0038[];
+extern u16 Sprite_32x16[];
+extern u16 Sprite_16x16[];
 
 class ScrollMenu_unk_04
 {
@@ -477,7 +477,7 @@ void Button::func_02034d40(s32 kind)
         case BUTTON_KIND_R_ARROW:
             this->unk_44 = 0x20;
             this->unk_46 = 0x10;
-            this->unk_54 = data_027e0010;
+            this->unk_54 = Sprite_32x16;
             this->anime = NULL;
 
             return;
@@ -486,7 +486,7 @@ void Button::func_02034d40(s32 kind)
         case BUTTON_KIND_R_REFINE:
             this->unk_44 = 0x10;
             this->unk_46 = 0x10;
-            this->unk_54 = data_027e0038;
+            this->unk_54 = Sprite_16x16;
             this->anime = NULL;
             return;
 

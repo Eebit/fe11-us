@@ -3313,16 +3313,15 @@ extern struct UnkStruct_021974fc * data_021974fc;
 // extern ??? gpSubScreenSt
 // extern ??? gpMainDispIo
 // extern ??? gpSubDispIo
-// extern ??? data_027e0010
-// extern ??? data_027e0018
-// extern ??? data_027e0020
-// extern ??? data_027e0021
-// extern ??? data_027e0028
-// extern ??? data_027e0030
-// extern ??? data_027e0038
-// extern ??? data_027e0040
-// extern ??? data_027e0048
-// extern ??? data_027e0050
+// extern ??? Sprite_32x16
+// extern ??? Sprite_16x8
+// extern ??? Sprite_32x8
+// extern ??? Sprite_32x32
+// extern ??? Sprite_64x64
+// extern ??? Sprite_16x16
+// extern ??? Sprite_8x8
+// extern ??? Sprite_64x32
+// extern ??? Sprite_8x16
 // extern ??? data_027e0058
 // extern ??? data_027e0078
 extern int data_027e00e0;
