@@ -64,12 +64,13 @@ enum
     ROUND_FLAG_MISS = 0x10,
     ROUND_FLAG_x20 = 0x20,
     ROUND_FLAG_LAST = 0x40,
+    ROUND_FLAG_x80 = 0x80,
 };
 
-struct MapBattle_40
+struct BattleRound
 {
-    /* 00 */ u8 unk_00;
-    /* 01 */ u8 unk_01;
+    /* 00 */ u8 flags;
+    /* 01 */ u8 damage;
 };
 
 struct MapBattleEffectProc
@@ -80,6 +81,78 @@ struct MapBattleEffectProc
 
 namespace onbat
 {
+class MapBattle : public ProcEx
+{
+public:
+    /* 38 */ MapBattle_38 * unk_38;
+    /* 3C */ MapBattle_3C * unk_3c;
+    /* 40 */ BattleRound * pRound;
+    /* 44 */ MoveUnit * unk_44[2];
+    /* 4C */ MoveUnit * unk_4c[2];
+    /* 54 */ ProcPtr unk_54[2];
+    /* 5C */ u32 unk_5c; // frame counter within current round
+    STRUCT_PAD(0x60, 0x64);
+    /* 64 */ u8 unk_64[2]; // saved HP per combatant
+    /* 66 */ u8 unk_66; // attacker index
+    /* 67 */ u8 unk_67; // defender index
+    /* 68 */ u8 unk_68;
+    /* 69 */ u8 unk_69;
+    /* 6A */ u8 unk_6a;
+    /* 6B */ u8 unk_6b;
+
+    virtual ~MapBattle()
+    {
+    }
+
+    void _021cace4(void); // _ZN5onbat9MapBattle9_021cace4Ev
+    void _021cae10(void); // _ZN5onbat9MapBattle9_021cae10Ev
+    void _021cb444(void); // _ZN5onbat9MapBattle9_021cb444Ev
+    void _021cb54c(void); // _ZN5onbat9MapBattle9_021cb54cEv
+    void _021cb738(void); // _ZN5onbat9MapBattle9_021cb738Ev
+    void _021cb74c(void); // _ZN5onbat9MapBattle9_021cb74cEv
+    void _021cb760(void); // _ZN5onbat9MapBattle9_021cb760Ev
+    void _021cb8a4(void); // _ZN5onbat9MapBattle9_021cb8a4Ev
+    void _021cb9b8(void); // _ZN5onbat9MapBattle9_021cb9b8Ev
+    void _021cba08(void); // _ZN5onbat9MapBattle9_021cba08Ev
+    void _021cba48(void); // _ZN5onbat9MapBattle9_021cba48Ev
+    void _021cba70(void); // _ZN5onbat9MapBattle9_021cba70Ev
+    void _021cbab0(void); // _ZN5onbat9MapBattle9_021cbab0Ev
+    void _021cbb4c(void); // _ZN5onbat9MapBattle9_021cbb4cEv
+    void _021cbb5c(void); // _ZN5onbat9MapBattle9_021cbb5cEv
+    void _021cbc44(void); // _ZN5onbat9MapBattle9_021cbc44Ev
+    void _021cbcac(void); // _ZN5onbat9MapBattle9_021cbcacEv
+    void _021cbd98(void); // _ZN5onbat9MapBattle9_021cbd98Ev
+    void _021cc368(void); // _ZN5onbat9MapBattle9_021cc368Ev
+    void _021cc378(void); // _ZN5onbat9MapBattle9_021cc378Ev
+    void _021cc438(void); // _ZN5onbat9MapBattle9_021cc438Ev
+    void _021cc468(void); // _ZN5onbat9MapBattle9_021cc468Ev
+    void _021cc4c4(void); // _ZN5onbat9MapBattle9_021cc4c4Ev
+    void _021cc4f4(void); // _ZN5onbat9MapBattle9_021cc4f4Ev
+    void _021cc570(void); // _ZN5onbat9MapBattle9_021cc570Ev
+    void _021cc5a8(void); // _ZN5onbat9MapBattle9_021cc5a8Ev
+    void _021cc6b8(void); // _ZN5onbat9MapBattle9_021cc6b8Ev
+    void _021cc6e0(void); // _ZN5onbat9MapBattle9_021cc6e0Ev
+    void _021cc834(void); // _ZN5onbat9MapBattle9_021cc834Ev
+    void _021cc884(void); // _ZN5onbat9MapBattle9_021cc884Ev
+    void _021cc8c8(void); // _ZN5onbat9MapBattle9_021cc8c8Ev
+    void _021cc8f4(void); // _ZN5onbat9MapBattle9_021cc8f4Ev
+};
+
+class ProcKiriDragonTransform : public ProcEx
+{
+public:
+    /* 38 */ Unit * pUnit;
+
+    ProcKiriDragonTransform(Unit * unit)
+    {
+        this->pUnit = unit;
+    }
+
+    virtual ~ProcKiriDragonTransform()
+    {
+    }
+};
+
 class UnitMove : public ProcEx
 {
 public:
@@ -237,48 +310,6 @@ public:
     }
 };
 
-class ProcKiriDragonTransform : public ProcEx
-{
-public:
-    /* 38 */ Unit * pUnit;
-
-    ProcKiriDragonTransform(Unit * unit)
-    {
-        this->pUnit = unit;
-    }
-
-    virtual ~ProcKiriDragonTransform()
-    {
-    }
-};
-
-} // namespace onbat
-
-namespace onbat
-{
-class MapBattle : public ProcEx
-{
-public:
-    /* 38 */ MapBattle_38 * unk_38;
-    /* 3C */ MapBattle_3C * unk_3c;
-    /* 40 */ MapBattle_40 * unk_40;
-    /* 44 */ MoveUnit * unk_44[2];
-    /* 4C */ MoveUnit * unk_4c[2];
-    /* 54 */ ProcPtr unk_54[2];
-    /* 5C */ u32 unk_5c; // frame counter within current round
-    STRUCT_PAD(0x60, 0x64);
-    /* 64 */ u8 unk_64[2]; // saved HP per combatant
-    /* 66 */ u8 unk_66; // attacker index
-    /* 67 */ u8 unk_67; // defender index
-    /* 68 */ u8 unk_68;
-    /* 69 */ u8 unk_69;
-    /* 6A */ u8 unk_6a;
-    /* 6B */ u8 unk_6b;
-
-    virtual ~MapBattle()
-    {
-    }
-};
 } // namespace onbat
 
 class MapBattle_3C
@@ -300,7 +331,7 @@ class MapBattle_38
 {
 public:
     /* 00 */ MapBattle_3C * unk_00;
-    /* 04 */ MapBattle_40 unk_04[16];
+    /* 04 */ BattleRound unk_04[16];
     /* 24 */ MapBattle_38_24 * unk_24;
     /* 28 */ u8 unk_28[2];
     STRUCT_PAD(0x2A, 0x30);
@@ -463,42 +494,40 @@ EC BOOL func_ov000_021a82c0(void);
 EC BOOL func_ov000_021a8248(void);
 EC BOOL func_ov000_021a478c(void);
 
-EC void func_ov000_021cba08(onbat::MapBattle *);
-
 EC void func_ov002_021ef134(ProcPtr, void *);
 
 EC void func_ov000_021c8200(MapBattle_3C *, Unit *, Unit *, s32, s32, s32, s32);
 EC void func_ov000_021c97ec(MapBattle_38 *);
 EC Unit * func_ov000_021ca0b8(MapBattle_38 *);
 
-EC void func_ov000_021cace4(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cace4(void)
 {
     s32 i;
     s32 x;
     s32 y;
 
-    param_1->unk_3c = new MapBattle_3C();
+    this->unk_3c = new MapBattle_3C();
 
     x = gActionSt->xDecision;
     y = gActionSt->yDecision;
 
-    func_ov000_021c8200(param_1->unk_3c, GetUnit(gActionSt->unitId), GetUnit(gActionSt->unk_34), x, y, -1, 0);
+    func_ov000_021c8200(this->unk_3c, GetUnit(gActionSt->unitId), GetUnit(gActionSt->unk_34), x, y, -1, 0);
 
-    param_1->unk_38 = new MapBattle_38(param_1);
-    func_ov000_021c97ec(param_1->unk_38);
+    this->unk_38 = new MapBattle_38(this);
+    func_ov000_021c97ec(this->unk_38);
 
-    param_1->unk_40 = param_1->unk_38->unk_04;
-    param_1->unk_5c = 0;
-    param_1->unk_69 = 0;
+    this->pRound = this->unk_38->unk_04;
+    this->unk_5c = 0;
+    this->unk_69 = 0;
 
     for (i = 0; i < 2; i++)
     {
-        param_1->unk_54[i] = NULL;
+        this->unk_54[i] = NULL;
     }
 
-    param_1->unk_6a = 0;
+    this->unk_6a = 0;
 
-    if (func_ov000_021ca0b8(param_1->unk_38) == data_021974fc->unk_00)
+    if (func_ov000_021ca0b8(this->unk_38) == data_021974fc->unk_00)
     {
         data_021974fc->unk_00 = NULL;
     }
@@ -515,7 +544,7 @@ EC void func_ov000_021bb734(MoveUnit *, Unit *, BOOL);
 EC BOOL func_ov000_021ca8ac(MapBattle_38 *);
 EC void func_ov000_021a820c(void);
 
-EC void func_ov000_021cae10(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cae10(void)
 {
     s32 i;
     s16 x;
@@ -528,30 +557,30 @@ EC void func_ov000_021cae10(onbat::MapBattle * param_1)
     Unit * attacker;
     Unit * defender;
 
-    param_1->unk_6a = 1;
+    this->unk_6a = 1;
 
-    param_1->unk_44[0] = gMapStateManager->unk_04->pMu;
-    param_1->unk_3c->unk_00[1]->state2 |= US_HOVERED;
+    this->unk_44[0] = gMapStateManager->unk_04->pMu;
+    this->unk_3c->unk_00[1]->state2 |= US_HOVERED;
 
-    param_1->unk_44[1] = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
-    func_ov000_021bb734(param_1->unk_44[1], param_1->unk_3c->unk_00[1], FALSE);
+    this->unk_44[1] = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
+    func_ov000_021bb734(this->unk_44[1], this->unk_3c->unk_00[1], FALSE);
 
-    param_1->unk_44[1]->pMovingMapSprite->timer = param_1->unk_44[0]->pMovingMapSprite->timer;
+    this->unk_44[1]->pMovingMapSprite->timer = this->unk_44[0]->pMovingMapSprite->timer;
 
-    if (param_1->unk_3c->unk_38[0] & 0x100)
+    if (this->unk_3c->unk_38[0] & 0x100)
     {
         i = 0;
 
-        xMin = MAX(param_1->unk_3c->unk_00[1]->xPos - 1, gMapStateManager->unk_24);
-        yMin = MAX(param_1->unk_3c->unk_00[1]->yPos - 1, gMapStateManager->unk_25);
-        xMax = MIN(param_1->unk_3c->unk_00[1]->xPos + 1, gMapStateManager->unk_26 - 1);
-        yMax = MIN(param_1->unk_3c->unk_00[1]->yPos + 1, gMapStateManager->unk_27 - 1);
+        xMin = MAX(this->unk_3c->unk_00[1]->xPos - 1, gMapStateManager->unk_24);
+        yMin = MAX(this->unk_3c->unk_00[1]->yPos - 1, gMapStateManager->unk_25);
+        xMax = MIN(this->unk_3c->unk_00[1]->xPos + 1, gMapStateManager->unk_26 - 1);
+        yMax = MIN(this->unk_3c->unk_00[1]->yPos + 1, gMapStateManager->unk_27 - 1);
 
         for (y = yMin; y <= yMax; y++)
         {
             for (x = xMin; x <= xMax; x++)
             {
-                s32 dist = ABS(param_1->unk_3c->unk_00[1]->xPos - x) + ABS(param_1->unk_3c->unk_00[1]->yPos - y);
+                s32 dist = ABS(this->unk_3c->unk_00[1]->xPos - x) + ABS(this->unk_3c->unk_00[1]->yPos - y);
 
                 if (dist < 1 || dist > 1)
                 {
@@ -570,22 +599,22 @@ EC void func_ov000_021cae10(onbat::MapBattle * param_1)
                     continue;
                 }
 
-                if (unit->force->id != param_1->unk_3c->unk_00[0]->force->id)
+                if (unit->force->id != this->unk_3c->unk_00[0]->force->id)
                 {
                     continue;
                 }
 
-                if (unit == param_1->unk_3c->unk_00[0])
+                if (unit == this->unk_3c->unk_00[0])
                 {
                     continue;
                 }
 
                 unit->state2 |= US_HOVERED;
 
-                param_1->unk_4c[i] = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
-                func_ov000_021bb734(param_1->unk_4c[i], unit, FALSE);
+                this->unk_4c[i] = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
+                func_ov000_021bb734(this->unk_4c[i], unit, FALSE);
 
-                param_1->unk_4c[i]->pMovingMapSprite->timer++;
+                this->unk_4c[i]->pMovingMapSprite->timer++;
 
                 i++;
 
@@ -598,63 +627,63 @@ EC void func_ov000_021cae10(onbat::MapBattle * param_1)
     }
 
 L_021cb13c:
-    defender = param_1->unk_3c->unk_00[1];
-    attacker = param_1->unk_3c->unk_00[0];
+    defender = this->unk_3c->unk_00[1];
+    attacker = this->unk_3c->unk_00[0];
 
     if (ABS(attacker->xPos - defender->xPos) >= ABS(attacker->yPos - defender->yPos))
     {
         if (attacker->xPos > defender->xPos)
         {
-            param_1->unk_44[0]->SetFacingDirection(2);
-            param_1->unk_44[1]->SetFacingDirection(3);
+            this->unk_44[0]->SetFacingDirection(2);
+            this->unk_44[1]->SetFacingDirection(3);
         }
         else
         {
-            param_1->unk_44[0]->SetFacingDirection(3);
-            param_1->unk_44[1]->SetFacingDirection(2);
+            this->unk_44[0]->SetFacingDirection(3);
+            this->unk_44[1]->SetFacingDirection(2);
         }
     }
     else
     {
         if (attacker->yPos > defender->yPos)
         {
-            param_1->unk_44[0]->SetFacingDirection(5);
-            param_1->unk_44[1]->SetFacingDirection(4);
+            this->unk_44[0]->SetFacingDirection(5);
+            this->unk_44[1]->SetFacingDirection(4);
         }
         else
         {
-            param_1->unk_44[0]->SetFacingDirection(4);
-            param_1->unk_44[1]->SetFacingDirection(5);
+            this->unk_44[0]->SetFacingDirection(4);
+            this->unk_44[1]->SetFacingDirection(5);
         }
     }
 
-    if (param_1->unk_3c->unk_38[0] & 0x100)
+    if (this->unk_3c->unk_38[0] & 0x100)
     {
         for (i = 0; i < 2; i++)
         {
-            defender = param_1->unk_3c->unk_00[1];
+            defender = this->unk_3c->unk_00[1];
 
-            if (ABS(param_1->unk_4c[i]->pUnit->xPos - defender->xPos) >=
-                ABS(param_1->unk_4c[i]->pUnit->yPos - defender->yPos))
+            if (ABS(this->unk_4c[i]->pUnit->xPos - defender->xPos) >=
+                ABS(this->unk_4c[i]->pUnit->yPos - defender->yPos))
             {
-                if (param_1->unk_4c[i]->pUnit->xPos > defender->xPos)
+                if (this->unk_4c[i]->pUnit->xPos > defender->xPos)
                 {
-                    param_1->unk_4c[i]->SetFacingDirection(2);
+                    this->unk_4c[i]->SetFacingDirection(2);
                 }
                 else
                 {
-                    param_1->unk_4c[i]->SetFacingDirection(3);
+                    this->unk_4c[i]->SetFacingDirection(3);
                 }
             }
             else
             {
-                if (param_1->unk_4c[i]->pUnit->yPos > defender->yPos)
+                if (this->unk_4c[i]->pUnit->yPos > defender->yPos)
                 {
-                    param_1->unk_4c[i]->SetFacingDirection(5);
+                    this->unk_4c[i]->SetFacingDirection(5);
                 }
                 else
                 {
-                    param_1->unk_4c[i]->SetFacingDirection(4);
+                    this->unk_4c[i]->SetFacingDirection(4);
                 }
             }
         }
@@ -662,7 +691,7 @@ L_021cb13c:
 
     for (i = 0; i < 2; i++)
     {
-        param_1->unk_64[i] = param_1->unk_3c->unk_00[i]->hp;
+        this->unk_64[i] = this->unk_3c->unk_00[i]->hp;
     }
 
     if (!func_ov000_021a8248())
@@ -670,9 +699,9 @@ L_021cb13c:
         return;
     }
 
-    gMapStateManager->camera->ScrollInstant(param_1->unk_3c->unk_00[1]->xPos, param_1->unk_3c->unk_00[1]->yPos, 0);
+    gMapStateManager->camera->ScrollInstant(this->unk_3c->unk_00[1]->xPos, this->unk_3c->unk_00[1]->yPos, 0);
 
-    if (func_ov000_021ca8ac(param_1->unk_38) || func_ov000_021ca91c(param_1->unk_38))
+    if (func_ov000_021ca8ac(this->unk_38) || func_ov000_021ca91c(this->unk_38))
     {
         func_ov000_021a820c();
     }
@@ -680,13 +709,13 @@ L_021cb13c:
     return;
 }
 
-EC void func_ov000_021cb444(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cb444(void)
 {
     BOOL flag = FALSE;
 
     if (!func_ov000_021a8248())
     {
-        if (func_ov000_021ca91c(param_1->unk_38))
+        if (func_ov000_021ca91c(this->unk_38))
         {
             flag = TRUE;
         }
@@ -711,7 +740,7 @@ EC void func_ov000_021cb444(onbat::MapBattle * param_1)
             }
             else if (mode == 2)
             {
-                if (param_1->unk_3c->unk_00[0]->state2 & US_UNK_31 || param_1->unk_3c->unk_00[1]->state2 & US_UNK_31)
+                if (this->unk_3c->unk_00[0]->state2 & US_UNK_31 || this->unk_3c->unk_00[1]->state2 & US_UNK_31)
                 {
                     flag = TRUE;
                 }
@@ -721,19 +750,19 @@ EC void func_ov000_021cb444(onbat::MapBattle * param_1)
 
     if (flag)
     {
-        Proc_Goto(param_1, 1, 0);
-        param_1->unk_6b = 1;
+        Proc_Goto(this, 1, 0);
+        this->unk_6b = 1;
     }
     else
     {
-        Proc_Goto(param_1, 0, 0);
-        param_1->unk_6b = 0;
+        Proc_Goto(this, 0, 0);
+        this->unk_6b = 0;
     }
 }
 
 extern u8 data_ov000_021e3320[];
 
-EC void func_ov000_021cb54c(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cb54c(void)
 {
     struct ItemData * weapon;
     s32 songId = -1;
@@ -747,9 +776,9 @@ EC void func_ov000_021cb54c(onbat::MapBattle * param_1)
 
     for (i = 0; i < 2; i++)
     {
-        weapon = param_1->unk_3c->weapon[i];
+        weapon = this->unk_3c->weapon[i];
 
-        if (weapon == GetItemByIidStr("IID_STARLIGHT") && (param_1->unk_3c->unk_36[i] != 0))
+        if (weapon == GetItemByIidStr("IID_STARLIGHT") && (this->unk_3c->unk_36[i] != 0))
         {
             songId = BGM_BTL_STARLIGHT1;
             break;
@@ -766,9 +795,9 @@ EC void func_ov000_021cb54c(onbat::MapBattle * param_1)
 
         for (i = 0; i < 2; i++)
         {
-            if (param_1->unk_3c->unk_00[i]->force->id == 1)
+            if (this->unk_3c->unk_00[i]->force->id == 1)
             {
-                unit = param_1->unk_3c->unk_00[i];
+                unit = this->unk_3c->unk_00[i];
                 break;
             }
         }
@@ -813,15 +842,15 @@ EC void func_ov000_021cb54c(onbat::MapBattle * param_1)
 EC void func_ov000_021ca0e8(MapBattle_38 *, onbat::MapBattle *);
 EC void func_ov000_021ca4a4(MapBattle_38 *, onbat::MapBattle *);
 
-EC void func_ov000_021cb738(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cb738(void)
 {
-    func_ov000_021ca0e8(param_1->unk_38, param_1);
+    func_ov000_021ca0e8(this->unk_38, this);
     return;
 }
 
-EC void func_ov000_021cb74c(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cb74c(void)
 {
-    func_ov000_021ca4a4(param_1->unk_38, param_1);
+    func_ov000_021ca4a4(this->unk_38, this);
     return;
 }
 
@@ -829,19 +858,19 @@ EC struct JobData * GetJInfoFromItem(struct ItemData *, struct Unit *);
 
 extern struct ProcCmd ProcScr_onbat_UnitTransform[];
 
-EC void func_ov000_021cb760(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cb760(void)
 {
     struct JobData * job;
     onbat::UnitTransform * proc;
 
-    if (param_1->unk_3c->weapon[0] != NULL)
+    if (this->unk_3c->weapon[0] != NULL)
     {
-        job = GetJInfoFromItem(param_1->unk_3c->weapon[0], param_1->unk_3c->unk_00[0]);
+        job = GetJInfoFromItem(this->unk_3c->weapon[0], this->unk_3c->unk_00[0]);
 
-        if (job != param_1->unk_3c->unk_00[0]->pJobData)
+        if (job != this->unk_3c->unk_00[0]->pJobData)
         {
-            proc = new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, param_1))
-                onbat::UnitTransform(param_1->unk_44[0], job);
+            proc = new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, this))
+                onbat::UnitTransform(this->unk_44[0], job);
 
             if (func_ov000_021a8248())
             {
@@ -850,45 +879,45 @@ EC void func_ov000_021cb760(onbat::MapBattle * param_1)
         }
     }
 
-    if (param_1->unk_3c->weapon[1] == NULL)
+    if (this->unk_3c->weapon[1] == NULL)
     {
         return;
     }
 
-    job = GetJInfoFromItem(param_1->unk_3c->weapon[1], param_1->unk_3c->unk_00[1]);
+    job = GetJInfoFromItem(this->unk_3c->weapon[1], this->unk_3c->unk_00[1]);
 
-    if (job == param_1->unk_3c->unk_00[1]->pJobData)
+    if (job == this->unk_3c->unk_00[1]->pJobData)
     {
         return;
     }
 
-    param_1->unk_68 = param_1->unk_44[1]->facing;
+    this->unk_68 = this->unk_44[1]->facing;
 
-    param_1->unk_44[1]->SetFacingDirection(0);
+    this->unk_44[1]->SetFacingDirection(0);
 
     return;
 }
 
-EC void func_ov000_021cb8a4(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cb8a4(void)
 {
     struct JobData * job;
     onbat::UnitTransform * proc;
 
-    if (param_1->unk_3c->weapon[1] == NULL)
+    if (this->unk_3c->weapon[1] == NULL)
     {
         return;
     }
 
-    job = GetJInfoFromItem(param_1->unk_3c->weapon[1], param_1->unk_3c->unk_00[1]);
+    job = GetJInfoFromItem(this->unk_3c->weapon[1], this->unk_3c->unk_00[1]);
 
-    if (job == param_1->unk_3c->unk_00[1]->pJobData)
+    if (job == this->unk_3c->unk_00[1]->pJobData)
     {
         return;
     }
 
-    param_1->unk_44[1]->SetFacingDirection(param_1->unk_68);
+    this->unk_44[1]->SetFacingDirection(this->unk_68);
 
-    proc = new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, param_1)) onbat::UnitTransform(param_1->unk_44[1], job);
+    proc = new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, this)) onbat::UnitTransform(this->unk_44[1], job);
 
     if (func_ov000_021a8248())
     {
@@ -898,7 +927,7 @@ EC void func_ov000_021cb8a4(onbat::MapBattle * param_1)
     return;
 }
 
-EC void func_ov000_021cb9b8(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cb9b8(void)
 {
     ItemData * weapon;
     JobData * job;
@@ -907,47 +936,47 @@ EC void func_ov000_021cb9b8(onbat::MapBattle * param_1)
 
     for (i = 0; i < 2; i++)
     {
-        weapon = param_1->unk_3c->weapon[i];
+        weapon = this->unk_3c->weapon[i];
 
         if (weapon == NULL)
         {
             continue;
         }
 
-        job = GetJInfoFromItem(weapon, param_1->unk_3c->unk_00[i]);
-        moveUnit = param_1->unk_44[i];
+        job = GetJInfoFromItem(weapon, this->unk_3c->unk_00[i]);
+        moveUnit = this->unk_44[i];
         moveUnit->pMovingMapSprite->UpdateJid(GetJobDBIndex(job));
     }
 
     return;
 }
 
-EC void func_ov000_021cba08(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cba08(void)
 {
     s32 i;
 
     for (i = 0; i < 2; i++)
     {
-        MoveUnit * moveUnit = param_1->unk_44[i];
-        moveUnit->pMovingMapSprite->UpdateJid(GetJobDBIndex(param_1->unk_3c->unk_00[i]->pJobData));
+        MoveUnit * moveUnit = this->unk_44[i];
+        moveUnit->pMovingMapSprite->UpdateJid(GetJobDBIndex(this->unk_3c->unk_00[i]->pJobData));
     }
 
     return;
 }
 
-EC void func_ov000_021cba48(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cba48(void)
 {
     if (func_ov000_021a8248())
     {
-        Proc_Goto(param_1, 2, 0);
+        Proc_Goto(this, 2, 0);
     }
 
     return;
 }
 
-EC void func_ov000_021cba70(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cba70(void)
 {
-    Unit * unit = param_1->unk_3c->unk_00[1];
+    Unit * unit = this->unk_3c->unk_00[1];
 
     gMapStateManager->camera->Scroll(unit->xPos, unit->yPos, 0, 0x20, 0);
     return;
@@ -958,30 +987,30 @@ EC s32 func_ov000_021d1f8c(void);
 EC s32 func_ov000_021d1f94(void);
 EC ProcPtr func_ov000_021d1f30(ProcPtr, struct Unit *, s32, s32, s32);
 
-EC void func_ov000_021cbab0(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cbab0(void)
 {
     Unit * unit;
     s32 idx;
     s32 iVar1;
 
     iVar1 = func_ov000_021d1ff8(
-        param_1->unk_38->unk_00->unk_00[param_1->unk_38->unk_32],
-        param_1->unk_38->unk_00->unk_00[param_1->unk_38->unk_33]);
+        this->unk_38->unk_00->unk_00[this->unk_38->unk_32],
+        this->unk_38->unk_00->unk_00[this->unk_38->unk_33]);
 
-    idx = param_1->unk_38->unk_32;
-    unit = param_1->unk_38->unk_00->unk_00[idx];
-    param_1->unk_54[idx] = func_ov000_021d1f30(param_1, unit, func_ov000_021d1f8c(), iVar1, 1);
+    idx = this->unk_38->unk_32;
+    unit = this->unk_38->unk_00->unk_00[idx];
+    this->unk_54[idx] = func_ov000_021d1f30(this, unit, func_ov000_021d1f8c(), iVar1, 1);
 
-    idx = param_1->unk_38->unk_33;
-    unit = param_1->unk_38->unk_00->unk_00[idx];
-    param_1->unk_54[idx] = func_ov000_021d1f30(param_1, unit, func_ov000_021d1f94(), iVar1, 0);
+    idx = this->unk_38->unk_33;
+    unit = this->unk_38->unk_00->unk_00[idx];
+    this->unk_54[idx] = func_ov000_021d1f30(this, unit, func_ov000_021d1f94(), iVar1, 0);
 
     return;
 }
 
-EC void func_ov000_021cbb4c(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cbb4c(void)
 {
-    func_ov002_021ef134(param_1, param_1->unk_38);
+    func_ov002_021ef134(this, this->unk_38);
     return;
 }
 
@@ -1006,20 +1035,20 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 
 EC void func_ov000_021d3b00(struct Unit *, onbat::MapBattle *, s32, s32);
 
-EC void func_ov000_021cbb5c(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cbb5c(void)
 {
     func_ov000_021d1e38(
-        param_1->unk_54[param_1->unk_38->unk_33], data_ov002_021faf8c.unk_01, data_ov002_021faf8c.unk_08 & 1);
+        this->unk_54[this->unk_38->unk_33], data_ov002_021faf8c.unk_01, data_ov002_021faf8c.unk_08 & 1);
     func_ov000_021d1e38(
-        param_1->unk_54[param_1->unk_38->unk_32], data_ov002_021faf8c.unk_5d, data_ov002_021faf8c.unk_64 & 1);
+        this->unk_54[this->unk_38->unk_32], data_ov002_021faf8c.unk_5d, data_ov002_021faf8c.unk_64 & 1);
 
-    if (param_1->unk_69 == 0 && (u8)(data_ov002_021faf8c.unk_08 & 2))
+    if (this->unk_69 == 0 && (u8)(data_ov002_021faf8c.unk_08 & 2))
     {
-        func_ov000_021d3b00(param_1->unk_3c->unk_00[param_1->unk_38->unk_33], param_1, 1, 0);
-        param_1->unk_69 = 1;
+        func_ov000_021d3b00(this->unk_3c->unk_00[this->unk_38->unk_33], this, 1, 0);
+        this->unk_69 = 1;
     }
 
-    if (param_1->unk_69 != 0)
+    if (this->unk_69 != 0)
     {
         return;
     }
@@ -1030,62 +1059,62 @@ EC void func_ov000_021cbb5c(onbat::MapBattle * param_1)
         return;
     }
 
-    func_ov000_021d3b00(param_1->unk_3c->unk_00[param_1->unk_38->unk_32], param_1, 1, 0);
-    param_1->unk_69 = 1;
+    func_ov000_021d3b00(this->unk_3c->unk_00[this->unk_38->unk_32], this, 1, 0);
+    this->unk_69 = 1;
 
     return;
 }
 
-EC void func_ov000_021cbc44(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cbc44(void)
 {
     s32 iVar1;
 
     for (iVar1 = 0; iVar1 < 2; iVar1++)
     {
-        if (param_1->unk_54[iVar1] != NULL)
+        if (this->unk_54[iVar1] != NULL)
         {
-            func_ov000_021d1e38(param_1->unk_54[iVar1], param_1->unk_38->unk_28[iVar1], 0);
+            func_ov000_021d1e38(this->unk_54[iVar1], this->unk_38->unk_28[iVar1], 0);
         }
     }
 
     // TODO: Inline?
     if (!(u8)((data_ov002_021faf8c.unk_b9 & 2)))
     {
-        func_ov000_021ca798(param_1->unk_38, param_1);
+        func_ov000_021ca798(this->unk_38, this);
     }
 
     return;
 }
 
-EC void func_ov000_021cbcac(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cbcac(void)
 {
     struct Unit * unit;
 
-    if (param_1->unk_69 == 0)
+    if (this->unk_69 == 0)
     {
-        unit = param_1->unk_3c->unk_00[param_1->unk_38->unk_33];
+        unit = this->unk_3c->unk_00[this->unk_38->unk_33];
 
-        if (func_ov000_021ca0b8(param_1->unk_38) == unit)
+        if (func_ov000_021ca0b8(this->unk_38) == unit)
         {
-            func_ov000_021d3b00(param_1->unk_3c->unk_00[param_1->unk_38->unk_33], param_1, 0, 1);
-            param_1->unk_69 = 1;
+            func_ov000_021d3b00(this->unk_3c->unk_00[this->unk_38->unk_33], this, 0, 1);
+            this->unk_69 = 1;
         }
     }
 
-    if (param_1->unk_69 != 0)
+    if (this->unk_69 != 0)
     {
         return;
     }
 
-    unit = param_1->unk_3c->unk_00[param_1->unk_38->unk_32];
+    unit = this->unk_3c->unk_00[this->unk_38->unk_32];
 
-    if (func_ov000_021ca0b8(param_1->unk_38) != unit)
+    if (func_ov000_021ca0b8(this->unk_38) != unit)
     {
         return;
     }
 
-    func_ov000_021d3b00(param_1->unk_3c->unk_00[param_1->unk_38->unk_32], param_1, 0, 1);
-    param_1->unk_69 = 1;
+    func_ov000_021d3b00(this->unk_3c->unk_00[this->unk_38->unk_32], this, 0, 1);
+    this->unk_69 = 1;
 
     return;
 }
@@ -1128,7 +1157,7 @@ EC void func_ov000_021d2c58(void *);
 extern struct ProcCmd ProcScr_onbat_UnitMove[];
 extern struct ProcCmd ProcScr_020ce750[];
 
-EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cbd98(void)
 {
     s32 tileSize;
     s32 step;
@@ -1147,32 +1176,32 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
 
     tileSize = GetTileSize();
 
-    if (param_1->unk_5c == 0)
+    if (this->unk_5c == 0)
     {
-        if (param_1->unk_40->unk_00 == 0)
+        if (this->pRound->flags == ROUND_FLAG_END)
         {
             Proc_EndEachMarked(PROC_MARK_8);
-            Proc_Break(param_1, 0);
+            Proc_Break(this, 0);
             return;
         }
 
-        param_1->unk_66 = !(param_1->unk_40->unk_00 & 1);
+        this->unk_66 = !(this->pRound->flags & ROUND_FLAG_HIT);
 
-        if (param_1->unk_40->unk_00 & 0x20)
+        if (this->pRound->flags & ROUND_FLAG_x20)
         {
-            param_1->unk_67 = param_1->unk_66;
+            this->unk_67 = this->unk_66;
         }
         else
         {
-            param_1->unk_67 = (param_1->unk_66 + 1) & 1;
+            this->unk_67 = (this->unk_66 + 1) & 1;
         }
     }
 
-    param_1->unk_5c++;
+    this->unk_5c++;
 
-    if (param_1->unk_5c == 1)
+    if (this->unk_5c == 1)
     {
-        unit = param_1->unk_3c->unk_00[param_1->unk_67];
+        unit = this->unk_3c->unk_00[this->unk_67];
         pos = unit->xPos | (unit->yPos << 5);
 
         if ((gMapStateManager->unk_d30[pos >> 3] & (1 << (pos & 7))) & 0xFF)
@@ -1181,96 +1210,96 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
         }
     }
 
-    if (param_1->unk_5c == 20 && !(param_1->unk_40->unk_00 & 0x20))
+    if (this->unk_5c == 20 && !(this->pRound->flags & ROUND_FLAG_x20))
     {
         xDelta =
-            func_ov000_021cbd58(param_1->unk_3c->unk_00[param_1->unk_66], param_1->unk_3c->unk_00[param_1->unk_67]);
+            func_ov000_021cbd58(this->unk_3c->unk_00[this->unk_66], this->unk_3c->unk_00[this->unk_67]);
         yDelta =
-            func_ov000_021cbd78(param_1->unk_3c->unk_00[param_1->unk_66], param_1->unk_3c->unk_00[param_1->unk_67]);
+            func_ov000_021cbd78(this->unk_3c->unk_00[this->unk_66], this->unk_3c->unk_00[this->unk_67]);
 
         step = tileSize >> 2;
         yOffset = yDelta * step;
         xOffset = xDelta * step;
 
-        moveProc = new (Proc_Start(ProcScr_onbat_UnitMove, param_1))
-            onbat::UnitMove(param_1->unk_44[param_1->unk_66], xOffset, yOffset);
+        moveProc = new (Proc_Start(ProcScr_onbat_UnitMove, this))
+            onbat::UnitMove(this->unk_44[this->unk_66], xOffset, yOffset);
 
-        if (param_1->unk_40->unk_00 & 0x80)
+        if (this->pRound->flags & ROUND_FLAG_x80)
         {
             for (i = 0; i < 2; i++)
             {
-                xDelta = func_ov000_021cbd58(param_1->unk_4c[i]->pUnit, param_1->unk_3c->unk_00[param_1->unk_67]);
-                yDelta = func_ov000_021cbd78(param_1->unk_4c[i]->pUnit, param_1->unk_3c->unk_00[param_1->unk_67]);
+                xDelta = func_ov000_021cbd58(this->unk_4c[i]->pUnit, this->unk_3c->unk_00[this->unk_67]);
+                yDelta = func_ov000_021cbd78(this->unk_4c[i]->pUnit, this->unk_3c->unk_00[this->unk_67]);
 
                 yOffset = yDelta * step;
                 xOffset = xDelta * step;
 
-                moveProc = new (Proc_Start(ProcScr_onbat_UnitMove, param_1))
-                    onbat::UnitMove(param_1->unk_4c[i], xOffset, yOffset);
+                moveProc = new (Proc_Start(ProcScr_onbat_UnitMove, this))
+                    onbat::UnitMove(this->unk_4c[i], xOffset, yOffset);
             }
         }
     }
 
-    if (param_1->unk_5c == 24)
+    if (this->unk_5c == 24)
     {
-        func_ov000_021d1ec4(param_1->unk_54[param_1->unk_67], param_1->unk_40->unk_01, -1);
+        func_ov000_021d1ec4(this->unk_54[this->unk_67], this->pRound->damage, -1);
 
-        if (param_1->unk_40->unk_01 != 0)
+        if (this->pRound->damage != 0)
         {
-            param_1->unk_44[param_1->unk_67]->pMovingMapSprite->StartFlash(12, 0x7fff);
+            this->unk_44[this->unk_67]->pMovingMapSprite->StartFlash(12, 0x7fff);
         }
     }
 
-    if (param_1->unk_5c == 24)
+    if (this->unk_5c == 24)
     {
         func_020a8f40("/onmap");
 
         effectName = NULL;
         silent = TRUE;
 
-        if (param_1->unk_40->unk_00 & 0x20)
+        if (this->pRound->flags & ROUND_FLAG_x20)
         {
             gSoundManager->unk_b0->vfunc_28(SE_MAP_HIT1, 0, 0);
 
-            surpriseProc = new (Proc_Start(ProcScr_020ce750, param_1))
-                onbat::UnitSurprise(param_1->unk_44[param_1->unk_67], 0, 24);
+            surpriseProc = new (Proc_Start(ProcScr_020ce750, this))
+                onbat::UnitSurprise(this->unk_44[this->unk_67], 0, 24);
 
             Proc_SetMark((struct Proc *)surpriseProc, PROC_MARK_8);
 
-            if (param_1->unk_40->unk_00 & 0x40)
+            if (this->pRound->flags & ROUND_FLAG_LAST)
             {
                 silent = FALSE;
             }
         }
-        else if (param_1->unk_40->unk_00 & 0x10)
+        else if (this->pRound->flags & ROUND_FLAG_MISS)
         {
             effectName = "Miss";
         }
-        else if (param_1->unk_40->unk_01 == 0)
+        else if (this->pRound->damage == 0)
         {
             effectName = "NoDamage";
         }
-        else if (param_1->unk_40->unk_00 & 8)
+        else if (this->pRound->flags & ROUND_FLAG_CRITICAL)
         {
             effectName = "Critical";
 
-            Proc_SetMark((struct Proc *)func_ov000_021d39a4(24, param_1), PROC_MARK_8);
+            Proc_SetMark((struct Proc *)func_ov000_021d39a4(24, this), PROC_MARK_8);
 
-            surpriseProc = new (Proc_Start(ProcScr_020ce750, param_1))
-                onbat::UnitSurprise(param_1->unk_44[param_1->unk_67], 0, 24);
+            surpriseProc = new (Proc_Start(ProcScr_020ce750, this))
+                onbat::UnitSurprise(this->unk_44[this->unk_67], 0, 24);
 
             Proc_SetMark((struct Proc *)surpriseProc, PROC_MARK_8);
 
-            if (!(param_1->unk_40->unk_00 & 0x40))
+            if (!(this->pRound->flags & ROUND_FLAG_LAST))
             {
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_HIT1, 0, 0);
             }
         }
-        else if (param_1->unk_40->unk_00 & 4)
+        else if (this->pRound->flags & ROUND_FLAG_4)
         {
             effectName = "Hit";
 
-            if (param_1->unk_40->unk_00 & 0x40)
+            if (this->pRound->flags & ROUND_FLAG_LAST)
             {
                 silent = FALSE;
             }
@@ -1278,7 +1307,7 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
 
         if (effectName != NULL)
         {
-            unit = param_1->unk_3c->unk_00[param_1->unk_67];
+            unit = this->unk_3c->unk_00[this->unk_67];
 
             fxProc = (MapBattleEffectProc *)func_ov000_021d3350(
                 effectName, tileSize * unit->xPos + (tileSize >> 1), tileSize * unit->yPos + (tileSize >> 1), 0xc00, 0,
@@ -1293,7 +1322,7 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
 
             Proc_SetMark((struct Proc *)fxProc, PROC_MARK_8);
 
-            unit = param_1->unk_3c->unk_00[param_1->unk_67];
+            unit = this->unk_3c->unk_00[this->unk_67];
             pos = unit->xPos | (unit->yPos << 5);
 
             if (!((gMapStateManager->unk_d30[pos >> 3] & (1 << (pos & 7))) & 0xFF))
@@ -1302,7 +1331,7 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
             }
         }
 
-        if (param_1->unk_40->unk_00 & 0x40)
+        if (this->pRound->flags & ROUND_FLAG_LAST)
         {
             gSoundManager->unk_b0->vfunc_28(SE_MAP_DAMAGE_LAST1, 0, 0);
         }
@@ -1311,29 +1340,29 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
     if (gKeySt->pressed & (KEY_BUTTON_START | KEY_BUTTON_B))
     {
         Proc_EndEachMarked(PROC_MARK_8);
-        param_1->unk_5c = 0;
-        Proc_Break(param_1, 0);
+        this->unk_5c = 0;
+        Proc_Break(this, 0);
         return;
     }
 
-    if (param_1->unk_5c == 64)
+    if (this->unk_5c == 64)
     {
-        param_1->unk_5c = 0;
-        param_1->unk_40++;
+        this->unk_5c = 0;
+        this->pRound++;
     }
 
     return;
 }
 
-EC void func_ov000_021cc368(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc368(void)
 {
-    Proc_Break(param_1, 1);
+    Proc_Break(this, 1);
     return;
 }
 
 EC void func_ov000_021d1e9c(ProcPtr);
 
-EC void func_ov000_021cc378(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc378(void)
 {
     s32 i;
     u32 pos;
@@ -1341,14 +1370,14 @@ EC void func_ov000_021cc378(onbat::MapBattle * param_1)
 
     for (i = 0; i < 2; i++)
     {
-        if (param_1->unk_54[i] != NULL)
+        if (this->unk_54[i] != NULL)
         {
-            func_ov000_021d1e9c(param_1->unk_54[i]);
-            func_ov000_021d1e38(param_1->unk_54[i], param_1->unk_38->unk_28[i], 0);
+            func_ov000_021d1e9c(this->unk_54[i]);
+            func_ov000_021d1e38(this->unk_54[i], this->unk_38->unk_28[i], 0);
         }
     }
 
-    unit = func_ov000_021ca0b8(param_1->unk_38);
+    unit = func_ov000_021ca0b8(this->unk_38);
 
     if (unit != NULL)
     {
@@ -1360,55 +1389,55 @@ EC void func_ov000_021cc378(onbat::MapBattle * param_1)
         }
     }
 
-    func_ov000_021ca798(param_1->unk_38, param_1);
+    func_ov000_021ca798(this->unk_38, this);
 
     return;
 }
 
-EC void func_ov000_021cc438(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc438(void)
 {
     if (func_ov000_021a8248())
     {
-        func_ov000_021cba08(param_1);
-        Proc_Goto(param_1, 3, 0);
+        this->_021cba08();
+        Proc_Goto(this, 3, 0);
     }
 
     return;
 }
 
-EC void func_ov000_021cc468(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc468(void)
 {
-    if (param_1->unk_38->unk_30[0] & 1)
+    if (this->unk_38->unk_30[0] & 1)
     {
-        func_ov000_021d3b00(param_1->unk_3c->unk_00[0], param_1, 1, 1);
+        func_ov000_021d3b00(this->unk_3c->unk_00[0], this, 1, 1);
     }
 
-    if (!(param_1->unk_38->unk_30[1] & 1))
+    if (!(this->unk_38->unk_30[1] & 1))
     {
         return;
     }
 
-    func_ov000_021d3b00(param_1->unk_3c->unk_00[1], param_1, 1, 1);
+    func_ov000_021d3b00(this->unk_3c->unk_00[1], this, 1, 1);
 
     return;
 }
 
-EC void func_ov000_021cc4c4(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc4c4(void)
 {
     s32 i;
 
     for (i = 0; i < 2; i++)
     {
-        if (param_1->unk_54[i] != NULL)
+        if (this->unk_54[i] != NULL)
         {
-            func_ov000_021d1ed4(param_1->unk_54[i]);
+            func_ov000_021d1ed4(this->unk_54[i]);
         }
     }
 
     return;
 }
 
-EC void func_ov000_021cc4f4(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc4f4(void)
 {
     Unit * unit;
 
@@ -1422,17 +1451,17 @@ EC void func_ov000_021cc4f4(onbat::MapBattle * param_1)
         return;
     }
 
-    unit = param_1->unk_3c->unk_00[0];
+    unit = this->unk_3c->unk_00[0];
     gMapStateManager->camera->Scroll(unit->xPos, unit->yPos, 0, 0x20, 0);
 
     return;
 }
 
-EC void func_ov000_021cc570(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc570(void)
 {
     if (!gMapStateManager->camera->IsMoving())
     {
-        Proc_Break(param_1, 1);
+        Proc_Break(this, 1);
     }
 
     return;
@@ -1444,59 +1473,59 @@ EC void func_ov000_021c9f8c(MapBattle_38 *, u32);
 EC void func_ov000_021cf59c(onbat::MapBattle *, MapBattle_38_24 *);
 EC void func_ov000_021c90c8(MapBattle_38_24 *);
 
-EC void func_ov000_021cc5a8(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc5a8(void)
 {
     s32 i;
 
     for (i = 0; i < 2; i++)
     {
-        param_1->unk_3c->unk_00[i]->hp = param_1->unk_64[i];
+        this->unk_3c->unk_00[i]->hp = this->unk_64[i];
     }
 
-    func_ov000_021c9b1c(param_1->unk_38);
+    func_ov000_021c9b1c(this->unk_38);
 
-    param_1->unk_44[0]->SetFacingDirection(0);
+    this->unk_44[0]->SetFacingDirection(0);
 
-    if (!(param_1->unk_38->unk_30[1] & 1))
+    if (!(this->unk_38->unk_30[1] & 1))
     {
-        param_1->unk_3c->unk_00[1]->state2 &= ~US_HOVERED;
+        this->unk_3c->unk_00[1]->state2 &= ~US_HOVERED;
     }
 
-    func_ov000_021bb944(param_1->unk_44[1]);
+    func_ov000_021bb944(this->unk_44[1]);
 
-    if (param_1->unk_3c->unk_38[0] & 0x100)
+    if (this->unk_3c->unk_38[0] & 0x100)
     {
         for (i = 0; i < 2; i++)
         {
-            param_1->unk_4c[i]->pUnit->state2 &= ~US_HOVERED;
-            func_ov000_021bb944(param_1->unk_4c[i]);
+            this->unk_4c[i]->pUnit->state2 &= ~US_HOVERED;
+            func_ov000_021bb944(this->unk_4c[i]);
         }
     }
 
     func_ov000_021a340c();
-    func_ov000_021c9f8c(param_1->unk_38, 0);
+    func_ov000_021c9f8c(this->unk_38, 0);
 
-    if (param_1->unk_38->unk_24 == NULL)
+    if (this->unk_38->unk_24 == NULL)
     {
         return;
     }
 
     if (!func_ov000_021a8248())
     {
-        func_ov000_021cf59c(param_1, param_1->unk_38->unk_24);
+        func_ov000_021cf59c(this, this->unk_38->unk_24);
         return;
     }
 
-    func_ov000_021c90c8(param_1->unk_38->unk_24);
+    func_ov000_021c90c8(this->unk_38->unk_24);
 
     return;
 }
 
-EC void func_ov000_021cc6b8(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc6b8(void)
 {
     if (func_ov000_021a8248())
     {
-        Proc_Goto(param_1, 4, 0);
+        Proc_Goto(this, 4, 0);
     }
 
     return;
@@ -1509,7 +1538,7 @@ EC void func_ov000_021c2c60(Unit *, Item *);
 EC void func_ov000_021c2ab0(Unit *, Item *, void *);
 EC void func_ov000_021c2dd0(Unit *, struct ItemData *, ProcPtr);
 
-EC void func_ov000_021cc6e0(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc6e0(void)
 {
     s32 i;
     Unit * dropper;
@@ -1522,10 +1551,10 @@ EC void func_ov000_021cc6e0(onbat::MapBattle * param_1)
 
     for (i = 0; i < 2; i++)
     {
-        if (param_1->unk_38->unk_30[i] & 1)
+        if (this->unk_38->unk_30[i] & 1)
         {
-            dropper = param_1->unk_3c->unk_00[i];
-            taker = param_1->unk_3c->unk_00[(i + 1) & 1];
+            dropper = this->unk_3c->unk_00[i];
+            taker = this->unk_3c->unk_00[(i + 1) & 1];
             break;
         }
     }
@@ -1554,7 +1583,7 @@ EC void func_ov000_021cc6e0(onbat::MapBattle * param_1)
     {
         dropper->alpha = 0;
         func_ov000_021a820c();
-        Proc_Goto(param_1, 5, 0);
+        Proc_Goto(this, 5, 0);
         return;
     }
 
@@ -1578,36 +1607,36 @@ EC void func_ov000_021cc6e0(onbat::MapBattle * param_1)
         }
         else
         {
-            func_ov000_021c2ab0(taker, &item, param_1);
+            func_ov000_021c2ab0(taker, &item, this);
         }
     }
 
-    func_01ffc3f4(param_1);
+    func_01ffc3f4(this);
 
     return;
 }
 
-EC void func_ov000_021cc834(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc834(void)
 {
     s32 i;
     u8 flags;
 
     for (i = 0; i < 2; i++)
     {
-        flags = param_1->unk_38->unk_30[i];
+        flags = this->unk_38->unk_30[i];
 
         if (!(flags & 1) && (flags & 2))
         {
-            func_ov000_021c2dd0(param_1->unk_3c->unk_00[i], param_1->unk_3c->weapon[i], param_1);
+            func_ov000_021c2dd0(this->unk_3c->unk_00[i], this->unk_3c->weapon[i], this);
         }
     }
 
     return;
 }
 
-EC void func_ov000_021cc884(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc884(void)
 {
-    Unit * unit = param_1->unk_3c->unk_00[1];
+    Unit * unit = this->unk_3c->unk_00[1];
 
     if (!(unit->state2 & US_DEAD))
     {
@@ -1625,24 +1654,24 @@ EC void func_ov000_021cc884(onbat::MapBattle * param_1)
     return;
 }
 
-EC void func_ov000_021cc8c8(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc8c8(void)
 {
-    if (param_1->unk_6b != 0)
+    if (this->unk_6b != 0)
     {
-        Proc_Goto(param_1, 7, 0);
+        Proc_Goto(this, 7, 0);
     }
     else
     {
-        Proc_Goto(param_1, 6, 0);
+        Proc_Goto(this, 6, 0);
     }
 
     return;
 }
 
-EC void func_ov000_021cc8f4(onbat::MapBattle * param_1)
+void onbat::MapBattle::_021cc8f4(void)
 {
-    delete param_1->unk_38;
-    delete param_1->unk_3c;
+    delete this->unk_38;
+    delete this->unk_3c;
 
     return;
 }
@@ -1659,193 +1688,193 @@ EC void func_ov000_021cc92c(onbat::MapBattle * param_1)
 
 EC void func_ov000_021cc950(onbat::MapBattle * proc)
 {
-    func_ov000_021cace4(proc);
+    proc->_021cace4();
     return;
 }
 
 EC void func_ov000_021cc95c(onbat::MapBattle * proc)
 {
-    func_ov000_021cae10(proc);
+    proc->_021cae10();
     return;
 }
 
 EC void func_ov000_021cc968(onbat::MapBattle * proc)
 {
-    func_ov000_021cb444(proc);
+    proc->_021cb444();
     return;
 }
 
 EC void func_ov000_021cc974(onbat::MapBattle * proc)
 {
-    func_ov000_021cb54c(proc);
+    proc->_021cb54c();
     return;
 }
 
 EC void func_ov000_021cc980(onbat::MapBattle * proc)
 {
-    func_ov000_021cb738(proc);
+    proc->_021cb738();
     return;
 }
 
 EC void func_ov000_021cc98c(onbat::MapBattle * proc)
 {
-    func_ov000_021cb74c(proc);
+    proc->_021cb74c();
     return;
 }
 
 EC void func_ov000_021cc998(onbat::MapBattle * proc)
 {
-    func_ov000_021cb760(proc);
+    proc->_021cb760();
     return;
 }
 
 EC void func_ov000_021cc9a4(onbat::MapBattle * proc)
 {
-    func_ov000_021cb8a4(proc);
+    proc->_021cb8a4();
     return;
 }
 
 EC void func_ov000_021cc9b0(onbat::MapBattle * proc)
 {
-    func_ov000_021cb9b8(proc);
+    proc->_021cb9b8();
     return;
 }
 
 EC void func_ov000_021cc9bc(onbat::MapBattle * proc)
 {
-    func_ov000_021cba08(proc);
+    proc->_021cba08();
     return;
 }
 
 EC void func_ov000_021cc9c8(onbat::MapBattle * proc)
 {
-    func_ov000_021cba48(proc);
+    proc->_021cba48();
     return;
 }
 
 EC void func_ov000_021cc9d4(onbat::MapBattle * proc)
 {
-    func_ov000_021cba70(proc);
+    proc->_021cba70();
     return;
 }
 
 EC void func_ov000_021cc9e0(onbat::MapBattle * proc)
 {
-    func_ov000_021cbab0(proc);
+    proc->_021cbab0();
     return;
 }
 
 EC void func_ov000_021cc9ec(onbat::MapBattle * proc)
 {
-    func_ov000_021cbb4c(proc);
+    proc->_021cbb4c();
     return;
 }
 
 EC void func_ov000_021cc9f8(onbat::MapBattle * proc)
 {
-    func_ov000_021cbc44(proc);
+    proc->_021cbc44();
     return;
 }
 
 EC void func_ov000_021cca04(onbat::MapBattle * proc)
 {
-    func_ov000_021cbcac(proc);
+    proc->_021cbcac();
     return;
 }
 
 EC void func_ov000_021cca10(onbat::MapBattle * proc)
 {
-    func_ov000_021cbb5c(proc);
+    proc->_021cbb5c();
     return;
 }
 
 EC void func_ov000_021cca1c(onbat::MapBattle * proc)
 {
-    func_ov000_021cbd98(proc);
+    proc->_021cbd98();
     return;
 }
 
 EC void func_ov000_021cca28(onbat::MapBattle * proc)
 {
-    func_ov000_021cc368(proc);
+    proc->_021cc368();
     return;
 }
 
 EC void func_ov000_021cca34(onbat::MapBattle * proc)
 {
-    func_ov000_021cc378(proc);
+    proc->_021cc378();
     return;
 }
 
 EC void func_ov000_021cca40(onbat::MapBattle * proc)
 {
-    func_ov000_021cc438(proc);
+    proc->_021cc438();
     return;
 }
 
 EC void func_ov000_021cca4c(onbat::MapBattle * proc)
 {
-    func_ov000_021cc468(proc);
+    proc->_021cc468();
     return;
 }
 
 EC void func_ov000_021cca58(onbat::MapBattle * proc)
 {
-    func_ov000_021cc4c4(proc);
+    proc->_021cc4c4();
     return;
 }
 
 EC void func_ov000_021cca64(onbat::MapBattle * proc)
 {
-    func_ov000_021cc4f4(proc);
+    proc->_021cc4f4();
     return;
 }
 
 EC void func_ov000_021cca70(onbat::MapBattle * proc)
 {
-    func_ov000_021cc570(proc);
+    proc->_021cc570();
     return;
 }
 
 EC void func_ov000_021cca7c(onbat::MapBattle * proc)
 {
-    func_ov000_021cc5a8(proc);
+    proc->_021cc5a8();
     return;
 }
 
 EC void func_ov000_021cca88(onbat::MapBattle * proc)
 {
-    func_ov000_021cc6b8(proc);
+    proc->_021cc6b8();
     return;
 }
 
 EC void func_ov000_021cca94(onbat::MapBattle * proc)
 {
-    func_ov000_021cc6e0(proc);
+    proc->_021cc6e0();
     return;
 }
 
 EC void func_ov000_021ccaa0(onbat::MapBattle * proc)
 {
-    func_ov000_021cc834(proc);
+    proc->_021cc834();
     return;
 }
 
 EC void func_ov000_021ccaac(onbat::MapBattle * proc)
 {
-    func_ov000_021cc884(proc);
+    proc->_021cc884();
     return;
 }
 
 EC void func_ov000_021ccab8(onbat::MapBattle * proc)
 {
-    func_ov000_021cc8c8(proc);
+    proc->_021cc8c8();
     return;
 }
 
 EC void func_ov000_021ccac4(onbat::MapBattle * proc)
 {
-    func_ov000_021cc8f4(proc);
+    proc->_021cc8f4();
     return;
 }
 
@@ -1858,22 +1887,22 @@ EC void StartMapBattle(ProcPtr parent)
 
 EC MoveUnit * func_ov000_021bb210(void *, Unit *);
 
-EC void func_ov000_021ccaf8(Unit * param_1, struct JobData * param_2, ProcPtr param_3)
+EC void func_ov000_021ccaf8(Unit * pUnit, struct JobData * pJobData, ProcPtr parent)
 {
-    MoveUnit * pMVar1;
-    BOOL bVar3 = 0;
+    MoveUnit * pMu;
+    BOOL bVar3 = FALSE;
 
-    pMVar1 = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, param_1);
+    pMu = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, pUnit);
 
-    if (pMVar1 == NULL)
+    if (pMu == NULL)
     {
-        param_1->state2 |= US_HOVERED;
-        pMVar1 = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
-        func_ov000_021bb734(pMVar1, param_1, 0);
-        bVar3 = 1;
+        pUnit->state2 |= US_HOVERED;
+        pMu = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
+        func_ov000_021bb734(pMu, pUnit, 0);
+        bVar3 = TRUE;
     }
 
-    new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, param_3)) onbat::UnitTransform(pMVar1, param_2, bVar3);
+    new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, parent)) onbat::UnitTransform(pMu, pJobData, bVar3);
 
     return;
 }
@@ -1882,18 +1911,18 @@ EC BOOL func_ov000_021d9904(void);
 
 EC BOOL func_ov000_021ccbdc(void)
 {
-    onbat::MapBattle * iVar2;
+    onbat::MapBattle * pMapBattle;
 
     if (func_ov000_021d9904())
     {
         return TRUE;
     }
 
-    iVar2 = static_cast<onbat::MapBattle *>(Proc_Find(ProcScr_MapBattle));
+    pMapBattle = static_cast<onbat::MapBattle *>(Proc_Find(ProcScr_MapBattle));
 
-    if (iVar2 != NULL)
+    if (pMapBattle != NULL)
     {
-        return iVar2->unk_6a;
+        return pMapBattle->unk_6a;
     }
     else
     {
@@ -1903,14 +1932,14 @@ EC BOOL func_ov000_021ccbdc(void)
 
 EC BOOL func_ov000_021ccc0c(void)
 {
-    onbat::MapBattle * iVar1 = static_cast<onbat::MapBattle *>(Proc_Find(ProcScr_MapBattle));
+    onbat::MapBattle * pMapBattle = static_cast<onbat::MapBattle *>(Proc_Find(ProcScr_MapBattle));
 
-    if (iVar1 == NULL)
+    if (pMapBattle == NULL)
     {
         return FALSE;
     }
 
-    if (iVar1->unk_3c->unk_38[0] & 0x100)
+    if (pMapBattle->unk_3c->unk_38[0] & 0x100)
     {
         return TRUE;
     }
