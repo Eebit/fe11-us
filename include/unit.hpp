@@ -36,7 +36,7 @@ enum
     CA_UNK_9 = (1 << 9), // Tiki, Nagi
     CA_UNK_10 = (1 << 10), // Thief attribute? Something for unlocking
     CA_PROMOTED = (1 << 11),
-    CA_UNK_12 = (1 << 12),
+    CA_BOSS = (1 << 12),
 
     CA_FREELANCER = (1 << 15),
     CA_UNK_16 = (1 << 16), // Sniper hit rate boost
@@ -49,8 +49,8 @@ enum
     CA_UNK_23 = (1 << 23),
     CA_UNK_24 = (1 << 24), // Manakete, dragon classes
     CA_TRIATTACK = (1 << 25), // Whitewing sisters
-    CA_UNK_26 = (1 << 26),
-    CA_UNK_27 = (1 << 27),
+    CA_UNK_26 = (1 << 26), // "UnitSetFaceChange"
+    CA_UNK_27 = (1 << 27), // "UnitSetDontMove"
     CA_UNK_28 = (1 << 28), // ? Medius, all arena opponents
     CA_UNK_29 = (1 << 29),
 };
@@ -69,6 +69,8 @@ enum
     US_HOVERED = (1 << 17),
 
     US_EVENT_DEAD = (1 << 29), // Died as a "decoy" for Marth
+
+    US_UNK_31 = (1 << 31),
 };
 
 class Unit;
@@ -161,6 +163,7 @@ struct Unit_unk_30
 enum
 {
     ITEM_FLAG_EQUIPPED = (1 << 4),
+    ITEM_FLAG_DROPPABLE = (1 << 5),
 };
 
 class Item
@@ -355,6 +358,11 @@ public:
     {
         this->xPos = x;
         this->yPos = y;
+    }
+
+    inline struct PersonData * GetPersonData(void)
+    {
+        return this->pPersonData;
     }
 
     inline u32 GetPersonAttr(void)

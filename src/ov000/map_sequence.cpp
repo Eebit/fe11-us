@@ -1625,7 +1625,7 @@ EC void func_ov000_021a9a48(void)
 
             for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
             {
-                if (it->CheckAttribute(CA_UNK_12))
+                if (it->CheckAttribute(CA_BOSS))
                 {
                     iVar1++;
                 }
@@ -3468,7 +3468,7 @@ EC void func_ov000_021ad388(void)
 
 EC void func_ov000_021ad3c0(ProcPtr proc)
 {
-    gMapStateManager->unk_04->unk_04->ClearValues();
+    gMapStateManager->unk_04->unk_04->SetUnk5f(0);
 
     func_0205633c();
 
@@ -3521,7 +3521,7 @@ EC void func_ov000_021ad49c(void)
 
 EC void func_ov000_021ad580(ProcPtr proc)
 {
-    gMapStateManager->unk_04->unk_04->ClearValues();
+    gMapStateManager->unk_04->unk_04->SetUnk5f(0);
     StartArena(proc);
     return;
 }
@@ -5213,7 +5213,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->unk_04->SetUnk5f(0);
             }
 
             Proc_Goto(proc, 0, 0);
@@ -5294,7 +5294,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->unk_04->SetUnk5f(0);
             }
 
             Proc_Goto(proc, 1, 0);
@@ -5339,7 +5339,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->unk_04->SetUnk5f(0);
             }
 
             Proc_Goto(proc, 1, 0);
@@ -5368,7 +5368,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->unk_04->SetUnk5f(0);
             }
 
             Proc_Goto(proc, 1, 0);
@@ -5458,7 +5458,7 @@ EC void ProcMind_ov000_021b0538(ProcPtr proc)
 
     if (EventCaller::func_020479b0() != 0)
     {
-        gMapStateManager->unk_04->unk_04->ClearValues();
+        gMapStateManager->unk_04->unk_04->SetUnk5f(0);
     }
 
     if (sound == data_ov000_021e24c0)

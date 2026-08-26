@@ -122,6 +122,7 @@ struct Proc
 enum
 {
     PROC_MARK_6 = 0x6,
+    PROC_MARK_8 = 0x8,
     PROC_MARK_A = 0xA,
 };
 

@@ -65,7 +65,7 @@ enum
     IA_UNK_28 = (1ull << 28), // TODO: Name - applies to Starsphere; maybe prevents reducing uses?
 
     IA_UNK_31 = (1ull << 31),
-
+    IA_UNK_32 = (1ull << 32),
     IA_FALSE_IMHULLU = (1ull << 33),
     IA_ELYSIAN_WHIP = (1ull << 34),
     IA_UNK_35 = (1ull << 35), // TODO: Name - applies to Lightsphere, Starsphere, Fire Emblem

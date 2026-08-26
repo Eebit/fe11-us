@@ -37,6 +37,9 @@ src/ov000/map_unit_menu.cpp:
 src/ov000/guide_menu.cpp:
     .text       start:0x021c669c end:0x021c6a9c
 
+src/ov000/map_battle.cpp:
+    .text       start:0x021ca974 end:0x021ccf94
+
 src/ov000/map_save.cpp:
     .text       start:0x021d59d0 end:0x021d6754
 

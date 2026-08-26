@@ -1408,7 +1408,7 @@ EC void Arena_ov000_021d9250(arena::Arena * proc)
         }
 
         data_ov000_021e3340->unk_06 |= 8;
-        gMapStateManager->unk_04->unk_04->ClearValues();
+        gMapStateManager->unk_04->unk_04->SetUnk5f(0);
 
         return;
     }

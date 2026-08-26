@@ -22,12 +22,12 @@ class UnkStruct_021E3324
 public:
     /* 00 */ u8 phase;
     /* 01 */ u8 unk_01;
-    /* 02 */ u8 unk_02;
+    /* 02 */ u8 unk_02; // "is invisible"
     /* 03 */ u8 unk_03;
     /* 04 */ u16 turn;
-    /* 06 */ u16 unk_06;
+    /* 06 */ u16 unk_06; // turn limit
     /* 08 */ u32 unk_08;
-    /* 0C */ u32 unk_0c;
+    /* 0C */ u32 unk_0c; // time limit
     /* 10 */ u32 unk_10;
     /* 14 */ u8 unk_14;
     /* 15 */ u8 unk_15;
@@ -115,21 +115,25 @@ public:
     }
 };
 
+struct MovingMapSprite;
+
 class MapStateManager_04_04
 {
 public:
-    STRUCT_PAD(0x00, 0x04);
-    void * unk_04;
-    STRUCT_PAD(0x04, 0x54);
-    u16 unk_54;
-    STRUCT_PAD(0x56, 0x5f);
-    s8 unk_5f;
-    s8 unk_60;
-    u8 unk_61;
+    /* 00 */ Unit * unk_00;
+    /* 04 */ MovingMapSprite * unk_04;
+    /* 08 */ STRUCT_PAD(0x08, 0x50);
+    /* 50 */ s16 unk_50; // x
+    /* 52 */ s16 unk_52; // y
+    /* 54 */ u16 unk_54; // flags
+    /* 56 */ STRUCT_PAD(0x56, 0x5f);
+    /* 5F */ u8 unk_5f; // facing
+    /* 60 */ s8 unk_60;
+    /* 61 */ u8 unk_61;
 
-    void ClearValues()
+    void SetUnk5f(s32 unk)
     {
-        this->unk_5f = 0;
+        this->unk_5f = unk;
 
         if (this->unk_61 != 0)
         {
