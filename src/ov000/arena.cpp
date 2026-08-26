@@ -1688,7 +1688,7 @@ EC void StartArena(ProcPtr parent)
         func_0204b194(unit->xPos, unit->yPos);
     }
 
-    new (Proc_StartBlocking(ProcScr_Arena, parent)) arena::Arena(gMapStateManager->unk_04->unk_00);
+    new (Proc_StartBlocking(ProcScr_Arena, parent)) arena::Arena(gMapStateManager->unk_04->pUnit);
 
     return;
 }
