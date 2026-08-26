@@ -6405,7 +6405,7 @@ EC void func_ov000_021c266c(ProcPtr, s32, struct Unit *);
 // EC ??? func_ov000_021c2c60
 // EC ??? func_ov000_021c2ca0
 // EC ??? func_ov000_021c2cc8
-// EC ??? func_ov000_021c2dd0
+// EC ??? StartWeaponBrokePopupMaybe
 // EC ??? func_ov000_021c2e6c
 // EC ??? func_ov000_021c2eb8
 // EC ??? func_ov000_021c2f90
@@ -6550,8 +6550,8 @@ EC void StartGuideMenu(ProcPtr);
 // EC ??? func_ov000_021caa94
 // EC ??? _ZN5onbat9MapBattle9_021cace4Ev
 // EC ??? _ZN5onbat9MapBattle9_021cae10Ev
-// EC ??? _ZN5onbat9MapBattle9_021cb444Ev
-// EC ??? _ZN5onbat9MapBattle9_021cb54cEv
+// EC ??? _ZN5onbat9MapBattle10SetupAnimsEv
+// EC ??? _ZN5onbat9MapBattle8SetupBgmEv
 // EC ??? _ZN5onbat9MapBattle9_021cb738Ev
 // EC ??? _ZN5onbat9MapBattle9_021cb74cEv
 // EC ??? _ZN5onbat9MapBattle9_021cb760Ev
@@ -6578,15 +6578,15 @@ EC void StartGuideMenu(ProcPtr);
 // EC ??? _ZN5onbat9MapBattle9_021cc5a8Ev
 // EC ??? _ZN5onbat9MapBattle9_021cc6b8Ev
 // EC ??? _ZN5onbat9MapBattle9_021cc6e0Ev
-// EC ??? _ZN5onbat9MapBattle9_021cc834Ev
-// EC ??? _ZN5onbat9MapBattle9_021cc884Ev
+// EC ??? _ZN5onbat9MapBattle17HandleWeaponBreakEv
+// EC ??? _ZN5onbat9MapBattle11HandleDeathEv
 // EC ??? _ZN5onbat9MapBattle9_021cc8c8Ev
-// EC ??? _ZN5onbat9MapBattle9_021cc8f4Ev
+// EC ??? _ZN5onbat9MapBattle3EndEv
 // EC ??? func_ov000_021cc92c
 // EC ??? func_ov000_021cc950
 // EC ??? func_ov000_021cc95c
-// EC ??? func_ov000_021cc968
-// EC ??? func_ov000_021cc974
+// EC ??? MapBattle_SetupAnims
+// EC ??? MapBattle_SetupBgm
 // EC ??? func_ov000_021cc980
 // EC ??? func_ov000_021cc98c
 // EC ??? func_ov000_021cc998
@@ -6612,9 +6612,9 @@ EC void StartGuideMenu(ProcPtr);
 // EC ??? func_ov000_021cca88
 // EC ??? func_ov000_021cca94
 // EC ??? func_ov000_021ccaa0
-// EC ??? func_ov000_021ccaac
+// EC ??? MapBattle_HandleDeath
 // EC ??? func_ov000_021ccab8
-// EC ??? func_ov000_021ccac4
+// EC ??? MapBattle_OnEnd
 EC void StartMapBattle(ProcPtr);
 // EC ??? func_ov000_021ccaf8
 // EC ??? func_ov000_021ccbdc

@@ -106,8 +106,8 @@ public:
 
     void _021cace4(void); // _ZN5onbat9MapBattle9_021cace4Ev
     void _021cae10(void); // _ZN5onbat9MapBattle9_021cae10Ev
-    void _021cb444(void); // _ZN5onbat9MapBattle9_021cb444Ev
-    void _021cb54c(void); // _ZN5onbat9MapBattle9_021cb54cEv
+    void SetupAnims(void); // _ZN5onbat9MapBattle10SetupAnimsEv
+    void SetupBgm(void); // _ZN5onbat9MapBattle8SetupBgmEv
     void _021cb738(void); // _ZN5onbat9MapBattle9_021cb738Ev
     void _021cb74c(void); // _ZN5onbat9MapBattle9_021cb74cEv
     void _021cb760(void); // _ZN5onbat9MapBattle9_021cb760Ev
@@ -132,10 +132,10 @@ public:
     void _021cc5a8(void); // _ZN5onbat9MapBattle9_021cc5a8Ev
     void _021cc6b8(void); // _ZN5onbat9MapBattle9_021cc6b8Ev
     void _021cc6e0(void); // _ZN5onbat9MapBattle9_021cc6e0Ev
-    void _021cc834(void); // _ZN5onbat9MapBattle9_021cc834Ev
-    void _021cc884(void); // _ZN5onbat9MapBattle9_021cc884Ev
+    void HandleWeaponBreak(void); // _ZN5onbat9MapBattle17HandleWeaponBreakEv
+    void HandleDeath(void); // _ZN5onbat9MapBattle11HandleDeathEv
     void _021cc8c8(void); // _ZN5onbat9MapBattle9_021cc8c8Ev
-    void _021cc8f4(void); // _ZN5onbat9MapBattle9_021cc8f4Ev
+    void End(void); // _ZN5onbat9MapBattle3EndEv
 };
 
 class ProcKiriDragonTransform : public ProcEx
@@ -184,24 +184,24 @@ class UnitSurprise : public ProcEx
 {
 public:
     /* 38 */ MoveUnit * pMu;
-    /* 3C */ s32 unk_3c;
-    /* 40 */ s32 unk_40; // duration
+    /* 3C */ s32 timer;
+    /* 40 */ s32 duration;
 
-    UnitSurprise(MoveUnit * moveUnit, s32 param_2, s32 duration)
+    UnitSurprise(MoveUnit * moveUnit, s32 startTime, s32 duration)
     {
         this->proc_mark = PROC_MARK_8;
         this->pMu = moveUnit;
-        this->unk_40 = duration;
-        this->unk_3c = param_2;
+        this->duration = duration;
+        this->timer = startTime;
     }
 
     virtual void Init(void)
     {
-        this->unk_3c++;
+        this->timer++;
 
-        if (this->unk_3c < this->unk_40)
+        if (this->timer < this->duration)
         {
-            this->pMu->xPos = (this->unk_3c & 1) ? +2 : -2;
+            this->pMu->xPos = (this->timer & 1) ? +2 : -2;
             this->pMu->yPos = 0;
             return;
         }
@@ -234,7 +234,7 @@ public:
     /* 38 */ MoveUnit * pMu;
     /* 3C */ Unit * pUnit;
     /* 40 */ struct JobData * pJobData;
-    /* 44 */ s32 unk_44;
+    /* 44 */ s32 savedFacing;
     /* 48 */ s32 unk_48; // frame counter
     /* 4C */ s32 unk_4c; // animation length
     /* 50 */ u8 unk_50;
@@ -247,7 +247,7 @@ public:
         this->pMu = moveUnit;
         this->pJobData = job;
         this->pUnit = moveUnit->pUnit;
-        this->unk_44 = moveUnit->facing;
+        this->savedFacing = moveUnit->facing;
 
         moveUnit->SetFacingDirection(7);
         moveUnit->pMovingMapSprite->timer = 0;
@@ -264,7 +264,7 @@ public:
         this->pMu = moveUnit;
         this->pJobData = job;
         this->pUnit = moveUnit->pUnit;
-        this->unk_44 = moveUnit->facing;
+        this->savedFacing = moveUnit->facing;
 
         moveUnit->SetFacingDirection(0);
 
@@ -281,7 +281,7 @@ public:
         {
             this->pMu->flags &= ~2;
             this->pMu->pMovingMapSprite->UpdateJid(GetJobDBIndex(this->pJobData));
-            this->pMu->facing = this->unk_44;
+            this->pMu->facing = this->savedFacing;
 
             if (this->pMu->unk_61 != 0)
             {
@@ -462,7 +462,7 @@ EC void func_ov000_021caa94(onbat::UnitTransform * self)
         {
             self->pMu->flags &= ~2;
             self->pMu->pMovingMapSprite->UpdateJid(GetJobDBIndex(self->pJobData));
-            self->pMu->SetFacingDirection(self->unk_44);
+            self->pMu->SetFacingDirection(self->savedFacing);
 
             self->unk_51 = 1;
 
@@ -709,7 +709,7 @@ L_021cb13c:
     return;
 }
 
-void onbat::MapBattle::_021cb444(void)
+void onbat::MapBattle::SetupAnims(void)
 {
     BOOL flag = FALSE;
 
@@ -762,7 +762,7 @@ void onbat::MapBattle::_021cb444(void)
 
 extern u8 data_ov000_021e3320[];
 
-void onbat::MapBattle::_021cb54c(void)
+void onbat::MapBattle::SetupBgm(void)
 {
     struct ItemData * weapon;
     s32 songId = -1;
@@ -869,8 +869,8 @@ void onbat::MapBattle::_021cb760(void)
 
         if (job != this->unk_3c->unk_00[0]->pJobData)
         {
-            proc = new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, this))
-                onbat::UnitTransform(this->unk_44[0], job);
+            proc =
+                new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, this)) onbat::UnitTransform(this->unk_44[0], job);
 
             if (func_ov000_021a8248())
             {
@@ -994,8 +994,7 @@ void onbat::MapBattle::_021cbab0(void)
     s32 iVar1;
 
     iVar1 = func_ov000_021d1ff8(
-        this->unk_38->unk_00->unk_00[this->unk_38->unk_32],
-        this->unk_38->unk_00->unk_00[this->unk_38->unk_33]);
+        this->unk_38->unk_00->unk_00[this->unk_38->unk_32], this->unk_38->unk_00->unk_00[this->unk_38->unk_33]);
 
     idx = this->unk_38->unk_32;
     unit = this->unk_38->unk_00->unk_00[idx];
@@ -1037,10 +1036,8 @@ EC void func_ov000_021d3b00(struct Unit *, onbat::MapBattle *, s32, s32);
 
 void onbat::MapBattle::_021cbb5c(void)
 {
-    func_ov000_021d1e38(
-        this->unk_54[this->unk_38->unk_33], data_ov002_021faf8c.unk_01, data_ov002_021faf8c.unk_08 & 1);
-    func_ov000_021d1e38(
-        this->unk_54[this->unk_38->unk_32], data_ov002_021faf8c.unk_5d, data_ov002_021faf8c.unk_64 & 1);
+    func_ov000_021d1e38(this->unk_54[this->unk_38->unk_33], data_ov002_021faf8c.unk_01, data_ov002_021faf8c.unk_08 & 1);
+    func_ov000_021d1e38(this->unk_54[this->unk_38->unk_32], data_ov002_021faf8c.unk_5d, data_ov002_021faf8c.unk_64 & 1);
 
     if (this->unk_69 == 0 && (u8)(data_ov002_021faf8c.unk_08 & 2))
     {
@@ -1088,7 +1085,7 @@ void onbat::MapBattle::_021cbc44(void)
 
 void onbat::MapBattle::_021cbcac(void)
 {
-    struct Unit * unit;
+    Unit * unit;
 
     if (this->unk_69 == 0)
     {
@@ -1212,10 +1209,8 @@ void onbat::MapBattle::_021cbd98(void)
 
     if (this->unk_5c == 20 && !(this->pRound->flags & ROUND_FLAG_x20))
     {
-        xDelta =
-            func_ov000_021cbd58(this->unk_3c->unk_00[this->unk_66], this->unk_3c->unk_00[this->unk_67]);
-        yDelta =
-            func_ov000_021cbd78(this->unk_3c->unk_00[this->unk_66], this->unk_3c->unk_00[this->unk_67]);
+        xDelta = func_ov000_021cbd58(this->unk_3c->unk_00[this->unk_66], this->unk_3c->unk_00[this->unk_67]);
+        yDelta = func_ov000_021cbd78(this->unk_3c->unk_00[this->unk_66], this->unk_3c->unk_00[this->unk_67]);
 
         step = tileSize >> 2;
         yOffset = yDelta * step;
@@ -1234,8 +1229,8 @@ void onbat::MapBattle::_021cbd98(void)
                 yOffset = yDelta * step;
                 xOffset = xDelta * step;
 
-                moveProc = new (Proc_Start(ProcScr_onbat_UnitMove, this))
-                    onbat::UnitMove(this->unk_4c[i], xOffset, yOffset);
+                moveProc =
+                    new (Proc_Start(ProcScr_onbat_UnitMove, this)) onbat::UnitMove(this->unk_4c[i], xOffset, yOffset);
             }
         }
     }
@@ -1261,8 +1256,8 @@ void onbat::MapBattle::_021cbd98(void)
         {
             gSoundManager->unk_b0->vfunc_28(SE_MAP_HIT1, 0, 0);
 
-            surpriseProc = new (Proc_Start(ProcScr_020ce750, this))
-                onbat::UnitSurprise(this->unk_44[this->unk_67], 0, 24);
+            surpriseProc =
+                new (Proc_Start(ProcScr_020ce750, this)) onbat::UnitSurprise(this->unk_44[this->unk_67], 0, 24);
 
             Proc_SetMark((struct Proc *)surpriseProc, PROC_MARK_8);
 
@@ -1285,8 +1280,8 @@ void onbat::MapBattle::_021cbd98(void)
 
             Proc_SetMark((struct Proc *)func_ov000_021d39a4(24, this), PROC_MARK_8);
 
-            surpriseProc = new (Proc_Start(ProcScr_020ce750, this))
-                onbat::UnitSurprise(this->unk_44[this->unk_67], 0, 24);
+            surpriseProc =
+                new (Proc_Start(ProcScr_020ce750, this)) onbat::UnitSurprise(this->unk_44[this->unk_67], 0, 24);
 
             Proc_SetMark((struct Proc *)surpriseProc, PROC_MARK_8);
 
@@ -1536,7 +1531,7 @@ EC void func_ov000_021a820c(void);
 
 EC void func_ov000_021c2c60(Unit *, Item *);
 EC void func_ov000_021c2ab0(Unit *, Item *, void *);
-EC void func_ov000_021c2dd0(Unit *, struct ItemData *, ProcPtr);
+EC void StartWeaponBrokePopupMaybe(Unit *, struct ItemData *, ProcPtr);
 
 void onbat::MapBattle::_021cc6e0(void)
 {
@@ -1616,7 +1611,7 @@ void onbat::MapBattle::_021cc6e0(void)
     return;
 }
 
-void onbat::MapBattle::_021cc834(void)
+void onbat::MapBattle::HandleWeaponBreak(void)
 {
     s32 i;
     u8 flags;
@@ -1627,14 +1622,14 @@ void onbat::MapBattle::_021cc834(void)
 
         if (!(flags & 1) && (flags & 2))
         {
-            func_ov000_021c2dd0(this->unk_3c->unk_00[i], this->unk_3c->weapon[i], this);
+            StartWeaponBrokePopupMaybe(this->unk_3c->unk_00[i], this->unk_3c->weapon[i], this);
         }
     }
 
     return;
 }
 
-void onbat::MapBattle::_021cc884(void)
+void onbat::MapBattle::HandleDeath(void)
 {
     Unit * unit = this->unk_3c->unk_00[1];
 
@@ -1668,7 +1663,7 @@ void onbat::MapBattle::_021cc8c8(void)
     return;
 }
 
-void onbat::MapBattle::_021cc8f4(void)
+void onbat::MapBattle::End(void)
 {
     delete this->unk_38;
     delete this->unk_3c;
@@ -1698,15 +1693,15 @@ EC void func_ov000_021cc95c(onbat::MapBattle * proc)
     return;
 }
 
-EC void func_ov000_021cc968(onbat::MapBattle * proc)
+EC void MapBattle_SetupAnims(onbat::MapBattle * proc)
 {
-    proc->_021cb444();
+    proc->SetupAnims();
     return;
 }
 
-EC void func_ov000_021cc974(onbat::MapBattle * proc)
+EC void MapBattle_SetupBgm(onbat::MapBattle * proc)
 {
-    proc->_021cb54c();
+    proc->SetupBgm();
     return;
 }
 
@@ -1856,13 +1851,13 @@ EC void func_ov000_021cca94(onbat::MapBattle * proc)
 
 EC void func_ov000_021ccaa0(onbat::MapBattle * proc)
 {
-    proc->_021cc834();
+    proc->HandleWeaponBreak();
     return;
 }
 
-EC void func_ov000_021ccaac(onbat::MapBattle * proc)
+EC void MapBattle_HandleDeath(onbat::MapBattle * proc)
 {
-    proc->_021cc884();
+    proc->HandleDeath();
     return;
 }
 
@@ -1872,9 +1867,9 @@ EC void func_ov000_021ccab8(onbat::MapBattle * proc)
     return;
 }
 
-EC void func_ov000_021ccac4(onbat::MapBattle * proc)
+EC void MapBattle_OnEnd(onbat::MapBattle * proc)
 {
-    proc->_021cc8f4();
+    proc->End();
     return;
 }
 
