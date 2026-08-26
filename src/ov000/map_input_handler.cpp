@@ -848,7 +848,7 @@ void InputHandler::_021a5d5c(s32 param_2)
         pUnit = gUnitList + unitId - 1;
     }
 
-    if ((pUnit == 0) && (gMapStateManager->unk_04->unk_00 != 0))
+    if ((pUnit == 0) && (gMapStateManager->unk_04->pUnit != 0))
     {
         if (uVar7 != pUnit->xPos || uVar8 != pUnit->yPos)
         {
@@ -862,9 +862,9 @@ void InputHandler::_021a5d5c(s32 param_2)
     }
     else
     {
-        if ((gMapStateManager->unk_04->unk_08 == 1) && (gMapStateManager->unk_04->unk_00 != data_021974fc->unk_00))
+        if ((gMapStateManager->unk_04->unk_08 == 1) && (gMapStateManager->unk_04->pUnit != data_021974fc->unk_00))
         {
-            func_0204e1a4(gMapStateManager->unk_04->unk_00, 2, 1);
+            func_0204e1a4(gMapStateManager->unk_04->pUnit, 2, 1);
         }
         else if (gMapStateManager->unk_04->unk_08 == 2)
         {

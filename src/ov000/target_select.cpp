@@ -182,26 +182,26 @@ void TargetSelectState::_021b4224(void)
         case TARGET_SELECT_KIND_1:
         case TARGET_SELECT_KIND_2:
         case TARGET_SELECT_KIND_3:
-            this->pItemData = gMapStateManager->unk_04->unk_00->items[this->itemSlot].GetData();
-            this->itemUses = gMapStateManager->unk_04->unk_00->items[this->itemSlot].uses;
+            this->pItemData = gMapStateManager->unk_04->pUnit->items[this->itemSlot].GetData();
+            this->itemUses = gMapStateManager->unk_04->pUnit->items[this->itemSlot].uses;
 
             if (this->pItemData->type != ITYPE_STAFF)
             {
-                this->unk_128 = gMapStateManager->unk_04->unk_00->GetEquippedWeaponSlot();
-                gMapStateManager->unk_04->unk_00->EquipItem(this->itemSlot);
+                this->unk_128 = gMapStateManager->unk_04->pUnit->GetEquippedWeaponSlot();
+                gMapStateManager->unk_04->pUnit->EquipItem(this->itemSlot);
                 this->unk_12a = 0;
             }
             else
             {
                 this->unk_128 = -1;
 
-                if (gMapStateManager->unk_04->unk_00->GetEquippedWeaponSlot() >= 0)
+                if (gMapStateManager->unk_04->pUnit->GetEquippedWeaponSlot() >= 0)
                 {
                     this->unk_12a = this->itemSlot;
                 }
                 else
                 {
-                    gMapStateManager->unk_04->unk_00->MoveItem(this->itemSlot, 0);
+                    gMapStateManager->unk_04->pUnit->MoveItem(this->itemSlot, 0);
                     this->unk_12a = 0;
                 }
             }
@@ -227,21 +227,21 @@ void TargetSelectState::_021b4358(void)
         case TARGET_SELECT_KIND_3:
             if (this->pItemData->type != ITYPE_STAFF)
             {
-                gMapStateManager->unk_04->unk_00->MoveItem(this->unk_12a, this->itemSlot);
+                gMapStateManager->unk_04->pUnit->MoveItem(this->unk_12a, this->itemSlot);
 
                 if (this->unk_128 != -1)
                 {
-                    gMapStateManager->unk_04->unk_00->EquipItem(this->unk_128);
+                    gMapStateManager->unk_04->pUnit->EquipItem(this->unk_128);
                 }
                 else
                 {
-                    Unit * unit = gMapStateManager->unk_04->unk_00;
+                    Unit * unit = gMapStateManager->unk_04->pUnit;
                     unit->UnequipItem(unit->GetEquippedWeaponSlot());
                 }
             }
             else
             {
-                gMapStateManager->unk_04->unk_00->MoveItem(this->unk_12a, this->itemSlot);
+                gMapStateManager->unk_04->pUnit->MoveItem(this->unk_12a, this->itemSlot);
             }
 
             break;
@@ -274,13 +274,13 @@ void TargetSelectState::_021b4430(void)
     dist = xDiff + yDiff;
 
     this->itemSlot = func_02039088(
-        gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !r5 ? TRUE : FALSE, r5,
+        gMapStateManager->unk_04->pUnit, this->GetX(), this->GetY(), dist, !r5 ? TRUE : FALSE, r5,
         data_ov000_021e3350[r5][MIN(dist, 3)]);
 
     if (this->itemSlot == -1)
     {
         this->itemSlot = func_02039088(
-            gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !r5 ? TRUE : FALSE, r5, -1);
+            gMapStateManager->unk_04->pUnit, this->GetX(), this->GetY(), dist, !r5 ? TRUE : FALSE, r5, -1);
     }
 
     this->_021b4224();
@@ -333,7 +333,7 @@ s32 TargetSelectState::Previous(void)
     for (i = range - 1; i >= 0; i--)
     {
         uVar6 = func_02039088(
-            gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
+            gMapStateManager->unk_04->pUnit, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
 
         if (uVar6 != -1)
         {
@@ -346,7 +346,7 @@ s32 TargetSelectState::Previous(void)
         for (i = 4; i >= range; i--)
         {
             uVar6 = func_02039088(
-                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
+                gMapStateManager->unk_04->pUnit, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
 
             if (uVar6 != -1)
             {
@@ -358,7 +358,7 @@ s32 TargetSelectState::Previous(void)
     if (this->itemSlot != uVar6)
     {
         // clang-format off
-        for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->unk_00->items[uVar6].GetData(), gMapStateManager->unk_04->unk_00), 3); j++)
+        for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->pUnit->items[uVar6].GetData(), gMapStateManager->unk_04->pUnit), 3); j++)
         // clang-format on
         {
             data_ov000_021e3350[flag][j] = uVar6;
@@ -423,7 +423,7 @@ s32 TargetSelectState::Next(void)
     for (i = range + 1; i < 5; i++)
     {
         uVar6 = func_02039088(
-            gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
+            gMapStateManager->unk_04->pUnit, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
 
         if (uVar6 != -1)
         {
@@ -436,7 +436,7 @@ s32 TargetSelectState::Next(void)
         for (i = 0; i <= range; i++)
         {
             uVar6 = func_02039088(
-                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
+                gMapStateManager->unk_04->pUnit, this->GetX(), this->GetY(), dist, !flag ? TRUE : FALSE, flag, i);
 
             if (uVar6 != -1)
             {
@@ -448,7 +448,7 @@ s32 TargetSelectState::Next(void)
     if (this->itemSlot != uVar6)
     {
         // clang-format off
-        for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->unk_00->items[uVar6].GetData(), gMapStateManager->unk_04->unk_00), 3); j++)
+        for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->pUnit->items[uVar6].GetData(), gMapStateManager->unk_04->pUnit), 3); j++)
         // clang-format on
         {
             data_ov000_021e3350[flag][j] = uVar6;
@@ -505,7 +505,7 @@ s32 TargetSelectState::_021b4ab4(void)
         }
 
         if (func_02039088(
-                gMapStateManager->unk_04->unk_00, this->GetX(), this->GetY(), xDiff + yDiff, !flag ? TRUE : FALSE, flag,
+                gMapStateManager->unk_04->pUnit, this->GetX(), this->GetY(), xDiff + yDiff, !flag ? TRUE : FALSE, flag,
                 i) != -1)
         {
             return 1;
@@ -538,16 +538,16 @@ void TargetSelectState::EnlistAttackTargets(void)
     this->targetCount = 0;
 
     xMin =
-        MAX(this->xOrigin - gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+        MAX(this->xOrigin - gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
             gMapStateManager->unk_24);
     yMin =
-        MAX(this->yOrigin - gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+        MAX(this->yOrigin - gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
             gMapStateManager->unk_25);
     xMax =
-        MIN(this->xOrigin + gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+        MIN(this->xOrigin + gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
             gMapStateManager->unk_26 - 1);
     yMax =
-        MIN(this->yOrigin + gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+        MIN(this->yOrigin + gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
             gMapStateManager->unk_27 - 1);
 
     for (iy = yMin; iy <= yMax; iy++)
@@ -559,12 +559,12 @@ void TargetSelectState::EnlistAttackTargets(void)
 
             dist = xDiff + yDiff;
 
-            if (dist < gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->minRange)
+            if (dist < gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->minRange)
             {
                 continue;
             }
 
-            if (dist > gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange)
+            if (dist > gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange)
             {
                 continue;
             }
@@ -576,7 +576,7 @@ void TargetSelectState::EnlistAttackTargets(void)
                 continue;
             }
 
-            if (func_02039088(gMapStateManager->unk_04->unk_00, ix, iy, dist, 1, 0, this->unk_12a) < 0)
+            if (func_02039088(gMapStateManager->unk_04->pUnit, ix, iy, dist, 1, 0, this->unk_12a) < 0)
             {
                 continue;
             }
@@ -625,19 +625,19 @@ void TargetSelectState::EnlistStaffTargets(void)
     this->selected = -1;
     this->targetCount = 0;
 
-    if (gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange != 0)
+    if (gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange != 0)
     {
         xMin =
-            MAX(this->xOrigin - gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+            MAX(this->xOrigin - gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
                 gMapStateManager->unk_24);
         yMin =
-            MAX(this->yOrigin - gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+            MAX(this->yOrigin - gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
                 gMapStateManager->unk_25);
         xMax =
-            MIN(this->xOrigin + gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+            MIN(this->xOrigin + gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
                 gMapStateManager->unk_26 - 1);
         yMax =
-            MIN(this->yOrigin + gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange,
+            MIN(this->yOrigin + gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange,
                 gMapStateManager->unk_27 - 1);
 
         for (iy = yMin; iy <= yMax; iy++)
@@ -649,12 +649,12 @@ void TargetSelectState::EnlistStaffTargets(void)
 
                 dist = xDiff + yDiff;
 
-                if (dist < gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->minRange)
+                if (dist < gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->minRange)
                 {
                     continue;
                 }
 
-                if (dist > gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->maxRange)
+                if (dist > gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->maxRange)
                 {
                     continue;
                 }
@@ -664,7 +664,7 @@ void TargetSelectState::EnlistStaffTargets(void)
                     continue;
                 }
 
-                if (func_02039088(gMapStateManager->unk_04->unk_00, ix, iy, dist, 0, 1, this->unk_12a) < 0)
+                if (func_02039088(gMapStateManager->unk_04->pUnit, ix, iy, dist, 0, 1, this->unk_12a) < 0)
                 {
                     continue;
                 }
@@ -742,7 +742,7 @@ void TargetSelectState::EnlistTargets_021b53bc(void)
             if ((dist == 1) && (func_ov000_021a47e4() == 0))
             {
                 personB = func_0203c378(unit)->pPersonData->pid;
-                personA = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->pid;
+                personA = func_0203c378(gMapStateManager->unk_04->pUnit)->pPersonData->pid;
 
                 if (EventCaller::CanStartTalkEvent((u32)personA, (u32)personB))
                 {
@@ -763,7 +763,7 @@ void TargetSelectState::EnlistTargets_021b53bc(void)
                 }
             }
 
-            if (unit != NULL && (func_02039088(gMapStateManager->unk_04->unk_00, ix, iy, dist, 1, 0, -1) >= 0))
+            if (unit != NULL && (func_02039088(gMapStateManager->unk_04->pUnit, ix, iy, dist, 1, 0, -1) >= 0))
             {
                 yPos = unit->yPos;
                 xPos = unit->xPos;
@@ -782,7 +782,7 @@ void TargetSelectState::EnlistTargets_021b53bc(void)
             }
             else
             {
-                if (func_02039088(gMapStateManager->unk_04->unk_00, ix, iy, dist, 0, 1, -1) >= 0)
+                if (func_02039088(gMapStateManager->unk_04->pUnit, ix, iy, dist, 0, 1, -1) >= 0)
                 {
                     slot = this->targetCount;
 
@@ -857,7 +857,7 @@ void TargetSelectState::EnlistTradeTargets(void)
     s32 slot;
     Unit * unit;
 
-    hasItem = (gMapStateManager->unk_04->unk_00->items[0].id != 0) ? TRUE : FALSE;
+    hasItem = (gMapStateManager->unk_04->pUnit->items[0].id != 0) ? TRUE : FALSE;
 
     this->targetCount = 0;
 
@@ -885,7 +885,7 @@ void TargetSelectState::EnlistTradeTargets(void)
                 continue;
             }
 
-            if (gMapStateManager->unk_04->unk_00->force->id != unit->force->id)
+            if (gMapStateManager->unk_04->pUnit->force->id != unit->force->id)
             {
                 continue;
             }
@@ -956,7 +956,7 @@ void TargetSelectState::EnlistTalkTargets(void)
             }
 
             personB = func_0203c378(unit)->pPersonData->pid;
-            personA = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->pid;
+            personA = func_0203c378(gMapStateManager->unk_04->pUnit)->pPersonData->pid;
 
             if (!EventCaller::CanStartTalkEvent((u32)personA, (u32)personB))
             {
@@ -1016,7 +1016,7 @@ void TargetSelectState::EnlistImitateTargets(void)
                 continue;
             }
 
-            if (gMapStateManager->unk_04->unk_00->force->id != unit->force->id)
+            if (gMapStateManager->unk_04->pUnit->force->id != unit->force->id)
             {
                 continue;
             }
@@ -1246,8 +1246,8 @@ void TargetSelectState::_021b62c8(void)
         case TARGET_SELECT_KIND_8:
         case TARGET_SELECT_KIND_9:
         case TARGET_SELECT_KIND_10:
-            this->xOrigin = gMapStateManager->unk_04->unk_00->xPos;
-            this->yOrigin = gMapStateManager->unk_04->unk_00->yPos;
+            this->xOrigin = gMapStateManager->unk_04->pUnit->xPos;
+            this->yOrigin = gMapStateManager->unk_04->pUnit->yPos;
             break;
 
         case TARGET_SELECT_KIND_2:
@@ -1585,14 +1585,14 @@ BOOL TargetSelectState::_021b6cb0(void)
 
     if ((this->xOrigin == this->GetX()) && (this->yOrigin == this->GetY()))
     {
-        unitId = gMapStateManager->unk_04->unk_00->unk_68;
+        unitId = gMapStateManager->unk_04->pUnit->unk_68;
     }
     else
     {
         unitId = GetUnit(gMapStateManager->unk_028[this->GetX() | (this->GetY() << 5)])->unk_68;
     }
 
-    switch (gMapStateManager->unk_04->unk_00->items[this->unk_12a].GetData()->effect)
+    switch (gMapStateManager->unk_04->pUnit->items[this->unk_12a].GetData()->effect)
     {
         case ITEM_EFFECT_WARP:
             PlayerPhase_GotoLabel(7, 0, 0);
@@ -1644,7 +1644,7 @@ void TargetSelectState::Confirm(void)
 
             if (this->xOrigin == this->GetX() && this->yOrigin == this->GetY())
             {
-                bVar1 = gMapStateManager->unk_04->unk_00->unk_68;
+                bVar1 = gMapStateManager->unk_04->pUnit->unk_68;
             }
             else
             {
@@ -1722,7 +1722,7 @@ void TargetSelectState::Confirm(void)
                         this->xOrigin, this->yOrigin, ACTION_FIGHT, GetUnit(unitId)->unk_68, this->unk_12a);
                 }
 
-                if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00))
+                if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit))
                 {
                     func_ov000_021b0de8(
                         gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
@@ -1802,15 +1802,15 @@ void TargetSelectState::Cancel(void)
             gMapStateManager->cursor->isVisible = 0;
             gMapStateManager->cursor->SetPosAnimated(this->xOrigin, this->yOrigin, 1, 1);
 
-            func_0204e1a4(gMapStateManager->unk_04->unk_00, 0, 1);
-            func_0204eab8(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0);
+            func_0204e1a4(gMapStateManager->unk_04->pUnit, 0, 1);
+            func_0204eab8(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0);
 
             break;
 
         case TARGET_SELECT_KIND_2:
             this->_021b4358();
 
-            func_01ff8d88(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, 6, 1, 1);
+            func_01ff8d88(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit, -1, 6, 1, 1);
 
             func_ov000_021bc994(gMapStateManager->unk_14->unk_04, 0, 2, 0);
 
@@ -1831,8 +1831,8 @@ void TargetSelectState::Cancel(void)
 
             PlayerPhase_GotoLabel(11, -1, 0);
 
-            func_0204e1a4(gMapStateManager->unk_04->unk_00, 0, 1);
-            func_0204eab8(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0);
+            func_0204e1a4(gMapStateManager->unk_04->pUnit, 0, 1);
+            func_0204eab8(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0);
 
             break;
 
@@ -1855,8 +1855,8 @@ void TargetSelectState::Cancel(void)
                 func_ov000_021d6dfc(0);
             }
 
-            func_0204e1a4(gMapStateManager->unk_04->unk_00, 0, 1);
-            func_0204eab8(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0);
+            func_0204e1a4(gMapStateManager->unk_04->pUnit, 0, 1);
+            func_0204eab8(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0);
 
             break;
     }
@@ -1918,7 +1918,7 @@ EC void TargetSelect_StartTargetInfo(ProcPtr proc)
 
     new (Proc_Start(ProcScr_TargetInfo, proc)) TargetInfo(
         pUnit, local_28, local_2c, local_30, gTargetSelectSt->xOrigin, gTargetSelectSt->itemUses,
-        gTargetSelectSt->yOrigin, gMapStateManager->unk_04->unk_00, (u32)gTargetSelectSt->pScrollButtons[1],
+        gTargetSelectSt->yOrigin, gMapStateManager->unk_04->pUnit, (u32)gTargetSelectSt->pScrollButtons[1],
         (u32)gTargetSelectSt->pScrollButtons[0], (u32)gTargetSelectSt->pItemData);
 
     return;

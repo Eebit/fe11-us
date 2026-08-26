@@ -1435,7 +1435,7 @@ EC void func_ov000_021a45cc(struct Unit * unit, u32 arg_1)
 
 EC void func_ov000_021a4694(void)
 {
-    func_ov000_021a45cc(gMapStateManager->unk_04->unk_00, 1);
+    func_ov000_021a45cc(gMapStateManager->unk_04->pUnit, 1);
     return;
 }
 

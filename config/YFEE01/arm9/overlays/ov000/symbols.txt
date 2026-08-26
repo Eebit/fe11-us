@@ -1943,10 +1943,10 @@ __typestr__N5onbat13UnitTransformE kind:data(any) addr:0x021e1498
 __vt__N5onbat12UnitSurpriseE kind:data(any) addr:0x021e14b8
 __vt__N5onbat9MapBattleE kind:data(any) addr:0x021e14d0
 __vt__N5onbat13UnitTransformE kind:data(any) addr:0x021e14e8
-data_ov000_021e14f8 kind:data(any) addr:0x021e14f8
-data_ov000_021e1518 kind:data(any) addr:0x021e1518
+ProcScr_onbat_UnitTransform kind:data(any) addr:0x021e14f8
+ProcScr_onbat_UnitMove kind:data(any) addr:0x021e1518
 __typestr__N5onbat23ProcKiriDragonTransformE kind:data(any) addr:0x021e1550
-data_ov000_021e1574 kind:data(any) addr:0x021e1574
+ProcScr_onbat_KiriDragonTransform kind:data(any) addr:0x021e1574
 ProcScr_MapBattle kind:data(any) addr:0x021e15cc
 data_ov000_021e180c kind:data(any) addr:0x021e180c
 data_ov000_021e181c kind:data(any) addr:0x021e181c

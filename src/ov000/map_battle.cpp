@@ -83,41 +83,41 @@ namespace onbat
 class UnitMove : public ProcEx
 {
 public:
-    /* 38 */ MapStateManager_04_04 * unk_38;
-    /* 3C */ s32 unk_3c;
-    /* 40 */ s32 unk_40;
+    /* 38 */ MoveUnit * pMu;
+    /* 3C */ s32 x;
+    /* 40 */ s32 y;
     /* 44 */ s32 unk_44;
 
-    UnitMove(MapStateManager_04_04 * mapUnit, s32 xOffset, s32 yOffset)
+    UnitMove(MoveUnit * moveUnit, s32 xOffset, s32 yOffset)
     {
         this->proc_mark = PROC_MARK_8;
-        this->unk_38 = mapUnit;
-        this->unk_3c = xOffset;
-        this->unk_40 = yOffset;
+        this->pMu = moveUnit;
+        this->x = xOffset;
+        this->y = yOffset;
         this->unk_44 = 0;
 
-        mapUnit->unk_54 |= 4;
+        moveUnit->flags |= 4;
     }
 
     virtual ~UnitMove()
     {
-        this->unk_38->unk_50 = 0;
-        this->unk_38->unk_52 = 0;
-        this->unk_38->unk_54 &= ~4;
+        this->pMu->xPos = 0;
+        this->pMu->yPos = 0;
+        this->pMu->flags &= ~4;
     }
 };
 
 class UnitSurprise : public ProcEx
 {
 public:
-    /* 38 */ MapStateManager_04_04 * unk_38;
+    /* 38 */ MoveUnit * pMu;
     /* 3C */ s32 unk_3c;
     /* 40 */ s32 unk_40; // duration
 
-    UnitSurprise(MapStateManager_04_04 * mapUnit, s32 param_2, s32 duration)
+    UnitSurprise(MoveUnit * moveUnit, s32 param_2, s32 duration)
     {
         this->proc_mark = PROC_MARK_8;
-        this->unk_38 = mapUnit;
+        this->pMu = moveUnit;
         this->unk_40 = duration;
         this->unk_3c = param_2;
     }
@@ -128,8 +128,8 @@ public:
 
         if (this->unk_3c < this->unk_40)
         {
-            this->unk_38->unk_50 = (this->unk_3c & 1) ? 2 : -2;
-            this->unk_38->unk_52 = 0;
+            this->pMu->xPos = (this->unk_3c & 1) ? +2 : -2;
+            this->pMu->yPos = 0;
             return;
         }
 
@@ -140,8 +140,8 @@ public:
 
     virtual ~UnitSurprise()
     {
-        this->unk_38->unk_50 = 0;
-        this->unk_38->unk_52 = 0;
+        this->pMu->xPos = 0;
+        this->pMu->yPos = 0;
     }
 };
 } // namespace onbat
@@ -151,16 +151,16 @@ EC s32 func_0203f650(s32 jid, s32 animId);
 EC void func_ov000_021d2c20(ProcPtr, BOOL);
 EC void func_ov000_021bab40(void *, Unit *);
 EC void func_ov000_021baafc(void *, Unit *, BOOL);
-EC void func_ov000_021bb944(MapStateManager_04_04 *);
+EC void func_ov000_021bb944(MoveUnit *);
 
 namespace onbat
 {
 class UnitTransform : public ProcEx
 {
 public:
-    /* 38 */ MapStateManager_04_04 * unk_38;
-    /* 3C */ struct Unit * unk_3c;
-    /* 40 */ struct JobData * unk_40;
+    /* 38 */ MoveUnit * pMu;
+    /* 3C */ Unit * pUnit;
+    /* 40 */ struct JobData * pJobData;
     /* 44 */ s32 unk_44;
     /* 48 */ s32 unk_48; // frame counter
     /* 4C */ s32 unk_4c; // animation length
@@ -169,16 +169,16 @@ public:
     /* 52 */ u8 unk_52;
     /* 53 */ u8 unk_53;
 
-    UnitTransform(MapStateManager_04_04 * mapUnit, struct JobData * job)
+    UnitTransform(MoveUnit * moveUnit, struct JobData * job)
     {
-        this->unk_38 = mapUnit;
-        this->unk_40 = job;
-        this->unk_3c = mapUnit->unk_00;
-        this->unk_44 = mapUnit->unk_5f;
+        this->pMu = moveUnit;
+        this->pJobData = job;
+        this->pUnit = moveUnit->pUnit;
+        this->unk_44 = moveUnit->facing;
 
-        mapUnit->SetUnk5f(7);
-        mapUnit->unk_04->timer = 0;
-        this->unk_4c = func_0203f650(mapUnit->unk_04->jid, mapUnit->unk_5f);
+        moveUnit->SetFacingDirection(7);
+        moveUnit->pMovingMapSprite->timer = 0;
+        this->unk_4c = func_0203f650(moveUnit->pMovingMapSprite->jid, moveUnit->facing);
         this->unk_48 = 0;
         this->unk_50 = 0;
         this->unk_51 = 0;
@@ -186,14 +186,14 @@ public:
         this->unk_53 = 0;
     }
 
-    UnitTransform(MapStateManager_04_04 * mapUnit, struct JobData * job, BOOL bVar2)
+    UnitTransform(MoveUnit * moveUnit, struct JobData * job, BOOL bVar2)
     {
-        this->unk_38 = mapUnit;
-        this->unk_40 = job;
-        this->unk_3c = mapUnit->unk_00;
-        this->unk_44 = mapUnit->unk_5f;
+        this->pMu = moveUnit;
+        this->pJobData = job;
+        this->pUnit = moveUnit->pUnit;
+        this->unk_44 = moveUnit->facing;
 
-        mapUnit->SetUnk5f(0);
+        moveUnit->SetFacingDirection(0);
 
         this->unk_48 = 0;
         this->unk_50 = 0;
@@ -206,14 +206,14 @@ public:
     {
         if (!this->unk_51)
         {
-            this->unk_38->unk_54 &= ~2;
-            this->unk_38->unk_04->UpdateJid(GetJobDBIndex(this->unk_40));
-            this->unk_38->unk_5f = this->unk_44;
+            this->pMu->flags &= ~2;
+            this->pMu->pMovingMapSprite->UpdateJid(GetJobDBIndex(this->pJobData));
+            this->pMu->facing = this->unk_44;
 
-            if (this->unk_38->unk_61 != 0)
+            if (this->pMu->unk_61 != 0)
             {
-                this->unk_38->unk_61 = 0;
-                this->unk_38->unk_60 = -1;
+                this->pMu->unk_61 = 0;
+                this->pMu->unk_60 = -1;
             }
         }
 
@@ -221,18 +221,18 @@ public:
 
         if (this->unk_52)
         {
-            func_ov000_021bab40(gMapStateManager->unk_14->unk_00, this->unk_3c);
-            this->unk_3c->pJobData = this->unk_40;
-            this->unk_3c->state2 &= ~0x40000000;
-            func_ov000_021baafc(gMapStateManager->unk_14->unk_00, this->unk_3c, FALSE);
+            func_ov000_021bab40(gMapStateManager->unk_14->unk_00, this->pUnit);
+            this->pUnit->pJobData = this->pJobData;
+            this->pUnit->state2 &= ~US_UNK_30;
+            func_ov000_021baafc(gMapStateManager->unk_14->unk_00, this->pUnit, FALSE);
         }
 
-        Proc_EndEachMarked(8);
+        Proc_EndEachMarked(PROC_MARK_8);
 
         if (this->unk_53)
         {
-            this->unk_38->unk_00->state2 &= ~0x20000;
-            func_ov000_021bb944(this->unk_38);
+            this->pMu->pUnit->state2 &= ~US_HOVERED;
+            func_ov000_021bb944(this->pMu);
         }
     }
 };
@@ -240,11 +240,11 @@ public:
 class ProcKiriDragonTransform : public ProcEx
 {
 public:
-    /* 38 */ struct Unit * unk_38;
+    /* 38 */ Unit * pUnit;
 
-    ProcKiriDragonTransform(struct Unit * unit)
+    ProcKiriDragonTransform(Unit * unit)
     {
-        this->unk_38 = unit;
+        this->pUnit = unit;
     }
 
     virtual ~ProcKiriDragonTransform()
@@ -262,8 +262,8 @@ public:
     /* 38 */ MapBattle_38 * unk_38;
     /* 3C */ MapBattle_3C * unk_3c;
     /* 40 */ MapBattle_40 * unk_40;
-    /* 44 */ MapStateManager_04_04 * unk_44[2];
-    /* 4C */ MapStateManager_04_04 * unk_4c[2];
+    /* 44 */ MoveUnit * unk_44[2];
+    /* 4C */ MoveUnit * unk_4c[2];
     /* 54 */ ProcPtr unk_54[2];
     /* 5C */ u32 unk_5c; // frame counter within current round
     STRUCT_PAD(0x60, 0x64);
@@ -325,7 +325,7 @@ public:
 
 EC void func_ov000_021ca974(onbat::UnitMove * self)
 {
-    self->unk_38->unk_04->timer += 2;
+    self->pMu->pMovingMapSprite->timer += 2;
     return;
 }
 
@@ -335,21 +335,18 @@ EC void func_ov000_021ca98c(onbat::UnitMove * self)
 {
     s16 x;
     s16 y;
-    MapStateManager_04_04 * mapUnit;
 
     self->unk_44++;
 
-    x = Interpolate(0, 0, self->unk_3c, self->unk_44, 8);
-    y = Interpolate(0, 0, self->unk_40, self->unk_44, 8);
+    x = Interpolate(0, 0, self->x, self->unk_44, 8);
+    y = Interpolate(0, 0, self->y, self->unk_44, 8);
 
-    mapUnit = self->unk_38;
-    mapUnit->unk_50 = x;
-    mapUnit->unk_52 = y;
+    self->pMu->SetPos(x, y);
 
     if (self->unk_44 == 8)
     {
         self->unk_44 = 0;
-        Proc_Break(self, 0);
+        Proc_Break(self, FALSE);
     }
 
     return;
@@ -359,21 +356,18 @@ EC void func_ov000_021caa08(onbat::UnitMove * self)
 {
     s16 x;
     s16 y;
-    MapStateManager_04_04 * mapUnit;
 
     self->unk_44++;
 
-    x = Interpolate(0, self->unk_3c, 0, self->unk_44, 8);
-    y = Interpolate(0, self->unk_40, 0, self->unk_44, 8);
+    x = Interpolate(0, self->x, 0, self->unk_44, 8);
+    y = Interpolate(0, self->y, 0, self->unk_44, 8);
 
-    mapUnit = self->unk_38;
-    mapUnit->unk_50 = x;
-    mapUnit->unk_52 = y;
+    self->pMu->SetPos(x, y);
 
     if (self->unk_44 == 8)
     {
         self->unk_44 = 0;
-        Proc_Break(self, 0);
+        Proc_Break(self, FALSE);
     }
 
     return;
@@ -383,11 +377,11 @@ EC void func_ov002_021ef9e0(ProcPtr, struct Unit *);
 
 EC void func_ov000_021caa84(onbat::ProcKiriDragonTransform * proc)
 {
-    func_ov002_021ef9e0(proc, proc->unk_38);
+    func_ov002_021ef9e0(proc, proc->pUnit);
     return;
 }
 
-extern struct ProcCmd data_ov000_021e1574[];
+extern struct ProcCmd ProcScr_onbat_KiriDragonTransform[];
 
 EC struct Proc * func_ov000_021d3674(char *, void *, s32, s32, ProcPtr, BOOL);
 
@@ -399,18 +393,18 @@ EC void func_ov000_021caa94(onbat::UnitTransform * self)
 
     if (self->unk_52)
     {
-        onbat::ProcKiriDragonTransform * proc =
-            new (Proc_StartBlocking(data_ov000_021e1574, self)) onbat::ProcKiriDragonTransform(self->unk_3c);
+        onbat::ProcKiriDragonTransform * proc = new (Proc_StartBlocking(ProcScr_onbat_KiriDragonTransform, self))
+            onbat::ProcKiriDragonTransform(self->pUnit);
         Proc_Break(self, 0);
         return;
     }
 
     if (!self->unk_50 && self->unk_48 == 8)
     {
-        fxProc = func_ov000_021d3674("TransformDragon", self->unk_3c, 0, 0, PROC_TREE_B, FALSE);
+        fxProc = func_ov000_021d3674("TransformDragon", self->pUnit, 0, 0, PROC_TREE_B, FALSE);
         Proc_SetMark(fxProc, PROC_MARK_8);
 
-        if (self->unk_3c->force->id & 1)
+        if (self->pUnit->force->id & 1)
         {
             func_ov000_021d2c20(fxProc, 1);
         }
@@ -426,27 +420,27 @@ EC void func_ov000_021caa94(onbat::UnitTransform * self)
 
     if (self->unk_48 == self->unk_4c - 1 && !self->unk_51)
     {
-        self->unk_38->unk_54 |= 2;
-        self->unk_38->unk_04->timer = 0;
-        self->unk_38->unk_04->timer = self->unk_4c - 1;
+        self->pMu->flags |= 2;
+        self->pMu->pMovingMapSprite->timer = 0;
+        self->pMu->pMovingMapSprite->timer = self->unk_4c - 1;
     }
 
     if (self->unk_50 || self->unk_48 == 0x43)
     {
         if (!self->unk_51)
         {
-            self->unk_38->unk_54 &= ~2;
-            self->unk_38->unk_04->UpdateJid(GetJobDBIndex(self->unk_40));
-            self->unk_38->SetUnk5f(self->unk_44);
+            self->pMu->flags &= ~2;
+            self->pMu->pMovingMapSprite->UpdateJid(GetJobDBIndex(self->pJobData));
+            self->pMu->SetFacingDirection(self->unk_44);
 
             self->unk_51 = 1;
 
             if (self->unk_52)
             {
-                func_ov000_021bab40(gMapStateManager->unk_14->unk_00, self->unk_3c);
-                self->unk_3c->pJobData = self->unk_40;
-                self->unk_3c->state2 &= ~0x40000000;
-                func_ov000_021baafc(gMapStateManager->unk_14->unk_00, self->unk_3c, FALSE);
+                func_ov000_021bab40(gMapStateManager->unk_14->unk_00, self->pUnit);
+                self->pUnit->pJobData = self->pJobData;
+                self->pUnit->state2 &= ~US_UNK_30;
+                func_ov000_021baafc(gMapStateManager->unk_14->unk_00, self->pUnit, FALSE);
             }
         }
     }
@@ -516,8 +510,8 @@ EC BOOL func_ov000_021ca91c(MapBattle_38 *);
 EC s32 func_02012410(void);
 EC BOOL func_020146c4(s32);
 
-EC MapStateManager_04_04 * func_ov000_021bb4c8(void *);
-EC void func_ov000_021bb734(MapStateManager_04_04 *, struct Unit *, BOOL);
+EC MoveUnit * func_ov000_021bb4c8(void *);
+EC void func_ov000_021bb734(MoveUnit *, Unit *, BOOL);
 EC BOOL func_ov000_021ca8ac(MapBattle_38 *);
 EC void func_ov000_021a820c(void);
 
@@ -536,13 +530,13 @@ EC void func_ov000_021cae10(onbat::MapBattle * param_1)
 
     param_1->unk_6a = 1;
 
-    param_1->unk_44[0] = gMapStateManager->unk_04->unk_04;
+    param_1->unk_44[0] = gMapStateManager->unk_04->pMu;
     param_1->unk_3c->unk_00[1]->state2 |= US_HOVERED;
 
     param_1->unk_44[1] = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
     func_ov000_021bb734(param_1->unk_44[1], param_1->unk_3c->unk_00[1], FALSE);
 
-    param_1->unk_44[1]->unk_04->timer = param_1->unk_44[0]->unk_04->timer;
+    param_1->unk_44[1]->pMovingMapSprite->timer = param_1->unk_44[0]->pMovingMapSprite->timer;
 
     if (param_1->unk_3c->unk_38[0] & 0x100)
     {
@@ -591,7 +585,7 @@ EC void func_ov000_021cae10(onbat::MapBattle * param_1)
                 param_1->unk_4c[i] = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
                 func_ov000_021bb734(param_1->unk_4c[i], unit, FALSE);
 
-                param_1->unk_4c[i]->unk_04->timer++;
+                param_1->unk_4c[i]->pMovingMapSprite->timer++;
 
                 i++;
 
@@ -611,26 +605,26 @@ L_021cb13c:
     {
         if (attacker->xPos > defender->xPos)
         {
-            param_1->unk_44[0]->SetUnk5f(2);
-            param_1->unk_44[1]->SetUnk5f(3);
+            param_1->unk_44[0]->SetFacingDirection(2);
+            param_1->unk_44[1]->SetFacingDirection(3);
         }
         else
         {
-            param_1->unk_44[0]->SetUnk5f(3);
-            param_1->unk_44[1]->SetUnk5f(2);
+            param_1->unk_44[0]->SetFacingDirection(3);
+            param_1->unk_44[1]->SetFacingDirection(2);
         }
     }
     else
     {
         if (attacker->yPos > defender->yPos)
         {
-            param_1->unk_44[0]->SetUnk5f(5);
-            param_1->unk_44[1]->SetUnk5f(4);
+            param_1->unk_44[0]->SetFacingDirection(5);
+            param_1->unk_44[1]->SetFacingDirection(4);
         }
         else
         {
-            param_1->unk_44[0]->SetUnk5f(4);
-            param_1->unk_44[1]->SetUnk5f(5);
+            param_1->unk_44[0]->SetFacingDirection(4);
+            param_1->unk_44[1]->SetFacingDirection(5);
         }
     }
 
@@ -640,27 +634,27 @@ L_021cb13c:
         {
             defender = param_1->unk_3c->unk_00[1];
 
-            if (ABS(param_1->unk_4c[i]->unk_00->xPos - defender->xPos) >=
-                ABS(param_1->unk_4c[i]->unk_00->yPos - defender->yPos))
+            if (ABS(param_1->unk_4c[i]->pUnit->xPos - defender->xPos) >=
+                ABS(param_1->unk_4c[i]->pUnit->yPos - defender->yPos))
             {
-                if (param_1->unk_4c[i]->unk_00->xPos > defender->xPos)
+                if (param_1->unk_4c[i]->pUnit->xPos > defender->xPos)
                 {
-                    param_1->unk_4c[i]->SetUnk5f(2);
+                    param_1->unk_4c[i]->SetFacingDirection(2);
                 }
                 else
                 {
-                    param_1->unk_4c[i]->SetUnk5f(3);
+                    param_1->unk_4c[i]->SetFacingDirection(3);
                 }
             }
             else
             {
-                if (param_1->unk_4c[i]->unk_00->yPos > defender->yPos)
+                if (param_1->unk_4c[i]->pUnit->yPos > defender->yPos)
                 {
-                    param_1->unk_4c[i]->SetUnk5f(5);
+                    param_1->unk_4c[i]->SetFacingDirection(5);
                 }
                 else
                 {
-                    param_1->unk_4c[i]->SetUnk5f(4);
+                    param_1->unk_4c[i]->SetFacingDirection(4);
                 }
             }
         }
@@ -833,13 +827,12 @@ EC void func_ov000_021cb74c(onbat::MapBattle * param_1)
 
 EC struct JobData * GetJInfoFromItem(struct ItemData *, struct Unit *);
 
-extern struct ProcCmd data_ov000_021e14f8[];
+extern struct ProcCmd ProcScr_onbat_UnitTransform[];
 
 EC void func_ov000_021cb760(onbat::MapBattle * param_1)
 {
     struct JobData * job;
     onbat::UnitTransform * proc;
-    MapStateManager_04_04 * mapUnit;
 
     if (param_1->unk_3c->weapon[0] != NULL)
     {
@@ -847,7 +840,8 @@ EC void func_ov000_021cb760(onbat::MapBattle * param_1)
 
         if (job != param_1->unk_3c->unk_00[0]->pJobData)
         {
-            proc = new (Proc_StartBlocking(data_ov000_021e14f8, param_1)) onbat::UnitTransform(param_1->unk_44[0], job);
+            proc = new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, param_1))
+                onbat::UnitTransform(param_1->unk_44[0], job);
 
             if (func_ov000_021a8248())
             {
@@ -868,10 +862,9 @@ EC void func_ov000_021cb760(onbat::MapBattle * param_1)
         return;
     }
 
-    param_1->unk_68 = param_1->unk_44[1]->unk_5f;
+    param_1->unk_68 = param_1->unk_44[1]->facing;
 
-    mapUnit = param_1->unk_44[1];
-    mapUnit->SetUnk5f(0);
+    param_1->unk_44[1]->SetFacingDirection(0);
 
     return;
 }
@@ -880,7 +873,6 @@ EC void func_ov000_021cb8a4(onbat::MapBattle * param_1)
 {
     struct JobData * job;
     onbat::UnitTransform * proc;
-    MapStateManager_04_04 * mapUnit;
 
     if (param_1->unk_3c->weapon[1] == NULL)
     {
@@ -894,10 +886,9 @@ EC void func_ov000_021cb8a4(onbat::MapBattle * param_1)
         return;
     }
 
-    mapUnit = param_1->unk_44[1];
-    mapUnit->SetUnk5f(param_1->unk_68);
+    param_1->unk_44[1]->SetFacingDirection(param_1->unk_68);
 
-    proc = new (Proc_StartBlocking(data_ov000_021e14f8, param_1)) onbat::UnitTransform(param_1->unk_44[1], job);
+    proc = new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, param_1)) onbat::UnitTransform(param_1->unk_44[1], job);
 
     if (func_ov000_021a8248())
     {
@@ -912,7 +903,7 @@ EC void func_ov000_021cb9b8(onbat::MapBattle * param_1)
     ItemData * weapon;
     JobData * job;
     s32 i;
-    MapStateManager_04_04 * mapUnit;
+    MoveUnit * moveUnit;
 
     for (i = 0; i < 2; i++)
     {
@@ -924,8 +915,8 @@ EC void func_ov000_021cb9b8(onbat::MapBattle * param_1)
         }
 
         job = GetJInfoFromItem(weapon, param_1->unk_3c->unk_00[i]);
-        mapUnit = param_1->unk_44[i];
-        mapUnit->unk_04->UpdateJid(GetJobDBIndex(job));
+        moveUnit = param_1->unk_44[i];
+        moveUnit->pMovingMapSprite->UpdateJid(GetJobDBIndex(job));
     }
 
     return;
@@ -937,8 +928,8 @@ EC void func_ov000_021cba08(onbat::MapBattle * param_1)
 
     for (i = 0; i < 2; i++)
     {
-        MapStateManager_04_04 * mapUnit = param_1->unk_44[i];
-        mapUnit->unk_04->UpdateJid(GetJobDBIndex(param_1->unk_3c->unk_00[i]->pJobData));
+        MoveUnit * moveUnit = param_1->unk_44[i];
+        moveUnit->pMovingMapSprite->UpdateJid(GetJobDBIndex(param_1->unk_3c->unk_00[i]->pJobData));
     }
 
     return;
@@ -1099,7 +1090,7 @@ EC void func_ov000_021cbcac(onbat::MapBattle * param_1)
     return;
 }
 
-EC s32 func_ov000_021cbd58(struct Unit * param_1, struct Unit * param_2)
+EC s32 func_ov000_021cbd58(Unit * param_1, Unit * param_2)
 {
     if (param_1->xPos > param_2->xPos)
     {
@@ -1113,7 +1104,7 @@ EC s32 func_ov000_021cbd58(struct Unit * param_1, struct Unit * param_2)
     return 0;
 }
 
-EC s32 func_ov000_021cbd78(struct Unit * param_1, struct Unit * param_2)
+EC s32 func_ov000_021cbd78(Unit * param_1, Unit * param_2)
 {
     if (param_1->yPos > param_2->yPos)
     {
@@ -1134,7 +1125,7 @@ EC void * func_ov000_021d3350(char *, s32, s32, s32, s32, s32, s32, s32, s32);
 EC ProcPtr func_ov000_021d39a4(s32, ProcPtr);
 EC void func_ov000_021d2c58(void *);
 
-extern struct ProcCmd data_ov000_021e1518[];
+extern struct ProcCmd ProcScr_onbat_UnitMove[];
 extern struct ProcCmd ProcScr_020ce750[];
 
 EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
@@ -1201,20 +1192,20 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
         yOffset = yDelta * step;
         xOffset = xDelta * step;
 
-        moveProc = new (Proc_Start(data_ov000_021e1518, param_1))
+        moveProc = new (Proc_Start(ProcScr_onbat_UnitMove, param_1))
             onbat::UnitMove(param_1->unk_44[param_1->unk_66], xOffset, yOffset);
 
         if (param_1->unk_40->unk_00 & 0x80)
         {
             for (i = 0; i < 2; i++)
             {
-                xDelta = func_ov000_021cbd58(param_1->unk_4c[i]->unk_00, param_1->unk_3c->unk_00[param_1->unk_67]);
-                yDelta = func_ov000_021cbd78(param_1->unk_4c[i]->unk_00, param_1->unk_3c->unk_00[param_1->unk_67]);
+                xDelta = func_ov000_021cbd58(param_1->unk_4c[i]->pUnit, param_1->unk_3c->unk_00[param_1->unk_67]);
+                yDelta = func_ov000_021cbd78(param_1->unk_4c[i]->pUnit, param_1->unk_3c->unk_00[param_1->unk_67]);
 
                 yOffset = yDelta * step;
                 xOffset = xDelta * step;
 
-                moveProc = new (Proc_Start(data_ov000_021e1518, param_1))
+                moveProc = new (Proc_Start(ProcScr_onbat_UnitMove, param_1))
                     onbat::UnitMove(param_1->unk_4c[i], xOffset, yOffset);
             }
         }
@@ -1226,7 +1217,7 @@ EC void func_ov000_021cbd98(onbat::MapBattle * param_1)
 
         if (param_1->unk_40->unk_01 != 0)
         {
-            param_1->unk_44[param_1->unk_67]->unk_04->StartFlash(12, 0x7fff);
+            param_1->unk_44[param_1->unk_67]->pMovingMapSprite->StartFlash(12, 0x7fff);
         }
     }
 
@@ -1464,7 +1455,7 @@ EC void func_ov000_021cc5a8(onbat::MapBattle * param_1)
 
     func_ov000_021c9b1c(param_1->unk_38);
 
-    param_1->unk_44[0]->SetUnk5f(0);
+    param_1->unk_44[0]->SetFacingDirection(0);
 
     if (!(param_1->unk_38->unk_30[1] & 1))
     {
@@ -1477,7 +1468,7 @@ EC void func_ov000_021cc5a8(onbat::MapBattle * param_1)
     {
         for (i = 0; i < 2; i++)
         {
-            param_1->unk_4c[i]->unk_00->state2 &= ~US_HOVERED;
+            param_1->unk_4c[i]->pUnit->state2 &= ~US_HOVERED;
             func_ov000_021bb944(param_1->unk_4c[i]);
         }
     }
@@ -1865,11 +1856,11 @@ EC void StartMapBattle(ProcPtr parent)
     new (Proc_StartBlocking(ProcScr_MapBattle, parent)) onbat::MapBattle();
 }
 
-EC MapStateManager_04_04 * func_ov000_021bb210(void *, Unit *);
+EC MoveUnit * func_ov000_021bb210(void *, Unit *);
 
 EC void func_ov000_021ccaf8(Unit * param_1, struct JobData * param_2, ProcPtr param_3)
 {
-    MapStateManager_04_04 * pMVar1;
+    MoveUnit * pMVar1;
     BOOL bVar3 = 0;
 
     pMVar1 = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, param_1);
@@ -1882,7 +1873,7 @@ EC void func_ov000_021ccaf8(Unit * param_1, struct JobData * param_2, ProcPtr pa
         bVar3 = 1;
     }
 
-    new (Proc_StartBlocking(data_ov000_021e14f8, param_3)) onbat::UnitTransform(pMVar1, param_2, bVar3);
+    new (Proc_StartBlocking(ProcScr_onbat_UnitTransform, param_3)) onbat::UnitTransform(pMVar1, param_2, bVar3);
 
     return;
 }

@@ -70,6 +70,7 @@ enum
 
     US_EVENT_DEAD = (1 << 29), // Died as a "decoy" for Marth
 
+    US_UNK_30 = (1 << 30),
     US_UNK_31 = (1 << 31),
 };
 

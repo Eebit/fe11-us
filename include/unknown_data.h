@@ -3911,10 +3911,10 @@ extern void * _ZTVN3map15BMapDialogYesNoE[];
 // extern ??? __vt__N5onbat12UnitSurpriseE
 // extern ??? __vt__N5onbat9MapBattleE
 // extern ??? __vt__N5onbat13UnitTransformE
-// extern ??? data_ov000_021e14f8
-// extern ??? data_ov000_021e1518
+// extern ??? ProcScr_onbat_UnitTransform
+// extern ??? ProcScr_onbat_UnitMove
 // extern ??? __typestr__N5onbat23ProcKiriDragonTransformE
-// extern ??? data_ov000_021e1574
+// extern ??? ProcScr_onbat_KiriDragonTransform
 // extern ??? ProcScr_MapBattle
 // extern ??? data_ov000_021e180c
 // extern ??? data_ov000_021e181c
