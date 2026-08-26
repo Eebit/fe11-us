@@ -10,7 +10,7 @@
 
 extern struct UnkStruct_02196f20 * data_02196f20;
 
-EC BOOL func_0204b1e0(void);
+EC BOOL _IsProcTutCardActive(void);
 EC BOOL func_02050304(s32);
 
 struct UnkStruct_021970c4
@@ -265,7 +265,7 @@ public:
 
     /* 1C */ virtual s32 vfunc_1c(s32 param_2, s32 param_3)
     {
-        if (func_0204b1e0())
+        if (_IsProcTutCardActive())
         {
             return 0;
         }
@@ -275,7 +275,7 @@ public:
             return 0;
         }
 
-        func_0205038c(param_3, -1);
+        StartProcTutCardMaybe(param_3, -1);
 
         return 0x40;
     }

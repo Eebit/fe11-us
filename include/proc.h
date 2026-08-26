@@ -65,6 +65,7 @@ struct ProcCmd
 #define PROC_CALL_ARG(func, arg)          { PROC_CMD_CALL_ARG, (arg), (func) }
 #define PROC_WHILE(func)                  { PROC_CMD_WHILE, 0, (func) }
 #define PROC_WHILE_ARG(func, arg)         { PROC_CMD_WHILE_ARG, {arg}, (func) }
+#define PROC_0B(func)                     { PROC_CMD_0B, 0, (func) }
 #define PROC_REPEAT(func)                 { PROC_CMD_REPEAT, 0, (func) }
 #define PROC_WHILE_EXISTS(script)         { PROC_CMD_WHILE_EXISTS, 0, (script) }
 #define PROC_START_CHILD(script)          { PROC_CMD_START_CHILD, 0, (script) }

@@ -1782,7 +1782,7 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? data_020d6248
 // extern ??? data_020d6250
 // extern ??? data_020d6254
-// extern ??? data_020d6258
+// extern ??? ProcScr_TutCard
 // extern ??? __typestr__11ProcTutCard
 // extern ??? __typeinfo__11ProcTutCard
 // extern ??? __vt__11ProcTutCard
@@ -4007,7 +4007,7 @@ extern void * _ZTVN3map15BMapDialogYesNoE[];
 // extern ??? __vt__N3map8ExpGaugeE
 // extern ??? __vt__N3map7HpGaugeE
 // extern ??? data_ov000_021e1fd4
-// extern ??? data_ov000_021e201c
+// extern ??? ProcScr_map_HpGauge
 // extern ??? data_ov000_021e2074
 // extern ??? data_ov000_021e2088
 // extern ??? data_ov000_021e2098
@@ -4049,7 +4049,7 @@ extern void * _ZTVN3map15BMapDialogYesNoE[];
 // extern ??? data_ov000_021e22a8
 // extern ??? data_ov000_021e22c0
 // extern ??? data_ov000_021e22d8
-// extern ??? data_ov000_021e22f0
+// extern ??? ProcScr_mapeffect_UnitAlpha
 // extern ??? data_ov000_021e2308
 // extern ??? data_ov000_021e2328
 // extern ??? __vt__N9mapeffect10WarpEscapeE

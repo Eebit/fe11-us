@@ -261,7 +261,7 @@ struct ProcCmd ProcScr_Arena[] =
     PROC_SLEEP(0),
 
     PROC_CALL(func_0204b39c),
-    PROC_WHILE(func_0204b1e0),
+    PROC_WHILE(_IsProcTutCardActive),
 
     PROC_CALL(Arena_ov000_021d915c),
     PROC_CALL(func_0204b3d4),
@@ -1354,7 +1354,7 @@ EC void func_ov000_021d91a0(arena::Arena * unused)
 
     if ((data_ov000_021e3340->unk_06 & 8) != 0)
     {
-        func_ov000_021a43e8();
+        MapBattle_021a43e8();
     }
     else
     {

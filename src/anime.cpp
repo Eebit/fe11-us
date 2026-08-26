@@ -31,7 +31,7 @@ EC void func_01ffc668(s16, s16, u16, u16, s32, s32, s32);
 
 EC void func_0201b9b4(char *, char *);
 EC void func_0201ba90(void);
-EC void func_ov000_021d39a4(s32, s32, s32);
+EC void StartMapEffectQuake(s32, s32, s32);
 EC void func_ov000_021d3a2c(void);
 EC s32 func_ov000_021d6f7c(s32);
 
@@ -502,7 +502,7 @@ void AnimeInterpreter::Execute(void)
                         {
                             v = -1;
                         }
-                        func_ov000_021d39a4(v, 9, 0);
+                        StartMapEffectQuake(v, 9, 0);
                         break;
                     }
 
@@ -637,7 +637,7 @@ void AnimeInterpreter::func_0201a5b0(void)
                     {
                         v = -1;
                     }
-                    func_ov000_021d39a4(v, 9, 0);
+                    StartMapEffectQuake(v, 9, 0);
                     break;
                 }
 

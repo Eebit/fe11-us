@@ -20,7 +20,7 @@ EC void func_ov004_02209e54(ProcPtr);
 EC void func_020136bc(ProcPtr);
 EC void func_0201fd44(ProcPtr);
 
-EC BOOL func_0204b1e0(void);
+EC BOOL _IsProcTutCardActive(void);
 
 EC void func_02021b00(void);
 EC void func_02021b14(void);
@@ -152,7 +152,7 @@ PROC_LABEL(9),
     // fallthrough
 
 PROC_LABEL(10),
-    PROC_WHILE(func_0204b1e0),
+    PROC_WHILE(_IsProcTutCardActive),
     PROC_CALL(func_02022480),
     PROC_CALL(func_020224a8),
     PROC_CALL(func_02022414),
@@ -225,7 +225,7 @@ PROC_LABEL(16),
     PROC_GOTO(9),
 
 PROC_LABEL(39),
-    PROC_WHILE(func_0204b1e0),
+    PROC_WHILE(_IsProcTutCardActive),
     PROC_FADE_TO_BLACK(32, 1, TRUE),
     PROC_CALL(func_020224fc),
     PROC_CALL(func_0202254c),
@@ -849,7 +849,7 @@ EC void func_020221e4(void)
         return;
     }
 
-    func_0205038c(data_02196f20->unk_19c, -1);
+    StartProcTutCardMaybe(data_02196f20->unk_19c, -1);
 
     return;
 }
@@ -884,7 +884,7 @@ EC void func_0202225c(void)
         return;
     }
 
-    func_0205038c(data_02196f20->unk_19c, -1);
+    StartProcTutCardMaybe(data_02196f20->unk_19c, -1);
 
     return;
 }

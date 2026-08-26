@@ -1355,7 +1355,7 @@ EC BOOL AreAllEnemiesDefeated(u32 factionId)
     return count <= 0;
 }
 
-EC void func_ov000_021a43e8(void)
+EC void MapBattle_021a43e8(void)
 {
     s32 bgmId = GetMapBgmId(data_ov000_021e3324->phase);
 
@@ -1428,7 +1428,7 @@ EC void func_ov000_021a45cc(struct Unit * unit, u32 arg_1)
         }
     }
 
-    func_ov000_021a43e8();
+    MapBattle_021a43e8();
 
     return;
 }

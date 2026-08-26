@@ -442,7 +442,7 @@ EC void TryShowTutCardForMenu(ProcPtr parent, u32 param_2)
         return;
     }
 
-    if (func_0204b1e0())
+    if (_IsProcTutCardActive())
     {
         new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcTutCardShowForMenu(param_2);
     }
@@ -473,7 +473,7 @@ EC s32 func_ov000_021d6f7c(s32 param_1)
 
 void ProcTutCardShowForMenu::Init(void)
 {
-    if (func_0204b1e0())
+    if (_IsProcTutCardActive())
     {
         return;
     }

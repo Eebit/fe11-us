@@ -1265,7 +1265,7 @@ struct ProcCmd ProcScr_ProcSeq[] =
     PROC_CALL(func_ov000_021a8650),
 
 PROC_LABEL(2),
-    PROC_WHILE(func_0204b1e0),
+    PROC_WHILE(_IsProcTutCardActive),
     PROC_CALL(func_ov000_021a8868),
     PROC_CALL(EventCaller::TryStartTurnEvent),
     PROC_CALL(EventCaller::TryStartReinforcementEvent),
@@ -3073,7 +3073,7 @@ EC void func_ov000_021ac6a0(void)
 
     if (func_020479b0() == 0)
     {
-        if (func_02050474() == 0)
+        if (IsProcTutCardActive() == 0)
         {
             if ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (gMapStateManager->inputHandler->_021a5650(1) != 0))
             {
@@ -3608,7 +3608,7 @@ EC void func_ov000_021ad740(void)
 
     if (gActionSt->actionId == ACTION_10)
     {
-        func_ov000_021a43e8();
+        MapBattle_021a43e8();
         Proc_Goto(gPlayerPhaseProc, 28, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
@@ -4020,7 +4020,7 @@ PROC_LABEL(18),
 PROC_LABEL(20),
     PROC_REPEAT(func_ov000_021acc08),
     PROC_CALL(func_ov000_021ad0f4),
-    PROC_CALL(func_ov000_021a43e8),
+    PROC_CALL(MapBattle_021a43e8),
     PROC_CALL(func_ov000_021ad388),
 
 PROC_LABEL(L_PLAYERPHASE_SHOP),
@@ -4081,7 +4081,7 @@ PROC_LABEL(40),
     PROC_CALL(func_ov000_021ac218),
 
 PROC_LABEL(L_PLAYERPHASE_END_TURN),
-    PROC_WHILE(func_0204b1e0),
+    PROC_WHILE(_IsProcTutCardActive),
     PROC_CALL(func_ov000_021adf58),
 
 PROC_LABEL(L_PLAYERPHASE_SURRENDER),
@@ -4653,7 +4653,7 @@ EC void func_ov000_021af044(map::ProcLink * param_1)
         return;
     }
 
-    if (!func_02050474() && ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (gMapStateManager->inputHandler->_021a5650(1))))
+    if (!IsProcTutCardActive() && ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (gMapStateManager->inputHandler->_021a5650(1))))
     {
         if (func_0204b1f8(0))
         {
