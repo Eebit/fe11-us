@@ -121,7 +121,7 @@ public:
         if (data_ov000_021e3340->unk_06 != 0)
         {
             func_ov000_021b0de8(
-                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_WAIT, 0);
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_WAIT, 0);
             PlayerPhase_GotoLabel(40, 0, 0);
             func_ov000_021bfa3c();
 
@@ -163,8 +163,8 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        ux = gMapStateManager->unk_04->unk_00->xPos;
-        uy = gMapStateManager->unk_04->unk_00->yPos;
+        ux = gMapStateManager->unk_04->pUnit->xPos;
+        uy = gMapStateManager->unk_04->pUnit->yPos;
 
         xMin = MAX(ux - 1, gMapStateManager->unk_24);
         yMin = MAX(uy - 1, gMapStateManager->unk_25);
@@ -181,8 +181,8 @@ public:
                 char * personA;
                 char * personB;
 
-                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
-                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+                yDiff = ABS(gMapStateManager->unk_04->pUnit->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->pUnit->xPos - ix);
 
                 if ((xDiff + yDiff >= 1) && (xDiff + yDiff <= 1))
                 {
@@ -194,7 +194,7 @@ public:
                     }
 
                     personB = func_0203c378(unit)->pPersonData->pid;
-                    personA = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->pid;
+                    personA = func_0203c378(gMapStateManager->unk_04->pUnit)->pPersonData->pid;
 
                     if (EventCaller::CanStartTalkEvent((u32)personA, (u32)personB))
                     {
@@ -250,7 +250,7 @@ public:
         s16 ix;
         s16 iy;
 
-        func_01ff9420(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, -1);
+        func_01ff9420(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit, -1, -1);
 
         for (iy = gMapStateManager->unk_25; iy < gMapStateManager->unk_27; iy++)
         {
@@ -279,7 +279,7 @@ public:
                     continue;
                 }
 
-                if (func_02039088(gMapStateManager->unk_04->unk_00, ix, iy, unk, 1, 0, -1) < 0)
+                if (func_02039088(gMapStateManager->unk_04->pUnit, ix, iy, unk, 1, 0, -1) < 0)
                 {
                     continue;
                 }
@@ -333,12 +333,12 @@ public:
         s16 ix;
         s16 iy;
 
-        if (func_0203935c(gMapStateManager->unk_04->unk_00, -1) != -1)
+        if (func_0203935c(gMapStateManager->unk_04->pUnit, -1) != -1)
         {
             return 0;
         }
 
-        func_01ff95a4(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, -1);
+        func_01ff95a4(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit, -1, -1);
 
         for (iy = gMapStateManager->unk_25; iy < gMapStateManager->unk_27; iy++)
         {
@@ -355,7 +355,7 @@ public:
                 }
 
                 if (func_02039088(
-                        gMapStateManager->unk_04->unk_00, ix, iy, gMapStateManager->unk_08->unk_0854[ix | (iy << 5)], 1,
+                        gMapStateManager->unk_04->pUnit, ix, iy, gMapStateManager->unk_08->unk_0854[ix | (iy << 5)], 1,
                         0, -1) < 0)
                 {
                     continue;
@@ -411,7 +411,7 @@ public:
             return 2;
         }
 
-        if (!((gMapStateManager->unk_04->unk_00->items[0].id != 0 ? TRUE : FALSE) & 0xFF))
+        if (!((gMapStateManager->unk_04->pUnit->items[0].id != 0 ? TRUE : FALSE) & 0xFF))
         {
             return 2;
         }
@@ -475,10 +475,10 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        itemId = (((gMapStateManager->unk_04->unk_00->items[0].id != 0) ? TRUE : FALSE) & 0xFF);
+        itemId = (((gMapStateManager->unk_04->pUnit->items[0].id != 0) ? TRUE : FALSE) & 0xFF);
 
-        ux = gMapStateManager->unk_04->unk_00->xPos;
-        uy = gMapStateManager->unk_04->unk_00->yPos;
+        ux = gMapStateManager->unk_04->pUnit->xPos;
+        uy = gMapStateManager->unk_04->pUnit->yPos;
 
         xMin = MAX(ux - 1, gMapStateManager->unk_24);
         yMin = MAX(uy - 1, gMapStateManager->unk_25);
@@ -490,8 +490,8 @@ public:
         {
             for (ix = xMin; ix <= xMax; ix++)
             {
-                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
-                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+                yDiff = ABS(gMapStateManager->unk_04->pUnit->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->pUnit->xPos - ix);
 
                 if (xDiff + yDiff < 1)
                 {
@@ -510,7 +510,7 @@ public:
                     continue;
                 }
 
-                if (gMapStateManager->unk_04->unk_00->force->id != unit->force->id)
+                if (gMapStateManager->unk_04->pUnit->force->id != unit->force->id)
                 {
                     continue;
                 }
@@ -569,15 +569,15 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 8))
+        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 8))
         {
-            if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
+            if (gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_1))
             {
                 return MENU_ENABLED;
             }
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 9))
+        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 9))
         {
             return MENU_ENABLED;
         }
@@ -609,20 +609,20 @@ public:
     {
         s32 actionId = ACTION_NONE;
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_VISIT_08))
+        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_VISIT_08))
         {
-            if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
+            if (gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_1))
             {
                 actionId = ACTION_VISIT_08;
             }
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_VISIT_09))
+        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_VISIT_09))
         {
             actionId = ACTION_VISIT_09;
         }
 
-        func_ov000_021b0de8(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, actionId, 0);
+        func_ov000_021b0de8(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, actionId, 0);
         PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
 
@@ -654,13 +654,13 @@ public:
         s32 ux;
         s32 uy;
 
-        if (!gMapStateManager->unk_04->unk_00->_0203d184())
+        if (!gMapStateManager->unk_04->pUnit->_0203d184())
         {
             return MENU_NOTSHOWN;
         }
 
-        ux = gMapStateManager->unk_04->unk_00->xPos;
-        uy = gMapStateManager->unk_04->unk_00->yPos;
+        ux = gMapStateManager->unk_04->pUnit->xPos;
+        uy = gMapStateManager->unk_04->pUnit->yPos;
 
         xMin = MAX(ux - 1, gMapStateManager->unk_24);
         yMin = MAX(uy - 1, gMapStateManager->unk_25);
@@ -675,8 +675,8 @@ public:
                 s32 xDiff;
                 s32 yDiff;
 
-                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
-                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+                yDiff = ABS(gMapStateManager->unk_04->pUnit->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->pUnit->xPos - ix);
 
                 if (xDiff + yDiff < 1)
                 {
@@ -723,7 +723,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_DOOR, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_DOOR, 0);
         PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
@@ -754,13 +754,13 @@ public:
         s32 ux;
         s32 uy;
 
-        if (!gMapStateManager->unk_04->unk_00->_0203d1bc())
+        if (!gMapStateManager->unk_04->pUnit->_0203d1bc())
         {
             return MENU_NOTSHOWN;
         }
 
-        ux = gMapStateManager->unk_04->unk_00->xPos;
-        uy = gMapStateManager->unk_04->unk_00->yPos;
+        ux = gMapStateManager->unk_04->pUnit->xPos;
+        uy = gMapStateManager->unk_04->pUnit->yPos;
 
         xMin = MAX(ux - 1, gMapStateManager->unk_24);
         yMin = MAX(uy - 1, gMapStateManager->unk_25);
@@ -775,8 +775,8 @@ public:
                 s32 xDiff;
                 s32 yDiff;
 
-                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
-                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+                yDiff = ABS(gMapStateManager->unk_04->pUnit->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->pUnit->xPos - ix);
 
                 if (xDiff + yDiff < 0)
                 {
@@ -823,7 +823,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_BRIDGE, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_BRIDGE, 0);
         PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
@@ -846,13 +846,13 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (!gMapStateManager->unk_04->unk_00->_0203d1f4())
+        if (!gMapStateManager->unk_04->pUnit->_0203d1f4())
         {
             return MENU_NOTSHOWN;
         }
 
         if (!func_ov000_021d49f4(
-                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_CHEST))
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_CHEST))
         {
             return MENU_NOTSHOWN;
         }
@@ -883,7 +883,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_CHEST, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_CHEST, 0);
         PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
@@ -907,7 +907,7 @@ public:
         }
 
         if (!EventCaller::CanStartVisitEvent(
-                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xa))
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0xa))
         {
             return MENU_NOTSHOWN;
         }
@@ -960,7 +960,7 @@ public:
         }
 
         if (!EventCaller::CanStartVisitEvent(
-                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xb))
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0xb))
         {
             return MENU_NOTSHOWN;
         }
@@ -1013,10 +1013,10 @@ public:
         }
 
         if (EventCaller::CanStartVisitEvent(
-                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xc))
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0xc))
         {
 
-            if (gMapStateManager->unk_04->unk_00->GetItemAttributes(0x1000000) != 0)
+            if (gMapStateManager->unk_04->pUnit->GetItemAttributes(0x1000000) != 0)
             {
                 return 0;
             }
@@ -1072,7 +1072,7 @@ public:
         }
 
         if (gMapStateManager
-                ->unk_828[gMapStateManager->unk_04->unk_00->xPos | gMapStateManager->unk_04->unk_00->yPos << 5] != 0x17)
+                ->unk_828[gMapStateManager->unk_04->pUnit->xPos | gMapStateManager->unk_04->pUnit->yPos << 5] != 0x17)
         {
             return 2;
         }
@@ -1084,7 +1084,7 @@ public:
                 continue;
             }
 
-            if (gMapStateManager->unk_04->unk_00->GetWeaponLevel(i))
+            if (gMapStateManager->unk_04->pUnit->GetWeaponLevel(i))
             {
                 return 0;
             }
@@ -1161,13 +1161,13 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
+        if (gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_1))
         {
             return MENU_ENABLED;
         }
 
-        ux = gMapStateManager->unk_04->unk_00->xPos;
-        uy = gMapStateManager->unk_04->unk_00->yPos;
+        ux = gMapStateManager->unk_04->pUnit->xPos;
+        uy = gMapStateManager->unk_04->pUnit->yPos;
 
         xMin = MAX(ux - 1, gMapStateManager->unk_24);
         yMin = MAX(uy - 1, gMapStateManager->unk_25);
@@ -1182,8 +1182,8 @@ public:
                 s32 xDiff;
                 s32 yDiff;
 
-                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
-                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+                yDiff = ABS(gMapStateManager->unk_04->pUnit->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->pUnit->xPos - ix);
 
                 if (xDiff + yDiff < 1)
                 {
@@ -1202,7 +1202,7 @@ public:
                     continue;
                 }
 
-                if (unit->force->id != gMapStateManager->unk_04->unk_00->force->id)
+                if (unit->force->id != gMapStateManager->unk_04->pUnit->force->id)
                 {
                     continue;
                 }
@@ -1258,7 +1258,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_SEIZE, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_SEIZE, 0);
         PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021bfa3c();
         func_ov000_021d6dfc(0);
@@ -1284,9 +1284,9 @@ public:
     /* 14 */ virtual s32 vfunc_14(void)
     {
         if (EventCaller::CanStartVisitEvent(
-                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0xe))
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0xe))
         {
-            if (gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_1))
+            if (gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_1))
             {
                 return MENU_ENABLED;
             }
@@ -1347,7 +1347,7 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0x10))
+        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0x10))
         {
             if (!func_0201f680())
             {
@@ -1416,18 +1416,18 @@ public:
         s32 uy;
         Unit * unit;
 
-        if (gMapStateManager->unk_04->unk_00->state2 & 0x8000)
+        if (gMapStateManager->unk_04->pUnit->state2 & 0x8000)
         {
             return MENU_NOTSHOWN;
         }
 
-        if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_FREELANCER))
+        if (!gMapStateManager->unk_04->pUnit->CheckAttribute(CA_FREELANCER))
         {
             return MENU_NOTSHOWN;
         }
 
-        ux = gMapStateManager->unk_04->unk_00->xPos;
-        uy = gMapStateManager->unk_04->unk_00->yPos;
+        ux = gMapStateManager->unk_04->pUnit->xPos;
+        uy = gMapStateManager->unk_04->pUnit->yPos;
 
         xMin = MAX(ux - 1, gMapStateManager->unk_24);
         yMin = MAX(uy - 1, gMapStateManager->unk_25);
@@ -1442,8 +1442,8 @@ public:
                 s32 xDiff;
                 s32 yDiff;
 
-                yDiff = ABS(gMapStateManager->unk_04->unk_00->yPos - iy);
-                xDiff = ABS(gMapStateManager->unk_04->unk_00->xPos - ix);
+                yDiff = ABS(gMapStateManager->unk_04->pUnit->yPos - iy);
+                xDiff = ABS(gMapStateManager->unk_04->pUnit->xPos - ix);
 
                 if (xDiff + yDiff < 1)
                 {
@@ -1462,7 +1462,7 @@ public:
                     continue;
                 }
 
-                if (unit->force->id != gMapStateManager->unk_04->unk_00->force->id)
+                if (unit->force->id != gMapStateManager->unk_04->pUnit->force->id)
                 {
                     continue;
                 }
@@ -1516,7 +1516,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_DECOY, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_DECOY, 0);
         PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021bfa3c();
         func_ov000_021d6dfc(0);
@@ -1550,7 +1550,7 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (!func_ov000_021d49f4(gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0x13))
+        if (!func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0x13))
         {
             return MENU_NOTSHOWN;
         }
@@ -1615,7 +1615,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_WAIT, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_WAIT, 0);
         PlayerPhase_GotoLabel(40, 0, 0);
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;

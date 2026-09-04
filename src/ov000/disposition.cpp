@@ -299,11 +299,11 @@ void Spawn::func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y)
 
     if ((this->flags & 0x20) != 0)
     {
-        unit->state1 |= CA_UNK_12;
+        unit->state1 |= CA_BOSS;
     }
     else
     {
-        unit->state1 &= ~CA_UNK_12;
+        unit->state1 &= ~CA_BOSS;
     }
 
     if ((this->flags & 0x40) != 0)

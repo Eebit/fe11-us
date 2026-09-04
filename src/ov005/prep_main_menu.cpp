@@ -281,7 +281,7 @@ public:
 
             if (data_02196f24->enableTutorials)
             {
-                func_0205038c(0x17, -1);
+                StartProcTutCardMaybe(0x17, -1);
                 func_02050494(this, 0, 0);
             }
 

@@ -220,7 +220,7 @@ public:
         if (func_0201f680())
         {
             func_ov000_021b0de8(
-                gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, 0x10,
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0x10,
                 gActionSt->unk_37);
             PlayerPhase_GotoLabel(0x28, 0, 0);
 

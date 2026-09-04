@@ -8,6 +8,11 @@
 #include "state_manager.hpp"
 #include "unit.hpp"
 
+// UnkStruct_02196f0c::state
+// & 0x10 -> in prep
+// & 0x20 -> in multiplayer
+// & 0x4000 -> "Transporter Off"
+
 struct UnkStruct_02196f0c
 {
     /* 00 */ struct MapData * pCurrentMap;

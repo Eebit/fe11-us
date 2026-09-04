@@ -2479,7 +2479,7 @@ func_0204af48 kind:function(arm,size=0xc8) addr:0x0204af48
 func_0204b010 kind:function(arm,size=0x9c) addr:0x0204b010
 func_0204b0ac kind:function(arm,size=0xe8) addr:0x0204b0ac
 func_0204b194 kind:function(arm,size=0x4c) addr:0x0204b194
-func_0204b1e0 kind:function(arm,size=0x18) addr:0x0204b1e0
+_IsProcTutCardActive kind:function(arm,size=0x18) addr:0x0204b1e0
 func_0204b1f8 kind:function(arm,size=0x58) addr:0x0204b1f8
 func_0204b250 kind:function(arm,size=0x10) addr:0x0204b250
 func_0204b260 kind:function(arm,size=0x6c) addr:0x0204b260
@@ -2573,8 +2573,8 @@ func_020502a8 kind:function(arm,size=0x30) addr:0x020502a8
 func_020502d8 kind:function(arm,size=0x2c) addr:0x020502d8
 func_02050304 kind:function(arm,size=0x1c) addr:0x02050304
 func_02050320 kind:function(arm,size=0x6c) addr:0x02050320
-func_0205038c kind:function(arm,size=0xe8) addr:0x0205038c
-func_02050474 kind:function(arm,size=0x20) addr:0x02050474
+StartProcTutCardMaybe kind:function(arm,size=0xe8) addr:0x0205038c
+IsProcTutCardActive kind:function(arm,size=0x20) addr:0x02050474
 func_02050494 kind:function(arm,size=0x10c) addr:0x02050494
 func_020505a0 kind:function(arm,size=0x30) addr:0x020505a0
 func_020505d0 kind:function(arm,size=0x20) addr:0x020505d0
@@ -7436,7 +7436,7 @@ data_020d6240 kind:data(any) addr:0x020d6240
 data_020d6248 kind:data(any) addr:0x020d6248
 data_020d6250 kind:data(any) addr:0x020d6250
 data_020d6254 kind:data(any) addr:0x020d6254
-data_020d6258 kind:data(any) addr:0x020d6258
+ProcScr_TutCard kind:data(any) addr:0x020d6258
 __typestr__11ProcTutCard kind:data(any) addr:0x020d6288
 __typeinfo__11ProcTutCard kind:data(any) addr:0x020d6298
 __vt__11ProcTutCard kind:data(any) addr:0x020d62b8

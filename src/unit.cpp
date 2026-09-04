@@ -772,8 +772,8 @@ void Unit::_0203c068(struct Unit * arg_1)
         pUVar9->flags &= ~ITEM_FLAG_EQUIPPED;
     }
 
-    this->state1 &= ~(CA_UNK_1 | CA_UNK_12);
-    this->state1 |= pUVar7->CheckAttribute(CA_UNK_1 | CA_UNK_12);
+    this->state1 &= ~(CA_UNK_1 | CA_BOSS);
+    this->state1 |= pUVar7->CheckAttribute(CA_UNK_1 | CA_BOSS);
 
     this->unk_a0 = pUVar7;
     this->state2 |= 0x40000;

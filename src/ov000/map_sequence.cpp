@@ -1265,7 +1265,7 @@ struct ProcCmd ProcScr_ProcSeq[] =
     PROC_CALL(func_ov000_021a8650),
 
 PROC_LABEL(2),
-    PROC_WHILE(func_0204b1e0),
+    PROC_WHILE(_IsProcTutCardActive),
     PROC_CALL(func_ov000_021a8868),
     PROC_CALL(EventCaller::TryStartTurnEvent),
     PROC_CALL(EventCaller::TryStartReinforcementEvent),
@@ -1625,7 +1625,7 @@ EC void func_ov000_021a9a48(void)
 
             for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
             {
-                if (it->CheckAttribute(CA_UNK_12))
+                if (it->CheckAttribute(CA_BOSS))
                 {
                     iVar1++;
                 }
@@ -1795,7 +1795,7 @@ EC void func_ov000_021d3fac(void);
 
 EC void func_ov000_021a9f98(void)
 {
-    Unit * pUnit = gMapStateManager->unk_04->unk_00;
+    Unit * pUnit = gMapStateManager->unk_04->pUnit;
 
     if (func_ov000_021a478c() && (gActionSt->func_ov000_021b0f1c(pUnit) == 0))
     {
@@ -1870,7 +1870,7 @@ EC void func_ov000_021aa1d0(void)
 
     Proc_EndEach(ProcScr_MotionDispDelay);
 
-    unit = gMapStateManager->unk_04->unk_00;
+    unit = gMapStateManager->unk_04->pUnit;
     if (unit != NULL)
     {
         func_ov000_021a7284();
@@ -2499,7 +2499,7 @@ EC BOOL func_ov000_021ab4f0(s32 x, s32 y, s32 arg2, s32 arg3)
             {
                 func_ov000_021aa1d0();
 
-                gMapStateManager->unk_04->unk_00 = pUnit;
+                gMapStateManager->unk_04->pUnit = pUnit;
 
                 PlayerPhase_GotoLabel(L_PLAYERPHASE_ACT, 6, 0);
 
@@ -2599,12 +2599,12 @@ EC void func_ov000_021ab768(void)
             gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_ON1, 0, 0);
         }
 
-        func_ov000_021a3498(gMapStateManager->unk_04->unk_00, 1, -1, -1);
+        func_ov000_021a3498(gMapStateManager->unk_04->pUnit, 1, -1, -1);
         func_ov000_021a35a0();
 
-        func_ov000_021a354c(gMapStateManager->unk_04->unk_00, -1, -1);
+        func_ov000_021a354c(gMapStateManager->unk_04->pUnit, -1, -1);
 
-        func_01ff8d88(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00, -1, 2, 1, 1);
+        func_01ff8d88(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit, -1, 2, 1, 1);
     }
 
     if (gMapStateManager->inputHandler->unk_21_0 != 0)
@@ -2622,7 +2622,7 @@ EC void func_ov000_021ab768(void)
 
             gMapStateManager->unk_14->unk_04->unk_15 = 0;
 
-            if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00) != 0)
+            if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit) != 0)
             {
                 func_ov000_021b0de8(gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
 
@@ -2636,7 +2636,7 @@ EC void func_ov000_021ab768(void)
             data_ov000_021e3340->unk_02 = 0;
             data_ov000_021e3340->unk_03 = 0;
 
-            if ((x != gMapStateManager->unk_04->unk_00->xPos) || (y != gMapStateManager->unk_04->unk_00->yPos))
+            if ((x != gMapStateManager->unk_04->pUnit->xPos) || (y != gMapStateManager->unk_04->pUnit->yPos))
             {
                 gMapStateManager->inputHandler->SetButtonVisibility(0);
             }
@@ -2767,10 +2767,10 @@ EC void func_ov000_021abd9c(void)
             gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_ON1, 0, 0);
         }
 
-        func_ov000_021a3498(gMapStateManager->unk_04->unk_00, 1, gActionSt->unk_2c, gActionSt->unk_2d);
+        func_ov000_021a3498(gMapStateManager->unk_04->pUnit, 1, gActionSt->unk_2c, gActionSt->unk_2d);
         func_ov000_021a35a0();
 
-        func_ov000_021a354c(gMapStateManager->unk_04->unk_00, gActionSt->unk_2c, gActionSt->unk_2d);
+        func_ov000_021a354c(gMapStateManager->unk_04->pUnit, gActionSt->unk_2c, gActionSt->unk_2d);
         func_ov000_021abbc8();
     }
 
@@ -2819,7 +2819,7 @@ EC BOOL func_ov000_021abf30(void)
         {
             gMapStateManager->unk_14->unk_04->unk_15 = 0;
 
-            if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00) != 0)
+            if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit) != 0)
             {
                 func_ov000_021b0de8(gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
             }
@@ -2863,9 +2863,9 @@ EC BOOL func_ov000_021ac0c0(void)
         int sp_00;
         u32 uVar7;
 
-        r5 = gMapStateManager->unk_04->unk_00;
-        r4 = gMapStateManager->unk_04->unk_00->items[gActionSt->unk_37].GetData();
-        r6_ = gMapStateManager->unk_04->unk_00->items[gActionSt->unk_37].GetData();
+        r5 = gMapStateManager->unk_04->pUnit;
+        r4 = gMapStateManager->unk_04->pUnit->items[gActionSt->unk_37].GetData();
+        r6_ = gMapStateManager->unk_04->pUnit->items[gActionSt->unk_37].GetData();
         r6 = r6_->minRange;
         r7 = gActionSt->yDecision;
         r8 = gActionSt->xDecision;
@@ -2900,7 +2900,7 @@ EC void func_ov000_021ac218(void)
     s32 uVar8;
 
     bVar5 = TRUE;
-    pUnit = gMapStateManager->unk_04->unk_00;
+    pUnit = gMapStateManager->unk_04->pUnit;
     x = pUnit->xPos;
     y = pUnit->yPos;
 
@@ -3073,7 +3073,7 @@ EC void func_ov000_021ac6a0(void)
 
     if (func_020479b0() == 0)
     {
-        if (func_02050474() == 0)
+        if (IsProcTutCardActive() == 0)
         {
             if ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (gMapStateManager->inputHandler->_021a5650(1) != 0))
             {
@@ -3288,7 +3288,7 @@ EC void func_ov000_021acbd4(void)
 
 EC void func_ov000_021acc08(ProcPtr proc)
 {
-    if (gMapStateManager->unk_04->unk_04->Check_54())
+    if (gMapStateManager->unk_04->pMu->CheckFlag1())
     {
         Proc_Break(proc, 1);
     }
@@ -3335,7 +3335,7 @@ EC void func_ov000_021accfc(ProcPtr proc)
 EC void func_ov000_021acd8c(void)
 {
     struct MapStateManager_14_04 * ptr;
-    struct Unit * pUnit = gMapStateManager->unk_04->unk_00;
+    struct Unit * pUnit = gMapStateManager->unk_04->pUnit;
 
     EndTargetSelect();
 
@@ -3344,7 +3344,7 @@ EC void func_ov000_021acd8c(void)
 
     data_ov000_021e3340->unk_09 = 1;
 
-    func_ov000_021bc540(gMapStateManager->unk_04->unk_04);
+    func_ov000_021bc540(gMapStateManager->unk_04->pMu);
     func_01ff8d88(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
     func_ov000_021a3ee4(pUnit, 1);
 
@@ -3449,7 +3449,7 @@ EC void func_ov000_021ad0f4(ProcPtr proc)
     psVar1 = GetUnit(data_ov000_021e3340->unk_02);
 
     uVar10 = func_0203c378(psVar1)->pPersonData->pid;
-    iVar3 = func_0203c378(gMapStateManager->unk_04->unk_00)->pPersonData->pid;
+    iVar3 = func_0203c378(gMapStateManager->unk_04->pUnit)->pPersonData->pid;
 
     EventCaller::TryStartTalkEvent(proc, (u32)iVar3, (u32)uVar10, (u32)psVar7);
 
@@ -3468,26 +3468,26 @@ EC void func_ov000_021ad388(void)
 
 EC void func_ov000_021ad3c0(ProcPtr proc)
 {
-    gMapStateManager->unk_04->unk_04->ClearValues();
+    gMapStateManager->unk_04->pMu->SetFacingDirection(0);
 
     func_0205633c();
 
     TryStartVisitEvent(
-        proc, gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, gActionSt->actionId);
+        proc, gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, gActionSt->actionId);
 
     if (gActionSt->actionId == ACTION_ARMORY)
     {
-        func_02054870(gMapStateManager->unk_04->unk_00, proc);
+        func_02054870(gMapStateManager->unk_04->pUnit, proc);
         return;
     }
 
     if (gActionSt->actionId == ACTION_VENDOR)
     {
-        func_02055224(gMapStateManager->unk_04->unk_00, proc);
+        func_02055224(gMapStateManager->unk_04->pUnit, proc);
         return;
     }
 
-    func_02055ab0(gMapStateManager->unk_04->unk_00, proc);
+    func_02055ab0(gMapStateManager->unk_04->pUnit, proc);
 
     return;
 }
@@ -3502,7 +3502,7 @@ EC void func_ov000_021ad49c(void)
     if ((data_ov000_021e3340->unk_06 & 4) != 0)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, gActionSt->actionId, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, gActionSt->actionId, 0);
 
         Proc_Goto(gPlayerPhaseProc, 40, 0);
         data_ov000_021e3340->unk_02 = 0;
@@ -3510,7 +3510,7 @@ EC void func_ov000_021ad49c(void)
         return;
     }
 
-    func_ov000_021bc5a8(gMapStateManager->unk_04->unk_04);
+    func_ov000_021bc5a8(gMapStateManager->unk_04->pMu);
 
     Proc_Goto(gPlayerPhaseProc, 11, 0);
     data_ov000_021e3340->unk_02 = 0;
@@ -3521,7 +3521,7 @@ EC void func_ov000_021ad49c(void)
 
 EC void func_ov000_021ad580(ProcPtr proc)
 {
-    gMapStateManager->unk_04->unk_04->ClearValues();
+    gMapStateManager->unk_04->pMu->SetFacingDirection(0);
     StartArena(proc);
     return;
 }
@@ -3531,14 +3531,14 @@ EC void func_ov000_021ad5bc(void)
     if ((data_ov000_021e3340->unk_06 & 8) != 0)
     {
         func_ov000_021b0de8(
-            gMapStateManager->unk_04->unk_00->xPos, gMapStateManager->unk_04->unk_00->yPos, ACTION_ARENA, 0);
+            gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, ACTION_ARENA, 0);
         Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_40, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
     }
     else
     {
-        func_ov000_021bc5a8(gMapStateManager->unk_04->unk_04);
+        func_ov000_021bc5a8(gMapStateManager->unk_04->pMu);
         Proc_Goto(gPlayerPhaseProc, 11, 0);
 
         data_ov000_021e3340->unk_02 = 0;
@@ -3608,7 +3608,7 @@ EC void func_ov000_021ad740(void)
 
     if (gActionSt->actionId == ACTION_10)
     {
-        func_ov000_021a43e8();
+        MapBattle_021a43e8();
         Proc_Goto(gPlayerPhaseProc, 28, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
@@ -3848,7 +3848,7 @@ EC void func_ov000_021ade50(void)
 
 EC void func_ov000_021ade88(ProcPtr proc)
 {
-    struct Unit * pUnit = gMapStateManager->unk_04->unk_00;
+    struct Unit * pUnit = gMapStateManager->unk_04->pUnit;
 
     data_021974fc->unk_00 = pUnit;
     data_021974fc->unk_08 = 0;
@@ -4020,7 +4020,7 @@ PROC_LABEL(18),
 PROC_LABEL(20),
     PROC_REPEAT(func_ov000_021acc08),
     PROC_CALL(func_ov000_021ad0f4),
-    PROC_CALL(func_ov000_021a43e8),
+    PROC_CALL(MapBattle_021a43e8),
     PROC_CALL(func_ov000_021ad388),
 
 PROC_LABEL(L_PLAYERPHASE_SHOP),
@@ -4081,7 +4081,7 @@ PROC_LABEL(40),
     PROC_CALL(func_ov000_021ac218),
 
 PROC_LABEL(L_PLAYERPHASE_END_TURN),
-    PROC_WHILE(func_0204b1e0),
+    PROC_WHILE(_IsProcTutCardActive),
     PROC_CALL(func_ov000_021adf58),
 
 PROC_LABEL(L_PLAYERPHASE_SURRENDER),
@@ -4229,7 +4229,7 @@ public:
 
 EC void CpuPhase_021ae364(void)
 {
-    struct Unit * unit = gMapStateManager->unk_04->unk_00;
+    struct Unit * unit = gMapStateManager->unk_04->pUnit;
 
     func_ov000_021a7284();
 
@@ -4411,7 +4411,7 @@ EC void CpuPhase_021ae7b4(ProcPtr proc)
     func_ov000_021ae324(pUnit);
     data_021974f0 = (u32)pUnit;
 
-    if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00))
+    if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit))
     {
         func_ov000_021b0de8(gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
     }
@@ -4653,7 +4653,7 @@ EC void func_ov000_021af044(map::ProcLink * param_1)
         return;
     }
 
-    if (!func_02050474() && ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (gMapStateManager->inputHandler->_021a5650(1))))
+    if (!IsProcTutCardActive() && ((gKeySt->pressed & KEY_BUTTON_R) != 0 || (gMapStateManager->inputHandler->_021a5650(1))))
     {
         if (func_0204b1f8(0))
         {
@@ -4768,7 +4768,7 @@ EC void func_ov000_021af3cc(ProcPtr proc)
     func_ov000_021aeb70(pUnit);
     data_021974f0 = (u32)pUnit;
 
-    if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->unk_00))
+    if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit))
     {
         func_ov000_021b0de8(gMapStateManager->unk_08->unk_0042, gMapStateManager->unk_08->unk_0043, 0x17, 0);
     }
@@ -4787,7 +4787,7 @@ EC void func_ov000_021aebb0(void)
     s32 y;
 
     bVar5 = TRUE;
-    pUnit = gMapStateManager->unk_04->unk_00;
+    pUnit = gMapStateManager->unk_04->pUnit;
     x = pUnit->xPos;
     y = pUnit->yPos;
 
@@ -5109,7 +5109,7 @@ EC void ProcMind_ov000_021af79c(ProcEx * proc)
 
 EC void ProcMind_ov000_021af944(ProcEx * param_1)
 {
-    if (!((!(gMapStateManager->unk_04->unk_04->unk_54 & 1) ? TRUE : FALSE) & 0xFF))
+    if (!gMapStateManager->unk_04->pMu->CheckFlag1())
     {
         return;
     }
@@ -5213,7 +5213,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->pMu->SetFacingDirection(0);
             }
 
             Proc_Goto(proc, 0, 0);
@@ -5265,12 +5265,12 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_10))
+            if (!gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_10))
             {
-                iVar3 = gMapStateManager->unk_04->unk_00->_0203d01c();
-                if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
+                iVar3 = gMapStateManager->unk_04->pUnit->_0203d01c();
+                if (gMapStateManager->unk_04->pUnit->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
+                    gMapStateManager->unk_04->pUnit->ClearItemAtSlot(iVar3, 1);
                 }
             }
 
@@ -5294,7 +5294,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->pMu->SetFacingDirection(0);
             }
 
             Proc_Goto(proc, 1, 0);
@@ -5310,12 +5310,12 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_10))
+            if (!gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_10))
             {
-                iVar3 = gMapStateManager->unk_04->unk_00->_0203d094();
-                if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
+                iVar3 = gMapStateManager->unk_04->pUnit->_0203d094();
+                if (gMapStateManager->unk_04->pUnit->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
+                    gMapStateManager->unk_04->pUnit->ClearItemAtSlot(iVar3, 1);
                 }
             }
 
@@ -5339,7 +5339,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->pMu->SetFacingDirection(0);
             }
 
             Proc_Goto(proc, 1, 0);
@@ -5355,12 +5355,12 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
                 }
             }
 
-            if (!gMapStateManager->unk_04->unk_00->CheckAttribute(CA_UNK_10))
+            if (!gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_10))
             {
-                iVar3 = gMapStateManager->unk_04->unk_00->_0203d10c();
-                if (gMapStateManager->unk_04->unk_00->items[iVar3].func_0203e0f8(NULL) != 0)
+                iVar3 = gMapStateManager->unk_04->pUnit->_0203d10c();
+                if (gMapStateManager->unk_04->pUnit->items[iVar3].func_0203e0f8(NULL) != 0)
                 {
-                    gMapStateManager->unk_04->unk_00->ClearItemAtSlot(iVar3, 1);
+                    gMapStateManager->unk_04->pUnit->ClearItemAtSlot(iVar3, 1);
                 }
             }
 
@@ -5368,7 +5368,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
             if (EventCaller::func_020479b0() != 0)
             {
-                gMapStateManager->unk_04->unk_04->ClearValues();
+                gMapStateManager->unk_04->pMu->SetFacingDirection(0);
             }
 
             Proc_Goto(proc, 1, 0);
@@ -5458,7 +5458,7 @@ EC void ProcMind_ov000_021b0538(ProcPtr proc)
 
     if (EventCaller::func_020479b0() != 0)
     {
-        gMapStateManager->unk_04->unk_04->ClearValues();
+        gMapStateManager->unk_04->pMu->SetFacingDirection(0);
     }
 
     if (sound == data_ov000_021e24c0)

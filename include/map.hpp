@@ -22,12 +22,12 @@ class UnkStruct_021E3324
 public:
     /* 00 */ u8 phase;
     /* 01 */ u8 unk_01;
-    /* 02 */ u8 unk_02;
+    /* 02 */ u8 unk_02; // "is invisible"
     /* 03 */ u8 unk_03;
     /* 04 */ u16 turn;
-    /* 06 */ u16 unk_06;
+    /* 06 */ u16 unk_06; // turn limit
     /* 08 */ u32 unk_08;
-    /* 0C */ u32 unk_0c;
+    /* 0C */ u32 unk_0c; // time limit
     /* 10 */ u32 unk_10;
     /* 14 */ u8 unk_14;
     /* 15 */ u8 unk_15;
@@ -38,26 +38,26 @@ public:
 
     UnkStruct_021E3324()
     {
-            s32 j;
+        s32 j;
 
-            this->phase = 0;
-            this->unk_01 = 0;
-            this->turn = 1;
-            this->unk_06 = 0;
-            this->unk_08 = 0;
-            this->unk_0c = 0;
-            this->unk_02 = 0;
-            this->unk_03 = 0;
-            this->unk_14 = 0x1f;
-            this->unk_15 = 0x1f;
-            this->unk_16 = 0x1f;
+        this->phase = 0;
+        this->unk_01 = 0;
+        this->turn = 1;
+        this->unk_06 = 0;
+        this->unk_08 = 0;
+        this->unk_0c = 0;
+        this->unk_02 = 0;
+        this->unk_03 = 0;
+        this->unk_14 = 0x1f;
+        this->unk_15 = 0x1f;
+        this->unk_16 = 0x1f;
 
-            for (j = 0; j < 4; j++)
-            {
-                this->unk_18[j] = 0;
-            }
+        for (j = 0; j < 4; j++)
+        {
+            this->unk_18[j] = 0;
+        }
 
-            this->unk_1c = 0;
+        this->unk_1c = 0;
     }
 };
 
@@ -115,46 +115,60 @@ public:
     }
 };
 
-class MapStateManager_04_04
+struct MovingMapSprite;
+
+class MoveUnit
 {
 public:
-    STRUCT_PAD(0x00, 0x04);
-    void * unk_04;
-    STRUCT_PAD(0x04, 0x54);
-    u16 unk_54;
-    STRUCT_PAD(0x56, 0x5f);
-    s8 unk_5f;
-    s8 unk_60;
-    u8 unk_61;
+    /* 00 */ Unit * pUnit;
+    /* 04 */ MovingMapSprite * pMovingMapSprite;
+    /* 08 */ STRUCT_PAD(0x08, 0x50);
+    /* 50 */ s16 xPos;
+    /* 52 */ s16 yPos;
+    /* 54 */ u16 flags;
+    /* 56 */ STRUCT_PAD(0x56, 0x5f);
+    /* 5F */ u8 facing;
+    /* 60 */ s8 unk_60;
+    /* 61 */ u8 unk_61;
 
-    void ClearValues()
+    inline void SetFacingDirection(s32 dir)
     {
-        this->unk_5f = 0;
+        this->facing = dir;
 
         if (this->unk_61 != 0)
         {
             this->unk_61 = 0;
             this->unk_60 = -1;
         }
+
+        return;
     }
 
-    inline u8 Check_54(void)
+    inline u8 CheckFlag1(void)
     {
-        return (!(this->unk_54 & 1)) & 0xFF;
+        return (!(this->flags & 1)) & 0xFF;
+    }
+
+    inline void SetPos(s32 x, s32 y)
+    {
+        this->xPos = x;
+        this->yPos = y;
+
+        return;
     }
 };
 
 class MapStateManager_04
 {
 public:
-    /* 00 */ struct Unit * unk_00;
-    /* 04 */ struct MapStateManager_04_04 * unk_04;
+    /* 00 */ Unit * pUnit;
+    /* 04 */ MoveUnit * pMu;
     /* 08 */ u32 unk_08;
 
     MapStateManager_04()
     {
-        this->unk_00 = 0;
-        this->unk_04 = 0;
+        this->pUnit = NULL;
+        this->pMu = NULL;
         this->unk_08 = 0;
     }
 };

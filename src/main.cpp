@@ -49,7 +49,7 @@ EC void func_02000d14(struct MapStateManager_08 * buf, s32 a)
 EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
 {
     s32 mov, tmp2;
-    struct Unit * unit = gMapStateManager->unk_04->unk_00;
+    struct Unit * unit = gMapStateManager->unk_04->pUnit;
 
     mov = unit->GetMov();
     if (unit->CheckAttribute(CA_UNK_27))
@@ -119,7 +119,7 @@ EC void func_02000d2c(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b)
 EC BOOL func_02000f18(struct UnkStruct_Func_2000D2C * buf, s32 a, s32 b, s32 c)
 {
     s32 tmp4;
-    struct Unit * unit = gMapStateManager->unk_04->unk_00;
+    struct Unit * unit = gMapStateManager->unk_04->pUnit;
 
     if (gMapStateManager->unk_028[GetPos(buf->unk_42, buf->unk_43)] != 0)
         return FALSE;

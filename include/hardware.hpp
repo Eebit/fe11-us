@@ -210,7 +210,8 @@ public:
     s16 unk_3a;
     s16 unk_3c;
     u8 unk_3e;
-    STRUCT_PAD(0x3F, 0x42);
+    STRUCT_PAD(0x3F, 0x40);
+    u8 unk_40;
     u8 unk_42;
 };
 

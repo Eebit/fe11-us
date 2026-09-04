@@ -96,6 +96,22 @@ public:
     virtual void Loop();
 
     void Update(void);
+
+    inline void SetFlag16(s32 arg)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->SetFlag16(arg);
+        }
+    }
+
+    inline void SetFlag32(s32 arg)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->SetFlag32(arg);
+        }
+    }
 };
 
 namespace anime
