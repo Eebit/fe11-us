@@ -814,7 +814,7 @@ void onbat::MapBattle::SetupBgm(void)
         }
     }
 
-    if (songId == -1 && !(data_02196f0c->state & 0x20))
+    if (songId == -1 && !(data_02196f0c->state & GAME_STATE_UNK_5))
     {
         unit = NULL;
 
@@ -831,13 +831,13 @@ void onbat::MapBattle::SetupBgm(void)
         {
             if (unit->GetPersonData() == GetPersonByPidStr("PID_MEDIUTH"))
             {
-                if (data_02196f0c->state & 0x100000)
+                if (data_02196f0c->state & GAME_STATE_UNK_20)
                 {
                     songId = BGM_BTL_BOSS3_2;
                 }
                 else
                 {
-                    data_02196f0c->state |= 0x100000;
+                    data_02196f0c->state |= GAME_STATE_UNK_20;
                     songId = BGM_BTL_BOSS3;
                 }
             }

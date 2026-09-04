@@ -274,7 +274,7 @@ public:
 
         if (data_ov005_02217560->unk_11 == 0)
         {
-            if ((data_02196f20->flagMgr->GetById(0x17)) && (!(data_02196f0c->state & 0x40000)))
+            if ((data_02196f20->flagMgr->GetById(0x17)) && (!(data_02196f0c->state & GAME_STATE_UNK_18)))
             {
                 return;
             }
@@ -286,7 +286,7 @@ public:
             }
 
             data_02196f20->flagMgr->SetById(0x17);
-            data_02196f0c->state |= 0x40000;
+            data_02196f0c->state |= GAME_STATE_UNK_18;
         }
     }
 

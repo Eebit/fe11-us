@@ -7,6 +7,8 @@
 #include "proc_ex.hpp"
 #include "unit.hpp"
 
+#include "unknown_types.hpp"
+
 struct DisposGroupProcessor;
 
 class Disposition : public ProcEx
@@ -150,15 +152,15 @@ EC void func_02039ff8(struct Unit *, Spawn *);
 
 EC void func_01ff8204(void *, s8, s8, s32, s32, u16);
 
-struct UnkStruct_02196f0c
-{
-    /* 00 */ struct UnkStruct_02196f0c_00 * unk_00;
-    /* 04 */ void * flagMgr;
-    /* 08 */ void * valueMgr;
-    /* 0C */ u32 state;
-    /* 10 */ u32 unk_10;
-    /* 14 */ u32 unk_14;
-};
+// struct UnkStruct_02196f0c
+// {
+//     /* 00 */ struct UnkStruct_02196f0c_00 * unk_00;
+//     /* 04 */ void * flagMgr;
+//     /* 08 */ void * valueMgr;
+//     /* 0C */ u32 state;
+//     /* 10 */ u32 unk_10;
+//     /* 14 */ u32 unk_14;
+// };
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
@@ -289,7 +291,7 @@ void Spawn::func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y)
 
     if ((GetPersonDBIndex(unit->pPersonData) == this->pid) && ((this->flags & 8) != 0))
     {
-        unit->state2 |= 0x200;
+        unit->state2 |= US_UNK_9;
     }
 
     unit->xPos = x;
@@ -414,7 +416,7 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9e7c(s32 faction)
 
     for (pUnit = force->head; pUnit != NULL; pUnit = pUnit->unk_3c)
     {
-        if (!(pUnit->state2 & 0x800))
+        if (!(pUnit->state2 & US_UNK_11))
         {
             break;
         }
@@ -433,7 +435,7 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param
     spawn = this->spawns + index;
     paVar2 = this->spawnStates + index;
 
-    if (((spawn->flags & 0xe) != 0) && ((data_02196f0c->state & 0x40) != 0))
+    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_UNK_6))
     {
         return NULL;
     }
@@ -559,12 +561,12 @@ EC void DisposGroupProcessor::func_ov000_021da0fc(s32 index)
         data_ov000_021e3528.unk_2e++;
     }
 
-    if (((spawn->flags & 0xe) != 0) && ((data_02196f0c->state & 0x40) != 0))
+    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_UNK_6))
     {
         return;
     }
 
-    if (((spawn->flags & 0x80) == 0) && ((data_02196f0c->state & 1) != 0))
+    if (((spawn->flags & 0x80) == 0) && (data_02196f0c->state & GAME_STATE_UNK_0))
     {
         return;
     }
@@ -913,7 +915,7 @@ void DisposGroupProcessor::func_ov000_021da8f4(void)
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
-                    unit->state2 |= 0x20;
+                    unit->state2 |= US_UNK_5;
                 }
             }
             else
@@ -924,12 +926,12 @@ void DisposGroupProcessor::func_ov000_021da8f4(void)
 
                     if (gMapStateManager->tst(unit->xPos, unit->yPos))
                     {
-                        unit->state2 |= 0x20;
+                        unit->state2 |= US_UNK_5;
                     }
                 }
                 else
                 {
-                    unit->state2 |= 0x1000;
+                    unit->state2 |= US_NOT_PRESENT;
                     this->unk_1e++;
                 }
 
@@ -1172,7 +1174,7 @@ void DisposGroupProcessor::func_ov000_021dad04(void)
 
             if ((iVar7 == NULL) || ((!(iVar7->unk_54 & 1) ? TRUE : FALSE) & 0xFF))
             {
-                unit->state2 &= ~0x1000;
+                unit->state2 &= ~US_NOT_PRESENT;
 
                 if (iVar7 != 0)
                 {
@@ -1184,7 +1186,7 @@ void DisposGroupProcessor::func_ov000_021dad04(void)
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
-                    unit->state2 |= 0x20;
+                    unit->state2 |= US_UNK_5;
                 }
 
                 bVar4 = TRUE;
@@ -1293,26 +1295,26 @@ void DisposGroupProcessor::func_ov000_021db1f4(void)
             else
             {
                 unit->SetPos(it->xPos, it->yPos);
-                unit->state2 &= ~0x1000;
+                unit->state2 &= ~US_NOT_PRESENT;
                 unit->alpha = 0x1f;
                 it->flags |= 0x10;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
-                    unit->state2 |= 0x20;
+                    unit->state2 |= US_UNK_5;
                 }
             }
 
             if (((it->flags & 8) != 0) && (func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit) != 0))
             {
-                unit->state2 &= ~0x1000;
+                unit->state2 &= ~US_NOT_PRESENT;
                 func_ov000_021bb944();
                 it->flags &= ~8;
                 it->flags |= 0x10;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
-                    unit->state2 |= 0x20;
+                    unit->state2 |= US_UNK_5;
                 }
             }
         }

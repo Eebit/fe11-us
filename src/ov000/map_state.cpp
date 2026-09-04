@@ -72,7 +72,7 @@ EC BOOL func_ov000_021a475c(void);
 EC BOOL func_ov000_021a47ac(void);
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
-extern struct UnkStruct_02196f10 * data_02196f10;
+extern struct WirelessSettings * data_02196f10;
 
 extern vu32 gElapsedFrames;
 
@@ -268,7 +268,7 @@ EC void func_ov000_021a2574(void)
 
     func_0204000c();
 
-    data_02196f0c->state &= ~0x4;
+    data_02196f0c->state &= ~GAME_STATE_UNK_2;
 
     return;
 }
@@ -732,15 +732,15 @@ EC void func_ov000_021a3498(struct Unit * unit, BOOL arg_1, u32 x, u32 y)
         y = unit->yPos;
     }
 
-    if (((unit->state2 & 0x21000) != 0) && (arg_1 == 0))
+    if ((unit->state2 & (US_NOT_PRESENT | US_HOVERED)) && (arg_1 == 0))
     {
         return;
     }
 
-    if (!(unit->state2 & 0x20))
+    if (!(unit->state2 & US_UNK_5))
     {
         u32 pos = (x | (y << 5));
-        if (((gMapStateManager->unk_d30[pos >> 3] & (1 << (pos & 7))) & 0xFF) || (unit->state2 & 0x4000) ||
+        if (((gMapStateManager->unk_d30[pos >> 3] & (1 << (pos & 7))) & 0xFF) || (unit->state2 & US_UNK_14) ||
             (((unit->force->id == data_ov000_021e3324->unk_01) & 0xFF) != 0))
         {
             gMapStateManager->unk_028[x | y << 5] = unit->unk_68;
@@ -776,7 +776,7 @@ EC void func_ov000_021a354c(struct Unit * unit, s32 x, s32 y)
 
 static inline BOOL TestPhaseAndState(struct Unit * unit, u32 phase)
 {
-    if (unit->state2 & 0x21020)
+    if (unit->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED))
     {
         return TRUE;
     }
@@ -814,7 +814,7 @@ EC void func_ov000_021a35a0(void)
                     continue;
                 }
 
-                if (!(it->state2 & 0x4000))
+                if (!(it->state2 & US_UNK_14))
                 {
                     continue;
                 }
@@ -824,7 +824,7 @@ EC void func_ov000_021a35a0(void)
                     continue;
                 }
 
-                if (!(it->state2 & 0x2000))
+                if (!(it->state2 & US_DANGER_ZONE_ACTIVE))
                 {
                     continue;
                 }
@@ -887,7 +887,7 @@ EC void func_ov000_021a37c4(void)
     func_020a5824(gMapStateManager->unk_db0, 0, 0x80);
     func_020a5824(gMapStateManager->unk_d30, 0, 0x80);
 
-    if (data_02196f0c->state & 0x40)
+    if (data_02196f0c->state & GAME_STATE_UNK_6)
     {
         func_ov000_021a3a30(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
@@ -912,7 +912,7 @@ EC void func_ov000_021a38b4(void)
 
     func_020a5824(gMapStateManager->unk_d30, 0, 0x80);
 
-    if (data_02196f0c->state & 0x40)
+    if (data_02196f0c->state & GAME_STATE_UNK_6)
     {
         func_ov000_021a3a30(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
@@ -949,7 +949,7 @@ EC void func_ov000_021a3974(u8 * arg_0, s32 arg_1)
 
         for (it = force->head; it != NULL; it = it->unk_3c)
         {
-            if ((it->state2 & 0x21020) == 0)
+            if (!(it->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED)))
             {
                 func_ov000_021a3c20(arg_0, arg_1, it);
             }
@@ -1288,7 +1288,7 @@ EC s32 GetMapBgmId(s32 factionId)
         return -1;
     }
 
-    if (data_02196f0c->state & 0x40)
+    if (data_02196f0c->state & GAME_STATE_UNK_6)
     {
         return BGM_SYS_SINGEKI1;
     }
@@ -1300,7 +1300,7 @@ EC s32 GetMapBgmId(s32 factionId)
         idx = 1;
     }
 
-    if (data_02196f0c->state & 0x20)
+    if (data_02196f0c->state & GAME_STATE_UNK_5)
     {
         if (data_ov000_021e3320[factionId] == 1)
         {
@@ -1334,7 +1334,7 @@ EC BOOL AreAllEnemiesDefeated(u32 factionId)
     s32 count = 0;
     s32 i;
 
-    if ((data_02196f0c->state & 0x400) != 0)
+    if (data_02196f0c->state & GAME_STATE_UNK_10)
     {
         return FALSE;
     }
@@ -1490,7 +1490,7 @@ EC BOOL func_ov000_021a475c(void)
 
 EC BOOL func_ov000_021a478c(void)
 {
-    return (data_02196f0c->state & 0x20) != 0;
+    return (data_02196f0c->state & GAME_STATE_UNK_5) != 0;
 }
 
 EC BOOL func_ov000_021a47ac(void)
@@ -1510,7 +1510,7 @@ EC BOOL func_ov000_021a47ac(void)
 
 EC BOOL func_ov000_021a47e4(void)
 {
-    return (data_02196f0c->state & 0x10000) != 0;
+    return (data_02196f0c->state & GAME_STATE_UNK_16) != 0;
 }
 
 /* NONMATCHING: https://decomp.me/scratch/VvUaN */
@@ -1526,7 +1526,7 @@ EC BOOL func_ov000_021a4804(void)
         return FALSE;
     }
 
-    if (((data_02196f10->unk_00 != 0) & 0xFF) == 0)
+    if (data_02196f10->CheckUnk00())
     {
         return FALSE;
     }

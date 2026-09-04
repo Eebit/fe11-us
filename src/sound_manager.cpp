@@ -1910,7 +1910,7 @@ EC void SoundSeHandle::vfunc_28(u32 param_2, u32 param_3, u32 param_4)
         return;
     }
 
-    if ((!data_02196f24->enableSoundEffects) && !(data_02196f0c->state & 0x2000000))
+    if ((!data_02196f24->enableSoundEffects) && !(data_02196f0c->state & GAME_STATE_UNK_25))
     {
         return;
     }

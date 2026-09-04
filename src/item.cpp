@@ -77,7 +77,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             return TRUE;
 
         case ITEM_EFFECT_STAT_BOOST:
-            if (unit->state2 & 0x48000)
+            if (unit->state2 & (US_UNK_15 | US_UNK_18))
             {
                 return FALSE;
             }
@@ -114,7 +114,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             return FALSE;
 
         case ITEM_EFFECT_WLVL_BOOST:
-            if (unit->state2 & 0x48000)
+            if (unit->state2 & (US_UNK_15 | US_UNK_18))
             {
                 return FALSE;
             }
@@ -163,7 +163,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->state & 0x40)
+            if (data_02196f0c->state & GAME_STATE_UNK_6)
             {
                 return FALSE;
             }
@@ -194,7 +194,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->state & 0x40)
+            if (data_02196f0c->state & GAME_STATE_UNK_6)
             {
                 return FALSE;
             }
@@ -207,12 +207,12 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             return TRUE;
 
         case ITEM_EFFECT_PROMOTE:
-            if (func_ov000_021a47e4() && !(data_02196f0c->state & 0x40))
+            if (func_ov000_021a47e4() && !(data_02196f0c->state & GAME_STATE_UNK_6))
             {
                 return FALSE;
             }
 
-            if (unit->state2 & 0x48000)
+            if (unit->state2 & (US_UNK_15 | US_UNK_18))
             {
                 return FALSE;
             }
@@ -258,7 +258,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->state & 0x40)
+            if (data_02196f0c->state & GAME_STATE_UNK_6)
             {
                 return FALSE;
             }
@@ -438,9 +438,9 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
                 for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
                 {
-                    int hp;
+                    s32 hp;
 
-                    if (pUnit->state2 & 0x00021020)
+                    if (pUnit->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED))
                     {
                         continue;
                     }
@@ -635,7 +635,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
             for (pUnit = Force::Get(3)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
             {
-                if (pUnit->state2 & 0x20000000)
+                if (pUnit->state2 & US_EVENT_DEAD)
                 {
                     continue;
                 }
@@ -663,7 +663,7 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
             {
                 for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
                 {
-                    if (pUnit->state2 & 0x0021020)
+                    if (pUnit->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED))
                     {
                         continue;
                     }

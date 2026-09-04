@@ -1151,7 +1151,7 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (data_02196f0c->state & 0x4000)
+        if (data_02196f0c->state & GAME_STATE_SUPPLY_OFF)
         {
             return MENU_NOTSHOWN;
         }
@@ -1416,7 +1416,7 @@ public:
         s32 uy;
         Unit * unit;
 
-        if (gMapStateManager->unk_04->pUnit->state2 & 0x8000)
+        if (gMapStateManager->unk_04->pUnit->state2 & US_UNK_15)
         {
             return MENU_NOTSHOWN;
         }

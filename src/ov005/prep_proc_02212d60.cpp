@@ -139,7 +139,7 @@ EC void func_ov005_02204dd0(s32 param_1)
         unit = Force::Get(0)->head;
     }
 
-    if (((data_02196f0c->state & 0x200) == 0) && (unit != NULL))
+    if (!(data_02196f0c->state & GAME_STATE_UNK_9) && (unit != NULL))
     {
         gMapStateManager->cursor->SetPosImmediate(unit->xPos, unit->yPos);
 
@@ -217,9 +217,9 @@ EC void func_ov005_02204fd0(void)
         gSoundManager->unk_a4->vfunc_38(0x20);
     }
 
-    data_02196f0c->state &= ~0x40;
-    data_02196f0c->state &= ~0x40000;
-    data_02196f0c->state &= ~0x80000;
+    data_02196f0c->state &= ~GAME_STATE_UNK_6;
+    data_02196f0c->state &= ~GAME_STATE_UNK_18;
+    data_02196f0c->state &= ~GAME_STATE_UNK_19;
 
     if (gMapStateManager != NULL)
     {
@@ -229,7 +229,7 @@ EC void func_ov005_02204fd0(void)
         {
             for (unit = Force::Get(i)->head; unit != NULL; unit = unit->unk_3c)
             {
-                unit->state2 &= ~0x2000;
+                unit->state2 &= ~US_DANGER_ZONE_ACTIVE;
             }
         }
 
@@ -254,7 +254,7 @@ EC u32 func_ov005_022050e0(void)
 
 EC void func_ov005_022050f4(ProcPtr proc)
 {
-    if (data_02196f0c->state & 0x100)
+    if (data_02196f0c->state & GAME_STATE_UNK_8)
     {
         return;
     }
@@ -528,12 +528,12 @@ PROC_LABEL(13),
 
 EC void func_ov005_022052d0(ProcPtr proc)
 {
-    if (data_02196f0c->state & 0x800)
+    if (data_02196f0c->state & GAME_STATE_UNK_8)
     {
         return;
     }
 
-    data_02196f0c->state |= 0x40;
+    data_02196f0c->state |= GAME_STATE_UNK_6;
 
     func_0204b790();
 
@@ -563,7 +563,7 @@ EC void func_ov005_022052d0(ProcPtr proc)
 
 EC void func_ov005_022053cc(ProcPtr proc)
 {
-    data_02196f0c->state |= 0x40;
+    data_02196f0c->state |= GAME_STATE_UNK_6;
 
     func_0204b790();
 

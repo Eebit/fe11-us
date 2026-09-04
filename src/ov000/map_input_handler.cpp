@@ -104,7 +104,7 @@ void InputHandler::CreateButtons(void)
     this->buttons[2]->func_020354bc(0);
     this->buttons[2]->SetVisible(TRUE);
 
-    if ((data_02196f0c->state & 0x40) != 0)
+    if (data_02196f0c->state & GAME_STATE_UNK_6)
     {
         this->buttons[3] = new (Proc_Start(ProcScr_020ce750, PROC_TREE_6)) map::Button_Common;
 
@@ -161,7 +161,7 @@ void InputHandler::_021a5688(void)
     iVar1 = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Button"));
     uVar3 = iVar1->unk_04;
 
-    if (data_02196f0c->state & 0x40)
+    if (data_02196f0c->state & GAME_STATE_UNK_6)
     {
         func_02034930(4, uVar3, iVar1->unk_06);
         iVar2 = func_02034f74(4);
@@ -182,7 +182,7 @@ void InputHandler::_021a5688(void)
 
     uVar3 = func_02034f74(0xb);
 
-    if (!(data_02196f0c->state & 0x40))
+    if (!(data_02196f0c->state & GAME_STATE_UNK_6))
     {
         return;
     }
@@ -420,7 +420,7 @@ BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
                 pUnit = gUnitList + unitId - 1;
             }
 
-            if ((pUnit->state2 & 1) != 0)
+            if (pUnit->state2 & US_ACTED)
             {
                 return FALSE;
             }
@@ -428,7 +428,7 @@ BOOL InputHandler::_021a5abc(s32 x, s32 y, BOOL param_4)
             return x == uVar1 && y == uVar2;
         }
 
-        if (((data_02196f0c->state & 0x40) != 0) && (x == uVar1 && y == uVar2))
+        if ((data_02196f0c->state & GAME_STATE_UNK_6) && (x == uVar1 && y == uVar2))
         {
             for (i = 0; i < data_ov000_021e3528.unk_2e; i++)
             {

@@ -28,7 +28,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 
 extern struct UnkStruct_02196f20 * data_02196f20;
 
-extern struct UnkStruct_02196f10 * data_02196f10;
+extern struct WirelessSettings * data_02196f10;
 
 EC void func_0202b260(void *, s32, s32, s32, s32);
 EC BOOL func_0201f680(void);
@@ -211,7 +211,7 @@ public:
 
         for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
         {
-            if (pUnit->state2 & 0xe1)
+            if (pUnit->state2 & (US_ACTED | US_UNK_5 | US_UNK_6 | US_ITEMS_TO_CONVOY))
             {
                 continue;
             }

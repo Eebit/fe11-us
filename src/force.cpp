@@ -682,7 +682,7 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
                     break;
                 }
 
-                cur->ChangeJob(0, 0);
+                cur->ChangeJob(NULL, FALSE);
             }
             else
             {
