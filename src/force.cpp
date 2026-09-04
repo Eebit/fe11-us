@@ -97,7 +97,7 @@ EC u32 func_0203fc20(u32 param_1, u32 param_2, u32 param_3)
 
     for (i = 0; i < 3; i++)
     {
-        for (it = gForces[i].head; it != NULL; it = it->unk_3c)
+        for (it = gForces[i].head; it != NULL; it = it->next)
         {
             if (param_2 != 0)
             {
@@ -258,7 +258,7 @@ EC void func_0204003c(struct Unit * unit)
         return;
     }
 
-    for (it = unit->force->head; it != NULL; it = it->unk_3c)
+    for (it = unit->force->head; it != NULL; it = it->next)
     {
         if (it == unit)
         {
@@ -304,7 +304,7 @@ EC void func_02040094(SaveBuffer * save, u32 faction)
             continue;
         }
 
-        for (unit = force->head; unit != NULL; unit = unit->unk_3c)
+        for (unit = force->head; unit != NULL; unit = unit->next)
         {
             unit->unk_68 = bVar7;
             bVar7++;
@@ -335,7 +335,7 @@ EC void func_02040094(SaveBuffer * save, u32 faction)
         save->WriteByte(i);
         save->WriteByte(count);
 
-        for (unit = force->head; unit != NULL; unit = unit->unk_3c)
+        for (unit = force->head; unit != NULL; unit = unit->next)
         {
             unit->Save(save);
         }
@@ -442,7 +442,7 @@ EC void func_02040394(struct WirelessSettings_00 * arg0)
 
     func_0204026c(arg0, arg0->unk_755);
 
-    for (var_r11 = Force::Get(0)->head; var_r11 != NULL; var_r11 = var_r11->unk_3c)
+    for (var_r11 = Force::Get(0)->head; var_r11 != NULL; var_r11 = var_r11->next)
     {
         var_r6 = 0;
 
@@ -801,8 +801,8 @@ void Force::InsertHead(Unit * unit)
     }
     else
     {
-        head->unk_38 = unit;
-        unit->unk_3c = head;
+        head->prev = unit;
+        unit->next = head;
         this->head = unit;
     }
 
@@ -822,8 +822,8 @@ void Force::InsertTail(Unit * unit)
     }
     else
     {
-        tail->unk_3c = unit;
-        unit->unk_38 = tail;
+        tail->next = unit;
+        unit->prev = tail;
     }
 
     this->tail = unit;
@@ -833,36 +833,36 @@ void Force::InsertTail(Unit * unit)
 
 void Force::Remove(Unit * unit)
 {
-    if (unit->unk_3c != NULL)
+    if (unit->next != NULL)
     {
-        unit->unk_3c->unk_38 = unit->unk_38;
+        unit->next->prev = unit->prev;
     }
     else
     {
-        this->tail = unit->unk_38;
+        this->tail = unit->prev;
 
         if (this->tail != NULL)
         {
-            this->tail->unk_3c = NULL;
+            this->tail->next = NULL;
         }
     }
 
-    if (unit->unk_38 != NULL)
+    if (unit->prev != NULL)
     {
-        unit->unk_38->unk_3c = unit->unk_3c;
+        unit->prev->next = unit->next;
     }
     else
     {
-        this->head = unit->unk_3c;
+        this->head = unit->next;
 
         if (this->head != NULL)
         {
-            this->head->unk_38 = NULL;
+            this->head->prev = NULL;
         }
     }
 
-    unit->unk_38 = NULL;
-    unit->unk_3c = NULL;
+    unit->prev = NULL;
+    unit->next = NULL;
 
     return;
 }
@@ -872,7 +872,7 @@ s32 Force::Count(void)
     struct Unit * it;
     s32 count = 0;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         count++;
     }
@@ -894,7 +894,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
     {
         for (it = this->tail; it != NULL; it = next)
         {
-            next = it->unk_38;
+            next = it->prev;
             it->MoveToForce(factionId, append);
         }
     }
@@ -902,7 +902,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
     {
         for (it = this->head; it != NULL; it = next)
         {
-            next = it->unk_3c;
+            next = it->next;
             it->MoveToForce(factionId, append);
         }
     }
@@ -914,7 +914,7 @@ Unit * Force::FindByPerson(struct PersonData * person)
 {
     Unit * it;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         if (it->pPersonData != person)
         {
@@ -936,7 +936,7 @@ Unit * Force::func_02040d68(struct PersonData * person)
 {
     Unit * it;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         if (func_0203c378(it)->pPersonData != person)
         {
@@ -958,7 +958,7 @@ Unit * Force::FindByAttribute(u32 attr)
 {
     Unit * it;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         if (!it->CheckAttribute(attr))
         {

@@ -152,21 +152,11 @@ EC void func_02039ff8(struct Unit *, Spawn *);
 
 EC void func_01ff8204(void *, s8, s8, s32, s32, u16);
 
-// struct UnkStruct_02196f0c
-// {
-//     /* 00 */ struct UnkStruct_02196f0c_00 * unk_00;
-//     /* 04 */ void * flagMgr;
-//     /* 08 */ void * valueMgr;
-//     /* 0C */ u32 state;
-//     /* 10 */ u32 unk_10;
-//     /* 14 */ u32 unk_14;
-// };
-
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
 EC BOOL FindUnitByPidAndFaction(s32, s32);
 
-EC BOOL func_ov000_021a47e4(void);
+EC BOOL IsLinkArena(void);
 
 EC BOOL func_ov000_021bb5d4(void *, s32, s32);
 
@@ -394,7 +384,7 @@ void DisposGroupProcessor::func_ov000_021d9e38(void)
 
 struct Unit * DisposGroupProcessor::func_ov000_021d9e50(s32 pid, s32 faction)
 {
-    if (func_ov000_021a47e4() == 0)
+    if (!IsLinkArena())
     {
         faction = 0;
     }
@@ -407,14 +397,14 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9e7c(s32 faction)
     Force * force;
     struct Unit * pUnit;
 
-    if (func_ov000_021a47e4() == 0)
+    if (!IsLinkArena())
     {
         faction = 0;
     }
 
     force = Force::Get(faction + 2);
 
-    for (pUnit = force->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+    for (pUnit = force->head; pUnit != NULL; pUnit = pUnit->next)
     {
         if (!(pUnit->state2 & US_UNK_11))
         {
@@ -435,7 +425,7 @@ EC struct Unit * DisposGroupProcessor::func_ov000_021d9ebc(s32 index, BOOL param
     spawn = this->spawns + index;
     paVar2 = this->spawnStates + index;
 
-    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_UNK_6))
+    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
     {
         return NULL;
     }
@@ -561,7 +551,7 @@ EC void DisposGroupProcessor::func_ov000_021da0fc(s32 index)
         data_ov000_021e3528.unk_2e++;
     }
 
-    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_UNK_6))
+    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
     {
         return;
     }

@@ -386,7 +386,7 @@ void MapStateManager::func_ov000_021a2918(void)
 {
     s32 i;
 
-    if (func_ov000_021a478c() == 0)
+    if (!IsWirelessBattle())
     {
         for (i = 0; i < 2; i++)
         {
@@ -445,7 +445,7 @@ void MapStateManager::func_ov000_021a29f4(void)
     {
         force = Force::Get(i);
 
-        for (it = force->head; it != NULL; it = it->unk_3c)
+        for (it = force->head; it != NULL; it = it->next)
         {
             func_ov000_021baafc(gMapStateManager->unk_14->unk_00, it, 1);
         }
@@ -711,7 +711,7 @@ EC void func_ov000_021a340c(void)
     for (i = 0; i < 2; i++)
     {
         force = Force::Get(i);
-        for (it = force->head; it != 0; it = it->unk_3c)
+        for (it = force->head; it != 0; it = it->next)
         {
             func_ov000_021a3498(it, 0, -1, -1);
         }
@@ -804,7 +804,7 @@ EC void func_ov000_021a35a0(void)
     {
         force = Force::Get(i);
 
-        for (it = force->head; it != NULL; it = it->unk_3c)
+        for (it = force->head; it != NULL; it = it->next)
         {
             if (!TestPhaseAndState(it, phase))
             {
@@ -872,7 +872,7 @@ EC void func_ov000_021a378c(void)
 
 EC BOOL func_ov000_021a37b4(void)
 {
-    return ThreadProcExists(7);
+    return func_0201dc30(7);
 }
 
 EC void func_ov000_021a37c4(void)
@@ -887,7 +887,7 @@ EC void func_ov000_021a37c4(void)
     func_020a5824(gMapStateManager->unk_db0, 0, 0x80);
     func_020a5824(gMapStateManager->unk_d30, 0, 0x80);
 
-    if (data_02196f0c->state & GAME_STATE_UNK_6)
+    if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
     {
         func_ov000_021a3a30(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
@@ -912,7 +912,7 @@ EC void func_ov000_021a38b4(void)
 
     func_020a5824(gMapStateManager->unk_d30, 0, 0x80);
 
-    if (data_02196f0c->state & GAME_STATE_UNK_6)
+    if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
     {
         func_ov000_021a3a30(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
     }
@@ -947,7 +947,7 @@ EC void func_ov000_021a3974(u8 * arg_0, s32 arg_1)
 
         force = Force::Get(i);
 
-        for (it = force->head; it != NULL; it = it->unk_3c)
+        for (it = force->head; it != NULL; it = it->next)
         {
             if (!(it->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED)))
             {
@@ -1189,7 +1189,7 @@ EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
 
     func_020a5734(0, gMapStateManager->unk_e30, 0x80);
 
-    if (func_ov000_021a47e4() != 0)
+    if (IsLinkArena())
     {
         return;
     }
@@ -1197,7 +1197,7 @@ EC void func_ov000_021a3ee4(struct Unit * unit, s32 arg_1)
     for (i = 0; i < 2; i++)
     {
         force = Force::Get(i);
-        for (it = force->head; it != NULL; it = it->unk_3c)
+        for (it = force->head; it != NULL; it = it->next)
         {
             if (gMapStateManager->unk_db0[(it->xPos | it->yPos << 5) >> 3] & ((1 << it->xPos) & 7))
             {
@@ -1288,7 +1288,7 @@ EC s32 GetMapBgmId(s32 factionId)
         return -1;
     }
 
-    if (data_02196f0c->state & GAME_STATE_UNK_6)
+    if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
     {
         return BGM_SYS_SINGEKI1;
     }
@@ -1300,7 +1300,7 @@ EC s32 GetMapBgmId(s32 factionId)
         idx = 1;
     }
 
-    if (data_02196f0c->state & GAME_STATE_UNK_5)
+    if (data_02196f0c->state & GAME_STATE_WIRELESS_BATTLE)
     {
         if (data_ov000_021e3320[factionId] == 1)
         {
@@ -1346,7 +1346,7 @@ EC BOOL AreAllEnemiesDefeated(u32 factionId)
             continue;
         }
 
-        for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
+        for (it = Force::Get(i)->head; it != NULL; it = it->next)
         {
             count++;
         }
@@ -1460,7 +1460,7 @@ EC void func_ov000_021a4718(void)
 
 EC BOOL func_ov000_021a471c(void)
 {
-    if (gMapStateManager == 0)
+    if (gMapStateManager == NULL)
     {
         return FALSE;
     }
@@ -1488,14 +1488,14 @@ EC BOOL func_ov000_021a475c(void)
     return FALSE;
 }
 
-EC BOOL func_ov000_021a478c(void)
+EC BOOL IsWirelessBattle(void)
 {
-    return (data_02196f0c->state & GAME_STATE_UNK_5) != 0;
+    return (data_02196f0c->state & GAME_STATE_WIRELESS_BATTLE) != 0;
 }
 
 EC BOOL func_ov000_021a47ac(void)
 {
-    if (func_ov000_021a478c() == 0)
+    if (!IsWirelessBattle())
     {
         return FALSE;
     }
@@ -1508,15 +1508,15 @@ EC BOOL func_ov000_021a47ac(void)
     return func_02012584() != 0;
 }
 
-EC BOOL func_ov000_021a47e4(void)
+EC BOOL IsLinkArena(void)
 {
-    return (data_02196f0c->state & GAME_STATE_UNK_16) != 0;
+    return (data_02196f0c->state & GAME_STATE_LINK_ARENA) != 0;
 }
 
 /* NONMATCHING: https://decomp.me/scratch/VvUaN */
 EC BOOL func_ov000_021a4804(void)
 {
-    if (func_ov000_021a47e4() == 0)
+    if (!IsLinkArena())
     {
         return FALSE;
     }
@@ -1595,12 +1595,12 @@ EC void func_ov000_021a48d8(void)
 
 EC BOOL func_ov000_021a491c(struct Unit * unit)
 {
-    if (func_ov000_021a478c() != 0)
+    if (IsWirelessBattle())
     {
         return FALSE;
     }
 
-    if (func_ov000_021a47e4() != 0)
+    if (IsLinkArena())
     {
         return FALSE;
     }

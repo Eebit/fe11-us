@@ -163,12 +163,12 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->state & GAME_STATE_UNK_6)
+            if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
             {
                 return FALSE;
             }
 
-            for (i = 0; i < 8; i++)
+            for (i = 0; i < UNIT_STAT_COUNT; i++)
             {
                 int cap;
 
@@ -194,7 +194,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_02196f0c->state & GAME_STATE_UNK_6)
+            if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
             {
                 return FALSE;
             }
@@ -207,7 +207,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
             return TRUE;
 
         case ITEM_EFFECT_PROMOTE:
-            if (func_ov000_021a47e4() && !(data_02196f0c->state & GAME_STATE_UNK_6))
+            if (IsLinkArena() && !(data_02196f0c->state & GAME_STATE_BATTLE_PREP))
             {
                 return FALSE;
             }
@@ -253,12 +253,12 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (func_ov000_021a47e4())
+            if (IsLinkArena())
             {
                 return FALSE;
             }
 
-            if (data_02196f0c->state & GAME_STATE_UNK_6)
+            if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
             {
                 return FALSE;
             }
@@ -436,7 +436,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                     return FALSE;
                 }
 
-                for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+                for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->next)
                 {
                     s32 hp;
 
@@ -522,7 +522,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            for (i = 0; i < 8; i++)
+            for (i = 0; i < UNIT_STAT_COUNT; i++)
             {
                 int cap;
 
@@ -610,7 +610,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
             it = pUnit->items;
 
-            for (i = 0; i < 5; it++, i++)
+            for (i = 0; i < UNIT_ITEM_COUNT; it++, i++)
             {
                 if (!func_02038f94(it))
                 {
@@ -623,7 +623,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
             return FALSE;
 
         case ITEM_EFFECT_REVIVE:
-            if (func_ov000_021a47e4())
+            if (IsLinkArena())
             {
                 return FALSE;
             }
@@ -633,7 +633,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            for (pUnit = Force::Get(3)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+            for (pUnit = Force::Get(3)->head; pUnit != NULL; pUnit = pUnit->next)
             {
                 if (pUnit->state2 & US_EVENT_DEAD)
                 {
@@ -661,7 +661,7 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
         case ITEM_EFFECT_HEAL:
             if (item->attributes & IA_FORTIFY)
             {
-                for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+                for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->next)
                 {
                     if (pUnit->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED))
                     {
@@ -700,14 +700,14 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
             break;
 
         case ITEM_EFFECT_TEMP_RES_BOOST:
-            for (r2 = item->statBoost, i = 0; i < 8; i++)
+            for (r2 = item->statBoost, i = 0; i < UNIT_STAT_COUNT; i++)
             {
                 if (r2[i] == 0)
                 {
                     continue;
                 }
 
-                if (i != 7)
+                if (i != UNIT_STAT_RES)
                 {
                     continue;
                 }

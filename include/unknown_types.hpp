@@ -14,11 +14,11 @@ enum
     GAME_STATE_UNK_1 = (1 << 1),
     GAME_STATE_UNK_2 = (1 << 2),
     GAME_STATE_UNK_3 = (1 << 3),
-    GAME_STATE_UNK_4 = (1 << 4), // & 0x10 -> in prep
-    GAME_STATE_UNK_5 = (1 << 5), // & 0x20 -> in multiplayer
-    GAME_STATE_UNK_6 = (1 << 6), // in prep???
+    GAME_STATE_UNK_4 = (1 << 4),
+    GAME_STATE_WIRELESS_BATTLE = (1 << 5),
+    GAME_STATE_BATTLE_PREP = (1 << 6),
     GAME_STATE_UNK_7 = (1 << 7),
-    GAME_STATE_UNK_8 = (1 << 8),
+    GAME_STATE_UNK_8 = (1 << 8), // skip prep maybe?
     GAME_STATE_UNK_9 = (1 << 9),
     GAME_STATE_UNK_10 = (1 << 10),
     GAME_STATE_UNK_11 = (1 << 11),
@@ -26,7 +26,7 @@ enum
     GAME_STATE_UNK_13 = (1 << 13),
     GAME_STATE_SUPPLY_OFF = (1 << 14), // Set by event function "TransporterOff"
     GAME_STATE_UNK_15 = (1 << 15),
-    GAME_STATE_UNK_16 = (1 << 16),
+    GAME_STATE_LINK_ARENA = (1 << 16),
     GAME_STATE_UNK_17 = (1 << 17),
     GAME_STATE_UNK_18 = (1 << 18),
     GAME_STATE_UNK_19 = (1 << 19),

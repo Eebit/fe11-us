@@ -4,6 +4,7 @@
 
 #include "unknown_funcs.h"
 
+#include "gamectrl.hpp"
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -277,7 +278,7 @@ EC void TitleSeq_ov008_0220508c(ProcPtr proc)
             return;
 
         case 0:
-            GameCtrl_GotoLabel(3);
+            GameCtrl_GotoLabel(L_GAMECTRL_3);
             Proc_End(proc);
             return;
     }

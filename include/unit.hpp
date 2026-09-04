@@ -251,8 +251,8 @@ public:
     s16 unk_10[0x10];
     /* 30 */ struct Unit_unk_30 unk_30;
     STRUCT_PAD(0x36, 0x38);
-    /* 38 */ struct Unit * unk_38;
-    /* 3C */ struct Unit * unk_3c;
+    /* 38 */ struct Unit * prev;
+    /* 3C */ struct Unit * next;
     /* 40 */ struct PersonData * pPersonData;
     /* 44 */ struct JobData * pJobData;
     STRUCT_PAD(0x48, 0x4C);

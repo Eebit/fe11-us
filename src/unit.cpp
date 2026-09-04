@@ -590,9 +590,9 @@ Unit * Unit::_0203bdd0(u8 arg_1)
     s32 i;
     Force * force;
 
-    if (this->unk_3c != NULL)
+    if (this->next != NULL)
     {
-        return this->unk_3c;
+        return this->next;
     }
 
     for (i = this->force->id + 1; i < 6; i++)

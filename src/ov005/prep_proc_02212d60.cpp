@@ -132,7 +132,7 @@ EC void func_ov005_02204d48(void)
 
 EC void func_ov005_02204dd0(s32 param_1)
 {
-    struct Unit * unit = Force::Get(0)->FindByAttribute(2);
+    struct Unit * unit = Force::Get(0)->FindByAttribute(CA_UNK_1);
 
     if (unit == NULL)
     {
@@ -217,7 +217,7 @@ EC void func_ov005_02204fd0(void)
         gSoundManager->unk_a4->vfunc_38(0x20);
     }
 
-    data_02196f0c->state &= ~GAME_STATE_UNK_6;
+    data_02196f0c->state &= ~GAME_STATE_BATTLE_PREP;
     data_02196f0c->state &= ~GAME_STATE_UNK_18;
     data_02196f0c->state &= ~GAME_STATE_UNK_19;
 
@@ -227,7 +227,7 @@ EC void func_ov005_02204fd0(void)
 
         for (i = 0; i < 2; i++)
         {
-            for (unit = Force::Get(i)->head; unit != NULL; unit = unit->unk_3c)
+            for (unit = Force::Get(i)->head; unit != NULL; unit = unit->next)
             {
                 unit->state2 &= ~US_DANGER_ZONE_ACTIVE;
             }
@@ -533,7 +533,7 @@ EC void func_ov005_022052d0(ProcPtr proc)
         return;
     }
 
-    data_02196f0c->state |= GAME_STATE_UNK_6;
+    data_02196f0c->state |= GAME_STATE_BATTLE_PREP;
 
     func_0204b790();
 
@@ -563,7 +563,7 @@ EC void func_ov005_022052d0(ProcPtr proc)
 
 EC void func_ov005_022053cc(ProcPtr proc)
 {
-    data_02196f0c->state |= GAME_STATE_UNK_6;
+    data_02196f0c->state |= GAME_STATE_BATTLE_PREP;
 
     func_0204b790();
 

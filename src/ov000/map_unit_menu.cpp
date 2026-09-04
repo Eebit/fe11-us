@@ -3,10 +3,13 @@
 #include "action.hpp"
 #include "event.hpp"
 #include "hardware.hpp"
+#include "item.hpp"
 #include "map.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "unit.hpp"
+
+#include "constants/terrains.h"
 
 #include "unknown_types.hpp"
 
@@ -24,7 +27,7 @@ EC void func_ov000_021bfa60(ProcPtr);
 
 EC void func_ov000_021bfaf0(ProcPtr);
 
-EC BOOL func_ov000_021a47e4(void);
+EC BOOL IsLinkArena(void);
 EC void func_ov000_021be21c(void);
 
 EC s32 func_ov000_021d49f4(s32, s32, s32);
@@ -158,7 +161,7 @@ public:
         s16 iy;
         Unit * unit;
 
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }
@@ -901,7 +904,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }
@@ -954,7 +957,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }
@@ -1007,22 +1010,22 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         if (EventCaller::CanStartVisitEvent(
                 gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0xc))
         {
 
-            if (gMapStateManager->unk_04->pUnit->GetItemAttributes(0x1000000) != 0)
+            if (gMapStateManager->unk_04->pUnit->GetItemAttributes(IA_MEMBER_CARD))
             {
-                return 0;
+                return MENU_ENABLED;
             }
         }
 
-        return 2;
+        return MENU_NOTSHOWN;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -1066,15 +1069,15 @@ public:
     {
         s32 i;
 
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         if (gMapStateManager
-                ->unk_828[gMapStateManager->unk_04->pUnit->xPos | gMapStateManager->unk_04->pUnit->yPos << 5] != 0x17)
+                ->unk_828[gMapStateManager->unk_04->pUnit->xPos | gMapStateManager->unk_04->pUnit->yPos << 5] != TERRAIN_ARENA)
         {
-            return 2;
+            return MENU_NOTSHOWN;
         }
 
         for (i = 0; i < 6; i++)
@@ -1146,7 +1149,7 @@ public:
         s32 uy;
         Unit * unit;
 
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }
@@ -1342,7 +1345,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }
@@ -1545,7 +1548,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }

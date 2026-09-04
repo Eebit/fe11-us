@@ -180,7 +180,7 @@ public:
     SallyMenu * unk_38;
     Button * unk_3c;
     Button * unk_40;
-    u32 unk_44;
+    ProcPtr unk_44;
     u32 unk_48;
 
     MMenu()

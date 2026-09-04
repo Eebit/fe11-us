@@ -1200,7 +1200,7 @@ func_02021e6c kind:function(arm,size=0x9c) addr:0x02021e6c
 func_02021f08 kind:function(arm,size=0x24) addr:0x02021f08
 func_02021f2c kind:function(arm,size=0x30) addr:0x02021f2c
 func_02021f5c kind:function(arm,size=0x1f0) addr:0x02021f5c
-func_0202214c kind:function(arm,size=0x70) addr:0x0202214c
+GameCtrl_BeginMap kind:function(arm,size=0x70) addr:0x0202214c
 func_020221bc kind:function(arm,size=0x28) addr:0x020221bc
 func_020221e4 kind:function(arm,size=0x78) addr:0x020221e4
 func_0202225c kind:function(arm,size=0xc8) addr:0x0202225c
@@ -1214,7 +1214,7 @@ func_02022480 kind:function(arm,size=0x28) addr:0x02022480
 func_020224a8 kind:function(arm,size=0x2c) addr:0x020224a8
 func_020224d4 kind:function(arm,size=0x28) addr:0x020224d4
 func_020224fc kind:function(arm,size=0x50) addr:0x020224fc
-func_0202254c kind:function(arm,size=0x18) addr:0x0202254c
+GameCtrl_StartMapEndEvent kind:function(arm,size=0x18) addr:0x0202254c
 func_02022564 kind:function(arm,size=0x24) addr:0x02022564
 func_02022588 kind:function(arm,size=0x1a4) addr:0x02022588
 func_0202272c kind:function(arm,size=0xe8) addr:0x0202272c
@@ -1241,7 +1241,7 @@ func_02022dd8 kind:function(arm,size=0x24) addr:0x02022dd8
 func_02022dfc kind:function(arm,size=0x18) addr:0x02022dfc
 func_02022e14 kind:function(arm,size=0x20) addr:0x02022e14
 func_02022e34 kind:function(arm,size=0x20) addr:0x02022e34
-func_02022e54 kind:function(arm,size=0x64) addr:0x02022e54
+GameCtrl_InitWirelessSettings kind:function(arm,size=0x64) addr:0x02022e54
 func_02022eb8 kind:function(arm,size=0x1c) addr:0x02022eb8
 func_02022ed4 kind:function(arm,size=0x20) addr:0x02022ed4
 func_02022ef4 kind:function(arm,size=0x1c) addr:0x02022ef4
@@ -6421,7 +6421,7 @@ ProcScr_FadeIn kind:data(any) addr:0x020ce94c
 __typeinfo__10ThreadProc kind:data(any) addr:0x020ce974
 __typestr__10ThreadProc kind:data(any) addr:0x020ce980
 __vt__10ThreadProc kind:data(any) addr:0x020ce998
-data_020ce9a8 kind:data(any) addr:0x020ce9a8
+ProcScr_ThreadProc kind:data(any) addr:0x020ce9a8
 __typeinfo__15ProcBackupBreak kind:data(any) addr:0x020ce9c0
 __typestr__15ProcBackupBreak kind:data(any) addr:0x020ce9cc
 data_020ce9e0 kind:data(any) addr:0x020ce9e0
@@ -6447,11 +6447,11 @@ data_020ceb50 kind:data(any) addr:0x020ceb50
 data_020ceb60 kind:data(any) addr:0x020ceb60
 data_020ceb6c kind:data(any) addr:0x020ceb6c
 data_020ceb78 kind:data(any) addr:0x020ceb78
-data_020ceb84 kind:data(any) addr:0x020ceb84
-data_020ceba4 kind:data(any) addr:0x020ceba4
-data_020cebc4 kind:data(any) addr:0x020cebc4
-data_020cebec kind:data(any) addr:0x020cebec
-data_020cec14 kind:data(any) addr:0x020cec14
+ProcScr_020ceb84 kind:data(any) addr:0x020ceb84
+ProcScr_020ceba4 kind:data(any) addr:0x020ceba4
+ProcScr_020cebc4 kind:data(any) addr:0x020cebc4
+ProcScr_020cebec kind:data(any) addr:0x020cebec
+ProcScr_020cec14 kind:data(any) addr:0x020cec14
 ProcScr_GameCtrl kind:data(any) addr:0x020cec44
 data_020cf48c kind:data(any) addr:0x020cf48c
 data_020cf494 kind:data(any) addr:0x020cf494

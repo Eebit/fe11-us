@@ -620,7 +620,7 @@ EC void func_02012bbc(void);
 // EC ??? func_02013634
 // EC ??? func_02013658
 // EC ??? func_02013698
-// EC ??? func_020136bc
+EC void func_020136bc(ProcPtr);
 // EC ??? func_02013700
 // EC ??? func_02013810
 // EC ??? func_02013868
@@ -1140,9 +1140,9 @@ EC BOOL func_0201f760(s32);
 // EC ??? func_0201f7dc
 // EC ??? func_0201f80c
 // EC ??? func_0201f840
-EC void func_0201f8a0(void);
+EC void func_0201f8a0(char *);
 // EC ??? func_0201fd08
-// EC ??? func_0201fd44
+EC void func_0201fd44(ProcPtr);
 // EC ??? func_0201fdfc
 // EC ??? func_0201fe00
 EC void LoadTextureImage(void *, u32, u32);
@@ -1211,61 +1211,61 @@ EC void func_02021430(struct WirelessSettings *, s32, s32);
 EC void func_02021790(struct WirelessSettings *);
 EC void func_020217b4(void);
 // EC ??? func_020219a4
-// EC ??? func_02021b00
-// EC ??? func_02021b14
-// EC ??? InitOnlineShopItemFlags
-// EC ??? InitOnlineShopItemAmounts
-// EC ??? func_02021d70
-// EC ??? func_02021dd4
-// EC ??? func_02021e6c
-// EC ??? func_02021f08
-// EC ??? func_02021f2c
-// EC ??? func_02021f5c
-// EC ??? func_0202214c
-// EC ??? func_020221bc
-// EC ??? func_020221e4
-// EC ??? func_0202225c
-// EC ??? func_02022324
-// EC ??? func_02022364
-// EC ??? func_020223b4
-// EC ??? func_020223cc
-// EC ??? func_02022414
-// EC ??? func_02022458
-// EC ??? func_02022480
-// EC ??? func_020224a8
-// EC ??? func_020224d4
-// EC ??? func_020224fc
-// EC ??? func_0202254c
-// EC ??? func_02022564
-// EC ??? func_02022588
-// EC ??? func_0202272c
-// EC ??? func_02022814
-// EC ??? func_0202284c
-// EC ??? func_020228ac
-// EC ??? func_020228ec
-// EC ??? func_02022988
-// EC ??? func_020229a8
-// EC ??? func_020229f0
-// EC ??? func_02022b10
-// EC ??? GameCtrl_IsWirelessPracticeMode
-// EC ??? func_02022b50
-// EC ??? func_02022b70
-// EC ??? func_02022bb0
-// EC ??? func_02022c54
-// EC ??? func_02022c78
-// EC ??? func_02022cb0
-// EC ??? func_02022cdc
-// EC ??? func_02022d00
-// EC ??? func_02022db8
-// EC ??? func_02022dc8
-// EC ??? func_02022dd8
-// EC ??? func_02022dfc
-// EC ??? func_02022e14
-// EC ??? func_02022e34
-// EC ??? func_02022e54
-// EC ??? func_02022eb8
-// EC ??? func_02022ed4
-// EC ??? func_02022ef4
+EC void func_02021b00(void);
+EC void func_02021b14(void);
+EC void InitOnlineShopItemFlags(void);
+EC void InitOnlineShopItemAmounts(void);
+EC void func_02021d70(void);
+EC void func_02021dd4(void);
+EC void func_02021e6c(void);
+EC void func_02021f08(ProcPtr);
+EC void func_02021f2c(ProcPtr);
+EC void func_02021f5c(void);
+EC void GameCtrl_BeginMap(ProcPtr);
+EC void func_020221bc(void);
+EC void func_020221e4(void);
+EC void func_0202225c(void);
+EC void func_02022324(void);
+EC void func_02022364(ProcPtr);
+EC void func_020223b4(void);
+EC void func_020223cc(ProcPtr);
+EC void func_02022414(void);
+EC void func_02022458(void);
+EC void func_02022480(void);
+EC void func_020224a8(ProcPtr);
+EC void func_020224d4(void);
+EC void func_020224fc(void);
+EC void GameCtrl_StartMapEndEvent(ProcPtr);
+EC void func_02022564(void);
+EC void func_02022588(void);
+EC void func_0202272c(ProcPtr);
+EC void func_02022814(void);
+EC void func_0202284c(ProcPtr);
+EC void func_020228ac(ProcPtr);
+EC void func_020228ec(ProcPtr);
+EC BOOL func_02022988(void);
+EC void func_020229a8(void);
+EC void func_020229f0(void);
+EC BOOL func_02022b10(void);
+EC BOOL GameCtrl_IsWirelessPracticeMode(void);
+EC BOOL func_02022b50(void);
+EC void func_02022b70(ProcPtr);
+EC void func_02022bb0(ProcPtr);
+EC void func_02022c54(ProcPtr);
+EC void func_02022c78(ProcPtr);
+EC void func_02022cb0(ProcPtr);
+EC void func_02022cdc(ProcPtr);
+EC void func_02022d00(ProcPtr);
+EC void func_02022db8(void);
+EC void func_02022dc8(void);
+EC void func_02022dd8(void);
+EC void func_02022dfc(void);
+EC void func_02022e14(void);
+EC BOOL func_02022e34(void);
+EC void GameCtrl_InitWirelessSettings(void);
+EC BOOL func_02022eb8(void);
+EC BOOL func_02022ed4(void);
+EC BOOL func_02022ef4(void);
 EC void StartGame(void);
 EC void GameCtrl_GotoLabel(u32 label);
 // EC ??? func_02022f4c
@@ -1281,7 +1281,7 @@ EC void GameCtrl_GotoLabel(u32 label);
 // EC ??? func_02023988
 // EC ??? func_02023a28
 // EC ??? func_02023c10
-// EC ??? func_02024000
+EC void func_02024000(ProcPtr);
 EC void func_020240a0(s32, void *);
 // EC ??? func_02024134
 // EC ??? func_020241e0
@@ -1294,7 +1294,7 @@ EC void func_0202437c(void *);
 EC void func_0202454c(s32, s32, s32);
 // EC ??? func_020245f0
 // EC ??? func_02024704
-// EC ??? func_020247a8
+EC void func_020247a8(ProcPtr);
 // EC ??? func_020247d4
 // EC ??? func_02024854
 // EC ??? func_020248a8
@@ -1516,8 +1516,8 @@ EC void func_02029a1c(struct UnkStruct_021970c4 *, u32, void *, void *, u32, u32
 EC void func_0202a4dc(s32, s32);
 // EC ??? func_0202a504
 // EC ??? func_0202a53c
-EC u32 func_0202a564(u32);
-EC void func_0202a5a8(u32);
+EC ProcPtr func_0202a564(s32);
+EC void func_0202a5a8(ProcPtr);
 // EC ??? func_0202a5cc
 // EC ??? func_0202a5e0
 // EC ??? func_0202a5f8
@@ -2502,7 +2502,7 @@ EC void func_0204ac18(void);
 // EC ??? func_0204ac64
 EC void func_0204aca8(void);
 EC BOOL func_0204ad38(s32, s32, s32);
-EC void func_0204ae60(s32, s32);
+EC void func_0204ae60(s32, BOOL);
 EC BOOL func_0204ae9c(u32, BOOL);
 // EC ??? func_0204af0c
 // EC ??? func_0204af48
@@ -2517,8 +2517,8 @@ EC BOOL func_0204b260(u32);
 // EC ??? func_0204b2f8
 // EC ??? func_0204b32c
 // EC ??? func_0204b35c
-EC void func_0204b39c(ProcPtr);
-EC void func_0204b3b8(ProcPtr);
+EC void func_0204b39c(void);
+EC void func_0204b3b8(void);
 EC void func_0204b3d4(ProcPtr);
 EC void func_0204b40c(ProcPtr);
 // EC ??? func_0204b444
@@ -3039,7 +3039,7 @@ EC void func_02062a54(u32);
 // EC ??? func_02066704
 EC void StartUIConfig(ProcPtr); // Starts "config::UIConfig" proc
 // EC ??? func_02066e10
-EC void func_02067510(void);
+EC void func_02067510(ProcPtr);
 // EC ??? func_02067538
 // EC ??? func_020675f4
 // EC ??? func_020676a8
@@ -5725,9 +5725,9 @@ EC void CpuPhase_021a46b8(void);
 EC void func_ov000_021a4718(void);
 EC BOOL func_ov000_021a471c(void);
 // EC ??? func_ov000_021a475c
-EC BOOL func_ov000_021a478c(void);
+EC BOOL IsWirelessBattle(void);
 // EC ??? func_ov000_021a47ac
-EC BOOL func_ov000_021a47e4(void);
+EC BOOL IsLinkArena(void);
 // EC ??? func_ov000_021a4804
 EC s32 func_ov000_021a4854(struct Unit *);
 // EC ??? func_ov000_021a48b0
@@ -5942,7 +5942,7 @@ EC BOOL func_ov000_021abf30(void);
 // EC ??? func_ov000_021adeec
 // EC ??? func_ov000_021adf20
 // EC ??? func_ov000_021adf58
-// EC ??? func_ov000_021ae018
+// EC ??? PlayerPhase_Surrender
 // EC ??? func_ov000_021ae0a8
 // EC ??? func_ov000_021ae104
 // EC ??? StartPlayerPhase
@@ -6804,7 +6804,7 @@ EC void StartMapItem(ProcPtr);
 // EC ??? func_ov000_021d3444
 // EC ??? func_ov000_021d3534
 // EC ??? func_ov000_021d3584
-EC s32 func_ov000_021d3674(char *, struct Unit *, s32, s32, ProcPtr, BOOL);
+EC ProcPtr func_ov000_021d3674(char *, struct Unit *, s32, s32, ProcPtr, BOOL);
 // EC ??? func_ov000_021d36a4
 // EC ??? func_ov000_021d36e4
 // EC ??? func_ov000_021d3720
@@ -9711,7 +9711,7 @@ EC void func_ov003_021fc0d4(void *);
 // EC ??? func_ov004_02209ce0
 // EC ??? func_ov004_02209d30
 // EC ??? func_ov004_02209d7c
-// EC ??? func_ov004_02209e54
+EC void func_ov004_02209e54(ProcPtr);
 // EC ??? func_ov004_02209f40
 // EC ??? func_ov004_02209f6c
 // EC ??? func_ov004_02209f90
@@ -10383,7 +10383,7 @@ EC void StartSally_JobS(ProcPtr); // Starts "sally::JobS" proc
 // ==============================
 // EC ??? func_ov006_022176e0
 // EC ??? func_ov006_02217720
-EC void func_ov006_0221776c(void *);
+EC void StartGameOver(void *);
 // EC ??? func_ov006_02217aa4
 // EC ??? func_ov006_02217ae8
 // EC ??? func_ov006_02217b24
@@ -10412,7 +10412,7 @@ EC void func_ov006_0221776c(void *);
 // EC ??? func_ov006_02218a28
 // EC ??? func_ov006_02218a4c
 // EC ??? func_ov006_02218a84
-// EC ??? func_ov006_02218ac4
+EC void func_ov006_02218ac4(ProcPtr);
 // EC ??? func_ov006_02218aec
 // EC ??? func_ov006_02218b0c
 // EC ??? func_ov006_02218b2c
@@ -11047,8 +11047,8 @@ EC void func_ov008_02204fd0(void);
 // EC ??? TitleSeq_ov008_022050f0
 // EC ??? TitleSeq_ov008_02205124
 // EC ??? TitleSeq_ov008_02205134
-// EC ??? StartTitleSeq_Goto2
-// EC ??? StartTitleSeq_Goto0
+EC void StartTitleSeq_Goto2(ProcPtr);
+EC void StartTitleSeq_Goto0(ProcPtr);
 // EC ??? _ZN8TitleSeqD0Ev
 // EC ??? _ZN8TitleSeqD1Ev
 // EC ??? _ZN10PressStartD0Ev

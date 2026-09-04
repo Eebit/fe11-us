@@ -1,5 +1,6 @@
 #include "global.h"
 
+#include "gamectrl.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
@@ -209,7 +210,7 @@ public:
 
         iVar7++;
 
-        for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+        for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->next)
         {
             if (pUnit->state2 & (US_ACTED | US_UNK_5 | US_UNK_6 | US_ITEMS_TO_CONVOY))
             {
@@ -299,7 +300,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        return 0;
+        return MENU_ENABLED;
     }
 
     /* 90 */ virtual void vfunc_90(Menu * menu, MenuItemState * menuItemState)
@@ -324,7 +325,7 @@ public:
     {
         PlayerPhase_GotoLabel(31, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x1 | MENU_ACTION_x40;
     }
 };
 
@@ -339,7 +340,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }
@@ -374,7 +375,7 @@ public:
     {
         PlayerPhase_GotoLabel(32, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x1 | MENU_ACTION_x40;
     }
 };
 
@@ -389,7 +390,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             return MENU_NOTSHOWN;
         }
@@ -419,7 +420,7 @@ public:
     {
         PlayerPhase_GotoLabel(33, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x1 | MENU_ACTION_x40;
     }
 };
 
@@ -440,17 +441,17 @@ public:
     {
         func_ov000_021d6dfc(0);
 
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             PlayerPhase_GotoLabel(26, 0, 0);
             gWirelessSettings->unk_07 = 2;
-            return 0x44;
+            return MENU_ACTION_x4 | MENU_ACTION_x40;
         }
         else
         {
             PlayerPhase_GotoLabel(27, 0, 0);
-            GameCtrl_GotoLabel(39);
-            return 0x60;
+            GameCtrl_GotoLabel(L_GAMECTRL_39);
+            return MENU_ACTION_x20 | MENU_ACTION_x40;
         }
     }
 };
@@ -460,7 +461,7 @@ class MIM_TemporarySave : public MenuItem
 public:
     /* 00 */ virtual char * vfunc_00(void)
     {
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             // "Exit"
             return GetText("MMM_練習終了");
@@ -484,12 +485,12 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a478c())
+        if (IsWirelessBattle())
         {
             return MENU_NOTSHOWN;
         }
 
-        if (func_ov000_021a47e4() || func_0201f680())
+        if (IsLinkArena() || func_0201f680())
         {
             return MENU_ENABLED;
         }
@@ -506,7 +507,7 @@ public:
             return;
         }
 
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             // "Exit this practice session."
             str = "MMMH_練習終了";
@@ -526,7 +527,7 @@ public:
     {
         char * str;
 
-        if (func_ov000_021a47e4())
+        if (IsLinkArena())
         {
             // "Exit this practice session."
             str = "MMMH_練習終了";
@@ -547,10 +548,10 @@ public:
         if ((menuItemState->unk_09 & 7) != 1)
         {
             StartChoice_TemporarySave(menu->unk_10);
-            return 0x40;
+            return MENU_ACTION_x40;
         }
 
-        return 0x100;
+        return MENU_ACTION_x100;
     }
 };
 
@@ -572,7 +573,7 @@ public:
         func_ov000_021d6dfc(0);
         PlayerPhase_GotoLabel(38, 0, 0);
         gWirelessSettings->unk_07 = 1;
-        return 0x44;
+        return MENU_ACTION_x4 | MENU_ACTION_x40;
     }
 };
 
@@ -597,7 +598,7 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021a478c())
+        if (IsWirelessBattle())
         {
             return MENU_ENABLED;
         }
@@ -628,10 +629,10 @@ public:
         if ((menuItemState->unk_09 & 7) != 1)
         {
             StartChoice_Surrender(menu->unk_10);
-            return 0x40;
+            return MENU_ACTION_x40;
         }
 
-        return 0x100;
+        return MENU_ACTION_x100;
     }
 };
 
@@ -666,7 +667,7 @@ public:
     {
         PlayerPhase_GotoLabel(23, 0, 0);
         func_ov000_021d6dfc(0);
-        return 0x41;
+        return MENU_ACTION_x1 | MENU_ACTION_x40;;
     }
 };
 
@@ -688,7 +689,7 @@ public:
     /* 1C */ virtual s32 vfunc_1c(void)
     {
         PlayerPhase_GotoLabel(3, 0, 0);
-        return 0x41;
+        return MENU_ACTION_x1 | MENU_ACTION_x40;;
     }
 };
 
@@ -713,7 +714,7 @@ public:
         // "Select two units to have them trade starting positions."
         StartSubtitleHelp(GetText("MSH_位置変更"), 0);
 
-        return 0x81;
+        return MENU_ACTION_x1 | MENU_ACTION_x80;
     }
 };
 
@@ -760,7 +761,7 @@ EC void StartChoice_TemporarySave(ProcPtr parent)
     // clang-format on
 
     func_020303bc(
-        new map::TemporarySaveDialogYesNo(), GetText((char *)(func_ov000_021a47e4() ? "MD_中断" : "MD_練習終了")),
+        new map::TemporarySaveDialogYesNo(), GetText((char *)(IsLinkArena() ? "MD_中断" : "MD_練習終了")),
         data_ov000_021dd25c, parent, 1, 0);
 
     return;
