@@ -424,9 +424,9 @@ void arena::Arena::_021d7d1c(void)
 
 void arena::Arena::_021d7d50(void)
 {
-    if ((this->unk_38->state2 & 8) != 0)
+    if (this->unk_38->state2 & US_DEAD)
     {
-        data_021974fc->unk_00 = 0;
+        data_021974fc->unk_00 = NULL;
     }
 
     this->unk_3c->MoveToForce(4, TRUE);
@@ -596,7 +596,7 @@ void arena::Arena::_021d7e1c(void)
     level = (level > iVar7) ? iVar7 : (level >= 1) ? level : 1;
 
     func_0203a728(this->unk_3c, pPersonData, pJobData, level);
-    this->unk_3c->state2 |= 0x1000;
+    this->unk_3c->state2 |= US_NOT_PRESENT;
 
     if (RollRN(0, 9) != 0)
     {

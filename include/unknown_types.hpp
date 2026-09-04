@@ -8,10 +8,35 @@
 #include "state_manager.hpp"
 #include "unit.hpp"
 
-// UnkStruct_02196f0c::state
-// & 0x10 -> in prep
-// & 0x20 -> in multiplayer
-// & 0x4000 -> "Transporter Off"
+enum
+{
+    GAME_STATE_UNK_0 = (1 << 0),
+    GAME_STATE_UNK_1 = (1 << 1),
+    GAME_STATE_UNK_2 = (1 << 2),
+    GAME_STATE_UNK_3 = (1 << 3),
+    GAME_STATE_UNK_4 = (1 << 4),
+    GAME_STATE_WIRELESS_BATTLE = (1 << 5),
+    GAME_STATE_BATTLE_PREP = (1 << 6),
+    GAME_STATE_UNK_7 = (1 << 7),
+    GAME_STATE_UNK_8 = (1 << 8), // skip prep maybe?
+    GAME_STATE_UNK_9 = (1 << 9),
+    GAME_STATE_UNK_10 = (1 << 10),
+    GAME_STATE_UNK_11 = (1 << 11),
+    GAME_STATE_UNK_12 = (1 << 12),
+    GAME_STATE_UNK_13 = (1 << 13),
+    GAME_STATE_SUPPLY_OFF = (1 << 14), // Set by event function "TransporterOff"
+    GAME_STATE_UNK_15 = (1 << 15),
+    GAME_STATE_LINK_ARENA = (1 << 16),
+    GAME_STATE_UNK_17 = (1 << 17),
+    GAME_STATE_UNK_18 = (1 << 18),
+    GAME_STATE_UNK_19 = (1 << 19),
+    GAME_STATE_UNK_20 = (1 << 20), // possibly "has fought medius"
+    GAME_STATE_UNK_21 = (1 << 21),
+    GAME_STATE_UNK_22 = (1 << 22),
+    GAME_STATE_UNK_23 = (1 << 23),
+    GAME_STATE_UNK_24 = (1 << 24),
+    GAME_STATE_UNK_25 = (1 << 25),
+};
 
 struct UnkStruct_02196f0c
 {
@@ -46,29 +71,84 @@ struct UnkStruct_020e3ca0
     STRUCT_PAD(0x00, 0x14);
 };
 
-class UnkStruct_02196f10
+enum
+{
+    WIRELESS_MODE_LOCAL = 0,
+    WIRELESS_MODE_WFC_PLAY_ANYONE = 1,
+    WIRELESS_MODE_WFC_PLAY_FRIEND = 2,
+    WIRELESS_MODE_PRACTICE = 3,
+};
+
+struct WirelessSettings_00_348
+{
+    /* 00 */ STRUCT_PAD(0x00, 0x20);
+    /* 20 */ u16 unk_20;
+    /* 22 */ STRUCT_PAD(0x22, 0x24);
+    /* 24 */ s8 unk_24;
+    /* 25 */ s8 unk_25;
+    /* 26 */ s8 unk_26;
+    /* 27 */ s8 unk_27;
+};
+
+struct WirelessSettings_00
+{
+    /* 000 */ Unit unk_000[5];
+    /* 348 */ struct WirelessSettings_00_348 unk_348[0x19];
+    /* 730 */ u8 unk_730[0x24];
+    /* 754 */ u8 unk_754;
+    /* 755 */ u8 unk_755;
+    /* 756 */ u8 unk_756;
+    /* 757 */ u8 unk_757;
+};
+
+class WirelessSettings
 {
 public:
-    u32 unk_00;
-    s8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    s8 unk_07;
-    u8 unk_08;
-    u8 unk_09;
-    u8 unk_0a;
-    u8 unk_0b;
-    u32 unk_0c;
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    STRUCT_PAD(0x13, 0x17);
-    u8 unk_17;
+    /* 00 */ WirelessSettings_00 * unk_00;
+    /* 04 */ s8 mode;
+    /* 05 */ u8 unk_05;
+    /* 06 */ u8 unk_06; // faction?
+    /* 07 */ s8 unk_07;
+    /* 08 */ u8 unk_08;
+    /* 09 */ u8 fogActive;
+    /* 0A */ u8 turnLimit;
+    /* 0B */ u8 unk_0b;
+    /* 0C */ u32 timeLimit; // in seconds
+    /* 10 */ u8 cardsAllowed;
+    /* 11 */ u8 unk_11;
+    /* 12 */ u8 unk_12;
+    /* 13 */ STRUCT_PAD(0x13, 0x17);
+    /* 17 */ u8 unk_17;
 
-    UnkStruct_02196f10()
+    WirelessSettings()
     {
-        this->unk_00 = 0;
+        this->unk_00 = NULL;
         this->unk_06 = 0;
+    }
+
+    inline u8 CheckUnk00(void)
+    {
+        return (this->unk_00 != NULL) & 0xFF;
+    }
+
+    inline BOOL IsWifiPlayAnyoneMode(void)
+    {
+        return this->mode == WIRELESS_MODE_WFC_PLAY_ANYONE;
+    }
+
+    inline BOOL IsPracticeMode(void)
+    {
+        return this->mode == WIRELESS_MODE_PRACTICE;
+    }
+
+    inline BOOL _02022b50(void)
+    {
+        return this->unk_07 == 0;
+    }
+
+    inline BOOL _02022b10(void)
+    {
+        return this->unk_07 == 2;
     }
 };
 
@@ -99,7 +179,7 @@ struct UnkStruct_02196f20
     s32 unk_184;
     u32 unk_188;
     u32 unk_18c;
-    s32 unk_190;
+    s32 unk_190; // gold
     u32 unk_194;
     u8 unk_198;
     u8 unk_199;

@@ -255,7 +255,7 @@ public:
 
         func_020113d0(gpActiveScreenSt->tilemap[1] + 0x98, ((unk_35 * 4) + 1), 8);
 
-        if (this->unk_3c->state2 & 0x40000)
+        if (this->unk_3c->state2 & US_UNK_18)
         {
             func_020295ec(
                 data_021970c4, "−", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1A, 4, 0x4D, 0, 0, 0);
@@ -270,7 +270,7 @@ public:
         func_020295ec(
             data_021970c4, "／", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1B, 4, 0x51, 0, 0, 0);
 
-        if (this->unk_3c->state2 & 0x40000)
+        if (this->unk_3c->state2 & US_UNK_18)
         {
             func_020295ec(
                 data_021970c4, "−", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1C, 4, 0x53, 0, 0, 0);
@@ -331,7 +331,7 @@ public:
             unk_35 = this->unk_38[this->unk_44]->unk_35;
             func_020113d0(((u16 *)gpActiveScreenSt->tilemap[1]) + 0x98, unk_35 * 4 + 1, 8);
 
-            if (this->unk_3c->state2 & 0x40000)
+            if (this->unk_3c->state2 & US_UNK_18)
             {
                 func_020295ec(
                     data_021970c4, "−", gpActiveScreenSt->bgTiles[2], gpActiveScreenSt->tilemap[1], 0x1A, 4, 0x4D, 0, 0,
@@ -348,7 +348,7 @@ public:
                 data_021970c4, "／", gpActiveScreenSt->bgTiles[2], gpActiveScreenSt->tilemap[1], 0x1B, 4, 0x51, 0, 0,
                 0);
 
-            if (this->unk_3c->state2 & 0x40000)
+            if (this->unk_3c->state2 & US_UNK_18)
             {
                 func_020295ec(
                     data_021970c4, "−", gpActiveScreenSt->bgTiles[2], gpActiveScreenSt->tilemap[1], 0x1C, 4, 0x53, 0, 0,
@@ -406,7 +406,7 @@ public:
             unk_35 = this->unk_38[this->unk_44]->unk_35;
             func_020113d0(((u16 *)gpActiveScreenSt->tilemap[1]) + 0x98, unk_35 * 4 + 1, 8);
 
-            if (this->unk_3c->state2 & 0x40000)
+            if (this->unk_3c->state2 & US_UNK_18)
             {
                 func_020295ec(
                     data_021970c4, "−", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1A, 4, 0x4D, 0, 0,
@@ -423,7 +423,7 @@ public:
                 data_021970c4, "／", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1B, 4, 0x51, 0, 0,
                 0);
 
-            if (this->unk_3c->state2 & 0x40000)
+            if (this->unk_3c->state2 & US_UNK_18)
             {
                 func_020295ec(
                     data_021970c4, "−", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1C, 4, 0x53, 0, 0,
@@ -491,7 +491,7 @@ public:
                 unk_35 = this->unk_38[this->unk_44]->unk_35;
                 func_020113d0(((u16 *)gpActiveScreenSt->tilemap[1]) + 0x98, unk_35 * 4 + 1, 8);
 
-                if (this->unk_3c->state2 & 0x40000)
+                if (this->unk_3c->state2 & US_UNK_18)
                 {
                     func_020295ec(
                         data_021970c4, "−", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1A, 4, 0x4D,
@@ -508,7 +508,7 @@ public:
                     data_021970c4, "／", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1B, 4, 0x51, 0,
                     0, 0);
 
-                if (this->unk_3c->state2 & 0x40000)
+                if (this->unk_3c->state2 & US_UNK_18)
                 {
                     func_020295ec(
                         data_021970c4, "−", gpActiveScreenSt->bgTiles[1], gpActiveScreenSt->tilemap[1], 0x1C, 4, 0x53,
@@ -554,7 +554,7 @@ public:
         {
             return FALSE;
         }
-        else if (this->unk_3c->state2 & 0x40000)
+        else if (this->unk_3c->state2 & US_UNK_18)
         {
             return TRUE;
         }
@@ -588,7 +588,7 @@ EC void SallyJobS_FadeIn(sally::JobS * proc)
 {
     s32 target = 0;
 
-    if (data_02196f0c->state & 0x80000)
+    if (data_02196f0c->state & GAME_STATE_UNK_19)
     {
         target = 1;
     }
@@ -601,7 +601,7 @@ EC void SallyJobS_FadeOut(sally::JobS * proc)
 {
     s32 target = 0;
 
-    if (data_02196f0c->state & 0x80000)
+    if (data_02196f0c->state & GAME_STATE_UNK_19)
     {
         target = 1;
     }

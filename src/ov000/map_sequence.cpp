@@ -9,6 +9,7 @@
 #include "anime.hpp"
 #include "database.hpp"
 #include "event.hpp"
+#include "gamectrl.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
 #include "menu.hpp"
@@ -20,18 +21,22 @@
 
 enum
 {
+    L_SEQUENCE_3 = 3,
     L_SEQUENCE_PLAYER_PHASE_START = 4,
     L_SEQUENCE_CPU_PHASE_START = 5,
     L_SEQUENCE_LINK_START = 6,
-
+    L_SEQUENCE_7 = 7,
     L_SEQUENCE_COMPLETE = 8,
     L_SEQUENCE_GAME_OVER = 9,
+    L_SEQUENCE_10 = 10,
 };
 
 enum
 {
+    L_PLAYERPHASE_1 = 1,
 
     L_PLAYERPHASE_END_PREP = 3,
+    L_PLAYERPHASE_4 = 4,
 
     L_PLAYERPHASE_WARP = 7,
 
@@ -44,7 +49,7 @@ enum
     L_PLAYERPHASE_SHOP = 21,
     L_PLAYERPHASE_ARENA = 22,
     L_PLAYERPHASE_END_TURN = 23,
-
+    L_PLAYERPHASE_24 = 24,
     L_PLAYERPHASE_END = 25,
     L_PLAYERPHASE_EXIT = 26,
     L_PLAYERPHASE_SUSPEND = 27,
@@ -53,6 +58,8 @@ enum
     L_PLAYERPHASE_GUIDE = 32,
     L_PLAYERPHASE_CONFIG = 33,
     L_PLAYERPHASE_CONVOY = 34,
+    L_PLAYERPHASE_35 = 35,
+    L_PLAYERPHASE_36 = 36,
 
     L_PLAYERPHASE_SURRENDER = 38,
 
@@ -160,7 +167,7 @@ struct UnkStruct_021e3340 * data_ov000_021e3340;
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
-extern struct UnkStruct_02196f10 * data_02196f10;
+extern struct WirelessSettings * gWirelessSettings;
 
 extern struct TouchState * gTouchSt;
 
@@ -256,14 +263,14 @@ public:
 
                         if ((healType == 0) && (terrain->unk_08[3] == 0))
                         {
-                            this->unk_38 = unit->unk_3c;
+                            this->unk_38 = unit->next;
                             unit = this->unk_38;
                             continue;
                         }
 
                         if (unit->hp == unit->GetMaxHp())
                         {
-                            this->unk_38 = unit->unk_3c;
+                            this->unk_38 = unit->next;
                             unit = this->unk_38;
                             continue;
                         }
@@ -271,7 +278,7 @@ public:
                         if (!TEMP(unit))
                         {
                             unit->hp = unit->hp + func_020381d8(terrain, healType);
-                            this->unk_38 = unit->unk_3c;
+                            this->unk_38 = unit->next;
                             unit = this->unk_38;
                             continue;
                         }
@@ -334,7 +341,7 @@ public:
 
                 unit->hp = this->unk_40 + this->unk_44;
 
-                this->unk_38 = unit->unk_3c;
+                this->unk_38 = unit->next;
                 this->unk_3c = 0;
 
                 return;
@@ -506,12 +513,12 @@ EC void func_ov000_021a8480(ProcPtr param_1)
     BOOL flag = FALSE;
     char * name;
 
-    if (!func_ov000_021a47e4())
+    if (!IsLinkArena())
     {
         return;
     }
 
-    if (!((data_02196f10->unk_00 != 0 ? TRUE : FALSE) & 0xFF) || data_02196f10->unk_0b == 0)
+    if (!gWirelessSettings->CheckUnk00() || gWirelessSettings->unk_0b == 0)
     {
         return;
     }
@@ -582,12 +589,12 @@ EC void func_ov000_021a8650(void)
     s32 i;
     Unit * pUnit;
 
-    if (!func_ov000_021a47e4())
+    if (!IsLinkArena())
     {
         return;
     }
 
-    if (!((data_02196f10->unk_00 != 0 ? TRUE : FALSE) & 0xFF) || data_02196f10->unk_0b == 0)
+    if (!gWirelessSettings->CheckUnk00() || gWirelessSettings->unk_0b == 0)
     {
         return;
     }
@@ -603,7 +610,7 @@ EC void func_ov000_021a8650(void)
             case 5:
             case 6:
             case 0xc:
-                for (pUnit = Force::Get(i)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+                for (pUnit = Force::Get(i)->head; pUnit != NULL; pUnit = pUnit->next)
                 {
                     switch (func_02021410(i)->unk_756)
                     {
@@ -636,7 +643,7 @@ EC void func_ov000_021a8650(void)
 
             case 0xd:
             case 0x12:
-                for (pUnit = Force::Get((i + 1) & 1)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+                for (pUnit = Force::Get((i + 1) & 1)->head; pUnit != NULL; pUnit = pUnit->next)
                 {
                     switch (func_02021410(i)->unk_756)
                     {
@@ -669,7 +676,7 @@ EC void func_ov000_021a8868(void)
     func_02000c7c(gMapStateManager->unk_08);
     func_ov000_021b9660(gMapStateManager->unk_14, data_ov000_021e3324->unk_01);
 
-    for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+    for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->next)
     {
         if (pUnit->unk_91 != 0)
         {
@@ -686,7 +693,7 @@ EC void func_ov000_021a8868(void)
             pUnit->unk_93--;
         }
 
-        if (((pUnit->state2 & 0x8000) != 0) && (pUnit->unk_93 == 0))
+        if ((pUnit->state2 & US_UNK_15) && (pUnit->unk_93 == 0))
         {
             pUnit->_0203bf68();
             func_ov000_021baafc(gMapStateManager->unk_14->unk_00, pUnit, FALSE);
@@ -695,20 +702,20 @@ EC void func_ov000_021a8868(void)
 
     for (i = 0; i < 2; i++)
     {
-        for (pUnit = Force::Get(i)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+        for (pUnit = Force::Get(i)->head; pUnit != NULL; pUnit = pUnit->next)
         {
-            pUnit->state2 &= ~0x4000;
+            pUnit->state2 &= ~US_UNK_14;
         }
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         func_ov000_021a37c4();
         func_ov000_021a340c();
         func_ov000_021a35a0();
     }
 
-    func_ov000_021a48b0(data_ov000_021e3324->unk_0c);
+    func_ov000_021a48b0(data_ov000_021e3324->timeLimit);
     func_0204bbb4(0);
 
     return;
@@ -741,9 +748,9 @@ EC void func_ov000_021a8a00(s32 param_1, s32 param_2)
     {
         if (data_02196f24->autoCursorEnabled != 0 || gMapStateManager->cursor->unk_00[param_1] == -1)
         {
-            if (!func_ov000_021a47e4())
+            if (!IsLinkArena())
             {
-                pUnit = Force::Get(param_1)->FindByAttribute(2);
+                pUnit = Force::Get(param_1)->FindByAttribute(CA_UNK_1);
             }
             else
             {
@@ -846,7 +853,7 @@ EC void * func_ov000_021d3350(char *, s32, s32, s32, s32, ProcPtr, s32, s32, s32
 
 EC void func_ov000_021a8c9c(ProcPtr param_1)
 {
-    if (func_ov000_021a478c())
+    if (IsWirelessBattle())
     {
         if (data_ov000_021e3324->phase != 0)
         {
@@ -950,7 +957,7 @@ EC void ProcSeq_SwitchPhases(void)
     switch (data_ov000_021e3320[data_ov000_021e3324->phase])
     {
         case 0:
-            ProcSeq_GotoLabel(7);
+            ProcSeq_GotoLabel(L_SEQUENCE_7);
             return;
 
         case 1:
@@ -974,11 +981,11 @@ EC void func_ov000_021a8ff4(void)
 {
     Unit * it;
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
-        for (it = Force::Get(data_ov000_021e3324->phase)->head; it != NULL; it = it->unk_3c)
+        for (it = Force::Get(data_ov000_021e3324->phase)->head; it != NULL; it = it->next)
         {
-            it->state2 &= ~0x4000;
+            it->state2 &= ~US_UNK_14;
         }
 
         func_ov000_021a340c();
@@ -1018,9 +1025,9 @@ EC void func_ov000_021a9138(void)
 {
     Unit * it;
 
-    for (it = Force::Get(data_ov000_021e3324->phase)->head; it != NULL; it = it->unk_3c)
+    for (it = Force::Get(data_ov000_021e3324->phase)->head; it != NULL; it = it->next)
     {
-        it->state2 &= ~1;
+        it->state2 &= ~US_ACTED;
     }
 
     if (func_ov000_021a2a50(data_ov000_021e3324))
@@ -1028,7 +1035,7 @@ EC void func_ov000_021a9138(void)
         return;
     }
 
-    if (func_ov000_021a47e4())
+    if (IsLinkArena())
     {
         if ((data_ov000_021e24c0 >= 0) && (data_ov000_021e24c0 < 2) && (data_ov000_021e3320[data_ov000_021e24c0] != 1))
         {
@@ -1123,11 +1130,11 @@ EC void func_ov000_021a93d0(ProcPtr proc)
     s32 i;
     Unit * it;
 
-    if (!func_ov000_021a47e4())
+    if (!IsLinkArena())
     {
         for (i = 0; i < 2; i++)
         {
-            for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
+            for (it = Force::Get(i)->head; it != NULL; it = it->next)
             {
                 it->_0203bcf4();
                 func_ov000_021baafc(gMapStateManager->unk_14->unk_00, it, 0);
@@ -1147,42 +1154,42 @@ EC void func_ov000_021a93d0(ProcPtr proc)
         return;
     }
 
-    if (data_02196f10->unk_17 != 0)
+    if (gWirelessSettings->unk_17 != 0)
     {
         func_02014834(proc, GetText("MLink_OpponentSurrender"), 1, 1, 1, 1);
 
-        if (func_ov000_021a478c())
+        if (IsWirelessBattle())
         {
             func_020127c4(0x574d5356, proc);
         }
     }
     else
     {
-        if (func_ov000_021a478c())
+        if (IsWirelessBattle())
         {
             new (Proc_StartBlocking(ProcScr_ProcArenaSync, proc)) ProcArenaSync();
         }
     }
 
-    data_02196f10->unk_07 = 0;
+    gWirelessSettings->unk_07 = 0;
 
     return;
 }
 
 EC void func_ov000_021a9550(ProcPtr proc)
 {
-    if (!func_ov000_021a47e4())
+    if (!IsLinkArena())
     {
-        GameCtrl_GotoLabel(0xc);
+        GameCtrl_GotoLabel(L_GAMECTRL_GAME_OVER);
         return;
     }
 
-    if (func_ov000_021a478c())
+    if (IsWirelessBattle())
     {
         new (Proc_StartBlocking(ProcScr_ProcArenaSync, proc)) ProcArenaSync();
     }
 
-    data_02196f10->unk_07 = 1;
+    gWirelessSettings->unk_07 = 1;
 
     return;
 }
@@ -1275,36 +1282,47 @@ PROC_LABEL(2),
     PROC_CALL(func_ov000_021a8e34),
     PROC_CALL(StartTurnRegenerateExec),
     PROC_CALL(EventCaller::TryStartTurnEventAlt),
+
 PROC_LABEL(3),
     PROC_CALL(ProcSeq_SwitchPhases),
 
 PROC_LABEL(L_SEQUENCE_PLAYER_PHASE_START),
     PROC_CALL(StartPlayerPhase),
-    PROC_GOTO(7),
+
+    PROC_GOTO(L_SEQUENCE_7),
 
 PROC_LABEL(L_SEQUENCE_CPU_PHASE_START),
     PROC_CALL(StartCpuPhase),
-    PROC_GOTO(7),
+
+    PROC_GOTO(L_SEQUENCE_7),
 
 PROC_LABEL(L_SEQUENCE_LINK_START),
     PROC_CALL(StartProcLink),
-    PROC_GOTO(7),
 
-PROC_LABEL(7),
+    PROC_GOTO(L_SEQUENCE_7),
+
+PROC_LABEL(L_SEQUENCE_7),
     PROC_CALL(func_ov000_021a8e84),
     PROC_CALL(func_ov000_021a8ff4),
     PROC_REPEAT(func_ov000_021a9044),
     PROC_CALL(func_ov000_021a9138),
+
     PROC_GOTO(2),
+
 PROC_LABEL(L_SEQUENCE_COMPLETE),
     PROC_REPEAT(func_ov000_021a9230),
     PROC_CALL(func_ov000_021a93d0),
+
     PROC_GOTO(10),
+
 PROC_LABEL(L_SEQUENCE_GAME_OVER),
     PROC_CALL(func_ov000_021a9550),
+
     PROC_GOTO(10),
+
 PROC_LABEL(10),
     PROC_CALL(func_ov000_021a8eec),
+
     PROC_END
 };
 
@@ -1373,9 +1391,9 @@ EC void func_ov000_021a9714(ProcPtr parent)
 
     proc = new (Proc_StartBlocking(ProcScr_ProcSeq, parent)) ProcSeq();
 
-    if (data_02196f0c->state & 4)
+    if (data_02196f0c->state & GAME_STATE_UNK_2)
     {
-        ProcSeq_GotoLabel(3);
+        ProcSeq_GotoLabel(L_SEQUENCE_3);
         ProcSeq_Init(proc);
         func_ov000_021b9660(gMapStateManager->unk_14, data_ov000_021e3324->unk_01);
         func_ov000_021a8e34(proc);
@@ -1521,9 +1539,9 @@ EC struct Unit * func_ov000_021a995c(struct Unit * unit, s32 forceId)
         flag = (forceId == unit->force->id);
         forceId = unit->force->id;
 
-        if (unit->unk_3c != NULL)
+        if (unit->next != NULL)
         {
-            cur = unit->unk_3c;
+            cur = unit->next;
         }
         else
         {
@@ -1545,7 +1563,7 @@ EC struct Unit * func_ov000_021a995c(struct Unit * unit, s32 forceId)
     {
         if (flag)
         {
-            if ((cur->state2 & 0xe1) == 0)
+            if (!(cur->state2 & (US_ACTED | US_UNK_5 | US_UNK_6 | US_ITEMS_TO_CONVOY)))
             {
                 return cur;
             }
@@ -1558,7 +1576,7 @@ EC struct Unit * func_ov000_021a995c(struct Unit * unit, s32 forceId)
             }
         }
 
-        cur = cur->unk_3c;
+        cur = cur->next;
 
         if (unit == NULL && cur == NULL)
         {
@@ -1584,7 +1602,7 @@ EC void func_ov000_021a9a48(void)
     s32 iVar3;
     s32 i;
 
-    if (!func_ov000_021a47e4())
+    if (!IsLinkArena())
     {
         if ((data_02196f0c->pCurrentMap->_pad_0x08[0] & 2) != 0)
         {
@@ -1597,7 +1615,7 @@ EC void func_ov000_021a9a48(void)
                     continue;
                 }
 
-                for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
+                for (it = Force::Get(i)->head; it != NULL; it = it->next)
                 {
                     iVar1++;
                 }
@@ -1623,7 +1641,7 @@ EC void func_ov000_021a9a48(void)
                 continue;
             }
 
-            for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
+            for (it = Force::Get(i)->head; it != NULL; it = it->next)
             {
                 if (it->CheckAttribute(CA_BOSS))
                 {
@@ -1666,7 +1684,7 @@ EC void func_ov000_021a9a48(void)
             continue;
         }
 
-        for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
+        for (it = Force::Get(i)->head; it != NULL; it = it->next)
         {
             iVar3++;
         }
@@ -1684,7 +1702,7 @@ EC void func_ov000_021a9a48(void)
             continue;
         }
 
-        for (it = Force::Get(i)->head; it != NULL; it = it->unk_3c)
+        for (it = Force::Get(i)->head; it != NULL; it = it->next)
         {
             iVar3++;
         }
@@ -1741,7 +1759,7 @@ EC void func_ov000_021a9d98(Unit * unit)
     gActionSt->unk_2e = func_ov000_021a4854(unit);
     gActionSt->unitId = unit->unk_68;
 
-    if (func_ov000_021a478c())
+    if (IsWirelessBattle())
     {
         gActionSt->func_ov000_021b0eb4(unit);
     }
@@ -1749,7 +1767,7 @@ EC void func_ov000_021a9d98(Unit * unit)
     func_01ff8d88(gMapStateManager->unk_08, unit, -1, 6, 1, 1);
     func_ov000_021a3ee4(unit, 1);
 
-    unit->state2 |= 0x20000;
+    unit->state2 |= US_HOVERED;
 
     func_ov000_021a354c(unit, -1, -1);
     func_ov000_021a7214(gMapStateManager->unk_04, unit, 0);
@@ -1797,7 +1815,7 @@ EC void func_ov000_021a9f98(void)
 {
     Unit * pUnit = gMapStateManager->unk_04->pUnit;
 
-    if (func_ov000_021a478c() && (gActionSt->func_ov000_021b0f1c(pUnit) == 0))
+    if (IsWirelessBattle() && (gActionSt->func_ov000_021b0f1c(pUnit) == 0))
     {
         gActionSt->actionId = ACTION_NONE;
         gActionSt->func_ov000_021b0eb4(GetUnit(gActionSt->unitId));
@@ -1806,7 +1824,7 @@ EC void func_ov000_021a9f98(void)
 
     func_ov000_021a7284();
     gMapStateManager->unk_04->unk_08 = 0;
-    pUnit->state2 &= ~0x20000;
+    pUnit->state2 &= ~US_HOVERED;
 
     func_ov000_021a3498(pUnit, 0, -1, -1);
 
@@ -1874,7 +1892,7 @@ EC void func_ov000_021aa1d0(void)
     if (unit != NULL)
     {
         func_ov000_021a7284();
-        unit->state2 &= ~0x20000;
+        unit->state2 &= ~US_HOVERED;
     }
 
     return;
@@ -1943,7 +1961,7 @@ EC void func_ov000_021aa278(s32 param)
         {
             if (pUnit->force->id == data_ov000_021e3324->phase)
             {
-                if ((pUnit->state2 & 1) == 0)
+                if (!(pUnit->state2 & US_ACTED))
                 {
                     func_01ff8db8(gMapStateManager->unk_08, pUnit, -1, 6, 1, 1);
                     func_ov000_021a3ee4(pUnit, 1);
@@ -2090,7 +2108,7 @@ EC void func_ov000_021aa278(s32 param)
         return;
     }
 
-    if ((func_ov000_021a478c() != 0) && (func_020146c4(func_02012410()) != 0) &&
+    if (IsWirelessBattle() && (func_020146c4(func_02012410()) != 0) &&
         (func_020146c4((func_02012410() + 1) & 1) != 0))
     {
         return;
@@ -2181,7 +2199,7 @@ EC BOOL func_ov000_021aaad8(s32 x, s32 y, s32 param_3)
         {
             if ((x != data_ov005_02217560->unk_00) || (y != data_ov005_02217560->unk_04))
             {
-                if (((pUnit == NULL) || ((pUnit->state2 & 0x400) != 0)) &&
+                if (((pUnit == NULL) || (pUnit->state2 & US_UNK_10)) &&
                     !(((data_ov005_02217560->unk_00 != -1) ? TRUE : FALSE) & 0xFF))
                 {
                     data_ov005_02217560->unk_00 = x;
@@ -2223,7 +2241,7 @@ EC BOOL func_ov000_021aaad8(s32 x, s32 y, s32 param_3)
 
     if ((pUnit->force->id == data_ov000_021e3324->phase) && (param_3 == 0))
     {
-        if ((pUnit->state2 & 1) == 0)
+        if (!(pUnit->state2 & US_ACTED))
         {
             func_ov000_021aa1d0();
             func_ov000_021a9d98(pUnit);
@@ -2262,7 +2280,7 @@ EC BOOL func_ov000_021aad64(s32 x, s32 y, s32 param)
         if (found)
         {
             if ((((x == data_ov005_02217560->unk_00) && (y == data_ov005_02217560->unk_04))) ||
-                ((pUnit != NULL) && ((pUnit->state2 & 0x400) != 0)))
+                ((pUnit != NULL) && (pUnit->state2 & US_UNK_10)))
             {
                 if ((data_ov005_02217560->unk_00 != -1 ? TRUE : FALSE) & 0xff)
                 {
@@ -2313,7 +2331,7 @@ EC BOOL func_ov000_021aad64(s32 x, s32 y, s32 param)
 
     if (pUnit->force->id == data_ov000_021e3324->phase)
     {
-        if ((pUnit->state2 & 1) == 0)
+        if (!(pUnit->state2 & US_ACTED))
         {
             return FALSE;
         }
@@ -2349,9 +2367,9 @@ EC BOOL func_ov000_021aad64(s32 x, s32 y, s32 param)
 
     if (!((data_ov000_021e3324->phase == pUnit->force->id ? TRUE : FALSE) & 0xff))
     {
-        if ((pUnit->state2 & 0x2000) == 0)
+        if (!(pUnit->state2 & US_DANGER_ZONE_ACTIVE))
         {
-            pUnit->state2 |= 0x2000;
+            pUnit->state2 |= US_DANGER_ZONE_ACTIVE;
 
             gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_ON1, 0, 0);
 
@@ -2362,7 +2380,7 @@ EC BOOL func_ov000_021aad64(s32 x, s32 y, s32 param)
         }
         else
         {
-            pUnit->state2 &= ~0x2000;
+            pUnit->state2 &= ~US_DANGER_ZONE_ACTIVE;
 
             gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
 
@@ -2433,9 +2451,9 @@ EC BOOL func_ov000_021ab180(s32 x, s32 y, s32 param_3)
             return TRUE;
         }
     }
-    else if ((pUnit->state2 & 0x2000) != 0)
+    else if (pUnit->state2 & US_DANGER_ZONE_ACTIVE)
     {
-        pUnit->state2 &= ~0x2000;
+        pUnit->state2 &= ~US_DANGER_ZONE_ACTIVE;
 
         gSoundManager->unk_b0->vfunc_28(SE_SYS_ENEMY_OFF1, 0, 0);
 
@@ -2460,11 +2478,11 @@ EC BOOL func_ov000_021ab180(s32 x, s32 y, s32 param_3)
                 continue;
             }
 
-            for (it = Force::Get(forceId)->head; it != NULL; it = it->unk_3c)
+            for (it = Force::Get(forceId)->head; it != NULL; it = it->next)
             {
-                if ((it->state2 & 0x2000) != 0)
+                if (it->state2 & US_DANGER_ZONE_ACTIVE)
                 {
-                    it->state2 &= ~0x2000;
+                    it->state2 &= ~US_DANGER_ZONE_ACTIVE;
                     changed = TRUE;
                 }
             }
@@ -2908,26 +2926,26 @@ EC void func_ov000_021ac218(void)
 
     gMapStateManager->unk_04->unk_08 = 0;
 
-    pUnit->state2 &= ~0x20000;
+    pUnit->state2 &= ~US_HOVERED;
 
-    if ((pUnit->state2 & 0x48) == 0)
+    if (!(pUnit->state2 & (US_DEAD | US_UNK_6)))
     {
-        pUnit->state2 |= 1;
+        pUnit->state2 |= US_ACTED;
 
-        if ((data_ov000_021e3324->unk_02 != 0) && (func_ov000_021a3da0(pUnit) == 0))
+        if ((data_ov000_021e3324->fogActive != 0) && (func_ov000_021a3da0(pUnit) == 0))
         {
             if (TEMP(pUnit) != 0)
             {
-                pUnit->state2 |= 0x4000;
+                pUnit->state2 |= US_UNK_14;
             }
         }
     }
     else
     {
-        pUnit->state2 |= 0x1000;
+        pUnit->state2 |= US_NOT_PRESENT;
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         if (data_ov000_021e3324->phase == pUnit->force->id)
         {
@@ -2966,13 +2984,13 @@ EC void func_ov000_021ac218(void)
     }
     else
     {
-        if ((pUnit->state2 & 0x48) == 0)
+        if (!(pUnit->state2 & (US_DEAD | US_UNK_6)))
         {
             func_ov000_021a3498(pUnit, 0, -1, -1);
         }
     }
 
-    if ((pUnit->state2 & 8) != 0)
+    if (pUnit->state2 & US_DEAD)
     {
         bVar5 = FALSE;
 
@@ -2987,7 +3005,7 @@ EC void func_ov000_021ac218(void)
     }
     else
     {
-        if ((pUnit->state2 & 0x40) != 0)
+        if (pUnit->state2 & US_UNK_6)
         {
             bVar5 = FALSE;
 
@@ -3002,7 +3020,7 @@ EC void func_ov000_021ac218(void)
 
     if (data_02196f0c->flagMgr->GetByName("gf_gameover"))
     {
-        Proc_Goto(gPlayerPhaseProc, 24, 0);
+        Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_24, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -3013,9 +3031,9 @@ EC void func_ov000_021ac218(void)
 
     if (data_02196f0c->flagMgr->GetByName("gf_complete"))
     {
-        pUnit->state2 &= ~1;
+        pUnit->state2 &= ~US_ACTED;
 
-        Proc_Goto(gPlayerPhaseProc, 24, 0);
+        Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_24, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -3049,7 +3067,7 @@ EC void func_ov000_021ac218(void)
 
 EC void func_ov000_021ac644(void)
 {
-    if (func_ov000_021a478c() != 0)
+    if (IsWirelessBattle())
     {
         func_ov000_021b0de8(0, 0, 0x1b, 0);
         func_02012b64(gActionSt, sizeof(ActionState));
@@ -3170,15 +3188,15 @@ EC void func_ov000_021ac8b4(void)
     gMapStateManager->cursor->isVisible = TRUE;
     gMapStateManager->inputHandler->SetButtonVisibility(0xf);
 
-    if ((data_02196f0c->state & 0x40) != 0)
+    if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
     {
-        Proc_Goto(gPlayerPhaseProc, 1, 0);
+        Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_1, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
     }
     else
     {
-        Proc_Goto(gPlayerPhaseProc, 4, 0);
+        Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_4, 0);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -3221,7 +3239,7 @@ EC void func_ov000_021acac4(void)
 
     gMapStateManager->unk_14->unk_04->unk_19 = 0;
 
-    Proc_Goto(gPlayerPhaseProc, 24, 0);
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_24, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -3658,14 +3676,14 @@ EC void func_ov000_021ad8c4(map::ProcPL * proc)
 
     if (proc->unk_38 != 0)
     {
-        data_02196f10->unk_07 = 0;
+        gWirelessSettings->unk_07 = 0;
     }
     else
     {
-        data_02196f10->unk_07 = 1;
+        gWirelessSettings->unk_07 = 1;
     }
 
-    data_02196f10->unk_08 = 1;
+    gWirelessSettings->unk_08 = 1;
 
     return;
 }
@@ -3673,11 +3691,11 @@ EC void func_ov000_021ad8c4(map::ProcPL * proc)
 EC void func_ov000_021ad97c(ProcPtr proc)
 {
     gMapStateManager->inputHandler->SetButtonVisibility(0);
-    Proc_Goto(gPlayerPhaseProc, 24, 0);
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_24, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
-    ProcSeq_GotoLabel(10);
+    ProcSeq_GotoLabel(L_SEQUENCE_10);
 
     return;
 }
@@ -3686,7 +3704,7 @@ EC void func_ov000_021ad9d4(ProcPtr proc)
 {
     gMapStateManager->inputHandler->SetButtonVisibility(0);
     StartMapSave(0x1b, proc);
-    Proc_Goto(gPlayerPhaseProc, 26, 0);
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_EXIT, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -3695,7 +3713,7 @@ EC void func_ov000_021ad9d4(ProcPtr proc)
 EC void func_ov000_021ada34(ProcPtr proc)
 {
     StartMapSave(0x1c, proc);
-    Proc_Goto(gPlayerPhaseProc, 35, 0);
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_35, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -3704,7 +3722,7 @@ EC void func_ov000_021ada34(ProcPtr proc)
 EC void func_ov000_021ada78(ProcPtr proc)
 {
     StartMapSave(0x1d, proc);
-    Proc_Goto(gPlayerPhaseProc, 36, 0);
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_36, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
     return;
@@ -3740,7 +3758,7 @@ EC void func_ov000_021adb48(void)
     if (func_ov000_021adabc(0, 0) == 0)
     {
         gMapStateManager->cursor->isVisible = TRUE;
-        Proc_Goto(gPlayerPhaseProc, 4, 1);
+        Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_4, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
 
@@ -3750,7 +3768,7 @@ EC void func_ov000_021adb48(void)
         return;
     }
 
-    Proc_Goto(gPlayerPhaseProc, 23, 1);
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_END_TURN, 1);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -3761,15 +3779,15 @@ EC void func_ov000_021adbf0(void)
 {
     gMapStateManager->cursor->isVisible = TRUE;
 
-    if (data_02196f0c->state & 0x40)
+    if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
     {
-        Proc_Goto(gPlayerPhaseProc, 1, 1);
+        Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_1, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
     }
     else
     {
-        Proc_Goto(gPlayerPhaseProc, 4, 1);
+        Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_4, 1);
         data_ov000_021e3340->unk_02 = 0;
         data_ov000_021e3340->unk_03 = 0;
         func_ov000_021d6e30(0);
@@ -3831,9 +3849,9 @@ EC void PlayerPhase_StartGuide(ProcPtr proc)
     return;
 }
 
-EC void func_ov000_021ade2c(void)
+EC void func_ov000_021ade2c(ProcPtr proc)
 {
-    func_02067510();
+    func_02067510(proc);
     gMapStateManager->inputHandler->SetButtonVisibility(0xf);
     return;
 }
@@ -3879,7 +3897,7 @@ EC void func_ov000_021adf20(void)
 
 EC void func_ov000_021adf58(void)
 {
-    if ((func_ov000_021a478c() == 0) && (func_0204b1f8(0) == 0))
+    if (!IsWirelessBattle() && (func_0204b1f8(0) == 0))
     {
         data_021974fc->unk_00 = 0;
         data_021974fc->unk_08 = 0;
@@ -3888,12 +3906,11 @@ EC void func_ov000_021adf58(void)
         func_0204eb24();
     }
 
-    Proc_Goto(gPlayerPhaseProc, 24, 1);
-
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_24, 1);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
-    if (!func_ov000_021a478c())
+    if (IsWirelessBattle())
     {
         func_ov000_021b0de8(0, 0, ACTION_END_TURN, 0);
         func_02012b64(gActionSt, sizeof(ActionState));
@@ -3902,16 +3919,15 @@ EC void func_ov000_021adf58(void)
     return;
 }
 
-EC void func_ov000_021ae018(void)
+EC void PlayerPhase_Surrender(void)
 {
-    if (func_ov000_021a478c())
+    if (IsWirelessBattle())
     {
         func_ov000_021b0de8(0, 0, ACTION_SURRENDER, 0);
         func_02012b64(gActionSt, sizeof(ActionState));
     }
 
-    Proc_Goto(gPlayerPhaseProc, 24, 0);
-
+    Proc_Goto(gPlayerPhaseProc, L_PLAYERPHASE_24, 0);
     data_ov000_021e3340->unk_02 = 0;
     data_ov000_021e3340->unk_03 = 0;
 
@@ -3924,13 +3940,9 @@ EC void func_ov000_021ae018(void)
 
 EC void func_ov000_021ae0a8(ProcPtr proc)
 {
-    s32 phase;
-
     gMapStateManager->inputHandler->SetButtonVisibility(0);
-
-    phase = data_ov000_021e3324->phase;
-
-    gMapStateManager->cursor->SetUnk00And02(phase, gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile);
+    gMapStateManager->cursor->SetUnk00And02(
+        data_ov000_021e3324->phase, gMapStateManager->cursor->xTile, gMapStateManager->cursor->yTile);
 
     Proc_End(proc);
 
@@ -4070,13 +4082,13 @@ PROC_LABEL(L_PLAYERPHASE_CONVOY),
     PROC_CALL(func_ov000_021ae2f4),
     PROC_CALL(func_ov000_021adf20),
 
-PROC_LABEL(35),
+PROC_LABEL(L_PLAYERPHASE_35),
     PROC_CALL(func_ov000_021adb48),
 
-PROC_LABEL(36),
+PROC_LABEL(L_PLAYERPHASE_36),
     PROC_CALL(func_ov000_021adbf0),
 
-PROC_LABEL(40),
+PROC_LABEL(L_PLAYERPHASE_40),
     PROC_CALL(func_ov000_021ad674),
     PROC_CALL(func_ov000_021ac218),
 
@@ -4085,10 +4097,10 @@ PROC_LABEL(L_PLAYERPHASE_END_TURN),
     PROC_CALL(func_ov000_021adf58),
 
 PROC_LABEL(L_PLAYERPHASE_SURRENDER),
-    PROC_CALL(func_ov000_021ae018),
+    PROC_CALL(PlayerPhase_Surrender),
 
 PROC_LABEL(39),
-    { PROC_CMD_02, 0x0000, 0x00000000 },
+    PROC_02,
 
 PROC_LABEL(24),
     PROC_CALL(func_ov000_021ae0a8),
@@ -4194,7 +4206,7 @@ EC ProcPtr func_ov000_021ae30c(ProcPtr param_1)
 
 EC void func_ov000_021ae324(Unit * unit)
 {
-    unit->state2 |= 0x20000;
+    unit->state2 |= US_HOVERED;
     func_ov000_021a354c(unit, -1, -1);
     func_ov000_021a7214(gMapStateManager->unk_04, unit, 0);
     return;
@@ -4233,29 +4245,29 @@ EC void CpuPhase_021ae364(void)
 
     func_ov000_021a7284();
 
-    unit->state2 &= ~0x20000;
+    unit->state2 &= ~US_HOVERED;
 
-    if ((unit->state2 & 0x48) == 0)
+    if (!(unit->state2 & (US_DEAD | US_UNK_6)))
     {
         if (unit->force->id == data_ov000_021e3324->phase)
         {
-            unit->state2 |= 1;
+            unit->state2 |= US_ACTED;
         }
 
-        if ((data_ov000_021e3324->unk_02 != 0) && (func_ov000_021a3da0(unit) == 0))
+        if ((data_ov000_021e3324->fogActive != 0) && (func_ov000_021a3da0(unit) == 0))
         {
             if (TEMP(unit) != 0)
             {
-                unit->state2 |= 0x4000;
+                unit->state2 |= US_UNK_14;
             }
         }
     }
     else
     {
-        unit->state2 |= 0x1000;
+        unit->state2 |= US_NOT_PRESENT;
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         if (data_ov000_021e3324->phase == unit->force->id)
         {
@@ -4294,13 +4306,13 @@ EC void CpuPhase_021ae364(void)
     }
     else
     {
-        if ((unit->state2 & 0x48) == 0)
+        if (!(unit->state2 & (US_DEAD | US_UNK_6)))
         {
             func_ov000_021a3498(unit, 0, -1, -1);
         }
     }
 
-    if ((unit->state2 & 8) != 0)
+    if (unit->state2 & US_DEAD)
     {
         if (unit->force->id == 0)
         {
@@ -4313,7 +4325,7 @@ EC void CpuPhase_021ae364(void)
     }
     else
     {
-        if ((unit->state2 & 0x40) != 0 && unit->force->id != 0)
+        if ((unit->state2 & US_UNK_6) && unit->force->id != 0)
         {
             unit->MoveToForce(4, TRUE);
         }
@@ -4380,7 +4392,7 @@ EC void CpuPhase_Loop_021ae72c(void)
     {
         Proc_Goto(gCpuPhaseProc, L_CPU_PHASE_END_TURN, 0);
 
-        if (func_ov000_021a478c())
+        if (IsWirelessBattle())
         {
             func_ov000_021b0de8(0, 0, ACTION_END_TURN, 0);
             func_02012b64(gActionSt, sizeof(ActionState));
@@ -4543,9 +4555,9 @@ EC void StartCpuPhase(ProcPtr proc)
     {
         iVar3 = 0;
 
-        for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->unk_3c)
+        for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->next)
         {
-            if (pUnit->state2 & 0xe1)
+            if (pUnit->state2 & (US_ACTED | US_UNK_5 | US_UNK_6 | US_ITEMS_TO_CONVOY))
             {
                 continue;
             }
@@ -4560,7 +4572,7 @@ EC void StartCpuPhase(ProcPtr proc)
 
         if (iVar3 == 0)
         {
-            if (func_ov000_021a478c())
+            if (IsWirelessBattle())
             {
                 func_ov000_021b0de8(0, 0, ACTION_END_TURN, 0);
                 func_02012b64(gActionSt, sizeof(ActionState));
@@ -4578,7 +4590,7 @@ EC void StartCpuPhase(ProcPtr proc)
 
 EC void func_ov000_021aeb70(Unit * unit)
 {
-    unit->state2 |= 0x20000;
+    unit->state2 |= US_HOVERED;
     func_ov000_021a354c(unit, -1, -1);
     func_ov000_021a7214(gMapStateManager->unk_04, unit, 0);
     return;
@@ -4730,7 +4742,7 @@ EC void func_ov000_021af1bc(map::ProcLink * param_1)
         gMapStateManager->cursor->isVisible = FALSE;
         param_1->unk_3c = 0;
         Proc_Goto(gMapLinkProc, 7, 0);
-        data_02196f10->unk_17 = 1;
+        gWirelessSettings->unk_17 = 1;
         data_02196f0c->flagMgr->SetByName("gf_complete");
         ProcSeq_GotoLabel(L_SEQUENCE_COMPLETE);
         return;
@@ -4793,29 +4805,29 @@ EC void func_ov000_021aebb0(void)
 
     func_ov000_021a7284();
 
-    pUnit->state2 &= ~0x20000;
+    pUnit->state2 &= ~US_HOVERED;
 
-    if ((pUnit->state2 & 0x48) == 0)
+    if (!(pUnit->state2 & (US_DEAD | US_UNK_6)))
     {
         if (pUnit->force->id == data_ov000_021e3324->phase)
         {
-            pUnit->state2 |= 1;
+            pUnit->state2 |= US_ACTED;
         }
 
-        if ((data_ov000_021e3324->unk_02 != 0) && (func_ov000_021a3da0(pUnit) == 0))
+        if ((data_ov000_021e3324->fogActive != 0) && (func_ov000_021a3da0(pUnit) == 0))
         {
             if (TEMP(pUnit) != 0)
             {
-                pUnit->state2 |= 0x4000;
+                pUnit->state2 |= US_UNK_14;
             }
         }
     }
     else
     {
-        pUnit->state2 |= 0x1000;
+        pUnit->state2 |= US_NOT_PRESENT;
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         if (data_ov000_021e3324->phase == pUnit->force->id)
         {
@@ -4854,13 +4866,13 @@ EC void func_ov000_021aebb0(void)
     }
     else
     {
-        if ((pUnit->state2 & 0x48) == 0)
+        if (!(pUnit->state2 & (US_DEAD | US_UNK_6)))
         {
             func_ov000_021a3498(pUnit, 0, -1, -1);
         }
     }
 
-    if ((pUnit->state2 & 8) != 0)
+    if (pUnit->state2 & US_DEAD)
     {
         bVar5 = FALSE;
 
@@ -4875,7 +4887,7 @@ EC void func_ov000_021aebb0(void)
     }
     else
     {
-        if ((pUnit->state2 & 0x40) != 0)
+        if (pUnit->state2 & US_UNK_6)
         {
             bVar5 = FALSE;
 
@@ -5009,8 +5021,8 @@ EC void func_ov000_021af62c(map::ProcLink * proc)
     else
     {
         Proc_Goto(gMapLinkProc, 6, 0);
-        data_02196f10->unk_07 = !!proc->unk_38;
-        data_02196f10->unk_08 = 1;
+        gWirelessSettings->unk_07 = !!proc->unk_38;
+        gWirelessSettings->unk_08 = 1;
     }
 
     return;
@@ -5063,7 +5075,7 @@ EC void ProcMind_ov000_021af79c(ProcEx * proc)
 
     playerPhaseProc = dynamic_cast<map::ProcPL *>((ProcEx *)func_020190cc((struct Proc *)proc));
 
-    if (func_ov000_021a478c() != 0 && data_ov000_021e3320[data_ov000_021e3324->phase] != 3)
+    if (IsWirelessBattle() && data_ov000_021e3320[data_ov000_021e3324->phase] != 3)
     {
         if ((playerPhaseProc != NULL) && (data_ov000_021e3340->unk_06 & 1))
         {
@@ -5222,7 +5234,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
         case ACTION_ESCAPE:
             iVar4 = GetUnit(gActionSt->unitId);
-            iVar4->state2 |= 0x40;
+            iVar4->state2 |= US_UNK_6;
 
             if (!gCpSkip->Check06_State4())
             {
@@ -5434,7 +5446,7 @@ EC void ProcMind_ov000_021b0538(ProcPtr proc)
 
     unit = GetUnit(gActionSt->unitId);
 
-    if ((unit->state2 & 0x48) != 0)
+    if (unit->state2 & (US_DEAD | US_UNK_6))
     {
         return;
     }

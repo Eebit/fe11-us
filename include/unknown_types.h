@@ -223,8 +223,16 @@ struct UnkStruct_021e3508
 
 struct UnkStruct_021faf8c
 {
-    STRUCT_PAD(0x00, 0x08);
-    u8 unk_08;
+    STRUCT_PAD(0x00, 0x01);
+    /* 01 */ s8 unk_01;
+    STRUCT_PAD(0x02, 0x08);
+    /* 08 */ u8 unk_08;
+    STRUCT_PAD(0x09, 0x5D);
+    /* 5D */ s8 unk_5d;
+    STRUCT_PAD(0x5E, 0x64);
+    /* 64 */ u8 unk_64;
+    STRUCT_PAD(0x65, 0xB9);
+    /* B9 */ u8 unk_b9;
 };
 
 EXTERN_C_END

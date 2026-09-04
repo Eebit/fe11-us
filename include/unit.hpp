@@ -25,7 +25,7 @@ enum
 enum
 {
     CA_FEMALE = (1 << 0),
-    CA_UNK_1 = (1 << 1),
+    CA_UNK_1 = (1 << 1), // Supply unit
     CA_LORD = (1 << 2),
     CA_PRINCESS = (1 << 3), // Caeda, Maria, Minerva, Elise
     CA_UNK_4 = (1 << 4), // Medius?
@@ -57,19 +57,29 @@ enum
 
 enum
 {
+    US_NONE = 0,
     US_ACTED = (1 << 0),
-
+    US_UNK_1 = (1 << 1),
+    US_UNK_2 = (1 << 2),
     US_DEAD = (1 << 3),
-
+    US_UNK_4 = (1 << 4),
+    US_UNK_5 = (1 << 5),
+    US_UNK_6 = (1 << 6), // Escaped?
     US_ITEMS_TO_CONVOY = (1 << 7),
-
+    US_UNK_8 = (1 << 8),
+    US_UNK_9 = (1 << 9),
+    US_UNK_10 = (1 << 10),
+    US_UNK_11 = (1 << 11),
     US_NOT_PRESENT = (1 << 12),
     US_DANGER_ZONE_ACTIVE = (1 << 13),
-
-    US_HOVERED = (1 << 17),
+    US_UNK_14 = (1 << 14),
+    US_UNK_15 = (1 << 15), // disguised?
+    US_UNK_16 = (1 << 16),
+    US_HOVERED = (1 << 17), // this might be "active"
+    US_UNK_18 = (1 << 18), // disguised, but different?
+    US_UNK_19 = (1 << 19), // Clear (move to faction 4) after death?
 
     US_EVENT_DEAD = (1 << 29), // Died as a "decoy" for Marth
-
     US_UNK_30 = (1 << 30),
     US_UNK_31 = (1 << 31),
 };
@@ -241,8 +251,8 @@ public:
     s16 unk_10[0x10];
     /* 30 */ struct Unit_unk_30 unk_30;
     STRUCT_PAD(0x36, 0x38);
-    /* 38 */ struct Unit * unk_38;
-    /* 3C */ struct Unit * unk_3c;
+    /* 38 */ struct Unit * prev;
+    /* 3C */ struct Unit * next;
     /* 40 */ struct PersonData * pPersonData;
     /* 44 */ struct JobData * pJobData;
     STRUCT_PAD(0x48, 0x4C);

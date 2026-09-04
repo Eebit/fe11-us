@@ -64,7 +64,7 @@ void Unit::Init(void)
     this->unk_96 = 0;
 
     this->state1 = 0;
-    this->state2 = 0;
+    this->state2 = US_NONE;
 
     this->unk_a0 = NULL;
     this->unk_a4 = 0;
@@ -326,10 +326,10 @@ void Unit::Load(struct SaveBuffer * buf, s32 param_3)
     this->state1 = buf->ReadWord();
     this->state2 = buf->ReadWord();
 
-    if ((param_3 < 5) && func_0203b714(this, 0x10000))
+    if ((param_3 < 5) && func_0203b714(this, US_UNK_16))
     {
-        this->state2 &= ~0x10000;
-        this->state1 |= 0x20000000;
+        this->state2 &= ~US_UNK_16;
+        this->state1 |= CA_UNK_29;
     }
 
     unk = buf->ReadByte();
@@ -513,10 +513,10 @@ BOOL Unit::_0203ba20(struct SaveBuffer * buf)
     this->state1 = buf->ReadWord();
     this->state2 = buf->ReadWord();
 
-    if ((type < 5) && (this->state2 & 0x10000))
+    if ((type < 5) && (this->state2 & US_UNK_16))
     {
-        this->state2 &= ~0x10000;
-        this->state1 |= 0x20000000;
+        this->state2 &= ~US_UNK_16;
+        this->state1 |= CA_UNK_29;
     }
 
     if (type >= 1)
@@ -542,18 +542,16 @@ BOOL Unit::_0203ba20(struct SaveBuffer * buf)
 
 void Unit::_0203bcf4(void)
 {
-    this->state2 &= 0xFFFD91BE;
+    this->state2 &= ~(US_ACTED | US_UNK_6 | US_UNK_9 | US_UNK_10 | US_UNK_11 | US_DANGER_ZONE_ACTIVE | US_UNK_14 | US_HOVERED);
     this->unk_91 = 0;
     this->unk_92 = 0;
     this->unk_93 = 0;
     this->unk_a4 = 0;
 
-    if ((this->state2 & 0x8000) == 0)
+    if (this->state2 & US_UNK_15)
     {
-        return;
+        this->_0203bf68();
     }
-
-    this->_0203bf68();
 
     return;
 }
@@ -592,9 +590,9 @@ Unit * Unit::_0203bdd0(u8 arg_1)
     s32 i;
     Force * force;
 
-    if (this->unk_3c != NULL)
+    if (this->next != NULL)
     {
-        return this->unk_3c;
+        return this->next;
     }
 
     for (i = this->force->id + 1; i < 6; i++)
@@ -652,7 +650,7 @@ EC void Unit::_0203be30(struct Unit * arg_1)
         this->items[i] = &pUVar5->items[i];
         dst = &this->items[i];
 
-        if (!(dst->flags & 0x10))
+        if (!(dst->flags & ITEM_FLAG_EQUIPPED))
         {
             continue;
         }
@@ -662,12 +660,12 @@ EC void Unit::_0203be30(struct Unit * arg_1)
             continue;
         }
 
-        dst->flags &= ~0x10;
+        dst->flags &= ~(ITEM_FLAG_EQUIPPED);
     }
 
-    this->state1 &= ~0x1002;
+    this->state1 &= ~(CA_BOSS | CA_LORD);
     this->unk_a0 = pUVar5;
-    this->state2 |= 0x8000;
+    this->state2 |= US_UNK_15;
     this->unk_93 = 5;
 
     return;
@@ -723,7 +721,7 @@ void Unit::_0203bf68(void)
 
     this->Copy(dstUnit);
 
-    this->state2 &= ~0x8000;
+    this->state2 &= ~US_UNK_15;
 
     dstUnit->MoveToForce(4, TRUE);
 
@@ -776,7 +774,7 @@ void Unit::_0203c068(struct Unit * arg_1)
     this->state1 |= pUVar7->CheckAttribute(CA_UNK_1 | CA_BOSS);
 
     this->unk_a0 = pUVar7;
-    this->state2 |= 0x40000;
+    this->state2 |= US_UNK_18;
 
     return;
 }
@@ -824,7 +822,7 @@ void Unit::_0203c19c(void)
 
     this->Copy(dstUnit);
 
-    this->state2 &= ~0x40000;
+    this->state2 &= ~US_UNK_18;
 
     dstUnit->MoveToForce(4, TRUE);
 
@@ -835,7 +833,7 @@ char * Unit::_0203c284(void)
 {
     Unit * unit = func_0203c378(this);
 
-    if ((unit->state2 & 0x80000) != 0)
+    if (unit->state2 & US_UNK_19)
     {
         return func_020423e4(unit->unk_96);
     }
@@ -2061,7 +2059,7 @@ void Unit::ChangeJob(struct JobData * job, BOOL arg_2)
 
     if (arg_2 != 0)
     {
-        this->state1 |= 0x20000000;
+        this->state1 |= CA_UNK_29;
     }
 
     return;

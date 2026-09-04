@@ -13,6 +13,7 @@
 
 #include "constants/sounds.h"
 
+#include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
 extern struct UnkStruct_021974fc * data_021974fc;
@@ -407,7 +408,6 @@ EC void KiriDragonTransform_021caa84(onbat::ProcKiriDragonTransform * proc)
 }
 
 EC void func_0204b39c(/* ? */);
-EC void _IsProcTutCardActive(/* ? */);
 EC void func_0204b444(/* ? */);
 EC void func_0204ac18(/* ? */);
 EC void func_0204aca8(/* ? */);
@@ -439,8 +439,6 @@ struct ProcCmd ProcScr_onbat_KiriDragonTransform[] =
 
 // clang-format on
 
-EC struct Proc * func_ov000_021d3674(char *, void *, s32, s32, ProcPtr, BOOL);
-
 EC void UnitTransform_Loop(onbat::UnitTransform * self)
 {
     struct Proc * fxProc;
@@ -457,7 +455,7 @@ EC void UnitTransform_Loop(onbat::UnitTransform * self)
 
     if (!self->unk_50 && self->timer == 8)
     {
-        fxProc = func_ov000_021d3674("TransformDragon", self->pUnit, 0, 0, PROC_TREE_B, FALSE);
+        fxProc = (struct Proc *)func_ov000_021d3674("TransformDragon", self->pUnit, 0, 0, PROC_TREE_B, FALSE);
         Proc_SetMark(fxProc, PROC_MARK_8);
 
         if (self->pUnit->force->id & 1)
@@ -517,7 +515,6 @@ EC void UnitTransform_Loop(onbat::UnitTransform * self)
 EC void func_ov000_021d1ed4(ProcPtr);
 EC BOOL func_ov000_021a82c0(void);
 EC BOOL func_ov000_021a8248(void);
-EC BOOL func_ov000_021a478c(void);
 
 EC void func_ov002_021ef134(ProcPtr, void *);
 
@@ -744,7 +741,7 @@ void onbat::MapBattle::SetupAnims(void)
         {
             flag = TRUE;
         }
-        else if ((gKeySt->held & KEY_BUTTON_L) && (!func_ov000_021a478c() || !func_020146c4(func_02012410())))
+        else if ((gKeySt->held & KEY_BUTTON_L) && (!IsWirelessBattle() || !func_020146c4(func_02012410())))
         {
             if (data_02196f24->animations != 1)
             {
@@ -814,7 +811,7 @@ void onbat::MapBattle::SetupBgm(void)
         }
     }
 
-    if (songId == -1 && !(data_02196f0c->state & 0x20))
+    if (songId == -1 && !(data_02196f0c->state & GAME_STATE_WIRELESS_BATTLE))
     {
         unit = NULL;
 
@@ -831,13 +828,13 @@ void onbat::MapBattle::SetupBgm(void)
         {
             if (unit->GetPersonData() == GetPersonByPidStr("PID_MEDIUTH"))
             {
-                if (data_02196f0c->state & 0x100000)
+                if (data_02196f0c->state & GAME_STATE_UNK_20)
                 {
                     songId = BGM_BTL_BOSS3_2;
                 }
                 else
                 {
-                    data_02196f0c->state |= 0x100000;
+                    data_02196f0c->state |= GAME_STATE_UNK_20;
                     songId = BGM_BTL_BOSS3;
                 }
             }
@@ -1050,20 +1047,6 @@ void onbat::MapBattle::_021cbb4c(void)
 
 EC void func_ov000_021d1e38(ProcPtr, s32, u32);
 EC void Battle_TryStartDeathEvent(MapBattle_38 *, ProcPtr);
-
-struct UnkStruct_021faf8c
-{
-    STRUCT_PAD(0x00, 0x01);
-    /* 01 */ s8 unk_01;
-    STRUCT_PAD(0x02, 0x08);
-    /* 08 */ u8 unk_08;
-    STRUCT_PAD(0x09, 0x5D);
-    /* 5D */ s8 unk_5d;
-    STRUCT_PAD(0x5E, 0x64);
-    /* 64 */ u8 unk_64;
-    STRUCT_PAD(0x65, 0xB9);
-    /* B9 */ u8 unk_b9;
-};
 
 extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 
@@ -1928,7 +1911,6 @@ EC void IsMapEffectUnitAlphaActive(/* ? */);
 EC void func_ov000_021a4694(/* ? */);
 
 EC void func_0204b39c(/* ? */);
-EC void _IsProcTutCardActive(/* ? */);
 EC void func_0204b444(/* ? */);
 EC void func_0204ac18(/* ? */);
 EC void func_0204aca8(/* ? */);

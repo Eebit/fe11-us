@@ -767,7 +767,7 @@ extern struct ProcCmd ProcScr_020ce750[];
 // extern ??? __typeinfo__10ThreadProc
 // extern ??? __typestr__10ThreadProc
 // extern ??? __vt__10ThreadProc
-// extern ??? data_020ce9a8
+// extern ??? ProcScr_ThreadProc
 // extern ??? __typeinfo__15ProcBackupBreak
 // extern ??? __typestr__15ProcBackupBreak
 // extern ??? data_020ce9e0
@@ -793,11 +793,11 @@ extern struct ProcCmd ProcScr_020ce750[];
 // extern ??? data_020ceb60
 // extern ??? data_020ceb6c
 // extern ??? data_020ceb78
-extern struct ProcCmd data_020ceb84[];
-extern struct ProcCmd data_020ceba4[];
-extern struct ProcCmd data_020cebc4[];
-extern struct ProcCmd data_020cebec[];
-extern struct ProcCmd data_020cec14[];
+extern struct ProcCmd ProcScr_020ceb84[];
+extern struct ProcCmd ProcScr_020ceba4[];
+extern struct ProcCmd ProcScr_020cebc4[];
+extern struct ProcCmd ProcScr_020cebec[];
+extern struct ProcCmd ProcScr_020cec14[];
 // extern ??? ProcScr_GameCtrl
 // extern ??? data_020cf48c
 // extern ??? data_020cf494
@@ -2905,7 +2905,7 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? gRandomSt
 // extern ??? data_02196e0c
 // extern ??? data_02196f0c
-// extern ??? data_02196f10
+// extern ??? gWirelessSettings
 // extern ??? data_02196f14
 // extern ??? data_02196f18
 // extern ??? data_02196f1c
@@ -6713,7 +6713,7 @@ extern struct UnkStruct_021faf8c data_ov002_021faf8c;
 // extern ??? data_ov006_022231fc
 // extern ??? __typeinfo__8GameOver
 // extern ??? data_ov006_02223214
-// extern ??? data_ov006_02223220
+// extern ??? ProcScr_GameOver
 // extern ??? __vt__8GameOver
 // extern ??? __typeinfo__N8mainmenu13MainMenuConstE
 // extern ??? data_ov006_02223278

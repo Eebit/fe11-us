@@ -22,12 +22,12 @@ class UnkStruct_021E3324
 public:
     /* 00 */ u8 phase;
     /* 01 */ u8 unk_01;
-    /* 02 */ u8 unk_02; // "is invisible"
+    /* 02 */ u8 fogActive; // Referenced by event func "IsInvisible"
     /* 03 */ u8 unk_03;
     /* 04 */ u16 turn;
-    /* 06 */ u16 unk_06; // turn limit
+    /* 06 */ u16 turnLimit;
     /* 08 */ u32 unk_08;
-    /* 0C */ u32 unk_0c; // time limit
+    /* 0C */ u32 timeLimit;
     /* 10 */ u32 unk_10;
     /* 14 */ u8 unk_14;
     /* 15 */ u8 unk_15;
@@ -43,10 +43,10 @@ public:
         this->phase = 0;
         this->unk_01 = 0;
         this->turn = 1;
-        this->unk_06 = 0;
+        this->turnLimit = 0;
         this->unk_08 = 0;
-        this->unk_0c = 0;
-        this->unk_02 = 0;
+        this->timeLimit = 0;
+        this->fogActive = 0;
         this->unk_03 = 0;
         this->unk_14 = 0x1f;
         this->unk_15 = 0x1f;

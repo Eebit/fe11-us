@@ -5,18 +5,18 @@
 
 enum
 {
-    OVERLAY_ID_0,
+    OVERLAY_ID_0, // Battle Map
     OVERLAY_ID_1,
     OVERLAY_ID_2,
     OVERLAY_ID_3,
-    OVERLAY_ID_4,
-    OVERLAY_ID_5,
-    OVERLAY_ID_6,
+    OVERLAY_ID_4, // World Map
+    OVERLAY_ID_5, // Battle Preparations
+    OVERLAY_ID_6, // Main Menu
     OVERLAY_ID_7,
-    OVERLAY_ID_8,
+    OVERLAY_ID_8, // Title Screen
     OVERLAY_ID_9,
-    OVERLAY_ID_A,
-    OVERLAY_ID_B,
+    OVERLAY_ID_A, // Local Wireless
+    OVERLAY_ID_B, // Nintendo WFC
 };
 
 enum

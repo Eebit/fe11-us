@@ -1,6 +1,6 @@
 func_ov006_022176e0 kind:function(arm,size=0x40) addr:0x022176e0
 func_ov006_02217720 kind:function(arm,size=0x4c) addr:0x02217720
-func_ov006_0221776c kind:function(arm,size=0x338) addr:0x0221776c
+StartGameOver kind:function(arm,size=0x338) addr:0x0221776c
 func_ov006_02217aa4 kind:function(arm,size=0x44) addr:0x02217aa4
 func_ov006_02217ae8 kind:function(arm,size=0x3c) addr:0x02217ae8
 func_ov006_02217b24 kind:function(arm,size=0x40) addr:0x02217b24
@@ -486,7 +486,7 @@ __typestr__8GameOver kind:data(any) addr:0x022231f0
 data_ov006_022231fc kind:data(any) addr:0x022231fc
 __typeinfo__8GameOver kind:data(any) addr:0x02223208
 data_ov006_02223214 kind:data(any) addr:0x02223214
-data_ov006_02223220 kind:data(any) addr:0x02223220
+ProcScr_GameOver kind:data(any) addr:0x02223220
 __vt__8GameOver kind:data(any) addr:0x02223260
 __typeinfo__N8mainmenu13MainMenuConstE kind:data(any) addr:0x02223270
 data_ov006_02223278 kind:data(any) addr:0x02223278

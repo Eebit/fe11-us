@@ -5,27 +5,7 @@
 #include "save.hpp"
 #include "unit.hpp"
 
-struct UnkStruct_02196f10_00_348
-{
-    /* 00 */ STRUCT_PAD(0x00, 0x20);
-    /* 20 */ u16 unk_20;
-    /* 22 */ STRUCT_PAD(0x22, 0x24);
-    /* 24 */ s8 unk_24;
-    /* 25 */ s8 unk_25;
-    /* 26 */ s8 unk_26;
-    /* 27 */ s8 unk_27;
-};
-
-struct UnkStruct_02196f10_00
-{
-    /* 000 */ struct Unit unk_000[5];
-    /* 348 */ struct UnkStruct_02196f10_00_348 unk_348[0x19];
-    /* 730 */ u8 unk_730[0x24];
-    /* 754 */ u8 unk_754;
-    /* 755 */ u8 unk_755;
-    /* 756 */ u8 unk_756;
-    /* 757 */ u8 unk_757;
-};
+#include "unknown_types.hpp"
 
 EC void func_020a5824(void *, s32, s32);
 
@@ -34,20 +14,20 @@ EC void func_020a58b8(void *, void *, u32);
 
 EC s32 GetItemDBIndex(struct ItemData *);
 
-extern struct UnkStruct_02196f10_00_348 data_021974e4[];
+extern struct WirelessSettings_00_348 data_021974e4[];
 
-EC u16 func_02041294(u16, struct UnkStruct_02196f10_00_348 *, s8, s8, s32, s32, s32, s32); /* extern */
+EC u16 func_02041294(u16, struct WirelessSettings_00_348 *, s8, s8, s32, s32, s32, s32); /* extern */
 EC s32 IntSys_Div(s32, s32);
 EC s32 GetJobMaxLevel(struct JobData *);
 
-EC void func_02041590(UnkStruct_02196f10_00_348 *, SaveBuffer *);
+EC void func_02041590(WirelessSettings_00_348 *, SaveBuffer *);
 
 EC s32 func_02022f4c(void);
 EC s32 func_02022f54(void);
 
 // fwd decl
 
-EC void func_02041644(UnkStruct_02196f10_00_348 *, SaveBuffer *, s32);
+EC void func_02041644(WirelessSettings_00_348 *, SaveBuffer *, s32);
 
 EC void func_02039fdc(struct Unit *, s32);
 
@@ -117,7 +97,7 @@ EC u32 func_0203fc20(u32 param_1, u32 param_2, u32 param_3)
 
     for (i = 0; i < 3; i++)
     {
-        for (it = gForces[i].head; it != NULL; it = it->unk_3c)
+        for (it = gForces[i].head; it != NULL; it = it->next)
         {
             if (param_2 != 0)
             {
@@ -278,7 +258,7 @@ EC void func_0204003c(struct Unit * unit)
         return;
     }
 
-    for (it = unit->force->head; it != NULL; it = it->unk_3c)
+    for (it = unit->force->head; it != NULL; it = it->next)
     {
         if (it == unit)
         {
@@ -324,7 +304,7 @@ EC void func_02040094(SaveBuffer * save, u32 faction)
             continue;
         }
 
-        for (unit = force->head; unit != NULL; unit = unit->unk_3c)
+        for (unit = force->head; unit != NULL; unit = unit->next)
         {
             unit->unk_68 = bVar7;
             bVar7++;
@@ -355,7 +335,7 @@ EC void func_02040094(SaveBuffer * save, u32 faction)
         save->WriteByte(i);
         save->WriteByte(count);
 
-        for (unit = force->head; unit != NULL; unit = unit->unk_3c)
+        for (unit = force->head; unit != NULL; unit = unit->next)
         {
             unit->Save(save);
         }
@@ -403,7 +383,7 @@ EC void func_020401d8(SaveBuffer * save, u32 faction)
     return;
 }
 
-EC void func_0204026c(struct UnkStruct_02196f10_00 * arg0, u32 arg1)
+EC void func_0204026c(struct WirelessSettings_00 * arg0, u32 arg1)
 {
     s32 i;
 
@@ -428,8 +408,8 @@ EC void func_0204026c(struct UnkStruct_02196f10_00 * arg0, u32 arg1)
     return;
 }
 
-EC struct UnkStruct_02196f10_00 *
-func_020402f8(struct UnkStruct_02196f10_00 * arg0, struct UnkStruct_02196f10_00 * arg1)
+EC struct WirelessSettings_00 *
+func_020402f8(struct WirelessSettings_00 * arg0, struct WirelessSettings_00 * arg1)
 {
     s32 i;
 
@@ -452,7 +432,7 @@ func_020402f8(struct UnkStruct_02196f10_00 * arg0, struct UnkStruct_02196f10_00 
     return arg0;
 }
 
-EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
+EC void func_02040394(struct WirelessSettings_00 * arg0)
 {
     s32 sp4;
     s32 var_r6;
@@ -462,7 +442,7 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
 
     func_0204026c(arg0, arg0->unk_755);
 
-    for (var_r11 = Force::Get(0)->head; var_r11 != NULL; var_r11 = var_r11->unk_3c)
+    for (var_r11 = Force::Get(0)->head; var_r11 != NULL; var_r11 = var_r11->next)
     {
         var_r6 = 0;
 
@@ -496,7 +476,7 @@ EC void func_02040394(struct UnkStruct_02196f10_00 * arg0)
     return;
 }
 
-EC void func_02040594(struct UnkStruct_02196f10_00 * arg0, s32 arg1)
+EC void func_02040594(struct WirelessSettings_00 * arg0, s32 arg1)
 {
     s32 temp_r6;
     s32 i;
@@ -682,7 +662,7 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
                     break;
                 }
 
-                cur->ChangeJob(0, 0);
+                cur->ChangeJob(NULL, FALSE);
             }
             else
             {
@@ -726,7 +706,7 @@ EC void func_0204078c(struct Unit * unit, s32 expInput)
     }
 }
 
-EC void func_020409d0(struct UnkStruct_02196f10_00 * arg0, SaveBuffer * arg1)
+EC void func_020409d0(struct WirelessSettings_00 * arg0, SaveBuffer * arg1)
 {
     s32 i;
 
@@ -755,7 +735,7 @@ EC void func_020409d0(struct UnkStruct_02196f10_00 * arg0, SaveBuffer * arg1)
     return;
 }
 
-EC void func_02040abc(struct UnkStruct_02196f10_00 * arg0, SaveBuffer * save)
+EC void func_02040abc(struct WirelessSettings_00 * arg0, SaveBuffer * save)
 {
     s32 i;
     s32 temp_r5;
@@ -821,8 +801,8 @@ void Force::InsertHead(Unit * unit)
     }
     else
     {
-        head->unk_38 = unit;
-        unit->unk_3c = head;
+        head->prev = unit;
+        unit->next = head;
         this->head = unit;
     }
 
@@ -842,8 +822,8 @@ void Force::InsertTail(Unit * unit)
     }
     else
     {
-        tail->unk_3c = unit;
-        unit->unk_38 = tail;
+        tail->next = unit;
+        unit->prev = tail;
     }
 
     this->tail = unit;
@@ -853,36 +833,36 @@ void Force::InsertTail(Unit * unit)
 
 void Force::Remove(Unit * unit)
 {
-    if (unit->unk_3c != NULL)
+    if (unit->next != NULL)
     {
-        unit->unk_3c->unk_38 = unit->unk_38;
+        unit->next->prev = unit->prev;
     }
     else
     {
-        this->tail = unit->unk_38;
+        this->tail = unit->prev;
 
         if (this->tail != NULL)
         {
-            this->tail->unk_3c = NULL;
+            this->tail->next = NULL;
         }
     }
 
-    if (unit->unk_38 != NULL)
+    if (unit->prev != NULL)
     {
-        unit->unk_38->unk_3c = unit->unk_3c;
+        unit->prev->next = unit->next;
     }
     else
     {
-        this->head = unit->unk_3c;
+        this->head = unit->next;
 
         if (this->head != NULL)
         {
-            this->head->unk_38 = NULL;
+            this->head->prev = NULL;
         }
     }
 
-    unit->unk_38 = NULL;
-    unit->unk_3c = NULL;
+    unit->prev = NULL;
+    unit->next = NULL;
 
     return;
 }
@@ -892,7 +872,7 @@ s32 Force::Count(void)
     struct Unit * it;
     s32 count = 0;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         count++;
     }
@@ -914,7 +894,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
     {
         for (it = this->tail; it != NULL; it = next)
         {
-            next = it->unk_38;
+            next = it->prev;
             it->MoveToForce(factionId, append);
         }
     }
@@ -922,7 +902,7 @@ void Force::MoveAllUnitsTo(s32 factionId, BOOL append)
     {
         for (it = this->head; it != NULL; it = next)
         {
-            next = it->unk_3c;
+            next = it->next;
             it->MoveToForce(factionId, append);
         }
     }
@@ -934,7 +914,7 @@ Unit * Force::FindByPerson(struct PersonData * person)
 {
     Unit * it;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         if (it->pPersonData != person)
         {
@@ -956,7 +936,7 @@ Unit * Force::func_02040d68(struct PersonData * person)
 {
     Unit * it;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         if (func_0203c378(it)->pPersonData != person)
         {
@@ -978,7 +958,7 @@ Unit * Force::FindByAttribute(u32 attr)
 {
     Unit * it;
 
-    for (it = this->head; it != NULL; it = it->unk_3c)
+    for (it = this->head; it != NULL; it = it->next)
     {
         if (!it->CheckAttribute(attr))
         {

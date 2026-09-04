@@ -516,7 +516,7 @@ s32 TargetSelectState::_021b4ab4(void)
 }
 
 EC s32 func_02039400(s32, s32);
-EC BOOL func_ov000_021a47e4(void);
+EC BOOL IsLinkArena(void);
 
 void TargetSelectState::EnlistAttackTargets(void)
 {
@@ -739,7 +739,7 @@ void TargetSelectState::EnlistTargets_021b53bc(void)
 
             dist = xDiff + yDiff;
 
-            if ((dist == 1) && (func_ov000_021a47e4() == 0))
+            if ((dist == 1) && !IsLinkArena())
             {
                 personB = func_0203c378(unit)->pPersonData->pid;
                 personA = func_0203c378(gMapStateManager->unk_04->pUnit)->pPersonData->pid;
@@ -950,8 +950,9 @@ void TargetSelectState::EnlistTalkTargets(void)
                 continue;
             }
 
-            if (func_ov000_021a47e4() != 0)
+            if (IsLinkArena())
             {
+                // ??
                 continue;
             }
 

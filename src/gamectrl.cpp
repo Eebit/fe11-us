@@ -5,74 +5,67 @@
 #include "unknown_data.h"
 
 #include "unknown_types.hpp"
+
 #include "database.hpp"
 #include "event.hpp"
+#include "gamectrl.hpp"
+#include "hardware.hpp"
 #include "hashtable.hpp"
 #include "heap.hpp"
 #include "map.hpp"
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
 
+// clang-format off
+
+struct ProcCmd ProcScr_020ceb84[] =
+{
+    PROC_OVERLAY_LOAD(OVERLAY_ID_8),
+    PROC_CALL(StartTitleSeq_Goto2),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_8),
+    PROC_END
+};
+
+struct ProcCmd ProcScr_020ceba4[] =
+{
+    PROC_OVERLAY_LOAD(OVERLAY_ID_8),
+    PROC_CALL(StartTitleSeq_Goto0),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_8),
+    PROC_END
+};
+
+struct ProcCmd ProcScr_020cebc4[] =
+{
+    PROC_NAME,
+    PROC_OVERLAY_LOAD(OVERLAY_ID_6),
+    PROC_CALL(func_ov006_02218ac4),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_6),
+    PROC_END
+};
+
+struct ProcCmd ProcScr_020cebec[] =
+{
+    PROC_NAME,
+    PROC_OVERLAY_LOAD(OVERLAY_ID_6),
+    PROC_CALL(func_02022d00),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_6),
+    PROC_END
+};
+
+struct ProcCmd ProcScr_020cec14[] =
+{
+    PROC_NAME,
+    PROC_REPEAT(func_02021f08),
+    PROC_CALL(func_02022dd8),
+    PROC_CALL(func_02024000),
+    PROC_CALL(func_020247a8),
+    PROC_END
+};
+
+// clang-format on
+
+
 EC void func_020210d0(struct MapData *, s32);
-
-EC void func_ov004_02209e54(ProcPtr);
-
-EC void func_020136bc(ProcPtr);
-EC void func_0201fd44(ProcPtr);
-
-EC BOOL _IsProcTutCardActive(void);
-
-EC void func_02021b00(void);
-EC void func_02021b14(void);
-EC void func_02021d70(void);
-EC void func_02021dd4(void);
-EC void func_02021e6c(void);
-EC void func_02021f08(ProcPtr);
-EC void func_02021f2c(ProcPtr);
-EC void func_02021f5c(void);
-EC void func_0202214c(ProcPtr);
-EC void func_020221bc(void);
-EC void func_020221e4(void);
-EC void func_0202225c(void);
-EC void func_02022324(void);
-EC void func_02022364(ProcPtr);
-EC void func_020223b4(void);
-EC void func_020223cc(ProcPtr);
-EC void func_02022414(void);
-EC void func_02022458(void);
-EC void func_02022480(void);
-EC void func_020224a8(ProcPtr);
-EC void func_020224d4(void);
-EC void func_020224fc(void);
-EC void func_0202254c(ProcPtr);
-EC void func_02022564(void);
-EC void func_02022588(void);
-EC void func_0202272c(ProcPtr);
-EC void func_02022814(void);
-EC void func_0202284c(ProcPtr);
-EC void func_020228ac(ProcPtr);
-EC void func_020228ec(ProcPtr);
-EC BOOL func_02022988(void);
-EC void func_020229a8(void);
-EC void func_020229f0(void);
-EC BOOL func_02022b10(void);
-EC BOOL func_02022b30(void);
-EC BOOL func_02022b50(void);
-EC void func_02022b70(ProcPtr);
-EC void func_02022bb0(ProcPtr);
-EC void func_02022c54(ProcPtr);
-EC void func_02022c78(ProcPtr);
-EC void func_02022cb0(ProcPtr);
-EC void func_02022cdc(ProcPtr);
-EC void func_02022db8(void);
-EC void func_02022dc8(void);
-EC void func_02022dfc(void);
-EC void func_02022e14(void);
-EC BOOL func_02022e34(void);
-EC void func_02022e54(void);
-EC BOOL func_02022eb8(void);
-EC BOOL func_02022ed4(void);
-EC BOOL func_02022ef4(void);
 
 // clang-format off
 
@@ -83,75 +76,75 @@ struct ProcCmd ProcScr_GameCtrl[] =
 
     PROC_06(0, func_02021d70),
     PROC_CALL(func_020136bc),
-    PROC_START_CHILD(data_020cec14),
+    PROC_START_CHILD(ProcScr_020cec14),
 
-    PROC_GOTO(1),
+    PROC_GOTO(L_GAMECTRL_1),
 
-PROC_LABEL(1),
-    PROC_START_CHILD_LOCKING(data_020ceba4),
+PROC_LABEL(L_GAMECTRL_1),
+    PROC_START_CHILD_LOCKING(ProcScr_020ceba4),
 
-    PROC_GOTO(3),
+    PROC_GOTO(L_GAMECTRL_3),
 
-PROC_LABEL(2),
-    PROC_START_CHILD_LOCKING(data_020ceb84),
+PROC_LABEL(L_GAMECTRL_2),
+    PROC_START_CHILD_LOCKING(ProcScr_020ceb84),
 
-    PROC_GOTO(3),
+    PROC_GOTO(L_GAMECTRL_3),
 
-PROC_LABEL(3),
-    PROC_WHILE_EXISTS(data_020cec14),
+PROC_LABEL(L_GAMECTRL_3),
+    PROC_WHILE_EXISTS(ProcScr_020cec14),
     PROC_CALL(func_02021b00),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(4),
+PROC_LABEL(L_GAMECTRL_MAIN_MENU),
     PROC_REPEAT(func_02021f08),
     PROC_REPEAT(func_02021f2c),
     PROC_CALL(func_02021b14),
     PROC_CALL(func_0201fd44),
-    PROC_START_CHILD_LOCKING(data_020cebc4),
+    PROC_START_CHILD_LOCKING(ProcScr_020cebc4),
 
-    PROC_GOTO(2),
+    PROC_GOTO(L_GAMECTRL_2),
 
-PROC_LABEL(5),
+PROC_LABEL(L_GAMECTRL_5),
     PROC_CALL(func_02022cdc),
 
-    PROC_GOTO(6),
+    PROC_GOTO(L_GAMECTRL_WORLD_MAP),
 
-PROC_LABEL(6),
-    PROC_OVERLAY_LOAD(4),
+PROC_LABEL(L_GAMECTRL_WORLD_MAP),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_4),
     PROC_CALL(func_ov004_02209e54),
-    PROC_OVERLAY_UNLOAD(4),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_4),
 
     // fallthrough
 
-PROC_LABEL(7),
+PROC_LABEL(L_GAMECTRL_7),
     PROC_REPEAT(func_02021f2c),
     PROC_CALL(func_02021dd4),
     PROC_CALL(func_02021f5c),
-    PROC_CALL(func_0202214c),
+    PROC_CALL(GameCtrl_BeginMap),
     PROC_CALL(func_020221bc),
     PROC_CALL(func_020221e4),
     PROC_CALL(func_02022364),
     PROC_CALL(func_020223b4),
-    PROC_OVERLAY_LOAD(5),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_5),
     PROC_CALL(func_ov005_022052d0),
-    PROC_OVERLAY_UNLOAD(5),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_5),
 
     // fallthrough
 
-PROC_LABEL(8),
+PROC_LABEL(L_GAMECTRL_8),
     PROC_CALL(func_020223cc),
     PROC_CALL(func_02022414),
     PROC_CALL(func_02022458),
 
     // fallthrough
 
-PROC_LABEL(9),
+PROC_LABEL(L_GAMECTRL_9),
     PROC_CALL(func_ov000_021a9714),
 
     // fallthrough
 
-PROC_LABEL(10),
+PROC_LABEL(L_GAMECTRL_10),
     PROC_WHILE(_IsProcTutCardActive),
     PROC_CALL(func_02022480),
     PROC_CALL(func_020224a8),
@@ -162,49 +155,49 @@ PROC_LABEL(10),
 
     // fallthrough
 
-PROC_LABEL(11),
-    PROC_CALL(func_0202254c),
+PROC_LABEL(L_GAMECTRL_11),
+    PROC_CALL(GameCtrl_StartMapEndEvent),
     PROC_CALL(func_02022564),
     PROC_CALL(func_02022588),
     PROC_CALL(func_0202272c),
     PROC_CALL(func_02021e6c),
-    PROC_START_CHILD_LOCKING(data_020cebec),
+    PROC_START_CHILD_LOCKING(ProcScr_020cebec),
 
-    PROC_GOTO(6),
+    PROC_GOTO(L_GAMECTRL_WORLD_MAP),
 
-PROC_LABEL(12),
+PROC_LABEL(L_GAMECTRL_GAME_OVER),
     PROC_FADE_TO_BLACK(64, 1, TRUE),
     PROC_CALL(func_020224fc),
-    PROC_CALL(func_0202254c),
+    PROC_CALL(GameCtrl_StartMapEndEvent),
     PROC_CALL(func_02022564),
     PROC_CALL(func_02021e6c),
-    PROC_OVERLAY_LOAD(6),
-    PROC_CALL(func_ov006_0221776c),
-    PROC_OVERLAY_UNLOAD(6),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_6),
+    PROC_CALL(StartGameOver),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_6),
     PROC_CALL(func_02021b00),
 
-    PROC_GOTO(2),
+    PROC_GOTO(L_GAMECTRL_2),
 
-PROC_LABEL(13),
-    PROC_OVERLAY_LOAD(9),
+PROC_LABEL(L_GAMECTRL_13),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_9),
     PROC_CALL(func_02022db8),
     PROC_CALL(func_ov009_02206020),
     PROC_CALL(func_ov009_022065a0),
     PROC_CALL(func_ov009_02204e10),
     PROC_CALL(func_02022dc8),
-    PROC_OVERLAY_UNLOAD(9),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_9),
     PROC_CALL(func_02021b00),
 
-    PROC_GOTO(2),
+    PROC_GOTO(L_GAMECTRL_2),
 
-PROC_LABEL(14),
+PROC_LABEL(L_GAMECTRL_14),
     PROC_CALL(func_02022c54),
     PROC_CALL(func_02022cdc),
     PROC_CALL(func_02022324),
 
-    PROC_GOTO(6),
+    PROC_GOTO(L_GAMECTRL_WORLD_MAP),
 
-PROC_LABEL(15),
+PROC_LABEL(L_GAMECTRL_15),
     PROC_REPEAT(func_02021f2c),
     PROC_CALL(func_02022c78),
     PROC_CALL(func_02022cdc),
@@ -212,9 +205,9 @@ PROC_LABEL(15),
     PROC_CALL(func_0202225c),
     PROC_FADE_FROM_BLACK(8, 1, TRUE),
 
-    PROC_GOTO(9),
+    PROC_GOTO(L_GAMECTRL_9),
 
-PROC_LABEL(16),
+PROC_LABEL(L_GAMECTRL_16),
     PROC_REPEAT(func_02021f2c),
     PROC_CALL(func_02022cb0),
     PROC_CALL(func_02022cdc),
@@ -222,182 +215,182 @@ PROC_LABEL(16),
     PROC_CALL(func_0202225c),
     PROC_FADE_FROM_BLACK(8, 1, TRUE),
 
-    PROC_GOTO(9),
+    PROC_GOTO(L_GAMECTRL_9),
 
-PROC_LABEL(39),
+PROC_LABEL(L_GAMECTRL_39),
     PROC_WHILE(_IsProcTutCardActive),
     PROC_FADE_TO_BLACK(32, 1, TRUE),
     PROC_CALL(func_020224fc),
-    PROC_CALL(func_0202254c),
+    PROC_CALL(GameCtrl_StartMapEndEvent),
     PROC_CALL(func_02022564),
     PROC_CALL(func_02021e6c),
     PROC_CALL(func_02021b00),
 
-    PROC_GOTO(2),
+    PROC_GOTO(L_GAMECTRL_2),
 
-PROC_LABEL(17),
-    PROC_OVERLAY_LOAD(6),
+PROC_LABEL(L_GAMECTRL_17),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_6),
     PROC_CALL(func_ov006_02221aec),
-    PROC_OVERLAY_UNLOAD(6),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_6),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(18),
-    PROC_OVERLAY_LOAD(6),
+PROC_LABEL(L_GAMECTRL_18),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_6),
     PROC_CALL(func_ov006_022226cc),
-    PROC_OVERLAY_UNLOAD(6),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_6),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(21),
+PROC_LABEL(L_GAMECTRL_21),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021f049c),
     PROC_25(2, 0),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(26),
-    PROC_OVERLAY_LOAD(11),
+PROC_LABEL(L_GAMECTRL_26),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_B),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021e4204),
-    PROC_GOTO_IF_NO(func_02022ef4, 40),
+    PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_40),
     PROC_CALL(func_ov003_021f24e4),
 
-    PROC_GOTO(40),
+    PROC_GOTO(L_GAMECTRL_40),
 
-PROC_LABEL(19),
-    PROC_OVERLAY_LOAD(11),
+PROC_LABEL(L_GAMECTRL_19),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_B),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021fc0d4),
     PROC_25(2, 0),
-    PROC_OVERLAY_UNLOAD(11),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_B),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(20),
+PROC_LABEL(L_GAMECTRL_20),
     PROC_25(1, 0),
-    PROC_OVERLAY_LOAD(11),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_B),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021e3610),
     PROC_25(2, 0),
-    PROC_OVERLAY_UNLOAD(11),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_B),
     PROC_25(0, 0),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(27),
+PROC_LABEL(L_GAMECTRL_27),
     PROC_25(3, 0),
-    PROC_OVERLAY_LOAD(7),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_7),
     PROC_CALL(func_ov007_02218284),
-    PROC_OVERLAY_UNLOAD(7),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_7),
     PROC_25(2, 0),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(28),
-    PROC_OVERLAY_LOAD(7),
+PROC_LABEL(L_GAMECTRL_28),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_7),
     PROC_CALL(func_ov007_0221ad60),
-    PROC_OVERLAY_UNLOAD(7),
+    PROC_OVERLAY_UNLOAD(OVERLAY_ID_7),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(23),
+PROC_LABEL(L_GAMECTRL_23),
     PROC_CALL(func_020229a8),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021e4204),
-    PROC_GOTO_IF_NO(func_02022ef4, 40),
+    PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_40),
     PROC_CALL(func_020228ac),
-    PROC_GOTO_IF_NO(func_02022ef4, 40),
+    PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_40),
     PROC_CALL(func_ov003_021f9470),
 
-    PROC_GOTO(40),
+    PROC_GOTO(L_GAMECTRL_40),
 
-PROC_LABEL(24),
-    PROC_OVERLAY_LOAD(11),
+PROC_LABEL(L_GAMECTRL_24),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_B),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021e4244),
-    PROC_GOTO_IF_NO(func_02022ef4, 40),
+    PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_40),
     PROC_CALL(func_ov003_021f4a84),
 
-    PROC_GOTO(40),
+    PROC_GOTO(L_GAMECTRL_40),
 
-PROC_LABEL(25),
-    PROC_OVERLAY_LOAD(11),
+PROC_LABEL(L_GAMECTRL_25),
+    PROC_OVERLAY_LOAD(OVERLAY_ID_B),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021e4244),
-    PROC_GOTO_IF_NO(func_02022ef4, 40),
+    PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_40),
     PROC_CALL(func_ov003_021f6ce8),
 
-    PROC_GOTO(40),
+    PROC_GOTO(L_GAMECTRL_40),
 
-PROC_LABEL(22),
+PROC_LABEL(L_GAMECTRL_22),
     PROC_25(3, 0),
     PROC_CALL(func_ov003_021f31f0),
     PROC_25(2, 0),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(40),
+PROC_LABEL(L_GAMECTRL_40),
     PROC_CALL(func_ov003_021e4284),
     PROC_25(2, 0),
     PROC_CALL(func_02022814),
 
-    PROC_GOTO(4),
+    PROC_GOTO(L_GAMECTRL_MAIN_MENU),
 
-PROC_LABEL(29),
+PROC_LABEL(L_GAMECTRL_29),
     PROC_CALL(func_020229a8),
     PROC_25(3, 0),
     PROC_CALL(func_020228ec),
-    PROC_GOTO_IF_YES(func_02022b30, 30),
+    PROC_GOTO_IF_YES(GameCtrl_IsWirelessPracticeMode, L_GAMECTRL_30),
     PROC_CALL(func_ov003_021e4204),
-    PROC_GOTO_IF_NO(func_02022ef4, 40),
+    PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_40),
 
     // fallthrough
 
-PROC_LABEL(30),
+PROC_LABEL(L_GAMECTRL_30),
     PROC_CALL(func_ov003_021fb690),
-    PROC_GOTO_IF_NO(func_02022e34, 40),
-    PROC_GOTO_IF_YES(func_02022b30, 34),
+    PROC_GOTO_IF_NO(func_02022e34, L_GAMECTRL_40),
+    PROC_GOTO_IF_YES(GameCtrl_IsWirelessPracticeMode, L_GAMECTRL_34),
 
-    PROC_GOTO(32),
+    PROC_GOTO(L_GAMECTRL_32),
 
-PROC_LABEL(31),
+PROC_LABEL(L_GAMECTRL_31),
     PROC_CALL(func_ov003_021fb704),
-    PROC_GOTO_IF_NO(func_02022e34, 40),
-    PROC_GOTO_IF_YES(func_02022b30, 34),
+    PROC_GOTO_IF_NO(func_02022e34, L_GAMECTRL_40),
+    PROC_GOTO_IF_YES(GameCtrl_IsWirelessPracticeMode, L_GAMECTRL_34),
 
-    PROC_GOTO(32),
+    PROC_GOTO(L_GAMECTRL_32),
 
-PROC_LABEL(32),
-    PROC_CALL(func_02022e54),
+PROC_LABEL(L_GAMECTRL_32),
+    PROC_CALL(GameCtrl_InitWirelessSettings),
     PROC_CALL(func_0202284c),
-    PROC_GOTO_IF_YES(func_02022eb8, 40),
-    PROC_GOTO_IF_NO(func_02022ef4, 31),
-    PROC_GOTO_IF_YES(func_02022988, 33),
+    PROC_GOTO_IF_YES(func_02022eb8, L_GAMECTRL_40),
+    PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_31),
+    PROC_GOTO_IF_YES(func_02022988, L_GAMECTRL_33),
     PROC_CALL(func_ov003_021ebb8c),
-    PROC_GOTO_IF_YES(func_02022ed4, 40),
+    PROC_GOTO_IF_YES(func_02022ed4, L_GAMECTRL_40),
 
     // fallthrough
 
-PROC_LABEL(33),
+PROC_LABEL(L_GAMECTRL_33),
     PROC_CALL(func_ov003_021e439c),
-    PROC_GOTO_IF_YES(func_02022eb8, 40),
+    PROC_GOTO_IF_YES(func_02022eb8, L_GAMECTRL_40),
 
-    PROC_GOTO(35),
+    PROC_GOTO(L_GAMECTRL_MULTIPLAYER_PRACTICE),
 
-PROC_LABEL(34),
-    PROC_CALL(func_02022e54),
+PROC_LABEL(L_GAMECTRL_34),
+    PROC_CALL(GameCtrl_InitWirelessSettings),
     PROC_CALL(func_ov003_021eb9b0),
-    PROC_GOTO_IF_NO(func_02022e34, 31),
+    PROC_GOTO_IF_NO(func_02022e34, L_GAMECTRL_31),
     PROC_CALL(func_02022e14),
 
-    PROC_GOTO(35),
+    PROC_GOTO(L_GAMECTRL_MULTIPLAYER_PRACTICE),
 
-PROC_LABEL(35),
+PROC_LABEL(L_GAMECTRL_MULTIPLAYER_PRACTICE),
     PROC_25(2, 0),
     PROC_CALL(func_02021dd4),
     PROC_CALL(func_02021f5c),
-    PROC_CALL(func_0202214c),
+    PROC_CALL(GameCtrl_BeginMap),
     PROC_CALL(func_020221bc),
     PROC_CALL(func_020221e4),
     PROC_FADE_FROM_BLACK(8, 1, TRUE),
@@ -406,31 +399,31 @@ PROC_LABEL(35),
     PROC_CALL(func_020224d4),
     PROC_CALL(func_02022b70),
     PROC_CALL(func_020224fc),
-    PROC_CALL(func_0202254c),
+    PROC_CALL(GameCtrl_StartMapEndEvent),
     PROC_CALL(func_02022564),
     PROC_CALL(func_02021e6c),
     PROC_CALL(func_02022dfc),
     PROC_REPEAT(func_02021f08),
     PROC_25(3, 0),
-    PROC_GOTO_IF_YES(func_02022b10, 40),
-    PROC_GOTO_IF_NO(func_02022b50, 37),
+    PROC_GOTO_IF_YES(func_02022b10, L_GAMECTRL_40),
+    PROC_GOTO_IF_NO(func_02022b50, L_GAMECTRL_37),
 
     // fallthrough
 
-PROC_LABEL(36),
+PROC_LABEL(L_GAMECTRL_36),
     PROC_CALL(func_ov003_021ed664),
 
-    PROC_GOTO(38),
+    PROC_GOTO(L_GAMECTRL_38),
 
-PROC_LABEL(37),
+PROC_LABEL(L_GAMECTRL_37),
     PROC_CALL(func_ov003_021edf2c),
 
-    PROC_GOTO(38),
+    PROC_GOTO(L_GAMECTRL_38),
 
-PROC_LABEL(38),
+PROC_LABEL(L_GAMECTRL_38),
     PROC_CALL(func_02022bb0),
 
-    PROC_GOTO(40),
+    PROC_GOTO(L_GAMECTRL_40),
 
     PROC_BLOCK,
     PROC_END,
@@ -460,7 +453,7 @@ extern struct UnkStruct_020e3ca0 * data_020e3ca0;
 
 extern struct UnkStruct_02196f1c * data_02196f1c;
 
-extern struct UnkStruct_02196f10 * data_02196f10;
+extern struct WirelessSettings * gWirelessSettings;
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
@@ -468,17 +461,12 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 
 extern struct UnkStruct_02196f24 * data_02196f24;
 
-// Forward declarations
-EC void InitOnlineShopItemFlags(void);
-EC void InitOnlineShopItemAmounts(void);
-EC void GameCtrl_GotoLabel(u32 label);
-
 EC void func_020217b4(void)
 {
     int random;
 
-    LoadOverlay(0);
-    LoadOverlay(2);
+    LoadOverlay(OVERLAY_ID_0);
+    LoadOverlay(OVERLAY_ID_2);
 
     HashTable::Init();
     func_02028c68();
@@ -508,9 +496,9 @@ EC void func_020217b4(void)
 
     func_02021014();
 
-    if (data_02196f10 == NULL)
+    if (gWirelessSettings == NULL)
     {
-        data_02196f10 = new UnkStruct_02196f10;
+        gWirelessSettings = new WirelessSettings();
     }
 
     func_020423fc();
@@ -548,9 +536,9 @@ EC void func_020217b4(void)
     InitFaceInfo();
     func_02015f64();
 
-    func_02039eac("system\0");
+    func_02039eac("system");
     func_02039eac("die");
-    func_02039eac("tutorial\0\0\0");
+    func_02039eac("tutorial");
 
     func_02042420("startup");
 
@@ -579,15 +567,15 @@ EC void func_020219a4(int param_1, int param_2)
     data_02196f0c->flagMgr->RegisterName("gf_canceled", FALSE);
     data_02196f0c->flagMgr->RegisterName("gf_gameover", FALSE);
     data_02196f0c->flagMgr->RegisterName("gf_complete", FALSE);
-    data_02196f0c->flagMgr->RegisterName("gf_reserved2\0\0\0", FALSE);
-    data_02196f0c->flagMgr->RegisterName("gf_reserved3\0\0\0", FALSE);
-    data_02196f0c->flagMgr->RegisterName("gf_reserved4\0\0\0", FALSE);
-    data_02196f0c->flagMgr->RegisterName("gf_reserved5\0\0\0", FALSE);
-    data_02196f0c->flagMgr->RegisterName("gf_reserved6\0\0\0", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved2", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved3", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved4", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved5", FALSE);
+    data_02196f0c->flagMgr->RegisterName("gf_reserved6", FALSE);
 
     InitOnlineShopItemFlags();
     InitOnlineShopItemAmounts();
-    func_020424b8("RegistGrobalFlags\0\0");
+    func_020424b8("RegistGrobalFlags");
 
     if (param_2 != 0)
     {
@@ -613,31 +601,31 @@ EC void func_02021b14(void)
 
 EC void InitOnlineShopItemFlags(void)
 {
-    data_02196f0c->valueMgr->RegisterName("os_BraveSword\0\0", FALSE);
-    data_02196f0c->valueMgr->RegisterName("os_BraveLance\0\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_BraveSword", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_BraveLance", FALSE);
     data_02196f0c->valueMgr->RegisterName("os_BraveAxe", FALSE);
     data_02196f0c->valueMgr->RegisterName("os_BraveBow", FALSE);
     data_02196f0c->valueMgr->RegisterName("os_Wato", FALSE);
-    data_02196f0c->valueMgr->RegisterName("os_MasterProof\0", FALSE);
-    data_02196f0c->valueMgr->RegisterName("os_LongBow\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_MasterProof", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_LongBow", FALSE);
     data_02196f0c->valueMgr->RegisterName("os_EmpyreadWhip", FALSE);
-    data_02196f0c->valueMgr->RegisterName("os_reserved1\0\0\0", FALSE);
-    data_02196f0c->valueMgr->RegisterName("os_reserved2\0\0\0", FALSE);
-    data_02196f0c->valueMgr->RegisterName("os_reserved3\0\0\0", FALSE);
-    data_02196f0c->valueMgr->RegisterName("os_reserved4\0\0\0", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved1", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved2", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved3", FALSE);
+    data_02196f0c->valueMgr->RegisterName("os_reserved4", FALSE);
 
     return;
 }
 
 EC void InitOnlineShopItemAmounts(void)
 {
-    data_02196f0c->valueMgr->SetByName("os_BraveSword\0\0", 3);
-    data_02196f0c->valueMgr->SetByName("os_BraveLance\0\0", 3);
+    data_02196f0c->valueMgr->SetByName("os_BraveSword", 3);
+    data_02196f0c->valueMgr->SetByName("os_BraveLance", 3);
     data_02196f0c->valueMgr->SetByName("os_BraveAxe", 3);
     data_02196f0c->valueMgr->SetByName("os_BraveBow", 3);
     data_02196f0c->valueMgr->SetByName("os_Wato", 5);
-    data_02196f0c->valueMgr->SetByName("os_MasterProof\0", 15);
-    data_02196f0c->valueMgr->SetByName("os_LongBow\0", 5);
+    data_02196f0c->valueMgr->SetByName("os_MasterProof", 15);
+    data_02196f0c->valueMgr->SetByName("os_LongBow", 5);
     data_02196f0c->valueMgr->SetByName("os_EmpyreadWhip", 3);
     return;
 }
@@ -648,7 +636,7 @@ EC void func_02021d70(void)
     int lr;
     int r1;
 
-    if (data_02196f0c->state & 0x2000000)
+    if (data_02196f0c->state & GAME_STATE_UNK_25)
     {
         return;
     }
@@ -695,7 +683,7 @@ EC void func_02021dd4(void)
     }
 
     func_02042460(GetBattleMapNameMaybe());
-    func_020424b8("RegistLocalFlags\0\0\0");
+    func_020424b8("RegistLocalFlags");
     EventCaller::func_020484b0();
 
     return;
@@ -765,7 +753,7 @@ EC void func_02021f5c(void)
     data_ov000_021e3528.unk_2e = 0;
     data_ov000_021e3528.unk_2f = 0;
 
-    if ((data_02196f0c->pCurrentMap->unk_0a != 0) && ((data_02196f0c->state & 1) != 0))
+    if ((data_02196f0c->pCurrentMap->unk_0a != 0) && (data_02196f0c->state & GAME_STATE_UNK_0))
     {
         int n = Force::Get(0)->Count() + Force::Get(2)->Count();
 
@@ -786,42 +774,38 @@ EC void func_02021f5c(void)
                 pUnit->MoveToForce(2, TRUE);
                 func_020421c4(pUnit, uVar4);
 
-                data_02196f0c->state |= 0x20000;
+                data_02196f0c->state |= GAME_STATE_UNK_17;
             }
         }
     }
 
-    if (data_02196f0c->state & 0x10000)
+    if (data_02196f0c->state & GAME_STATE_LINK_ARENA)
     {
-        data_ov000_021e3324->unk_02 = data_02196f10->unk_09;
-        data_ov000_021e3324->unk_0c = data_02196f10->unk_0c * 60;
-        data_ov000_021e3324->unk_06 = data_02196f10->unk_0a;
+        data_ov000_021e3324->fogActive = gWirelessSettings->fogActive;
+        data_ov000_021e3324->timeLimit = gWirelessSettings->timeLimit * 60;
+        data_ov000_021e3324->turnLimit = gWirelessSettings->turnLimit;
     }
 
     return;
 }
 
-EC void func_0202214c(ProcPtr proc)
+EC void GameCtrl_BeginMap(ProcPtr proc)
 {
-    Force * force;
-    struct Unit * unit;
+    Unit * unit;
 
-    Event::StartEventByName("MapBegin\0\0\0", proc);
+    Event::StartEventByName("MapBegin", proc);
 
-    if (!(data_02196f0c->state & 0x10000))
+    if (!(data_02196f0c->state & GAME_STATE_LINK_ARENA))
     {
         return;
     }
 
-    force = Force::Get(data_02196f10->unk_06);
-    unit = force->head;
+    unit = Force::Get(gWirelessSettings->unk_06)->head;
 
-    if (unit == NULL)
+    if (unit != NULL)
     {
-        return;
+        gMapStateManager->camera->ScrollInstant(unit->xPos, unit->yPos, 1);
     }
-
-    gMapStateManager->camera->ScrollInstant(unit->xPos, unit->yPos, 1);
 
     return;
 }
@@ -893,37 +877,37 @@ EC void func_02022324(void)
 {
     data_02196f1c->unk_09 = data_02196f0c->unk_10;
 
-    if (!(data_02196f0c->state & 0x40))
+    if (!(data_02196f0c->state & GAME_STATE_BATTLE_PREP))
     {
         return;
     }
 
-    GameCtrl_GotoLabel(7);
+    GameCtrl_GotoLabel(L_GAMECTRL_7);
 
     return;
 }
 
 EC void func_02022364(ProcPtr proc)
 {
-    if (data_02196f0c->state & 0x40)
+    if (data_02196f0c->state & GAME_STATE_BATTLE_PREP)
     {
         return;
     }
 
-    if (!HashTable::Get1("SallyTalk\0\0"))
+    if (!HashTable::Get1("SallyTalk"))
     {
         return;
     }
 
-    func_02039eac("suppliance\0");
-    Event::StartEventByName("SallyTalk\0\0", proc);
+    func_02039eac("suppliance");
+    Event::StartEventByName("SallyTalk", proc);
 
     return;
 }
 
 EC void func_020223b4(void)
 {
-    func_02039f00("suppliance\0", 1);
+    func_02039f00("suppliance", 1);
     return;
 }
 
@@ -951,12 +935,12 @@ EC void func_02022414(void)
 
 EC void func_02022458(void)
 {
-    if (!(data_02196f0c->state & 0x800))
+    if (!(data_02196f0c->state & GAME_STATE_UNK_11))
     {
         return;
     }
 
-    GameCtrl_GotoLabel(10);
+    GameCtrl_GotoLabel(L_GAMECTRL_10);
 
     return;
 }
@@ -973,12 +957,12 @@ EC void func_02022480(void)
 
 EC void func_020224a8(ProcPtr proc)
 {
-    if (!HashTable::Get1("Ending\0"))
+    if (!HashTable::Get1("Ending"))
     {
         return;
     }
 
-    Event::StartEventByName("Ending\0", proc);
+    Event::StartEventByName("Ending", proc);
 
     return;
 }
@@ -1002,9 +986,9 @@ EC void func_020224fc(void)
     return;
 }
 
-EC void func_0202254c(ProcPtr proc)
+EC void GameCtrl_StartMapEndEvent(ProcPtr proc)
 {
-    Event::StartEventByName("MapEnd\0", proc);
+    Event::StartEventByName("MapEnd", proc);
     return;
 }
 
@@ -1020,7 +1004,7 @@ EC void func_02022588(void)
     struct Unit * pUnit;
     int i;
 
-    if ((data_02196f0c->state & 0x00010020) != 0)
+    if (data_02196f0c->state & (GAME_STATE_WIRELESS_BATTLE | GAME_STATE_LINK_ARENA))
     {
         return;
     }
@@ -1044,36 +1028,36 @@ EC void func_02022588(void)
             continue;
         }
 
-        if ((pUnit->state2 & 0x40000) != 0)
+        if (pUnit->state2 & US_UNK_18)
         {
             pUnit->_0203c19c();
         }
 
-        pUnit->state2 &= ~0x100;
+        pUnit->state2 &= ~US_UNK_8;
 
-        if ((pUnit->state2 & 0x80) != 0)
+        if (pUnit->state2 & US_ITEMS_TO_CONVOY)
         {
-            int j;
+            s32 j;
             struct Item * pUnitItem;
 
-            pUnit->state2 &= ~0x80;
+            pUnit->state2 &= ~US_ITEMS_TO_CONVOY;
             pUnit->unk_30.unk_04 = GetMapDBIndex(data_02196f0c->pCurrentMap);
 
-            for (j = 0, pUnitItem = pUnit->items; j < 5; j++, pUnitItem++)
+            for (j = 0, pUnitItem = pUnit->items; j < UNIT_ITEM_COUNT; j++, pUnitItem++)
             {
                 if (((pUnitItem->id == 0) ? TRUE : FALSE) & 0xFF)
                 {
                     continue;
                 }
 
-                pUnitItem->flags &= ~0x30;
+                pUnitItem->flags &= ~(ITEM_FLAG_EQUIPPED | ITEM_FLAG_DROPPABLE);
 
                 AddItemToConvoy(pUnitItem);
                 pUnitItem->Clear();
             }
         }
 
-        if ((pUnit->state2 & 0x80000) != 0)
+        if (pUnit->state2 & US_UNK_19)
         {
             pUnit->MoveToForce(4, TRUE);
         }
@@ -1083,19 +1067,17 @@ EC void func_02022588(void)
 
     while (TRUE)
     {
-        Force * force;
         struct Unit * it;
         struct Unit * pUnit;
 
-        force = Force::Get(0);
-        pUnit = force->head;
+        pUnit = Force::Get(0)->head;
 
         if (pUnit == NULL)
         {
             break;
         }
 
-        for (it = pUnit->unk_3c; it != NULL; it = it->unk_3c)
+        for (it = pUnit->next; it != NULL; it = it->next)
         {
             s32 a = it->unk_95;
             s32 b = pUnit->unk_95;
@@ -1109,7 +1091,7 @@ EC void func_02022588(void)
         pUnit->MoveToForce(2, TRUE);
     }
 
-    if (data_02196f0c->state & 0x800)
+    if (data_02196f0c->state & GAME_STATE_UNK_11)
     {
         return;
     }
@@ -1123,24 +1105,24 @@ EC void func_0202272c(ProcPtr proc)
 {
     Event::StartEventByName("ChapterNext", proc);
 
-    if (!(data_02196f0c->state & 1))
+    if (!(data_02196f0c->state & GAME_STATE_UNK_0))
     {
-        if (!(data_02196f0c->state & 0x800))
+        if (!(data_02196f0c->state & GAME_STATE_UNK_11))
         {
-            data_02196f0c->state |= 1;
+            data_02196f0c->state |= GAME_STATE_UNK_0;
         }
 
         data_02196f1c->unk_09 = 0;
     }
 
-    data_02196f0c->state &= ~0x100;
-    data_02196f0c->state &= ~0x200;
-    data_02196f0c->state &= ~0x800;
-    data_02196f0c->state &= ~0x1000;
-    data_02196f0c->state &= ~0x400;
-    data_02196f0c->state &= ~0x4000;
-    data_02196f0c->state &= ~0x20000;
-    data_02196f0c->state &= ~0x100000;
+    data_02196f0c->state &= ~GAME_STATE_UNK_8;
+    data_02196f0c->state &= ~GAME_STATE_UNK_9;
+    data_02196f0c->state &= ~GAME_STATE_UNK_11;
+    data_02196f0c->state &= ~GAME_STATE_UNK_12;
+    data_02196f0c->state &= ~GAME_STATE_UNK_10;
+    data_02196f0c->state &= ~GAME_STATE_SUPPLY_OFF;
+    data_02196f0c->state &= ~GAME_STATE_UNK_17;
+    data_02196f0c->state &= ~GAME_STATE_UNK_20;
 
     data_02196f20->unk_194 = Random_GetState();
 
@@ -1149,14 +1131,14 @@ EC void func_0202272c(ProcPtr proc)
 
 EC void func_02022814(void)
 {
-    if (IsOverlayLoaded(10))
+    if (IsOverlayLoaded(OVERLAY_ID_A))
     {
-        UnloadOverlay(10);
+        UnloadOverlay(OVERLAY_ID_A);
     }
 
-    if (IsOverlayLoaded(11))
+    if (IsOverlayLoaded(OVERLAY_ID_B))
     {
-        UnloadOverlay(11);
+        UnloadOverlay(OVERLAY_ID_B);
     }
 
     return;
@@ -1164,22 +1146,22 @@ EC void func_02022814(void)
 
 EC void func_0202284c(ProcPtr proc)
 {
-    switch (data_02196f10->unk_04)
+    switch (gWirelessSettings->mode)
     {
-        case 0:
+        case WIRELESS_MODE_LOCAL:
             func_ov003_021e42c8(proc, 0);
             break;
 
-        case 1:
+        case WIRELESS_MODE_WFC_PLAY_ANYONE:
             func_ov003_021e4310(proc, 0);
             break;
 
-        case 2:
+        case WIRELESS_MODE_WFC_PLAY_FRIEND:
             func_ov003_021e4354(proc, 0);
             break;
 
-        case 3:
-            GameCtrl_GotoLabel(35);
+        case WIRELESS_MODE_PRACTICE:
+            GameCtrl_GotoLabel(L_GAMECTRL_MULTIPLAYER_PRACTICE);
             break;
     }
 
@@ -1188,13 +1170,13 @@ EC void func_0202284c(ProcPtr proc)
 
 EC void func_020228ac(ProcPtr proc)
 {
-    switch (data_02196f10->unk_04)
+    switch (gWirelessSettings->mode)
     {
-        case 0:
+        case WIRELESS_MODE_LOCAL:
             func_ov003_021e42c8(proc, 1);
             break;
 
-        case 2:
+        case WIRELESS_MODE_WFC_PLAY_FRIEND:
             func_ov003_021e4354(proc, 1);
             break;
     }
@@ -1202,24 +1184,18 @@ EC void func_020228ac(ProcPtr proc)
     return;
 }
 
-// TODO: Figure out the inline issues
-inline BOOL _func_02022988(void)
-{
-    return data_02196f10->unk_04 == 1 ? TRUE : FALSE;
-}
-
 EC void func_020228ec(ProcPtr unused)
 {
-    if (data_02196f10->unk_04 != 3)
+    if (gWirelessSettings->mode != WIRELESS_MODE_PRACTICE)
     {
-        data_02196f0c->state |= 0x20;
+        data_02196f0c->state |= GAME_STATE_WIRELESS_BATTLE;
     }
 
-    data_02196f0c->state |= 0x10000;
-    data_02196f0c->state |= 0x4000;
-    data_02196f0c->state |= 1;
+    data_02196f0c->state |= GAME_STATE_LINK_ARENA;
+    data_02196f0c->state |= GAME_STATE_SUPPLY_OFF;
+    data_02196f0c->state |= GAME_STATE_UNK_0;
 
-    if (_func_02022988())
+    if (gWirelessSettings->IsWifiPlayAnyoneMode())
     {
         func_0202118c();
         return;
@@ -1230,25 +1206,25 @@ EC void func_020228ec(ProcPtr unused)
     return;
 }
 
-EC /* inline */ BOOL func_02022988(void)
+EC BOOL func_02022988(void)
 {
-    return _func_02022988();
+    return gWirelessSettings->IsWifiPlayAnyoneMode();
 }
 
 EC void func_020229a8(void)
 {
-    switch (data_02196f10->unk_04)
+    switch (gWirelessSettings->mode)
     {
-        case 0:
-            LoadOverlay(10);
+        case WIRELESS_MODE_LOCAL:
+            LoadOverlay(OVERLAY_ID_A);
             break;
 
-        case 1:
-        case 2:
-            LoadOverlay(11);
+        case WIRELESS_MODE_WFC_PLAY_ANYONE:
+        case WIRELESS_MODE_WFC_PLAY_FRIEND:
+            LoadOverlay(OVERLAY_ID_B);
             break;
 
-        case 3:
+        case WIRELESS_MODE_PRACTICE:
             break;
 
         default:
@@ -1258,51 +1234,36 @@ EC void func_020229a8(void)
     return;
 }
 
-inline BOOL _func_02022b10(void)
-{
-    return data_02196f10->unk_07 == 2 ? TRUE : FALSE;
-}
-
-inline BOOL _func_02022b30(void)
-{
-    return data_02196f10->unk_04 == 3 ? TRUE : FALSE;
-}
-
-inline BOOL _func_02022b50(void)
-{
-    return data_02196f10->unk_07 == 0 ? TRUE : FALSE;
-}
-
 EC void func_020229f0(void)
 {
     int random;
 
-    if (_func_02022b10())
+    if (gWirelessSettings->_02022b10())
     {
         return;
     }
 
-    if (_func_02022b30())
+    if (gWirelessSettings->IsPracticeMode())
     {
         return;
     }
 
-    if (_func_02022b50())
+    if (gWirelessSettings->_02022b50())
     {
         random = RollRN(1, gFE11Database->pDBFE11Footer->unk_14 - 1);
-        data_02196f10->unk_11 = random;
+        gWirelessSettings->unk_11 = random;
         data_02196f18->unk_000->SetById(random);
 
-        if (data_02196f10->unk_0b != 0 && func_02021410(data_02196f10->unk_06)->unk_756 == 0x14)
+        if (gWirelessSettings->unk_0b != 0 && func_02021410(gWirelessSettings->unk_06)->unk_756 == 0x14)
         {
             random = RollRN(1, gFE11Database->pDBFE11Footer->unk_14 - 2);
 
-            if (random >= data_02196f10->unk_11)
+            if (random >= gWirelessSettings->unk_11)
             {
                 random += 1;
             }
 
-            data_02196f10->unk_12 = random;
+            gWirelessSettings->unk_12 = random;
 
             data_02196f18->unk_000->SetById(random);
         }
@@ -1314,26 +1275,24 @@ EC void func_020229f0(void)
     return;
 }
 
-// TODO: Figure out inlines
-
-EC /* inline */ BOOL func_02022b10(void)
+EC BOOL func_02022b10(void)
 {
-    return _func_02022b10();
+    return gWirelessSettings->_02022b10();
 }
 
-EC /* inline */ BOOL func_02022b30(void)
+EC BOOL GameCtrl_IsWirelessPracticeMode(void)
 {
-    return _func_02022b30();
+    return gWirelessSettings->IsPracticeMode();
 }
 
-EC /* inline */ BOOL func_02022b50(void)
+EC BOOL func_02022b50(void)
 {
-    return _func_02022b50();
+    return gWirelessSettings->_02022b50();
 }
 
 EC void func_02022b70(ProcPtr proc)
 {
-    if (_func_02022b50())
+    if (gWirelessSettings->_02022b50())
     {
         StartBlockingFadeOutToWhite((struct Proc *)proc, 16, 1);
     }
@@ -1347,11 +1306,11 @@ EC void func_02022b70(ProcPtr proc)
 
 EC void func_02022bb0(ProcPtr proc)
 {
-    u32 var;
+    u32 mode;
 
-    if (!_func_02022b30())
+    if (!gWirelessSettings->IsPracticeMode())
     {
-        if (data_02196f10->unk_08 != 0)
+        if (gWirelessSettings->unk_08 != 0)
         {
             return;
         }
@@ -1360,12 +1319,12 @@ EC void func_02022bb0(ProcPtr proc)
         func_02012bbc();
         func_02012680(proc);
 
-        var = data_02196f10->unk_04;
+        mode = gWirelessSettings->mode;
         func_02021b14();
-        data_02196f10->unk_04 = var;
+        gWirelessSettings->mode = mode;
 
         func_020228ec(proc);
-        GameCtrl_GotoLabel(30);
+        GameCtrl_GotoLabel(L_GAMECTRL_30);
 
         gSoundManager->unk_a4->vfunc_3c(0x10, 0x48, 0);
     }
@@ -1384,14 +1343,14 @@ EC void func_02022c54(ProcPtr proc)
 EC void func_02022c78(ProcPtr proc)
 {
     func_020240a0(data_02196f0c->unk_10 + 0x10, proc);
-    data_02196f0c->state |= 4;
+    data_02196f0c->state |= GAME_STATE_UNK_2;
     return;
 }
 
 EC void func_02022cb0(ProcPtr proc)
 {
     func_020240a0(11, proc);
-    data_02196f0c->state |= 4;
+    data_02196f0c->state |= GAME_STATE_UNK_2;
     return;
 }
 
@@ -1412,7 +1371,7 @@ EC void func_02022d00(ProcPtr proc)
     struct Unit * pUnit;
     int i;
 
-    if (data_02196f0c->state & 0x2000)
+    if (data_02196f0c->state & GAME_STATE_UNK_13)
     {
         for (i = 0, pUnit = gUnitList; i < 0x8c; i++, pUnit++)
         {
@@ -1426,7 +1385,7 @@ EC void func_02022d00(ProcPtr proc)
                 continue;
             }
 
-            if (!(pUnit->state2 & 0x40000))
+            if (!(pUnit->state2 & US_UNK_18))
             {
                 continue;
             }
@@ -1434,27 +1393,27 @@ EC void func_02022d00(ProcPtr proc)
             pUnit->_0203c19c();
         }
 
-        data_02196f0c->state &= ~0x2000;
-        GameCtrl_GotoLabel(13);
+        data_02196f0c->state &= ~GAME_STATE_UNK_13;
+        GameCtrl_GotoLabel(L_GAMECTRL_13);
 
         return;
     }
 
-    if (data_02196f0c->state & 0x10000)
+    if (data_02196f0c->state & GAME_STATE_LINK_ARENA)
     {
-        data_02196f0c->state &= ~0x10000;
-        GameCtrl_GotoLabel(54);
+        data_02196f0c->state &= ~GAME_STATE_LINK_ARENA;
+        GameCtrl_GotoLabel(L_GAMECTRL_54);
 
         return;
     }
 
-    if (!(data_02196f0c->state & 0x80))
+    if (!(data_02196f0c->state & GAME_STATE_UNK_7))
     {
         StartMainMenu_ProcMain(proc);
         return;
     }
 
-    data_02196f0c->state &= ~0x80;
+    data_02196f0c->state &= ~GAME_STATE_UNK_7;
 
     return;
 }
@@ -1478,21 +1437,20 @@ EC void func_02022dd8(void)
         return;
     }
 
-    GetText("MBackup_LoadError\0\0");
-    func_0201f8a0();
+    func_0201f8a0(GetText("MBackup_LoadError"));
 
     return;
 }
 
 EC void func_02022dfc(void)
 {
-    func_02021790(data_02196f10);
+    func_02021790(gWirelessSettings);
     return;
 }
 
 EC void func_02022e14(void)
 {
-    func_02021430(data_02196f10, 0, 0);
+    func_02021430(gWirelessSettings, 0, 0);
     return;
 }
 
@@ -1501,17 +1459,17 @@ EC BOOL func_02022e34(void)
     return data_02196f0c->unk_14 == 1 ? TRUE : FALSE;
 }
 
-EC void func_02022e54(void)
+EC void GameCtrl_InitWirelessSettings(void)
 {
-    data_02196f10->unk_09 = 1;
-    data_02196f10->unk_0c = 300;
-    data_02196f10->unk_0a = 10;
-    data_02196f10->unk_0b = 1;
-    data_02196f10->unk_10 = 0;
-    data_02196f10->unk_11 = 0;
-    data_02196f10->unk_12 = 0;
-    data_02196f10->unk_17 = 0;
-    data_02196f10->unk_08 = 0;
+    gWirelessSettings->fogActive = 1;
+    gWirelessSettings->timeLimit = 300;
+    gWirelessSettings->turnLimit = 10;
+    gWirelessSettings->unk_0b = 1;
+    gWirelessSettings->cardsAllowed = 0;
+    gWirelessSettings->unk_11 = 0;
+    gWirelessSettings->unk_12 = 0;
+    gWirelessSettings->unk_17 = 0;
+    gWirelessSettings->unk_08 = 0;
 
     return;
 }
