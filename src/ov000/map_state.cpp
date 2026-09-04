@@ -72,7 +72,7 @@ EC BOOL func_ov000_021a475c(void);
 EC BOOL func_ov000_021a47ac(void);
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
-extern struct WirelessSettings * data_02196f10;
+extern struct WirelessSettings * gWirelessSettings;
 
 extern vu32 gElapsedFrames;
 
@@ -463,7 +463,7 @@ EC BOOL func_ov000_021a2a50(struct UnkStruct_021E3324 * self)
 
     if (self->phase == 2)
     {
-        if ((self->unk_06 != 0) && (self->turn >= self->unk_06))
+        if ((self->turnLimit != 0) && (self->turn >= self->turnLimit))
         {
             return FALSE;
         }
@@ -509,10 +509,10 @@ EC void func_ov000_021a2b08(struct SaveBuffer * buf)
     buf->WriteByte(data_ov000_021e3324->phase);
     buf->WriteByte(data_ov000_021e3324->unk_01);
     buf->WriteShort(data_ov000_021e3324->turn);
-    buf->WriteShort(data_ov000_021e3324->unk_06);
+    buf->WriteShort(data_ov000_021e3324->turnLimit);
     buf->WriteWord(data_ov000_021e3324->unk_08);
-    buf->WriteWord(data_ov000_021e3324->unk_0c);
-    buf->WriteByte(data_ov000_021e3324->unk_02);
+    buf->WriteWord(data_ov000_021e3324->timeLimit);
+    buf->WriteByte(data_ov000_021e3324->fogActive);
     buf->WriteByte(data_ov000_021e3324->unk_03);
 
     func_020a58b8(gMapStateManager->unk_db0, buf->unk_04, 0x80);
@@ -568,14 +568,14 @@ EC void func_ov000_021a2eb0(struct SaveBuffer * buf, s32 arg_1)
     data_ov000_021e3324->unk_01 = buf->ReadByte();
 
     data_ov000_021e3324->turn = buf->ReadShort();
-    data_ov000_021e3324->unk_06 = buf->ReadShort();
+    data_ov000_021e3324->turnLimit = buf->ReadShort();
 
     word = buf->ReadWord();
     func_ov000_021a48b0(word);
 
-    data_ov000_021e3324->unk_0c = buf->ReadWord();
+    data_ov000_021e3324->timeLimit = buf->ReadWord();
 
-    data_ov000_021e3324->unk_02 = buf->ReadByte();
+    data_ov000_021e3324->fogActive = buf->ReadByte();
     data_ov000_021e3324->unk_03 = buf->ReadByte();
 
     func_ov000_021a37c4();
@@ -872,12 +872,12 @@ EC void func_ov000_021a378c(void)
 
 EC BOOL func_ov000_021a37b4(void)
 {
-    return func_0201dc30(7);
+    return ThreadProcExists(7);
 }
 
 EC void func_ov000_021a37c4(void)
 {
-    if (data_ov000_021e3324->unk_02 == 0)
+    if (data_ov000_021e3324->fogActive == 0)
     {
         func_020a5824(gMapStateManager->unk_db0, 0xff, 0x80);
         func_020a5824(gMapStateManager->unk_d30, 0xff, 0x80);
@@ -904,7 +904,7 @@ EC void func_ov000_021a37c4(void)
 
 EC void func_ov000_021a38b4(void)
 {
-    if (data_ov000_021e3324->unk_02 == 0)
+    if (data_ov000_021e3324->fogActive == 0)
     {
         func_020a5824(gMapStateManager->unk_d30, 0xff, 0x80);
         return;
@@ -933,7 +933,7 @@ EC void func_ov000_021a3974(u8 * arg_0, s32 arg_1)
     s32 i;
     struct Unit * it;
 
-    if (data_ov000_021e3324->unk_02 == 0)
+    if (data_ov000_021e3324->fogActive == 0)
     {
         return;
     }
@@ -971,7 +971,7 @@ EC void func_ov000_021a3c84(u8 * arg_0, s32 arg_1, s32 arg_2, s16 arg_3, s16 arg
     u8 tmp;
     s32 increment;
 
-    if (data_ov000_021e3324->unk_02 == 0)
+    if (data_ov000_021e3324->fogActive == 0)
     {
         return;
     }
@@ -1032,7 +1032,7 @@ EC void func_ov000_021a3a30(u8 * arg_0, u32 arg_1)
     u32 r6;
     r6 = GetJobByJidStr("JID_LORD\0\0\0")->unk_2a;
 
-    if (data_ov000_021e3324->unk_02 == 0)
+    if (data_ov000_021e3324->fogActive == 0)
     {
         return;
     }
@@ -1069,7 +1069,7 @@ EC void func_ov000_021a3ad0(u8 * arg_0, s16 x, s16 y, s32 range)
     s16 xMax;
     s16 yMax;
 
-    if (data_ov000_021e3324->unk_02 == 0)
+    if (data_ov000_021e3324->fogActive == 0)
     {
         return;
     }
@@ -1106,7 +1106,7 @@ EC void func_ov000_021a3c20(u8 * arg_0, s32 arg_1, struct Unit * unit)
     s32 y;
     s32 x;
 
-    if (data_ov000_021e3324->unk_02 == 0)
+    if (data_ov000_021e3324->fogActive == 0)
     {
         return;
     }
@@ -1295,7 +1295,7 @@ EC s32 GetMapBgmId(s32 factionId)
 
     idx = 0;
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         idx = 1;
     }
@@ -1475,7 +1475,7 @@ EC BOOL func_ov000_021a471c(void)
 
 EC BOOL func_ov000_021a475c(void)
 {
-    if (data_ov000_021e3324->unk_0c == 0)
+    if (data_ov000_021e3324->timeLimit == 0)
     {
         return FALSE;
     }
@@ -1521,12 +1521,12 @@ EC BOOL func_ov000_021a4804(void)
         return FALSE;
     }
 
-    if (data_02196f10->unk_0b == 0)
+    if (gWirelessSettings->unk_0b == 0)
     {
         return FALSE;
     }
 
-    if (data_02196f10->CheckUnk00())
+    if (gWirelessSettings->CheckUnk00())
     {
         return FALSE;
     }

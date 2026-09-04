@@ -2905,7 +2905,7 @@ extern struct ProcCmd data_020cec14[];
 // extern ??? gRandomSt
 // extern ??? data_02196e0c
 // extern ??? data_02196f0c
-// extern ??? data_02196f10
+// extern ??? gWirelessSettings
 // extern ??? data_02196f14
 // extern ??? data_02196f18
 // extern ??? data_02196f1c

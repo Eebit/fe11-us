@@ -103,7 +103,7 @@ EC BOOL func_02022988(void);
 EC void func_020229a8(void);
 EC void func_020229f0(void);
 EC BOOL func_02022b10(void);
-EC BOOL func_02022b30(void);
+EC BOOL GameCtrl_IsWirelessPracticeMode(void);
 EC BOOL func_02022b50(void);
 EC void func_02022b70(ProcPtr);
 EC void func_02022bb0(ProcPtr);
@@ -395,7 +395,7 @@ PROC_LABEL(L_GAMECTRL_29),
     PROC_CALL(func_020229a8),
     PROC_25(3, 0),
     PROC_CALL(func_020228ec),
-    PROC_GOTO_IF_YES(func_02022b30, L_GAMECTRL_30),
+    PROC_GOTO_IF_YES(GameCtrl_IsWirelessPracticeMode, L_GAMECTRL_30),
     PROC_CALL(func_ov003_021e4204),
     PROC_GOTO_IF_NO(func_02022ef4, L_GAMECTRL_40),
 
@@ -404,14 +404,14 @@ PROC_LABEL(L_GAMECTRL_29),
 PROC_LABEL(L_GAMECTRL_30),
     PROC_CALL(func_ov003_021fb690),
     PROC_GOTO_IF_NO(func_02022e34, L_GAMECTRL_40),
-    PROC_GOTO_IF_YES(func_02022b30, L_GAMECTRL_34),
+    PROC_GOTO_IF_YES(GameCtrl_IsWirelessPracticeMode, L_GAMECTRL_34),
 
     PROC_GOTO(L_GAMECTRL_32),
 
 PROC_LABEL(L_GAMECTRL_31),
     PROC_CALL(func_ov003_021fb704),
     PROC_GOTO_IF_NO(func_02022e34, L_GAMECTRL_40),
-    PROC_GOTO_IF_YES(func_02022b30, L_GAMECTRL_34),
+    PROC_GOTO_IF_YES(GameCtrl_IsWirelessPracticeMode, L_GAMECTRL_34),
 
     PROC_GOTO(L_GAMECTRL_32),
 
@@ -507,7 +507,7 @@ extern struct UnkStruct_020e3ca0 * data_020e3ca0;
 
 extern struct UnkStruct_02196f1c * data_02196f1c;
 
-extern struct WirelessSettings * data_02196f10;
+extern struct WirelessSettings * gWirelessSettings;
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
@@ -555,9 +555,9 @@ EC void func_020217b4(void)
 
     func_02021014();
 
-    if (data_02196f10 == NULL)
+    if (gWirelessSettings == NULL)
     {
-        data_02196f10 = new WirelessSettings;
+        gWirelessSettings = new WirelessSettings();
     }
 
     func_020423fc();
@@ -840,9 +840,9 @@ EC void func_02021f5c(void)
 
     if (data_02196f0c->state & GAME_STATE_UNK_16)
     {
-        data_ov000_021e3324->unk_02 = data_02196f10->fogActive;
-        data_ov000_021e3324->unk_0c = data_02196f10->timeLimit * 60;
-        data_ov000_021e3324->unk_06 = data_02196f10->turnLimit;
+        data_ov000_021e3324->fogActive = gWirelessSettings->fogActive;
+        data_ov000_021e3324->timeLimit = gWirelessSettings->timeLimit * 60;
+        data_ov000_021e3324->turnLimit = gWirelessSettings->turnLimit;
     }
 
     return;
@@ -859,7 +859,7 @@ EC void func_0202214c(ProcPtr proc)
         return;
     }
 
-    unit = Force::Get(data_02196f10->unk_06)->head;
+    unit = Force::Get(gWirelessSettings->unk_06)->head;
 
     if (unit != NULL)
     {
@@ -1207,7 +1207,7 @@ EC void func_02022814(void)
 
 EC void func_0202284c(ProcPtr proc)
 {
-    switch (data_02196f10->mode)
+    switch (gWirelessSettings->mode)
     {
         case WIRELESS_MODE_LOCAL:
             func_ov003_021e42c8(proc, 0);
@@ -1231,7 +1231,7 @@ EC void func_0202284c(ProcPtr proc)
 
 EC void func_020228ac(ProcPtr proc)
 {
-    switch (data_02196f10->mode)
+    switch (gWirelessSettings->mode)
     {
         case WIRELESS_MODE_LOCAL:
             func_ov003_021e42c8(proc, 1);
@@ -1247,7 +1247,7 @@ EC void func_020228ac(ProcPtr proc)
 
 EC void func_020228ec(ProcPtr unused)
 {
-    if (data_02196f10->mode != WIRELESS_MODE_PRACTICE)
+    if (gWirelessSettings->mode != WIRELESS_MODE_PRACTICE)
     {
         data_02196f0c->state |= GAME_STATE_UNK_5;
     }
@@ -1256,7 +1256,7 @@ EC void func_020228ec(ProcPtr unused)
     data_02196f0c->state |= GAME_STATE_SUPPLY_OFF;
     data_02196f0c->state |= GAME_STATE_UNK_0;
 
-    if (data_02196f10->IsWifiPlayAnyoneMode())
+    if (gWirelessSettings->IsWifiPlayAnyoneMode())
     {
         func_0202118c();
         return;
@@ -1269,12 +1269,12 @@ EC void func_020228ec(ProcPtr unused)
 
 EC BOOL func_02022988(void)
 {
-    return data_02196f10->IsWifiPlayAnyoneMode();
+    return gWirelessSettings->IsWifiPlayAnyoneMode();
 }
 
 EC void func_020229a8(void)
 {
-    switch (data_02196f10->mode)
+    switch (gWirelessSettings->mode)
     {
         case WIRELESS_MODE_LOCAL:
             LoadOverlay(OVERLAY_ID_A);
@@ -1299,32 +1299,32 @@ EC void func_020229f0(void)
 {
     int random;
 
-    if (data_02196f10->_02022b10())
+    if (gWirelessSettings->_02022b10())
     {
         return;
     }
 
-    if (data_02196f10->IsPracticeMode())
+    if (gWirelessSettings->IsPracticeMode())
     {
         return;
     }
 
-    if (data_02196f10->_02022b50())
+    if (gWirelessSettings->_02022b50())
     {
         random = RollRN(1, gFE11Database->pDBFE11Footer->unk_14 - 1);
-        data_02196f10->unk_11 = random;
+        gWirelessSettings->unk_11 = random;
         data_02196f18->unk_000->SetById(random);
 
-        if (data_02196f10->unk_0b != 0 && func_02021410(data_02196f10->unk_06)->unk_756 == 0x14)
+        if (gWirelessSettings->unk_0b != 0 && func_02021410(gWirelessSettings->unk_06)->unk_756 == 0x14)
         {
             random = RollRN(1, gFE11Database->pDBFE11Footer->unk_14 - 2);
 
-            if (random >= data_02196f10->unk_11)
+            if (random >= gWirelessSettings->unk_11)
             {
                 random += 1;
             }
 
-            data_02196f10->unk_12 = random;
+            gWirelessSettings->unk_12 = random;
 
             data_02196f18->unk_000->SetById(random);
         }
@@ -1338,22 +1338,22 @@ EC void func_020229f0(void)
 
 EC BOOL func_02022b10(void)
 {
-    return data_02196f10->_02022b10();
+    return gWirelessSettings->_02022b10();
 }
 
-EC BOOL func_02022b30(void)
+EC BOOL GameCtrl_IsWirelessPracticeMode(void)
 {
-    return data_02196f10->IsPracticeMode();
+    return gWirelessSettings->IsPracticeMode();
 }
 
 EC BOOL func_02022b50(void)
 {
-    return data_02196f10->_02022b50();
+    return gWirelessSettings->_02022b50();
 }
 
 EC void func_02022b70(ProcPtr proc)
 {
-    if (data_02196f10->_02022b50())
+    if (gWirelessSettings->_02022b50())
     {
         StartBlockingFadeOutToWhite((struct Proc *)proc, 16, 1);
     }
@@ -1369,9 +1369,9 @@ EC void func_02022bb0(ProcPtr proc)
 {
     u32 mode;
 
-    if (!data_02196f10->IsPracticeMode())
+    if (!gWirelessSettings->IsPracticeMode())
     {
-        if (data_02196f10->unk_08 != 0)
+        if (gWirelessSettings->unk_08 != 0)
         {
             return;
         }
@@ -1380,9 +1380,9 @@ EC void func_02022bb0(ProcPtr proc)
         func_02012bbc();
         func_02012680(proc);
 
-        mode = data_02196f10->mode;
+        mode = gWirelessSettings->mode;
         func_02021b14();
-        data_02196f10->mode = mode;
+        gWirelessSettings->mode = mode;
 
         func_020228ec(proc);
         GameCtrl_GotoLabel(L_GAMECTRL_30);
@@ -1506,13 +1506,13 @@ EC void func_02022dd8(void)
 
 EC void func_02022dfc(void)
 {
-    func_02021790(data_02196f10);
+    func_02021790(gWirelessSettings);
     return;
 }
 
 EC void func_02022e14(void)
 {
-    func_02021430(data_02196f10, 0, 0);
+    func_02021430(gWirelessSettings, 0, 0);
     return;
 }
 
@@ -1523,15 +1523,15 @@ EC BOOL func_02022e34(void)
 
 EC void func_02022e54(void)
 {
-    data_02196f10->fogActive = 1;
-    data_02196f10->timeLimit = 300;
-    data_02196f10->turnLimit = 10;
-    data_02196f10->unk_0b = 1;
-    data_02196f10->cardsAllowed = 0;
-    data_02196f10->unk_11 = 0;
-    data_02196f10->unk_12 = 0;
-    data_02196f10->unk_17 = 0;
-    data_02196f10->unk_08 = 0;
+    gWirelessSettings->fogActive = 1;
+    gWirelessSettings->timeLimit = 300;
+    gWirelessSettings->turnLimit = 10;
+    gWirelessSettings->unk_0b = 1;
+    gWirelessSettings->cardsAllowed = 0;
+    gWirelessSettings->unk_11 = 0;
+    gWirelessSettings->unk_12 = 0;
+    gWirelessSettings->unk_17 = 0;
+    gWirelessSettings->unk_08 = 0;
 
     return;
 }

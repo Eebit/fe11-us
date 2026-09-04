@@ -166,7 +166,7 @@ struct UnkStruct_021e3340 * data_ov000_021e3340;
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
-extern struct WirelessSettings * data_02196f10;
+extern struct WirelessSettings * gWirelessSettings;
 
 extern struct TouchState * gTouchSt;
 
@@ -517,7 +517,7 @@ EC void func_ov000_021a8480(ProcPtr param_1)
         return;
     }
 
-    if (!data_02196f10->CheckUnk00() || data_02196f10->unk_0b == 0)
+    if (!gWirelessSettings->CheckUnk00() || gWirelessSettings->unk_0b == 0)
     {
         return;
     }
@@ -593,7 +593,7 @@ EC void func_ov000_021a8650(void)
         return;
     }
 
-    if (!data_02196f10->CheckUnk00() || data_02196f10->unk_0b == 0)
+    if (!gWirelessSettings->CheckUnk00() || gWirelessSettings->unk_0b == 0)
     {
         return;
     }
@@ -707,14 +707,14 @@ EC void func_ov000_021a8868(void)
         }
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         func_ov000_021a37c4();
         func_ov000_021a340c();
         func_ov000_021a35a0();
     }
 
-    func_ov000_021a48b0(data_ov000_021e3324->unk_0c);
+    func_ov000_021a48b0(data_ov000_021e3324->timeLimit);
     func_0204bbb4(0);
 
     return;
@@ -980,7 +980,7 @@ EC void func_ov000_021a8ff4(void)
 {
     Unit * it;
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         for (it = Force::Get(data_ov000_021e3324->phase)->head; it != NULL; it = it->unk_3c)
         {
@@ -1153,7 +1153,7 @@ EC void func_ov000_021a93d0(ProcPtr proc)
         return;
     }
 
-    if (data_02196f10->unk_17 != 0)
+    if (gWirelessSettings->unk_17 != 0)
     {
         func_02014834(proc, GetText("MLink_OpponentSurrender"), 1, 1, 1, 1);
 
@@ -1170,7 +1170,7 @@ EC void func_ov000_021a93d0(ProcPtr proc)
         }
     }
 
-    data_02196f10->unk_07 = 0;
+    gWirelessSettings->unk_07 = 0;
 
     return;
 }
@@ -1188,7 +1188,7 @@ EC void func_ov000_021a9550(ProcPtr proc)
         new (Proc_StartBlocking(ProcScr_ProcArenaSync, proc)) ProcArenaSync();
     }
 
-    data_02196f10->unk_07 = 1;
+    gWirelessSettings->unk_07 = 1;
 
     return;
 }
@@ -2920,7 +2920,7 @@ EC void func_ov000_021ac218(void)
     {
         pUnit->state2 |= US_ACTED;
 
-        if ((data_ov000_021e3324->unk_02 != 0) && (func_ov000_021a3da0(pUnit) == 0))
+        if ((data_ov000_021e3324->fogActive != 0) && (func_ov000_021a3da0(pUnit) == 0))
         {
             if (TEMP(pUnit) != 0)
             {
@@ -2933,7 +2933,7 @@ EC void func_ov000_021ac218(void)
         pUnit->state2 |= US_NOT_PRESENT;
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         if (data_ov000_021e3324->phase == pUnit->force->id)
         {
@@ -3664,14 +3664,14 @@ EC void func_ov000_021ad8c4(map::ProcPL * proc)
 
     if (proc->unk_38 != 0)
     {
-        data_02196f10->unk_07 = 0;
+        gWirelessSettings->unk_07 = 0;
     }
     else
     {
-        data_02196f10->unk_07 = 1;
+        gWirelessSettings->unk_07 = 1;
     }
 
-    data_02196f10->unk_08 = 1;
+    gWirelessSettings->unk_08 = 1;
 
     return;
 }
@@ -4248,7 +4248,7 @@ EC void CpuPhase_021ae364(void)
             unit->state2 |= US_ACTED;
         }
 
-        if ((data_ov000_021e3324->unk_02 != 0) && (func_ov000_021a3da0(unit) == 0))
+        if ((data_ov000_021e3324->fogActive != 0) && (func_ov000_021a3da0(unit) == 0))
         {
             if (TEMP(unit) != 0)
             {
@@ -4261,7 +4261,7 @@ EC void CpuPhase_021ae364(void)
         unit->state2 |= US_NOT_PRESENT;
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         if (data_ov000_021e3324->phase == unit->force->id)
         {
@@ -4736,7 +4736,7 @@ EC void func_ov000_021af1bc(map::ProcLink * param_1)
         gMapStateManager->cursor->isVisible = FALSE;
         param_1->unk_3c = 0;
         Proc_Goto(gMapLinkProc, 7, 0);
-        data_02196f10->unk_17 = 1;
+        gWirelessSettings->unk_17 = 1;
         data_02196f0c->flagMgr->SetByName("gf_complete");
         ProcSeq_GotoLabel(L_SEQUENCE_COMPLETE);
         return;
@@ -4808,7 +4808,7 @@ EC void func_ov000_021aebb0(void)
             pUnit->state2 |= US_ACTED;
         }
 
-        if ((data_ov000_021e3324->unk_02 != 0) && (func_ov000_021a3da0(pUnit) == 0))
+        if ((data_ov000_021e3324->fogActive != 0) && (func_ov000_021a3da0(pUnit) == 0))
         {
             if (TEMP(pUnit) != 0)
             {
@@ -4821,7 +4821,7 @@ EC void func_ov000_021aebb0(void)
         pUnit->state2 |= US_NOT_PRESENT;
     }
 
-    if (data_ov000_021e3324->unk_02 != 0)
+    if (data_ov000_021e3324->fogActive != 0)
     {
         if (data_ov000_021e3324->phase == pUnit->force->id)
         {
@@ -5015,8 +5015,8 @@ EC void func_ov000_021af62c(map::ProcLink * proc)
     else
     {
         Proc_Goto(gMapLinkProc, 6, 0);
-        data_02196f10->unk_07 = !!proc->unk_38;
-        data_02196f10->unk_08 = 1;
+        gWirelessSettings->unk_07 = !!proc->unk_38;
+        gWirelessSettings->unk_08 = 1;
     }
 
     return;

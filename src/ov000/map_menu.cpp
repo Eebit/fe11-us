@@ -28,7 +28,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 
 extern struct UnkStruct_02196f20 * data_02196f20;
 
-extern struct WirelessSettings * data_02196f10;
+extern struct WirelessSettings * gWirelessSettings;
 
 EC void func_0202b260(void *, s32, s32, s32, s32);
 EC BOOL func_0201f680(void);
@@ -443,7 +443,7 @@ public:
         if (func_ov000_021a47e4())
         {
             PlayerPhase_GotoLabel(26, 0, 0);
-            data_02196f10->unk_07 = 2;
+            gWirelessSettings->unk_07 = 2;
             return 0x44;
         }
         else
@@ -571,7 +571,7 @@ public:
     {
         func_ov000_021d6dfc(0);
         PlayerPhase_GotoLabel(38, 0, 0);
-        data_02196f10->unk_07 = 1;
+        gWirelessSettings->unk_07 = 1;
         return 0x44;
     }
 };

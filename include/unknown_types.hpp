@@ -79,10 +79,32 @@ enum
     WIRELESS_MODE_PRACTICE = 3,
 };
 
+struct WirelessSettings_00_348
+{
+    /* 00 */ STRUCT_PAD(0x00, 0x20);
+    /* 20 */ u16 unk_20;
+    /* 22 */ STRUCT_PAD(0x22, 0x24);
+    /* 24 */ s8 unk_24;
+    /* 25 */ s8 unk_25;
+    /* 26 */ s8 unk_26;
+    /* 27 */ s8 unk_27;
+};
+
+struct WirelessSettings_00
+{
+    /* 000 */ Unit unk_000[5];
+    /* 348 */ struct WirelessSettings_00_348 unk_348[0x19];
+    /* 730 */ u8 unk_730[0x24];
+    /* 754 */ u8 unk_754;
+    /* 755 */ u8 unk_755;
+    /* 756 */ u8 unk_756;
+    /* 757 */ u8 unk_757;
+};
+
 class WirelessSettings
 {
 public:
-    /* 00 */ void * unk_00;
+    /* 00 */ WirelessSettings_00 * unk_00;
     /* 04 */ s8 mode;
     /* 05 */ u8 unk_05;
     /* 06 */ u8 unk_06; // faction?

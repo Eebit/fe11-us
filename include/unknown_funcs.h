@@ -17,7 +17,7 @@ struct Item;
 struct ItemData;
 struct MapStateManager_08;
 struct UnkStruct_020e3ca0;
-struct UnkStruct_02196f10;
+struct WirelessSettings;
 
 EXTERN_C
 
@@ -1207,8 +1207,8 @@ EC char * GetBattleMapNameMaybe(void);
 // EC ??? func_020211dc
 // EC ??? func_020212d4
 EC struct UnkStruct_Func_02021410_Ret * func_02021410(u32);
-EC void func_02021430(struct UnkStruct_02196f10 *, s32, s32);
-EC void func_02021790(struct UnkStruct_02196f10 *);
+EC void func_02021430(struct WirelessSettings *, s32, s32);
+EC void func_02021790(struct WirelessSettings *);
 EC void func_020217b4(void);
 // EC ??? func_020219a4
 // EC ??? func_02021b00
@@ -1247,7 +1247,7 @@ EC void func_020217b4(void);
 // EC ??? func_020229a8
 // EC ??? func_020229f0
 // EC ??? func_02022b10
-// EC ??? func_02022b30
+// EC ??? GameCtrl_IsWirelessPracticeMode
 // EC ??? func_02022b50
 // EC ??? func_02022b70
 // EC ??? func_02022bb0

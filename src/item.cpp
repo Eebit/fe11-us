@@ -199,7 +199,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            if (data_ov000_021e3324->unk_02 == 0)
+            if (data_ov000_021e3324->fogActive == 0)
             {
                 return FALSE;
             }
