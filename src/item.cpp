@@ -1,7 +1,8 @@
 #include "global.h"
 
-#include "unknown_types.hpp"
 #include "unknown_funcs.h"
+#include "unknown_types.hpp"
+
 
 #include "database.hpp"
 #include "item.hpp"
@@ -269,7 +270,6 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-/* NONMATCHING: https://decomp.me/scratch/D8kjb */
 EC void func_02038708(struct ItemData * item, struct Unit * unit)
 {
     switch (item->effect)
@@ -291,18 +291,20 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
         case ITEM_EFFECT_STAT_BOOST:
         {
             s32 mov;
-            s32 i;
+            s32 movBoost;
             s16 * r7;
             s8 * r8;
             s8 * r9;
             s32 cap;
+            s32 cap2;
+            s32 i;
 
-            mov = item->movBoost;
+            movBoost = item->movBoost;
 
             if (item->movBoost != 0)
             {
-                mov = item->movBoost;
-                mov += unit->GetMov();
+                mov = unit->GetMov();
+                mov += movBoost;
 
                 if (mov < 32)
                 {
@@ -314,37 +316,35 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
                 }
             }
 
-            for (r9 = item->statBoost, i = 0; i < 8; i++)
+            r9 = item->statBoost;
+
+            for (i = 0; i < 8; i++)
             {
+                s32 boost;
+
                 if (r9[i] == 0)
                 {
                     continue;
                 }
 
-                do
+                r8 = unit->unk_50;
+                r7 = unit->unk_58;
+
+                cap = unit->pJobData->caps[i];
+
+                if (unit->GetStat(i, NULL, TRUE) < cap)
                 {
-                    s32 r2;
+                    cap2 = unit->pJobData->caps[i];
+                    boost = cap2 - unit->GetStat(i, NULL, TRUE);
 
-                    r8 = unit->unk_50;
-                    r7 = unit->unk_58;
-
-                    cap = unit->pJobData->caps[i];
-
-                    if (unit->GetStat(i, NULL, TRUE) < cap)
+                    if (boost > item->statBoost[i])
                     {
-                        cap = unit->pJobData->caps[i];
-                        r2 = cap - unit->GetStat(i, NULL, TRUE);
-
-                        if (r2 > item->statBoost[i])
-                        {
-                            r2 = item->statBoost[i];
-                        }
-
-                        r8[i] += (s8)(r2);
-                        r7[i] += (s16)(r2 * 100);
+                        boost = item->statBoost[i];
                     }
 
-                } while (0);
+                    r8[i] = (s8)(boost) + r8[i];
+                    r7[i] = (s16)(boost * 100) + r7[i];
+                }
             }
 
             break;
