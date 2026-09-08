@@ -23,18 +23,9 @@ public:
     /* 34 */ u8 proc_mark;
     /* 35 */ u8 proc_lockCnt;
 
-    virtual void Init();
-    virtual void Loop();
+    virtual ~ProcEx() {};
+    virtual void Loop() {};
+    virtual void Init() {};
 };
-
-void ProcEx::Init()
-{
-    return;
-}
-
-void ProcEx::Loop()
-{
-    return;
-}
 
 #endif // PROC_EX_HPP
