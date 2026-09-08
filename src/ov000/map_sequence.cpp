@@ -2888,7 +2888,7 @@ EC BOOL func_ov000_021ac0c0(void)
         r7 = gActionSt->yDecision;
         r8 = gActionSt->xDecision;
         r9 = gMapStateManager->unk_08;
-        sp_00 = GetItemMaxRange(r4, r5);
+        sp_00 = r4->GetMaxRange(r5);
 
         func_01ff9300(r9, r8, r7, r6, sp_00);
 
@@ -5280,7 +5280,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
             if (!gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_10))
             {
                 iVar3 = gMapStateManager->unk_04->pUnit->_0203d01c();
-                if (gMapStateManager->unk_04->pUnit->items[iVar3].func_0203e0f8(NULL) != 0)
+                if (gMapStateManager->unk_04->pUnit->items[iVar3].ReduceUses(NULL) != 0)
                 {
                     gMapStateManager->unk_04->pUnit->ClearItemAtSlot(iVar3, 1);
                 }
@@ -5325,7 +5325,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
             if (!gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_10))
             {
                 iVar3 = gMapStateManager->unk_04->pUnit->_0203d094();
-                if (gMapStateManager->unk_04->pUnit->items[iVar3].func_0203e0f8(NULL) != 0)
+                if (gMapStateManager->unk_04->pUnit->items[iVar3].ReduceUses(NULL) != 0)
                 {
                     gMapStateManager->unk_04->pUnit->ClearItemAtSlot(iVar3, 1);
                 }
@@ -5370,7 +5370,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
             if (!gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_10))
             {
                 iVar3 = gMapStateManager->unk_04->pUnit->_0203d10c();
-                if (gMapStateManager->unk_04->pUnit->items[iVar3].func_0203e0f8(NULL) != 0)
+                if (gMapStateManager->unk_04->pUnit->items[iVar3].ReduceUses(NULL) != 0)
                 {
                     gMapStateManager->unk_04->pUnit->ClearItemAtSlot(iVar3, 1);
                 }

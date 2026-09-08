@@ -1934,19 +1934,19 @@ EC s32 func_0203826c(void *, u8);
 // EC ??? func_02038310
 // EC ??? func_02038328
 // EC ??? func_02038338
-EC BOOL func_02038348(struct ItemData *);
-// EC ??? func_02038384
-// EC ??? func_02038708
-// EC ??? func_02038914
-// EC ??? func_02038ce4
-EC s32 GetItemMaxRange(struct ItemData *, struct Unit *);
-// EC ??? func_02038e34
-// EC ??? func_02038e3c
-EC BOOL func_02038e80(struct ItemData *, struct Unit *);
-EC BOOL func_02038edc(struct ItemData *, struct Unit *);
-EC BOOL func_02038f38(struct ItemData *, struct Unit *);
-// EC ??? func_02038f94
-EC struct JobData * GetJInfoFromItem(struct ItemData *, struct Unit *);
+EC BOOL _ZN8ItemData9IsMagicalEv(struct ItemData *);
+// EC ??? _ZN8ItemData10IsUsableByEP4Unit
+// EC ??? _ZN8ItemData11ApplyEffectEP4Unit
+// EC ??? _ZN8ItemData10IsUsableOnEmm
+// EC ??? _ZN8ItemData11ApplyEffectEP4UnitS1_
+EC s32 _ZN8ItemData11GetMaxRangeEP4Unit(struct ItemData *, struct Unit *);
+// EC ??? _ZN8ItemData13GetHealAmountEv
+// EC ??? _ZN8ItemData18GetStaffHealAmountEP4Unit
+EC BOOL _ZN8ItemData11UnlocksDoorEP4Unit(struct ItemData *, struct Unit *);
+EC BOOL _ZN8ItemData13UnlocksBridgeEP4Unit(struct ItemData *, struct Unit *);
+EC BOOL _ZN8ItemData12UnlocksChestEP4Unit(struct ItemData *, struct Unit *);
+// EC ??? _ZN4Item12IsRepairableEv
+EC struct JobData * _ZN8ItemData15GetEffectiveJobEP4Unit(struct ItemData *, struct Unit *);
 EC s32 func_02039088(struct Unit * unit, int b, int c, int d, int e, u8 f, int g);
 // EC ??? func_020391e0
 // EC ??? func_0203935c
@@ -2056,8 +2056,8 @@ EC void _ZN4Unit9_0203df18Ev(struct Unit * unit);
 // EC ??? _ZN4Item5ClearEv
 // EC ??? _ZN4ItemaSEPS_
 // EC ??? _ZN4ItemeqEPS_
-// EC ??? _ZN4Item13func_0203e09cEP4Unit
-// EC ??? _ZN4Item13func_0203e0f8EP4Unit
+// EC ??? _ZN4Item13CanReduceUsesEP4Unit
+// EC ??? _ZN4Item10ReduceUsesEP4Unit
 // EC ??? _ZN4Item4SaveEP10SaveBuffer
 // EC ??? _ZN4Item4LoadEP10SaveBufferl
 EC void SetSpriteDirectoryForJob(s32, BOOL);

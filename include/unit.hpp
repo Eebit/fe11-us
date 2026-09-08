@@ -40,10 +40,10 @@ enum
     CA_BOSS = (1 << 12),
 
     CA_FREELANCER = (1 << 15),
-    CA_UNK_16 = (1 << 16), // Sniper hit rate boost
-    CA_UNK_17 = (1 << 17), // Swordmaster hit rate boost
-    CA_UNK_18 = (1 << 18), // Sniper crit boost
-    CA_UNK_19 = (1 << 19), // Berserker crit boost
+    CA_HIT_BOOST_5 = (1 << 16), // Sniper hit rate boost
+    CA_HIT_BOOST_10 = (1 << 17), // Swordmaster hit rate boost
+    CA_CRIT_BOOST_5 = (1 << 18), // Sniper crit boost
+    CA_CRIT_BOOST_10 = (1 << 19), // Berserker crit boost
     CA_UNK_20 = (1 << 20), // Thief ?
     CA_CANNOT_ATTACK = (1 << 21), // Curate/Sister
     CA_UNK_22 = (1 << 22), // Ballistician, dragon classes
@@ -136,8 +136,9 @@ struct JobData
     STRUCT_PAD(0x55, 0x5C);
 };
 
-struct ItemData
+class ItemData
 {
+public:
     /* 00 */ char * iid; // Identifier in database
     /* 04 */ char * miid; // "Message IID" - string for item name
     /* 08 */ char * mih; // "Message Info Help" - string for description
@@ -163,6 +164,25 @@ struct ItemData
     STRUCT_PAD(0x38, 0x3A);
     /* 3A */ u8 unk_3a; // item difficulty adjustment
     /* 3B */ u8 unk_3b;
+
+    BOOL IsMagical(void);
+    BOOL IsUsableBy(Unit * unit);
+    void ApplyEffect(Unit * unit);
+    BOOL IsUsableOn(u32 x, u32 y);
+    void ApplyEffect(Unit * self, Unit * target);
+    s32 GetMaxRange(Unit * unit);
+    s32 GetHealAmount(void);
+    s32 GetStaffHealAmount(Unit * unit);
+    BOOL UnlocksDoor(Unit * unit);
+    BOOL UnlocksBridge(Unit * unit);
+    BOOL UnlocksChest(Unit * unit);
+    struct JobData * GetEffectiveJob(Unit * unit);
+
+    // NOTE: Only checks the lower 32 bits of the item attributes
+    inline BOOL CheckItemAttr(u32 mask)
+    {
+        return this->attributes & mask;
+    }
 };
 
 struct Unit_unk_30
@@ -187,6 +207,8 @@ public:
 
     Item() {};
 
+    BOOL IsRepairable(void);
+
     struct ItemData * GetData(void);
 
     void InitFromItemData(ItemData *);
@@ -197,8 +219,10 @@ public:
     Item * operator=(Item *);
     BOOL operator==(Item *);
 
-    BOOL func_0203e09c(Unit *);
-    BOOL func_0203e0f8(Unit *);
+    BOOL CanReduceUses(Unit *);
+
+    // Returns TRUE if the item broke; FALSE otherwise
+    BOOL ReduceUses(Unit *);
 
     void Save(SaveBuffer *);
     void Load(SaveBuffer *, s32);

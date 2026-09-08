@@ -870,7 +870,7 @@ s32 Unit::GetStr(ItemData * item, BOOL unused)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     str = this->pPersonData->bases[UNIT_STAT_STR] + job->bases[UNIT_STAT_STR];
@@ -900,7 +900,7 @@ s32 Unit::GetMag(ItemData * item, BOOL unused)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     mag = this->pPersonData->bases[UNIT_STAT_MAG] + job->bases[UNIT_STAT_MAG];
@@ -930,7 +930,7 @@ s32 Unit::GetSkl(ItemData * item, BOOL unused)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     skl = this->pPersonData->bases[UNIT_STAT_SKL] + job->bases[UNIT_STAT_SKL];
@@ -960,7 +960,7 @@ s32 Unit::GetSpd(ItemData * item, BOOL unused)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     spd = this->pPersonData->bases[UNIT_STAT_SPD] + job->bases[UNIT_STAT_SPD];
@@ -990,7 +990,7 @@ s32 Unit::GetLuk(ItemData * item, BOOL unused)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     luk = this->pPersonData->bases[UNIT_STAT_LUK] + job->bases[UNIT_STAT_LUK];
@@ -1020,7 +1020,7 @@ s32 Unit::GetDef(ItemData * item, BOOL unused)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     def = this->pPersonData->bases[UNIT_STAT_DEF] + job->bases[UNIT_STAT_DEF];
@@ -1050,7 +1050,7 @@ s32 Unit::GetRes(ItemData * item, BOOL arg_2)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     res = this->pPersonData->bases[UNIT_STAT_RES] + job->bases[UNIT_STAT_RES];
@@ -1085,7 +1085,7 @@ s32 Unit::GetStat(u32 statIdx, ItemData * item, s32 arg_3)
     }
     else
     {
-        job = GetJInfoFromItem(item, this);
+        job = item->GetEffectiveJob(this);
     }
 
     stat = this->pPersonData->bases[statIdx] + job->bases[statIdx];
@@ -1564,12 +1564,12 @@ s32 Unit::_0203d01c(void)
     {
         struct ItemData * item = it->GetData();
 
-        if (ret != -1 && !(item->attributes & IA_UNK_27))
+        if (ret != -1 && !(item->attributes & IA_INFINITE_DURABILITY))
         {
             continue;
         }
 
-        if (!func_02038e80(item, this))
+        if (!item->UnlocksDoor(this))
         {
             continue;
         }
@@ -1594,12 +1594,12 @@ s32 Unit::_0203d094(void)
     {
         struct ItemData * item = it->GetData();
 
-        if (found != -1 && !(item->attributes & IA_UNK_27))
+        if (found != -1 && !(item->attributes & IA_INFINITE_DURABILITY))
         {
             continue;
         }
 
-        if (!func_02038edc(item, this))
+        if (!item->UnlocksBridge(this))
         {
             continue;
         }
@@ -1624,12 +1624,12 @@ s32 Unit::_0203d10c(void)
     {
         struct ItemData * item = it->GetData();
 
-        if (found != -1 && !(item->attributes & IA_UNK_27))
+        if (found != -1 && !(item->attributes & IA_INFINITE_DURABILITY))
         {
             continue;
         }
 
-        if (!func_02038f38(item, this))
+        if (!item->UnlocksChest(this))
         {
             continue;
         }
@@ -1681,7 +1681,7 @@ s32 Unit::ComputeMight(ItemData * item, BOOL arg_2)
 
     might = item->might;
 
-    if (!func_02038348(item))
+    if (!item->IsMagical())
     {
         s32 str = this->GetStr(item, TRUE);
         might += str;
@@ -1782,14 +1782,14 @@ s32 Unit::ComputeHitRate(ItemData * item, BOOL arg_2)
         hit += this->_0203d45c(item);
     }
 
-    if (this->CheckAttribute(CA_UNK_16 | CA_UNK_17))
+    if (this->CheckAttribute(CA_HIT_BOOST_5 | CA_HIT_BOOST_10))
     {
-        if (this->CheckAttribute(CA_UNK_16)) // Sniper attr
+        if (this->CheckAttribute(CA_HIT_BOOST_5))
         {
             hit += 5;
         }
 
-        if (this->CheckAttribute(CA_UNK_17)) // Swordmaster attr
+        if (this->CheckAttribute(CA_HIT_BOOST_10))
         {
             hit += 10;
         }
@@ -1867,14 +1867,14 @@ s32 Unit::ComputeCritRate(ItemData * item)
     critical = item->critical;
     critical += this->GetSkl(item, 1) >> 1;
 
-    if (this->CheckAttribute(CA_UNK_18 | CA_UNK_19))
+    if (this->CheckAttribute(CA_CRIT_BOOST_5 | CA_CRIT_BOOST_10))
     {
-        if (this->CheckAttribute(CA_UNK_18)) // Sniper attr
+        if (this->CheckAttribute(CA_CRIT_BOOST_5))
         {
             critical += 5;
         }
 
-        if (this->CheckAttribute(CA_UNK_19)) // Berserker attr
+        if (this->CheckAttribute(CA_CRIT_BOOST_10))
         {
             critical += 10;
         }
