@@ -146,16 +146,8 @@ struct DisposGroupProcessor
     }
 };
 
-struct TMP
-{
-    STRUCT_PAD(0x00, 0x54);
-    u16 unk_54;
-    STRUCT_PAD(0x56, 0x68);
-    u32 unk_68;
-};
-
-EC struct TMP * func_ov000_021bb4c8(void *);
-EC struct TMP * func_ov000_021bb210(void *, Unit *);
+EC MoveUnit * func_ov000_021bb4c8(void *);
+EC MoveUnit * func_ov000_021bb210(void *, Unit *);
 
 EC s32 GetPersonDBIndex(struct PersonData *);
 
@@ -1112,7 +1104,7 @@ void DisposGroupProcessor::_021dad04(void)
     {
         if (this->unk_1e <= func_ov000_021bb518(gMapStateManager->unk_14->unk_00))
         {
-            bVar1 = 1;
+            bVar1 = TRUE;
         }
 
         this->unk_1e = 0;
@@ -1127,7 +1119,7 @@ void DisposGroupProcessor::_021dad04(void)
     spawn = this->spawns;
     state = this->spawnStates;
 
-    for (i = 0; i < this->disposGroup->count; i++, spawn++, state++)
+    for (i = 0; i < this->GetSpawnCount(); i++, spawn++, state++)
     {
         Unit * unit;
 
@@ -1170,29 +1162,29 @@ void DisposGroupProcessor::_021dad04(void)
 
             if (bVar1)
             {
-                struct TMP * iVar7 = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
+                MoveUnit * pMu = func_ov000_021bb4c8(gMapStateManager->unk_14->unk_00);
 
-                if (iVar7 != NULL)
+                if (pMu != NULL)
                 {
                     state->flags |= SPAWN_STATE_UNK_3;
                     spawn->_021d9bb0(unit->pJobData, unit->xPos, unit->yPos, 2);
                     func_02001ca0(gMapStateManager->unk_08, unit->xPos, unit->yPos, state->xPos, state->yPos);
-                    func_ov000_021bb734(iVar7, unit, 1);
-                    iVar7->unk_68 = 0x1000;
-                    func_ov000_021bc2b8(iVar7, gMapStateManager->unk_08, 0x800);
+                    func_ov000_021bb734(pMu, unit, 1);
+                    pMu->unk_68 = 0x1000;
+                    func_ov000_021bc2b8(pMu, gMapStateManager->unk_08, 0x800);
                 }
             }
         }
 
         if (state->flags & SPAWN_STATE_UNK_3)
         {
-            struct TMP * iVar7 = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
+            MoveUnit * pMu = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
 
-            if ((iVar7 == NULL) || ((!(iVar7->unk_54 & 1) ? TRUE : FALSE) & 0xFF))
+            if ((pMu == NULL) || !pMu->CheckFlag1())
             {
                 unit->state2 &= ~US_NOT_PRESENT;
 
-                if (iVar7 != 0)
+                if (pMu != NULL)
                 {
                     func_ov000_021bb944();
                 }

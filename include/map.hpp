@@ -130,6 +130,8 @@ public:
     /* 5F */ u8 facing;
     /* 60 */ s8 unk_60;
     /* 61 */ u8 unk_61;
+    /* 62 */ STRUCT_PAD(0x62, 0x68);
+    /* 68 */ u32 unk_68;
 
     inline void SetFacingDirection(s32 dir)
     {
