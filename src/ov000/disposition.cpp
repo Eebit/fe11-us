@@ -287,7 +287,7 @@ void Spawn::_021d9ca8(Unit * unit, s32 x, s32 y)
 
     unit->unk_69 = this - static_cast<DisposGroup *>(gMapStateManager->unk_18)->spawns;
 
-    if (this->flags & SPAWN_FLAG_UNK_5)
+    if (this->flags & SPAWN_FLAG_BOSS)
     {
         unit->state1 |= CA_BOSS;
     }
@@ -296,7 +296,7 @@ void Spawn::_021d9ca8(Unit * unit, s32 x, s32 y)
         unit->state1 &= ~CA_BOSS;
     }
 
-    if (this->flags & SPAWN_FLAG_UNK_6)
+    if (this->flags & SPAWN_FLAG_NO_MOVE)
     {
         unit->state1 |= CA_UNK_27;
     }

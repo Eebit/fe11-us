@@ -20,8 +20,8 @@ enum
     SPAWN_FLAG_UNK_2 = (1 << 2),
     SPAWN_FLAG_UNK_3 = (1 << 3),
     SPAWN_FLAG_UNK_4 = (1 << 4),
-    SPAWN_FLAG_UNK_5 = (1 << 5),
-    SPAWN_FLAG_UNK_6 = (1 << 6),
+    SPAWN_FLAG_BOSS = (1 << 5),
+    SPAWN_FLAG_NO_MOVE = (1 << 6),
     SPAWN_FLAG_UNK_7 = (1 << 7),
 };
 
