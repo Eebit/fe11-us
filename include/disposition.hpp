@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+#include "unit.hpp"
+
 struct SpawnItem
 {
     /* 00 */ u8 unk_00; // id
@@ -36,10 +38,15 @@ struct Spawn
     /* 4D */ u8 unk_4d;
     /* 4E */ STRUCT_PAD(0x4e, 0x50);
 
-    void func_ov000_021d9adc(struct JobData * job);
-    void func_ov000_021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags);
-    void func_ov000_021d9c94(struct Unit * unit);
-    void func_ov000_021d9ca8(struct Unit * unit, s8 x, s8 y);
+    void _021d9adc(struct JobData * job);
+    void _021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags);
+    void _021d9c94(Unit * unit);
+    void _021d9ca8(Unit * unit, s32 x, s32 y);
+
+    inline s32 GetPid(void)
+    {
+        return this->pid;
+    }
 };
 
 struct DisposGroup
