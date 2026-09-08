@@ -7,6 +7,7 @@
 EXTERN_C
 
 #define UNIT_ITEM_COUNT 5
+#define MAX_MOV 32
 
 enum
 {
@@ -365,6 +366,23 @@ public:
     void _0203de10(void);
     void _0203df18(void);
 
+    inline s32 GetHp(void)
+    {
+        return this->hp;
+    }
+
+    inline void SetHp(s32 hp)
+    {
+        if (hp > this->GetMaxHp())
+        {
+            hp = this->GetMaxHp();
+        }
+
+        this->hp = hp;
+
+        return;
+    }
+
     inline void SetPos(s32 x, s32 y)
     {
         this->xPos = x;
@@ -381,6 +399,11 @@ public:
         return this->pPersonData->attributes;
     }
 
+    inline s32 GetStatCap(s32 stat)
+    {
+        return this->pJobData->caps[stat];
+    }
+
     inline u32 GetJobAttr(void)
     {
         return this->pJobData->attributes;
@@ -389,7 +412,7 @@ public:
     inline void SetJob(struct JobData * job)
     {
         this->pJobData = job;
-        this->state2 &= ~0x40000000;
+        this->state2 &= ~US_UNK_30;
     }
 };
 
@@ -400,7 +423,7 @@ inline BOOL func_0203b714(struct Unit * unit, s32 state)
 
 inline struct Unit * func_0203c378(struct Unit * unit)
 {
-    BOOL m = (unit->unk_a0 && func_0203b714(unit, 0x48000));
+    BOOL m = (unit->unk_a0 && func_0203b714(unit, (US_UNK_15 | US_UNK_18)));
 
     return m ? func_0203c378(unit->unk_a0) : unit;
 }

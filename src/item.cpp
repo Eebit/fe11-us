@@ -3,7 +3,6 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
-
 #include "database.hpp"
 #include "item.hpp"
 #include "map.hpp"
@@ -11,12 +10,10 @@
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
-extern struct Unit * gUnitList;
-
 // Forward declarations
 
 EC s32 func_02038e34(struct ItemData * item);
-EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit);
+EC s32 func_02038e3c(struct ItemData * item, Unit * unit);
 EC BOOL func_02038f94(struct Item * item);
 
 EC BOOL func_02038348(struct ItemData * item)
@@ -40,17 +37,16 @@ static inline BOOL CheckItemAttr(struct ItemData * item, u32 attr)
     return item->attributes & attr;
 }
 
-EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038384(struct ItemData * item, Unit * unit)
 {
     struct ItemData * pItem;
-    int iVar5;
+    s32 wlvl;
     struct JobData * job;
     u8 * pWeaponLevel;
-    int hp;
-    int type;
-    int level;
-    int slot;
-    int i;
+    s32 type;
+    s32 level;
+    s32 slot;
+    s32 i;
 
     if (!CheckItemAttr(item, IA_USABLE))
     {
@@ -68,9 +64,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
     switch (item->effect)
     {
         case ITEM_EFFECT_HEAL:
-            hp = unit->hp;
-
-            if (hp >= unit->GetMaxHp())
+            if (unit->GetHp() >= unit->GetMaxHp())
             {
                 return FALSE;
             }
@@ -85,7 +79,7 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
             if (item->movBoost != 0)
             {
-                if (unit->GetMov() >= 32)
+                if (unit->GetMov() >= MAX_MOV)
                 {
                     return FALSE;
                 }
@@ -95,16 +89,12 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
             for (i = 0; i < UNIT_STAT_COUNT; i++)
             {
-                s32 cap;
-
                 if (item->statBoost[i] == 0)
                 {
                     continue;
                 }
 
-                cap = unit->pJobData->caps[i];
-
-                if (unit->GetStat(i, NULL, TRUE) >= cap)
+                if (unit->GetStat(i, NULL, TRUE) >= unit->GetStatCap(i))
                 {
                     continue;
                 }
@@ -141,11 +131,11 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
                 return FALSE;
             }
 
-            iVar5 = unit->GetWeaponLevel(type);
+            wlvl = unit->GetWeaponLevel(type);
 
             for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
-                if (iVar5 >= pWeaponLevel[i])
+                if (wlvl >= pWeaponLevel[i])
                 {
                     break;
                 }
@@ -171,15 +161,12 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
 
             for (i = 0; i < UNIT_STAT_COUNT; i++)
             {
-                int cap;
-
                 if (item->statBoost[i] == 0)
                 {
                     continue;
                 }
 
-                cap = unit->pJobData->caps[i];
-                if (unit->GetStat(i, NULL, TRUE) >= cap)
+                if (unit->GetStat(i, NULL, TRUE) >= unit->GetStatCap(i))
                 {
                     continue;
                 }
@@ -270,21 +257,13 @@ EC BOOL func_02038384(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-EC void func_02038708(struct ItemData * item, struct Unit * unit)
+EC void func_02038708(struct ItemData * item, Unit * unit)
 {
     switch (item->effect)
     {
         case ITEM_EFFECT_HEAL:
         {
-            s32 hp = unit->hp;
-            hp += func_02038e34(item);
-
-            if (hp > unit->GetMaxHp())
-            {
-                hp = unit->GetMaxHp();
-            }
-
-            unit->hp = hp;
+            unit->SetHp(unit->GetHp() + func_02038e34(item));
 
             break;
         }
@@ -294,7 +273,7 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
             s32 movBoost;
             s16 * r7;
             s8 * r8;
-            s8 * r9;
+            s8 * pStatBoosts;
             s32 cap;
             s32 cap2;
             s32 i;
@@ -306,23 +285,23 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
                 mov = unit->GetMov();
                 mov += movBoost;
 
-                if (mov < 32)
+                if (mov < MAX_MOV)
                 {
                     unit->mov = unit->mov + item->movBoost;
                 }
                 else
                 {
-                    unit->mov = 32 - unit->pJobData->mov;
+                    unit->mov = MAX_MOV - unit->pJobData->mov;
                 }
             }
 
-            r9 = item->statBoost;
+            pStatBoosts = item->statBoost;
 
-            for (i = 0; i < 8; i++)
+            for (i = 0; i < UNIT_STAT_COUNT; i++)
             {
                 s32 boost;
 
-                if (r9[i] == 0)
+                if (pStatBoosts[i] == 0)
                 {
                     continue;
                 }
@@ -351,19 +330,19 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
         }
         case ITEM_EFFECT_WLVL_BOOST:
         {
-            int i;
+            int i; // Type required for match
             u8 * pWeaponLevel;
-            int iVar5;
-            int type;
-            int req;
+            s32 wlvl;
+            s32 type;
+            s32 req;
             struct ItemData * pEquippedItem = unit->items[unit->GetEquippedWeaponSlot()].GetData();
             type = pEquippedItem->type;
 
-            iVar5 = unit->GetWeaponLevel(type);
+            wlvl = unit->GetWeaponLevel(type);
 
             for (i = 0, pWeaponLevel = gFE11Database->pWeaponLevel; i < 5; i++)
             {
-                if (iVar5 >= pWeaponLevel[i])
+                if (wlvl >= pWeaponLevel[i])
                 {
                     break;
                 }
@@ -376,12 +355,12 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
         }
         case ITEM_EFFECT_TEMP_RES_BOOST:
         {
-            s8 * r2;
-            int i;
+            s8 * pStatBoosts;
+            s32 i;
 
-            for (r2 = item->statBoost, i = 0; i < UNIT_STAT_COUNT; i++)
+            for (pStatBoosts = item->statBoost, i = 0; i < UNIT_STAT_COUNT; i++)
             {
-                if (r2[i] == 0)
+                if (pStatBoosts[i] == 0)
                 {
                     continue;
                 }
@@ -408,11 +387,9 @@ EC void func_02038708(struct ItemData * item, struct Unit * unit)
 
 EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 {
-    int i;
-    u32 unitId;
-    int hp;
-    struct Unit * pUnit;
-    struct Item * it;
+    s32 i;
+    Unit * pUnit;
+    Item * it;
 
     if (gMapStateManager == NULL)
     {
@@ -427,8 +404,6 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
     switch (item->effect)
     {
         case ITEM_EFFECT_HEAL:
-            pUnit = NULL;
-
             if (item->attributes & IA_FORTIFY)
             {
                 if (x != -1)
@@ -438,16 +413,12 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
                 for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->next)
                 {
-                    s32 hp;
-
                     if (pUnit->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED))
                     {
                         continue;
                     }
 
-                    hp = pUnit->hp;
-
-                    if (hp >= pUnit->GetMaxHp())
+                    if (pUnit->GetHp() >= pUnit->GetMaxHp())
                     {
                         continue;
                     }
@@ -463,12 +434,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = gMapStateManager->unk_028[(x | y << 5)];
-
-            if (unitId != 0)
-            {
-                pUnit = gUnitList + unitId - 1;
-            }
+            pUnit = GetUnit(gMapStateManager->unk_028[(x | y << 5)]);
 
             if (pUnit == NULL)
             {
@@ -480,9 +446,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            hp = pUnit->hp;
-
-            if (hp >= pUnit->GetMaxHp())
+            if (pUnit->GetHp() >= pUnit->GetMaxHp())
             {
                 return FALSE;
             }
@@ -501,16 +465,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = gMapStateManager->unk_028[(x | y << 5)];
-
-            if (unitId == 0)
-            {
-                pUnit = NULL;
-            }
-            else
-            {
-                pUnit = gUnitList + unitId - 1;
-            }
+            pUnit = GetUnit(gMapStateManager->unk_028[(x | y << 5)]);
 
             if (pUnit == NULL)
             {
@@ -524,16 +479,12 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
 
             for (i = 0; i < UNIT_STAT_COUNT; i++)
             {
-                int cap;
-
                 if (item->statBoost[i] == 0)
                 {
                     continue;
                 }
 
-                cap = pUnit->pJobData->caps[i];
-
-                if (pUnit->GetStat(i, NULL, 1) >= cap)
+                if (pUnit->GetStat(i, NULL, TRUE) >= pUnit->GetStatCap(i))
                 {
                     continue;
                 }
@@ -558,16 +509,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = gMapStateManager->unk_028[(x | (y << 5))];
-
-            if (unitId == 0)
-            {
-                pUnit = NULL;
-            }
-            else
-            {
-                pUnit = gUnitList + unitId - 1;
-            }
+            pUnit = GetUnit(gMapStateManager->unk_028[(x | (y << 5))]);
 
             if (pUnit == NULL)
             {
@@ -587,16 +529,7 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
                 return FALSE;
             }
 
-            unitId = gMapStateManager->unk_028[(x | (y << 5))];
-
-            if (unitId == 0)
-            {
-                pUnit = NULL;
-            }
-            else
-            {
-                pUnit = gUnitList + unitId - 1;
-            }
+            pUnit = GetUnit(gMapStateManager->unk_028[(x | (y << 5))]);
 
             if (pUnit == NULL)
             {
@@ -649,18 +582,19 @@ EC BOOL func_02038914(struct ItemData * item, u32 x, u32 y)
     return FALSE;
 }
 
-EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit * unitB)
+EC void func_02038ce4(struct ItemData * item, Unit * unitA, Unit * unitB)
 {
-    int hp;
-    int i;
-    struct Unit * pUnit;
-    s8 * r2;
+    s32 i;
+    s8 * pStatBoosts;
 
     switch (item->effect)
     {
         case ITEM_EFFECT_HEAL:
             if (item->attributes & IA_FORTIFY)
             {
+                int hp; // Type required for matching
+                Unit * pUnit;
+
                 for (pUnit = Force::Get(data_ov000_021e3324->phase)->head; pUnit != NULL; pUnit = pUnit->next)
                 {
                     if (pUnit->state2 & (US_UNK_5 | US_NOT_PRESENT | US_HOVERED))
@@ -673,36 +607,22 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
                         continue;
                     }
 
-                    hp = pUnit->hp;
-                    hp += func_02038e3c(item, unitA);
-
-                    if (hp > pUnit->GetMaxHp())
-                    {
-                        hp = pUnit->GetMaxHp();
-                    }
-
-                    pUnit->hp = hp;
+                    // Seems odd that this couldn't be inlined like the other cases
+                    hp = pUnit->GetHp();
+                    pUnit->SetHp(hp + func_02038e3c(item, unitA));
                 }
             }
             else
             {
-                hp = unitB->hp;
-                hp += func_02038e3c(item, unitA);
-
-                if (hp > unitB->GetMaxHp())
-                {
-                    hp = unitB->GetMaxHp();
-                }
-
-                unitB->hp = hp;
+                unitB->SetHp(unitB->GetHp() + func_02038e3c(item, unitA));
             }
 
             break;
 
         case ITEM_EFFECT_TEMP_RES_BOOST:
-            for (r2 = item->statBoost, i = 0; i < UNIT_STAT_COUNT; i++)
+            for (pStatBoosts = item->statBoost, i = 0; i < UNIT_STAT_COUNT; i++)
             {
-                if (r2[i] == 0)
+                if (pStatBoosts[i] == 0)
                 {
                     continue;
                 }
@@ -721,7 +641,7 @@ EC void func_02038ce4(struct ItemData * item, struct Unit * unitA, struct Unit *
     return;
 }
 
-EC s32 GetItemMaxRange(struct ItemData * item, struct Unit * unit)
+EC s32 GetItemMaxRange(struct ItemData * item, Unit * unit)
 {
     if (item->maxRange != 0xfe)
     {
@@ -736,7 +656,7 @@ EC s32 func_02038e34(struct ItemData * item)
     return item->statBoost[0];
 }
 
-EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit)
+EC s32 func_02038e3c(struct ItemData * item, Unit * unit)
 {
     s32 var = item->statBoost[0];
 
@@ -748,7 +668,7 @@ EC s32 func_02038e3c(struct ItemData * item, struct Unit * unit)
     return var;
 }
 
-EC BOOL func_02038e80(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038e80(struct ItemData * item, Unit * unit)
 {
     if (item->attributes & IA_UNLOCK_DOOR)
     {
@@ -766,7 +686,7 @@ EC BOOL func_02038e80(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-EC BOOL func_02038edc(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038edc(struct ItemData * item, Unit * unit)
 {
     if (item->attributes & IA_UNLOCK_BRIDGE)
     {
@@ -784,14 +704,14 @@ EC BOOL func_02038edc(struct ItemData * item, struct Unit * unit)
     return FALSE;
 }
 
-EC BOOL func_02038f38(struct ItemData * item, struct Unit * unit)
+EC BOOL func_02038f38(struct ItemData * item, Unit * unit)
 {
     if (item->attributes & IA_UNLOCK_CHEST)
     {
         return TRUE;
     }
 
-    if ((item->attributes & IA_UNK_22))
+    if (item->attributes & IA_UNK_22)
     {
         if (unit != NULL && unit->CheckAttribute(CA_UNK_10))
         {
@@ -827,14 +747,14 @@ EC BOOL func_02038f94(struct Item * item)
     return FALSE;
 }
 
-EC struct JobData * GetJInfoFromItem(struct ItemData * item, struct Unit * unit)
+EC struct JobData * GetJInfoFromItem(struct ItemData * item, Unit * unit)
 {
     if (item->type != ITYPE_DRAGONSTONE)
     {
         return unit->pJobData;
     }
 
-    if (!unit->CanEquip(item, 1))
+    if (!unit->CanEquip(item, TRUE))
     {
         return unit->pJobData;
     }
