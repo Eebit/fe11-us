@@ -76,29 +76,27 @@ BOOL Item::operator==(struct Item * other)
     return TRUE;
 }
 
-BOOL Item::func_0203e09c(struct Unit * unit)
+BOOL Item::CanReduceUses(Unit * unit)
 {
-    struct ItemData * itemData = this->GetData();
+    ItemData * itemData = this->GetData();
 
-    if (itemData->attributes & CA_UNK_27)
+    if (itemData->attributes & IA_INFINITE_DURABILITY)
     {
         return FALSE;
     }
 
-    if (unit != NULL)
+    // Starsphere - if the unit is holding an item with this attribute, skip reducing uses
+    if (unit != NULL && unit->GetItemAttributes(IA_NEGATE_DURABILITY_COST))
     {
-        if (unit->GetItemAttributes(IA_UNK_28) != 0)
-        {
-            return FALSE;
-        }
+        return FALSE;
     }
 
     return TRUE;
 }
 
-BOOL Item::func_0203e0f8(struct Unit * unit)
+BOOL Item::ReduceUses(Unit * unit)
 {
-    if (!this->func_0203e09c(unit))
+    if (!this->CanReduceUses(unit))
     {
         return FALSE;
     }

@@ -358,7 +358,7 @@ s32 TargetSelectState::Previous(void)
     if (this->itemSlot != uVar6)
     {
         // clang-format off
-        for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->pUnit->items[uVar6].GetData(), gMapStateManager->unk_04->pUnit), 3); j++)
+        for (j = MIN(dist, 3); j <= MIN(gMapStateManager->unk_04->pUnit->items[uVar6].GetData()->GetMaxRange(gMapStateManager->unk_04->pUnit), 3); j++)
         // clang-format on
         {
             data_ov000_021e3350[flag][j] = uVar6;
@@ -448,7 +448,7 @@ s32 TargetSelectState::Next(void)
     if (this->itemSlot != uVar6)
     {
         // clang-format off
-        for (j = MIN(dist, 3); j <= MIN(GetItemMaxRange(gMapStateManager->unk_04->pUnit->items[uVar6].GetData(), gMapStateManager->unk_04->pUnit), 3); j++)
+        for (j = MIN(dist, 3); j <= MIN(gMapStateManager->unk_04->pUnit->items[uVar6].GetData()->GetMaxRange(gMapStateManager->unk_04->pUnit), 3); j++)
         // clang-format on
         {
             data_ov000_021e3350[flag][j] = uVar6;

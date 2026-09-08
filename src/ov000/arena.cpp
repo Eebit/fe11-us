@@ -698,8 +698,8 @@ void arena::Arena::_021d8104(void)
     sp_04 = this->_021d80a4(this->unk_38, 0);
     r5 = this->_021d80a4(this->unk_3c, 1);
 
-    r6 = func_02038348(&gFE11Database->pItem[*sp_04]);
-    r7 = func_02038348(&gFE11Database->pItem[*r5]);
+    r6 = gFE11Database->pItem[*sp_04].IsMagical();
+    r7 = gFE11Database->pItem[*r5].IsMagical();
 
     r8 = this->unk_38->_0203dbd4(r6, r7);
 
@@ -916,8 +916,8 @@ void arena::Arena::_021d8604(void)
     u32 uVar3;
     u32 uVar4;
 
-    uVar3 = func_02038348(this->unk_38->items[this->unk_38->GetEquippedWeaponSlot()].GetData());
-    uVar4 = func_02038348(this->unk_3c->items[this->unk_3c->GetEquippedWeaponSlot()].GetData());
+    uVar3 = this->unk_38->items[this->unk_38->GetEquippedWeaponSlot()].GetData()->IsMagical();
+    uVar4 = this->unk_3c->items[this->unk_3c->GetEquippedWeaponSlot()].GetData()->IsMagical();
 
     iVar1 = this->unk_3c->_0203dbd4(uVar4, uVar3);
     iVar5 = this->unk_38->_0203dbd4(uVar3, uVar4);

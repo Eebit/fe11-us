@@ -876,8 +876,6 @@ void onbat::MapBattle::_021cb74c(void)
     return;
 }
 
-EC struct JobData * GetJInfoFromItem(struct ItemData *, struct Unit *);
-
 // clang-format off
 
 struct ProcCmd ProcScr_onbat_UnitTransform[] =
@@ -897,7 +895,7 @@ void onbat::MapBattle::HandleTransformAttacker(void)
 
     if (this->unk_3c->weapon[0] != NULL)
     {
-        job = GetJInfoFromItem(this->unk_3c->weapon[0], this->unk_3c->unk_00[0]);
+        job = this->unk_3c->weapon[0]->GetEffectiveJob(this->unk_3c->unk_00[0]);
 
         if (job != this->unk_3c->unk_00[0]->pJobData)
         {
@@ -916,7 +914,7 @@ void onbat::MapBattle::HandleTransformAttacker(void)
         return;
     }
 
-    job = GetJInfoFromItem(this->unk_3c->weapon[1], this->unk_3c->unk_00[1]);
+    job = this->unk_3c->weapon[1]->GetEffectiveJob(this->unk_3c->unk_00[1]);
 
     if (job == this->unk_3c->unk_00[1]->pJobData)
     {
@@ -940,7 +938,7 @@ void onbat::MapBattle::HandleTransformDefender(void)
         return;
     }
 
-    job = GetJInfoFromItem(this->unk_3c->weapon[1], this->unk_3c->unk_00[1]);
+    job = this->unk_3c->weapon[1]->GetEffectiveJob(this->unk_3c->unk_00[1]);
 
     if (job == this->unk_3c->unk_00[1]->pJobData)
     {
@@ -975,7 +973,7 @@ void onbat::MapBattle::_021cb9b8(void)
             continue;
         }
 
-        job = GetJInfoFromItem(weapon, this->unk_3c->unk_00[i]);
+        job = weapon->GetEffectiveJob(this->unk_3c->unk_00[i]);
         moveUnit = this->unk_44[i];
         moveUnit->pMovingMapSprite->UpdateJid(GetJobDBIndex(job));
     }

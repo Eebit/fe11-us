@@ -61,8 +61,8 @@ enum
     IA_MEMBER_CARD = (1ull << 24),
     IA_UNSELLABLE = (1ull << 25), // TODO: Confirm; applies to Aura, Excalibur, Starlight
     IA_FIRE_EMBLEM = (1ull << 26), // TODO: What does it do?
-    IA_UNK_27 = (1ull << 27), // TODO: Name - applies to Imhullu, Fire Emblem
-    IA_UNK_28 = (1ull << 28), // TODO: Name - applies to Starsphere; maybe prevents reducing uses?
+    IA_INFINITE_DURABILITY = (1ull << 27),
+    IA_NEGATE_DURABILITY_COST = (1ull << 28),
 
     IA_UNK_31 = (1ull << 31),
     IA_UNK_32 = (1ull << 32),
