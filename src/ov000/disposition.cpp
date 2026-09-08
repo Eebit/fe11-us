@@ -277,7 +277,7 @@ void Spawn::_021d9ca8(Unit * unit, s32 x, s32 y)
         func_02039ff8(unit, this);
     }
 
-    if ((GetPersonDBIndex(unit->pPersonData) == this->GetPid()) && ((this->flags & 8) != 0))
+    if ((GetPersonDBIndex(unit->pPersonData) == this->GetPid()) && (this->flags & SPAWN_FLAG_UNK_3))
     {
         unit->state2 |= US_UNK_9;
     }
@@ -287,7 +287,7 @@ void Spawn::_021d9ca8(Unit * unit, s32 x, s32 y)
 
     unit->unk_69 = this - static_cast<DisposGroup *>(gMapStateManager->unk_18)->spawns;
 
-    if ((this->flags & 0x20) != 0)
+    if (this->flags & SPAWN_FLAG_UNK_5)
     {
         unit->state1 |= CA_BOSS;
     }
@@ -296,7 +296,7 @@ void Spawn::_021d9ca8(Unit * unit, s32 x, s32 y)
         unit->state1 &= ~CA_BOSS;
     }
 
-    if ((this->flags & 0x40) != 0)
+    if (this->flags & SPAWN_FLAG_UNK_6)
     {
         unit->state1 |= CA_UNK_27;
     }
@@ -417,35 +417,35 @@ Unit * DisposGroupProcessor::_021d9ebc(s32 index, BOOL param_3)
     Force * force;
     Unit * unit;
     Spawn * spawn;
-    SpawnState * paVar2;
+    SpawnState * state;
 
     spawn = this->spawns + index;
-    paVar2 = this->spawnStates + index;
+    state = this->spawnStates + index;
 
-    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
+    if ((spawn->flags & (SPAWN_FLAG_UNK_1 | SPAWN_FLAG_UNK_2 | SPAWN_FLAG_UNK_3)) && (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
     {
         return NULL;
     }
 
-    if ((paVar2->flags & 3) != 0)
+    if (state->flags & (SPAWN_STATE_UNK_0 | SPAWN_STATE_UNK_1))
     {
         return NULL;
     }
 
-    if ((param_3 != 0) && ((spawn->flags & 0xc) == 0))
+    if ((param_3 != 0) && (!(spawn->flags & (SPAWN_FLAG_UNK_2 | SPAWN_FLAG_UNK_3))))
     {
         return NULL;
     }
 
     if (Force::Get(spawn->faction)->Count() >= 50)
     {
-        paVar2->flags |= 1;
+        state->flags |= SPAWN_STATE_UNK_0;
         return NULL;
     }
 
     unit = NULL;
 
-    if ((spawn->flags & 0xe) != 0)
+    if (spawn->flags & (SPAWN_FLAG_UNK_1 | SPAWN_FLAG_UNK_2 | SPAWN_FLAG_UNK_3))
     {
         if (param_3 != 0)
         {
@@ -457,7 +457,7 @@ Unit * DisposGroupProcessor::_021d9ebc(s32 index, BOOL param_3)
 
             if (unit == NULL)
             {
-                paVar2->flags |= 1;
+                state->flags |= SPAWN_STATE_UNK_0;
             }
         }
     }
@@ -469,14 +469,14 @@ Unit * DisposGroupProcessor::_021d9ebc(s32 index, BOOL param_3)
 
             if ((unit == NULL) && FindUnitByPidAndFaction(spawn->pid, ~2))
             {
-                paVar2->flags |= 1;
+                state->flags |= SPAWN_STATE_UNK_0;
                 return NULL;
             }
         }
 
         if (unit == NULL)
         {
-            if ((spawn->flags & 0x80) || spawn->faction != 0)
+            if ((spawn->flags & SPAWN_FLAG_UNK_7) || spawn->faction != 0)
             {
                 force = Force::Get(4);
                 unit = force->head;
@@ -485,7 +485,7 @@ Unit * DisposGroupProcessor::_021d9ebc(s32 index, BOOL param_3)
 
         if (unit == NULL)
         {
-            paVar2->flags |= 1;
+            state->flags |= SPAWN_STATE_UNK_0;
         }
     }
 
@@ -499,7 +499,7 @@ BOOL DisposGroupProcessor::_021da030(s32 x, s32 y)
 
     for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if (!(it->flags & 2))
+        if (!(it->flags & SPAWN_STATE_UNK_1))
         {
             continue;
         }
@@ -530,13 +530,12 @@ BOOL DisposGroupProcessor::_021da088(s32 x, s32 y)
 
 void DisposGroupProcessor::_021da0fc(s32 index)
 {
-    Force * force;
     Spawn * spawn;
     Unit * unit;
 
     spawn = this->spawns + index;
 
-    if ((spawn->flags & 0xe) == 0)
+    if (!(spawn->flags & (SPAWN_FLAG_UNK_1 | SPAWN_FLAG_UNK_2 | SPAWN_FLAG_UNK_3)))
     {
         return;
     }
@@ -548,12 +547,13 @@ void DisposGroupProcessor::_021da0fc(s32 index)
         data_ov000_021e3528.unk_2e++;
     }
 
-    if (((spawn->flags & 0xe) != 0) && (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
+    if ((spawn->flags & (SPAWN_FLAG_UNK_1 | SPAWN_FLAG_UNK_2 | SPAWN_FLAG_UNK_3)) &&
+        (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
     {
         return;
     }
 
-    if (((spawn->flags & 0x80) == 0) && (data_02196f0c->state & GAME_STATE_UNK_0))
+    if ((!(spawn->flags & SPAWN_FLAG_UNK_7)) && (data_02196f0c->state & GAME_STATE_UNK_0))
     {
         return;
     }
@@ -573,12 +573,11 @@ void DisposGroupProcessor::_021da0fc(s32 index)
         return;
     }
 
-    force = Force::Get(4);
-    unit = force->head;
+    unit = Force::Get(4)->head;
 
     if (unit == NULL)
     {
-        this->spawnStates->flags |= 1;
+        this->spawnStates->flags |= SPAWN_STATE_UNK_0;
         return;
     }
 
@@ -631,7 +630,7 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
 
     if (bVar6)
     {
-        state->flags |= 1;
+        state->flags |= SPAWN_STATE_UNK_0;
         return;
     }
 
@@ -642,7 +641,7 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
         {
             state->xPos = spawn->xFinal;
             state->yPos = spawn->yFinal;
-            state->flags |= 2;
+            state->flags |= SPAWN_STATE_UNK_1;
         }
         else
         {
@@ -652,22 +651,22 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
             {
                 state->xPos = spawn->xFinal;
                 state->yPos = spawn->yFinal;
-                state->flags |= 2;
+                state->flags |= SPAWN_STATE_UNK_1;
             }
             else
             {
-                if ((spawn->flags & 1) == 0)
+                if (!(spawn->flags & SPAWN_FLAG_UNK_0))
                 {
-                    state->flags |= 1;
+                    state->flags |= SPAWN_STATE_UNK_0;
                 }
 
                 return;
             }
         }
 
-        if ((spawn->flags & 1) == 0)
+        if (!(spawn->flags & SPAWN_FLAG_UNK_0))
         {
-            state->flags |= 1;
+            state->flags |= SPAWN_STATE_UNK_0;
         }
 
         return;
@@ -730,7 +729,7 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
 
     if (bVar11)
     {
-        state->flags |= 1;
+        state->flags |= SPAWN_STATE_UNK_0;
         return;
     }
 
@@ -766,13 +765,13 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
 
             if (this->_021da088(ix, iy) == 0)
             {
-                if ((this->flags & 8) != 0)
+                if (this->flags & GROUP_FLAG_UNK_3)
                 {
                     if (BoundsCheck(ix, iy))
                     {
                         state->xPos = ix;
                         state->yPos = iy;
-                        state->flags |= 2;
+                        state->flags |= SPAWN_STATE_UNK_1;
                         cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
                     }
                 }
@@ -780,7 +779,7 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
         }
     }
 
-    if ((state->flags & 2) == 0)
+    if (!(state->flags & SPAWN_STATE_UNK_1))
     {
         if (param_3 != 0)
         {
@@ -815,13 +814,13 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
 
                 if (this->_021da088(ix, iy) == 0)
                 {
-                    if ((this->flags & 8) != 0)
+                    if (this->flags & GROUP_FLAG_UNK_3)
                     {
                         if (BoundsCheck(ix, iy))
                         {
                             state->xPos = ix;
                             state->yPos = iy;
-                            state->flags |= 2;
+                            state->flags |= SPAWN_STATE_UNK_1;
                             cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
                             uStack_38 = ix;
                             iStack_3c = iy;
@@ -832,9 +831,9 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
         }
     }
 
-    if ((state->flags & 2) == 0)
+    if (!(state->flags & SPAWN_STATE_UNK_1))
     {
-        state->flags |= 1;
+        state->flags |= SPAWN_STATE_UNK_0;
         return;
     }
 
@@ -889,11 +888,11 @@ void DisposGroupProcessor::_021da8f4(void)
 
     for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if ((it->flags & 2) != 0)
+        if (it->flags & SPAWN_STATE_UNK_1)
         {
             unit = GetUnit(it->unitId);
 
-            if ((this->flags & 1) != 0)
+            if (this->flags & GROUP_FLAG_UNK_0)
             {
                 func_ov000_021baafc(gMapStateManager->unk_14->unk_00, unit, 1);
 
@@ -909,7 +908,7 @@ void DisposGroupProcessor::_021da8f4(void)
             {
                 if (it->xPos == unit->xPos && it->yPos == unit->yPos)
                 {
-                    it->flags |= 0x10;
+                    it->flags |= SPAWN_STATE_UNK_4;
 
                     if (gMapStateManager->tst(unit->xPos, unit->yPos))
                     {
@@ -927,7 +926,7 @@ void DisposGroupProcessor::_021da8f4(void)
         }
     }
 
-    if (((this->flags & 2) == 0) || ((this->flags & 1) != 0))
+    if ((this->flags & GROUP_FLAG_UNK_1) || (this->flags & GROUP_FLAG_UNK_0))
     {
         func_ov000_021a3974(gMapStateManager->unk_db0, data_ov000_021e3324->phase);
         func_ov000_021a3974(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
@@ -935,7 +934,7 @@ void DisposGroupProcessor::_021da8f4(void)
 
     func_ov000_021a340c();
 
-    if (((this->flags & 2) != 0) && ((this->flags & 1) == 0))
+    if ((this->flags & GROUP_FLAG_UNK_1) && (!(this->flags & GROUP_FLAG_UNK_0)))
     {
         return;
     }
@@ -951,12 +950,12 @@ void DisposGroupProcessor::_021daac8(void)
     this->_021da7e4();
     this->_021da8f4();
 
-    if ((this->flags & 1) == 0)
+    if (!(this->flags & GROUP_FLAG_UNK_0))
     {
         return;
     }
 
-    if ((this->flags & 2) != 0)
+    if (this->flags & GROUP_FLAG_UNK_1)
     {
         this->_021dab34(1, 0);
     }
@@ -981,7 +980,7 @@ void DisposGroupProcessor::_021dab34(BOOL param_2, BOOL param_3)
 
     for (; i < this->disposGroup->count; i++, it++)
     {
-        if (!(it->flags & 2))
+        if (!(it->flags & SPAWN_STATE_UNK_1))
         {
             continue;
         }
@@ -1028,7 +1027,7 @@ void DisposGroupProcessor::_021dac48(void)
             return;
         }
 
-        if (!(it->flags & 2))
+        if (!(it->flags & SPAWN_STATE_UNK_1))
         {
             continue;
         }
@@ -1063,14 +1062,14 @@ void DisposGroupProcessor::_021dad04(void)
         return;
     }
 
-    if ((this->flags & 2) != 0)
+    if (this->flags & GROUP_FLAG_UNK_1)
     {
         if (gMapStateManager->camera->IsMoving())
         {
             return;
         }
 
-        this->flags &= ~2;
+        this->flags &= ~GROUP_FLAG_UNK_1;
 
         func_ov000_021a3974(gMapStateManager->unk_db0, data_ov000_021e3324->phase);
         func_ov000_021a3974(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
@@ -1102,14 +1101,14 @@ void DisposGroupProcessor::_021dad04(void)
     {
         Unit * unit;
 
-        if (!(state->flags & 2))
+        if (!(state->flags & SPAWN_STATE_UNK_1))
         {
             continue;
         }
 
         unit = GetUnit(state->unitId);
 
-        if ((state->flags & 0x18))
+        if (state->flags & (SPAWN_STATE_UNK_3 | SPAWN_STATE_UNK_4))
         {
             alpha = unit->alpha;
 
@@ -1145,7 +1144,7 @@ void DisposGroupProcessor::_021dad04(void)
 
                 if (iVar7 != NULL)
                 {
-                    state->flags |= 8;
+                    state->flags |= SPAWN_STATE_UNK_3;
                     spawn->_021d9bb0(unit->pJobData, unit->xPos, unit->yPos, 2);
                     func_02001ca0(gMapStateManager->unk_08, unit->xPos, unit->yPos, state->xPos, state->yPos);
                     func_ov000_021bb734(iVar7, unit, 1);
@@ -1155,7 +1154,7 @@ void DisposGroupProcessor::_021dad04(void)
             }
         }
 
-        if ((state->flags & 8) != 0)
+        if (state->flags & SPAWN_STATE_UNK_3)
         {
             struct TMP * iVar7 = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
 
@@ -1168,8 +1167,8 @@ void DisposGroupProcessor::_021dad04(void)
                     func_ov000_021bb944();
                 }
 
-                state->flags &= ~8;
-                state->flags |= 0x10;
+                state->flags &= ~SPAWN_STATE_UNK_3;
+                state->flags |= SPAWN_STATE_UNK_4;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
@@ -1220,9 +1219,9 @@ void Disposition::Loop(void)
         for (it = this->head; it != NULL; it = next)
         {
             next = it->next;
-            if ((it->unk_1c == 0) && ((it->flags & 2) != 0))
+            if ((it->unk_1c == 0) && (it->flags & GROUP_FLAG_UNK_1))
             {
-                it->_021dab34(0, ((it->flags & 4) ? TRUE : FALSE) & 0xFF);
+                it->_021dab34(0, ((it->flags & GROUP_FLAG_UNK_2) ? TRUE : FALSE) & 0xFF);
             }
 
             it->unk_1c = 1;
@@ -1247,7 +1246,7 @@ void DisposGroupProcessor::_021db160(void)
 
     for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if (!(it->flags & 2))
+        if (!(it->flags & SPAWN_STATE_UNK_1))
         {
             continue;
         }
@@ -1267,11 +1266,11 @@ void DisposGroupProcessor::_021db1f4(void)
 
     for (i = 0; i < this->disposGroup->count; i++, it++)
     {
-        if ((it->flags & 2) != 0)
+        if (it->flags & SPAWN_STATE_UNK_1)
         {
             Unit * unit = GetUnit(it->unitId);
 
-            if ((it->flags & 0x18) != 0)
+            if (it->flags & (SPAWN_STATE_UNK_3 | SPAWN_STATE_UNK_4))
             {
                 if (unit->alpha < 0x1f)
                 {
@@ -1283,7 +1282,7 @@ void DisposGroupProcessor::_021db1f4(void)
                 unit->SetPos(it->xPos, it->yPos);
                 unit->state2 &= ~US_NOT_PRESENT;
                 unit->alpha = 0x1f;
-                it->flags |= 0x10;
+                it->flags |= SPAWN_STATE_UNK_4;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
@@ -1291,12 +1290,12 @@ void DisposGroupProcessor::_021db1f4(void)
                 }
             }
 
-            if (((it->flags & 8) != 0) && (func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit) != 0))
+            if ((it->flags & SPAWN_STATE_UNK_3) && (func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit) != 0))
             {
                 unit->state2 &= ~US_NOT_PRESENT;
                 func_ov000_021bb944();
-                it->flags &= ~8;
-                it->flags |= 0x10;
+                it->flags &= ~SPAWN_STATE_UNK_3;
+                it->flags |= SPAWN_STATE_UNK_4;
 
                 if (gMapStateManager->tst(unit->xPos, unit->yPos))
                 {
@@ -1332,9 +1331,9 @@ void Disposition::_021db3c4(void)
     {
         next = it->next;
 
-        if ((it->unk_1c == 0) && ((it->flags & 2) != 0))
+        if ((it->unk_1c == 0) && (it->flags & GROUP_FLAG_UNK_1))
         {
-            it->_021dab34(1, ((it->flags & 4) != 0) & 0xff);
+            it->_021dab34(1, (it->flags & GROUP_FLAG_UNK_2) & 0xff);
         }
 
         it->unk_1c = 1;

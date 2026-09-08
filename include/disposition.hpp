@@ -5,6 +5,35 @@
 
 #include "unit.hpp"
 
+enum
+{
+    GROUP_FLAG_UNK_0 = (1 << 0),
+    GROUP_FLAG_UNK_1 = (1 << 1),
+    GROUP_FLAG_UNK_2 = (1 << 2),
+    GROUP_FLAG_UNK_3 = (1 << 3),
+};
+
+enum
+{
+    SPAWN_FLAG_UNK_0 = (1 << 0),
+    SPAWN_FLAG_UNK_1 = (1 << 1),
+    SPAWN_FLAG_UNK_2 = (1 << 2),
+    SPAWN_FLAG_UNK_3 = (1 << 3),
+    SPAWN_FLAG_UNK_4 = (1 << 4),
+    SPAWN_FLAG_UNK_5 = (1 << 5),
+    SPAWN_FLAG_UNK_6 = (1 << 6),
+    SPAWN_FLAG_UNK_7 = (1 << 7),
+};
+
+enum
+{
+    SPAWN_STATE_UNK_0 = (1 << 0),
+    SPAWN_STATE_UNK_1 = (1 << 1),
+    SPAWN_STATE_UNK_2 = (1 << 2),
+    SPAWN_STATE_UNK_3 = (1 << 3),
+    SPAWN_STATE_UNK_4 = (1 << 4),
+};
+
 struct SpawnItem
 {
     /* 00 */ u8 unk_00; // id
