@@ -146,6 +146,26 @@ struct DisposGroupProcessor
     }
 };
 
+static inline void Disposition_Iterate(Disposition * disposition, s32 var)
+{
+    DisposGroupProcessor * it;
+    DisposGroupProcessor * next;
+
+    for (it = disposition->head; it != NULL; it = next)
+    {
+        next = it->next;
+
+        if ((it->unk_1c == 0) && (it->flags & GROUP_FLAG_UNK_1))
+        {
+            it->_021dab34(var, ((it->flags & GROUP_FLAG_UNK_2) ? TRUE : FALSE) & 0xff);
+        }
+
+        it->unk_1c = 1;
+    }
+
+    return;
+}
+
 EC MoveUnit * func_ov000_021bb4c8(void *);
 EC MoveUnit * func_ov000_021bb210(void *, Unit *);
 
@@ -1238,16 +1258,7 @@ void Disposition::Loop(void)
 
     if (this->unk_40 == 0)
     {
-        for (it = this->head; it != NULL; it = next)
-        {
-            next = it->next;
-            if ((it->unk_1c == 0) && (it->flags & GROUP_FLAG_UNK_1))
-            {
-                it->_021dab34(0, ((it->flags & GROUP_FLAG_UNK_2) ? TRUE : FALSE) & 0xFF);
-            }
-
-            it->unk_1c = 1;
-        }
+        Disposition_Iterate(this, 0);
     }
 
     for (it = this->head; it != NULL; it = next)
@@ -1281,10 +1292,9 @@ void DisposGroupProcessor::_021db160(void)
 
 void DisposGroupProcessor::_021db1f4(void)
 {
-    SpawnState * it;
     s32 i;
 
-    it = this->spawnStates;
+    SpawnState * it = this->spawnStates;
 
     for (i = 0; i < this->disposGroup->count; i++, it++)
     {
@@ -1294,7 +1304,7 @@ void DisposGroupProcessor::_021db1f4(void)
 
             if (it->flags & (SPAWN_STATE_UNK_3 | SPAWN_STATE_UNK_4))
             {
-                if (unit->alpha < 0x1f)
+                if (unit->alpha < (s8)0x1f)
                 {
                     unit->alpha = 0x1f;
                 }
@@ -1340,8 +1350,8 @@ void DisposGroupProcessor::_021db1f4(void)
 
 void Disposition::_021db3c4(void)
 {
-    DisposGroupProcessor * it;
     DisposGroupProcessor * next;
+    DisposGroupProcessor * it;
 
     for (it = this->head; it != NULL; it = next)
     {
@@ -1349,17 +1359,7 @@ void Disposition::_021db3c4(void)
         it->_021db160();
     }
 
-    for (it = this->head; it != NULL; it = next)
-    {
-        next = it->next;
-
-        if ((it->unk_1c == 0) && (it->flags & GROUP_FLAG_UNK_1))
-        {
-            it->_021dab34(1, (it->flags & GROUP_FLAG_UNK_2) & 0xff);
-        }
-
-        it->unk_1c = 1;
-    }
+    Disposition_Iterate(this, 1);
 
     for (it = this->head; it != NULL; it = next)
     {
@@ -1387,8 +1387,7 @@ EC s32 func_ov000_021db48c(void)
 
     for (i = 0; i < 2; i++)
     {
-        Force * force = Force::Get(i);
-        count += force->Count();
+        count += Force::Get(i)->Count();
     }
 
     return count;
