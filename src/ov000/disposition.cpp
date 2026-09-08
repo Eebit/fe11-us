@@ -532,6 +532,8 @@ void DisposGroupProcessor::_021da0fc(s32 index)
 {
     Spawn * spawn;
     Unit * unit;
+    s32 x;
+    s32 y;
 
     spawn = this->spawns + index;
 
@@ -540,10 +542,14 @@ void DisposGroupProcessor::_021da0fc(s32 index)
         return;
     }
 
+    // TODO: Possibly an inline? This specific order matches
+    y = spawn->yLoad;
+    x = spawn->xLoad;
+
     if (data_ov000_021e3528.unk_2f == 0)
     {
-        data_ov000_021e3528.unk_00[data_ov000_021e3528.unk_2e * 2 + 0] = spawn->xLoad;
-        data_ov000_021e3528.unk_00[data_ov000_021e3528.unk_2e * 2 + 1] = spawn->yLoad;
+        data_ov000_021e3528.unk_00[data_ov000_021e3528.unk_2e * 2 + 0] = x;
+        data_ov000_021e3528.unk_00[data_ov000_021e3528.unk_2e * 2 + 1] = y;
         data_ov000_021e3528.unk_2e++;
     }
 
