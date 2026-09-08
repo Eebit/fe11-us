@@ -43,6 +43,12 @@ struct SpawnState
     /* 03 */ s8 yPos;
 
     SpawnState();
+
+    inline void SetPos(s32 x, s32 y)
+    {
+        this->xPos = x;
+        this->yPos = y;
+    }
 };
 
 EC s32 func_020b6e2c(char *, char *);
@@ -422,7 +428,8 @@ Unit * DisposGroupProcessor::_021d9ebc(s32 index, BOOL param_3)
     spawn = this->spawns + index;
     state = this->spawnStates + index;
 
-    if ((spawn->flags & (SPAWN_FLAG_UNK_1 | SPAWN_FLAG_UNK_2 | SPAWN_FLAG_UNK_3)) && (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
+    if ((spawn->flags & (SPAWN_FLAG_UNK_1 | SPAWN_FLAG_UNK_2 | SPAWN_FLAG_UNK_3)) &&
+        (data_02196f0c->state & GAME_STATE_BATTLE_PREP))
     {
         return NULL;
     }
@@ -599,6 +606,8 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
     Spawn * spawn;
     SpawnState * state;
     BOOL bVar6;
+    s32 xFinal;
+    s32 yFinal;
 
     unit = this->_021d9ebc(index, param_3);
 
@@ -610,28 +619,29 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
     spawn = this->spawns + index;
     state = this->spawnStates + index;
 
-    if (spawn->xFinal < 0)
+    // TODO: Probably an inline again, possibly "BoundsCheck" or a modified version?
+    xFinal = spawn->xFinal;
+    yFinal = spawn->yFinal;
+
+    if (xFinal < 0)
     {
-        bVar6 = true;
+        bVar6 = TRUE;
     }
-    else if (spawn->yFinal < 0)
+    else if (yFinal < 0)
     {
-        bVar6 = true;
+        bVar6 = TRUE;
     }
-    else if (spawn->xFinal < gMapStateManager->unk_20)
+    else if (xFinal >= gMapStateManager->unk_20)
     {
-        if (spawn->yFinal >= gMapStateManager->unk_22)
-        {
-            bVar6 = true;
-        }
-        else
-        {
-            bVar6 = false;
-        }
+        bVar6 = TRUE;
+    }
+    else if (yFinal >= gMapStateManager->unk_22)
+    {
+        bVar6 = TRUE;
     }
     else
     {
-        bVar6 = true;
+        bVar6 = FALSE;
     }
 
     if (bVar6)
@@ -645,8 +655,7 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
     {
         if (spawn->xLoad == spawn->xFinal && spawn->yLoad == spawn->yFinal)
         {
-            state->xPos = spawn->xFinal;
-            state->yPos = spawn->yFinal;
+            state->SetPos(spawn->xFinal, spawn->yFinal);
             state->flags |= SPAWN_STATE_UNK_1;
         }
         else
@@ -655,8 +664,7 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
 
             if (gMapStateManager->unk_08->unk_0854[spawn->xFinal | spawn->yFinal << 5] >= 0)
             {
-                state->xPos = spawn->xFinal;
-                state->yPos = spawn->yFinal;
+                state->SetPos(spawn->xFinal, spawn->yFinal);
                 state->flags |= SPAWN_STATE_UNK_1;
             }
             else
@@ -669,7 +677,9 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
                 return;
             }
         }
-
+    }
+    else
+    {
         if (!(spawn->flags & SPAWN_FLAG_UNK_0))
         {
             state->flags |= SPAWN_STATE_UNK_0;
