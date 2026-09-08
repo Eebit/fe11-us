@@ -946,7 +946,7 @@ void DisposGroupProcessor::_021da8f4(void)
         }
     }
 
-    if ((this->flags & GROUP_FLAG_UNK_1) || (this->flags & GROUP_FLAG_UNK_0))
+    if (!(this->flags & GROUP_FLAG_UNK_1) || (this->flags & GROUP_FLAG_UNK_0))
     {
         func_ov000_021a3974(gMapStateManager->unk_db0, data_ov000_021e3324->phase);
         func_ov000_021a3974(gMapStateManager->unk_d30, data_ov000_021e3324->unk_01);
@@ -954,12 +954,10 @@ void DisposGroupProcessor::_021da8f4(void)
 
     func_ov000_021a340c();
 
-    if ((this->flags & GROUP_FLAG_UNK_1) && (!(this->flags & GROUP_FLAG_UNK_0)))
+    if (!(this->flags & GROUP_FLAG_UNK_1) || (this->flags & GROUP_FLAG_UNK_0))
     {
-        return;
+        func_ov000_021a35a0();
     }
-
-    func_ov000_021a35a0();
 
     return;
 }
