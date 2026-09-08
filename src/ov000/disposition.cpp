@@ -698,14 +698,16 @@ void DisposGroupProcessor::_021da230(s32 index, s32 param_3)
 void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
 {
     Unit * unit;
-    Spawn * spawn;
     SpawnState * state;
-    u8 cVar8;
-    u16 ix;
-    u16 iy;
+    s16 ix;
+    s16 iy;
+    s8 cVar8;
     BOOL bVar11;
-    u32 iStack_3c;
-    u32 uStack_38;
+    s16 uStack_38;
+    s16 iStack_3c;
+    Spawn * spawn;
+    s32 xFinal;
+    s32 yFinal;
 
     unit = this->_021d9ebc(index, param_3);
 
@@ -719,28 +721,30 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
     state = this->spawnStates + index;
     iStack_3c = spawn->yLoad;
 
-    if (spawn->xFinal < 0)
+    // TODO: Inline again
+
+    yFinal = spawn->yFinal;
+    xFinal = spawn->xFinal;
+
+    if (xFinal < 0)
     {
-        bVar11 = true;
+        bVar11 = TRUE;
     }
-    else if (spawn->yFinal < 0)
+    else if (yFinal < 0)
     {
-        bVar11 = true;
+        bVar11 = TRUE;
     }
-    else if (spawn->xFinal < gMapStateManager->unk_20)
+    else if (xFinal >= gMapStateManager->unk_20)
     {
-        if (spawn->yFinal < gMapStateManager->unk_22)
-        {
-            bVar11 = false;
-        }
-        else
-        {
-            bVar11 = true;
-        }
+        bVar11 = TRUE;
+    }
+    else if (yFinal >= gMapStateManager->unk_22)
+    {
+        bVar11 = TRUE;
     }
     else
     {
-        bVar11 = true;
+        bVar11 = FALSE;
     }
 
     if (bVar11)
@@ -769,7 +773,7 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
                 continue;
             }
 
-            if (gMapStateManager->unk_08->unk_0c78[ix | iy << 5] > cVar8)
+            if (gMapStateManager->unk_08->unk_0c78[ix | iy << 5] >= cVar8)
             {
                 continue;
             }
@@ -779,19 +783,19 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
                 continue;
             }
 
-            if (this->_021da088(ix, iy) == 0)
+            if (this->_021da088(ix, iy))
             {
-                if (this->flags & GROUP_FLAG_UNK_3)
-                {
-                    if (BoundsCheck(ix, iy))
-                    {
-                        state->xPos = ix;
-                        state->yPos = iy;
-                        state->flags |= SPAWN_STATE_UNK_1;
-                        cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
-                    }
-                }
+                continue;
             }
+
+            if ((this->flags & GROUP_FLAG_UNK_3) && (BoundsCheck(ix, iy)))
+            {
+                continue;
+            }
+
+            state->SetPos(ix, iy);
+            state->flags |= SPAWN_STATE_UNK_1;
+            cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
         }
     }
 
@@ -818,7 +822,7 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
                     continue;
                 }
 
-                if (gMapStateManager->unk_08->unk_0c78[ix | iy << 5] > cVar8)
+                if (gMapStateManager->unk_08->unk_0c78[ix | iy << 5] >= cVar8)
                 {
                     continue;
                 }
@@ -828,21 +832,21 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
                     continue;
                 }
 
-                if (this->_021da088(ix, iy) == 0)
+                if (this->_021da088(ix, iy))
                 {
-                    if (this->flags & GROUP_FLAG_UNK_3)
-                    {
-                        if (BoundsCheck(ix, iy))
-                        {
-                            state->xPos = ix;
-                            state->yPos = iy;
-                            state->flags |= SPAWN_STATE_UNK_1;
-                            cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
-                            uStack_38 = ix;
-                            iStack_3c = iy;
-                        }
-                    }
+                    continue;
                 }
+
+                if ((this->flags & GROUP_FLAG_UNK_3) && (BoundsCheck(ix, iy)))
+                {
+                    continue;
+                }
+
+                state->SetPos(ix, iy);
+                state->flags |= SPAWN_STATE_UNK_1;
+                cVar8 = gMapStateManager->unk_08->unk_0c78[ix | iy << 5];
+                uStack_38 = ix;
+                iStack_3c = iy;
             }
         }
     }
