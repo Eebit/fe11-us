@@ -466,9 +466,15 @@ public:
     void func_ov000_021a2918();
     void func_ov000_021a29f4();
 
-    u8 tst(s32 x, s32 y)
+    u8 tst_82c(s32 x, s32 y)
     {
         return this->unk_82c[x | y << 5] & 0x80;
+    }
+
+    u8 tst_d30(s32 x, s32 y)
+    {
+        u32 pos = x | y << 5;
+        return this->unk_d30[pos >> 3] & (1 << (pos & 7));
     }
 };
 

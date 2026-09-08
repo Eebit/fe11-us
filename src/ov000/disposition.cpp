@@ -139,6 +139,11 @@ struct DisposGroupProcessor
     void _021dad04(void);
     void _021db160(void);
     void _021db1f4(void);
+
+    inline s32 GetSpawnCount(void)
+    {
+        return this->disposGroup->count;
+    }
 };
 
 struct TMP
@@ -238,7 +243,7 @@ void Spawn::_021d9adc(struct JobData * job)
 
     flags = 2;
 
-    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->xFinal, this->yFinal))
+    if (gMapStateManager->tst_82c(this->xLoad, this->yLoad) || gMapStateManager->tst_82c(this->xFinal, this->yFinal))
     {
         flags |= 0x200;
     }
@@ -259,7 +264,7 @@ void Spawn::_021d9bb0(struct JobData * job, s32 x, s32 y, s32 flags)
         job = &gFE11Database->pJob[this->jid];
     }
 
-    if (gMapStateManager->tst(this->xLoad, this->yLoad) || gMapStateManager->tst(this->xFinal, this->yFinal))
+    if (gMapStateManager->tst_82c(this->xLoad, this->yLoad) || gMapStateManager->tst_82c(this->xFinal, this->yFinal))
     {
         flags |= 0x200;
     }
@@ -919,7 +924,7 @@ void DisposGroupProcessor::_021da8f4(void)
                 unit->SetPos(it->xPos, it->yPos);
                 unit->alpha = 0x1f;
 
-                if (gMapStateManager->tst(unit->xPos, unit->yPos))
+                if (gMapStateManager->tst_82c(unit->xPos, unit->yPos))
                 {
                     unit->state2 |= US_UNK_5;
                 }
@@ -930,7 +935,7 @@ void DisposGroupProcessor::_021da8f4(void)
                 {
                     it->flags |= SPAWN_STATE_UNK_4;
 
-                    if (gMapStateManager->tst(unit->xPos, unit->yPos))
+                    if (gMapStateManager->tst_82c(unit->xPos, unit->yPos))
                     {
                         unit->state2 |= US_UNK_5;
                     }
@@ -990,42 +995,49 @@ void DisposGroupProcessor::_021dab34(BOOL param_2, BOOL param_3)
     s32 yCamera;
     s32 xCamera;
 
-    SpawnState * it = this->spawnStates;
-    s32 count = 0;
-    s32 i = 0;
-    s32 x = 0;
-    s32 y = 0;
+    SpawnState * it;
+    s32 numSpawned;
+    s32 i;
+    u32 x;
+    u32 y;
 
-    for (; i < this->disposGroup->count; i++, it++)
+    it = this->spawnStates;
+
+    x = 0;
+    y = 0;
+    numSpawned = 0;
+
+    for (i = 0; i < this->GetSpawnCount(); i++, it++)
     {
         if (!(it->flags & SPAWN_STATE_UNK_1))
         {
             continue;
         }
 
-        if (!param_3 || ((gMapStateManager->unk_d30[((x | y << 5) >> 3)] & (1 << (x & 7))) & 0xFF))
+        if (!param_3 || gMapStateManager->tst_d30(x, y))
         {
-            count++;
+            numSpawned++;
             x += it->xPos;
             y += it->yPos;
         }
     }
 
-    if (count == 0)
+    if (numSpawned == 0)
     {
         return;
     }
 
-    xCamera = IntSys_Div(x, count);
-    yCamera = IntSys_Div(y, count);
+    xCamera = IntSys_Div(x, numSpawned);
+    yCamera = IntSys_Div(y, numSpawned);
 
     if (!param_2)
     {
         gMapStateManager->camera->Scroll(xCamera, yCamera, 1, 0x20, 0);
-        return;
     }
-
-    gMapStateManager->camera->ScrollInstant(xCamera, yCamera, 1);
+    else
+    {
+        gMapStateManager->camera->ScrollInstant(xCamera, yCamera, 1);
+    }
 
     return;
 }
@@ -1188,7 +1200,7 @@ void DisposGroupProcessor::_021dad04(void)
                 state->flags &= ~SPAWN_STATE_UNK_3;
                 state->flags |= SPAWN_STATE_UNK_4;
 
-                if (gMapStateManager->tst(unit->xPos, unit->yPos))
+                if (gMapStateManager->tst_82c(unit->xPos, unit->yPos))
                 {
                     unit->state2 |= US_UNK_5;
                 }
@@ -1302,7 +1314,7 @@ void DisposGroupProcessor::_021db1f4(void)
                 unit->alpha = 0x1f;
                 it->flags |= SPAWN_STATE_UNK_4;
 
-                if (gMapStateManager->tst(unit->xPos, unit->yPos))
+                if (gMapStateManager->tst_82c(unit->xPos, unit->yPos))
                 {
                     unit->state2 |= US_UNK_5;
                 }
@@ -1315,7 +1327,7 @@ void DisposGroupProcessor::_021db1f4(void)
                 it->flags &= ~SPAWN_STATE_UNK_3;
                 it->flags |= SPAWN_STATE_UNK_4;
 
-                if (gMapStateManager->tst(unit->xPos, unit->yPos))
+                if (gMapStateManager->tst_82c(unit->xPos, unit->yPos))
                 {
                     unit->state2 |= US_UNK_5;
                 }
