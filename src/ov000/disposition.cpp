@@ -229,7 +229,7 @@ EC BOOL func_ov000_021baafc(void *, Unit *, BOOL);
 EC s32 func_ov000_021bb518(void *);
 EC s32 func_ov000_021bb560(void *);
 
-EC void func_ov000_021bb944(void);
+EC void func_ov000_021bb944(MoveUnit *);
 
 EC void func_02001ca0(void *, s8, s8, s8, s8);
 EC void func_ov000_021bb734(void *, Unit *, BOOL);
@@ -720,8 +720,8 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
     s16 iy;
     s8 cVar8;
     BOOL bVar11;
-    s16 uStack_38;
-    s16 iStack_3c;
+    s32 uStack_38;
+    s32 iStack_3c;
     Spawn * spawn;
     s32 xFinal;
     s32 yFinal;
@@ -818,6 +818,10 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
 
     if (!(state->flags & SPAWN_STATE_UNK_1))
     {
+        // Redeclaring here improves register allocation
+        s16 ix;
+        s16 iy;
+
         if (param_3 != 0)
         {
             return;
@@ -829,11 +833,6 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
         {
             for (ix = 0; ix < gMapStateManager->unk_20; ix++)
             {
-                if (gMapStateManager->unk_08->unk_0878[ix | iy << 5] < 0)
-                {
-                    continue;
-                }
-
                 if (gMapStateManager->unk_08->unk_0c78[ix | iy << 5] < 0)
                 {
                     continue;
@@ -866,12 +865,12 @@ void DisposGroupProcessor::_021da3c0(s32 index, s32 param_3)
                 iStack_3c = iy;
             }
         }
-    }
 
-    if (!(state->flags & SPAWN_STATE_UNK_1))
-    {
-        state->flags |= SPAWN_STATE_UNK_0;
-        return;
+        if (!(state->flags & SPAWN_STATE_UNK_1))
+        {
+            state->flags |= SPAWN_STATE_UNK_0;
+            return;
+        }
     }
 
     spawn->_021d9ca8(unit, uStack_38, iStack_3c);
@@ -1012,6 +1011,7 @@ void DisposGroupProcessor::_021dab34(BOOL param_2, BOOL param_3)
     s32 i;
     u32 x;
     u32 y;
+    s32 totalSpawns;
 
     it = this->spawnStates;
 
@@ -1019,7 +1019,9 @@ void DisposGroupProcessor::_021dab34(BOOL param_2, BOOL param_3)
     y = 0;
     numSpawned = 0;
 
-    for (i = 0; i < this->GetSpawnCount(); i++, it++)
+    totalSpawns = this->GetSpawnCount();
+
+    for (i = 0; i < totalSpawns; i++, it++)
     {
         if (!(it->flags & SPAWN_STATE_UNK_1))
         {
@@ -1091,9 +1093,8 @@ void DisposGroupProcessor::_021dad04(void)
     BOOL bVar1;
     BOOL bVar4;
     s32 i;
-    SpawnState * state;
     Spawn * spawn;
-    s32 alpha;
+    SpawnState * state;
 
     bVar3 = TRUE;
     bVar1 = FALSE;
@@ -1148,11 +1149,17 @@ void DisposGroupProcessor::_021dad04(void)
             continue;
         }
 
-        unit = GetUnit(state->unitId);
+        // TODO: Using the GetUnit inline seems to make the register allocation way worse
+        unit = NULL;
+
+        if (state->unitId != 0)
+        {
+            unit = gUnitList + state->unitId - 1;
+        }
 
         if (state->flags & (SPAWN_STATE_UNK_3 | SPAWN_STATE_UNK_4))
         {
-            alpha = unit->alpha;
+            s32 alpha = unit->alpha;
 
             if (alpha < 0x1f)
             {
@@ -1200,13 +1207,13 @@ void DisposGroupProcessor::_021dad04(void)
         {
             MoveUnit * pMu = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
 
-            if ((pMu == NULL) || !pMu->CheckFlag1())
+            if ((pMu == NULL) || pMu->CheckFlag1())
             {
                 unit->state2 &= ~US_NOT_PRESENT;
 
                 if (pMu != NULL)
                 {
-                    func_ov000_021bb944();
+                    func_ov000_021bb944(pMu);
                 }
 
                 state->flags &= ~SPAWN_STATE_UNK_3;
@@ -1322,16 +1329,21 @@ void DisposGroupProcessor::_021db1f4(void)
                 }
             }
 
-            if ((it->flags & SPAWN_STATE_UNK_3) && (func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit) != 0))
+            if (it->flags & SPAWN_STATE_UNK_3)
             {
-                unit->state2 &= ~US_NOT_PRESENT;
-                func_ov000_021bb944();
-                it->flags &= ~SPAWN_STATE_UNK_3;
-                it->flags |= SPAWN_STATE_UNK_4;
+                MoveUnit * pMu = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
 
-                if (gMapStateManager->tst_82c(unit->xPos, unit->yPos))
+                if (pMu != NULL)
                 {
-                    unit->state2 |= US_UNK_5;
+                    unit->state2 &= ~US_NOT_PRESENT;
+                    func_ov000_021bb944(pMu);
+                    it->flags &= ~SPAWN_STATE_UNK_3;
+                    it->flags |= SPAWN_STATE_UNK_4;
+
+                    if (gMapStateManager->tst_82c(unit->xPos, unit->yPos))
+                    {
+                        unit->state2 |= US_UNK_5;
+                    }
                 }
             }
         }
