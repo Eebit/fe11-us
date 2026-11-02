@@ -29,6 +29,9 @@ def mwccarm_url(tag: str) -> str:
 def wibo_url(tag: str) -> str:
     return f'https://github.com/decompals/wibo/releases/download/{tag}/wibo-{platform.machine}'
 
+def sjiswrap_url(tag: str) -> str:
+    return f'https://github.com/encounter/sjiswrap/releases/download/{tag}/sjiswrap-windows-x86.exe'
+
 def objdiff_url(tag: str) -> str:
     return f'https://github.com/encounter/objdiff/releases/download/{tag}/objdiff-cli-{platform.system}-{platform.machine}{platform.exe}'
 
@@ -37,6 +40,7 @@ TOOLS = {
     "mwccarm": mwccarm_url,
     "wibo": wibo_url,
     "objdiff": objdiff_url,
+    "sjiswrap": sjiswrap_url,
 }
 
 
