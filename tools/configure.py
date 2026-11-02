@@ -24,9 +24,10 @@ args = parser.parse_args()
 
 # Config
 GAME = "fe11"
-DSD_VERSION = 'v0.12.0'
-WIBO_VERSION = '1.2.0'
-OBJDIFF_VERSION = 'v3.8.0'
+DSD_VERSION = 'v0.12.1'
+WIBO_VERSION = '1.1.0'
+SJISWRAP_VERSION = 'v1.2.2'
+OBJDIFF_VERSION = 'v3.8.3'
 MWCC_VERSION = "2.0/sp2p2"
 DECOMP_ME_COMPILER = "mwcc_30_131"
 CC_FLAGS = " ".join([
@@ -110,6 +111,7 @@ if platform is None:
 
 EXE = platform.exe
 WINE = args.wine if platform.system != "windows" else ""
+SJISWRAP = os.path.join('.', str(tools_path / "sjiswrap.exe"))
 DSD = str(args.dsd or os.path.join('.', str(root_path / f"dsd{EXE}")))
 OBJDIFF = os.path.join('.', str(root_path / f"objdiff-cli{EXE}"))
 CC = os.path.join('.', str(mwcc_path / "mwccarm.exe"))
@@ -267,8 +269,8 @@ def main():
         n.newline()
 
         # -MMD excludes all includes instead of just system includes for some reason, so use -MD instead.
-        mwcc_cmd = f'{WINE} "{CC}" {CC_FLAGS} {CC_INCLUDES} $cc_flags -d $game_version -MD -c $in -o $basedir'
-        mwcc_implicit = [CC]
+        mwcc_cmd = f'{WINE} "{SJISWRAP}" "{CC}" {CC_FLAGS} {CC_INCLUDES} $cc_flags -d $game_version -MD -c $in -o $basedir'
+        mwcc_implicit = [CC, SJISWRAP]
         if platform.system != "windows":
             transform_dep = "tools/transform_dep.py"
             mwcc_cmd += f" && $python {transform_dep} $basefile.d $basefile.d"
@@ -414,6 +416,18 @@ def add_download_tool_builds(n: ninja_syntax.Writer, project: Project):
             },
         )
         n.newline()
+
+    downloads.append(SJISWRAP)
+    n.build(
+        rule="download_tool",
+        outputs=SJISWRAP,
+        variables={
+            "tool": "sjiswrap",
+            "tag": SJISWRAP_VERSION,
+            "path": SJISWRAP,
+        },
+    )
+    n.newline()
 
     if project.platform.system != "windows" and WINE == DEFAULT_WIBO_PATH:
         downloads.append(WINE)
