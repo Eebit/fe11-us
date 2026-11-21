@@ -2603,7 +2603,7 @@ EC void func_0204f6d0(void);
 // EC ??? func_020502d8
 // EC ??? func_02050304
 // EC ??? func_02050320
-EC void StartProcTutCardMaybe(s32, s32);
+EC BOOL StartProcTutCardMaybe(s32, s32);
 EC BOOL IsProcTutCardActive(void);
 EC void func_02050494(ProcPtr, u32, u32);
 // EC ??? func_020505a0

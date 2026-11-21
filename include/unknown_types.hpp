@@ -194,7 +194,8 @@ struct UnkStruct_02196f20
 
 struct UnkStruct_02196f1c
 {
-    STRUCT_PAD(0x00, 0x09);
+    /* 00 */ FlagManager * flagMgr;
+    STRUCT_PAD(0x04, 0x09);
     u8 unk_09;
     u8 unk_0a;
     u8 unk_0b;

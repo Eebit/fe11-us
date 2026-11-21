@@ -126,10 +126,18 @@ public:
     /* 50 */ s16 xPos;
     /* 52 */ s16 yPos;
     /* 54 */ u16 flags;
-    /* 56 */ STRUCT_PAD(0x56, 0x5f);
+    /* 56 */ STRUCT_PAD(0x56, 0x5d);
+    /* 5D */ u8 unk_5d;
+    /* 5E */ u8 unk_5e;
     /* 5F */ u8 facing;
     /* 60 */ s8 unk_60;
     /* 61 */ u8 unk_61;
+    /* 62 */ u8 prevFacing;
+    /* 63 */ u8 unk_63;
+    /* 64 */ u8 unk_64;
+    /* 65 */ STRUCT_PAD(0x65, 0x66);
+    /* 66 */ s16 unk_66;
+    /* 68 */ s32 unk_68;
 
     inline void SetFacingDirection(s32 dir)
     {
