@@ -784,7 +784,7 @@ EC BOOL ScrollCenterMoment(EventEngine * unused, s32 x, s32 y)
 
 EC BOOL IsScroll(void)
 {
-    return gMapStateManager->camera->state >= 2;
+    return gMapStateManager->camera->IsMoving();
 }
 
 EC void IsAccel(void)
@@ -1262,7 +1262,6 @@ EC BOOL UnitIsMoveID(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
     MoveUnit * mu;
-    u8 hasUnit;
 
     unit = GetUnit(id);
 
@@ -1272,9 +1271,8 @@ EC BOOL UnitIsMoveID(EventEngine * unused, s32 id)
     }
 
     mu = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
-    hasUnit = (mu->pUnit != NULL) ? TRUE : FALSE;
 
-    if (hasUnit == FALSE)
+    if (mu->HasUnit() == FALSE)
     {
         return 0;
     }
@@ -1854,7 +1852,7 @@ EC BOOL MotionIsActionOnce(EventEngine * unused, s32 id)
         return 0;
     }
 
-    return ((mu->flags & 0x200) != 0) & 0xFF;
+    return mu->CheckFlag(0x200);
 }
 
 EC BOOL MotionSetLoopOut(EventEngine * unused, s32 id, s32 dir)

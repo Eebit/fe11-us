@@ -157,6 +157,16 @@ public:
         return (!(this->flags & 1)) & 0xFF;
     }
 
+    inline u8 CheckFlag(s32 flag)
+    {
+        return ((this->flags & flag) != 0) & 0xFF;
+    }
+
+    inline u8 HasUnit(void)
+    {
+        return (this->pUnit != NULL) ? TRUE : FALSE;
+    }
+
     inline void SetPos(s32 x, s32 y)
     {
         this->xPos = x;
