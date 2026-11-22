@@ -2660,14 +2660,29 @@ EC BOOL RecollectionSet(EventEngine * unused, s32 flagId)
     return FALSE;
 }
 
+static inline u8 CheckData_020d6254(void)
+{
+    return (data_020d6254 >= 0) ? TRUE : FALSE;
+}
+
+static inline u8 GetSubInfoUnk12(void)
+{
+    return data_021974fc != NULL ? data_021974fc->unk_12 : 0;
+}
+
+static inline u8 GetSubInfoUnk11(void)
+{
+    return data_021974fc != NULL ? data_021974fc->unk_11 : 0;
+}
+
 EC BOOL SubInfoClear(void)
 {
     data_021974fc->unk_00 = NULL;
     data_021974fc->unk_08 = 0;
 
-    if (((data_020d6254 >= 0) ? TRUE : FALSE) & 0xFF)
+    if (CheckData_020d6254())
     {
-        if ((data_021974fc != NULL ? data_021974fc->unk_12 : 0) & 0xFF)
+        if (GetSubInfoUnk12())
         {
             func_0204ac64();
         }
@@ -2678,7 +2693,7 @@ EC BOOL SubInfoClear(void)
     }
     else
     {
-        if (!((data_021974fc != NULL ? data_021974fc->unk_11 : 0) & 0xFF))
+        if (!GetSubInfoUnk11())
         {
             func_0204e2d0(1);
             func_0204eb24();
