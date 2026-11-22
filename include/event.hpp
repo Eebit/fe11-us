@@ -142,6 +142,15 @@ struct EventInfo
     /* 14 */ s16 args[6];
 };
 
+class EventEngine
+{
+public:
+    /* 00 */ STRUCT_PAD(0x00, 0x08);
+    /* 08 */ struct EventInfo * unk_08;
+    /* 0C */ STRUCT_PAD(0x0C, 0x1C);
+    /* 1C */ u8 unk_1c;
+};
+
 struct EventFuncInput
 {
     /* 00 */ u32 unk_00;

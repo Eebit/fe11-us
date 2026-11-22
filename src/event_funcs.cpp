@@ -43,6 +43,11 @@ struct CpuSeqData
     u8 pad[4];
     u8 unk_04;
 };
+struct UnkStruct_Func_ov000_021d4968_Ret
+{
+    /* 00 */ STRUCT_PAD(0x00, 0x07);
+    /* 07 */ u8 unk_07;
+};
 EC CpuSeqData * func_02002180(s32);
 EC s32 func_0200218c(s16 *, s32);
 EC void func_0204a5d8(char *, Event *, s32, s32);
@@ -50,21 +55,6 @@ EC void func_0204a620(char *, s32, Event *, s32);
 extern s32 data_020d6254;
 EC void func_0204ac64(void);
 EC void func_0204e2d0(s32);
-struct TTSelf
-{
-    u8 pad[0x1c];
-    u8 unk_1c;
-};
-struct UnkStruct_020424f4_08
-{
-    /* 00 */ STRUCT_PAD(0x00, 0x14);
-    /* 14 */ s16 unk_14[1];
-};
-struct UnkStruct_020424f4
-{
-    /* 00 */ STRUCT_PAD(0x00, 0x08);
-    /* 08 */ struct UnkStruct_020424f4_08 * unk_08;
-};
 EC struct Proc * func_ov000_021d3bfc(struct Unit *, ProcPtr, s32);
 EC struct Proc * func_ov000_021d3cec(struct Unit *, ProcPtr, s32);
 extern struct UnkStruct_021974fc * data_021974fc;
@@ -92,58 +82,58 @@ EC struct Proc * func_ov000_021d4168(s32, s32, s32);
 EC void func_ov000_021c2ca0(Unit *, s32);
 EC void func_ov000_021c2c38(Unit *, s32, Event *);
 
-EC s16 func_020424f4(UnkStruct_020424f4 * self, s32 index)
+EC s16 func_020424f4(EventEngine * self, s32 index)
 {
-    return self->unk_08->unk_14[index];
+    return self->unk_08->args[index];
 }
 
-EC BOOL FlagRegistGrobal(void * unused, char * name)
+EC BOOL FlagRegistGrobal(EventEngine * unused, char * name)
 {
     data_02196f0c->flagMgr->RegisterName(name, FALSE);
     return FALSE;
 }
 
-EC BOOL FlagRegist(void * unused, char * name)
+EC BOOL FlagRegist(EventEngine * unused, char * name)
 {
     data_02196f0c->flagMgr->RegisterName(name, TRUE);
     return FALSE;
 }
 
-EC BOOL FlagGet(void * unused, char * name)
+EC BOOL FlagGet(EventEngine * unused, char * name)
 {
     return data_02196f0c->flagMgr->GetByName(name);
 }
 
-EC BOOL FlagSet(void * unused, char * name)
+EC BOOL FlagSet(EventEngine * unused, char * name)
 {
     data_02196f0c->flagMgr->SetByName(name);
     return FALSE;
 }
 
-EC BOOL FlagClr(void * unused, char * name)
+EC BOOL FlagClr(EventEngine * unused, char * name)
 {
     data_02196f0c->flagMgr->ClearByName(name);
     return FALSE;
 }
 
-EC BOOL ValueRegistGrobal(void * unused, char * name)
+EC BOOL ValueRegistGrobal(EventEngine * unused, char * name)
 {
     data_02196f0c->valueMgr->RegisterName(name, FALSE);
     return FALSE;
 }
 
-EC BOOL ValueRegist(void * unused, char * name)
+EC BOOL ValueRegist(EventEngine * unused, char * name)
 {
     data_02196f0c->valueMgr->RegisterName(name, TRUE);
     return FALSE;
 }
 
-EC s32 ValueGet(void * unused, char * name)
+EC s32 ValueGet(EventEngine * unused, char * name)
 {
     return data_02196f0c->valueMgr->GetByName(name);
 }
 
-EC BOOL ValueSet(void * unused, char * name, s32 value)
+EC BOOL ValueSet(EventEngine * unused, char * name, s32 value)
 {
     data_02196f0c->valueMgr->SetByName(name, value);
     return FALSE;
@@ -155,12 +145,12 @@ EC void Random_02042634(void)
     return;
 }
 
-EC s32 RandomMinMax(void * unused, s32 min, s32 max)
+EC s32 RandomMinMax(EventEngine * unused, s32 min, s32 max)
 {
     return RollRN(min, max);
 }
 
-EC BOOL SkipExec(u8 * param_1)
+EC BOOL SkipExec(EventEngine * self)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -168,11 +158,11 @@ EC BOOL SkipExec(u8 * param_1)
     }
 
     EventSkip::SkipTransitionFrom0To2();
-    param_1[0x1c] = 1;
+    self->unk_1c = 1;
     return TRUE;
 }
 
-EC BOOL SkipEscape(u8 * param_1)
+EC BOOL SkipEscape(EventEngine * self)
 {
     if (!EventSkip::IsSkipState4())
     {
@@ -180,7 +170,7 @@ EC BOOL SkipEscape(u8 * param_1)
     }
 
     EventSkip::SkipTransitionFrom2To0Or4To5();
-    param_1[0x1c] = 1;
+    self->unk_1c = 1;
     return TRUE;
 }
 
@@ -235,7 +225,7 @@ EC BOOL JumpToEnding(void)
     return FALSE;
 }
 
-EC BOOL FadeIn(void * unused, s32 arg)
+EC BOOL FadeIn(EventEngine * unused, s32 arg)
 {
     EventSkip::SetUnk04(0);
 
@@ -256,7 +246,7 @@ EC BOOL FadeIn(void * unused, s32 arg)
     return FALSE;
 }
 
-EC BOOL FadeInSub(void * unused, s32 arg)
+EC BOOL FadeInSub(EventEngine * unused, s32 arg)
 {
     ScreenState * prev;
 
@@ -283,7 +273,7 @@ EC BOOL FadeInSub(void * unused, s32 arg)
     return FALSE;
 }
 
-EC BOOL FadeInDual(void * unused, s32 arg)
+EC BOOL FadeInDual(EventEngine * unused, s32 arg)
 {
     ScreenState * prev;
     s32 i;
@@ -323,7 +313,7 @@ EC BOOL FadeInDual(void * unused, s32 arg)
     return FALSE;
 }
 
-EC BOOL FadeOut(void * unused, u32 frames)
+EC BOOL FadeOut(EventEngine * unused, u32 frames)
 {
     EventSkip::SetUnk04(TRUE);
 
@@ -336,7 +326,7 @@ EC BOOL FadeOut(void * unused, u32 frames)
     return FALSE;
 }
 
-EC BOOL FadeOutSub(void * unused, u32 frames)
+EC BOOL FadeOutSub(EventEngine * unused, u32 frames)
 {
     ScreenState * prev;
 
@@ -354,7 +344,7 @@ EC BOOL FadeOutSub(void * unused, u32 frames)
     return FALSE;
 }
 
-EC BOOL FadeOutDual(void * unused, u32 frames)
+EC BOOL FadeOutDual(EventEngine * unused, u32 frames)
 {
     EventSkip::SetUnk04(TRUE);
     EventSkip::SetUnk05(TRUE);
@@ -368,7 +358,7 @@ EC BOOL FadeOutDual(void * unused, u32 frames)
     return FALSE;
 }
 
-EC BOOL FadeOutWhite(void * unused, u32 frames)
+EC BOOL FadeOutWhite(EventEngine * unused, u32 frames)
 {
     EventSkip::SetUnk04(TRUE);
 
@@ -381,7 +371,7 @@ EC BOOL FadeOutWhite(void * unused, u32 frames)
     return FALSE;
 }
 
-EC BOOL FadeOutWhiteSub(void * unused, u32 frames)
+EC BOOL FadeOutWhiteSub(EventEngine * unused, u32 frames)
 {
     ScreenState * prev;
 
@@ -399,7 +389,7 @@ EC BOOL FadeOutWhiteSub(void * unused, u32 frames)
     return FALSE;
 }
 
-EC BOOL FadeOutWhiteDual(void * unused, u32 frames)
+EC BOOL FadeOutWhiteDual(EventEngine * unused, u32 frames)
 {
     EventSkip::SetUnk04(TRUE);
     EventSkip::SetUnk05(TRUE);
@@ -425,7 +415,7 @@ EC s32 SoundIsAsync(void)
     return func_020163c0();
 }
 
-EC BOOL BGMPlay(void * unused, s32 arg)
+EC BOOL BGMPlay(EventEngine * unused, s32 arg)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -441,7 +431,7 @@ EC BOOL BGMPlay(void * unused, s32 arg)
     return FALSE;
 }
 
-EC BOOL BGMPlayF(void * unused, s32 arg, s32 arg2)
+EC BOOL BGMPlayF(EventEngine * unused, s32 arg, s32 arg2)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -458,7 +448,7 @@ EC BOOL BGMPlayF(void * unused, s32 arg, s32 arg2)
 }
 
 EC void StartSoundWaitTo_02017b40(SoundHandle *, SoundHandle *, s32);
-EC BOOL BGMStop(void * unused, s32 arg)
+EC BOOL BGMStop(EventEngine * unused, s32 arg)
 {
     if (gSoundManager->unk_a8->vfunc_50())
     {
@@ -476,7 +466,7 @@ EC BOOL BGMStop(void * unused, s32 arg)
 }
 
 EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
-EC BOOL BGMPausePlay(void * unused, s32 bgmId)
+EC BOOL BGMPausePlay(EventEngine * unused, s32 bgmId)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -513,7 +503,7 @@ EC BOOL BGMPausePlay(void * unused, s32 bgmId)
 }
 
 EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
-EC BOOL BGMPausePlayF(void * unused, s32 arg, s32 arg2)
+EC BOOL BGMPausePlayF(EventEngine * unused, s32 arg, s32 arg2)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -544,7 +534,7 @@ EC BOOL BGMPausePlayF(void * unused, s32 arg, s32 arg2)
     return FALSE;
 }
 
-EC BOOL BGMPauseStop(void * unused, s32 arg)
+EC BOOL BGMPauseStop(EventEngine * unused, s32 arg)
 {
     gSoundManager->unk_a8->vfunc_38(arg);
     gSoundManager->unk_a8->vfunc_6c(0x7f);
@@ -553,8 +543,8 @@ EC BOOL BGMPauseStop(void * unused, s32 arg)
 
 EC void func_ov000_021d4094(void);
 EC s32 GetMapBgmId(s32);
-EC BOOL BGMPausePlay(void * unused, s32 bgmId);
-EC BOOL BGMPlayPause(void * proc, s32 id)
+EC BOOL BGMPausePlay(EventEngine * unused, s32 bgmId);
+EC BOOL BGMPlayPause(EventEngine * self, s32 id)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -566,10 +556,10 @@ EC BOOL BGMPlayPause(void * proc, s32 id)
         MapBattle_021a43e8();
         return FALSE;
     }
-    return BGMPausePlay(proc, GetMapBgmId(id));
+    return BGMPausePlay(self, GetMapBgmId(id));
 }
 
-EC BOOL _BGMVolume(void * unused, s32 vol)
+EC BOOL _BGMVolume(EventEngine * unused, s32 vol)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -587,7 +577,7 @@ EC BOOL _BGMVolume(void * unused, s32 vol)
     return FALSE;
 }
 
-EC BOOL _BGMVolumeF(void * unused, s32 vol, s32 frames)
+EC BOOL _BGMVolumeF(EventEngine * unused, s32 vol, s32 frames)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -606,7 +596,7 @@ EC BOOL _BGMVolumeF(void * unused, s32 vol, s32 frames)
     return FALSE;
 }
 
-EC BOOL _BGMBtlVolume(void * unused, s32 vol)
+EC BOOL _BGMBtlVolume(EventEngine * unused, s32 vol)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -618,7 +608,7 @@ EC BOOL _BGMBtlVolume(void * unused, s32 vol)
     return FALSE;
 }
 
-EC BOOL _BGMBtlVolumeF(void * unused, s32 vol, s32 frames)
+EC BOOL _BGMBtlVolumeF(EventEngine * unused, s32 vol, s32 frames)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -640,7 +630,7 @@ EC BOOL BGMIsFade(void)
     return gSoundManager->unk_a8->vfunc_58() != 0;
 }
 
-EC BOOL SEPlay(void * unused, s32 arg)
+EC BOOL SEPlay(EventEngine * unused, s32 arg)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -651,7 +641,7 @@ EC BOOL SEPlay(void * unused, s32 arg)
     return FALSE;
 }
 
-EC BOOL LoopSEPlay(void * unused, s32 arg)
+EC BOOL LoopSEPlay(EventEngine * unused, s32 arg)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -662,13 +652,13 @@ EC BOOL LoopSEPlay(void * unused, s32 arg)
     return FALSE;
 }
 
-EC BOOL LoopSEStop(void * unused, s32 arg)
+EC BOOL LoopSEStop(EventEngine * unused, s32 arg)
 {
     gSoundManager->unk_b4->vfunc_38(arg);
     return FALSE;
 }
 
-EC BOOL SEIsPlay(void * unused, s16 arg)
+EC BOOL SEIsPlay(EventEngine * unused, s16 arg)
 {
     return func_02016250(arg);
 }
@@ -680,7 +670,7 @@ EC BOOL MapLoad(void)
     return FALSE;
 }
 
-EC BOOL MapLoadD(void * unused, char * arg)
+EC BOOL MapLoadD(EventEngine * unused, char * arg)
 {
     func_ov000_021a23e0(arg);
     func_ov000_021a2540(NULL, 0);
@@ -689,13 +679,13 @@ EC BOOL MapLoadD(void * unused, char * arg)
 
 EC void func_ov000_021a2574(void *);
 EC void StartSoundWaitTo_02017b40(SoundHandle *, SoundHandle *, s32);
-EC BOOL MapFree(void * proc)
+EC BOOL MapFree(EventEngine * self)
 {
-    func_ov000_021a2574(proc);
+    func_ov000_021a2574(self);
     return FALSE;
 }
 
-EC BOOL Dispos_02043358(void * unused, char * label)
+EC BOOL Dispos_02043358(EventEngine * unused, char * label)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -705,7 +695,7 @@ EC BOOL Dispos_02043358(void * unused, char * label)
     return StartDisposition(label, 0);
 }
 
-EC BOOL DisposPlayArea(void * unused, char * label)
+EC BOOL DisposPlayArea(EventEngine * unused, char * label)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -715,12 +705,12 @@ EC BOOL DisposPlayArea(void * unused, char * label)
     return StartDisposition(label, 8);
 }
 
-EC BOOL DisposMoment(void * unused, char * label)
+EC BOOL DisposMoment(EventEngine * unused, char * label)
 {
     return StartDisposition(label, 1);
 }
 
-EC BOOL DisposWithScroll(void * unused, char * label)
+EC BOOL DisposWithScroll(EventEngine * unused, char * label)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -730,7 +720,7 @@ EC BOOL DisposWithScroll(void * unused, char * label)
     return StartDisposition(label, 2);
 }
 
-EC BOOL DisposWithScrollView(void * unused, char * label)
+EC BOOL DisposWithScrollView(EventEngine * unused, char * label)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -740,7 +730,7 @@ EC BOOL DisposWithScrollView(void * unused, char * label)
     return StartDisposition(label, 6);
 }
 
-EC BOOL DisposPlayAreaWithScrollView(void * unused, char * label)
+EC BOOL DisposPlayAreaWithScrollView(EventEngine * unused, char * label)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -758,7 +748,7 @@ EC BOOL IsDispos(void)
 }
 
 EC void func_02021134(s32);
-EC BOOL SetChapter(void * unused, s32 chapter)
+EC BOOL SetChapter(EventEngine * unused, s32 chapter)
 {
     func_02021134(chapter);
     return FALSE;
@@ -778,7 +768,7 @@ EC BOOL AddChapter(void)
     return FALSE;
 }
 
-EC BOOL Scroll_020434c0(void * unused, s32 x, s32 y)
+EC BOOL Scroll_020434c0(EventEngine * unused, s32 x, s32 y)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -790,7 +780,7 @@ EC BOOL Scroll_020434c0(void * unused, s32 x, s32 y)
     return TRUE;
 }
 
-EC BOOL ScrollEx_0204353c(void * unused, s32 x, s32 y, s32 a, s32 b)
+EC BOOL ScrollEx_0204353c(EventEngine * unused, s32 x, s32 y, s32 a, s32 b)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -802,13 +792,13 @@ EC BOOL ScrollEx_0204353c(void * unused, s32 x, s32 y, s32 a, s32 b)
     return TRUE;
 }
 
-EC BOOL ScrollMoment(void * unused, s32 x, s32 y)
+EC BOOL ScrollMoment(EventEngine * unused, s32 x, s32 y)
 {
     gMapStateManager->camera->ScrollInstant(x, y, 0);
     return TRUE;
 }
 
-EC BOOL ScrollCenter(void * unused, s32 x, s32 y)
+EC BOOL ScrollCenter(EventEngine * unused, s32 x, s32 y)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -820,7 +810,7 @@ EC BOOL ScrollCenter(void * unused, s32 x, s32 y)
     return TRUE;
 }
 
-EC BOOL ScrollCenterEx(void * unused, s32 x, s32 y, s32 a, s32 b)
+EC BOOL ScrollCenterEx(EventEngine * unused, s32 x, s32 y, s32 a, s32 b)
 {
     if (EventSkip::IsSkipState4())
     {
@@ -832,7 +822,7 @@ EC BOOL ScrollCenterEx(void * unused, s32 x, s32 y, s32 a, s32 b)
     return TRUE;
 }
 
-EC BOOL ScrollCenterMoment(void * unused, s32 x, s32 y)
+EC BOOL ScrollCenterMoment(EventEngine * unused, s32 x, s32 y)
 {
     gMapStateManager->camera->ScrollInstant(x, y, 1);
     return TRUE;
@@ -859,7 +849,7 @@ EC u16 MapGetH(void)
     return gMapStateManager->height;
 }
 
-EC u8 UnitGetByPID(void * unused, char * pid)
+EC u8 UnitGetByPID(EventEngine * unused, char * pid)
 {
     struct Unit * unit = FindUnitByPidStrAndFaction(pid);
 
@@ -871,7 +861,7 @@ EC u8 UnitGetByPID(void * unused, char * pid)
     return 0;
 }
 
-EC u8 UnitSafetyGetByPID(void * unused, char * pid)
+EC u8 UnitSafetyGetByPID(EventEngine * unused, char * pid)
 {
     struct Unit * unit = FindUnitByPidStrAndFaction(pid);
 
@@ -885,7 +875,7 @@ EC u8 UnitSafetyGetByPID(void * unused, char * pid)
 
 EC struct Unit * FindUnitByPidStrAndFaction(char * pidStr);
 EC BOOL StartDisposition(char * label, s32 flags);
-EC s32 UnitGetByPos(void * unused, s32 x, s32 y)
+EC s32 UnitGetByPos(EventEngine * unused, s32 x, s32 y)
 {
     struct Unit * unit;
     s32 id = gMapStateManager->unk_428[x | y << 5];
@@ -907,7 +897,7 @@ EC s32 UnitGetByPos(void * unused, s32 x, s32 y)
     return unit->unk_68;
 }
 
-EC s32 UnitSafetyGetByPos(void * unused, s32 x, s32 y)
+EC s32 UnitSafetyGetByPos(EventEngine * unused, s32 x, s32 y)
 {
     struct Unit * unit;
     s32 id = gMapStateManager->unk_428[x | y << 5];
@@ -946,7 +936,7 @@ EC s32 UnitGetHero(void)
     return unit->unk_68;
 }
 
-EC s32 UnitGetNext(void * unused, s32 id)
+EC s32 UnitGetNext(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -974,7 +964,7 @@ EC s32 UnitGetNext(void * unused, s32 id)
     return 0;
 }
 
-EC s32 UnitGetX(void * unused, s32 id)
+EC s32 UnitGetX(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -995,7 +985,7 @@ EC s32 UnitGetX(void * unused, s32 id)
     return unit->xPos;
 }
 
-EC s32 UnitGetY(void * unused, s32 id)
+EC s32 UnitGetY(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -1016,7 +1006,7 @@ EC s32 UnitGetY(void * unused, s32 id)
     return unit->yPos;
 }
 
-EC s32 UnitGetForce(void * unused, s32 id)
+EC s32 UnitGetForce(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -1038,7 +1028,7 @@ EC s32 UnitGetForce(void * unused, s32 id)
 }
 
 #pragma inline_depth(5)
-EC BOOL UnitCheckPID(void * unused, s32 id, char * pid)
+EC BOOL UnitCheckPID(EventEngine * unused, s32 id, char * pid)
 {
     struct Unit * unit;
     struct PersonData * person;
@@ -1054,7 +1044,7 @@ EC BOOL UnitCheckPID(void * unused, s32 id, char * pid)
 
     return person == GetPersonByPidStr(pid);
 }
-EC BOOL UnitCheckJID(void * unused, s32 id, char * jid)
+EC BOOL UnitCheckJID(EventEngine * unused, s32 id, char * jid)
 {
     struct Unit * unit;
     struct JobData * job;
@@ -1078,7 +1068,7 @@ EC BOOL UnitCheckJID(void * unused, s32 id, char * jid)
     return job == GetJobByJidStr(jid);
 }
 
-EC BOOL UnitCheckItem(void * unused, s32 id, char * iidStr)
+EC BOOL UnitCheckItem(EventEngine * unused, s32 id, char * iidStr)
 {
     struct Unit * unit;
     struct ItemData * itemData;
@@ -1111,7 +1101,7 @@ EC BOOL UnitCheckItem(void * unused, s32 id, char * iidStr)
     return FALSE;
 }
 
-EC BOOL UnitCheckDead(void * unused, s32 id)
+EC BOOL UnitCheckDead(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -1132,7 +1122,7 @@ EC BOOL UnitCheckDead(void * unused, s32 id)
     return (unit->state2 & US_DEAD) != 0;
 }
 
-EC BOOL UnitSetItemAdd(void * unused, s32 id, char * iidStr, s32 flag)
+EC BOOL UnitSetItemAdd(EventEngine * unused, s32 id, char * iidStr, s32 flag)
 {
     struct Unit * unit;
     struct ItemData * itemData;
@@ -1157,7 +1147,7 @@ EC BOOL UnitSetItemAdd(void * unused, s32 id, char * iidStr, s32 flag)
     return FALSE;
 }
 
-EC BOOL UnitSetItemPutOff(void * unused, s32 unitId, char * iid)
+EC BOOL UnitSetItemPutOff(EventEngine * unused, s32 unitId, char * iid)
 {
     Unit * unit = GetUnit(unitId);
     ItemData * item;
@@ -1183,7 +1173,7 @@ EC BOOL UnitSetItemPutOff(void * unused, s32 unitId, char * iid)
     return FALSE;
 }
 
-EC BOOL UnitSetItemPutOffAll(void * unused, s32 unitId)
+EC BOOL UnitSetItemPutOffAll(EventEngine * unused, s32 unitId)
 {
     Unit * unit = GetUnit(unitId);
 
@@ -1196,7 +1186,7 @@ EC BOOL UnitSetItemPutOffAll(void * unused, s32 unitId)
     return FALSE;
 }
 
-EC BOOL UnitSetPID(void * unused, s32 unitId, char * pid)
+EC BOOL UnitSetPID(EventEngine * unused, s32 unitId, char * pid)
 {
     Unit * unit = GetUnit(unitId);
 
@@ -1209,7 +1199,7 @@ EC BOOL UnitSetPID(void * unused, s32 unitId, char * pid)
     return TRUE;
 }
 
-EC BOOL UnitSetPos(void * unused, s32 id, s32 x, s32 y)
+EC BOOL UnitSetPos(EventEngine * unused, s32 id, s32 x, s32 y)
 {
     struct Unit * unit;
 
@@ -1241,7 +1231,7 @@ EC BOOL UnitSetPos(void * unused, s32 id, s32 x, s32 y)
     return 1;
 }
 
-EC BOOL UnitMovePosEx(void * unused, s32 id, s32 x, s32 y, s32 flags)
+EC BOOL UnitMovePosEx(EventEngine * unused, s32 id, s32 x, s32 y, s32 flags)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -1347,7 +1337,7 @@ EC BOOL UnitMovePosEx(void * unused, s32 id, s32 x, s32 y, s32 flags)
     return 1;
 }
 
-EC BOOL UnitMoveRouteEx(void * unused, s32 id, s32 arg, s32 flags)
+EC BOOL UnitMoveRouteEx(EventEngine * unused, s32 id, s32 arg, s32 flags)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -1409,7 +1399,7 @@ EC s32 UnitIsMove(void)
     return func_ov000_021bb248(gMapStateManager->unk_14->unk_00);
 }
 
-EC BOOL UnitIsMoveID(void * unused, s32 id)
+EC BOOL UnitIsMoveID(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -1448,13 +1438,13 @@ EC BOOL UnitIsMoveID(void * unused, s32 id)
     return TRUE;
 }
 
-EC BOOL UnitMoveDelete(void * unused)
+EC BOOL UnitMoveDelete(EventEngine * unused)
 {
     func_ov000_021bb318(gMapStateManager->unk_14->unk_00);
     return TRUE;
 }
 
-EC BOOL UnitMoveDeleteID(void * unused, s32 id)
+EC BOOL UnitMoveDeleteID(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -1482,7 +1472,7 @@ EC BOOL UnitMoveDeleteID(void * unused, s32 id)
     return TRUE;
 }
 
-EC BOOL UnitTransfer(void * unused, s32 id, s32 forceId)
+EC BOOL UnitTransfer(EventEngine * unused, s32 id, s32 forceId)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -1590,7 +1580,7 @@ EC void func_0204453c(struct Unit * unit, s32 forceId)
 }
 
 EC void func_0204453c(Unit *, s32);
-EC BOOL UnitRemove(void * unused, s32 unitId)
+EC BOOL UnitRemove(EventEngine * unused, s32 unitId)
 {
     Unit * unit = GetUnit(unitId);
     s32 mode;
@@ -1617,7 +1607,7 @@ EC BOOL UnitRemove(void * unused, s32 unitId)
     return TRUE;
 }
 
-EC BOOL UnitRemoveMustErase(void * unused, s32 unitId)
+EC BOOL UnitRemoveMustErase(EventEngine * unused, s32 unitId)
 {
     Unit * unit = GetUnit(unitId);
 
@@ -1630,7 +1620,7 @@ EC BOOL UnitRemoveMustErase(void * unused, s32 unitId)
     return TRUE;
 }
 
-EC BOOL UnitSetDontAttack(void * unused, s32 unitId, char * str)
+EC BOOL UnitSetDontAttack(EventEngine * unused, s32 unitId, char * str)
 {
     Unit * unit = GetUnit(unitId);
     Unit_unk_a4 * res;
@@ -1655,7 +1645,7 @@ EC BOOL UnitSetDontAttack(void * unused, s32 unitId, char * str)
     return TRUE;
 }
 
-EC BOOL UnitSetDontMove(void * unused, s32 id, s32 flag)
+EC BOOL UnitSetDontMove(EventEngine * unused, s32 id, s32 flag)
 {
     struct Unit * unit;
 
@@ -1685,7 +1675,7 @@ EC BOOL UnitSetDontMove(void * unused, s32 id, s32 flag)
     return TRUE;
 }
 
-EC BOOL UnitSetDontPosChange(void * unused, s32 id)
+EC BOOL UnitSetDontPosChange(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -1707,7 +1697,7 @@ EC BOOL UnitSetDontPosChange(void * unused, s32 id)
     return TRUE;
 }
 
-EC BOOL UnitSetFaceChange(void * unused, s32 id, s32 flag)
+EC BOOL UnitSetFaceChange(EventEngine * unused, s32 id, s32 flag)
 {
     struct Unit * unit;
 
@@ -1737,7 +1727,7 @@ EC BOOL UnitSetFaceChange(void * unused, s32 id, s32 flag)
     return TRUE;
 }
 
-EC BOOL UnitSetAlpha(void * unused, s32 id, s32 alpha)
+EC BOOL UnitSetAlpha(EventEngine * unused, s32 id, s32 alpha)
 {
     struct Unit * unit;
 
@@ -1764,7 +1754,7 @@ EC BOOL UnitSetAlpha(void * unused, s32 id, s32 alpha)
     return 1;
 }
 
-EC BOOL UnitMoveAlpha(void * unused, s32 id, s32 a, s32 b, s32 c)
+EC BOOL UnitMoveAlpha(EventEngine * unused, s32 id, s32 a, s32 b, s32 c)
 {
     struct Unit * unit;
 
@@ -1797,7 +1787,7 @@ EC BOOL UnitMoveAlpha(void * unused, s32 id, s32 a, s32 b, s32 c)
     return 1;
 }
 
-EC BOOL UnitSetBelong(void * unused, s32 id, s32 belong)
+EC BOOL UnitSetBelong(EventEngine * unused, s32 id, s32 belong)
 {
     struct Unit * unit;
 
@@ -1819,7 +1809,7 @@ EC BOOL UnitSetBelong(void * unused, s32 id, s32 belong)
     return 1;
 }
 
-EC BOOL UnitSetDead(void * unused, s32 unitId)
+EC BOOL UnitSetDead(EventEngine * unused, s32 unitId)
 {
     Unit * unit = GetUnit(unitId);
 
@@ -1833,7 +1823,7 @@ EC BOOL UnitSetDead(void * unused, s32 unitId)
 }
 
 // FE11U = 0x02044974
-EC BOOL SetUnitEventDead(void * unused, s32 unitId)
+EC BOOL SetUnitEventDead(EventEngine * unused, s32 unitId)
 {
     struct Unit * unit;
 
@@ -1854,7 +1844,7 @@ EC BOOL SetUnitEventDead(void * unused, s32 unitId)
     unit->state2 |= (US_DEAD | US_ITEMS_TO_CONVOY | US_EVENT_DEAD);
     return TRUE;
 }
-EC BOOL UnitEffectDead(void * unused, s32 unitId)
+EC BOOL UnitEffectDead(EventEngine * unused, s32 unitId)
 {
     Unit * unit = GetUnit(unitId);
 
@@ -1880,7 +1870,7 @@ EC void UnitIsEffectDead(void)
     return;
 }
 
-EC BOOL UnitEffectWarpEscape(void * unused, s32 id)
+EC BOOL UnitEffectWarpEscape(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -1908,7 +1898,7 @@ EC BOOL UnitEffectWarpEscape(void * unused, s32 id)
     return TRUE;
 }
 
-EC BOOL UnitEffectWarpAppearance(void * unused, s32 id)
+EC BOOL UnitEffectWarpAppearance(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
@@ -1942,7 +1932,7 @@ EC s32 UnitIsEffectWarp(void)
     return func_ov000_021d3dfc();
 }
 
-EC BOOL UnitDragonTransform(u8 * self, s32 unitId, char * jid)
+EC BOOL UnitDragonTransform(EventEngine * self, s32 unitId, char * jid)
 {
     Unit * unit = GetUnit(unitId);
     JobData * job = GetJobByJidStr(jid);
@@ -1962,11 +1952,11 @@ EC BOOL UnitDragonTransform(u8 * self, s32 unitId, char * jid)
     }
 
     Proc_SetMark(func_ov000_021ccaf8(unit, job, Event::GetRunningEvent()), PROC_MARK_A);
-    self[0x1c] = 1;
+    self->unk_1c = 1;
     return FALSE;
 }
 
-EC BOOL MotionBegin(void * unused, s32 id)
+EC BOOL MotionBegin(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2013,7 +2003,7 @@ EC BOOL MotionBegin(void * unused, s32 id)
     return TRUE;
 }
 
-EC BOOL MotionSetAction(void * unused, s32 id, s32 action)
+EC BOOL MotionSetAction(EventEngine * unused, s32 id, s32 action)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2056,7 +2046,7 @@ EC BOOL MotionSetAction(void * unused, s32 id, s32 action)
     return TRUE;
 }
 
-EC BOOL MotionSetActionOnce(void * unused, s32 id, s32 dir)
+EC BOOL MotionSetActionOnce(EventEngine * unused, s32 id, s32 dir)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2096,7 +2086,7 @@ EC BOOL MotionSetActionOnce(void * unused, s32 id, s32 dir)
 
 EC MoveUnit * func_ov000_021bb4c8(void *);
 EC void func_ov000_021bb734(MoveUnit *, Unit *, BOOL);
-EC BOOL MotionIsActionOnce(void * unused, s32 id)
+EC BOOL MotionIsActionOnce(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2126,7 +2116,7 @@ EC BOOL MotionIsActionOnce(void * unused, s32 id)
 }
 
 EC BOOL GetAnimFrameCount(u32 overlayId);
-EC BOOL MotionSetLoopOut(void * unused, s32 id, s32 dir)
+EC BOOL MotionSetLoopOut(EventEngine * unused, s32 id, s32 dir)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2171,7 +2161,7 @@ EC BOOL MotionSetLoopOut(void * unused, s32 id, s32 dir)
     return 1;
 }
 
-EC BOOL MotionSetStasis(void * unused, s32 id, s32 on)
+EC BOOL MotionSetStasis(EventEngine * unused, s32 id, s32 on)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2210,7 +2200,7 @@ EC BOOL MotionSetStasis(void * unused, s32 id, s32 on)
     return 1;
 }
 
-EC BOOL MotionSetMoveSpeed(void * unused, s32 id, s32 speed)
+EC BOOL MotionSetMoveSpeed(EventEngine * unused, s32 id, s32 speed)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2243,7 +2233,7 @@ EC BOOL MotionSetMoveSpeed(void * unused, s32 id, s32 speed)
     return TRUE;
 }
 
-EC BOOL MotionSetMotionSpeed(void * unused, s32 id, s32 speed)
+EC BOOL MotionSetMotionSpeed(EventEngine * unused, s32 id, s32 speed)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2272,7 +2262,7 @@ EC BOOL MotionSetMotionSpeed(void * unused, s32 id, s32 speed)
     return TRUE;
 }
 
-EC BOOL MotionSetFootStepRate(void * unused, s32 id, s32 rate)
+EC BOOL MotionSetFootStepRate(EventEngine * unused, s32 id, s32 rate)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2301,7 +2291,7 @@ EC BOOL MotionSetFootStepRate(void * unused, s32 id, s32 rate)
     return TRUE;
 }
 
-EC BOOL MotionEnd(void * unused, s32 id)
+EC BOOL MotionEnd(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
     MoveUnit * mu;
@@ -2342,7 +2332,7 @@ EC BOOL UnitStackPop(void)
     return TRUE;
 }
 
-EC BOOL ForceUnitGetByPID(void * unused, s32 force, char * pid)
+EC BOOL ForceUnitGetByPID(EventEngine * unused, s32 force, char * pid)
 {
     Unit * unit = Force::Get(force)->FindByPidStr(pid);
 
@@ -2354,7 +2344,7 @@ EC BOOL ForceUnitGetByPID(void * unused, s32 force, char * pid)
     return FALSE;
 }
 
-EC BOOL ForceUnitSafetyGetByPID(void * unused, s32 force, char * pid)
+EC BOOL ForceUnitSafetyGetByPID(EventEngine * unused, s32 force, char * pid)
 {
     Unit * unit = Force::Get(force)->FindByPidStr(pid);
 
@@ -2366,7 +2356,7 @@ EC BOOL ForceUnitSafetyGetByPID(void * unused, s32 force, char * pid)
     return FALSE;
 }
 
-EC u8 ForceUnitGetFirst(void * unused, s32 force)
+EC u8 ForceUnitGetFirst(EventEngine * unused, s32 force)
 {
     Unit * unit = Force::Get(force)->head;
 
@@ -2378,12 +2368,12 @@ EC u8 ForceUnitGetFirst(void * unused, s32 force)
     return 0;
 }
 
-EC s32 ForceGetCount(void * unused, s32 force)
+EC s32 ForceGetCount(EventEngine * unused, s32 force)
 {
     return Force::Get(force)->Count();
 }
 
-EC BOOL TransporterCheckItem(void * unused, char * iid)
+EC BOOL TransporterCheckItem(EventEngine * unused, char * iid)
 {
     ItemData * item = GetItemByIidStr(iid);
     s32 i;
@@ -2399,7 +2389,7 @@ EC BOOL TransporterCheckItem(void * unused, char * iid)
     return FALSE;
 }
 
-EC BOOL TransporterOff(void * unused, s32 flag)
+EC BOOL TransporterOff(EventEngine * unused, s32 flag)
 {
     if (flag)
     {
@@ -2413,7 +2403,7 @@ EC BOOL TransporterOff(void * unused, s32 flag)
     return FALSE;
 }
 
-EC BOOL _ItemGet(TTSelf * self, s32 unitId, char * iidStr)
+EC BOOL _ItemGet(EventEngine * self, s32 unitId, char * iidStr)
 {
     Unit * unit = GetUnit(unitId);
 
@@ -2439,14 +2429,14 @@ EC BOOL _ItemGet(TTSelf * self, s32 unitId, char * iidStr)
 EC void func_ov000_021c2ca0(Unit *, s32);
 EC void func_ov000_021c2c38(Unit *, s32, Event *);
 EC void func_ov000_021c2cc8(s32 a0, Event * a1);
-EC s32 _MoneyGet(TTSelf * self, s32 amount)
+EC s32 _MoneyGet(EventEngine * self, s32 amount)
 {
     func_ov000_021c2cc8(amount, Event::GetRunningEvent());
     self->unk_1c = 1;
     return 0;
 }
 
-EC s32 MoneyGetSilent(TTSelf * self, s32 amount)
+EC s32 MoneyGetSilent(EventEngine * unused, s32 amount)
 {
     if (data_02196f20->unk_190 + amount > 999999)
     {
@@ -2459,19 +2449,19 @@ EC s32 MoneyGetSilent(TTSelf * self, s32 amount)
     return 0;
 }
 
-EC BOOL Goods_02045418(void * unused, char * iid)
+EC BOOL Goods_02045418(EventEngine * unused, char * iid)
 {
     func_020563a8(GetItemByIidStr(iid), 0);
     return 0;
 }
 
-EC s32 GoodsLimit(s32 a0, char * iidStr, s32 count)
+EC s32 GoodsLimit(EventEngine * unused, char * iidStr, s32 count)
 {
     func_020563a8(GetItemByIidStr(iidStr), count);
     return 0;
 }
 
-EC BOOL SetInvisible(void * unused, s32 flag)
+EC BOOL SetInvisible(EventEngine * unused, s32 flag)
 {
     data_ov000_021e3324->fogActive = flag;
 
@@ -2495,19 +2485,19 @@ EC BOOL IsInvisiblePlay(void)
     return (data_02196f0c->state & GAME_STATE_UNK_4) != 0;
 }
 
-EC BOOL SetLimitTime(void * unused, s32 time)
+EC BOOL SetLimitTime(EventEngine * unused, s32 time)
 {
     data_ov000_021e3324->timeLimit = time * 60;
     return FALSE;
 }
 
-EC BOOL SetLimitTurn(void * unused, s32 turn)
+EC BOOL SetLimitTurn(EventEngine * unused, s32 turn)
 {
     data_ov000_021e3324->turnLimit = turn;
     return 0;
 }
 
-EC BOOL SetArena(void * unused, s32 flag)
+EC BOOL SetArena(EventEngine * unused, s32 flag)
 {
     if (flag)
     {
@@ -2546,7 +2536,7 @@ EC u32 MindGetPhase(void)
     return data_ov000_021e3324->phase;
 }
 
-EC BOOL _TTEnable(TTSelf * self, s32 x, s32 y, s32 arg)
+EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 {
     s32 tt;
     Event * ev;
@@ -2589,7 +2579,7 @@ EC BOOL _TTEnable(TTSelf * self, s32 x, s32 y, s32 arg)
     return FALSE;
 }
 
-EC BOOL _TTDone(TTSelf * self, s32 x, s32 y, s32 arg)
+EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 {
     s32 tt;
     Event * ev;
@@ -2670,7 +2660,7 @@ EC BOOL _TTDone(TTSelf * self, s32 x, s32 y, s32 arg)
     return FALSE;
 }
 
-EC BOOL _TTDestroy(TTSelf * self, s32 x, s32 y, s32 arg)
+EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 {
     s32 tt = func_ov000_021d4968(x, y, arg);
     Event * ev;
@@ -2708,16 +2698,16 @@ EC BOOL _TTDestroy(TTSelf * self, s32 x, s32 y, s32 arg)
 }
 
 EC void func_ov000_021d4cb4(s32, Event *);
-EC BOOL TTIsEnable(void * unused, s32 x, s32 y, s32 arg)
+EC BOOL TTIsEnable(EventEngine * unused, s32 x, s32 y, s32 arg)
 {
-    u8 * tt = (u8 *)func_ov000_021d4968(x, y, arg);
+    UnkStruct_Func_ov000_021d4968_Ret * tt = (UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(x, y, arg);
 
     if (!tt)
     {
         return FALSE;
     }
 
-    if (tt[7] & 3)
+    if (tt->unk_07 & 3)
     {
         return FALSE;
     }
@@ -2725,7 +2715,7 @@ EC BOOL TTIsEnable(void * unused, s32 x, s32 y, s32 arg)
     return TRUE;
 }
 
-EC BOOL _RoofOpen(TTSelf * self, s32 x, s32 y)
+EC BOOL _RoofOpen(EventEngine * self, s32 x, s32 y)
 {
     Event * ev;
     u8 tile;
@@ -2772,7 +2762,7 @@ EC BOOL _RoofOpen(TTSelf * self, s32 x, s32 y)
 }
 
 EC void func_ov000_021d5084(s32);
-EC BOOL CastleSet(void * unused, s32 chapter)
+EC BOOL CastleSet(EventEngine * unused, s32 chapter)
 {
     func_ov000_021d5084(chapter);
     return FALSE;
@@ -2806,7 +2796,7 @@ EC void func_020459e4(s32 a, s32 * b, s32 * c)
 }
 
 EC void Proc_SetMark(struct Proc * proc, u32 mark);
-EC BOOL BaseEffectShow(void * unused, s32 arg)
+EC BOOL BaseEffectShow(EventEngine * unused, s32 arg)
 {
     s32 x;
     s32 y;
@@ -2822,7 +2812,7 @@ EC BOOL BaseEffectShow(void * unused, s32 arg)
 }
 
 EC struct Proc * func_ov000_021d420c(s32, s32, s32);
-EC BOOL PointSaveShow(void * unused, s32 arg)
+EC BOOL PointSaveShow(EventEngine * unused, s32 arg)
 {
     s32 x;
     s32 y;
@@ -2838,7 +2828,7 @@ EC BOOL PointSaveShow(void * unused, s32 arg)
 }
 
 EC struct Proc * func_ov000_021d42b0(s32, s32, s32);
-EC BOOL HpGaugeShow(void * unused, s32 arg)
+EC BOOL HpGaugeShow(EventEngine * unused, s32 arg)
 {
     s32 x;
     s32 y;
@@ -2867,7 +2857,7 @@ EC void BattleIsTriangle(void)
 }
 
 EC struct Proc * StartMapEffectQuake(s32, ProcPtr, s32);
-EC BOOL Quake_02045b24(void * unused, s32 arg)
+EC BOOL Quake_02045b24(EventEngine * unused, s32 arg)
 {
     if (EventSkip::IsSkipState4() && arg != -1)
     {
@@ -2890,7 +2880,7 @@ EC BOOL QuakeEnd(void)
     return TRUE;
 }
 
-EC BOOL CpuSetSeq(void * unused, s32 id, s32 idx, s32 seq, s32 arg)
+EC BOOL CpuSetSeq(EventEngine * unused, s32 id, s32 idx, s32 seq, s32 arg)
 {
     struct Unit * unit;
     CpuSeqData * data;
@@ -2929,7 +2919,7 @@ EC BOOL CpuSetSeq(void * unused, s32 id, s32 idx, s32 seq, s32 arg)
     return 1;
 }
 
-EC BOOL CpuSetActive(void * unused, s32 id, s32 active)
+EC BOOL CpuSetActive(EventEngine * unused, s32 id, s32 active)
 {
     struct Unit * unit;
 
@@ -2951,48 +2941,48 @@ EC BOOL CpuSetActive(void * unused, s32 id, s32 active)
     return 1;
 }
 
-EC BOOL TalkEvent(TTSelf * self, char * arg)
+EC BOOL TalkEvent(EventEngine * self, char * arg)
 {
     func_0204a5d8(arg, Event::GetRunningEvent(), 0, 0);
     self->unk_1c = 1;
     return 0;
 }
 
-EC BOOL TalkEventPict(TTSelf * self, char * arg, s32 arg2)
+EC BOOL TalkEventPict(EventEngine * self, char * arg, s32 arg2)
 {
     func_0204a620(arg, arg2, Event::GetRunningEvent(), 0);
     self->unk_1c = 1;
     return 0;
 }
 
-EC BOOL TalkEventBright(TTSelf * self, char * arg, s32 arg2)
+EC BOOL TalkEventBright(EventEngine * self, char * arg, s32 arg2)
 {
     func_0204a5d8(arg, Event::GetRunningEvent(), 0, arg2);
     self->unk_1c = 1;
     return 0;
 }
 
-EC BOOL TalkEventFadeOut(TTSelf * self, char * arg)
+EC BOOL TalkEventFadeOut(EventEngine * self, char * arg)
 {
     func_0204a5d8(arg, Event::GetRunningEvent(), 1, 0);
     self->unk_1c = 1;
     return 0;
 }
 
-EC BOOL TalkEventBrightFadeOut(TTSelf * self, char * arg, s32 b)
+EC BOOL TalkEventBrightFadeOut(EventEngine * self, char * arg, s32 b)
 {
     func_0204a5d8(arg, Event::GetRunningEvent(), 1, b);
     self->unk_1c = 1;
     return 0;
 }
 
-EC BOOL _PictSet(void * unused, s32 arg)
+EC BOOL _PictSet(EventEngine * unused, s32 arg)
 {
     func_0204a944(arg, 0);
     return FALSE;
 }
 
-EC BOOL RecollectionSet(void * unused, s32 flagId)
+EC BOOL RecollectionSet(EventEngine * unused, s32 flagId)
 {
     data_02196f1c->flagMgr->SetById(flagId);
     return FALSE;
@@ -3027,7 +3017,7 @@ EC BOOL SubInfoClear(void)
     return FALSE;
 }
 
-EC BOOL _TutCardSet(TTSelf * self, s32 arg)
+EC BOOL _TutCardSet(EventEngine * self, s32 arg)
 {
     if (data_02196f24->enableTutorials != 0)
     {
@@ -3047,8 +3037,8 @@ EC BOOL _TutCardSet(TTSelf * self, s32 arg)
     return FALSE;
 }
 
-EC BOOL _TutCardSet(TTSelf * self, s32 arg);
-EC BOOL _TutCardSetKeyTouch(TTSelf * self, s32 a, s32 b)
+EC BOOL _TutCardSet(EventEngine * self, s32 arg);
+EC BOOL _TutCardSetKeyTouch(EventEngine * self, s32 a, s32 b)
 {
     data_02196f20->flagMgr->SetById(a);
     data_02196f20->flagMgr->SetById(b);
@@ -3059,7 +3049,7 @@ EC BOOL _TutCardSetKeyTouch(TTSelf * self, s32 a, s32 b)
     return _TutCardSet(self, b);
 }
 
-EC BOOL _TutCardClr(TTSelf * self)
+EC BOOL _TutCardClr(EventEngine * self)
 {
     if (func_0204b1f8(0))
     {
@@ -3080,13 +3070,13 @@ EC BOOL _TutCardClr(TTSelf * self)
     return FALSE;
 }
 
-EC BOOL TutFlagSet(void * unused, s32 id)
+EC BOOL TutFlagSet(EventEngine * unused, s32 id)
 {
     data_02196f20->flagMgr->SetById(id);
     return FALSE;
 }
 
-EC BOOL TutFlagGet(void * unused, s32 id)
+EC BOOL TutFlagGet(EventEngine * unused, s32 id)
 {
     return data_02196f20->flagMgr->GetById(id) ? TRUE : FALSE;
 }
@@ -3112,7 +3102,7 @@ EC BOOL _TutIsBusy(void)
     return IsProcTutCardActive();
 }
 
-EC BOOL TutHelpSet(void * unused, s32 idx, s32 val)
+EC BOOL TutHelpSet(EventEngine * unused, s32 idx, s32 val)
 {
     u8 v = val;
     u32 j = (idx << 1) + 1;
@@ -3122,7 +3112,7 @@ EC BOOL TutHelpSet(void * unused, s32 idx, s32 val)
     return FALSE;
 }
 
-EC BOOL TutHelpSetKeyTouch(void * unused, s32 idx, u8 key, u8 touch)
+EC BOOL TutHelpSetKeyTouch(EventEngine * unused, s32 idx, u8 key, u8 touch)
 {
     u32 j = (idx << 1) + 1;
     data_ov000_021e3324->unk_18[idx << 1] = key;
@@ -3138,31 +3128,31 @@ EC u8 IsTutorial(void)
 EC void func_ov000_021d4004(s32, s32);
 EC struct Proc * func_ov000_021d3bfc(struct Unit *, ProcPtr, s32);
 EC struct Proc * func_ov000_021d3cec(struct Unit *, ProcPtr, s32);
-EC BOOL CursorPut(void * unused, s32 x, s32 y)
+EC BOOL CursorPut(EventEngine * unused, s32 x, s32 y)
 {
     func_ov000_021d4004(x, y);
     return FALSE;
 }
 
-EC BOOL CursorDelete(void * unused)
+EC BOOL CursorDelete(EventEngine * unused)
 {
     func_ov000_021d4094();
     return FALSE;
 }
 
-EC BOOL MenuHide(void * unused, s32 bit)
+EC BOOL MenuHide(EventEngine * unused, s32 bit)
 {
     data_ov000_021e3324->unk_1c |= 1 << bit;
     return FALSE;
 }
 
-EC BOOL MenuShow(void * unused, s32 bit)
+EC BOOL MenuShow(EventEngine * unused, s32 bit)
 {
     data_ov000_021e3324->unk_1c &= (-1 ^ (1 << bit));
     return FALSE;
 }
 
-EC BOOL DangerAllSet(void * unused, s32 value)
+EC BOOL DangerAllSet(EventEngine * unused, s32 value)
 {
     data_ov000_021e3324->unk_03 = value;
     func_ov000_021a36e0();
@@ -3174,7 +3164,7 @@ EC BOOL IsReplenish(void)
     return (data_02196f0c->state & GAME_STATE_UNK_17) != 0;
 }
 
-EC BOOL _Dialog_02046168(TTSelf * self, char * arg)
+EC BOOL _Dialog_02046168(EventEngine * self, char * arg)
 {
     func_02014834(Event::GetRunningEvent(), GetText(arg), 1, 1, 0, 1);
     self->unk_1c = 1;
@@ -3182,9 +3172,9 @@ EC BOOL _Dialog_02046168(TTSelf * self, char * arg)
 }
 
 EC void func_0202518c(void *);
-EC BOOL IncRound(void * proc)
+EC BOOL IncRound(EventEngine * self)
 {
-    func_0202518c(proc);
+    func_0202518c(self);
     return FALSE;
 }
 
@@ -3200,7 +3190,7 @@ EC BOOL LeaveScriptScroll(void)
     return FALSE;
 }
 
-EC BOOL NearVictoryOff(void * unused, s32 flag)
+EC BOOL NearVictoryOff(EventEngine * unused, s32 flag)
 {
     if (flag)
     {
