@@ -137,7 +137,7 @@ public:
     /* 64 */ u8 unk_64;
     /* 65 */ STRUCT_PAD(0x65, 0x66);
     /* 66 */ s16 unk_66;
-    /* 68 */ s32 unk_68;
+    /* 68 */ u32 unk_68;
 
     inline void SetFacingDirection(s32 dir)
     {

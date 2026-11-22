@@ -1413,7 +1413,7 @@ EC BOOL UnitIsMoveID(void * unused, s32 id)
 {
     struct Unit * unit;
     MoveUnit * mu;
-    u8 has_unit;
+    u8 hasUnit;
 
     if (!id)
     {
@@ -1430,9 +1430,9 @@ EC BOOL UnitIsMoveID(void * unused, s32 id)
     }
 
     mu = func_ov000_021bb210(gMapStateManager->unk_14->unk_00, unit);
-    has_unit = (mu->pUnit != NULL) ? TRUE : FALSE;
+    hasUnit = (mu->pUnit != NULL) ? TRUE : FALSE;
 
-    if (has_unit == FALSE)
+    if (hasUnit == FALSE)
     {
         return 0;
     }
@@ -2448,10 +2448,14 @@ EC s32 _MoneyGet(TTSelf * self, s32 amount)
 
 EC s32 MoneyGetSilent(TTSelf * self, s32 amount)
 {
-    if (data_02196f20->unk_190 + amount > 0xF423F)
-        data_02196f20->unk_190 = 0xF423F;
+    if (data_02196f20->unk_190 + amount > 999999)
+    {
+        data_02196f20->unk_190 = 999999;
+    }
     else
+    {
         data_02196f20->unk_190 += amount;
+    }
     return 0;
 }
 
