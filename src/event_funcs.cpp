@@ -832,14 +832,7 @@ EC s32 UnitGetByPos(EventEngine * unused, s32 x, s32 y)
     struct Unit * unit;
     s32 id = gMapStateManager->unk_428[x | y << 5];
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -854,14 +847,7 @@ EC s32 UnitSafetyGetByPos(EventEngine * unused, s32 x, s32 y)
     struct Unit * unit;
     s32 id = gMapStateManager->unk_428[x | y << 5];
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -892,14 +878,7 @@ EC s32 UnitGetNext(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -920,14 +899,7 @@ EC s32 UnitGetX(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -941,14 +913,7 @@ EC s32 UnitGetY(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -962,14 +927,7 @@ EC s32 UnitGetForce(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1001,14 +959,7 @@ EC BOOL UnitCheckJID(EventEngine * unused, s32 id, char * jid)
     struct Unit * unit;
     struct JobData * job;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1026,14 +977,7 @@ EC BOOL UnitCheckItem(EventEngine * unused, s32 id, char * iidStr)
     struct ItemData * itemData;
     s32 i;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1057,14 +1001,7 @@ EC BOOL UnitCheckDead(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1079,14 +1016,7 @@ EC BOOL UnitSetItemAdd(EventEngine * unused, s32 id, char * iidStr, s32 flag)
     struct Unit * unit;
     struct ItemData * itemData;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1155,14 +1085,7 @@ EC BOOL UnitSetPos(EventEngine * unused, s32 id, s32 x, s32 y)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1189,14 +1112,7 @@ EC BOOL UnitMovePosEx(EventEngine * unused, s32 id, s32 x, s32 y, s32 flags)
     MoveUnit * mu;
     u8 prev;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1294,14 +1210,7 @@ EC BOOL UnitMoveRouteEx(EventEngine * unused, s32 id, s32 arg, s32 flags)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1355,14 +1264,7 @@ EC BOOL UnitIsMoveID(EventEngine * unused, s32 id)
     MoveUnit * mu;
     u8 hasUnit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1399,14 +1301,7 @@ EC BOOL UnitMoveDeleteID(EventEngine * unused, s32 id)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1430,14 +1325,7 @@ EC BOOL UnitTransfer(EventEngine * unused, s32 id, s32 forceId)
     s32 i;
     Item * item;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1598,14 +1486,7 @@ EC BOOL UnitSetDontMove(EventEngine * unused, s32 id, s32 flag)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1628,14 +1509,7 @@ EC BOOL UnitSetDontPosChange(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1650,14 +1524,7 @@ EC BOOL UnitSetFaceChange(EventEngine * unused, s32 id, s32 flag)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1680,14 +1547,7 @@ EC BOOL UnitSetAlpha(EventEngine * unused, s32 id, s32 alpha)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1707,14 +1567,7 @@ EC BOOL UnitMoveAlpha(EventEngine * unused, s32 id, s32 a, s32 b, s32 c)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1740,14 +1593,7 @@ EC BOOL UnitSetBelong(EventEngine * unused, s32 id, s32 belong)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1776,14 +1622,7 @@ EC BOOL SetUnitEventDead(EventEngine * unused, s32 unitId)
 {
     struct Unit * unit;
 
-    if (!unitId)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + unitId - 1;
-    }
+    unit = GetUnit(unitId);
 
     if (!unit)
     {
@@ -1822,14 +1661,7 @@ EC BOOL UnitEffectWarpEscape(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1850,14 +1682,7 @@ EC BOOL UnitEffectWarpAppearance(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1908,14 +1733,7 @@ EC BOOL MotionBegin(EventEngine * unused, s32 id)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1955,14 +1773,7 @@ EC BOOL MotionSetAction(EventEngine * unused, s32 id, s32 action)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -1998,14 +1809,7 @@ EC BOOL MotionSetActionOnce(EventEngine * unused, s32 id, s32 dir)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2036,14 +1840,7 @@ EC BOOL MotionIsActionOnce(EventEngine * unused, s32 id)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2065,14 +1862,7 @@ EC BOOL MotionSetLoopOut(EventEngine * unused, s32 id, s32 dir)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2110,14 +1900,7 @@ EC BOOL MotionSetStasis(EventEngine * unused, s32 id, s32 on)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2149,14 +1932,7 @@ EC BOOL MotionSetMoveSpeed(EventEngine * unused, s32 id, s32 speed)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2182,14 +1958,7 @@ EC BOOL MotionSetMotionSpeed(EventEngine * unused, s32 id, s32 speed)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2211,14 +1980,7 @@ EC BOOL MotionSetFootStepRate(EventEngine * unused, s32 id, s32 rate)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2240,14 +2002,7 @@ EC BOOL MotionEnd(EventEngine * unused, s32 id)
     struct Unit * unit;
     MoveUnit * mu;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2820,14 +2575,7 @@ EC BOOL CpuSetSeq(EventEngine * unused, s32 id, s32 idx, s32 seq, s32 arg)
     s32 i;
     s32 val;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
@@ -2856,14 +2604,7 @@ EC BOOL CpuSetActive(EventEngine * unused, s32 id, s32 active)
 {
     struct Unit * unit;
 
-    if (!id)
-    {
-        unit = NULL;
-    }
-    else
-    {
-        unit = gUnitList + id - 1;
-    }
+    unit = GetUnit(id);
 
     if (!unit)
     {
