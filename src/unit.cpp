@@ -59,7 +59,7 @@ void Unit::Init(void)
     this->unk_91 = 0;
     this->unk_92 = 0;
     this->unk_93 = 0;
-    this->unk_94 = 0;
+    this->belong = 0;
     this->unk_95 = 0;
     this->unk_96 = 0;
 
@@ -126,7 +126,7 @@ Unit * Unit::Copy(Unit * src)
     this->unk_91 = src->unk_91;
     this->unk_92 = src->unk_92;
     this->unk_93 = src->unk_93;
-    this->unk_94 = src->unk_94;
+    this->belong = src->belong;
     this->unk_95 = src->unk_95;
     this->unk_96 = src->unk_96;
 
@@ -212,7 +212,7 @@ void Unit::Save(struct SaveBuffer * buf)
     buf->WriteByte(this->unk_91);
     buf->WriteByte(this->unk_92);
     buf->WriteByte(this->unk_93);
-    buf->WriteByte(this->unk_94);
+    buf->WriteByte(this->belong);
     buf->WriteByte(this->unk_96);
     buf->WriteWord(this->state1);
     buf->WriteWord(this->state2);
@@ -316,7 +316,7 @@ void Unit::Load(struct SaveBuffer * buf, s32 param_3)
     this->unk_91 = buf->ReadByte();
     this->unk_92 = buf->ReadByte();
     this->unk_93 = buf->ReadByte();
-    this->unk_94 = buf->ReadByte();
+    this->belong = buf->ReadByte();
 
     if (param_3 >= 2)
     {
@@ -641,7 +641,7 @@ EC void Unit::_0203be30(struct Unit * arg_1)
     this->unk_90 = pUVar5->unk_90;
     this->unk_91 = pUVar5->unk_91;
     this->unk_92 = pUVar5->unk_92;
-    this->unk_94 = pUVar5->unk_94;
+    this->belong = pUVar5->belong;
     this->unk_a4 = pUVar5->unk_a4;
 
     for (i = 0; i < UNIT_ITEM_COUNT; i++)
@@ -696,7 +696,7 @@ void Unit::_0203bf68(void)
     dstUnit->unk_90 = this->unk_90;
     dstUnit->unk_91 = this->unk_91;
     dstUnit->unk_92 = this->unk_92;
-    dstUnit->unk_94 = this->unk_94;
+    dstUnit->belong = this->belong;
     dstUnit->unk_a4 = this->unk_a4;
 
     for (i = 0; i < UNIT_ITEM_COUNT; i++)
@@ -748,7 +748,7 @@ void Unit::_0203c068(struct Unit * arg_1)
     this->unk_90 = pUVar7->unk_90;
     this->unk_91 = pUVar7->unk_91;
     this->unk_92 = pUVar7->unk_92;
-    this->unk_94 = pUVar7->unk_94;
+    this->belong = pUVar7->belong;
     this->unk_a4 = pUVar7->unk_a4;
 
     for (i = 0; i < UNIT_ITEM_COUNT; i++)
@@ -796,7 +796,7 @@ void Unit::_0203c19c(void)
     dstUnit->unk_90 = this->unk_90;
     dstUnit->unk_91 = this->unk_91;
     dstUnit->unk_92 = this->unk_92;
-    dstUnit->unk_94 = this->unk_94;
+    dstUnit->belong = this->belong;
 
     dstUnit->unk_a4 = this->unk_a4;
 

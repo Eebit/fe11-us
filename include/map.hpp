@@ -445,8 +445,8 @@ public:
     /* 014 */ struct MapStateManager_14 * unk_14;
     /* 018 */ struct DisposGroup * unk_18;
     /* 01C */ struct MapStateManager_1C * unk_1c;
-    /* 020 */ u16 unk_20;
-    /* 022 */ u16 unk_22;
+    /* 020 */ u16 width;
+    /* 022 */ u16 height;
     /* 024 */ u8 unk_24;
     /* 025 */ u8 unk_25;
     /* 026 */ u8 unk_26;

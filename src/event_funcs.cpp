@@ -769,7 +769,7 @@ EC BOOL AddChapter(void)
 {
     s32 idx = GetMapDBIndex(data_02196f0c->pCurrentMap) + 1;
 
-    if (idx == (s32)gFE11Database->pDBFE11Footer->unk_10)
+    if (idx == gFE11Database->pDBFE11Footer->mapIdLength)
     {
         idx = 0;
     }
@@ -851,12 +851,12 @@ EC void IsAccel(void)
 
 EC u16 MapGetW(void)
 {
-    return gMapStateManager->unk_20;
+    return gMapStateManager->width;
 }
 
 EC u16 MapGetH(void)
 {
-    return gMapStateManager->unk_22;
+    return gMapStateManager->height;
 }
 
 EC u8 UnitGetByPID(void * unused, char * pid)
@@ -1296,9 +1296,9 @@ EC BOOL UnitMovePosEx(void * unused, s32 id, s32 x, s32 y, s32 flags)
         x = best - 101;
         gMapStateManager->unk_08->unk_0854 = gMapStateManager->unk_08->unk_0878;
 
-        for (iy = 0; iy < gMapStateManager->unk_22; iy++)
+        for (iy = 0; iy < gMapStateManager->height; iy++)
         {
-            for (ix = 0; ix < gMapStateManager->unk_20; ix++)
+            for (ix = 0; ix < gMapStateManager->width; ix++)
             {
                 s32 v = gMapStateManager->unk_08->unk_0878[ix | iy << 5];
 
@@ -1815,7 +1815,7 @@ EC BOOL UnitSetBelong(void * unused, s32 id, s32 belong)
         return 0;
     }
 
-    unit->unk_94 = belong;
+    unit->belong = belong;
     return 1;
 }
 

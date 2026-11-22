@@ -545,12 +545,12 @@ BOOL EventCaller::CheckAreaEventTrigger(struct EventInfo * arg_0, struct EventFu
 
     if (unk_18 <= 0)
     {
-        unk_18 = (gMapStateManager->unk_20 - 1) - unk_18;
+        unk_18 = (gMapStateManager->width - 1) - unk_18;
     }
 
     if (unk_1a <= 0)
     {
-        unk_1a = (gMapStateManager->unk_22 - 1) - unk_1a;
+        unk_1a = (gMapStateManager->height - 1) - unk_1a;
     }
 
     if (unk_14 > (s32)arg_1->unk_00)
