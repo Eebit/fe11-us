@@ -1781,7 +1781,7 @@ extern struct ProcCmd ProcScr_020cec14[];
 // extern ??? data_020d6240
 // extern ??? data_020d6248
 // extern ??? data_020d6250
-// extern ??? data_020d6254
+extern s32 data_020d6254;
 // extern ??? ProcScr_TutCard
 // extern ??? __typestr__11ProcTutCard
 // extern ??? __typeinfo__11ProcTutCard
@@ -2908,7 +2908,7 @@ extern struct ProcCmd ProcScr_020cec14[];
 // extern ??? gWirelessSettings
 // extern ??? data_02196f14
 // extern ??? data_02196f18
-// extern ??? data_02196f1c
+extern struct UnkStruct_02196f1c * data_02196f1c;
 extern struct UnkStruct_02196f20 * data_02196f20;
 extern struct UnkStruct_02196f24 * data_02196f24;
 // extern ??? data_02196f28
@@ -2982,7 +2982,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 // extern ??? data_021972d8
 // extern ??? gUnitList
 // extern ??? gForces
-// extern ??? gConvoy
+extern struct Item * gConvoy;
 // extern ??? data_021974e4
 // extern ??? data_021974e8
 // extern ??? data_021974f0
@@ -4187,7 +4187,7 @@ extern void * _ZTV11DI_ArenaYes[];
 // extern ??? _ZTS11Disposition
 // extern ??? _ZTV11Disposition
 // extern ??? ProcScr_Disposition
-// extern ??? data_ov000_021e3320
+extern u8 data_ov000_021e3320[];
 // extern ??? data_ov000_021e3324
 // extern ??? gMapStateManager
 // extern ??? data_ov000_021e332c

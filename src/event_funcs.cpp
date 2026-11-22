@@ -6,81 +6,49 @@
 #include "map.hpp"
 #include "sound_manager.hpp"
 #include "unit.hpp"
+#include "unknown_data.h"
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
 #include "constants/sounds.h"
 
-extern struct Unit * gUnitList;
-EC struct Unit * FindUnitByPidStrAndFaction(char * pidStr);
-EC void func_ov000_021a36e0(void);
-EC void func_ov000_021bb8ac(MoveUnit *, s32);
-EC void func_02001cd0(void *, s32, s32, s32);
-EC MoveUnit * func_ov000_021bb4c8(void *);
-EC void func_ov000_021bb734(MoveUnit *, Unit *, BOOL);
-EC void func_ov000_021bc42c(MoveUnit *, void *, s32);
-EC void func_ov000_021bc2b8(MoveUnit *, void *, s32);
-EC struct Proc * StartMapEffectUnitAlpha(Unit * unit, s32 a, s32 b, s32 c, ProcPtr d, s32 e);
-EC MoveUnit * func_ov000_021bb210(void *, Unit *);
-EC void func_ov000_021bb944(MoveUnit *);
-EC BOOL func_ov000_021bb5d4(void *, s32, s32);
-EC void func_01ff8258(void * unk1, s8 a, s8 b, s32 c, u8 d, s32 e);
-EC void func_02001ca0(void *, s32, s32, s32, s32);
-struct MovingMapSprite
-{
-    u8 unk_00[0x28];
-    /* 28 */ u32 timer;
-    void func_0203f8a0(s32 arg1);
-};
-EC void func_ov000_021bab40(void *, Unit *);
+EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
+EC void StartSoundWaitTo_02017b40(SoundHandle *, SoundHandle *, s32);
 EC void func_ov000_021baafc(void *, Unit *, BOOL);
 EC struct Proc * func_ov000_021ccaf8(Unit *, struct JobData *, ProcPtr);
-EC void Proc_SetMark(struct Proc * proc, u32 mark);
-EC void func_0204bf74(void);
-EC void func_ov000_021d4bec(s32, Event *);
+EC struct Proc * StartMapEffectQuake(s32, ProcPtr, s32);
+EC struct Proc * func_ov000_021d3b00(Unit *, ProcPtr, s32, s32);
+EC void func_ov000_021d4004(s32, s32);
+EC void func_ov000_021d4cb4(s32, Event *);
+
+struct MovingMapSprite
+{
+    /* 00 */ void * frames[6];
+    /* 18 */ u32 imgAddr;
+    /* 1C */ u32 palAddr;
+    /* 20 */ u16 jid;
+    /* 22 */ u8 unk_22;
+    /* 23 */ u8 unk_23;
+    /* 24 */ s8 animId;
+    /* 25 */ s8 frame;
+    /* 26 */ s8 prevAnimId;
+    /* 27 */ s8 prevFrame;
+    /* 28 */ u32 timer;
+
+    void func_0203f8a0(s32 arg1);
+};
+
 struct CpuSeqData
 {
-    u8 pad[4];
-    u8 unk_04;
+    /* 00 */ STRUCT_PAD(0x00, 0x04);
+    /* 04 */ u8 unk_04;
 };
+
 struct UnkStruct_Func_ov000_021d4968_Ret
 {
     /* 00 */ STRUCT_PAD(0x00, 0x07);
     /* 07 */ u8 unk_07;
 };
-EC CpuSeqData * func_02002180(s32);
-EC s32 func_0200218c(s16 *, s32);
-EC void func_0204a5d8(char *, Event *, s32, s32);
-EC void func_0204a620(char *, s32, Event *, s32);
-extern s32 data_020d6254;
-EC void func_0204ac64(void);
-EC void func_0204e2d0(s32);
-EC struct Proc * func_ov000_021d3bfc(struct Unit *, ProcPtr, s32);
-EC struct Proc * func_ov000_021d3cec(struct Unit *, ProcPtr, s32);
-extern struct UnkStruct_021974fc * data_021974fc;
-extern struct UnkStruct_02196f24 * data_02196f24;
-extern Item * gConvoy;
-extern struct UnkStruct_02196f20 * data_02196f20;
-extern struct UnkStruct_02196f1c * data_02196f1c;
-EC void func_ov000_021d4e44(s32, Event *);
-EC void func_ov000_021d4cb4(s32, Event *);
-EC BOOL StartDisposition(char * label, s32 flags);
-EC BOOL func_ov000_021d6ed4(void);
-EC struct Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 param_4, u8 param_5, s32 param_6);
-extern u8 data_ov000_021e3320[];
-
-EC void * func_02037c9c(char * str);
-EC void func_0204a944(s32, s32);
-EC struct Proc * func_ov000_021d3b00(Unit *, ProcPtr, s32, s32);
-EC void Proc_SetMark(struct Proc * proc, u32 mark);
-EC void func_ov000_021a23e0(char * mapName);
-EC void func_ov000_021a2540(void * arg_0, s32 arg_1);
-EC void RegisterEventFunctions(void);
-EC void func_02035c08(const char *, void *, s32);
-EC void func_020459e4(s32, s32 *, s32 *);
-EC struct Proc * func_ov000_021d4168(s32, s32, s32);
-EC void func_ov000_021c2ca0(Unit *, s32);
-EC void func_ov000_021c2c38(Unit *, s32, Event *);
 
 EC s16 func_020424f4(EventEngine * self, s32 index)
 {
@@ -174,7 +142,6 @@ EC BOOL SkipEscape(EventEngine * self)
     return TRUE;
 }
 
-extern struct UnkStruct_02196f0c * data_02196f0c;
 EC BOOL SkipEnable(void)
 {
     EventSkip::SkipTransition1To0();
@@ -409,7 +376,6 @@ EC void IsFade(void)
     return;
 }
 
-EC s32 func_020163c0(void);
 EC s32 SoundIsAsync(void)
 {
     return func_020163c0();
@@ -447,7 +413,6 @@ EC BOOL BGMPlayF(EventEngine * unused, s32 arg, s32 arg2)
     return FALSE;
 }
 
-EC void StartSoundWaitTo_02017b40(SoundHandle *, SoundHandle *, s32);
 EC BOOL BGMStop(EventEngine * unused, s32 arg)
 {
     if (gSoundManager->unk_a8->vfunc_50())
@@ -465,7 +430,6 @@ EC BOOL BGMStop(EventEngine * unused, s32 arg)
     return FALSE;
 }
 
-EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
 EC BOOL BGMPausePlay(EventEngine * unused, s32 bgmId)
 {
     if (EventSkip::IsSkipState4())
@@ -502,7 +466,6 @@ EC BOOL BGMPausePlay(EventEngine * unused, s32 bgmId)
     return FALSE;
 }
 
-EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
 EC BOOL BGMPausePlayF(EventEngine * unused, s32 arg, s32 arg2)
 {
     if (EventSkip::IsSkipState4())
@@ -541,9 +504,6 @@ EC BOOL BGMPauseStop(EventEngine * unused, s32 arg)
     return FALSE;
 }
 
-EC void func_ov000_021d4094(void);
-EC s32 GetMapBgmId(s32);
-EC BOOL BGMPausePlay(EventEngine * unused, s32 bgmId);
 EC BOOL BGMPlayPause(EventEngine * self, s32 id)
 {
     if (EventSkip::IsSkipState4())
@@ -677,11 +637,9 @@ EC BOOL MapLoadD(EventEngine * unused, char * arg)
     return FALSE;
 }
 
-EC void func_ov000_021a2574(void *);
-EC void StartSoundWaitTo_02017b40(SoundHandle *, SoundHandle *, s32);
-EC BOOL MapFree(EventEngine * self)
+EC BOOL MapFree(EventEngine * unused)
 {
-    func_ov000_021a2574(self);
+    func_ov000_021a2574();
     return FALSE;
 }
 
@@ -740,21 +698,17 @@ EC BOOL DisposPlayAreaWithScrollView(EventEngine * unused, char * label)
     return StartDisposition(label, 14);
 }
 
-EC BOOL StartDisposition(char * label, s32 flags);
-EC BOOL IsDispositionActive(void);
 EC BOOL IsDispos(void)
 {
     return IsDispositionActive();
 }
 
-EC void func_02021134(s32);
 EC BOOL SetChapter(EventEngine * unused, s32 chapter)
 {
     func_02021134(chapter);
     return FALSE;
 }
 
-EC void func_02021150(s32);
 EC BOOL AddChapter(void)
 {
     s32 idx = GetMapDBIndex(data_02196f0c->pCurrentMap) + 1;
@@ -873,8 +827,6 @@ EC u8 UnitSafetyGetByPID(EventEngine * unused, char * pid)
     return 0;
 }
 
-EC struct Unit * FindUnitByPidStrAndFaction(char * pidStr);
-EC BOOL StartDisposition(char * label, s32 flags);
 EC s32 UnitGetByPos(EventEngine * unused, s32 x, s32 y)
 {
     struct Unit * unit;
@@ -1392,8 +1344,6 @@ EC BOOL UnitMoveRouteEx(EventEngine * unused, s32 id, s32 arg, s32 flags)
     return 1;
 }
 
-EC MoveUnit * func_ov000_021bb210(void *, Unit *);
-EC s32 func_ov000_021bb248(void *);
 EC s32 UnitIsMove(void)
 {
     return func_ov000_021bb248(gMapStateManager->unk_14->unk_00);
@@ -1579,7 +1529,6 @@ EC void func_0204453c(struct Unit * unit, s32 forceId)
     func_ov000_021a36e0();
 }
 
-EC void func_0204453c(Unit *, s32);
 EC BOOL UnitRemove(EventEngine * unused, s32 unitId)
 {
     Unit * unit = GetUnit(unitId);
@@ -1863,7 +1812,6 @@ EC BOOL UnitEffectDead(EventEngine * unused, s32 unitId)
     return TRUE;
 }
 
-EC void IsMapEffectUnitAlphaActive(void);
 EC void UnitIsEffectDead(void)
 {
     IsMapEffectUnitAlphaActive();
@@ -1926,7 +1874,6 @@ EC BOOL UnitEffectWarpAppearance(EventEngine * unused, s32 id)
     return TRUE;
 }
 
-EC s32 func_ov000_021d3dfc(void);
 EC s32 UnitIsEffectWarp(void)
 {
     return func_ov000_021d3dfc();
@@ -2084,8 +2031,6 @@ EC BOOL MotionSetActionOnce(EventEngine * unused, s32 id, s32 dir)
     return TRUE;
 }
 
-EC MoveUnit * func_ov000_021bb4c8(void *);
-EC void func_ov000_021bb734(MoveUnit *, Unit *, BOOL);
 EC BOOL MotionIsActionOnce(EventEngine * unused, s32 id)
 {
     struct Unit * unit;
@@ -2115,7 +2060,6 @@ EC BOOL MotionIsActionOnce(EventEngine * unused, s32 id)
     return ((mu->flags & 0x200) != 0) & 0xFF;
 }
 
-EC BOOL GetAnimFrameCount(u32 overlayId);
 EC BOOL MotionSetLoopOut(EventEngine * unused, s32 id, s32 dir)
 {
     struct Unit * unit;
@@ -2426,9 +2370,6 @@ EC BOOL _ItemGet(EventEngine * self, s32 unitId, char * iidStr)
     return FALSE;
 }
 
-EC void func_ov000_021c2ca0(Unit *, s32);
-EC void func_ov000_021c2c38(Unit *, s32, Event *);
-EC void func_ov000_021c2cc8(s32 a0, Event * a1);
 EC s32 _MoneyGet(EventEngine * self, s32 amount)
 {
     func_ov000_021c2cc8(amount, Event::GetRunningEvent());
@@ -2697,7 +2638,6 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
     return FALSE;
 }
 
-EC void func_ov000_021d4cb4(s32, Event *);
 EC BOOL TTIsEnable(EventEngine * unused, s32 x, s32 y, s32 arg)
 {
     UnkStruct_Func_ov000_021d4968_Ret * tt = (UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(x, y, arg);
@@ -2761,7 +2701,6 @@ EC BOOL _RoofOpen(EventEngine * self, s32 x, s32 y)
     return FALSE;
 }
 
-EC void func_ov000_021d5084(s32);
 EC BOOL CastleSet(EventEngine * unused, s32 chapter)
 {
     func_ov000_021d5084(chapter);
@@ -2795,7 +2734,6 @@ EC void func_020459e4(s32 a, s32 * b, s32 * c)
     *c = 0;
 }
 
-EC void Proc_SetMark(struct Proc * proc, u32 mark);
 EC BOOL BaseEffectShow(EventEngine * unused, s32 arg)
 {
     s32 x;
@@ -2811,7 +2749,6 @@ EC BOOL BaseEffectShow(EventEngine * unused, s32 arg)
     return FALSE;
 }
 
-EC struct Proc * func_ov000_021d420c(s32, s32, s32);
 EC BOOL PointSaveShow(EventEngine * unused, s32 arg)
 {
     s32 x;
@@ -2827,7 +2764,6 @@ EC BOOL PointSaveShow(EventEngine * unused, s32 arg)
     return FALSE;
 }
 
-EC struct Proc * func_ov000_021d42b0(s32, s32, s32);
 EC BOOL HpGaugeShow(EventEngine * unused, s32 arg)
 {
     s32 x;
@@ -2843,20 +2779,17 @@ EC BOOL HpGaugeShow(EventEngine * unused, s32 arg)
     return FALSE;
 }
 
-EC s32 func_ov002_021ef17c(void);
 EC BOOL BattleIsKiribat(void)
 {
     return func_ov002_021ef17c() != 0;
 }
 
-EC void func_ov000_021ccc0c(void);
 EC void BattleIsTriangle(void)
 {
     func_ov000_021ccc0c();
     return;
 }
 
-EC struct Proc * StartMapEffectQuake(s32, ProcPtr, s32);
 EC BOOL Quake_02045b24(EventEngine * unused, s32 arg)
 {
     if (EventSkip::IsSkipState4() && arg != -1)
@@ -3037,7 +2970,6 @@ EC BOOL _TutCardSet(EventEngine * self, s32 arg)
     return FALSE;
 }
 
-EC BOOL _TutCardSet(EventEngine * self, s32 arg);
 EC BOOL _TutCardSetKeyTouch(EventEngine * self, s32 a, s32 b)
 {
     data_02196f20->flagMgr->SetById(a);
@@ -3125,9 +3057,6 @@ EC u8 IsTutorial(void)
     return data_02196f24->enableTutorials;
 }
 
-EC void func_ov000_021d4004(s32, s32);
-EC struct Proc * func_ov000_021d3bfc(struct Unit *, ProcPtr, s32);
-EC struct Proc * func_ov000_021d3cec(struct Unit *, ProcPtr, s32);
 EC BOOL CursorPut(EventEngine * unused, s32 x, s32 y)
 {
     func_ov000_021d4004(x, y);
@@ -3171,7 +3100,6 @@ EC BOOL _Dialog_02046168(EventEngine * self, char * arg)
     return FALSE;
 }
 
-EC void func_0202518c(void *);
 EC BOOL IncRound(EventEngine * self)
 {
     func_0202518c(self);

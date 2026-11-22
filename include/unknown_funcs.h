@@ -18,6 +18,11 @@ struct ItemData;
 struct MapStateManager_08;
 struct UnkStruct_020e3ca0;
 struct WirelessSettings;
+struct CpuSeqData;
+struct Dialog;
+struct Event;
+struct JobData;
+struct MoveUnit;
 
 EXTERN_C
 
@@ -67,8 +72,8 @@ EC int func_02001770(struct UnkStruct_Func_2000D2C * buf, int a, int b);
 EC int func_02001820(struct UnkStruct_Func_2000D2C * buf, int a, int b, int c);
 // EC ??? func_02001b50
 EC int func_02001bac(struct UnkStruct_Func_2000D2C * buf, int a);
-// EC ??? func_02001ca0
-// EC ??? func_02001cd0
+EC void func_02001ca0(void *, s32, s32, s32, s32);
+EC void func_02001cd0(void *, s32, s32, s32);
 // EC ??? func_02001dbc
 // EC ??? func_02001de4
 // EC ??? func_02001ed0
@@ -76,8 +81,8 @@ EC int func_02001bac(struct UnkStruct_Func_2000D2C * buf, int a);
 EC void func_02002058(struct UnkStruct_020e3ca0 *);
 EC BOOL func_020020e0(struct UnkStruct_020e3ca0 *);
 // EC ??? func_020020f0
-// EC ??? func_02002180
-// EC ??? func_0200218c
+EC struct CpuSeqData * func_02002180(s32);
+EC s32 func_0200218c(s16 *, s32);
 // EC ??? func_020023c8
 // EC ??? func_020023e8
 // EC ??? func_02002408
@@ -690,7 +695,7 @@ EC void func_020146a0(void);
 // EC ??? func_02014798
 // EC ??? LinkDialogBlink_Loop
 // EC ??? _ZN15LinkDialogBlink4LoopEv
-// EC ??? func_02014834
+EC struct Dialog * func_02014834(ProcPtr param_1, char * param_2, s32 param_3, s32 param_4, u8 param_5, s32 param_6);
 // EC ??? func_02014ad0
 // EC ??? func_02014af4
 EC BOOL func_02014b20(ProcPtr, s32);
@@ -834,7 +839,7 @@ EC BOOL func_02016250(s16);
 EC BOOL func_020162ec(s16, s32);
 EC BOOL func_02016304(s16);
 // EC ??? func_0201631c
-// EC ??? func_020163c0
+EC BOOL func_020163c0(void);
 // EC ??? SoundWaitTo_Loop
 // EC ??? _ZN11SoundWaitTo4LoopEv
 // EC ??? func_02016490
@@ -1199,8 +1204,8 @@ EC s32 Interpolate(s32, s32, s32, s32, s32);
 // EC ??? func_02020d70
 EC void func_02021014(void);
 // EC ??? func_020210d0
-// EC ??? func_02021134
-// EC ??? func_02021150
+EC void func_02021134(s32);
+EC void func_02021150(s32);
 EC void func_02021178(s32);
 EC void func_0202118c(void);
 EC char * GetBattleMapNameMaybe(void);
@@ -1322,7 +1327,7 @@ EC void func_02024f34(void);
 // EC ??? func_02024f98
 EC s32 func_02025060(void);
 EC void func_0202511c(void);
-// EC ??? func_0202518c
+EC void func_0202518c(void *);
 // EC ??? func_020251cc
 // EC ??? func_02025254
 // EC ??? func_02025268
@@ -1865,7 +1870,7 @@ EC s32 func_020357e8(void);
 // EC ??? func_02035ac8
 // EC ??? func_02035b70
 //EC void * func_02035b98(void *);
-// EC ??? func_02035c08
+EC void func_02035c08(const char *, void *, s32);
 EC char * GetEventStr(void *, u16);
 EC void func_02035c7c(void *, s32);
 EC void func_02035ccc(void *);
@@ -1904,7 +1909,7 @@ EC struct JobData * GetJobByJidStr(char *);
 EC struct ItemData * GetItemByIidStr(char *);
 // EC ??? GetMapByMidStr
 // EC ??? func_02037c80
-// EC ??? func_02037c9c
+EC void * func_02037c9c(char * str);
 // EC ??? func_02037ca8
 // EC ??? func_02037d54
 // EC ??? func_02037dfc
@@ -2102,7 +2107,7 @@ EC s32 func_0203f6d0(s32, s32, s32, s32, u8);
 // EC ??? _ZN15MovingMapSprite9UpdateJidEl
 EC s32 func_0203f864(s32);
 EC char * GetAnimName(s32);
-// EC ??? GetAnimFrameCount
+EC u8 GetAnimFrameCount(s32 animId);
 // EC ??? _ZN15MovingMapSprite13func_0203f8a0El
 // EC ??? _ZN15MovingMapSprite4FreeEv
 // EC ??? _ZN9UnitFlashD0Ev
@@ -2117,7 +2122,7 @@ EC struct Unit * func_0203fcb8(s32);
 // EC ??? FindUnitByPersonAndFaction
 // EC ??? FindUnitByPidAndFaction
 // EC ??? func_0203fd84
-// EC ??? FindUnitByPidStrAndFaction
+EC struct Unit * FindUnitByPidStrAndFaction(char * pidStr);
 // EC ??? func_0203febc
 EC struct Unit * func_0203fff4(s32, s32);
 // EC ??? func_0204000c
@@ -2480,8 +2485,8 @@ EC s32 func_02049370(void *, void *);
 // EC ??? func_0204a434
 // EC ??? func_0204a46c
 // EC ??? func_0204a59c
-// EC ??? func_0204a5d8
-// EC ??? func_0204a620
+EC void func_0204a5d8(char *, struct Event *, s32, s32);
+EC void func_0204a620(char *, s32, struct Event *, s32);
 EC BOOL func_0204a66c(void);
 // EC ??? func_0204a68c
 // EC ??? func_0204a6a0
@@ -2491,7 +2496,7 @@ EC BOOL func_0204a66c(void);
 // EC ??? func_0204a77c
 // EC ??? func_0204a7e0
 // EC ??? func_0204a868
-// EC ??? func_0204a944
+EC void func_0204a944(s32, s32);
 // EC ??? func_0204a9b0
 EC void func_0204a9e0(s32);
 // EC ??? func_0204aa84
@@ -2499,7 +2504,7 @@ EC void func_0204a9e0(s32);
 EC void func_0204abe4(void);
 EC void func_0204ac00(void);
 EC void func_0204ac18(void);
-// EC ??? func_0204ac64
+EC void func_0204ac64(void);
 EC void func_0204aca8(void);
 EC BOOL func_0204ad38(s32, s32, s32);
 EC void func_0204ae60(s32, BOOL);
@@ -2533,7 +2538,7 @@ EC void func_0204b790(void);
 // EC ??? func_0204b984
 // EC ??? func_0204ba10
 EC void func_0204bbb4(s32);
-// EC ??? func_0204bf74
+EC void func_0204bf74(void);
 // EC ??? func_0204bf90
 // EC ??? func_0204bfc8
 // EC ??? func_0204c038
@@ -2559,7 +2564,7 @@ EC void func_0204bbb4(s32);
 // EC ??? func_0204e06c
 // EC ??? func_0204e170
 EC void func_0204e1a4(struct Unit *, s32, s32);
-// EC ??? func_0204e2d0
+EC void func_0204e2d0(s32);
 // EC ??? func_0204e2f4
 // EC ??? func_0204e75c
 // EC ??? func_0204e80c
@@ -5585,7 +5590,7 @@ EC void * __cxa_vec_new(s32, s32, s32, s32, s32);
 // ==============================
 EC void func_01ff8000(void * unk1, u8 a, u8 b, s32 c, u8 d, s32 e);
 // EC ??? func_01ff8204
-// EC ??? func_01ff8258
+EC void func_01ff8258(void * unk1, s8 a, s8 b, s32 c, u8 d, s32 e);
 // EC ??? func_01ff82b4
 // EC ??? func_01ff8580
 // EC ??? func_01ff87a0
@@ -5680,9 +5685,9 @@ EC void func_01ffcc3c(s32, s32, s32);
 // ==============================
 // overlay 0
 // ==============================
-// EC ??? func_ov000_021a23e0
-// EC ??? func_ov000_021a2540
-// EC ??? func_ov000_021a2574
+EC void func_ov000_021a23e0(char * mapName);
+EC void func_ov000_021a2540(void * arg_0, s32 arg_1);
+EC void func_ov000_021a2574(void);
 // EC ??? _ZN15MapStateManagerC1Ev
 // EC ??? _ZN15MapStateManagerD1Ev
 // EC ??? _ZN15MapStateManager19func_ov000_021a276cEPc
@@ -5699,7 +5704,7 @@ EC void func_ov000_021a340c(void);
 EC void func_ov000_021a3498(struct Unit *, BOOL, u32, u32);
 EC void func_ov000_021a354c(struct Unit *, s32, s32);
 EC void func_ov000_021a35a0(void);
-// EC ??? func_ov000_021a36e0
+EC void func_ov000_021a36e0(void);
 // EC ??? func_ov000_021a36f8
 EC void func_ov000_021a378c(void);
 EC BOOL func_ov000_021a37b4(void);
@@ -5715,7 +5720,7 @@ EC BOOL func_ov000_021a3da0(struct Unit *);
 // EC ??? func_ov000_021a3db4
 EC void func_ov000_021a3ee4(struct Unit *, s32);
 // EC ??? func_ov000_021a418c
-// EC ??? GetMapBgmId
+EC s32 GetMapBgmId(s32);
 // EC ??? AreAllEnemiesDefeated
 EC void MapBattle_021a43e8(void);
 // EC ??? func_ov000_021a45cc
@@ -6148,7 +6153,7 @@ EC void func_ov000_021b9978(void *);
 // EC ??? func_ov000_021ba9ec
 // EC ??? func_ov000_021baab8
 // EC ??? func_ov000_021baafc
-// EC ??? func_ov000_021bab40
+EC void func_ov000_021bab40(void *, struct Unit *);
 // EC ??? func_ov000_021babd0
 // EC ??? func_ov000_021babf4
 // EC ??? func_ov000_021bac64
@@ -6156,20 +6161,20 @@ EC void func_ov000_021b9978(void *);
 // EC ??? func_ov000_021bad78
 // EC ??? func_ov000_021bb098
 // EC ??? func_ov000_021bb1d8
-// EC ??? func_ov000_021bb210
-// EC ??? func_ov000_021bb248
+EC struct MoveUnit * func_ov000_021bb210(void *, struct Unit *);
+EC s32 func_ov000_021bb248(void *);
 // EC ??? func_ov000_021bb2c0
 EC void func_ov000_021bb318(void *);
 // EC ??? func_ov000_021bb390
-// EC ??? func_ov000_021bb4c8
+EC struct MoveUnit * func_ov000_021bb4c8(void *);
 // EC ??? func_ov000_021bb518
 // EC ??? func_ov000_021bb560
-// EC ??? func_ov000_021bb5d4
+EC BOOL func_ov000_021bb5d4(void *, s32, s32);
 // EC ??? func_ov000_021bb67c
 // EC ??? func_ov000_021bb6cc
-// EC ??? func_ov000_021bb734
-// EC ??? func_ov000_021bb8ac
-// EC ??? func_ov000_021bb944
+EC void func_ov000_021bb734(struct MoveUnit *, struct Unit *, BOOL);
+EC void func_ov000_021bb8ac(struct MoveUnit *, s32);
+EC void func_ov000_021bb944(struct MoveUnit *);
 // EC ??? func_ov000_021bba30
 // EC ??? func_ov000_021bbb5c
 // EC ??? func_ov000_021bbbb4
@@ -6178,8 +6183,8 @@ EC void func_ov000_021bb318(void *);
 // EC ??? func_ov000_021bc120
 // EC ??? func_ov000_021bc140
 // EC ??? func_ov000_021bc158
-// EC ??? func_ov000_021bc2b8
-// EC ??? func_ov000_021bc42c
+EC void func_ov000_021bc2b8(struct MoveUnit *, void *, s32);
+EC void func_ov000_021bc42c(struct MoveUnit *, void *, s32);
 EC void func_ov000_021bc540(void *);
 EC void func_ov000_021bc5a8(void *);
 // EC ??? func_ov000_021bc5d0
@@ -6401,10 +6406,10 @@ EC void func_ov000_021c266c(ProcPtr, s32, struct Unit *);
 // EC ??? func_ov000_021c2960
 // EC ??? func_ov000_021c2a24
 // EC ??? func_ov000_021c2ab0
-// EC ??? func_ov000_021c2c38
+EC void func_ov000_021c2c38(struct Unit *, s32, struct Event *);
 // EC ??? func_ov000_021c2c60
-// EC ??? func_ov000_021c2ca0
-// EC ??? func_ov000_021c2cc8
+EC void func_ov000_021c2ca0(struct Unit *, s32);
+EC void func_ov000_021c2cc8(s32 a0, struct Event * a1);
 // EC ??? StartWeaponBrokePopupMaybe
 // EC ??? func_ov000_021c2e6c
 // EC ??? func_ov000_021c2eb8
@@ -6618,7 +6623,7 @@ EC void StartGuideMenu(ProcPtr);
 EC void StartMapBattle(ProcPtr);
 // EC ??? func_ov000_021ccaf8
 // EC ??? func_ov000_021ccbdc
-// EC ??? func_ov000_021ccc0c
+EC BOOL func_ov000_021ccc0c(void);
 // EC ??? _ZN5onbat13UnitTransformD0Ev
 // EC ??? _ZN5onbat13UnitTransformD1Ev
 // EC ??? _ZN5onbat12UnitSurpriseD0Ev
@@ -6818,12 +6823,12 @@ EC ProcPtr func_ov000_021d3674(char *, struct Unit *, s32, s32, ProcPtr, BOOL);
 // EC ??? func_ov000_021d393c
 // EC ??? StartMapEffectQuake
 // EC ??? func_ov000_021d3a2c
-// EC ??? StartMapEffectUnitAlpha
+EC struct Proc * StartMapEffectUnitAlpha(struct Unit * unit, s32 a, s32 b, s32 c, ProcPtr d, s32 e);
 // EC ??? func_ov000_021d3b00
-// EC ??? IsMapEffectUnitAlphaActive
-// EC ??? func_ov000_021d3bfc
-// EC ??? func_ov000_021d3cec
-// EC ??? func_ov000_021d3dfc
+EC void IsMapEffectUnitAlphaActive(void);
+EC struct Proc * func_ov000_021d3bfc(struct Unit *, ProcPtr, s32);
+EC struct Proc * func_ov000_021d3cec(struct Unit *, ProcPtr, s32);
+EC s32 func_ov000_021d3dfc(void);
 // EC ??? func_ov000_021d3e34
 // EC ??? func_ov000_021d3ec8
 // EC ??? func_ov000_021d3f08
@@ -6834,12 +6839,12 @@ EC void func_ov000_021d3fa8(void);
 // EC ??? func_ov000_021d3fb0
 // EC ??? func_ov000_021d3fc4
 // EC ??? func_ov000_021d4004
-// EC ??? func_ov000_021d4094
+EC void func_ov000_021d4094(void);
 // EC ??? func_ov000_021d40dc
 // EC ??? func_ov000_021d40f0
-// EC ??? func_ov000_021d4168
-// EC ??? func_ov000_021d420c
-// EC ??? func_ov000_021d42b0
+EC struct Proc * func_ov000_021d4168(s32, s32, s32);
+EC struct Proc * func_ov000_021d420c(s32, s32, s32);
+EC struct Proc * func_ov000_021d42b0(s32, s32, s32);
 // EC ??? func_ov000_021d4354
 // EC ??? func_ov000_021d439c
 // EC ??? func_ov000_021d43b0
@@ -6873,11 +6878,11 @@ EC s32 func_ov000_021d4968(s32, s32, BOOL);
 // EC ??? func_ov000_021d4a1c
 // EC ??? func_ov000_021d4a48
 // EC ??? func_ov000_021d4a7c
-// EC ??? func_ov000_021d4bec
+EC void func_ov000_021d4bec(s32, struct Event *);
 // EC ??? func_ov000_021d4cb4
 EC s32 func_ov000_021d4d80(s32, ProcPtr, BOOL);
-// EC ??? func_ov000_021d4e44
-// EC ??? func_ov000_021d5084
+EC void func_ov000_021d4e44(s32, struct Event *);
+EC void func_ov000_021d5084(s32);
 // EC ??? func_ov000_021d50cc
 // EC ??? func_ov000_021d51c8
 // EC ??? func_ov000_021d537c
@@ -6930,7 +6935,7 @@ EC void StartMapSave_PointSaveMenu(ProcPtr);
 // EC ??? StartSubtitleHelp
 EC void func_ov000_021d6dfc(u32);
 EC void func_ov000_021d6e30(u32);
-// EC ??? func_ov000_021d6ed4
+EC BOOL func_ov000_021d6ed4(void);
 EC void TryShowTutCardForMenu(ProcPtr, u32);
 // EC ??? func_ov000_021d6f7c
 // EC ??? _ZN22ProcTutCardShowForMenu4InitEv
@@ -7054,8 +7059,8 @@ EC void StartArena(ProcPtr);
 // EC ??? _ZN11Disposition19func_ov000_021db3c4Ev
 // EC ??? Disposition_Loop
 // EC ??? func_ov000_021db48c
-// EC ??? StartDisposition
-// EC ??? IsDispositionActive
+EC BOOL StartDisposition(char * label, s32 flags);
+EC BOOL IsDispositionActive(void);
 EC void Disposition_021db624(void);
 // EC ??? _ZN11DispositionD1Ev
 // EC ??? _ZN11DispositionD0Ev
@@ -8529,7 +8534,7 @@ EC void func_ov002_021e69ac(void);
 // EC ??? func_ov002_021ef11c
 // EC ??? func_ov002_021ef128
 // EC ??? func_ov002_021ef134
-// EC ??? func_ov002_021ef17c
+EC s32 func_ov002_021ef17c(void);
 // EC ??? func_ov002_021ef190
 // EC ??? func_ov002_021ef1a8
 // EC ??? func_ov002_021ef260
