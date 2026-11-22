@@ -107,10 +107,9 @@ EC BOOL ValueSet(EventEngine * unused, char * name, s32 value)
     return FALSE;
 }
 
-EC void Random_02042634(void)
+EC u32 Random_02042634(void)
 {
-    Random_Next();
-    return;
+    return Random_Next();
 }
 
 EC s32 RandomMinMax(EventEngine * unused, s32 min, s32 max)
