@@ -9,6 +9,8 @@
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
 
+#include "constants/sounds.h"
+
 extern struct Unit * gUnitList;
 EC struct Unit * FindUnitByPidStrAndFaction(char * pidStr);
 EC void func_ov000_021a36e0(void);
@@ -18,7 +20,7 @@ EC MoveUnit * func_ov000_021bb4c8(void *);
 EC void func_ov000_021bb734(MoveUnit *, Unit *, BOOL);
 EC void func_ov000_021bc42c(MoveUnit *, void *, s32);
 EC void func_ov000_021bc2b8(MoveUnit *, void *, s32);
-EC struct Proc * StartMapEffectUnitAlpha(Unit * unit, s32 a, s32 b, s32 c, s32 d, s32 e);
+EC struct Proc * StartMapEffectUnitAlpha(Unit * unit, s32 a, s32 b, s32 c, ProcPtr d, s32 e);
 EC MoveUnit * func_ov000_021bb210(void *, Unit *);
 EC void func_ov000_021bb944(MoveUnit *);
 EC BOOL func_ov000_021bb5d4(void *, s32, s32);
@@ -63,8 +65,8 @@ struct UnkStruct_020424f4
     /* 00 */ STRUCT_PAD(0x00, 0x08);
     /* 08 */ struct UnkStruct_020424f4_08 * unk_08;
 };
-EC struct Proc * func_ov000_021d3bfc(struct Unit *, s32, s32);
-EC struct Proc * func_ov000_021d3cec(struct Unit *, s32, s32);
+EC struct Proc * func_ov000_021d3bfc(struct Unit *, ProcPtr, s32);
+EC struct Proc * func_ov000_021d3cec(struct Unit *, ProcPtr, s32);
 extern struct UnkStruct_021974fc * data_021974fc;
 extern struct UnkStruct_02196f24 * data_02196f24;
 extern Item * gConvoy;
@@ -79,7 +81,7 @@ extern u8 data_ov000_021e3320[];
 
 EC void * func_02037c9c(char * str);
 EC void func_0204a944(s32, s32);
-EC struct Proc * func_ov000_021d3b00(Unit *, s32, s32, s32);
+EC struct Proc * func_ov000_021d3b00(Unit *, ProcPtr, s32, s32);
 EC void Proc_SetMark(struct Proc * proc, u32 mark);
 EC void func_ov000_021a23e0(char * mapName);
 EC void func_ov000_021a2540(void * arg_0, s32 arg_1);
@@ -217,19 +219,19 @@ EC BOOL IsSkipCpu(void)
 
 EC BOOL SkipGameMap(void)
 {
-    data_02196f0c->state |= 0x800;
+    data_02196f0c->state |= GAME_STATE_UNK_11;
     return FALSE;
 }
 
 EC BOOL SkipSaveMenu(void)
 {
-    data_02196f0c->state |= 0x80;
+    data_02196f0c->state |= GAME_STATE_UNK_7;
     return FALSE;
 }
 
 EC BOOL JumpToEnding(void)
 {
-    data_02196f0c->state |= 0x2000;
+    data_02196f0c->state |= GAME_STATE_UNK_13;
     return FALSE;
 }
 
@@ -1127,7 +1129,7 @@ EC BOOL UnitCheckDead(void * unused, s32 id)
         return TRUE;
     }
 
-    return (unit->state2 & 8) != 0;
+    return (unit->state2 & US_DEAD) != 0;
 }
 
 EC BOOL UnitSetItemAdd(void * unused, s32 id, char * iidStr, s32 flag)
@@ -1150,7 +1152,7 @@ EC BOOL UnitSetItemAdd(void * unused, s32 id, char * iidStr, s32 flag)
     }
 
     itemData = GetItemByIidStr(iidStr);
-    unit->AddItem(itemData, flag ? 0x20 : 0);
+    unit->AddItem(itemData, flag ? ITEM_FLAG_DROPPABLE : 0);
     unit->EquipItem(-1);
     return FALSE;
 }
@@ -1326,7 +1328,7 @@ EC BOOL UnitMovePosEx(void * unused, s32 id, s32 x, s32 y, s32 flags)
             return 0;
         }
         func_ov000_021bb734(mu, unit, 1);
-        unit->state2 |= 0x1000;
+        unit->state2 |= US_NOT_PRESENT;
         mu->unk_68 = 0x1000;
         flags |= 0x8;
         func_ov000_021a354c(unit, -1, -1);
@@ -1382,7 +1384,7 @@ EC BOOL UnitMoveRouteEx(void * unused, s32 id, s32 arg, s32 flags)
             return 0;
         }
         func_ov000_021bb734(mu, unit, 1);
-        unit->state2 |= 0x1000;
+        unit->state2 |= US_NOT_PRESENT;
         mu->unk_68 = 0x1000;
         flags |= 0x8;
     }
@@ -1520,12 +1522,12 @@ EC BOOL UnitTransfer(void * unused, s32 id, s32 forceId)
     }
 
     unit->MoveToForce(forceId, TRUE);
-    unit->state2 &= ~0x6000;
+    unit->state2 &= ~(US_DANGER_ZONE_ACTIVE | US_UNK_14);
 
     item = unit->items;
     for (i = 0; i < UNIT_ITEM_COUNT; i++, item++)
     {
-        item->flags &= ~0x20;
+        item->flags &= ~ITEM_FLAG_DROPPABLE;
     }
 
     if (forceId < 2)
@@ -1602,7 +1604,7 @@ EC BOOL UnitRemove(void * unused, s32 unitId)
     {
         mode = 4;
     }
-    else if (unit->state2 & 8)
+    else if (unit->state2 & US_DEAD)
     {
         mode = 3;
     }
@@ -1673,11 +1675,11 @@ EC BOOL UnitSetDontMove(void * unused, s32 id, s32 flag)
 
     if (flag)
     {
-        unit->state1 |= 0x8000000;
+        unit->state1 |= CA_UNK_27;
     }
     else
     {
-        unit->state1 &= ~0x8000000;
+        unit->state1 &= ~CA_UNK_27;
     }
 
     return TRUE;
@@ -1701,7 +1703,7 @@ EC BOOL UnitSetDontPosChange(void * unused, s32 id)
         return FALSE;
     }
 
-    unit->state2 |= 0x400;
+    unit->state2 |= US_UNK_10;
     return TRUE;
 }
 
@@ -1725,11 +1727,11 @@ EC BOOL UnitSetFaceChange(void * unused, s32 id, s32 flag)
 
     if (flag)
     {
-        unit->state1 |= 0x4000000;
+        unit->state1 |= CA_UNK_26;
     }
     else
     {
-        unit->state1 &= ~0x4000000;
+        unit->state1 &= ~CA_UNK_26;
     }
 
     return TRUE;
@@ -1791,7 +1793,7 @@ EC BOOL UnitMoveAlpha(void * unused, s32 id, s32 a, s32 b, s32 c)
         return 1;
     }
 
-    Proc_SetMark(StartMapEffectUnitAlpha(unit, a, b, c, 9, 0), 10);
+    Proc_SetMark(StartMapEffectUnitAlpha(unit, a, b, c, PROC_TREE_9, 0), PROC_MARK_A);
     return 1;
 }
 
@@ -1826,7 +1828,7 @@ EC BOOL UnitSetDead(void * unused, s32 unitId)
         return FALSE;
     }
 
-    unit->state2 |= 0x88;
+    unit->state2 |= (US_DEAD | US_ITEMS_TO_CONVOY);
     return TRUE;
 }
 
@@ -1849,7 +1851,7 @@ EC BOOL SetUnitEventDead(void * unused, s32 unitId)
         return FALSE;
     }
 
-    unit->state2 |= (0x88 | 0x20000000);
+    unit->state2 |= (US_DEAD | US_ITEMS_TO_CONVOY | US_EVENT_DEAD);
     return TRUE;
 }
 EC BOOL UnitEffectDead(void * unused, s32 unitId)
@@ -1867,7 +1869,7 @@ EC BOOL UnitEffectDead(void * unused, s32 unitId)
         return TRUE;
     }
 
-    Proc_SetMark(func_ov000_021d3b00(unit, 9, 0, 1), 10);
+    Proc_SetMark(func_ov000_021d3b00(unit, PROC_TREE_9, 0, 1), PROC_MARK_A);
     return TRUE;
 }
 
@@ -1902,7 +1904,7 @@ EC BOOL UnitEffectWarpEscape(void * unused, s32 id)
         return TRUE;
     }
 
-    Proc_SetMark(func_ov000_021d3bfc(unit, 9, 0), 10);
+    Proc_SetMark(func_ov000_021d3bfc(unit, PROC_TREE_9, 0), PROC_MARK_A);
     return TRUE;
 }
 
@@ -1930,7 +1932,7 @@ EC BOOL UnitEffectWarpAppearance(void * unused, s32 id)
         return TRUE;
     }
 
-    Proc_SetMark(func_ov000_021d3cec(unit, 9, 0), 10);
+    Proc_SetMark(func_ov000_021d3cec(unit, PROC_TREE_9, 0), PROC_MARK_A);
     return TRUE;
 }
 
@@ -1954,12 +1956,12 @@ EC BOOL UnitDragonTransform(u8 * self, s32 unitId, char * jid)
     {
         func_ov000_021bab40(gMapStateManager->unk_14->unk_00, unit);
         unit->pJobData = job;
-        unit->state2 &= ~0x40000000;
+        unit->state2 &= ~US_UNK_30;
         func_ov000_021baafc(gMapStateManager->unk_14->unk_00, unit, 0);
         return FALSE;
     }
 
-    Proc_SetMark(func_ov000_021ccaf8(unit, job, Event::GetRunningEvent()), 10);
+    Proc_SetMark(func_ov000_021ccaf8(unit, job, Event::GetRunningEvent()), PROC_MARK_A);
     self[0x1c] = 1;
     return FALSE;
 }
@@ -2002,7 +2004,7 @@ EC BOOL MotionBegin(void * unused, s32 id)
     func_ov000_021bb734(mu, unit, TRUE);
 
     mu->flags |= 0x2000;
-    unit->state2 |= 0x1000;
+    unit->state2 |= US_NOT_PRESENT;
     mu->unk_68 = 0x1000;
     mu->SetFacingDirection(0);
 
@@ -2401,11 +2403,11 @@ EC BOOL TransporterOff(void * unused, s32 flag)
 {
     if (flag)
     {
-        data_02196f0c->state |= 0x4000;
+        data_02196f0c->state |= GAME_STATE_SUPPLY_OFF;
     }
     else
     {
-        data_02196f0c->state &= ~0x4000;
+        data_02196f0c->state &= ~GAME_STATE_SUPPLY_OFF;
     }
 
     return FALSE;
@@ -2486,7 +2488,7 @@ EC u32 IsInvisible(void)
 
 EC BOOL IsInvisiblePlay(void)
 {
-    return (data_02196f0c->state & 0x10) != 0;
+    return (data_02196f0c->state & GAME_STATE_UNK_4) != 0;
 }
 
 EC BOOL SetLimitTime(void * unused, s32 time)
@@ -2505,11 +2507,11 @@ EC BOOL SetArena(void * unused, s32 flag)
 {
     if (flag)
     {
-        data_02196f0c->state |= 0x10000;
+        data_02196f0c->state |= GAME_STATE_LINK_ARENA;
     }
     else
     {
-        data_02196f0c->state &= ~0x10000;
+        data_02196f0c->state &= ~GAME_STATE_LINK_ARENA;
     }
 
     return FALSE;
@@ -2810,7 +2812,7 @@ EC BOOL BaseEffectShow(void * unused, s32 arg)
     proc = func_ov000_021d4168(x, y, 0);
     if (proc)
     {
-        Proc_SetMark(proc, 10);
+        Proc_SetMark(proc, PROC_MARK_A);
     }
     return FALSE;
 }
@@ -2826,7 +2828,7 @@ EC BOOL PointSaveShow(void * unused, s32 arg)
     proc = func_ov000_021d420c(x, y, 0);
     if (proc)
     {
-        Proc_SetMark(proc, 10);
+        Proc_SetMark(proc, PROC_MARK_A);
     }
     return FALSE;
 }
@@ -2842,7 +2844,7 @@ EC BOOL HpGaugeShow(void * unused, s32 arg)
     proc = func_ov000_021d42b0(x, y, 0);
     if (proc)
     {
-        Proc_SetMark(proc, 10);
+        Proc_SetMark(proc, PROC_MARK_A);
     }
     return FALSE;
 }
@@ -2860,7 +2862,7 @@ EC void BattleIsTriangle(void)
     return;
 }
 
-EC struct Proc * StartMapEffectQuake(s32, s32, s32);
+EC struct Proc * StartMapEffectQuake(s32, ProcPtr, s32);
 EC BOOL Quake_02045b24(void * unused, s32 arg)
 {
     if (EventSkip::IsSkipState4() && arg != -1)
@@ -2868,11 +2870,11 @@ EC BOOL Quake_02045b24(void * unused, s32 arg)
         return TRUE;
     }
 
-    struct Proc * proc = StartMapEffectQuake(arg, 9, 0);
+    struct Proc * proc = StartMapEffectQuake(arg, PROC_TREE_9, 0);
 
     if (arg != -1)
     {
-        Proc_SetMark(proc, 10);
+        Proc_SetMark(proc, PROC_MARK_A);
     }
 
     return TRUE;
@@ -3027,7 +3029,7 @@ EC BOOL _TutCardSet(TTSelf * self, s32 arg)
     {
         if (StartProcTutCardMaybe(arg, 1) != 0 && !EventSkip::IsSkipState4())
         {
-            gSoundManager->unk_b0->vfunc_28(0x10021, 0, 0);
+            gSoundManager->unk_b0->vfunc_28(SE_SYS_TUTORIAL1, 0, 0);
         }
     }
 
@@ -3130,8 +3132,8 @@ EC u8 IsTutorial(void)
 }
 
 EC void func_ov000_021d4004(s32, s32);
-EC struct Proc * func_ov000_021d3bfc(struct Unit *, s32, s32);
-EC struct Proc * func_ov000_021d3cec(struct Unit *, s32, s32);
+EC struct Proc * func_ov000_021d3bfc(struct Unit *, ProcPtr, s32);
+EC struct Proc * func_ov000_021d3cec(struct Unit *, ProcPtr, s32);
 EC BOOL CursorPut(void * unused, s32 x, s32 y)
 {
     func_ov000_021d4004(x, y);
@@ -3184,13 +3186,13 @@ EC BOOL IncRound(void * proc)
 
 EC BOOL LeaveScriptFadeIn(void)
 {
-    data_02196f0c->state |= 0x100;
+    data_02196f0c->state |= GAME_STATE_UNK_8;
     return FALSE;
 }
 
 EC BOOL LeaveScriptScroll(void)
 {
-    data_02196f0c->state |= 0x200;
+    data_02196f0c->state |= GAME_STATE_UNK_9;
     return FALSE;
 }
 
@@ -3198,11 +3200,11 @@ EC BOOL NearVictoryOff(void * unused, s32 flag)
 {
     if (flag)
     {
-        data_02196f0c->state |= 0x400;
+        data_02196f0c->state |= GAME_STATE_UNK_10;
     }
     else
     {
-        data_02196f0c->state &= ~0x400;
+        data_02196f0c->state &= ~GAME_STATE_UNK_10;
     }
     return FALSE;
 }
