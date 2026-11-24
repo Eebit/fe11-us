@@ -51,7 +51,7 @@ struct DBFE11Footer
     s32 jidTableLength;
     s32 iidTableLength;
     u32 unk_0c;
-    u32 unk_10;
+    s32 mapIdLength;
     u32 unk_14;
 };
 

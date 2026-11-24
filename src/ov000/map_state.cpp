@@ -330,14 +330,14 @@ void MapStateManager::func_ov000_021a276c(char * mapName)
 
     pMapFile = static_cast<struct MapFile *>(LoadFileAndCache(mapName, 0));
 
-    this->unk_20 = pMapFile->tileWidth;
-    this->unk_22 = pMapFile->tileHeight;
+    this->width = pMapFile->tileWidth;
+    this->height = pMapFile->tileHeight;
 
     this->unk_24 = 1;
     this->unk_25 = 1;
 
-    this->unk_26 = this->unk_20 - 1;
-    this->unk_27 = this->unk_22 - 1;
+    this->unk_26 = this->width - 1;
+    this->unk_27 = this->height - 1;
 
     this->unk_eb8 = 0;
 
@@ -689,9 +689,9 @@ EC void func_ov000_021a3364(void)
     s16 x;
     s16 y;
 
-    for (y = 0; y < gMapStateManager->unk_22; y++)
+    for (y = 0; y < gMapStateManager->height; y++)
     {
-        for (x = 0; x < gMapStateManager->unk_20; x++)
+        for (x = 0; x < gMapStateManager->width; x++)
         {
             u8 tile = gMapStateManager->unk_828[x | (y << 5)];
             gMapStateManager->unk_830[x | (y << 5)] = GetTerrainCategoryDBIndex(gFE11Database->pTerrain[tile].unk_08);
@@ -1234,12 +1234,12 @@ static inline BOOL IsOutOfBounds(s32 x, s32 y)
         return TRUE;
     }
 
-    if (x >= gMapStateManager->unk_20)
+    if (x >= gMapStateManager->width)
     {
         return TRUE;
     }
 
-    if (y >= gMapStateManager->unk_22)
+    if (y >= gMapStateManager->height)
     {
         return TRUE;
     }

@@ -300,7 +300,7 @@ public:
     u8 unk_91; // pure water duration
     u8 unk_92; // torch duration
     u8 unk_93; // imitate duration
-    u8 unk_94;
+    u8 belong;
     u8 unk_95;
     u8 unk_96;
     u8 unk_97;

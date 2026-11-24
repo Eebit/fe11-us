@@ -126,10 +126,18 @@ public:
     /* 50 */ s16 xPos;
     /* 52 */ s16 yPos;
     /* 54 */ u16 flags;
-    /* 56 */ STRUCT_PAD(0x56, 0x5f);
+    /* 56 */ STRUCT_PAD(0x56, 0x5d);
+    /* 5D */ u8 unk_5d;
+    /* 5E */ u8 unk_5e;
     /* 5F */ u8 facing;
     /* 60 */ s8 unk_60;
     /* 61 */ u8 unk_61;
+    /* 62 */ u8 prevFacing;
+    /* 63 */ u8 unk_63;
+    /* 64 */ u8 unk_64;
+    /* 65 */ STRUCT_PAD(0x65, 0x66);
+    /* 66 */ s16 unk_66;
+    /* 68 */ u32 unk_68;
 
     inline void SetFacingDirection(s32 dir)
     {
@@ -147,6 +155,16 @@ public:
     inline u8 CheckFlag1(void)
     {
         return (!(this->flags & 1)) & 0xFF;
+    }
+
+    inline u8 CheckFlag(s32 flag)
+    {
+        return ((this->flags & flag) != 0) & 0xFF;
+    }
+
+    inline u8 HasUnit(void)
+    {
+        return (this->pUnit != NULL) ? TRUE : FALSE;
     }
 
     inline void SetPos(s32 x, s32 y)
@@ -437,8 +455,8 @@ public:
     /* 014 */ struct MapStateManager_14 * unk_14;
     /* 018 */ struct DisposGroup * unk_18;
     /* 01C */ struct MapStateManager_1C * unk_1c;
-    /* 020 */ u16 unk_20;
-    /* 022 */ u16 unk_22;
+    /* 020 */ u16 width;
+    /* 022 */ u16 height;
     /* 024 */ u8 unk_24;
     /* 025 */ u8 unk_25;
     /* 026 */ u8 unk_26;

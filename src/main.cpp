@@ -27,8 +27,8 @@ EC void * func_02000c70(void)
 
 EC void func_02000c7c(struct MapStateManager_08 * buf)
 {
-    buf->unk_086e = gMapStateManager->unk_20;
-    buf->unk_086f = gMapStateManager->unk_22;
+    buf->unk_086e = gMapStateManager->width;
+    buf->unk_086f = gMapStateManager->height;
     buf->unk_0870 = gMapStateManager->unk_24;
     buf->unk_0871 = gMapStateManager->unk_25;
     buf->unk_0872 = gMapStateManager->unk_26;

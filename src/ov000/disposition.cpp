@@ -616,9 +616,9 @@ void DisposGroupProcessor::func_ov000_021da230(s32 index, s32 param_3)
     {
         bVar6 = true;
     }
-    else if (spawn->xFinal < gMapStateManager->unk_20)
+    else if (spawn->xFinal < gMapStateManager->width)
     {
-        if (spawn->yFinal >= gMapStateManager->unk_22)
+        if (spawn->yFinal >= gMapStateManager->height)
         {
             bVar6 = true;
         }
@@ -715,9 +715,9 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
     {
         bVar11 = true;
     }
-    else if (spawn->xFinal < gMapStateManager->unk_20)
+    else if (spawn->xFinal < gMapStateManager->width)
     {
-        if (spawn->yFinal < gMapStateManager->unk_22)
+        if (spawn->yFinal < gMapStateManager->height)
         {
             bVar11 = false;
         }
@@ -743,9 +743,9 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
     spawn->func_ov000_021d9adc(unit->pJobData);
     cVar8 = 100;
 
-    for (iy = 0; iy < gMapStateManager->unk_22; iy++)
+    for (iy = 0; iy < gMapStateManager->height; iy++)
     {
-        for (ix = 0; ix < gMapStateManager->unk_20; ix++)
+        for (ix = 0; ix < gMapStateManager->width; ix++)
         {
             if (gMapStateManager->unk_08->unk_0878[ix | iy << 5] < 0)
             {
@@ -792,9 +792,9 @@ void DisposGroupProcessor::func_ov000_021da3c0(s32 index, s32 param_3)
 
         cVar8 = 100;
 
-        for (iy = 0; iy < gMapStateManager->unk_22; iy++)
+        for (iy = 0; iy < gMapStateManager->height; iy++)
         {
-            for (ix = 0; ix < gMapStateManager->unk_20; ix++)
+            for (ix = 0; ix < gMapStateManager->width; ix++)
             {
                 if (gMapStateManager->unk_08->unk_0878[ix | iy << 5] < 0)
                 {
