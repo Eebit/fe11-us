@@ -3,6 +3,7 @@
 #include "hardware.hpp"
 #include "heap.hpp"
 #include "proc.h"
+#include "unknown_data.h"
 #include "unknown_funcs.h"
 
 extern vu8 gMainLoopBlocked;
@@ -13,23 +14,72 @@ extern vu32 gElapsedFrames;
 struct UnkStruct_020eea00
 {
     u32 unk_00;
-    STRUCT_PAD(0x04, 0x08);
+    u32 unk_04;
     u32 unk_08;
 };
 
 extern struct UnkStruct_020eea00 data_020eea00;
 
+struct HardwareProc
+{
+    PROC_HEADER
+    STRUCT_PAD(0x36, 0x5A);
+    s16 unk_5a;
+};
+
+struct UnkStruct_02010dfc
+{
+    /* 00 */ u8 unk_00;
+    /* 01 */ u8 unk_01;
+    /* 02 */ u16 unk_02[1];
+};
+
+struct UnkStruct_020108f4_Bg
+{
+    u16 charBaseBlock : 4;
+    u16 screenBaseBlock : 5;
+    u16 screenSize : 2;
+    u16 priority : 2;
+    u16 colorMode : 1;
+    u16 areaOverflowMode : 1;
+};
+
+struct UnkStruct_020108f4
+{
+    /* 00 */ u8 mode;
+    /* 01 */ u8 unk_01;
+    /* 02 */ u8 unk_02_0 : 4;
+    /* 02 */ u8 unk_02_4 : 4;
+    /* 03 */ u8 unk_03;
+    /* 04 */ struct UnkStruct_020108f4_Bg bg[4];
+};
+
+static inline BOOL IsMainScreenActive(void)
+{
+    return gpActiveScreenSt == gpMainScreenSt ? TRUE : FALSE;
+}
+
 #define BIOS_EXTRA_BUTTONS *(vu16 *)0x027FFFA8
 
 // TODO: "nds/io_reg.h"
+#define REG_BG0OFS *(vu32 *)(0x04000010)
+#define REG_BG1OFS *(vu32 *)(0x04000014)
+#define REG_BG2OFS *(vu32 *)(0x04000018)
+#define REG_BG3OFS *(vu32 *)(0x0400001C)
 #define REG_KEYINPUT (*(vu16 *)0x04000130)
 #define REG_EXMEM_CNT *(vu16 *)(0x04000204)
 #define REG_IME *(vu16 *)(0x04000208)
 #define REG_DIVCNT *((vu16 *)0x04000280)
 #define REG_POWER_CNT *(vu16 *)(0x04000304)
 #define REG_DISPCNT_SUB *(vu32 *)(0x04001000)
+#define REG_BG0OFS_SUB *(vu32 *)(0x04001010)
+#define REG_BG1OFS_SUB *(vu32 *)(0x04001014)
+#define REG_BG2OFS_SUB *(vu32 *)(0x04001018)
+#define REG_BG3OFS_SUB *(vu32 *)(0x0400101C)
 
 EC void func_0200f0f0(void);
+EC BOOL func_02010810(void);
+EC void func_01ff9948(u8);
 
 extern s32 data_020dd67c;
 
@@ -602,39 +652,36 @@ EC void InitWindowConfig(void)
 
 extern s16 data_020c53b0[]; // gSinLut?
 
-EC void func_0200fbf0(struct BgAffineSrcData * arg0, struct BgAffineDstData * arg1)
+EC void func_0200fbf0(struct BgAffineSrcData * src, struct BgAffineDstData * dst)
 {
-    s32 temp_r10_2;
-    s32 sl;
-    s32 temp_r11;
-    s32 temp_r3;
-    s32 temp_r5;
-    s32 temp_r6;
-    s32 temp_r7;
-    s32 temp_r8;
-    s32 temp_r9;
+    s32 texX;
+    s32 texY;
+    s32 x;
+    s32 y;
+    s32 angle;
+    s32 cosIdx;
+    s32 cos;
+    s32 sin;
 
-    sl = ((u16)(arg0->alpha << 8) >> 4);
+    angle = ((u16)(src->alpha << 8) >> 4) * 2;
+    cosIdx = angle + 1;
+    cos = data_020c53b0[cosIdx] << 8;
+    texX = src->texX;
+    texY = src->texY;
+    x = texX - src->scrX;
+    y = texY - src->scrY;
 
-    temp_r11 = data_020c53b0[sl] << 8;
+    dst->pa = IntSys_Div(cos, src->sx) >> 4;
+    sin = data_020c53b0[angle] << 8;
+    dst->pb = IntSys_Div(sin, src->sx) >> 4;
+    dst->pc = -IntSys_Div(sin, src->sy) >> 4;
+    dst->pd = IntSys_Div(cos, src->sy) >> 4;
 
-    temp_r6 = arg0->texX;
-    temp_r7 = arg0->texY;
+    y -= texY;
+    x -= texX;
 
-    temp_r8 = temp_r6 - arg0->scrX;
-    temp_r9 = temp_r7 - arg0->scrY;
-
-    arg1->pa = IntSys_Div(temp_r11, arg0->sx) >> 4;
-    temp_r10_2 = data_020c53b0[sl] << 8;
-    arg1->pb = IntSys_Div(temp_r10_2, arg0->sx) >> 4;
-    arg1->pc = -(IntSys_Div(temp_r10_2, arg0->sy)) >> 4;
-    arg1->pd = IntSys_Div(temp_r11, arg0->sy) >> 4;
-
-    temp_r5 = temp_r9 - temp_r7;
-    temp_r3 = temp_r8 - temp_r6;
-
-    arg1->dx = (arg1->pa * temp_r3) + (arg1->pb * temp_r5) + (temp_r6 << 8);
-    arg1->dy = (arg1->pc * temp_r3) + (arg1->pd * temp_r5) + (temp_r7 << 8);
+    dst->dx = dst->pa * x + dst->pb * y + (texX << 8);
+    dst->dy = dst->pc * x + dst->pd * y + (texY << 8);
 
     return;
 }
@@ -672,9 +719,75 @@ EC void func_0200fcdc(void)
     return;
 }
 
-// #func_0200fdd8
+EC void func_0200fdd8(s32 bg)
+{
+    s32 x;
+    s32 y;
 
-// #func_0200ff50
+    switch (bg)
+    {
+        case 3:
+            y = gpMainDispIo->unk_40[3] - gpMainScreenSt->unk_3a;
+            x = gpMainDispIo->unk_38[3] - gpMainScreenSt->unk_38;
+            REG_BG3OFS = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            break;
+        case 2:
+            y = gpMainDispIo->unk_40[2] - gpMainScreenSt->unk_3a;
+            x = gpMainDispIo->unk_38[2] - gpMainScreenSt->unk_38;
+            REG_BG2OFS = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            break;
+        case 1:
+            y = gpMainDispIo->unk_40[1] - gpMainScreenSt->unk_3a;
+            x = gpMainDispIo->unk_38[1] - gpMainScreenSt->unk_38;
+            REG_BG1OFS = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            break;
+        case 0:
+            if (gpMainDispIo->dispcnt.unk_3)
+            {
+                func_020a1478(gpMainDispIo->unk_38[0]);
+                return;
+            }
+
+            y = gpMainDispIo->unk_40[0] - gpMainScreenSt->unk_3a;
+            x = gpMainDispIo->unk_38[0] - gpMainScreenSt->unk_38;
+            REG_BG0OFS = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            return;
+    }
+
+    return;
+}
+
+EC void func_0200ff50(s32 bg)
+{
+    s32 x;
+    s32 y;
+
+    switch (bg)
+    {
+        case 3:
+            y = gpSubDispIo->unk_40[3] - gpSubScreenSt->unk_3a;
+            x = gpSubDispIo->unk_38[3] - gpSubScreenSt->unk_38;
+            REG_BG3OFS_SUB = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            break;
+        case 2:
+            y = gpSubDispIo->unk_40[2] - gpSubScreenSt->unk_3a;
+            x = gpSubDispIo->unk_38[2] - gpSubScreenSt->unk_38;
+            REG_BG2OFS_SUB = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            break;
+        case 1:
+            y = gpSubDispIo->unk_40[1] - gpSubScreenSt->unk_3a;
+            x = gpSubDispIo->unk_38[1] - gpSubScreenSt->unk_38;
+            REG_BG1OFS_SUB = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            break;
+        case 0:
+            y = gpSubDispIo->unk_40[0] - gpSubScreenSt->unk_3a;
+            x = gpSubDispIo->unk_38[0] - gpSubScreenSt->unk_38;
+            REG_BG0OFS_SUB = (x & 0x1FF) | ((y << 16) & (0x1FF << 16));
+            break;
+    }
+
+    return;
+}
 
 extern struct KeyState gKeyStObj;
 struct KeyState * gKeySt = &gKeyStObj;
@@ -780,21 +893,26 @@ EC void KeyState_Poll(void)
 
 EC BOOL func_020102d8(s32 param_1)
 {
-    s32 iVar1 = data_020eea00.unk_08;
+    s32 prev;
 
     if (param_1 != 0)
     {
-        data_020eea00.unk_08 = iVar1 - 1;
+        prev = data_020eea00.unk_08;
+        data_020eea00.unk_08 = prev - 1;
     }
     else
     {
-        data_020eea00.unk_08 = iVar1 + 1;
+        prev = data_020eea00.unk_08;
+        data_020eea00.unk_08 = prev + 1;
     }
 
-    return iVar1 == 0;
+    return prev == 0;
 }
 
-// #func_02010310
+EC BOOL func_02010310(void)
+{
+    return data_020eea00.unk_08 == 0;
+}
 
 EC void func_0201032c(void)
 {
@@ -823,13 +941,9 @@ EC void func_020aafb8(void *, void *);
 
 EC void func_02010398(void)
 {
-    s32 iVar1;
-    u16 uVar2;
-    u32 in_r3;
-    u16 local_18[4];
-    u16 local_12;
-    u8 auStack_10[8];
-    u32 uStack_8;
+    u16 value;
+    u8 raw[8];
+    u16 pos[4];
 
     if (data_020eea00.unk_00 != 0)
     {
@@ -842,32 +956,30 @@ EC void func_02010398(void)
         return;
     }
 
-    uStack_8 = in_r3;
     func_020aab40();
 
-    if (func_020aabd4(auStack_10) == 0)
+    if (func_020aabd4(raw) == 0)
     {
-        func_020aafb8(&local_18, auStack_10);
+        func_020aafb8(&pos, raw);
     }
     else
     {
-        local_12 = 3;
+        pos[3] = 3;
     }
 
-    if (local_12 == 0)
+    if (pos[3] == 0)
     {
-
-        gTouchSt->unk_00 = local_18[0];
-        gTouchSt->unk_02 = local_18[1];
+        gTouchSt->unk_00 = pos[0];
+        gTouchSt->unk_02 = pos[1];
 
         if (gTouchSt->unk_12 == 0)
         {
             gTouchSt->unk_14 = 1;
-            gTouchSt->unk_04 = local_18[0];
-            gTouchSt->unk_06 = local_18[1];
-            gTouchSt->unk_0c = local_18[0];
+            gTouchSt->unk_04 = pos[0];
+            gTouchSt->unk_06 = pos[1];
+            gTouchSt->unk_0c = pos[0];
             gTouchSt->unk_08 = gTouchSt->unk_0c;
-            gTouchSt->unk_0e = local_18[1];
+            gTouchSt->unk_0e = pos[1];
             gTouchSt->unk_0a = gTouchSt->unk_0e;
         }
         else
@@ -878,39 +990,19 @@ EC void func_02010398(void)
         gTouchSt->unk_12 = 1;
         gTouchSt->unk_15 = 0;
 
-        uVar2 = local_18[0];
+        value = (pos[0] < gTouchSt->unk_08) ? pos[0] : gTouchSt->unk_08;
+        gTouchSt->unk_08 = value;
 
-        if (gTouchSt->unk_08 <= local_18[0])
-        {
-            uVar2 = gTouchSt->unk_08;
-        }
+        value = (pos[0] > gTouchSt->unk_0c) ? pos[0] : gTouchSt->unk_0c;
+        gTouchSt->unk_0c = value;
 
-        gTouchSt->unk_08 = uVar2;
+        value = (pos[1] < gTouchSt->unk_0a) ? pos[1] : gTouchSt->unk_0a;
+        gTouchSt->unk_0a = value;
 
-        if (local_18[0] <= gTouchSt->unk_0c)
-        {
-            local_18[0] = gTouchSt->unk_0c;
-        }
+        value = (pos[1] > gTouchSt->unk_0e) ? pos[1] : gTouchSt->unk_0e;
+        gTouchSt->unk_0e = value;
 
-        gTouchSt->unk_0c = local_18[0];
-
-        uVar2 = local_18[1];
-
-        if (gTouchSt->unk_0a <= local_18[1])
-        {
-            uVar2 = gTouchSt->unk_0a;
-        }
-
-        gTouchSt->unk_0a = uVar2;
-
-        if (local_18[1] <= gTouchSt->unk_0e)
-        {
-            local_18[1] = gTouchSt->unk_0e;
-        }
-
-        gTouchSt->unk_0e = local_18[1];
-
-        if (gTouchSt->unk_10 < 0xff)
+        if (gTouchSt->unk_10 < 255)
         {
             gTouchSt->unk_10++;
         }
@@ -1017,5 +1109,585 @@ EC void func_020106bc(void)
 {
     func_02010624();
     data_020eea00.unk_00 = 0;
+    return;
+}
+
+EC void func_020106d8(struct HardwareProc * proc)
+{
+    if (!func_02010668())
+    {
+        proc->unk_5a = 0;
+        return;
+    }
+
+    proc->unk_5a = 1;
+    func_020106a0();
+    return;
+}
+
+EC void func_02010704(ProcPtr proc)
+{
+    if (((BIOS_EXTRA_BUTTONS & 0x8000) >> 15) == 0 || func_02010810() == 0)
+    {
+        Proc_Break(proc, 1);
+        return;
+    }
+
+    if (func_02010668())
+    {
+        return;
+    }
+
+    func_020abd14(12, 0, 0);
+    Proc_Break(proc, 1);
+    return;
+}
+
+EC void func_0201076c(struct HardwareProc * proc)
+{
+    if (proc->unk_5a != 0)
+    {
+        func_020106bc();
+    }
+
+    func_02014728();
+    func_020707f0();
+    data_020eea00.unk_00 = 0;
+
+    return;
+}
+
+EC void func_0201079c(void)
+{
+    if (!func_02010810())
+    {
+        return;
+    }
+
+    if (((BIOS_EXTRA_BUTTONS & 0x8000) >> 15) == 0)
+    {
+        return;
+    }
+
+    Proc_Start(data_020ca64c, PROC_TREE_5);
+    return;
+}
+
+EC BOOL func_020107d8(s32 param_1)
+{
+    s32 prev;
+
+    if (param_1 != 0)
+    {
+        prev = data_020eea00.unk_04;
+        data_020eea00.unk_04 = prev - 1;
+    }
+    else
+    {
+        prev = data_020eea00.unk_04;
+        data_020eea00.unk_04 = prev + 1;
+    }
+
+    return prev == 0;
+}
+
+EC BOOL func_02010810(void)
+{
+    if (data_020eea00.unk_04 == 0)
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+EC void func_0201082c(u8 idx, u8 val)
+{
+    u8 * base = IsMainScreenActive() == TRUE ? (u8 *)0x6000000 : (u8 *)0x6200000;
+
+    gpActiveScreenSt->bgTiles[idx] = base + val * 0x4000;
+    gpActiveScreenSt->dispIo->bgcnt[idx].charBaseBlock = val;
+
+    return;
+}
+
+EC void func_02010894(u8 idx, u8 val)
+{
+    gpActiveScreenSt->dispIo->bgcnt[idx].screenBaseBlock = val;
+
+    return;
+}
+
+EC void func_020108c4(u8 idx, u8 val)
+{
+    gpActiveScreenSt->dispIo->bgcnt[idx].screenSize = val;
+
+    return;
+}
+
+EC void func_020108f4(const struct UnkStruct_020108f4 * config, BOOL clear)
+{
+    const struct UnkStruct_020108f4_Bg * bg;
+    u8 * base;
+    s32 i;
+
+    base = IsMainScreenActive() == TRUE ? (u8 *)0x6000000 : (u8 *)0x6200000;
+
+    if (clear)
+    {
+        func_0200f700();
+    }
+
+    func_0200f864();
+
+    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
+    gpActiveScreenSt->dispIo->dispcnt.mode = config->mode;
+    gpActiveScreenSt->dispIo->dispcnt.bit_12 = config->unk_02_0;
+    gpActiveScreenSt->dispIo->dispcnt.bit_13_14 = config->unk_02_4;
+
+    if (IsMainScreenActive() == TRUE)
+    {
+        gpMainDispIo->dispcnt.unk_3 = config->unk_01;
+        gpMainDispIo->dispcnt.unk_02_bit_0 = config->unk_03;
+        gpMainDispIo->dispcnt.unk_02_bit_4 = 0;
+    }
+
+    for (i = 0, bg = config->bg; i < 4; i++, bg++)
+    {
+        void * src;
+        s32 size;
+
+        func_0201082c(i, bg->charBaseBlock);
+        func_02010894(i, bg->screenBaseBlock);
+        func_020108c4(i, bg->screenSize);
+
+        gpActiveScreenSt->dispIo->bgcnt[i].priority = bg->priority;
+        gpActiveScreenSt->dispIo->bgcnt[i].colorMode = bg->colorMode;
+        gpActiveScreenSt->dispIo->bgcnt[i].areaOverflowMode = bg->areaOverflowMode;
+
+        if (!clear)
+        {
+            continue;
+        }
+
+        func_020a5734(0, gpActiveScreenSt->bgTiles[i], 0x40);
+        func_01ff9948(i);
+        size = func_01ff9894(gpActiveScreenSt->dispIo->dispcnt.mode, i);
+        src = base + gpActiveScreenSt->dispIo->bgcnt[i].screenBaseBlock * 0x800;
+        func_020a5780(gpActiveScreenSt->tilemap[i], src, size);
+    }
+
+    gpActiveScreenSt->dispIo->dispcnt.bg0_on = 1;
+    gpActiveScreenSt->dispIo->dispcnt.bg1_on = 1;
+    gpActiveScreenSt->dispIo->dispcnt.bg2_on = 1;
+    gpActiveScreenSt->dispIo->dispcnt.bg3_on = 1;
+    gpActiveScreenSt->dispIo->dispcnt.obj_on = 1;
+
+    return;
+}
+
+EC void func_02010c84(void * config)
+{
+    u8 * base = IsMainScreenActive() == TRUE ? data_020eaa00 : data_020e6a00;
+    s32 i = 0;
+    s32 off = i;
+
+    if (config == NULL)
+    {
+        config = data_020ca67c;
+    }
+
+    for (; i < 4; i++)
+    {
+        gpActiveScreenSt->tilemap[i] = (u16 *)(base + off);
+        off += 0x1000;
+    }
+
+    func_020108f4((struct UnkStruct_020108f4 *)config, 1);
+
+    return;
+}
+
+EC void func_02010d04(void)
+{
+    func_02010c84(data_020ca688);
+
+    return;
+}
+
+EC void func_02010d18(void * config)
+{
+    u8 * base = IsMainScreenActive() == TRUE ? data_020eaa00 : data_020e6a00;
+    s32 i = 0;
+    s32 off = i;
+
+    if (config == NULL)
+    {
+        config = data_020ca67c;
+    }
+
+    for (; i < 4; i++)
+    {
+        gpActiveScreenSt->tilemap[i] = (u16 *)(base + off);
+        off += 0x1000;
+    }
+
+    func_020108f4((struct UnkStruct_020108f4 *)config, 0);
+
+    return;
+}
+
+EC void func_02010d98(void * p, u32 count, u32 tile, u32 pal)
+{
+    u16 * dst = (u16 *)p;
+    s32 i;
+    s32 n = (s32)count;
+
+    for (i = 0, n >>= 1; i < n; i++, dst++)
+    {
+        *dst += tile | (pal << 12);
+    }
+
+    return;
+}
+
+EC void func_02010dcc(u16 * dst, s32 count, u32 val)
+{
+    s32 i;
+
+    for (i = 0, count >>= 1; i < count; i++, dst++)
+    {
+        *dst += val << 12;
+    }
+
+    return;
+}
+
+EC void func_02010dfc(struct UnkStruct_02010dfc * data, u16 * dst, u32 tile, u32 pal)
+{
+    s32 x;
+    s32 w;
+    u16 * src;
+    s32 h;
+    s32 y;
+
+    h = data->unk_01;
+    src = data->unk_02;
+    y = 0;
+    w = data->unk_00;
+
+    for (; y < h; y++)
+    {
+        for (x = 0; x < w; x++, src++)
+        {
+            dst[y * 0x20 + x] = *src + ((tile & 0x3ff) | ((pal & 0xf) << 12));
+        }
+    }
+
+    return;
+}
+
+EC void func_02010e74(u16 * dst, s32 w, s32 h, u32 pal)
+{
+    s32 x;
+    s32 y;
+
+    for (y = 0; y < h; y++)
+    {
+        for (x = 0; x < w; x++)
+        {
+            dst[y * 0x20 + x] &= 0xfff;
+            dst[y * 0x20 + x] |= pal << 12;
+        }
+    }
+
+    return;
+}
+
+EC void func_02010ee0(u16 * dst, s32 w, s32 h, u32 tile, u16 pal)
+{
+    s32 x;
+    s32 y;
+
+    for (y = 0; y < h; y++)
+    {
+        for (x = 0; x < w; x++)
+        {
+            dst[y * 0x20 + x] += tile | (pal << 12);
+        }
+    }
+
+    return;
+}
+
+EC void func_02010f40(u16 * dst, s32 w, s32 h, u32 pal)
+{
+    s32 x;
+    s32 y;
+
+    for (y = 0; y < h; y++)
+    {
+        for (x = 0; x < w; x++)
+        {
+            dst[y * 0x20 + x] += pal << 12;
+        }
+    }
+
+    return;
+}
+
+EC void func_02010f98(u16 * dst, s32 w, s32 h)
+{
+    s32 y;
+
+    for (y = 0; y < h; y++)
+    {
+        func_020a5824(dst, 0, w * 2);
+        dst += 0x20;
+    }
+
+    return;
+}
+
+EC void func_02010fdc(u16 * src, u16 * dst, s32 w, s32 h, s32 flipX, s32 flipY)
+{
+    s32 x;
+    s32 y;
+    u32 flags = 0;
+
+    if (flipX != 0)
+    {
+        flags |= 0x400;
+    }
+
+    if (flipY != 0)
+    {
+        flags |= 0x800;
+    }
+
+    for (y = 0; y < h; y++)
+    {
+        s32 sy = (flipY != 0) ? (h - y - 1) : y;
+
+        for (x = 0; x < w; x++)
+        {
+            s32 sx = (flipX != 0) ? (w - x - 1) : x;
+
+            dst[y * 0x20 + x] = flags ^ src[sy * 0x20 + sx];
+        }
+    }
+
+    return;
+}
+
+EC void func_02011078(u16 * dst, s32 w, s32 h, s32 scaleX, s32 scaleY)
+{
+    s32 newW = (w * scaleX) >> 8;
+    s32 newH = (h * scaleY) >> 8;
+
+    func_02010f98(dst + ((w - newW) >> 1) + ((h - newH) >> 1) * 0x20, w, h);
+
+    return;
+}
+
+EC void func_020110a8(u16 * src, u16 * dst, s32 w, s32 h, s32 scaleX, s32 scaleY, u8 flipX, u8 flipY)
+{
+    s32 x;
+    s32 y;
+    s32 cw;
+    s32 ch;
+    s32 x0;
+    s32 y0;
+    u32 flags = 0;
+
+    if (scaleX == 0 || scaleY == 0)
+    {
+        return;
+    }
+
+    cw = w * scaleX;
+    ch = (h * scaleY) >> 8;
+    x0 = (w - (cw >> 8)) >> 1;
+    y0 = (h - ch) >> 1;
+    cw >>= 8;
+
+    if (flipX)
+    {
+        flags |= 0x400;
+    }
+
+    if (flipY)
+    {
+        flags |= 0x800;
+    }
+
+    for (y = 0; y < ch; y++)
+    {
+        s32 dy = y0 + y;
+        s32 sy = dy;
+
+        if (flipY)
+        {
+            sy = h - dy - 1;
+        }
+
+        for (x = 0; x < cw; x++)
+        {
+            s32 sx = x0 + x;
+
+            if (flipX)
+            {
+                sx = w - sx - 1;
+            }
+
+            dst[x0 + dy * 0x20 + x] = flags ^ src[sy * 0x20 + sx];
+        }
+    }
+
+    return;
+}
+
+EC void func_020111a4(u16 * dst, s32 w, s32 h, s32 scaleX, s32 scaleY)
+{
+    s32 newW = (w * scaleX) >> 8;
+    s32 newH = (h * scaleY) >> 8;
+
+    if (w > newW)
+    {
+        if ((newW & (w != 1)) & 1)
+        {
+            newW++;
+        }
+    }
+
+    if (newH < h)
+    {
+        if ((newH & (h != 1)) & 1)
+        {
+            newH++;
+        }
+    }
+
+    func_02010f98(dst + ((w - newW) >> 1) + ((h - newH) >> 1) * 0x20, (u16)newW, (u16)newH);
+
+    return;
+}
+
+EC void func_0201122c(u16 * src, u16 * dst, s32 w, s32 h, s32 sx, s32 sy, u8 flipX, u8 flipY)
+{
+    s32 j;
+    s32 outW;
+    s32 flags = 0;
+    s32 offY;
+    s32 i;
+    s32 outH;
+    s32 x0;
+    s32 srcRow;
+    s32 col;
+    u32 row;
+
+    if (sx == 0 || sy == 0)
+    {
+        return;
+    }
+
+    outW = (w * sx) >> 8;
+    outH = (h * sy) >> 8;
+
+    if (w > outW)
+    {
+        if (outW & (w != 1) & 1)
+        {
+            outW++;
+        }
+    }
+
+    if (outH < h)
+    {
+        if (outH & (h != 1) & 1)
+        {
+            outH++;
+        }
+    }
+
+    x0 = w - outW;
+    offY = h - outH;
+
+    if (flipX)
+    {
+        flags |= 0x400;
+    }
+
+    if (flipY)
+    {
+        flags |= 0x800;
+    }
+
+    x0 >>= 1;
+
+    for (i = 0; i < outH; i++)
+    {
+        row = (u32)i + (offY >> 1);
+
+        if (row < ((u32)((h + 1) & ~1) >> 1))
+        {
+            srcRow = i;
+        }
+        else
+        {
+            srcRow = h - (outH - i);
+        }
+
+        if (flipY)
+        {
+            srcRow = h - srcRow - 1;
+        }
+
+        for (j = 0; j < outW; j++)
+        {
+            if ((u32)(x0 + j) < ((u32)((w + 1) & ~1) >> 1))
+            {
+                col = j;
+            }
+            else
+            {
+                col = w - (outW - j);
+            }
+
+            if (flipX)
+            {
+                col = w - col - 1;
+            }
+
+            dst[row * 0x20 + x0 + j] = flags ^ src[srcRow * 0x20 + col];
+        }
+    }
+
+    return;
+}
+
+EC void func_020113d0(u16 * dst, u32 tile, u32 pal)
+{
+    u32 attr = (pal & 0xf) << 12;
+
+    dst[0x00] = tile | attr;
+    dst[0x01] = (tile + 1) | attr;
+    dst[0x20] = (tile + 2) | attr;
+    dst[0x21] = (tile + 3) | attr;
+
+    return;
+}
+
+EC void func_02011408(u16 * dst, u32 tile, u32 pal)
+{
+    u32 attr = (pal & 0xf) << 12;
+
+    dst[0x00] = tile | attr;
+    dst[0x01] = (tile + 1) | attr;
+    dst[0x02] = (tile + 4) | attr;
+    dst[0x20] = (tile + 2) | attr;
+    dst[0x21] = (tile + 3) | attr;
+    dst[0x22] = (tile + 5) | attr;
+
     return;
 }

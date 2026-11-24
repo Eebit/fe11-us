@@ -220,9 +220,9 @@ EXTERN_C
 extern struct KeyState * gKeySt;
 // extern ??? gTouchSt
 // extern ??? data_020ca624
-// extern ??? data_020ca64c
-// extern ??? data_020ca67c
-// extern ??? data_020ca688
+extern struct ProcCmd data_020ca64c[];
+extern u8 data_020ca67c[];
+extern u8 data_020ca688[];
 // extern ??? data_020ca694
 // extern ??? data_020ca6a4
 // extern ??? data_020ca6b4
@@ -2857,10 +2857,10 @@ extern s32 data_020d6254;
 // extern ??? data_020e5200
 // extern ??? data_020e5600
 // extern ??? data_020e6000
-// extern ??? data_020e6a00
+extern u8 data_020e6a00[];
 // extern ??? data_020e8a60
 // extern ??? data_020e8a78
-// extern ??? data_020eaa00
+extern u8 data_020eaa00[];
 // extern ??? data_020eea00
 // extern ??? gKeyStObj
 // extern ??? gTouchStObj
