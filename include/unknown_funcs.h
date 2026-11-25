@@ -24,7 +24,7 @@ struct Event;
 struct JobData;
 struct MoveUnit;
 struct BgConfig;
-struct KWData;
+struct UnkStruct_0200de90;
 struct TalkWindow;
 
 EXTERN_C
@@ -396,17 +396,17 @@ EC void func_0200c888(void);
 // EC ??? _ZN7TalkLog8vfunc_04Ev
 // EC ??? _ZN8PalFaderD1Ev
 // EC ??? _ZN8PalFaderD0Ev
-// EC ??? _ZN15TalkWindowEntry9_0200d628EP14TalkWindowDatal
-// EC ??? _ZN15TalkWindowEntry9_0200d65cEl
-// EC ??? _ZN15TalkWindowEntry9_0200d690Ev
-// EC ??? _ZN15TalkWindowEntry9_0200d6a4EPc
-// EC ??? _ZN15TalkWindowEntry9_0200d6e0EPc
-// EC ??? _ZN15TalkWindowEntry9_0200d73cElll
-// EC ??? _ZN14TalkWindowDataC1ElPtl
-// EC ??? _ZN14TalkWindowDataD1Ev
-// EC ??? _ZN14TalkWindowData9_0200d7d4Ev
-// EC ??? _ZN14TalkWindowData9_0200d7e0EPc
-// EC ??? _ZN14TalkWindowData9_0200d7f0El
+// EC ??? _ZN18UnkStruct_0200d6289_0200d628EP18UnkStruct_0200d770l
+// EC ??? _ZN18UnkStruct_0200d6289_0200d65cEl
+// EC ??? _ZN18UnkStruct_0200d6289_0200d690Ev
+// EC ??? _ZN18UnkStruct_0200d6289_0200d6a4EPc
+// EC ??? _ZN18UnkStruct_0200d6289_0200d6e0EPc
+// EC ??? _ZN18UnkStruct_0200d6289_0200d73cElll
+// EC ??? _ZN18UnkStruct_0200d770C1ElPtl
+// EC ??? _ZN18UnkStruct_0200d770D1Ev
+// EC ??? _ZN18UnkStruct_0200d7709_0200d7d4Ev
+// EC ??? _ZN18UnkStruct_0200d7709_0200d7e0EPc
+// EC ??? _ZN18UnkStruct_0200d7709_0200d7f0El
 // EC ??? _ZN10TalkWindowC2Ev
 // EC ??? _ZN10TalkWindowC1Ev
 // EC ??? _ZN10TalkWindowD1Ev
@@ -422,7 +422,7 @@ EC void func_0200c888(void);
 // EC ??? _ZN10TalkWindow9_0200dcb4Ev
 EC void func_0200ddd8(struct TalkWindow *, ProcPtr);
 // EC ??? _ZN10TalkWindow9_0200de18EPv
-EC void func_0200de90(void *, struct KWData *, ProcPtr);
+EC void func_0200de90(void *, struct UnkStruct_0200de90 *, ProcPtr);
 EC void func_0200df24(void *, s32, ProcPtr);
 // EC ??? _ZN8TalkWait4LoopEv
 // EC ??? _ZN2KW4InitEv

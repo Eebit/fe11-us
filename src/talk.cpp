@@ -32,7 +32,7 @@ public:
     /* 1005 */ s8 unk_1005;
     STRUCT_PAD(0x1006, 0x1008);
     /* 1008 */ u32 unk_1008;
-    /* 100C */ char unk_100c;
+    /* 100C */ char unk_100c[24];
 
     s32 vfunc_00();
     s32 vfunc_04();
@@ -47,7 +47,7 @@ public:
     void _0200ca38(char * name);
 };
 
-struct TalkPacked
+struct UnkStruct_0200c084
 {
     /* 00 */ u32 unk_00;
     /* 04 */ u8 unk_04[1];
@@ -70,7 +70,7 @@ struct TalkGlyph
 class TalkFont
 {
 public:
-    /* 04 */ void * unk_04;
+    /* 04 */ TalkGlyph ** unk_04;
     /* 08 */ u8 unk_08;
 
     TalkFont(char * name);
@@ -94,7 +94,7 @@ public:
     virtual void vfunc_08(u32 * dst, s32 x, TalkGlyph * glyph);
 };
 
-struct TalkWindowData
+struct UnkStruct_0200d770
 {
     /* 00 */ TalkFont * unk_00;
     /* 04 */ u32 * unk_04;
@@ -102,26 +102,26 @@ struct TalkWindowData
     /* 0C */ u16 * unk_0c;
     /* 10 */ s32 unk_10;
 
-    TalkWindowData(s32 base, u16 * map, s32 mode);
-    ~TalkWindowData();
+    UnkStruct_0200d770(s32 base, u16 * map, s32 mode);
+    ~UnkStruct_0200d770();
     void _0200d7d4();
     s32 _0200d7e0(char * str);
     s32 _0200d7f0(s32 size);
 };
 
-struct TalkWindowEntry
+struct UnkStruct_0200d628
 {
-    /* 00 */ struct TalkWindowData * unk_00;
+    /* 00 */ struct UnkStruct_0200d770 * unk_00;
     /* 04 */ s32 unk_04;
     /* 08 */ u16 unk_08;
     /* 0A */ u8 unk_0a;
     /* 0B */ u8 unk_0b;
 
-    TalkWindowEntry()
+    UnkStruct_0200d628()
     {
     }
 
-    void _0200d628(struct TalkWindowData * data, s32 size);
+    void _0200d628(struct UnkStruct_0200d770 * data, s32 size);
     void _0200d65c(s32 value);
     u32 * _0200d690();
     s32 _0200d6a4(char * str);
@@ -132,8 +132,8 @@ struct TalkWindowEntry
 class TalkWindow : public ProcEx
 {
 public:
-    /* 38 */ struct TalkWindowData * unk_38;
-    /* 3C */ TalkWindowEntry entries[3];
+    /* 38 */ struct UnkStruct_0200d770 * unk_38;
+    /* 3C */ UnkStruct_0200d628 unk_3c[3];
     /* 60 */ s8 count;
     /* 61 */ s8 unk_61;
 
@@ -150,9 +150,9 @@ public:
     void _0200dcb4();
     void _0200de18(ProcPtr parent);
 
-    TalkWindowEntry * GetEntry(u32 index)
+    UnkStruct_0200d628 * GetUnk3c(u32 index)
     {
-        return &this->entries[index];
+        return &this->unk_3c[index];
     }
 };
 
@@ -162,7 +162,7 @@ struct UnkStruct_02197798
     DispIo * unk_04;
 };
 
-struct TalkLoader
+struct UnkStruct_02006604
 {
     STRUCT_PAD(0x00, 0x08);
 };
@@ -180,7 +180,7 @@ struct UnkStruct_020e3cf8
     }
 };
 
-struct KWData
+struct UnkStruct_0200de90
 {
     STRUCT_PAD(0x00, 0x04);
     /* 04 */ u32 unk_04;
@@ -233,17 +233,17 @@ EC BOOL IsOverlayLoaded(u32 overlayId);
 EC void SetDispEnable_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32);
 EC void SetBgPriority_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32);
 EC void func_02006204(void *, s32, s32, s32, struct ProcEx *);
-EC struct TalkLoader * func_02006604(struct TalkLoader *, const char *, BGCtrl *);
-EC void func_02006624(struct TalkLoader *);
-EC void func_02006670(struct TalkLoader *);
-extern struct TalkLoader * data_020e4dd4;
-EC void func_02006694(struct TalkLoader *, s32);
-EC void func_020066ec(struct TalkLoader *, s32);
-EC void func_02006808(struct TalkLoader *, s32, s32, s32);
+EC struct UnkStruct_02006604 * func_02006604(struct UnkStruct_02006604 *, const char *, BGCtrl *);
+EC void func_02006624(struct UnkStruct_02006604 *);
+EC void func_02006670(struct UnkStruct_02006604 *);
+extern struct UnkStruct_02006604 * data_020e4dd4;
+EC void func_02006694(struct UnkStruct_02006604 *, s32);
+EC void func_020066ec(struct UnkStruct_02006604 *, s32);
+EC void func_02006808(struct UnkStruct_02006604 *, s32, s32, s32);
 extern char data_020ca174[];
-EC s32 func_02006b0c(struct TalkLoader *);
-EC u8 * func_02006b18(struct TalkLoader *);
-EC void * func_02006b24(struct TalkLoader *);
+EC s32 func_02006b0c(struct UnkStruct_02006604 *);
+EC u8 * func_02006b18(struct UnkStruct_02006604 *);
+EC void * func_02006b24(struct UnkStruct_02006604 *);
 EC void func_0206ee78(AbstCtrl *, void *, s32, s32);
 EC void func_0206fe18(AbstCtrl *, s32);
 EC void func_0206fe20(AbstCtrl *, s32, s32);
@@ -333,7 +333,7 @@ public:
     /* 44 */ u32 unk_44;
     /* 48 */ s32 unk_48;
 
-    KW(struct KWData * data) : unk_44(0), unk_48(1)
+    KW(struct UnkStruct_0200de90 * data) : unk_44(0), unk_48(1)
     {
         func_0200452c(&this->unk_38, 0x1c0, 0);
         func_0200456c(&this->unk_38, data, 0);
@@ -349,18 +349,13 @@ class TalkLogViewer : public ProcEx
 {
 public:
     /* 38 */ ILogStream * unk_38;
-    /* 3C */ struct TalkWindowData * unk_3c;
-    /* 40 */ TalkWindowEntry * unk_40;
+    /* 3C */ struct UnkStruct_0200d770 * unk_3c;
+    /* 40 */ UnkStruct_0200d628 * unk_40;
     /* 44 */ s32 unk_44;
     /* 48 */ s32 unk_48;
     /* 4C */ s32 unk_4c;
     /* 50 */ s32 unk_50;
     /* 54 */ s32 unk_54;
-
-    static void * operator new(size_t size, void * ptr)
-    {
-        return ptr;
-    }
 
     TalkLogViewer(ILogStream * log);
     virtual ~TalkLogViewer();
@@ -479,7 +474,7 @@ public:
     STRUCT_PAD(0x3E, 0x40);
     /* 40 */ char * unk_40;
     /* 44 */ TalkWindow * unk_44;
-    /* 48 */ void * unk_48;
+    /* 48 */ struct UnkStruct_0200de90 * unk_48;
     /* 4C */ ProcPtr unk_4c;
     /* 50 */ u8 * unk_50;
 
@@ -493,7 +488,7 @@ public:
     s32 GetDelay();
     void SkipText();
     void Restart(char * str, s32 flag);
-    void ScanHold();
+    void ScanText();
 };
 
 class TalkName : public ProcEx
@@ -503,9 +498,6 @@ public:
     /* 3C */ u8 unk_3c;
     /* 3D */ char unk_3d[0x28];
 
-    TalkName(s32 param) : unk_38(param)
-    {
-    }
     TalkName(s32 param, char * name) : unk_38(param)
     {
         func_0206e7b8(this->unk_3d, name, 40);
@@ -550,7 +542,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_0c_6_7 = 0;
             }
-            func_0200de90(this->unk_44, (struct KWData *)this->unk_48, this);
+            func_0200de90(this->unk_44, this->unk_48, this);
             return 2;
         case 8:
             if (gFaceHandle->faces[this->unk_39].HasFaceInfo())
@@ -900,8 +892,8 @@ inline TalkLogViewer::TalkLogViewer(ILogStream * log) : unk_38(log)
     bg->unk_04->dispIo->unk_40[bg->unk_10] = 0;
     func_0206eee0(data_0219770c, 0, 0, 32);
 
-    this->unk_3c = new TalkWindowData(data_0219770c->vfunc_00() + 32, data_0219770c->vfunc_08(), 1);
-    this->unk_40 = new TalkWindowEntry[16];
+    this->unk_3c = new UnkStruct_0200d770(data_0219770c->vfunc_00() + 32, data_0219770c->vfunc_08(), 1);
+    this->unk_40 = new UnkStruct_0200d628[16];
     for (i = 0; i < 16; i++)
     {
         this->unk_40[i]._0200d628(this->unk_3c, 26);
@@ -1084,7 +1076,7 @@ inline Talk::Talk(char * str, s32 flag)
 
     func_0200e0dc();
     this->unk_4c = new (Proc_Start(ProcScr_020ce750, PROC_TREE_8)) TalkInput();
-    this->unk_48 = func_02004450(data_020ca180);
+    this->unk_48 = static_cast<struct UnkStruct_0200de90 *>(func_02004450(data_020ca180));
     if (func_ov000_021ccbdc())
     {
         data_020e3d44 |= 0x600;
@@ -1138,7 +1130,7 @@ inline void Talk::Restart(char * str, s32 flag)
     Proc_Goto(this, 3, 0);
 }
 
-inline void Talk::ScanHold()
+inline void Talk::ScanText()
 {
     char * p;
 
@@ -1401,7 +1393,7 @@ EC void func_02009afc(void)
 
 EC void func_02009b3c(Talk * talk)
 {
-    struct TalkLoader loader;
+    struct UnkStruct_02006604 loader;
     BGCtrl * bg;
     s16 value;
     DispIo * dispIo;
@@ -1448,7 +1440,7 @@ EC void func_02009d38(Talk * talk)
     char fullPath[32];
     char buf[64];
     char * p;
-    struct TalkLoader loader;
+    struct UnkStruct_02006604 loader;
     BGCtrl * bg;
     s16 value;
     char * name;
@@ -1813,7 +1805,7 @@ EC void func_0200ac20(char * text, ProcPtr parent, s32 flag)
         talk->Restart(str, flag);
     }
 
-    talk->ScanHold();
+    talk->ScanText();
 }
 
 EC BOOL func_0200be60(void)
@@ -1874,7 +1866,7 @@ void TalkInput::Loop()
 
     data_020e3d44 &= ~3;
 
-    if ((gKeySt->pressed & 3) || gTouchSt->unk_14 != 0)
+    if ((gKeySt->pressed & (KEY_BUTTON_A | KEY_BUTTON_B)) || gTouchSt->unk_14 != 0)
     {
         data_020e3d44 |= 1;
     }
@@ -1896,7 +1888,7 @@ void TalkInput::Loop()
         }
     }
 
-    if ((gKeySt->held & 0x81) == 0x81)
+    if ((gKeySt->held & (KEY_BUTTON_A | KEY_DPAD_DOWN)) == (KEY_BUTTON_A | KEY_DPAD_DOWN))
     {
         data_020e3d44 |= 3;
     }
@@ -1906,7 +1898,7 @@ TalkInput::~TalkInput()
 {
 }
 
-EC void func_0200c084(struct TalkPacked * packed, u32 * dst)
+EC void func_0200c084(struct UnkStruct_0200c084 * packed, u32 * dst)
 {
     func_0200c098(packed->unk_04, dst, packed->unk_00 >> 8);
 }
@@ -2061,7 +2053,7 @@ TalkFont::TalkFont(char * name)
     this->unk_04 = NULL;
     if (func_0206ec5c(GetFileSize(name)))
     {
-        this->unk_04 = LoadFileAndCache(name, 0);
+        this->unk_04 = static_cast<TalkGlyph **>(LoadFileAndCache(name, 0));
     }
 }
 
@@ -2173,15 +2165,13 @@ EC void func_0200c6c8(void * unused, u16 * dst, s32 tile, s32 count)
 TalkGlyph * TalkFont::_0200c720(s32 code)
 {
     TalkGlyph * glyph;
-    TalkGlyph ** table;
 
     if (this->unk_04 == NULL)
     {
         return NULL;
     }
 
-    table = (TalkGlyph **)this->unk_04;
-    glyph = table[(u8)code - 32];
+    glyph = this->unk_04[(u8)code - 32];
     while (glyph != NULL && glyph->unk_00 != 0)
     {
         if (glyph->unk_00 == code)
@@ -2236,7 +2226,7 @@ void TalkLog::_0200c850()
     this->unk_1008 = 0;
     this->unk_1005 = 0;
     this->unk_1004 = 0;
-    this->unk_100c = 0;
+    this->unk_100c[0] = 0;
 }
 
 EC void func_0200c888(void)
@@ -2247,7 +2237,7 @@ EC void func_0200c888(void)
 void TalkLog::_0200c89c()
 {
     this->unk_1004 = 0;
-    this->unk_100c = 0;
+    this->unk_100c[0] = 0;
 }
 
 void TalkLog::_0200c8b0()
@@ -2323,7 +2313,7 @@ void TalkLog::_0200c9f0(char * str)
 void TalkLog::_0200ca38(char * name)
 {
 
-    if (func_020b6e2c(&this->unk_100c, name) == 0)
+    if (func_020b6e2c(this->unk_100c, name) == 0)
     {
         return;
     }
@@ -2333,7 +2323,7 @@ void TalkLog::_0200ca38(char * name)
         return;
     }
 
-    func_0206e7b8(&this->unk_100c, name, 24);
+    func_0206e7b8(this->unk_100c, name, 24);
     this->_0200c984('~');
     this->_0200c9f0(name);
     this->_0200c8b0();
@@ -2464,7 +2454,7 @@ void TalkLogViewer::Loop()
         }
     }
 
-    if (gKeySt->pressed & 0x10A)
+    if (gKeySt->pressed & (KEY_BUTTON_B | KEY_BUTTON_START | KEY_BUTTON_R))
     {
         Proc_Break(this, 0);
     }
@@ -2498,7 +2488,7 @@ s32 TalkLog::vfunc_00()
 
 TalkLogViewer::~TalkLogViewer()
 {
-    struct TalkWindowData * data;
+    struct UnkStruct_0200d770 * data;
 
     delete[] this->unk_40;
 
@@ -2558,7 +2548,7 @@ PalFader::~PalFader()
 {
 }
 
-void TalkWindowEntry::_0200d628(struct TalkWindowData * data, s32 size)
+void UnkStruct_0200d628::_0200d628(struct UnkStruct_0200d770 * data, s32 size)
 {
     this->unk_00 = data;
     this->unk_08 = data->_0200d7f0(size);
@@ -2566,7 +2556,7 @@ void TalkWindowEntry::_0200d628(struct TalkWindowData * data, s32 size)
     this->_0200d65c(0);
 }
 
-void TalkWindowEntry::_0200d65c(s32 value)
+void UnkStruct_0200d628::_0200d65c(s32 value)
 {
     u32 size;
     u32 * dst;
@@ -2578,20 +2568,20 @@ void TalkWindowEntry::_0200d65c(s32 value)
     func_020a5734(value, dst, size);
 }
 
-u32 * TalkWindowEntry::_0200d690()
+u32 * UnkStruct_0200d628::_0200d690()
 {
     return &this->unk_00->unk_04[this->unk_08 * 8];
 }
 
-s32 TalkWindowEntry::_0200d6a4(char * str)
+s32 UnkStruct_0200d628::_0200d6a4(char * str)
 {
-    struct TalkWindowData * data = this->unk_00;
+    struct UnkStruct_0200d770 * data = this->unk_00;
 
     data->unk_00->_0200c4d0(&data->unk_04[this->unk_08 * 32 / 4], this->unk_04, str);
     return 0;
 }
 
-char * TalkWindowEntry::_0200d6e0(char * str)
+char * UnkStruct_0200d628::_0200d6e0(char * str)
 {
     s32 width;
     char * result;
@@ -2602,14 +2592,14 @@ char * TalkWindowEntry::_0200d6e0(char * str)
     return result;
 }
 
-void TalkWindowEntry::_0200d73c(s32 base, s32 row, s32 offset)
+void UnkStruct_0200d628::_0200d73c(s32 base, s32 row, s32 offset)
 {
-    struct TalkWindowData * data = this->unk_00;
+    struct UnkStruct_0200d770 * data = this->unk_00;
 
     func_0200c6c8(data->unk_00, &data->unk_0c[base + row * 32], offset + (data->unk_10 + this->unk_08), this->unk_0b);
 }
 
-TalkWindowData::TalkWindowData(s32 base, u16 * map, s32 mode)
+UnkStruct_0200d770::UnkStruct_0200d770(s32 base, u16 * map, s32 mode)
 {
     this->unk_04 = (u32 *)base;
     this->unk_0c = map;
@@ -2618,7 +2608,7 @@ TalkWindowData::TalkWindowData(s32 base, u16 * map, s32 mode)
     this->unk_00 = new TalkFont(NULL);
 }
 
-TalkWindowData::~TalkWindowData()
+UnkStruct_0200d770::~UnkStruct_0200d770()
 {
     if (this->unk_00 != NULL)
     {
@@ -2626,17 +2616,17 @@ TalkWindowData::~TalkWindowData()
     }
 }
 
-void TalkWindowData::_0200d7d4()
+void UnkStruct_0200d770::_0200d7d4()
 {
     this->unk_08 = 0;
 }
 
-s32 TalkWindowData::_0200d7e0(char * str)
+s32 UnkStruct_0200d770::_0200d7e0(char * str)
 {
     return this->unk_00->_0200c628(str);
 }
 
-s32 TalkWindowData::_0200d7f0(s32 size)
+s32 UnkStruct_0200d770::_0200d7f0(s32 size)
 {
     s32 result = this->unk_08;
 
@@ -2647,16 +2637,14 @@ s32 TalkWindowData::_0200d7f0(s32 size)
 TalkWindow::TalkWindow()
 {
     s32 i;
-    s32 first;
 
     this->count = 3;
     this->unk_61 = 0;
-    this->unk_38 = new TalkWindowData(data_02197700->vfunc_00() + 64, data_02197700->vfunc_08(), 2);
+    this->unk_38 = new UnkStruct_0200d770(data_02197700->vfunc_00() + 64, data_02197700->vfunc_08(), 2);
 
-    first = 0;
     for (i = 0; i < this->count; i++)
     {
-        this->entries[first + i]._0200d628(this->unk_38, 32);
+        this->unk_3c[i]._0200d628(this->unk_38, 32);
     }
 
     func_0200c7ac(data_02197700->vfunc_04(), 8, 32767);
@@ -2667,7 +2655,7 @@ TalkWindow::TalkWindow()
 
 TalkWindow::~TalkWindow()
 {
-    struct TalkWindowData * data = this->unk_38;
+    struct UnkStruct_0200d770 * data = this->unk_38;
 
     if (data != NULL)
     {
@@ -2681,7 +2669,7 @@ void TalkWindow::Init()
 
     for (i = 0; i < this->count; i++)
     {
-        this->entries[i]._0200d73c(0, i * 2, 0);
+        this->unk_3c[i]._0200d73c(0, i * 2, 0);
     }
 
     data_02197700->unk_04->unk_3e |= 1 << data_02197700->unk_10;
@@ -2693,7 +2681,7 @@ void TalkWindow::_0200db64()
 
     for (i = 0; i < this->count; i++)
     {
-        this->entries[i]._0200d65c(0);
+        this->unk_3c[i]._0200d65c(0);
     }
 
     this->unk_61 = 0;
@@ -2709,7 +2697,7 @@ char * TalkWindow::_0200dbb0(char * str)
         data_020e3da8._0200c984(str[1]);
     }
 
-    return this->entries[this->unk_61]._0200d6e0(str);
+    return this->unk_3c[this->unk_61]._0200d6e0(str);
 }
 
 void TalkWindow::vfunc_10()
@@ -2735,7 +2723,7 @@ void TalkWindow::_0200dc80()
     {
         this->unk_61 = 0;
     }
-    this->entries[this->unk_61].unk_04 = 0;
+    this->unk_3c[this->unk_61].unk_04 = 0;
 }
 
 void TalkWindow::_0200dcb4()
@@ -2748,7 +2736,7 @@ void TalkWindow::_0200dcb4()
 
     for (i = 0; i < this->count; i++)
     {
-        dst = this->entries[i]._0200d690();
+        dst = this->unk_3c[i]._0200d690();
 
         if (i == this->count - 1)
         {
@@ -2757,11 +2745,11 @@ void TalkWindow::_0200dcb4()
         }
         else
         {
-            src = this->GetEntry(i + 1)->_0200d690();
+            src = this->GetUnk3c(i + 1)->_0200d690();
             stride = 16;
         }
 
-        for (row = 0; row < this->entries[i].unk_0b; row++)
+        for (row = 0; row < this->unk_3c[i].unk_0b; row++)
         {
             dst[0] = dst[2];
             dst[1] = dst[3];
@@ -2803,7 +2791,7 @@ void TalkWindow::_0200de18(ProcPtr parent)
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkScroll(this, this->unk_61 + 1);
 }
 
-EC void func_0200de90(void * unused, struct KWData * data, ProcPtr parent)
+EC void func_0200de90(void * unused, struct UnkStruct_0200de90 * data, ProcPtr parent)
 {
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) KW(data);
 }
@@ -2879,7 +2867,7 @@ TalkWait::~TalkWait()
 
 EC void func_0200e0dc(void)
 {
-    struct TalkLoader * loader;
+    struct UnkStruct_02006604 * loader;
     u16 * palBuf;
     s32 size;
 
@@ -2889,7 +2877,7 @@ EC void func_0200e0dc(void)
         return;
     }
 
-    loader = new TalkLoader;
+    loader = new UnkStruct_02006604;
     if (loader != NULL)
     {
         loader = func_02006604(loader, data_020ca5c0, data_0219771c);
@@ -2907,7 +2895,7 @@ EC void func_0200e0dc(void)
 
 EC void func_0200e208(void)
 {
-    struct TalkLoader * loader;
+    struct UnkStruct_02006604 * loader;
 
     if (data_020e4dd4 == NULL)
     {
