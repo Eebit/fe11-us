@@ -77,6 +77,9 @@ static inline BOOL IsMainScreenActive(void)
 #define REG_BG2OFS_SUB *(vu32 *)(0x04001018)
 #define REG_BG3OFS_SUB *(vu32 *)(0x0400101C)
 
+#define VRAM_MAIN ((u8 *)0x06000000)
+#define VRAM_SUB ((u8 *)0x06200000)
+
 EC u8 __DTCM_LO[];
 
 #define DTCM_IRQ_CHECK_BITS (*(vu32 *)((u32)__DTCM_LO + 0x3FF8))
@@ -1207,7 +1210,7 @@ EC BOOL func_02010810(void)
 
 EC void SetBackgroundTileDataOffset(u8 idx, u8 val)
 {
-    u8 * base = IsMainScreenActive() == TRUE ? (u8 *)0x6000000 : (u8 *)0x6200000;
+    u8 * base = IsMainScreenActive() == TRUE ? VRAM_MAIN : VRAM_SUB;
 
     gpActiveScreenSt->bgTiles[idx] = base + val * 0x4000;
     gpActiveScreenSt->dispIo->bgcnt[idx].charBaseBlock = val;
@@ -1235,7 +1238,7 @@ EC void SetupBackgrounds(const struct BgConfig * config, BOOL clear)
     u8 * base;
     s32 i;
 
-    base = IsMainScreenActive() == TRUE ? (u8 *)0x6000000 : (u8 *)0x6200000;
+    base = IsMainScreenActive() == TRUE ? VRAM_MAIN : VRAM_SUB;
 
     if (clear)
     {
