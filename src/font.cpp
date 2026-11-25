@@ -23,17 +23,11 @@ struct UnkStruct_021970c4
     /* 08 */ u16 * unk_08;
 };
 
-struct UnkStruct_021970bc
-{
-    /* 00 */ struct UnkStruct_Func_02028d60_Ret ** unk_00;
-    STRUCT_PAD(0x04, 0x08);
-    /* 08 */ struct UnkStruct_021970c4 * unk_08;
-    /* 0C */ u16 * unk_0c;
-    /* 10 */ u16 ** unk_10;
-};
-
-extern struct UnkStruct_021970bc data_021970bc;
-extern const s32 data_021970c0[];
+u16 * data_021970c8;
+struct UnkStruct_021970c4 * data_021970c4;
+s32 data_021970c0[1];
+struct UnkStruct_Func_02028d60_Ret ** data_021970bc;
+u16 ** data_021970cc;
 
 EC void func_02028d30(struct UnkStruct_021970c4 * out, s32 index);
 
@@ -53,17 +47,17 @@ static inline void DrawFontSprite(s32 x, s32 y, u32 attr, s32 tile, u32 pal, u32
 EC void func_02028c68(void)
 {
     func_020a8f40("/fonts");
-    data_021970bc.unk_00 = static_cast<struct UnkStruct_Func_02028d60_Ret **>(LoadFileAndCache("sys_wars", 1));
-    data_021970bc.unk_10 = static_cast<u16 **>(LoadFileAndCache("bit", 1));
-    data_021970bc.unk_0c = static_cast<u16 *>(LoadUncompressedFile("pal", 0));
+    data_021970bc = static_cast<struct UnkStruct_Func_02028d60_Ret **>(LoadFileAndCache("sys_wars", 1));
+    data_021970cc = static_cast<u16 **>(LoadFileAndCache("bit", 1));
+    data_021970c8 = static_cast<u16 *>(LoadUncompressedFile("pal", 0));
 
-    if (data_021970bc.unk_08 == NULL)
+    if (data_021970c4 == NULL)
     {
-        data_021970bc.unk_08 = new UnkStruct_021970c4(0);
+        data_021970c4 = new UnkStruct_021970c4(0);
     }
     else
     {
-        func_02028d30(data_021970bc.unk_08, 0);
+        func_02028d30(data_021970c4, 0);
     }
     return;
 }
@@ -85,9 +79,9 @@ EC char * func_02028d1c(s32 chr)
 
 EC void func_02028d30(struct UnkStruct_021970c4 * out, s32 index)
 {
-    out->unk_00 = data_021970bc.unk_00;
+    out->unk_00 = data_021970bc;
     out->unk_04 = data_021970c0[index];
-    out->unk_08 = data_021970bc.unk_10[1];
+    out->unk_08 = data_021970cc[1];
     return;
 }
 
@@ -519,7 +513,7 @@ EC void func_02029480(struct UnkStruct_021970c4 * self, char * str, u32 * out, s
             }
             else if (*str == 31)
             {
-                self->unk_08 = data_021970bc.unk_10[str[1]];
+                self->unk_08 = data_021970cc[str[1]];
             }
             str += func_02028e44(self, str);
         }
@@ -880,7 +874,7 @@ EC void func_02029ee0(
 
     if (width != 0)
     {
-        lines = func_020290f4(data_021970bc.unk_08, str);
+        lines = func_020290f4(data_021970c4, str);
         width = (width + 3) & ~3;
         for (line = 0; line < lines; line++)
         {
@@ -1054,13 +1048,13 @@ EC void func_0202a470(struct UnkStruct_021970c4 * self, s32 chr, u16 * dst, s32 
 
 EC void func_0202a4dc(s32 dst, s32 src)
 {
-    func_01ff9998(data_021970bc.unk_0c + src * 16, dst * 32, 32);
+    func_01ff9998(data_021970c8 + src * 16, dst * 32, 32);
     return;
 }
 
 EC void func_0202a504(s32 dst, s32 row, s32 src)
 {
-    u16 * pal = data_021970bc.unk_0c;
+    u16 * pal = data_021970c8;
     s32 idx = (row - 1) * 3 + 1;
 
     pal += src * 16;
@@ -1070,6 +1064,6 @@ EC void func_0202a504(s32 dst, s32 row, s32 src)
 
 EC void func_0202a53c(s32 dst, s32 src)
 {
-    func_01ff9a00(data_021970bc.unk_0c + src * 16, dst * 32, 32);
+    func_01ff9a00(data_021970c8 + src * 16, dst * 32, 32);
     return;
 }
