@@ -67,7 +67,7 @@ EC void func_02028c68(void)
     return;
 }
 
-EC BOOL func_02028d00(s32 chr)
+EC BOOL func_02028d00(char chr)
 {
     if (chr & 0x80)
     {
@@ -148,7 +148,7 @@ EC u8 func_02028e14(struct UnkStruct_021970c4 * self, char * str)
     return func_02028d60(self, str)->unk_01;
 }
 
-EC BOOL func_02028e24(s32 chr)
+EC BOOL func_02028e24(char chr)
 {
     u8 c;
 
@@ -158,7 +158,7 @@ EC BOOL func_02028e24(s32 chr)
         return FALSE;
     }
 
-    return c < 32;
+    return c < (u8)' ';
 }
 
 EC s32 func_02028e44(struct UnkStruct_021970c4 * unused, char * str)
