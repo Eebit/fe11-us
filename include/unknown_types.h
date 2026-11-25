@@ -233,6 +233,8 @@ struct UnkStruct_021faf8c
     /* 64 */ u8 unk_64;
     STRUCT_PAD(0x65, 0xB9);
     /* B9 */ u8 unk_b9;
+    STRUCT_PAD(0xBA, 0xBC);
+    /* BC */ u8 unk_bc;
 };
 
 EXTERN_C_END

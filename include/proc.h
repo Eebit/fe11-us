@@ -130,6 +130,7 @@ enum
 #define PROC_TREE_3     ((ProcPtr) 3)
 #define PROC_TREE_5     ((ProcPtr) 5)
 #define PROC_TREE_6     ((ProcPtr) 6)
+#define PROC_TREE_8     ((ProcPtr) 8)
 #define PROC_TREE_9     ((ProcPtr) 9)
 #define PROC_TREE_A     ((ProcPtr) 0xA)
 #define PROC_TREE_B     ((ProcPtr) 0xB)

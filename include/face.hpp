@@ -36,6 +36,11 @@ public:
             u32 unk_0c_8_9 : 2;
             u32 unk_0c_a : 22;
         };
+        struct
+        {
+            u32 unk_0c_0_0 : 1;
+            u32 unk_0c_1 : 1;
+        };
     };
     /* 10 */ s16 xBase;
     /* 12 */ s16 yBase;
