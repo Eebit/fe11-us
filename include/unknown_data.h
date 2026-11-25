@@ -1182,7 +1182,7 @@ extern struct ProcCmd ProcScr_020cec14[];
 // extern ??? __vt__9DebugMenu
 // extern ??? __vt__16DebugDialogYesNo
 extern char * data_020d39e0;
-// extern ??? data_020d39e4
+extern struct ProcCmd ProcScr_020d39e4[];
 // extern ??? data_020d39fc
 extern char data_020d3a1c[][2];
 // extern ??? data_020d3ae0

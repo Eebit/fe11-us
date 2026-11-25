@@ -3,6 +3,7 @@
 #include "font.hpp"
 #include "hardware.hpp"
 #include "heap.hpp"
+#include "proc.h"
 
 #include "unknown_data.h"
 #include "unknown_funcs.h"
@@ -1043,5 +1044,32 @@ EC void func_0202a504(s32 dst, s32 row, s32 src)
 EC void func_0202a53c(s32 dst, s32 src)
 {
     func_01ff9a00(data_021970c8 + src * 16, dst * 32, 32);
+    return;
+}
+
+EC ProcPtr func_0202a564(s32 dst)
+{
+    ProcPtr proc = Proc_Start(ProcScr_020d39e4, PROC_TREE_B);
+
+    func_02020178(proc, data_021970c8 + 64, dst * 32 + 30, 4);
+    return proc;
+}
+
+EC void func_0202a5a8(ProcPtr proc)
+{
+    if (proc != NULL)
+    {
+        Proc_End(proc);
+    }
+    else
+    {
+        Proc_EndEach(ProcScr_020d39e4);
+    }
+    return;
+}
+
+EC void func_0202a5cc(void)
+{
+    func_02019034(ProcScr_020d39e4);
     return;
 }

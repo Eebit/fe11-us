@@ -1165,7 +1165,7 @@ EC s32 RollRN(s32, s32);
 // EC ??? func_02020108
 // EC ??? func_02020158
 // EC ??? func_0202016c
-// EC ??? func_02020178
+EC ProcPtr func_02020178(ProcPtr, void *, s32, s32);
 // EC ??? func_020201ec
 EC s32 func_0202025c(u16, u32, u8, u8);
 // EC ??? func_020202e8
