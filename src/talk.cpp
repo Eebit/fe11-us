@@ -83,7 +83,9 @@ public:
     char * _0200c530(u32 * dst, s32 x, char * str);
     s32 _0200c628(char * str);
     s32 _0200c690(char * str);
+    void _0200c6c8(u16 * dst, s32 tile, s32 count);
     TalkGlyph * _0200c720(s32 code);
+    s32 _0200c764(char ** str);
 };
 
 class NameFont : public TalkFont
@@ -150,7 +152,10 @@ public:
     BOOL _0200dc68();
     void _0200dc80();
     void _0200dcb4();
+    void _0200ddd8(ProcPtr parent);
     void _0200de18(ProcPtr parent);
+    void _0200de90(struct UnkStruct_0200de90 * data, ProcPtr parent);
+    void _0200df24(s32 param, ProcPtr parent);
 
     UnkStruct_0200d628 * GetUnk3c(u32 index)
     {
@@ -427,7 +432,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_0c_6_7 = 0;
             }
-            func_0200de90(this->unk_44, this->unk_48, this);
+            this->unk_44->_0200de90(this->unk_48, this);
             return 2;
         case 8:
             if (gFaceHandle->faces[this->unk_39].HasFaceInfo())
@@ -649,7 +654,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_0c_6_7 = 0;
             }
-            func_0200df24(this->unk_44, num, this);
+            this->unk_44->_0200df24(num, this);
             return 2;
         case 18:
             this->unk_40++;
@@ -698,7 +703,7 @@ inline s32 Talk::Advance()
 
         if (this->unk_44->_0200dc68())
         {
-            func_0200ddd8(this->unk_44, this);
+            this->unk_44->_0200ddd8(this);
             return 2;
         }
 
@@ -1971,7 +1976,7 @@ char * TalkFont::_0200c530(u32 * dst, s32 x, char * str)
 {
     TalkGlyph * glyph;
 
-    glyph = this->_0200c720(func_0200c764(this, &str));
+    glyph = this->_0200c720(this->_0200c764(&str));
     if (glyph != NULL)
     {
         this->vfunc_08(dst, x, glyph);
@@ -2009,7 +2014,7 @@ s32 TalkFont::_0200c628(char * str)
 
     while (*str != '\0')
     {
-        glyph = this->_0200c720(func_0200c764(this, &str));
+        glyph = this->_0200c720(this->_0200c764(&str));
         if (glyph != NULL)
         {
             width += glyph->unk_02;
@@ -2020,7 +2025,7 @@ s32 TalkFont::_0200c628(char * str)
 
 s32 TalkFont::_0200c690(char * str)
 {
-    TalkGlyph * glyph = this->_0200c720(func_0200c764(this, &str));
+    TalkGlyph * glyph = this->_0200c720(this->_0200c764(&str));
 
     if (glyph != NULL)
     {
@@ -2029,7 +2034,7 @@ s32 TalkFont::_0200c690(char * str)
     return 6;
 }
 
-EC void func_0200c6c8(void * unused, u16 * dst, s32 tile, s32 count)
+void TalkFont::_0200c6c8(u16 * dst, s32 tile, s32 count)
 {
     s32 i;
     u16 t;
@@ -2071,7 +2076,7 @@ TalkGlyph * TalkFont::_0200c720(s32 code)
     return NULL;
 }
 
-EC s32 func_0200c764(TalkFont * font, char ** str)
+s32 TalkFont::_0200c764(char ** str)
 {
     u8 hi;
     u8 lo;
@@ -2484,7 +2489,7 @@ void UnkStruct_0200d628::_0200d73c(s32 base, s32 row, s32 offset)
 {
     struct UnkStruct_0200d770 * data = this->unk_00;
 
-    func_0200c6c8(data->unk_00, &data->unk_0c[base + row * 32], offset + (data->unk_10 + this->unk_08), this->unk_0b);
+    data->unk_00->_0200c6c8(&data->unk_0c[base + row * 32], offset + (data->unk_10 + this->unk_08), this->unk_0b);
 }
 
 UnkStruct_0200d770::UnkStruct_0200d770(s32 base, u16 * map, s32 mode)
@@ -2661,9 +2666,9 @@ void TalkWindow::_0200dcb4()
     }
 }
 
-EC void func_0200ddd8(TalkWindow * window, ProcPtr parent)
+void TalkWindow::_0200ddd8(ProcPtr parent)
 {
-    new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkScroll(window);
+    new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkScroll(this);
 }
 
 void TalkWindow::_0200de18(ProcPtr parent)
@@ -2679,12 +2684,12 @@ void TalkWindow::_0200de18(ProcPtr parent)
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkScroll(this, this->unk_61 + 1);
 }
 
-EC void func_0200de90(void * unused, struct UnkStruct_0200de90 * data, ProcPtr parent)
+void TalkWindow::_0200de90(struct UnkStruct_0200de90 * data, ProcPtr parent)
 {
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) KW(data);
 }
 
-EC void func_0200df24(void * unused, s32 param, ProcPtr parent)
+void TalkWindow::_0200df24(s32 param, ProcPtr parent)
 {
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkWait(param);
 }

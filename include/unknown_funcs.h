@@ -27,10 +27,7 @@ struct BgConfig;
 struct BGCtrl;
 struct MapStateManager_14;
 struct PersonData;
-struct TalkFont;
-struct TalkWindow;
 struct UnkStruct_02006604;
-struct UnkStruct_0200de90;
 
 EXTERN_C
 
@@ -372,9 +369,9 @@ EC void func_0200c350(u32 *, u32 *);
 // EC ??? _ZN8TalkFont8vfunc_08EPmlP9TalkGlyph
 // EC ??? _ZN8TalkFont9_0200c628EPc
 // EC ??? _ZN8TalkFont9_0200c690EPc
-// EC ??? func_0200c6c8
+// EC ??? _ZN8TalkFont9_0200c6c8EPtll
 // EC ??? _ZN8TalkFont9_0200c720El
-EC s32 func_0200c764(struct TalkFont *, char **);
+// EC ??? _ZN8TalkFont9_0200c764EPPc
 // EC ??? func_0200c7ac
 // EC ??? _ZN7TalkLog9_0200c850Ev
 EC void func_0200c888(void);
@@ -425,10 +422,10 @@ EC void func_0200c888(void);
 // EC ??? _ZN10TalkWindow9_0200dc68Ev
 // EC ??? _ZN10TalkWindow9_0200dc80Ev
 // EC ??? _ZN10TalkWindow9_0200dcb4Ev
-EC void func_0200ddd8(struct TalkWindow *, ProcPtr);
+// EC ??? _ZN10TalkWindow9_0200ddd8EPv
 // EC ??? _ZN10TalkWindow9_0200de18EPv
-EC void func_0200de90(void *, struct UnkStruct_0200de90 *, ProcPtr);
-EC void func_0200df24(void *, s32, ProcPtr);
+// EC ??? _ZN10TalkWindow9_0200de90EP18UnkStruct_0200de90Pv
+// EC ??? _ZN10TalkWindow9_0200df24ElPv
 // EC ??? _ZN8TalkWait4LoopEv
 // EC ??? _ZN2KW4InitEv
 // EC ??? _ZN2KW4LoopEv
