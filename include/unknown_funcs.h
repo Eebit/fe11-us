@@ -24,6 +24,9 @@ struct Event;
 struct JobData;
 struct MoveUnit;
 struct BgConfig;
+struct KWData;
+struct TalkLog;
+struct TalkWindow;
 
 EXTERN_C
 
@@ -371,7 +374,7 @@ EC void InitFaceInfo(void);
 // EC ??? func_0200c7ac
 // EC ??? func_0200c850
 EC void func_0200c888(void);
-// EC ??? func_0200c89c
+EC void func_0200c89c(struct TalkLog *);
 // EC ??? func_0200c8b0
 // EC ??? func_0200c904
 // EC ??? func_0200c984
@@ -412,16 +415,16 @@ EC void func_0200c888(void);
 // EC ??? _ZN10TalkWindowD2Ev
 // EC ??? _ZN10TalkWindow4InitEv
 // EC ??? func_0200db64
-// EC ??? func_0200dbb0
+EC char * func_0200dbb0(struct TalkWindow *, char *);
 // EC ??? func_0200dc10
-// EC ??? func_0200dc44
-// EC ??? func_0200dc68
+EC void func_0200dc44(struct TalkWindow *);
+EC BOOL func_0200dc68(struct TalkWindow *);
 // EC ??? func_0200dc80
 // EC ??? func_0200dcb4
-// EC ??? func_0200ddd8
-// EC ??? func_0200de18
-// EC ??? func_0200de90
-// EC ??? func_0200df24
+EC void func_0200ddd8(void *, ProcPtr);
+EC void func_0200de18(struct TalkWindow *, ProcPtr);
+EC void func_0200de90(void *, struct KWData *, ProcPtr);
+EC void func_0200df24(void *, s32, ProcPtr);
 // EC ??? _ZN8TalkWait4LoopEv
 // EC ??? _ZN2KW4InitEv
 // EC ??? _ZN2KW4LoopEv
