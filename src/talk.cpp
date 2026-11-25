@@ -55,12 +55,6 @@ struct UnkStruct_0200c084
     /* 04 */ u8 unk_04[1];
 };
 
-union UnkStruct_0200c1d0
-{
-    /* 00 */ u32 word;
-    /* 00 */ u8 pixels[4];
-};
-
 struct TalkGlyph
 {
     /* 00 */ u16 unk_00;
@@ -1858,7 +1852,7 @@ EC void func_0200c098(u8 * src, u32 * dst, u32 size)
 
 EC void func_0200c1d0(u8 * src, u32 * dst, u32 size)
 {
-    union UnkStruct_0200c1d0 * cur = (union UnkStruct_0200c1d0 *)dst;
+    s32 * cur = (s32 *)dst;
     s32 k;
     s32 end;
     u32 acc = 0;
@@ -1869,7 +1863,7 @@ EC void func_0200c1d0(u8 * src, u32 * dst, u32 size)
     u8 table[8];
 
     size &= 0xFFFFFC;
-    end = (s32)&cur->pixels[size];
+    end = (s32)cur + size;
 
     while (TRUE)
     {
@@ -1895,7 +1889,7 @@ EC void func_0200c1d0(u8 * src, u32 * dst, u32 size)
                     if (bits == 4)
                     {
                         bits = 0;
-                        (cur++)->word = acc;
+                        *cur++ = acc;
                     }
                     if ((s32)cur >= end)
                     {
@@ -1910,7 +1904,7 @@ EC void func_0200c1d0(u8 * src, u32 * dst, u32 size)
                 if (bits == 4)
                 {
                     bits = 0;
-                    (cur++)->word = acc;
+                    *cur++ = acc;
                 }
                 if ((s32)cur >= end)
                 {
