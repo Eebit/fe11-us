@@ -221,8 +221,8 @@ extern struct KeyState * gKeySt;
 // extern ??? gTouchSt
 // extern ??? data_020ca624
 extern struct ProcCmd data_020ca64c[];
-extern u8 data_020ca67c[];
-extern u8 data_020ca688[];
+extern struct BgConfig data_020ca67c;
+extern struct BgConfig data_020ca688;
 // extern ??? data_020ca694
 // extern ??? data_020ca6a4
 // extern ??? data_020ca6b4

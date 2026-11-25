@@ -23,6 +23,7 @@ struct Dialog;
 struct Event;
 struct JobData;
 struct MoveUnit;
+struct BgConfig;
 
 EXTERN_C
 
@@ -493,11 +494,11 @@ EC void func_02010398(void);
 EC void func_0201079c(void);
 // EC ??? func_020107d8
 // EC ??? func_02010810
-// EC ??? func_0201082c
-// EC ??? func_02010894
-// EC ??? func_020108c4
-// EC ??? func_020108f4
-EC void func_02010c84(void *);
+EC void SetBackgroundTileDataOffset(u8, u8);
+EC void SetBackgroundMapDataOffset(u8, u8);
+EC void SetBackgroundScreenSize(u8, u8);
+EC void SetupBackgrounds(const struct BgConfig *, BOOL);
+EC void func_02010c84(const struct BgConfig *);
 // EC ??? func_02010d04
 // EC ??? func_02010d18
 EC void func_02010d98(u16 *, s32, u32, u32);

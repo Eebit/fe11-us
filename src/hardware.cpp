@@ -34,7 +34,7 @@ struct UnkStruct_02010dfc
     /* 02 */ u16 unk_02[1];
 };
 
-struct UnkStruct_020108f4_Bg
+struct BgConfigEntry
 {
     u16 charBaseBlock : 4;
     u16 screenBaseBlock : 5;
@@ -44,14 +44,14 @@ struct UnkStruct_020108f4_Bg
     u16 areaOverflowMode : 1;
 };
 
-struct UnkStruct_020108f4
+struct BgConfig
 {
     /* 00 */ u8 mode;
     /* 01 */ u8 unk_01;
     /* 02 */ u8 unk_02_0 : 4;
     /* 02 */ u8 unk_02_4 : 4;
     /* 03 */ u8 unk_03;
-    /* 04 */ struct UnkStruct_020108f4_Bg bg[4];
+    /* 04 */ struct BgConfigEntry bg[4];
 };
 
 static inline BOOL IsMainScreenActive(void)
@@ -1205,7 +1205,7 @@ EC BOOL func_02010810(void)
     return FALSE;
 }
 
-EC void func_0201082c(u8 idx, u8 val)
+EC void SetBackgroundTileDataOffset(u8 idx, u8 val)
 {
     u8 * base = IsMainScreenActive() == TRUE ? (u8 *)0x6000000 : (u8 *)0x6200000;
 
@@ -1215,23 +1215,23 @@ EC void func_0201082c(u8 idx, u8 val)
     return;
 }
 
-EC void func_02010894(u8 idx, u8 val)
+EC void SetBackgroundMapDataOffset(u8 idx, u8 val)
 {
     gpActiveScreenSt->dispIo->bgcnt[idx].screenBaseBlock = val;
 
     return;
 }
 
-EC void func_020108c4(u8 idx, u8 val)
+EC void SetBackgroundScreenSize(u8 idx, u8 val)
 {
     gpActiveScreenSt->dispIo->bgcnt[idx].screenSize = val;
 
     return;
 }
 
-EC void func_020108f4(const struct UnkStruct_020108f4 * config, BOOL clear)
+EC void SetupBackgrounds(const struct BgConfig * config, BOOL clear)
 {
-    const struct UnkStruct_020108f4_Bg * bg;
+    const struct BgConfigEntry * bg;
     u8 * base;
     s32 i;
 
@@ -1261,9 +1261,9 @@ EC void func_020108f4(const struct UnkStruct_020108f4 * config, BOOL clear)
         void * src;
         s32 size;
 
-        func_0201082c(i, bg->charBaseBlock);
-        func_02010894(i, bg->screenBaseBlock);
-        func_020108c4(i, bg->screenSize);
+        SetBackgroundTileDataOffset(i, bg->charBaseBlock);
+        SetBackgroundMapDataOffset(i, bg->screenBaseBlock);
+        SetBackgroundScreenSize(i, bg->screenSize);
 
         gpActiveScreenSt->dispIo->bgcnt[i].priority = bg->priority;
         gpActiveScreenSt->dispIo->bgcnt[i].colorMode = bg->colorMode;
@@ -1290,7 +1290,7 @@ EC void func_020108f4(const struct UnkStruct_020108f4 * config, BOOL clear)
     return;
 }
 
-EC void func_02010c84(void * config)
+EC void func_02010c84(const struct BgConfig * config)
 {
     u8 * base = IsMainScreenActive() == TRUE ? data_020eaa00 : data_020e6a00;
     s32 i = 0;
@@ -1298,7 +1298,7 @@ EC void func_02010c84(void * config)
 
     if (config == NULL)
     {
-        config = data_020ca67c;
+        config = &data_020ca67c;
     }
 
     for (; i < 4; i++)
@@ -1307,19 +1307,19 @@ EC void func_02010c84(void * config)
         off += 0x1000;
     }
 
-    func_020108f4((struct UnkStruct_020108f4 *)config, 1);
+    SetupBackgrounds(config, 1);
 
     return;
 }
 
 EC void func_02010d04(void)
 {
-    func_02010c84(data_020ca688);
+    func_02010c84(&data_020ca688);
 
     return;
 }
 
-EC void func_02010d18(void * config)
+EC void func_02010d18(const struct BgConfig * config)
 {
     u8 * base = IsMainScreenActive() == TRUE ? data_020eaa00 : data_020e6a00;
     s32 i = 0;
@@ -1327,7 +1327,7 @@ EC void func_02010d18(void * config)
 
     if (config == NULL)
     {
-        config = data_020ca67c;
+        config = &data_020ca67c;
     }
 
     for (; i < 4; i++)
@@ -1336,7 +1336,7 @@ EC void func_02010d18(void * config)
         off += 0x1000;
     }
 
-    func_020108f4((struct UnkStruct_020108f4 *)config, 0);
+    SetupBackgrounds(config, 0);
 
     return;
 }
