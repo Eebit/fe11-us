@@ -657,7 +657,7 @@ EC void InitWindowConfig(void)
     return;
 }
 
-extern const s16 data_020c53b0[];
+extern const s16 data_020c53b0[]; // gSinLut?
 
 static inline s16 sin(u16 angle)
 {
