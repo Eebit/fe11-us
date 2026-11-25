@@ -38,7 +38,7 @@ public:
         };
         struct
         {
-            u32 unk_0c_0_0 : 1;
+            u32 : 1;
             u32 unk_0c_1 : 1;
         };
     };
