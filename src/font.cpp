@@ -1,37 +1,21 @@
 #include "global.h"
 
+#include "font.hpp"
 #include "hardware.hpp"
 #include "heap.hpp"
 
 #include "unknown_data.h"
 #include "unknown_funcs.h"
 
-struct UnkStruct_Func_02028d60_Ret
-{
-    /* 00 */ u8 unk_00;
-    /* 01 */ u8 unk_01;
-    STRUCT_PAD(0x02, 0x04);
-    /* 04 */ u8 unk_04[32];
-};
-
-struct UnkStruct_021970c4
-{
-    UnkStruct_021970c4(s32 index);
-
-    /* 00 */ struct UnkStruct_Func_02028d60_Ret ** unk_00;
-    /* 04 */ s32 unk_04;
-    /* 08 */ u16 * unk_08;
-};
-
 u16 * data_021970c8;
-struct UnkStruct_021970c4 * data_021970c4;
+struct Font * data_021970c4;
 s32 data_021970c0[1];
-struct UnkStruct_Func_02028d60_Ret ** data_021970bc;
+struct Glyph ** data_021970bc;
 u16 ** data_021970cc;
 
-EC void func_02028d30(struct UnkStruct_021970c4 * out, s32 index);
+EC void func_02028d30(struct Font * out, s32 index);
 
-inline UnkStruct_021970c4::UnkStruct_021970c4(s32 index)
+inline Font::Font(s32 index)
 {
     func_02028d30(this, index);
 }
@@ -47,13 +31,13 @@ static inline void DrawFontSprite(s32 x, s32 y, u32 attr, s32 tile, u32 pal, u32
 EC void func_02028c68(void)
 {
     func_020a8f40("/fonts");
-    data_021970bc = static_cast<struct UnkStruct_Func_02028d60_Ret **>(LoadFileAndCache("sys_wars", 1));
+    data_021970bc = static_cast<struct Glyph **>(LoadFileAndCache("sys_wars", 1));
     data_021970cc = static_cast<u16 **>(LoadFileAndCache("bit", 1));
     data_021970c8 = static_cast<u16 *>(LoadUncompressedFile("pal", 0));
 
     if (data_021970c4 == NULL)
     {
-        data_021970c4 = new UnkStruct_021970c4(0);
+        data_021970c4 = new Font(0);
     }
     else
     {
@@ -77,17 +61,17 @@ EC char * func_02028d1c(s32 chr)
     return data_020d3a1c[chr - ' '];
 }
 
-EC void func_02028d30(struct UnkStruct_021970c4 * out, s32 index)
+EC void func_02028d30(struct Font * out, s32 index)
 {
-    out->unk_00 = data_021970bc;
-    out->unk_04 = data_021970c0[index];
+    out->glyphs = data_021970bc;
+    out->spacing = data_021970c0[index];
     out->unk_08 = data_021970cc[1];
     return;
 }
 
-EC struct UnkStruct_Func_02028d60_Ret * func_02028d60(struct UnkStruct_021970c4 * self, char * str)
+EC struct Glyph * func_02028d60(struct Font * self, char * str)
 {
-    struct UnkStruct_Func_02028d60_Ret * node;
+    struct Glyph * node;
     u8 hi;
     u8 lo;
 
@@ -108,16 +92,16 @@ EC struct UnkStruct_Func_02028d60_Ret * func_02028d60(struct UnkStruct_021970c4 
 
     do
     {
-        node = self->unk_00[lo - ' '];
-        while (node != NULL && node->unk_01 != 0)
+        node = self->glyphs[lo - ' '];
+        while (node != NULL && node->width != 0)
         {
-            if (node->unk_00 == hi)
+            if (node->sjisByte1 == hi)
             {
                 break;
             }
             node++;
         }
-        if (node == NULL || node->unk_01 == 0)
+        if (node == NULL || node->width == 0)
         {
             node = NULL;
             hi = 0;
@@ -128,7 +112,7 @@ EC struct UnkStruct_Func_02028d60_Ret * func_02028d60(struct UnkStruct_021970c4 
     return node;
 }
 
-EC s32 func_02028df8(struct UnkStruct_021970c4 * unused, char * str)
+EC s32 func_02028df8(struct Font * unused, char * str)
 {
     if (func_02028d00(*str))
     {
@@ -138,9 +122,9 @@ EC s32 func_02028df8(struct UnkStruct_021970c4 * unused, char * str)
     return 1;
 }
 
-EC u8 func_02028e14(struct UnkStruct_021970c4 * self, char * str)
+EC u8 func_02028e14(struct Font * self, char * str)
 {
-    return func_02028d60(self, str)->unk_01;
+    return func_02028d60(self, str)->width;
 }
 
 EC BOOL func_02028e24(char chr)
@@ -156,7 +140,7 @@ EC BOOL func_02028e24(char chr)
     return c < (u8)' ';
 }
 
-EC s32 func_02028e44(struct UnkStruct_021970c4 * unused, char * str)
+EC s32 func_02028e44(struct Font * unused, char * str)
 {
     if (*str == 31)
     {
@@ -166,12 +150,12 @@ EC s32 func_02028e44(struct UnkStruct_021970c4 * unused, char * str)
     return 1;
 }
 
-EC s32 func_02028e58(struct UnkStruct_021970c4 * unused1, char * unused2)
+EC s32 func_02028e58(struct Font * unused1, char * unused2)
 {
     return 0;
 }
 
-EC BOOL func_02028e60(struct UnkStruct_021970c4 * unused, char * str)
+EC BOOL func_02028e60(struct Font * unused, char * str)
 {
     switch (*str)
     {
@@ -182,7 +166,7 @@ EC BOOL func_02028e60(struct UnkStruct_021970c4 * unused, char * str)
     }
 }
 
-EC s32 func_02028e7c(struct UnkStruct_021970c4 * self, char * str, s32 tabbed)
+EC s32 func_02028e7c(struct Font * self, char * str, s32 tabbed)
 {
     s32 width;
     s32 maxWidth;
@@ -215,7 +199,7 @@ EC s32 func_02028e7c(struct UnkStruct_021970c4 * self, char * str, s32 tabbed)
         else
         {
             width += func_02028e14(self, str);
-            width += self->unk_04;
+            width += self->spacing;
             str += func_02028df8(self, str);
         }
     }
@@ -224,10 +208,10 @@ EC s32 func_02028e7c(struct UnkStruct_021970c4 * self, char * str, s32 tabbed)
     {
         width = maxWidth;
     }
-    return width - self->unk_04;
+    return width - self->spacing;
 }
 
-EC s32 func_02028f48(struct UnkStruct_021970c4 * self, char * str, s32 lines)
+EC s32 func_02028f48(struct Font * self, char * str, s32 lines)
 {
     s32 width;
 
@@ -264,15 +248,15 @@ EC s32 func_02028f48(struct UnkStruct_021970c4 * self, char * str, s32 lines)
         else
         {
             width += func_02028e14(self, str);
-            width += self->unk_04;
+            width += self->spacing;
             str += func_02028df8(self, str);
         }
     }
 
-    return width - self->unk_04;
+    return width - self->spacing;
 }
 
-EC s32 func_02029034(struct UnkStruct_021970c4 * self, char * str, s32 lines)
+EC s32 func_02029034(struct Font * self, char * str, s32 lines)
 {
     char * start;
 
@@ -314,7 +298,7 @@ EC s32 func_02029034(struct UnkStruct_021970c4 * self, char * str, s32 lines)
     return str - start;
 }
 
-EC s32 func_020290f4(struct UnkStruct_021970c4 * self, char * str)
+EC s32 func_020290f4(struct Font * self, char * str)
 {
     s32 count;
 
@@ -339,9 +323,9 @@ EC s32 func_020290f4(struct UnkStruct_021970c4 * self, char * str)
     return count;
 }
 
-EC void func_0202915c(struct UnkStruct_021970c4 * self, char * str, u32 * out, s32 shift, s32 mode)
+EC void func_0202915c(struct Font * self, char * str, u32 * out, s32 shift, s32 mode)
 {
-    struct UnkStruct_Func_02028d60_Ret * glyph;
+    struct Glyph * glyph;
     u8 * data;
     u32 mask;
     s32 rows;
@@ -360,7 +344,7 @@ EC void func_0202915c(struct UnkStruct_021970c4 * self, char * str, u32 * out, s
     }
     else if (mode > 0)
     {
-        lead = self->unk_04;
+        lead = self->spacing;
         if (lead >= 0)
         {
             lead = 0;
@@ -372,8 +356,8 @@ EC void func_0202915c(struct UnkStruct_021970c4 * self, char * str, u32 * out, s
         mask = 0;
     }
 
-    rows = glyph->unk_01 + shift;
-    data = glyph->unk_04;
+    rows = glyph->width + shift;
+    data = glyph->bitmap;
     bits = shift * 4;
 
     for (i = 0; i < 16; i++)
@@ -394,10 +378,9 @@ EC void func_0202915c(struct UnkStruct_021970c4 * self, char * str, u32 * out, s
     return;
 }
 
-EC void
-func_02029254(struct UnkStruct_021970c4 * self, char * str, u32 * out, s32 shift, s32 mode, s32 col, s32 blockWidth)
+EC void func_02029254(struct Font * self, char * str, u32 * out, s32 shift, s32 mode, s32 col, s32 blockWidth)
 {
-    struct UnkStruct_Func_02028d60_Ret * glyph;
+    struct Glyph * glyph;
     u8 * data;
     u32 mask;
     s32 rows;
@@ -417,7 +400,7 @@ func_02029254(struct UnkStruct_021970c4 * self, char * str, u32 * out, s32 shift
     }
     else if (mode > 0)
     {
-        lead = self->unk_04;
+        lead = self->spacing;
         if (lead >= 0)
         {
             lead = 0;
@@ -429,8 +412,8 @@ func_02029254(struct UnkStruct_021970c4 * self, char * str, u32 * out, s32 shift
         mask = 0;
     }
 
-    rows = glyph->unk_01 + shift;
-    data = glyph->unk_04;
+    rows = glyph->width + shift;
+    data = glyph->bitmap;
     bits = shift * 4;
     if (col + 1 < blockWidth)
     {
@@ -474,14 +457,14 @@ func_02029254(struct UnkStruct_021970c4 * self, char * str, u32 * out, s32 shift
     return;
 }
 
-EC void func_02029418(struct UnkStruct_021970c4 * self, s32 chr, u32 * out)
+EC void func_02029418(struct Font * self, s32 chr, u32 * out)
 {
-    struct UnkStruct_Func_02028d60_Ret * glyph;
+    struct Glyph * glyph;
     u8 * data;
     s32 i;
 
     glyph = func_02028d60(self, func_02028d1c((char)(chr + '0')));
-    data = glyph->unk_04;
+    data = glyph->bitmap;
 
     for (i = 0; i < 16; i++)
     {
@@ -494,7 +477,7 @@ EC void func_02029418(struct UnkStruct_021970c4 * self, s32 chr, u32 * out)
     return;
 }
 
-EC void func_02029480(struct UnkStruct_021970c4 * self, char * str, u32 * out, s32 x, s32 flag)
+EC void func_02029480(struct Font * self, char * str, u32 * out, s32 x, s32 flag)
 {
     if (*str == 0)
     {
@@ -522,7 +505,7 @@ EC void func_02029480(struct UnkStruct_021970c4 * self, char * str, u32 * out, s
             func_0202915c(self, str, out, x, flag);
             flag = 1;
             x += func_02028e14(self, str);
-            x += self->unk_04;
+            x += self->spacing;
             str += func_02028df8(self, str);
         }
         out += (x >> 3) * 16;
@@ -554,8 +537,7 @@ EC void func_0202957c(u16 * dst, s32 x, s32 y, u32 tile, u32 pal, s32 count)
 }
 
 EC s32 func_020295ec(
-    struct UnkStruct_021970c4 * self, char * str, void * out, void * dst, u32 x, u32 y, u32 tile, u32 pal, u32 offset,
-    u32 flag)
+    struct Font * self, char * str, void * out, void * dst, u32 x, u32 y, u32 tile, u32 pal, u32 offset, u32 flag)
 {
     u32 tx;
     s32 col;
@@ -585,19 +567,19 @@ EC s32 func_020295ec(
         else
         {
             px += func_02028e14(self, str);
-            px += self->unk_04;
+            px += self->spacing;
             str += func_02028df8(self, str);
         }
     }
 
-    tx = ALIGN_UP(px - self->unk_04, 8);
+    tx = ALIGN_UP(px - self->spacing, 8);
     func_0202957c(static_cast<u16 *>(dst), x, y, tile, pal, tx >> 3);
     return tx >> 2;
 }
 
 EC s32 func_0202972c(
-    struct UnkStruct_021970c4 * self, char * str, void * out, u16 * dst, u32 x, u32 y, u32 tile, u32 pal, u32 width,
-    u8 center, u8 clear)
+    struct Font * self, char * str, void * out, u16 * dst, u32 x, u32 y, u32 tile, u32 pal, u32 width, u8 center,
+    u8 clear)
 {
     u32 * dstTiles;
     s32 textWidth;
@@ -641,8 +623,7 @@ EC s32 func_0202972c(
     return end >> 2;
 }
 
-EC s32 func_02029850(
-    struct UnkStruct_021970c4 * self, s32 num, void * out, u16 * dst, u32 x, u32 y, u32 tile, u32 pal, u32 count)
+EC s32 func_02029850(struct Font * self, s32 num, void * out, u16 * dst, u32 x, u32 y, u32 tile, u32 pal, u32 count)
 {
     BOOL neg;
     u32 * dstTiles;
@@ -701,8 +682,7 @@ EC s32 func_02029850(
     return n * 2;
 }
 
-EC void
-func_02029a1c(struct UnkStruct_021970c4 * self, u32 value, void * out, void * dst, u32 x, u32 y, u32 tile, u32 pal)
+EC void func_02029a1c(struct Font * self, u32 value, void * out, void * dst, u32 x, u32 y, u32 tile, u32 pal)
 {
     if (value == 10)
     {
@@ -720,7 +700,7 @@ func_02029a1c(struct UnkStruct_021970c4 * self, u32 value, void * out, void * ds
     return;
 }
 
-EC s32 func_02029ae8(struct UnkStruct_021970c4 * self, char * str, u8 * dst, s32 y, s32 x, s32 width, s32 centered)
+EC s32 func_02029ae8(struct Font * self, char * str, u8 * dst, s32 y, s32 x, s32 width, s32 centered)
 {
     s32 flag;
     s32 tiles;
@@ -764,7 +744,7 @@ EC s32 func_02029ae8(struct UnkStruct_021970c4 * self, char * str, u8 * dst, s32
             x += func_02028e58(self, str);
             if (func_02028e60(self, str))
             {
-                n = ALIGN_UP(x - self->unk_04, 8) >> 3;
+                n = ALIGN_UP(x - self->spacing, 8) >> 3;
                 size = col + n;
                 col = n;
                 dst += col * 32;
@@ -814,7 +794,7 @@ EC s32 func_02029ae8(struct UnkStruct_021970c4 * self, char * str, u8 * dst, s32
             func_02029254(self, str, (u32 *)dst, x, flag, col, 4);
             flag = 1;
             x += func_02028e14(self, str);
-            x += self->unk_04;
+            x += self->spacing;
             str += func_02028df8(self, str);
         }
 
@@ -830,7 +810,7 @@ EC s32 func_02029ae8(struct UnkStruct_021970c4 * self, char * str, u8 * dst, s32
         }
     }
 
-    ux = ALIGN_UP(x - self->unk_04, 8);
+    ux = ALIGN_UP(x - self->spacing, 8);
     dst += (ux >> 3) * 32;
     tiles += ux >> 3;
     col += ux >> 3;
@@ -856,8 +836,7 @@ EC s32 func_02029ae8(struct UnkStruct_021970c4 * self, char * str, u8 * dst, s32
     return (alignedWidth != 0 ? alignedWidth * lines : (tiles + 3) & ~3) * 2;
 }
 
-EC void func_02029ee0(
-    struct UnkStruct_021970c4 * self, char * str, s32 x, s32 y, u32 attr, s32 tile, u32 pal, u32 prio, s32 width)
+EC void func_02029ee0(struct Font * self, char * str, s32 x, s32 y, u32 attr, s32 tile, u32 pal, u32 prio, s32 width)
 {
     s32 baseX;
     s32 lines;
@@ -913,7 +892,7 @@ EC void func_02029ee0(
         else
         {
             px += func_02028e14(self, str);
-            px += self->unk_04;
+            px += self->spacing;
             str += func_02028df8(self, str);
         }
 
@@ -941,13 +920,13 @@ EC void func_02029ee0(
     return;
 }
 
-EC void func_0202a1e0(struct UnkStruct_021970c4 * self, u32 * out, s32 index)
+EC void func_0202a1e0(struct Font * self, u32 * out, s32 index)
 {
     func_02029480(self, data_020d39e0, out + index * 8, 0, 0);
     return;
 }
 
-EC void func_0202a208(struct UnkStruct_021970c4 * self, char * str, u16 * dst, s32 x, s32 y, u32 tile, u32 pal)
+EC void func_0202a208(struct Font * self, char * str, u16 * dst, s32 x, s32 y, u32 tile, u32 pal)
 {
     char * table;
     char * glyph;
@@ -990,8 +969,7 @@ EC void func_0202a208(struct UnkStruct_021970c4 * self, char * str, u16 * dst, s
     return;
 }
 
-EC void
-func_0202a30c(struct UnkStruct_021970c4 * self, s32 value, u16 * dst, s32 x, s32 y, u32 tile, u32 pal, s32 count)
+EC void func_0202a30c(struct Font * self, s32 value, u16 * dst, s32 x, s32 y, u32 tile, u32 pal, s32 count)
 {
     BOOL isNegative = FALSE;
     s32 row0;
@@ -1034,7 +1012,7 @@ func_0202a30c(struct UnkStruct_021970c4 * self, s32 value, u16 * dst, s32 x, s32
     return;
 }
 
-EC void func_0202a470(struct UnkStruct_021970c4 * self, s32 chr, u16 * dst, s32 x, s32 y, u32 tile, u32 pal)
+EC void func_0202a470(struct Font * self, s32 chr, u16 * dst, s32 x, s32 y, u32 tile, u32 pal)
 {
     if (chr == 100)
     {

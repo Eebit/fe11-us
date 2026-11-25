@@ -9,6 +9,7 @@
 #include "constants/sounds.h"
 
 #include "database.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "item.hpp"
@@ -21,8 +22,6 @@ namespace arena
 {
 class Arena;
 };
-
-extern struct UnkStruct_021970c4 * data_021970c4;
 
 EC void func_0200ac20(char *, ProcPtr, s32);
 EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);

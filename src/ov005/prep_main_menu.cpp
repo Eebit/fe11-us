@@ -3,6 +3,7 @@
 #include <new>
 
 #include "button.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
@@ -15,16 +16,6 @@
 #include "constants/sounds.h"
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
-
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-extern struct UnkStruct_021970c4 * data_021970cc;
 
 namespace sally
 {
@@ -164,8 +155,6 @@ public:
 };
 
 extern UnkStruct_02217560 * data_ov005_02217560;
-
-extern struct UnkStruct_021970c4 * data_021970c4;
 
 namespace sally
 {

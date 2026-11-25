@@ -1,5 +1,6 @@
 #include "global.h"
 
+#include "font.hpp"
 #include "gamectrl.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
@@ -11,19 +12,6 @@
 
 #include "unknown_funcs.h"
 #include "unknown_types.hpp"
-
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-    void * unk_0c;
-    void * unk_10;
-    void * unk_14;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-extern struct UnkStruct_021970c4 * data_021970cc;
 
 extern struct UnkStruct_02196f24 * data_02196f24;
 
@@ -222,11 +210,11 @@ public:
 
         if (iVar5 != 0)
         {
-            data_021970c4->unk_08 = data_021970cc->unk_14;
+            data_021970c4->unk_08 = data_021970cc[5];
         }
         else
         {
-            data_021970c4->unk_08 = data_021970cc->unk_08;
+            data_021970c4->unk_08 = data_021970cc[2];
         }
 
         // "Free Units"
@@ -236,14 +224,14 @@ public:
 
         if (iVar5 != 0)
         {
-            data_021970c4->unk_08 = data_021970cc->unk_04;
+            data_021970c4->unk_08 = data_021970cc[1];
         }
 
         func_02029850(
             data_021970c4, iVar5, gpActiveScreenSt->bgTiles[this->unk_2c], gpActiveScreenSt->tilemap[this->unk_2c],
             0x1e, iVar7, uVar3 + iVar10, uVar2, 0);
 
-        data_021970c4->unk_08 = data_021970cc->unk_04;
+        data_021970c4->unk_08 = data_021970cc[1];
 
         return;
     }
