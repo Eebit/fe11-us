@@ -79,7 +79,7 @@ EC BOOL func_02028d00(s32 chr)
 
 EC s8 * func_02028d1c(s32 chr)
 {
-    return data_020d3a1c[chr - 32];
+    return data_020d3a1c[chr - ' '];
 }
 
 EC void func_02028d30(struct UnkStruct_021970c4 * out, s32 index)
@@ -103,7 +103,7 @@ EC struct UnkStruct_Func_02028d60_Ret * func_02028d60(struct UnkStruct_021970c4 
     }
     else
     {
-        if (*str < 32)
+        if (*str < ' ')
         {
             return NULL;
         }
@@ -113,7 +113,7 @@ EC struct UnkStruct_Func_02028d60_Ret * func_02028d60(struct UnkStruct_021970c4 
 
     do
     {
-        node = self->unk_00[lo - 32];
+        node = self->unk_00[lo - ' '];
         while (node != NULL && node->unk_01 != 0)
         {
             if (node->unk_00 == hi)
@@ -180,7 +180,7 @@ EC BOOL func_02028e60(struct UnkStruct_021970c4 * unused, s8 * str)
 {
     switch (*str)
     {
-        case 10:
+        case '\n':
             return TRUE;
         default:
             return FALSE;
@@ -485,7 +485,7 @@ EC void func_02029418(struct UnkStruct_021970c4 * self, s32 chr, u32 * out)
     u8 * data;
     s32 i;
 
-    glyph = func_02028d60(self, func_02028d1c((s8)(chr + 48)));
+    glyph = func_02028d60(self, func_02028d1c((s8)(chr + '0')));
     data = glyph->unk_04;
 
     for (i = 0; i < 16; i++)
