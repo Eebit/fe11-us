@@ -5826,7 +5826,7 @@ _ZTI4Talk kind:data(any) addr:0x020ca1a4
 _ZTI9TalkInput kind:data(any) addr:0x020ca1b0
 _ZTV9TalkInput kind:data(any) addr:0x020ca1bc
 _ZTV4Talk kind:data(any) addr:0x020ca1d4
-data_020ca1ec kind:data(any) addr:0x020ca1ec
+ProcScr_Talk kind:data(any) addr:0x020ca1ec
 data_020ca31c kind:data(any) addr:0x020ca31c
 _ZTI8TalkFont kind:data(any) addr:0x020ca320
 _ZTS8TalkFont kind:data(any) addr:0x020ca328
@@ -5846,7 +5846,7 @@ _ZTV7TalkLog kind:data(any) addr:0x020ca3cc
 _ZTV6BG1Clr kind:data(any) addr:0x020ca3e0
 _ZTV8PalFader kind:data(any) addr:0x020ca3f8
 _ZTV13TalkLogViewer kind:data(any) addr:0x020ca410
-data_020ca428 kind:data(any) addr:0x020ca428
+ProcScr_TalkLogViewer kind:data(any) addr:0x020ca428
 _ZTS2KW kind:data(any) addr:0x020ca458
 _ZTS8TalkWait kind:data(any) addr:0x020ca45c
 _ZTI10TalkScroll kind:data(any) addr:0x020ca468
@@ -5866,7 +5866,7 @@ _ZTI8TalkName kind:data(any) addr:0x020ca540
 data_020ca54c kind:data(any) addr:0x020ca54c
 _ZTV8NameFont kind:data(any) addr:0x020ca55c
 _ZTV8TalkName kind:data(any) addr:0x020ca570
-data_020ca588 kind:data(any) addr:0x020ca588
+ProcScr_TalkName kind:data(any) addr:0x020ca588
 data_020ca5c0 kind:data(any) addr:0x020ca5c0
 data_020ca5cc kind:data(any) addr:0x020ca5cc
 gOverlayList kind:data(any) addr:0x020ca5d8

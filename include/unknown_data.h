@@ -172,7 +172,7 @@ EXTERN_C
 // extern ??? _ZTI9TalkInput
 // extern ??? _ZTV9TalkInput
 // extern ??? _ZTV4Talk
-// extern ??? data_020ca1ec
+// extern ??? ProcScr_Talk
 // extern ??? data_020ca31c
 // extern ??? _ZTI8TalkFont
 // extern ??? _ZTS8TalkFont
@@ -192,7 +192,7 @@ EXTERN_C
 // extern ??? _ZTV6BG1Clr
 // extern ??? _ZTV8PalFader
 // extern ??? _ZTV13TalkLogViewer
-// extern ??? data_020ca428
+// extern ??? ProcScr_TalkLogViewer
 // extern ??? _ZTS2KW
 // extern ??? _ZTS8TalkWait
 // extern ??? _ZTI10TalkScroll
@@ -212,7 +212,7 @@ EXTERN_C
 // extern ??? data_020ca54c
 // extern ??? _ZTV8NameFont
 // extern ??? _ZTV8TalkName
-// extern ??? data_020ca588
+// extern ??? ProcScr_TalkName
 // extern ??? data_020ca5c0
 // extern ??? data_020ca5cc
 // extern ??? gOverlayList

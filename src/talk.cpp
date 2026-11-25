@@ -219,9 +219,9 @@ EC void func_0206f7cc(BGCtrl *, s32, s32, s32, s32, s32);
 extern BGCtrl * data_0219770c;
 extern BGCtrl * data_0219771c;
 extern struct TouchState * gTouchSt;
-extern struct ProcCmd data_020ca1ec[];
-extern struct ProcCmd data_020ca428[];
-extern struct ProcCmd data_020ca588[];
+extern struct ProcCmd ProcScr_Talk[];
+extern struct ProcCmd ProcScr_TalkLogViewer[];
+extern struct ProcCmd ProcScr_TalkName[];
 extern char data_020ca348[];
 EC s32 GetFileSize(char * name);
 EC BOOL func_0206ec5c(s32 size);
@@ -1788,16 +1788,16 @@ EC void func_0200ac20(char * text, ProcPtr parent, s32 flag)
     char * str;
 
     str = GetText(text);
-    talk = (Talk *)Proc_Find(data_020ca1ec);
+    talk = (Talk *)Proc_Find(ProcScr_Talk);
     if (talk == NULL)
     {
         if (IsRootProcess((struct Proc *)parent))
         {
-            talk = new (Proc_Start(data_020ca1ec, parent)) Talk(str, flag);
+            talk = new (Proc_Start(ProcScr_Talk, parent)) Talk(str, flag);
         }
         else
         {
-            talk = new (Proc_StartBlocking(data_020ca1ec, parent)) Talk(str, flag);
+            talk = new (Proc_StartBlocking(ProcScr_Talk, parent)) Talk(str, flag);
         }
     }
     else
@@ -1810,12 +1810,12 @@ EC void func_0200ac20(char * text, ProcPtr parent, s32 flag)
 
 EC BOOL func_0200be60(void)
 {
-    return Proc_Find(data_020ca1ec) != NULL;
+    return Proc_Find(ProcScr_Talk) != NULL;
 }
 
 EC BOOL func_0200be80(void)
 {
-    if (Proc_Find(data_020ca1ec) == NULL)
+    if (Proc_Find(ProcScr_Talk) == NULL)
     {
         return FALSE;
     }
@@ -2478,7 +2478,7 @@ EC void func_0200cfb0(ILogStream * log, ProcPtr parent)
         return;
     }
 
-    new (Proc_StartBlocking(data_020ca428, parent)) TalkLogViewer(log);
+    new (Proc_StartBlocking(ProcScr_TalkLogViewer, parent)) TalkLogViewer(log);
 }
 
 s32 TalkLog::vfunc_00()
@@ -3064,7 +3064,7 @@ EC void func_0200e814(struct Proc * proc)
 
 EC BOOL func_0200e83c(s32 mode, char * name, struct Proc * parent)
 {
-    if (Proc_Find(data_020ca588) != NULL)
+    if (Proc_Find(ProcScr_TalkName) != NULL)
     {
         return FALSE;
     }
@@ -3083,13 +3083,13 @@ EC BOOL func_0200e83c(s32 mode, char * name, struct Proc * parent)
     }
 
     data_020e3da8._0200ca38(name);
-    new (Proc_Start(data_020ca588, parent)) TalkName(mode, name);
+    new (Proc_Start(ProcScr_TalkName, parent)) TalkName(mode, name);
     return TRUE;
 }
 
 EC BOOL func_0200e8e4(void)
 {
-    TalkName * name = (TalkName *)Proc_Find(data_020ca588);
+    TalkName * name = (TalkName *)Proc_Find(ProcScr_TalkName);
 
     if (name == NULL)
     {
