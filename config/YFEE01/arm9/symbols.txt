@@ -5874,7 +5874,7 @@ data_020ca608 kind:data(any) addr:0x020ca608
 gKeySt kind:data(any) addr:0x020ca61c
 gTouchSt kind:data(any) addr:0x020ca620
 data_020ca624 kind:data(any) addr:0x020ca624
-data_020ca64c kind:data(any) addr:0x020ca64c
+ProcScr_020ca64c kind:data(any) addr:0x020ca64c
 data_020ca67c kind:data(any) addr:0x020ca67c
 data_020ca688 kind:data(any) addr:0x020ca688
 data_020ca694 kind:data(any) addr:0x020ca694

@@ -1176,7 +1176,7 @@ EC void func_0201079c(void)
         return;
     }
 
-    Proc_Start(data_020ca64c, PROC_TREE_5);
+    Proc_Start(ProcScr_020ca64c, PROC_TREE_5);
     return;
 }
 
