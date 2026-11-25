@@ -77,6 +77,10 @@ static inline BOOL IsMainScreenActive(void)
 #define REG_BG2OFS_SUB *(vu32 *)(0x04001018)
 #define REG_BG3OFS_SUB *(vu32 *)(0x0400101C)
 
+EC u8 __DTCM_LO[];
+
+#define DTCM_IRQ_CHECK_BITS (*(vu32 *)((u32)__DTCM_LO + 0x3FF8))
+
 EC void func_0200f0f0(void);
 EC BOOL func_02010810(void);
 EC void func_01ff9948(u8);
@@ -269,7 +273,7 @@ EC void func_0200f0f0(void)
     {
     };
 
-    *(vu32 *)0x027e3ff8 |= 1;
+    DTCM_IRQ_CHECK_BITS |= 1;
 
     return;
 }
