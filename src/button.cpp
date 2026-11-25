@@ -627,7 +627,7 @@ BOOL Button::vfunc_10(void)
     return this->unk_38->unk_0c == 0;
 }
 
-void Button::vfunc_08(void)
+void Button::Loop(void)
 {
     if (this->unk_64 < this->unk_66)
     {
@@ -666,7 +666,7 @@ static inline u32 GetOam2Chr(u32 c)
 }
 
 // NONMATCHING: https://decomp.me/scratch/04U8Z
-void Button::vfunc_0c(void)
+void Button::Init(void)
 {
     s32 iVar2 = this->unk_50;
 

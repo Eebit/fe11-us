@@ -1834,8 +1834,8 @@ EC void func_02034c44(s32, s32, s32);
 // EC ??? _ZN6Button13func_02035088Ev
 // EC ??? _ZN6Button13func_020350b4Ev
 // EC ??? _ZN6Button8vfunc_10Ev
-// EC ??? _ZN6Button8vfunc_08Ev
-// EC ??? _ZN6Button8vfunc_0cEv
+// EC ??? _ZN6Button4LoopEv
+// EC ??? _ZN6Button4InitEv
 // EC ??? _ZN6Button11SetPositionEll
 // EC ??? _ZN6Button10SetVisibleEl
 // EC ??? _ZN6Button13func_020353b8Ev

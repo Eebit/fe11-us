@@ -110,8 +110,8 @@ public:
         this->unk_38 = NULL;
     }
 
-    /* 08 */ virtual void vfunc_08(void);
-    /* 0C */ virtual void vfunc_0c(void);
+    /* 08 */ virtual void Loop(void);
+    /* 0C */ virtual void Init(void);
     /* 10 */ virtual BOOL vfunc_10(void);
     /* 14 */ virtual void vfunc_14(void);
     /* 18 */ virtual BOOL vfunc_18(void);
