@@ -506,7 +506,7 @@ EC void func_02010d98(u16 *, s32, u32, u32);
 // EC ??? func_02010e74
 // EC ??? func_02010ee0
 // EC ??? func_02010f40
-EC void func_02010f98(u16 *, s32, s32);
+EC void func_02010f98(u16 *, u16, u16);
 // EC ??? func_02010fdc
 // EC ??? func_02011078
 // EC ??? func_020110a8

@@ -866,8 +866,6 @@ void Menu::vfunc_d8(void)
     return;
 }
 
-EC void func_02010f98(u16 *, s32, s32);
-
 void Menu::vfunc_dc(void)
 {
     s32 i;
@@ -890,7 +888,7 @@ void Menu::vfunc_dc(void)
         func_02010f98(
             (u16 *)(gpActiveScreenSt->tilemap[this->unk_2c]) + (this->unk_36 * i + this->unk_34 + 1) +
                 ((this->unk_35 + 1) * 0x20),
-            (u16)(this->unk_36 - 2), (u16)(iVar6 - 2));
+            this->unk_36 - 2, iVar6 - 2);
     }
 
     gpActiveScreenSt->unk_3e |= 1 << this->unk_2c;

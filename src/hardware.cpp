@@ -1438,7 +1438,7 @@ EC void func_02010f40(u16 * dst, s32 w, s32 h, u32 pal)
     return;
 }
 
-EC void func_02010f98(u16 * dst, s32 w, s32 h)
+EC void func_02010f98(u16 * dst, u16 w, u16 h)
 {
     s32 y;
 
@@ -1482,7 +1482,7 @@ EC void func_02010fdc(u16 * src, u16 * dst, s32 w, s32 h, s32 flipX, s32 flipY)
     return;
 }
 
-EC void func_02011078(u16 * dst, s32 w, s32 h, s32 scaleX, s32 scaleY)
+EC void func_02011078(u16 * dst, u16 w, u16 h, s32 scaleX, s32 scaleY)
 {
     s32 newW = (w * scaleX) >> 8;
     s32 newH = (h * scaleY) >> 8;
@@ -1570,7 +1570,7 @@ EC void func_020111a4(u16 * dst, s32 w, s32 h, s32 scaleX, s32 scaleY)
         }
     }
 
-    func_02010f98(dst + ((w - newW) >> 1) + ((h - newH) >> 1) * 0x20, (u16)newW, (u16)newH);
+    func_02010f98(dst + ((w - newW) >> 1) + ((h - newH) >> 1) * 0x20, newW, newH);
 
     return;
 }
