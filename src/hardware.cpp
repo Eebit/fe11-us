@@ -657,38 +657,33 @@ EC void InitWindowConfig(void)
     return;
 }
 
-extern s16 data_020c53b0[]; // gSinLut?
+extern const s16 data_020c53b0[];
+
+static inline s16 sin(u16 angle)
+{
+    return data_020c53b0[(angle >> 4) * 2];
+}
+
+static inline s16 cos(u16 angle)
+{
+    return data_020c53b0[(angle >> 4) * 2 + 1];
+}
 
 EC void func_0200fbf0(struct BgAffineSrcData * src, struct BgAffineDstData * dst)
 {
-    s32 texX;
-    s32 texY;
-    s32 x;
-    s32 y;
-    s32 angle;
-    s32 cosIdx;
-    s32 cos;
-    s32 sin;
+    u16 angle = src->alpha << 8;
+    s32 texX = src->texX;
+    s32 texY = src->texY;
+    s32 x = texX - src->scrX;
+    s32 y = texY - src->scrY;
 
-    angle = ((u16)(src->alpha << 8) >> 4) * 2;
-    cosIdx = angle + 1;
-    cos = data_020c53b0[cosIdx] << 8;
-    texX = src->texX;
-    texY = src->texY;
-    x = texX - src->scrX;
-    y = texY - src->scrY;
+    dst->pa = IntSys_Div(cos(angle) << 8, src->sx) >> 4;
+    dst->pb = IntSys_Div(sin(angle) << 8, src->sx) >> 4;
+    dst->pc = -IntSys_Div(sin(angle) << 8, src->sy) >> 4;
+    dst->pd = IntSys_Div(cos(angle) << 8, src->sy) >> 4;
 
-    dst->pa = IntSys_Div(cos, src->sx) >> 4;
-    sin = data_020c53b0[angle] << 8;
-    dst->pb = IntSys_Div(sin, src->sx) >> 4;
-    dst->pc = -IntSys_Div(sin, src->sy) >> 4;
-    dst->pd = IntSys_Div(cos, src->sy) >> 4;
-
-    y -= texY;
-    x -= texX;
-
-    dst->dx = dst->pa * x + dst->pb * y + (texX << 8);
-    dst->dy = dst->pc * x + dst->pd * y + (texY << 8);
+    dst->dx = dst->pa * (x - texX) + dst->pb * (y - texY) + (texX << 8);
+    dst->dy = dst->pc * (x - texX) + dst->pd * (y - texY) + (texY << 8);
 
     return;
 }
