@@ -500,7 +500,7 @@ EC void func_0201079c(void);
 EC void func_02010c84(void *);
 // EC ??? func_02010d04
 // EC ??? func_02010d18
-EC void func_02010d98(void *, u32, u32, u32);
+EC void func_02010d98(u16 *, s32, u32, u32);
 // EC ??? func_02010dcc
 // EC ??? func_02010dfc
 // EC ??? func_02010e74

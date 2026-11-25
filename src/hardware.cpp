@@ -1341,13 +1341,11 @@ EC void func_02010d18(void * config)
     return;
 }
 
-EC void func_02010d98(void * p, u32 count, u32 tile, u32 pal)
+EC void func_02010d98(u16 * dst, s32 count, u32 tile, u32 pal)
 {
-    u16 * dst = (u16 *)p;
     s32 i;
-    s32 n = (s32)count;
 
-    for (i = 0, n >>= 1; i < n; i++, dst++)
+    for (i = 0, count >>= 1; i < count; i++, dst++)
     {
         *dst += tile | (pal << 12);
     }

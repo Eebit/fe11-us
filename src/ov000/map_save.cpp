@@ -130,7 +130,7 @@ public:
 
         func_0201177c("savemenu_time.sc", (u32)iVar3 + ((u32)uVar4 & ~1));
         func_02011a70("savemenu.cl", this->unk_20 << 5, 0, 0);
-        func_02010d98((void *)iVar3, 0x600, (s16)this->unk_1c, (s16)this->unk_20);
+        func_02010d98((u16 *)iVar3, 0x600, (s16)this->unk_1c, (s16)this->unk_20);
 
         iVar3 = this->unk_28;
         iVar5 = this->unk_24 + 0x30;
