@@ -1,6 +1,7 @@
 #include "global.h"
 
 #include "hardware.hpp"
+#include "heap.hpp"
 
 #include "unknown_data.h"
 #include "unknown_funcs.h"
@@ -203,7 +204,7 @@ EC s32 func_02028e7c(struct UnkStruct_021970c4 * self, char * str, s32 tabbed)
             {
                 if (tabbed)
                 {
-                    width = (width + 7) & ~7;
+                    width = ALIGN_UP(width, 8);
                 }
                 else
                 {
@@ -514,7 +515,7 @@ EC void func_02029480(struct UnkStruct_021970c4 * self, char * str, u32 * out, s
             if (func_02028e60(self, str))
             {
                 flag = 0;
-                x = (x + 7) & ~7;
+                x = ALIGN_UP(x, 8);
             }
             else if (*str == 31)
             {
@@ -579,7 +580,7 @@ EC s32 func_020295ec(
             px += func_02028e58(self, str);
             if (func_02028e60(self, str))
             {
-                tx = (px + 7) & ~7;
+                tx = ALIGN_UP(px, 8);
                 func_0202957c(static_cast<u16 *>(dst), x, y, tile, pal, tx >> 3);
                 px = 0;
                 tile += tx >> 2;
@@ -595,7 +596,7 @@ EC s32 func_020295ec(
         }
     }
 
-    tx = (px - self->unk_04 + 7) & ~7;
+    tx = ALIGN_UP(px - self->unk_04, 8);
     func_0202957c(static_cast<u16 *>(dst), x, y, tile, pal, tx >> 3);
     return tx >> 2;
 }
@@ -631,16 +632,16 @@ EC s32 func_0202972c(
     offset &= 7;
 
     func_02029480(self, str, dstTiles + tile * 8, offset, -1);
-    end = (textWidth + offset + 7) & ~7;
+    end = ALIGN_UP(textWidth + offset, 8);
     func_0202957c(dst, x, y, tile, pal, end >> 3);
 
     if (center != 0)
     {
         if (clear != 0)
         {
-            func_020a5734(0, dstTiles + (tile + (end >> 2)) * 8, ((((total + 7) & ~7) - end) >> 3) * 64);
+            func_020a5734(0, dstTiles + (tile + (end >> 2)) * 8, ((ALIGN_UP(total, 8) - end) >> 3) * 64);
         }
-        return (u32)((total + 7) & ~7) >> 2;
+        return ALIGN_UP(total, 8) >> 2;
     }
 
     return end >> 2;
@@ -767,7 +768,7 @@ EC s32 func_02029ae8(struct UnkStruct_021970c4 * self, char * str, u8 * dst, s32
             x += func_02028e58(self, str);
             if (func_02028e60(self, str))
             {
-                n = ((u32)(x - self->unk_04 + 7) & ~7) >> 3;
+                n = ALIGN_UP(x - self->unk_04, 8) >> 3;
                 size = col + n;
                 col = n;
                 dst += col * 32;
@@ -833,7 +834,7 @@ EC s32 func_02029ae8(struct UnkStruct_021970c4 * self, char * str, u8 * dst, s32
         }
     }
 
-    ux = (x - self->unk_04 + 7) & ~7;
+    ux = ALIGN_UP(x - self->unk_04, 8);
     dst += (ux >> 3) * 32;
     tiles += ux >> 3;
     col += ux >> 3;
