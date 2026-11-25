@@ -86,21 +86,13 @@ struct TalkWindowEntry
 {
     /* 00 */ struct TalkWindowData * unk_00;
     /* 04 */ s32 unk_04;
+    /* 08 */ u16 unk_08;
+    /* 0A */ u8 unk_0a;
+    /* 0B */ u8 unk_0b;
 
     TalkWindowEntry()
     {
     }
-
-    union
-    {
-        /* 08 */ s32 unk_08;
-        struct
-        {
-            /* 08 */ u16 unk_08h;
-            /* 0A */ u8 unk_0a;
-            /* 0B */ u8 unk_0b;
-        };
-    };
 };
 
 EC void func_0200d73c(TalkWindowEntry * entry, s32, s32, s32);
@@ -109,7 +101,7 @@ extern BGCtrl * data_02197700;
 struct TalkWindowData
 {
     /* 00 */ class TalkFont * unk_00;
-    /* 04 */ s32 unk_04;
+    /* 04 */ u32 * unk_04;
     /* 08 */ s32 unk_08;
     /* 0C */ u16 * unk_0c;
     /* 10 */ s32 unk_10;
@@ -124,6 +116,12 @@ struct TalkPacked
     /* 04 */ u8 unk_04[1];
 };
 
+union UnkStruct_0200c1d0
+{
+    /* 00 */ u32 word;
+    /* 00 */ u8 pixels[4];
+};
+
 struct TalkGlyph
 {
     /* 00 */ u16 unk_00;
@@ -133,8 +131,8 @@ struct TalkGlyph
 };
 
 EC void func_0200c098(u8 * src, u32 * dst, u32 size);
-EC void func_0200c1d0(u8 * src, s32 * dst, u32 size);
-EC void func_0200c350(s32 * a, s32 * b);
+EC void func_0200c1d0(u8 * src, u32 * dst, u32 size);
+EC void func_0200c350(u32 * a, u32 * b);
 
 class TalkWindow : public ProcEx
 {
@@ -167,13 +165,13 @@ public:
 };
 
 EC void func_0200d65c(TalkWindowEntry * entry, s32);
-EC void * func_0200d690(TalkWindowEntry * entry);
+EC u32 * func_0200d690(TalkWindowEntry * entry);
 EC s32 func_0206e768(char * str);
 EC char * func_0200d6e0(TalkWindowEntry * entry, char * str);
 EC void func_ov000_021b969c(struct MapStateManager_14 *);
 EC s32 func_0200c690(void * font, char * str, ...);
-EC char * func_0200c4d0(void * font, s32 arg1, s32 x, char * str);
-EC char * func_0200c530(void * font, s32 arg1, s32 x, char * str);
+EC char * func_0200c4d0(void * font, u32 * arg1, s32 x, char * str);
+EC char * func_0200c530(void * font, u32 * arg1, s32 x, char * str);
 EC void func_020a5734(s32 value, void * dst, s32 size);
 EC void func_0200c6c8(void * unused, u16 * dst, s32 tile, s32 count);
 EC s32 func_0200d7f0(struct TalkWindowData * data, s32 size);
@@ -213,7 +211,7 @@ public:
         func_0200d65c(&this->unk_40[(s16)row], 0);
         if (*str == '~')
         {
-            func_0200d6a4(&this->unk_40[(s16)row], str + 1);
+            func_0200d6a4(&this->unk_40[(s16)row], &str[1]);
             func_0200d73c(&this->unk_40[(s16)row], 2, row * 2, 61440);
         }
         else
@@ -275,7 +273,7 @@ EC void func_0206f4e0(AbstCtrl *, u8);
 class TalkLog : public ILogStream
 {
 public:
-    /* 04 */ char unk_04[0x1000];
+    /* 04 */ char unk_04[64][64];
     /* 1004 */ u8 unk_1004;
     /* 1005 */ s8 unk_1005;
     STRUCT_PAD(0x1006, 0x1008);
@@ -658,7 +656,7 @@ EC void func_0200dcb4(void * obj)
 
     for (i = 0; i < window->count; i++)
     {
-        dst = (u32 *)func_0200d690(&window->entries[i]);
+        dst = func_0200d690(&window->entries[i]);
 
         if (i == window->count - 1)
         {
@@ -667,7 +665,7 @@ EC void func_0200dcb4(void * obj)
         }
         else
         {
-            src = (u32 *)func_0200d690(window->GetEntry(i + 1));
+            src = func_0200d690(window->GetEntry(i + 1));
             stride = 16;
         }
 
@@ -738,7 +736,7 @@ EC s32 func_02008a48(char ** ppStr)
 
     if (c == '|')
     {
-        *ppStr = p + 1;
+        *ppStr = &p[1];
         return 0;
     }
 
@@ -778,7 +776,7 @@ EC char * func_02008ae4(char ** ppStr)
 
     if (c == '|')
     {
-        *ppStr = p + 1;
+        *ppStr = &p[1];
         return data_020ca31c;
     }
 
@@ -791,7 +789,7 @@ EC char * func_02008ae4(char ** ppStr)
         {
             *out = *(*ppStr)++;
             i += 2;
-            *(out + 1) = *(*ppStr)++;
+            out[1] = *(*ppStr)++;
             out += 2;
         }
         else
@@ -858,7 +856,7 @@ inline s32 Talk::RunCommand()
         case 8:
             if (gFaceHandle->faces[this->unk_39].HasFaceInfo())
             {
-                p = this->unk_40 + 1;
+                p = &this->unk_40[1];
                 func_0206e7b8(buf, data_020ca14c, 64);
                 func_0206e7f4(buf, func_02008ae4(&p), 64);
                 if (func_020b6e2c(gFaceHandle->faces[this->unk_39].GetFid(), buf) == 0)
@@ -1532,7 +1530,7 @@ TalkName::~TalkName()
 {
 }
 
-EC void func_0200c1d0(u8 * src, s32 * dst, u32 size);
+EC void func_0200c1d0(u8 * src, u32 * dst, u32 size);
 EC void func_0200e938(s32 unused, u64 * dst, s32 x, TalkGlyph * glyph)
 {
     u64 buf[32];
@@ -1544,8 +1542,8 @@ EC void func_0200e938(s32 unused, u64 * dst, s32 x, TalkGlyph * glyph)
     s32 i;
     s32 j;
 
-    func_0200c1d0(glyph->unk_04, (s32 *)buf, 256);
-    dst += (x / 8) * 8;
+    func_0200c1d0(glyph->unk_04, (u32 *)buf, 256);
+    dst = &dst[(x / 8) * 8];
     lo = (x & 7) * 8;
     hi = (8 - (x & 7)) * 8;
     src = buf;
@@ -1604,7 +1602,7 @@ TalkWait::~TalkWait()
 EC void func_0200e0dc(void)
 {
     struct TalkLoader * loader;
-    u8 * palBuf;
+    u16 * palBuf;
     s32 size;
 
     data_020e4dd8 = 0;
@@ -1620,10 +1618,10 @@ EC void func_0200e0dc(void)
     }
     data_020e4dd4 = loader;
 
-    palBuf = static_cast<u8 *>(gHeap._01ffb9bc(512));
+    palBuf = static_cast<u16 *>(gHeap._01ffb9bc(512));
     size = func_02006b0c(data_020e4dd4);
     func_020a5780(func_02006b24(data_020e4dd4), palBuf, size);
-    func_0200c7ac((s32)(palBuf + 480), 0x216D, 0x7FFF);
+    func_0200c7ac((s32)&palBuf[240], 0x216D, 0x7FFF);
     data_0219771c->vfunc_10((s32)palBuf, 0, 0x1E00, 512, 0);
     data_02197718->vfunc_10((s32)palBuf, 0, 0x1400, 512, 1);
     data_0219771c->unk_12 = 0;
@@ -1653,11 +1651,11 @@ EC void func_0200e254(s32 index, char * str)
     s32 base;
 
     func_0206eee0(data_0219771c, 0, 0, 64);
-    func_0206ee78(data_0219771c, func_02006b18(data_020e4dd4) + index * 0x780, 64, 0x780);
+    func_0206ee78(data_0219771c, &func_02006b18(data_020e4dd4)[index * 0x780], 64, 0x780);
 
     NameFont font(NULL);
     x = 48 - func_0200c628((char *)&font, str) / 2;
-    func_0200c4d0(&font, data_0219771c->vfunc_00(), x, str);
+    func_0200c4d0(&font, (u32 *)data_0219771c->vfunc_00(), x, str);
 
     base = data_0219771c->vfunc_00();
     func_0206fe18(data_02197718, 0xC800);
@@ -1849,7 +1847,7 @@ PalFader::~PalFader()
 EC void func_0200d628(TalkWindowEntry * entry, struct TalkWindowData * data, s32 size)
 {
     entry->unk_00 = data;
-    entry->unk_08h = func_0200d7f0(data, size);
+    entry->unk_08 = func_0200d7f0(data, size);
     entry->unk_0b = size;
     func_0200d65c(entry, 0);
 }
@@ -1857,7 +1855,7 @@ EC void func_0200d628(TalkWindowEntry * entry, struct TalkWindowData * data, s32
 EC void func_0200d65c(TalkWindowEntry * entry, s32 value)
 {
     u32 size;
-    void * dst;
+    u32 * dst;
 
     entry->unk_04 = 0;
     entry->unk_0a = 0;
@@ -1866,16 +1864,16 @@ EC void func_0200d65c(TalkWindowEntry * entry, s32 value)
     func_020a5734(value, dst, size);
 }
 
-EC void * func_0200d690(TalkWindowEntry * entry)
+EC u32 * func_0200d690(TalkWindowEntry * entry)
 {
-    return (void *)(entry->unk_00->unk_04 + entry->unk_08h * 32);
+    return &entry->unk_00->unk_04[entry->unk_08 * 8];
 }
 
 EC s32 func_0200d6a4(TalkWindowEntry * entry, char * str)
 {
     struct TalkWindowData * data = entry->unk_00;
 
-    func_0200c4d0(data->unk_00, data->unk_04 + (entry->unk_08h * 32) / 4 * 4, entry->unk_04, str);
+    func_0200c4d0(data->unk_00, &data->unk_04[entry->unk_08 * 32 / 4], entry->unk_04, str);
     return 0;
 }
 
@@ -1885,8 +1883,7 @@ EC char * func_0200d6e0(TalkWindowEntry * entry, char * str)
     char * result;
 
     width = func_0200c690(entry->unk_00->unk_00, str);
-    result =
-        func_0200c530(entry->unk_00->unk_00, entry->unk_00->unk_04 + (entry->unk_08h * 32) / 4 * 4, entry->unk_04, str);
+    result = func_0200c530(entry->unk_00->unk_00, &entry->unk_00->unk_04[entry->unk_08 * 32 / 4], entry->unk_04, str);
     entry->unk_04 += width;
     return result;
 }
@@ -1895,15 +1892,14 @@ EC void func_0200d73c(TalkWindowEntry * entry, s32 base, s32 row, s32 offset)
 {
     struct TalkWindowData * data = entry->unk_00;
 
-    func_0200c6c8(
-        data->unk_00, data->unk_0c + (base + row * 32), offset + (data->unk_10 + entry->unk_08h), entry->unk_0b);
+    func_0200c6c8(data->unk_00, &data->unk_0c[base + row * 32], offset + (data->unk_10 + entry->unk_08), entry->unk_0b);
 }
 
 EC void func_0200d7d4(struct TalkWindowData * data);
 
 TalkWindowData::TalkWindowData(s32 base, u16 * map, s32 mode)
 {
-    this->unk_04 = base;
+    this->unk_04 = (u32 *)base;
     this->unk_0c = map;
     this->unk_10 = mode;
     func_0200d7d4(this);
@@ -1934,7 +1930,7 @@ EC void func_0200c084(struct TalkPacked * packed, u32 * dst)
 
 EC void func_0200c098(u8 * src, u32 * dst, u32 size)
 {
-    s32 end = (s32)dst + (size & 0xFFFFFC);
+    s32 end = (s32)&dst[(size & 0xFFFFFC) / 4];
     u32 acc = 0;
     s32 bits = 0;
     u8 flags;
@@ -1992,9 +1988,9 @@ EC void func_0200c098(u8 * src, u32 * dst, u32 size)
     }
 }
 
-EC void func_0200c1d0(u8 * src, s32 * dst, u32 size)
+EC void func_0200c1d0(u8 * src, u32 * dst, u32 size)
 {
-    u32 * cur = (u32 *)dst;
+    union UnkStruct_0200c1d0 * cur = (union UnkStruct_0200c1d0 *)dst;
     s32 k;
     s32 end;
     u32 acc = 0;
@@ -2005,7 +2001,7 @@ EC void func_0200c1d0(u8 * src, s32 * dst, u32 size)
     u8 table[8];
 
     size &= 0xFFFFFC;
-    end = (s32)cur + size;
+    end = (s32)&cur->pixels[size];
 
     while (TRUE)
     {
@@ -2031,7 +2027,7 @@ EC void func_0200c1d0(u8 * src, s32 * dst, u32 size)
                     if (bits == 4)
                     {
                         bits = 0;
-                        *cur++ = acc;
+                        (cur++)->word = acc;
                     }
                     if ((s32)cur >= end)
                     {
@@ -2046,7 +2042,7 @@ EC void func_0200c1d0(u8 * src, s32 * dst, u32 size)
                 if (bits == 4)
                 {
                     bits = 0;
-                    *cur++ = acc;
+                    (cur++)->word = acc;
                 }
                 if ((s32)cur >= end)
                 {
@@ -2063,9 +2059,9 @@ swap:
     }
 }
 
-EC void func_0200c350(s32 * a, s32 * b)
+EC void func_0200c350(u32 * a, u32 * b)
 {
-    s32 tmp = *a;
+    u32 tmp = *a;
 
     *a = *b;
     *b = tmp;
@@ -2096,9 +2092,9 @@ TalkFont::~TalkFont()
 }
 
 EC s32 func_0200c690(void * font, char * str, ...);
-EC char * func_0200c530(void * font, s32 arg1, s32 x, char * str);
+EC char * func_0200c530(void * font, u32 * arg1, s32 x, char * str);
 
-EC char * func_0200c4d0(void * font, s32 arg1, s32 x, char * str)
+EC char * func_0200c4d0(void * font, u32 * arg1, s32 x, char * str)
 {
     s32 width;
 
@@ -2111,7 +2107,7 @@ EC char * func_0200c4d0(void * font, s32 arg1, s32 x, char * str)
     return str;
 }
 
-EC char * func_0200c530(void * font, s32 arg1, s32 x, char * str)
+EC char * func_0200c530(void * font, u32 * arg1, s32 x, char * str)
 {
     TalkFont * f = (TalkFont *)font;
     void * glyph;
@@ -2133,7 +2129,7 @@ EC void func_0200c588(s32 unused, u32 * dst, s32 x, TalkGlyph * glyph)
     s32 i;
 
     func_0200c098(glyph->unk_04, buf, 128);
-    dst += (x / 8) * 16;
+    dst = &dst[(x / 8) * 16];
     lo = (x & 7) * 4;
     hi = (8 - (x & 7)) * 4;
     q = buf;
@@ -2257,7 +2253,7 @@ EC void func_0200c850(TalkLog * log)
 
     for (i = 0; i < 64; i++)
     {
-        log->unk_04[(i & 63) * 64] = 0;
+        log->unk_04[i & 63][0] = 0;
     }
     log->unk_1008 = 0;
     log->unk_1005 = 0;
@@ -2279,7 +2275,6 @@ EC void func_0200c89c(TalkLog * log)
 EC void func_0200c8b0(void * log)
 {
     TalkLog * talkLog = (TalkLog *)log;
-    s32 line;
 
     if (talkLog->unk_1004 == 0)
     {
@@ -2290,8 +2285,8 @@ EC void func_0200c8b0(void * log)
         return;
     }
     talkLog->unk_1005 = 0;
-    line = (++talkLog->unk_1008 & 63) * 64;
-    (&talkLog->unk_04[line])[talkLog->unk_1005] = 0;
+    talkLog->unk_1008++;
+    talkLog->unk_04[talkLog->unk_1008 & 63][talkLog->unk_1005] = 0;
     talkLog->unk_1004 = 0;
 }
 
@@ -2308,12 +2303,12 @@ EC void func_0200c904(void * log)
     {
         talkLog->unk_1005 = 0;
         talkLog->unk_1008++;
-        *(&talkLog->unk_04[(talkLog->unk_1008 & 63) * 64] + talkLog->unk_1005) = 0;
+        talkLog->unk_04[talkLog->unk_1008 & 63][talkLog->unk_1005] = 0;
     }
 
     talkLog->unk_1005 = 0;
     talkLog->unk_1008++;
-    *(&talkLog->unk_04[(talkLog->unk_1008 & 63) * 64] + talkLog->unk_1005) = 0;
+    talkLog->unk_04[talkLog->unk_1008 & 63][talkLog->unk_1005] = 0;
     talkLog->unk_1004 = 0;
 }
 
@@ -2331,8 +2326,8 @@ EC void func_0200c984(void * log, s32 chr)
     if (pos < 63)
     {
         talkLog->unk_1005 = pos + 1;
-        *(&talkLog->unk_04[(talkLog->unk_1008 & 63) * 64] + pos) = chr;
-        *(&talkLog->unk_04[(talkLog->unk_1008 & 63) * 64] + talkLog->unk_1005) = 0;
+        talkLog->unk_04[talkLog->unk_1008 & 63][pos] = chr;
+        talkLog->unk_04[talkLog->unk_1008 & 63][talkLog->unk_1005] = 0;
         talkLog->unk_1004 = 1;
     }
 }
@@ -2373,7 +2368,7 @@ EC void func_0200ca38(void * log, char * name)
 
 char * TalkLog::vfunc_08(s32 line)
 {
-    return &this->unk_04[(line & 63) * 64];
+    return this->unk_04[line & 63];
 }
 
 EC void func_0200cab4(ProcPtr parent)
