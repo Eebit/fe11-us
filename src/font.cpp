@@ -399,7 +399,8 @@ EC void func_0202915c(struct UnkStruct_021970c4 * self, s8 * str, u32 * out, s32
     return;
 }
 
-EC void func_02029254(struct UnkStruct_021970c4 * self, s8 * str, u32 * out, s32 shift, s32 mode, s32 col, s32 blockWidth)
+EC void
+func_02029254(struct UnkStruct_021970c4 * self, s8 * str, u32 * out, s32 shift, s32 mode, s32 col, s32 blockWidth)
 {
     struct UnkStruct_Func_02028d60_Ret * glyph;
     u8 * data;
