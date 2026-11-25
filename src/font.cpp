@@ -651,7 +651,7 @@ EC s32 func_02029850(
     struct UnkStruct_021970c4 * self, s32 num, void * out, u16 * dst, u32 x, u32 y, u32 tile, u32 pal, u32 count)
 {
     BOOL neg;
-    s32 offset;
+    u32 * dstTiles;
     s32 digit;
     s32 top;
     s32 bottom;
@@ -674,8 +674,9 @@ EC s32 func_02029850(
     {
         digit = IntSys_Mod(num, 10);
         num = IntSys_Div(num, 10);
-        offset = tile * 32;
-        func_02029418(self, digit, (u32 *)(static_cast<u8 *>(out) + offset));
+        dstTiles = static_cast<u32 *>(out);
+        dstTiles += tile * 8;
+        func_02029418(self, digit, dstTiles);
         dst[top + x] = (tile & 0x3FF) | attr;
         dst[bottom + x] = ((tile + 1) & 0x3FF) | attr;
         x--;
@@ -686,8 +687,9 @@ EC s32 func_02029850(
 
     while ((s32)count > 0)
     {
-        offset = tile * 32;
-        func_02029418(self, 0, (u32 *)(static_cast<u8 *>(out) + offset));
+        dstTiles = static_cast<u32 *>(out);
+        dstTiles += tile * 8;
+        func_02029418(self, 0, dstTiles);
         dst[top + x] = (tile & 0x3FF) | attr;
         dst[bottom + x] = ((tile + 1) & 0x3FF) | attr;
         x--;
