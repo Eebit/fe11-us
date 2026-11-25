@@ -582,7 +582,7 @@ EC u32 Random_Next(void);
 
 void Face::UpdateMouth(void)
 {
-    switch (this->unk_0c_4_5)
+    switch (this->unk_0c_6_7)
     {
         case 2:
             if (this->mouthState == 2)
