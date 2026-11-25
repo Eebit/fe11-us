@@ -1,18 +1,20 @@
 #include "global.h"
 
-#include "database.hpp"
-#include "unit.hpp"
-#include "unknown_funcs.h"
-#include "unknown_types.h"
-#include "unknown_types.hpp"
 #include <new>
 
+#include "database.hpp"
+#include "event.hpp"
 #include "face.hpp"
 #include "hardware.hpp"
 #include "heap.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
+#include "unit.hpp"
+#include "unknown_data.h"
+#include "unknown_funcs.h"
+#include "unknown_types.h"
+#include "unknown_types.hpp"
 
 #include "constants/sounds.h"
 
@@ -188,125 +190,8 @@ struct UnkStruct_0200de90
     /* 0C */ u32 unk_0c;
 };
 
-class EventSkip
-{
-public:
-    static void SkipTransitionFrom0To2(void);
-    static BOOL IsSkipState4(void);
-};
-
-EC void func_020049b4(void *, u32, u32, u32, u32, u32);
-EC void func_0200452c(void *, u32, u32);
-EC void func_0200456c(void *, void *, u32);
-EC void func_0206eeb0(struct AbstCtrl *, u32, u32);
-EC void func_0206ef14(struct AbstCtrl *, u32, u32, u32, u32);
 extern AbstCtrl * data_02197718;
-EC void func_020045fc(void *);
-EC void func_0200cfb0(ILogStream * log, ProcPtr proc);
-extern TalkLog data_020e3da8;
-extern struct KeyState * gKeySt;
-extern struct UnkStruct_02196f24 * data_02196f24;
-extern BGCtrl * data_02197700;
-EC void func_0200c098(u8 * src, u32 * dst, u32 size);
-EC void func_0200c1d0(u8 * src, u32 * dst, u32 size);
-EC void func_0200c350(u32 * a, u32 * b);
-EC void func_0200c7ac(s32 arg, s32 count, s32 color);
-EC s32 func_0206e768(char * str);
-EC void func_ov000_021b969c(struct MapStateManager_14 *);
-EC void func_020a5734(s32 value, void * dst, s32 size);
-EC void func_0200c6c8(void * unused, u16 * dst, s32 tile, s32 count);
-EC void func_0206f7cc(BGCtrl *, s32, s32, s32, s32, s32);
-extern BGCtrl * data_0219770c;
-extern BGCtrl * data_0219771c;
-extern struct TouchState * gTouchSt;
-extern struct ProcCmd ProcScr_Talk[];
-extern struct ProcCmd ProcScr_TalkLogViewer[];
-extern struct ProcCmd ProcScr_TalkName[];
-extern char data_020ca348[];
-EC s32 GetFileSize(char * name);
-EC BOOL func_0206ec5c(s32 size);
-EC void * LoadFileAndCache(char *, u32);
-EC s32 func_0200c764(TalkFont * font, char ** str);
-extern u32 data_020e3d44;
-extern struct UnkStruct_021faf8c data_ov002_021faf8c;
-EC BOOL IsOverlayLoaded(u32 overlayId);
-EC void SetDispEnable_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32);
-EC void SetBgPriority_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32);
-EC void func_02006204(void *, s32, s32, s32, struct ProcEx *);
-EC struct UnkStruct_02006604 * func_02006604(struct UnkStruct_02006604 *, const char *, BGCtrl *);
-EC void func_02006624(struct UnkStruct_02006604 *);
-EC void func_02006670(struct UnkStruct_02006604 *);
-extern struct UnkStruct_02006604 * data_020e4dd4;
-EC void func_02006694(struct UnkStruct_02006604 *, s32);
-EC void func_020066ec(struct UnkStruct_02006604 *, s32);
-EC void func_02006808(struct UnkStruct_02006604 *, s32, s32, s32);
-extern char data_020ca174[];
-EC s32 func_02006b0c(struct UnkStruct_02006604 *);
-EC u8 * func_02006b18(struct UnkStruct_02006604 *);
-EC void * func_02006b24(struct UnkStruct_02006604 *);
-EC void func_0206ee78(AbstCtrl *, void *, s32, s32);
-EC void func_0206fe18(AbstCtrl *, s32);
-EC void func_0206fe20(AbstCtrl *, s32, s32);
-EC void func_0206fe48(AbstCtrl *, s32);
-EC void func_020a5780(void *, void *, s32);
-EC char * GetText(char *);
-EC void StartFaceHandle(ProcPtr parent);
-EC void func_0200e0dc(void);
-extern u8 data_020e4dd8;
-extern char data_020ca5c0[];
-EC void func_0206f8a0(AbstCtrl *, s32, s32, s32, s32, s32);
-EC void func_0206f580(AbstCtrl *, s32);
-EC void func_0206eee0(AbstCtrl *, s32, s32, s32);
-extern struct ProcCmd ProcScr_020ce750[];
-EC void func_0206fc44(AbstCtrl *, s32);
-EC void func_0206ef9c(AbstCtrl *, s32, s32, s32, s32, s32);
-EC void func_0206f0fc(AbstCtrl *, s32, s32, s32, s32);
-extern BGCtrl * data_021976f8;
-extern struct UnkStruct_020e3cf8 data_020e3cf8;
-EC void func_02006b70(void * obj);
-EC void func_02013530(void * obj, s32, s32, s32);
-EC BOOL IsWirelessBattle(void);
-EC struct UnkStruct_02197798 * func_0206ecb0(void);
-EC struct UnkStruct_02197798 * func_0206eca4(void);
-EC void func_02006398(void *, u32, u32, struct ProcEx *);
-EC char * func_02008ae4(char ** ppStr);
-EC s32 func_02008a48(char ** ppStr);
-EC char * func_02037ef0(struct PersonData * pPerson, Unit * pUnit);
-EC char * func_0206e7b8(char * dst, const char * src, s32 size);
-EC char * func_0206e7f4(char * dst, const char * src, s32 size);
-EC s32 Interpolate(s32, s32, s32, s32, s32);
-EC s32 func_020b6e2c(char *, char *);
-EC void func_020062e8(void *, s32, s32, ProcPtr);
 EC char * func_ov000_021a418c(char * str);
-EC void func_02006e38(void * obj, char * path, s32, s32);
-EC void func_02006d3c(void * obj);
-EC BOOL FileExists(char * path);
-EC void func_020a8f40(char * path);
-extern Unit * data_021974f0;
-extern char data_020ca15c[];
-extern char data_020ca18c[];
-extern char data_020ca148[];
-extern char data_020ca14c[];
-extern char data_020ca154[];
-extern char data_020ca16c[];
-extern char data_020e3d48[];
-EC void func_020135b8(void);
-EC BOOL func_0200e83c(s32 mode, char * name, struct Proc * parent);
-EC BOOL func_0200e8e4(void);
-EC void func_0200e208(void);
-EC void func_02004460(void * obj);
-EC void EndFaceHandle(void);
-EC s32 IsAddressInVramRange(s32);
-EC void func_01ffc404(u16, u16, u16, u16 *, s32);
-extern u16 data_020ca54c[4];
-extern u32 data_020e4dcc[];
-extern char data_020ca31c[];
-extern char data_020e3d68[];
-EC void func_0200e254(s32, char *);
-EC void func_02006c14(void *);
-EC void * func_02004450(char *);
-EC BOOL func_ov000_021ccbdc(void);
-extern char data_020ca180[];
 
 class TalkScroll : public ProcEx
 {
@@ -571,9 +456,10 @@ inline s32 Talk::RunCommand()
             name = func_02008ae4(&this->unk_40);
             if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
             {
-                if (data_021974f0 != NULL)
+                if (data_021974f0 != 0)
                 {
-                    func_0206e7b8(fidBuf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
+                    func_0206e7b8(
+                        fidBuf, func_02037ef0(((Unit *)data_021974f0)->pPersonData, (Unit *)data_021974f0), 64);
                 }
                 else
                 {
@@ -963,9 +849,10 @@ inline void Talk::SkipText()
                 name = func_02008ae4(&this->unk_40);
                 if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
                 {
-                    if (data_021974f0 != NULL)
+                    if (data_021974f0 != 0)
                     {
-                        func_0206e7b8(buf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
+                        func_0206e7b8(
+                            buf, func_02037ef0(((Unit *)data_021974f0)->pPersonData, (Unit *)data_021974f0), 64);
                     }
                     else
                     {
@@ -1530,9 +1417,10 @@ scanned:
                     name = func_02008ae4(&p);
                     if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
                     {
-                        if (data_021974f0 != NULL)
+                        if (data_021974f0 != 0)
                         {
-                            func_0206e7b8(buf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
+                            func_0206e7b8(
+                                buf, func_02037ef0(((Unit *)data_021974f0)->pPersonData, (Unit *)data_021974f0), 64);
                         }
                         else
                         {

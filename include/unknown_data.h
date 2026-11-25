@@ -158,26 +158,26 @@ EXTERN_C
 // extern ??? data_020ca12c
 // extern ??? data_020ca138
 // extern ??? data_020ca144
-// extern ??? data_020ca148
-// extern ??? data_020ca14c
-// extern ??? data_020ca154
-// extern ??? data_020ca15c
+extern char data_020ca148[];
+extern char data_020ca14c[];
+extern char data_020ca154[];
+extern char data_020ca15c[];
 // extern ??? _ZTS4Talk
-// extern ??? data_020ca16c
-// extern ??? data_020ca174
-// extern ??? data_020ca180
-// extern ??? data_020ca18c
+extern char data_020ca16c[];
+extern char data_020ca174[];
+extern char data_020ca180[];
+extern char data_020ca18c[];
 // extern ??? _ZTS9TalkInput
 // extern ??? _ZTI4Talk
 // extern ??? _ZTI9TalkInput
 // extern ??? _ZTV9TalkInput
 // extern ??? _ZTV4Talk
-// extern ??? ProcScr_Talk
-// extern ??? data_020ca31c
+extern struct ProcCmd ProcScr_Talk[];
+extern char data_020ca31c[];
 // extern ??? _ZTI8TalkFont
 // extern ??? _ZTS8TalkFont
 // extern ??? _ZTV8TalkFont
-// extern ??? data_020ca348
+extern char data_020ca348[];
 // extern ??? _ZTS6BG1Clr
 // extern ??? _ZTI10ILogStream
 // extern ??? _ZTS7TalkLog
@@ -192,7 +192,7 @@ EXTERN_C
 // extern ??? _ZTV6BG1Clr
 // extern ??? _ZTV8PalFader
 // extern ??? _ZTV13TalkLogViewer
-// extern ??? ProcScr_TalkLogViewer
+extern struct ProcCmd ProcScr_TalkLogViewer[];
 // extern ??? _ZTS2KW
 // extern ??? _ZTS8TalkWait
 // extern ??? _ZTI10TalkScroll
@@ -209,16 +209,16 @@ EXTERN_C
 // extern ??? _ZTS8TalkName
 // extern ??? _ZTI8NameFont
 // extern ??? _ZTI8TalkName
-// extern ??? data_020ca54c
+extern u16 data_020ca54c[4];
 // extern ??? _ZTV8NameFont
 // extern ??? _ZTV8TalkName
-// extern ??? ProcScr_TalkName
-// extern ??? data_020ca5c0
+extern struct ProcCmd ProcScr_TalkName[];
+extern char data_020ca5c0[];
 // extern ??? data_020ca5cc
 // extern ??? gOverlayList
 // extern ??? data_020ca608
 extern struct KeyState * gKeySt;
-// extern ??? gTouchSt
+extern struct TouchState * gTouchSt;
 // extern ??? data_020ca624
 extern struct ProcCmd ProcScr_020ca64c[];
 extern struct BgConfig data_020ca67c;
@@ -2842,15 +2842,15 @@ extern s32 data_020d6254;
 // extern ??? data_020e3cbc
 // extern ??? data_020e3ccc
 // extern ??? data_020e3cdc
-// extern ??? data_020e3cf8
+extern struct UnkStruct_020e3cf8 data_020e3cf8;
 // extern ??? gFaceHandle
-// extern ??? data_020e3d44
-// extern ??? data_020e3d48
-// extern ??? data_020e3d68
-// extern ??? data_020e3da8
-// extern ??? data_020e4dcc
-// extern ??? data_020e4dd4
-// extern ??? data_020e4dd8
+extern u32 data_020e3d44;
+extern char data_020e3d48[];
+extern char data_020e3d68[];
+extern struct TalkLog data_020e3da8;
+extern u32 data_020e4dcc[];
+extern struct UnkStruct_02006604 * data_020e4dd4;
+extern u8 data_020e4dd8;
 // extern ??? data_020e4df0
 // extern ??? gActiveOverlayLut
 // extern ??? data_020e4e00
@@ -3035,16 +3035,16 @@ extern struct UnkStruct_021974fc * data_021974fc;
 // extern ??? data_021976e4
 // extern ??? data_021976e8
 // extern ??? data_021976ec
-// extern ??? data_021976f8
+extern struct BGCtrl * data_021976f8;
 // extern ??? data_021976fc
-// extern ??? data_02197700
+extern struct BGCtrl * data_02197700;
 // extern ??? data_02197704
 // extern ??? data_02197708
-// extern ??? data_0219770c
+extern struct BGCtrl * data_0219770c;
 // extern ??? data_02197710
 // extern ??? data_02197714
 // extern ??? data_02197718
-// extern ??? data_0219771c
+extern struct BGCtrl * data_0219771c;
 // extern ??? data_02197720
 // extern ??? data_02197728
 // extern ??? data_02197788

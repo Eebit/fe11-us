@@ -24,8 +24,13 @@ struct Event;
 struct JobData;
 struct MoveUnit;
 struct BgConfig;
-struct UnkStruct_0200de90;
+struct BGCtrl;
+struct MapStateManager_14;
+struct PersonData;
+struct TalkFont;
 struct TalkWindow;
+struct UnkStruct_02006604;
+struct UnkStruct_0200de90;
 
 EXTERN_C
 
@@ -227,8 +232,8 @@ EC void func_020049b4(void *, u32, u32, u32, u32, u32);
 // EC ??? func_020061d8
 // EC ??? func_020061ec
 // EC ??? func_020061f0
-// EC ??? func_02006204
-// EC ??? func_020062e8
+EC void func_02006204(void *, s32, s32, s32, struct ProcEx *);
+EC void func_020062e8(void *, s32, s32, ProcPtr);
 EC void func_02006398(void *, u32, u32, struct ProcEx *);
 // EC ??? func_02006440
 // EC ??? func_020064a4
@@ -240,35 +245,35 @@ EC void func_02006398(void *, u32, u32, struct ProcEx *);
 // EC ??? func_020065dc
 // EC ??? func_020065e0
 // EC ??? func_020065f4
-// EC ??? func_02006604
-// EC ??? func_02006624
+EC struct UnkStruct_02006604 * func_02006604(struct UnkStruct_02006604 *, const char *, struct BGCtrl *);
+EC void func_02006624(struct UnkStruct_02006604 *);
 // EC ??? func_02006638
 // EC ??? func_02006640
-// EC ??? func_02006670
-// EC ??? func_02006694
+EC void func_02006670(struct UnkStruct_02006604 *);
+EC void func_02006694(struct UnkStruct_02006604 *, s32);
 // EC ??? func_020066c8
-// EC ??? func_020066ec
+EC void func_020066ec(struct UnkStruct_02006604 *, s32);
 // EC ??? func_02006714
 // EC ??? func_0200674c
 // EC ??? func_0200677c
-// EC ??? func_02006808
+EC void func_02006808(struct UnkStruct_02006604 *, s32, s32, s32);
 // EC ??? func_020069ec
 // EC ??? func_020069f4
 // EC ??? func_02006a08
 // EC ??? func_02006ad0
 // EC ??? func_02006b00
-// EC ??? func_02006b0c
-// EC ??? func_02006b18
-// EC ??? func_02006b24
+EC s32 func_02006b0c(struct UnkStruct_02006604 *);
+EC u8 * func_02006b18(struct UnkStruct_02006604 *);
+EC void * func_02006b24(struct UnkStruct_02006604 *);
 // EC ??? func_02006b30
 // EC ??? func_02006b40
 // EC ??? func_02006b58
 // EC ??? func_02006b64
-// EC ??? func_02006b70
-// EC ??? func_02006c14
+EC void func_02006b70(void *);
+EC void func_02006c14(void *);
 // EC ??? func_02006c94
 // EC ??? func_02006cbc
-// EC ??? func_02006d3c
+EC void func_02006d3c(void *);
 // EC ??? func_02006d78
 // EC ??? func_02006dac
 // EC ??? func_02006dd0
@@ -277,7 +282,7 @@ EC void func_02006398(void *, u32, u32, struct ProcEx *);
 // EC ??? func_02006e0c
 // EC ??? func_02006e20
 // EC ??? func_02006e2c
-// EC ??? func_02006e38
+EC void func_02006e38(void *, char *, s32, s32);
 // EC ??? func_02006fcc
 // EC ??? func_020070c4
 // EC ??? func_02007140
@@ -323,12 +328,12 @@ EC void InitFaceInfo(void);
 // EC ??? _ZN10FaceHandle9_02008908Ev
 // EC ??? FaceHandle_02008984
 // EC ??? FaceHandle_02008998
-// EC ??? StartFaceHandle
-// EC ??? EndFaceHandle
+EC void StartFaceHandle(ProcPtr);
+EC void EndFaceHandle(void);
 // EC ??? func_02008a28
 // EC ??? func_02008a3c
-// EC ??? func_02008a48
-// EC ??? func_02008ae4
+EC s32 func_02008a48(char **);
+EC char * func_02008ae4(char **);
 // EC ??? func_02008bb8
 // EC ??? _ZN4Talk4LoopEv
 // EC ??? func_0200984c
@@ -354,9 +359,9 @@ EC void InitFaceInfo(void);
 // EC ??? _ZN9TalkInputD1Ev
 // EC ??? _ZN9TalkInputD0Ev
 // EC ??? func_0200c084
-// EC ??? func_0200c098
+EC void func_0200c098(u8 *, u32 *, u32);
 // EC ??? func_0200c1d0
-// EC ??? func_0200c350
+EC void func_0200c350(u32 *, u32 *);
 // EC ??? _ZN8TalkFontC2EPc
 // EC ??? _ZN8TalkFontC1EPc
 // EC ??? _ZN8TalkFontD1Ev
@@ -369,7 +374,7 @@ EC void InitFaceInfo(void);
 // EC ??? _ZN8TalkFont9_0200c690EPc
 // EC ??? func_0200c6c8
 // EC ??? _ZN8TalkFont9_0200c720El
-// EC ??? func_0200c764
+EC s32 func_0200c764(struct TalkFont *, char **);
 // EC ??? func_0200c7ac
 // EC ??? _ZN7TalkLog9_0200c850Ev
 EC void func_0200c888(void);
@@ -434,8 +439,8 @@ EC void func_0200df24(void *, s32, ProcPtr);
 // EC ??? _ZN2KWD0Ev
 // EC ??? _ZN8TalkWaitD1Ev
 // EC ??? _ZN8TalkWaitD0Ev
-// EC ??? func_0200e0dc
-// EC ??? func_0200e208
+EC void func_0200e0dc(void);
+EC void func_0200e208(void);
 // EC ??? func_0200e254
 // EC ??? _ZN8NameFontD1Ev
 // EC ??? func_0200e3e8
@@ -443,8 +448,8 @@ EC void func_0200df24(void *, s32, ProcPtr);
 // EC ??? func_0200e4cc
 // EC ??? func_0200e674
 // EC ??? func_0200e814
-// EC ??? func_0200e83c
-// EC ??? func_0200e8e4
+EC BOOL func_0200e83c(s32, char *, struct Proc *);
+EC BOOL func_0200e8e4(void);
 // EC ??? _ZN8TalkNameD0Ev
 // EC ??? _ZN8TalkNameD1Ev
 // EC ??? _ZN8NameFont8vfunc_08EPmlP9TalkGlyph
@@ -467,7 +472,7 @@ EC void func_0200f350(s32);
 EC void InitScreenStates(void);
 // EC ??? func_0200f4f0
 // EC ??? func_0200f570
-// EC ??? IsAddressInVramRange
+EC BOOL IsAddressInVramRange(u32);
 // EC ??? func_0200f630
 // EC ??? func_0200f700
 // EC ??? func_0200f864
@@ -523,7 +528,7 @@ EC void func_02010f98(u16 *, u16, u16);
 
 EC void func_020115d4(void);
 EC BOOL FileExists(char *);
-// EC ??? GetFileSize
+EC s32 GetFileSize(char *);
 EC void LoadFileWithOffset(char *, u16 *, s32, s32);
 EC void func_0201177c(char *, u32);
 EC void * LoadUncompressedFile(char *, s32);
@@ -618,11 +623,11 @@ EC void func_02012bbc(void);
 // EC ??? func_02013164
 // EC ??? func_02013178
 // EC ??? func_02013380
-// EC ??? func_02013530
+EC void func_02013530(void *, s32, s32, s32);
 // EC ??? func_02013554
 // EC ??? func_02013574
 // EC ??? func_02013588
-// EC ??? func_020135b8
+EC void func_020135b8(void);
 // EC ??? func_020135cc
 // EC ??? func_020135e8
 // EC ??? func_02013634
@@ -1919,7 +1924,7 @@ EC void * func_02037c9c(char * str);
 // EC ??? func_02037e44
 // EC ??? GetPersonDBIndex
 EC char * func_02037eb8(struct PersonData *);
-// EC ??? func_02037ef0
+EC char * func_02037ef0(struct PersonData *, struct Unit *);
 // EC ??? func_02037f88
 EC s32 GetJobDBIndex(struct JobData *);
 // EC ??? func_02037fc8
@@ -3324,21 +3329,21 @@ EC s32 func_0206d2ac(s32, s32, s32, s32, s32, s32, s32);
 // EC ??? func_0206e66c
 // EC ??? func_0206e69c
 // EC ??? func_0206e724
-// EC ??? func_0206e768
-// EC ??? func_0206e7b8
-// EC ??? func_0206e7f4
+EC s32 func_0206e768(char *);
+EC char * func_0206e7b8(char *, const char *, s32);
+EC char * func_0206e7f4(char *, const char *, s32);
 // EC ??? func_0206e84c
 // EC ??? func_0206e8d0
 // EC ??? func_0206e95c
 // EC ??? func_0206ea7c
 EC void AdjustPaletteBrightness(u8 *, void *, u32, u32);
 // EC ??? func_0206ebd4
-// EC ??? func_0206ec5c
+EC BOOL func_0206ec5c(s32);
 EC BOOL func_0206ec80(u32);
 EC struct UnkStruct_02197798 * func_0206eca4(void);
 EC struct UnkStruct_02197798 * func_0206ecb0(void);
 EC void func_0206ecbc(void);
-// EC ??? func_0206ee78
+EC void func_0206ee78(struct AbstCtrl *, void *, s32, s32);
 EC void func_0206eeb0(struct AbstCtrl *, u32, u32);
 EC void func_0206eee0(struct AbstCtrl *, s32, s32, s32);
 EC void func_0206ef14(struct AbstCtrl *, u32, u32, u32, u32);
@@ -3353,8 +3358,8 @@ EC void func_0206f4e0(void *, u32);
 EC void func_0206f580(struct AbstCtrl *, s32);
 // EC ??? func_0206f5d0
 // EC ??? func_0206f718
-// EC ??? func_0206f7cc
-// EC ??? func_0206f8a0
+EC void func_0206f7cc(struct BGCtrl *, s32, s32, s32, s32, s32);
+EC void func_0206f8a0(struct AbstCtrl *, s32, s32, s32, s32, s32);
 // EC ??? func_0206f97c
 // EC ??? func_0206f9ec
 // EC ??? func_0206fa74
@@ -3362,9 +3367,9 @@ EC void func_0206fafc(void *, u32, u32, u32, u32, u32, u32, u32);
 EC void func_0206fc44(struct AbstCtrl *, s32);
 // EC ??? func_0206fd38
 // EC ??? func_0206fda8
-// EC ??? func_0206fe18
-// EC ??? func_0206fe20
-// EC ??? func_0206fe48
+EC void func_0206fe18(struct AbstCtrl *, s32);
+EC void func_0206fe20(struct AbstCtrl *, s32, s32);
+EC void func_0206fe48(struct AbstCtrl *, s32);
 EC void SetDispEnable_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32); // SetDispEnable
 EC void SetBgPriority_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32); // SetBgPriority
 EC void SetBldTargetA_Maybe(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetA
@@ -6130,7 +6135,7 @@ EC void EndTargetSelect(void);
 // EC ??? func_ov000_021b95c8
 EC void func_ov000_021b95e8(void *);
 // EC ??? func_ov000_021b9660
-// EC ??? func_ov000_021b969c
+EC void func_ov000_021b969c(struct MapStateManager_14 *);
 // EC ??? func_ov000_021b9758
 // EC ??? func_ov000_021b977c
 // EC ??? func_ov000_021b97a0
@@ -6625,7 +6630,7 @@ EC void StartGuideMenu(ProcPtr);
 // EC ??? MapBattle_OnEnd
 EC void StartMapBattle(ProcPtr);
 // EC ??? func_ov000_021ccaf8
-// EC ??? func_ov000_021ccbdc
+EC BOOL func_ov000_021ccbdc(void);
 EC BOOL func_ov000_021ccc0c(void);
 // EC ??? _ZN5onbat13UnitTransformD0Ev
 // EC ??? _ZN5onbat13UnitTransformD1Ev
