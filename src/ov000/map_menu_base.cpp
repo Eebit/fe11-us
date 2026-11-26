@@ -239,7 +239,7 @@ void map::BMapMenu::vfunc_08(void)
 {
     MenuItemState * menuItemState = this->unk_0c;
     s32 max = 0;
-    s32 i = max;
+    s32 i = 0;
     s32 j;
     s32 w;
 
@@ -281,7 +281,7 @@ void map::BMapSystemMenu::vfunc_08(void)
 {
     MenuItemState * menuItemState = this->unk_0c;
     s32 max = 0;
-    s32 i = max;
+    s32 i = 0;
     s32 j;
     s32 w;
 
