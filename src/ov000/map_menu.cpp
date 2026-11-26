@@ -5,6 +5,7 @@
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
+#include "map_menu_base.hpp"
 #include "menu.hpp"
 #include "sound_manager.hpp"
 
@@ -57,34 +58,6 @@ extern UnkStruct_02217560 * data_ov005_02217560;
 namespace map
 {
 
-class BMapDialogYesNo : public DialogYesNo
-{
-public:
-    /* 000 */ virtual void vfunc_00(void); // func_ov000_021be6d8
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be934
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be91c
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov000_021bea74
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov000_021beab0
-};
-
-class BMapMenu : public Menu
-{
-public:
-    /* 000 */ virtual void vfunc_00(void);
-    /* 008 */ virtual void vfunc_08(void); // func_ov000_021be588
-    /* 01C */ virtual void vfunc_1c(void); // func_ov000_021be640
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be978
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be960
-
-    virtual ~BMapMenu()
-    {
-        if (this->unk_04 == NULL)
-        {
-            gpActiveScreenSt->dispIo->bldcnt.effect = 0;
-        }
-    }
-};
-
 class MI_Separator : public MenuItem
 {
 public:
@@ -104,15 +77,7 @@ public:
     }
 };
 
-class BSystemMapMenu : public BMapMenu
-{
-public:
-    virtual ~BSystemMapMenu()
-    {
-    }
-};
-
-class MapMenu : public BSystemMapMenu
+class MapMenu : public BMapSystemMenu
 {
 public:
     /* 000 */ virtual void vfunc_00(void)

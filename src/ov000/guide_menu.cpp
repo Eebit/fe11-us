@@ -4,6 +4,7 @@
 #include "font.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
+#include "map_menu_base.hpp"
 #include "menu.hpp"
 
 #include "unknown_funcs.h"
@@ -43,44 +44,6 @@ public:
     virtual s32 vfunc_4c(s32, s32); // func_020340e0
 };
 } // namespace menu
-
-namespace map
-{
-class BMapScrollMenu : public menu::ScrollMenu
-{
-public:
-    // 10 func_ov000_021be768
-    // AC func_ov000_021be8f0
-    // BC func_ov000_021be8d8
-
-    BMapScrollMenu()
-    {
-        gpActiveScreenSt->dispIo->bldcnt.effect = 1;
-
-        gpActiveScreenSt->dispIo->blend_coeff_a = 0xe;
-        gpActiveScreenSt->dispIo->blend_coeff_b = 2;
-
-        gpActiveScreenSt->dispIo->bldcnt.target1_bg0_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target1_bg1_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target1_bg2_on = 1;
-        gpActiveScreenSt->dispIo->bldcnt.target1_bg3_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target1_obj_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target1_bd_on = 0;
-
-        gpActiveScreenSt->dispIo->bldcnt.target2_bg0_on = 1;
-        gpActiveScreenSt->dispIo->bldcnt.target2_bg1_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target2_bg2_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target2_bg3_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target2_obj_on = 0;
-        gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 1;
-    }
-
-    virtual ~BMapScrollMenu()
-    {
-        gpActiveScreenSt->dispIo->bldcnt.effect = 0;
-    }
-};
-} // namespace map
 
 class TutListMenu : public map::BMapScrollMenu
 {
