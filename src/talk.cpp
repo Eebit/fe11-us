@@ -10,6 +10,7 @@
 #include "map.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
+#include "talk.hpp"
 #include "unit.hpp"
 #include "unknown_data.h"
 #include "unknown_funcs.h"

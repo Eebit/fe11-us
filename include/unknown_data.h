@@ -162,58 +162,7 @@ extern char data_020ca148[];
 extern char data_020ca14c[];
 extern char data_020ca154[];
 extern char data_020ca15c[];
-// extern ??? _ZTS4Talk
-extern char data_020ca16c[];
-extern char data_020ca174[];
-extern char data_020ca180[];
-extern char data_020ca18c[];
-// extern ??? _ZTS9TalkInput
-// extern ??? _ZTI4Talk
-// extern ??? _ZTI9TalkInput
-// extern ??? _ZTV9TalkInput
-// extern ??? _ZTV4Talk
-extern struct ProcCmd ProcScr_Talk[];
-extern char data_020ca31c[];
-// extern ??? _ZTI8TalkFont
-// extern ??? _ZTS8TalkFont
-// extern ??? _ZTV8TalkFont
-extern char data_020ca348[];
-// extern ??? _ZTS6BG1Clr
-// extern ??? _ZTI10ILogStream
-// extern ??? _ZTS7TalkLog
-// extern ??? _ZTS8PalFader
-// extern ??? _ZTI7TalkLog
-// extern ??? _ZTI6BG1Clr
-// extern ??? _ZTI8PalFader
-// extern ??? _ZTI13TalkLogViewer
-// extern ??? _ZTS10ILogStream
-// extern ??? _ZTS13TalkLogViewer
-// extern ??? _ZTV7TalkLog
-// extern ??? _ZTV6BG1Clr
-// extern ??? _ZTV8PalFader
-// extern ??? _ZTV13TalkLogViewer
-extern struct ProcCmd ProcScr_TalkLogViewer[];
-// extern ??? _ZTS2KW
-// extern ??? _ZTS8TalkWait
-// extern ??? _ZTI10TalkScroll
-// extern ??? _ZTI8TalkWait
-// extern ??? _ZTI2KW
-// extern ??? _ZTI10TalkWindow
-// extern ??? _ZTS10TalkWindow
-// extern ??? _ZTS10TalkScroll
-// extern ??? _ZTV8TalkWait
-// extern ??? _ZTV2KW
-// extern ??? _ZTV10TalkScroll
-// extern ??? _ZTV10TalkWindow
-// extern ??? _ZTS8NameFont
-// extern ??? _ZTS8TalkName
-// extern ??? _ZTI8NameFont
-// extern ??? _ZTI8TalkName
-extern u16 data_020ca54c[4];
-// extern ??? _ZTV8NameFont
-// extern ??? _ZTV8TalkName
-extern struct ProcCmd ProcScr_TalkName[];
-extern char data_020ca5c0[];
+/* talk.hpp */
 // extern ??? data_020ca5cc
 // extern ??? gOverlayList
 // extern ??? data_020ca608

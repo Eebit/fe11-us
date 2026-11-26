@@ -15,6 +15,7 @@
 #include "map.hpp"
 #include "sound_manager.hpp"
 #include "state_manager.hpp"
+#include "talk.hpp"
 
 // clang-format off
 
