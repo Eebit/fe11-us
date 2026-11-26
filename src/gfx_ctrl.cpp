@@ -159,7 +159,7 @@ EC void func_0206ef9c(struct AbstCtrl * self, s32 screenSize, s32 colorMode, s32
 {
     BGCtrl * bg = static_cast<BGCtrl *>(self);
 
-    if ((u16)(s16)(bg->unk_10 - 2) <= 1)
+    if (bg->unk_10 == 2 || bg->unk_10 == 3)
     {
         func_0206f0fc(self, screenSize, colorMode, screenBase, charBase);
         return;
