@@ -254,7 +254,7 @@ public:
     virtual s32 vfunc_00(void);
     virtual s32 vfunc_04(void);
     virtual u16 * vfunc_08(void);
-    virtual void vfunc_0c(s32, s32, s32, s32);
+    virtual void vfunc_0c(u32, u32, u32, u32);
     virtual void vfunc_10(s32, s32, s32, s32, u8);
 };
 
@@ -270,7 +270,7 @@ public:
     virtual s32 vfunc_00(void); // func_02008a28
     virtual s32 vfunc_04(void); // func_02008a3c
     virtual u16 * vfunc_08(void); // func_020069f4
-    virtual void vfunc_0c(s32, s32, s32, s32);
+    virtual void vfunc_0c(u32, u32, u32, u32);
     virtual void vfunc_10(s32, s32, s32, s32, u8);
 };
 
@@ -282,7 +282,7 @@ public:
     virtual s32 vfunc_00(void); // func_02004830
     virtual s32 vfunc_04(void); // func_0207020c
     virtual u16 * vfunc_08(void); // func_020069ec
-    virtual void vfunc_0c(s32, s32, s32, s32);
+    virtual void vfunc_0c(u32, u32, u32, u32);
     virtual void vfunc_10(s32, s32, s32, s32, u8);
 };
 

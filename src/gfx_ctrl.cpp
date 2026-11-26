@@ -524,22 +524,20 @@ EC s32 func_0206f97c(struct BGCtrl * self)
     return -1;
 }
 
-void BGCtrl::vfunc_0c(s32 src, s32 srcOffset, s32 dstOffset, s32 size)
+void BGCtrl::vfunc_0c(u32 src, u32 srcOffset, u32 dstOffset, u32 size)
 {
-    u32 length = size;
-
-    func_020a3d8c(src, length);
+    func_020a3d8c(src, size);
 
     if (IsAddressInVramRange(this->unk_04->objVram))
     {
         func_020a1ca4();
-        func_020a1d44(src + srcOffset, dstOffset + func_0206f97c(this), length);
+        func_020a1d44(src + srcOffset, dstOffset + func_0206f97c(this), size);
         func_020a1db4();
     }
     else
     {
         func_020a1ef4();
-        func_020a1f0c(src + srcOffset, dstOffset + func_0206f97c(this), length);
+        func_020a1f0c(src + srcOffset, dstOffset + func_0206f97c(this), size);
         func_020a1f70();
     }
 
@@ -637,23 +635,20 @@ EC void func_0206fc44(struct AbstCtrl * self, s32 mode)
     return;
 }
 
-void ObjCtrl::vfunc_0c(s32 src, s32 srcOffset, s32 dstOffset, s32 size)
+void ObjCtrl::vfunc_0c(u32 src, u32 srcOffset, u32 dstOffset, u32 size)
 {
-    u32 data = src;
-    u32 length = size;
-
-    func_020a3d8c(data, length);
+    func_020a3d8c(src, size);
 
     if (IsAddressInVramRange(this->unk_04->objVram))
     {
         func_020a1dfc();
-        func_020a1e44(data + srcOffset, dstOffset, length);
+        func_020a1e44(src + srcOffset, dstOffset, size);
         func_020a1eb0();
     }
     else
     {
         func_020a1fb0();
-        func_020a1fc8(data + srcOffset, dstOffset, length);
+        func_020a1fc8(src + srcOffset, dstOffset, size);
         func_020a202c();
     }
 
