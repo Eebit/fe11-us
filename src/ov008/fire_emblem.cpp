@@ -5,19 +5,12 @@
 #include "unknown_data.h"
 #include "unknown_funcs.h"
 
+#include "gfx_ctrl.hpp"
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
 #include "constants/sounds.h"
-
-struct UnkStruct_02197798
-{
-    ScreenState * unk_00;
-    DispIo * unk_04;
-    BGCtrl unk_08[4];
-    ObjCtrl unk_68;
-};
 
 #define REG_POWER_CNT *(vu16 *)(0x04000304)
 

@@ -5,19 +5,12 @@
 #include "unknown_funcs.h"
 
 #include "gamectrl.hpp"
+#include "gfx_ctrl.hpp"
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
 
 #include "constants/sounds.h"
-
-struct UnkStruct_02197798
-{
-    ScreenState * unk_00;
-    DispIo * unk_04;
-    BGCtrl unk_08[4];
-    ObjCtrl unk_68;
-};
 
 extern AbstCtrl * data_02197718;
 extern AbstCtrl * data_021976fc;

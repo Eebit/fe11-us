@@ -3,6 +3,7 @@
 #include <new>
 
 #include "face.hpp"
+#include "gfx_ctrl.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "heap.hpp"
@@ -222,25 +223,6 @@ void Face::_02007874(char * fidStr, s32 x, s32 y)
     return;
 }
 
-struct UnkStruct_02197798
-{
-    ScreenState * unk_00;
-    DispIo * unk_04;
-    BGCtrl unk_08[4];
-    ObjCtrl unk_68;
-
-    void SetBlendEffect(s32 effect)
-    {
-        DispIo * disp = this->unk_00->dispIo;
-        disp->bldcnt.effect = effect;
-    }
-
-    void SetBlendCoeffs(s32 a)
-    {
-        this->unk_00->dispIo->blend_coeff_a = a;
-        this->unk_00->dispIo->blend_coeff_b = 16 - a;
-    }
-};
 EC struct UnkStruct_02197798 * func_0206ecb0(void);
 
 void Face::Update(void)
