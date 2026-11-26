@@ -366,21 +366,21 @@ void map::BMapMenu::vfunc_1c(void)
 
 void map::BMapDialogYesNo::vfunc_00(void)
 {
-    struct VmMap_Common * vmMap;
+    VmMap_Common * vmMap;
 
     this->unk_48 = 1;
     this->unk_40 = 1;
 
-    vmMap = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_DialogFont"));
+    vmMap = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_DialogFont"));
     this->unk_14 = vmMap->unk_04;
     this->unk_18 = vmMap->unk_06;
 
-    vmMap = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_Dialog"));
+    vmMap = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Dialog"));
     this->unk_30 = vmMap->unk_07;
     this->unk_1c = vmMap->unk_04;
     this->unk_20 = vmMap->unk_06;
 
-    vmMap = static_cast<struct VmMap_Common *>(HashTable::Get2("VmMap_MenuCursor"));
+    vmMap = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_MenuCursor"));
     this->unk_24 = vmMap->unk_04;
     this->unk_28 = vmMap->unk_06;
 
