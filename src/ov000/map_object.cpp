@@ -2,22 +2,21 @@
 
 #include <new>
 
-#include "unknown_types.h"
-
-#include "event.hpp"
-#include "hashtable.hpp"
-#include "proc_ex.hpp"
-
-#include "unknown_funcs.h"
-#include "unknown_data.h"
-#include "map.hpp"
-#include "unit.hpp"
 #include "anime.hpp"
+#include "database.hpp"
+#include "event.hpp"
+#include "hardware.hpp"
+#include "hashtable.hpp"
+#include "map.hpp"
+#include "proc_ex.hpp"
 #include "save.hpp"
 #include "sound_manager.hpp"
+#include "unit.hpp"
+#include "unknown_data.h"
+#include "unknown_funcs.h"
+#include "unknown_types.h"
+
 #include "constants/sounds.h"
-#include "database.hpp"
-#include "hardware.hpp"
 
 EC void * func_ov000_021d3350(char *, s32, s32, s32, s32, ProcPtr, s32, s32, s32);
 extern vu32 gElapsedFrames;
