@@ -224,8 +224,8 @@ EC s32 func_ov000_021d4968(s32 x, s32 y, s32 kind)
     return 0;
 }
 
-EC struct UnkStruct_Func_ov000_021d4968_Ret * func_ov000_021d49b8(struct UnkStruct_Func_ov000_021d4968_Ret * prev,
-                                                                    s32 kind)
+EC struct UnkStruct_Func_ov000_021d4968_Ret *
+func_ov000_021d49b8(struct UnkStruct_Func_ov000_021d4968_Ret * prev, s32 kind)
 {
     struct UnkStruct_Func_ov000_021d4968_Ret * it;
 
@@ -782,4 +782,3 @@ void ProcVillageCollapse::Loop(void)
 
     return;
 }
-
