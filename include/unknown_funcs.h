@@ -6166,24 +6166,7 @@ EC void func_ov000_021bc9e4(void *);
 // EC ??? func_ov000_021bda20
 // EC ??? func_ov000_021bdc14
 // EC ??? func_ov000_021be0c4
-// EC ??? func_ov000_021be21c
-// EC ??? func_ov000_021be4d0
-// EC ??? func_ov000_021be588
-// EC ??? func_ov000_021be640
-// EC ??? func_ov000_021be6d8
-// EC ??? func_ov000_021be768
-// EC ??? func_ov000_021be828
-// EC ??? func_ov000_021be884
-// EC ??? func_ov000_021be8d8
-// EC ??? func_ov000_021be8f0
-// EC ??? func_ov000_021be91c
-// EC ??? func_ov000_021be934
-// EC ??? func_ov000_021be960
-// EC ??? func_ov000_021be978
-// EC ??? func_ov000_021be9a4
-// EC ??? func_ov000_021bea10
-// EC ??? func_ov000_021bea74
-// EC ??? func_ov000_021beab0
+/* map_menu_base.hpp */
 // EC ??? StartChoice_TemporarySave
 // EC ??? StartChoice_Surrender
 EC void StartMapMenu(ProcPtr);

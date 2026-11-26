@@ -3566,23 +3566,7 @@ extern int data_027e00e0;
 // extern ??? data_ov000_021dcd04
 // extern ??? data_ov000_021dcd10
 // extern ??? data_ov000_021dcd20
-// extern ??? _ZTIN3map8BMapMenuE
-// extern ??? _ZTIN3map14BMapScrollMenuE
-// extern ??? _ZTIN3map15BMapDialogYesNoE
-// extern ??? _ZTIN3map14BMapSystemMenuE
-// extern ??? _ZTSN3map8BMapMenuE
-// extern ??? _ZTSN3map14BMapScrollMenuE
-// extern ??? _ZTSN3map14BMapSystemMenuE
-// extern ??? _ZTSN3map15BMapDialogYesNoE
-// extern ??? _ZTVN3map14BMapScrollMenuE
-extern void * _ZTVN3map15BMapDialogYesNoE[];
-// extern ??? _ZTVN3map8BMapMenuE
-// extern ??? data_ov000_021dd134
-// extern ??? data_ov000_021dd144
-// extern ??? data_ov000_021dd154
-// extern ??? data_ov000_021dd168
-// extern ??? data_ov000_021dd17c
-// extern ??? data_ov000_021dd18c
+/* map_menu_base.hpp */
 // extern ??? data_ov000_021dd19c
 // extern ??? data_ov000_021dd1a8
 // extern ??? data_ov000_021dd1b4
