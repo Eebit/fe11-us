@@ -155,7 +155,8 @@ EC u32 func_0206ef60(struct AbstCtrl * self, s32 block)
     return offset + (IsAddressInVramRange(self->unk_04->objVram) ? 0x6000000 : 0x6200000);
 }
 
-EC void func_0206ef9c(struct AbstCtrl * self, s32 screenSize, s32 colorMode, s32 screenBase, s32 charBase, s32 overflowMode)
+EC void
+func_0206ef9c(struct AbstCtrl * self, s32 screenSize, s32 colorMode, s32 screenBase, s32 charBase, s32 overflowMode)
 {
     BGCtrl * bg = static_cast<BGCtrl *>(self);
 
@@ -559,8 +560,7 @@ void BGCtrl::vfunc_10(s32 src, s32 srcOffset, s32 dstOffset, s32 size, u8 param_
     return;
 }
 
-EC void func_0206fafc(struct AbstCtrl * self, s32 centerX, s32 centerY, s32 x, s32 y, s32 scaleX, s32 scaleY,
-                      s32 angle)
+EC void func_0206fafc(struct AbstCtrl * self, s32 centerX, s32 centerY, s32 x, s32 y, s32 scaleX, s32 scaleY, s32 angle)
 {
     BGCtrl * bg = static_cast<BGCtrl *>(self);
     UnkStruct_Func_0209dba4_Ret scale;
@@ -793,6 +793,5 @@ s32 ObjCtrl::vfunc_04(void)
 {
     UnkStruct_027e12f4 * buffer = static_cast<UnkStruct_027e12f4 *>(this->unk_04->unk_30);
 
-    return (s32) buffer->unk_200;
+    return (s32)buffer->unk_200;
 }
-
