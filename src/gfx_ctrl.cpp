@@ -21,10 +21,10 @@ struct UnkStruct_027e12f4
 
 struct UnkStruct_Func_0209dba4_Ret
 {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0c;
+    /* 00 */ s32 unk_00;
+    /* 04 */ s32 unk_04;
+    /* 08 */ s32 unk_08;
+    /* 0C */ s32 unk_0c;
 };
 
 UnkStruct_02197798 gfxEngineA;
