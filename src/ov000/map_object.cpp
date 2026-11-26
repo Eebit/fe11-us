@@ -253,7 +253,7 @@ EC BOOL func_ov000_021d49f4(s32 x, s32 y, s32 kind)
         return FALSE;
     }
 
-    return (tt->unk_07 & 3) == 0;
+    return tt->CheckUnk07();
 }
 
 EC s32 func_ov000_021d4a1c(void)
@@ -736,24 +736,8 @@ EC void func_ov000_021d5528(struct SaveBuffer * buf, s32 unused)
 
 ProcRoofOpen::~ProcRoofOpen()
 {
-    struct Unit * unit;
-    s32 id;
-    s32 i;
-
     SetRoofLayerAlpha(this->unk_38, 0);
-
-    id = this->unk_38;
-
-    for (i = 0; i < 2; i++)
-    {
-        for (unit = Force::Get(i)->head; unit != NULL; unit = unit->next)
-        {
-            if (id == (gMapStateManager->unk_82c[unit->xPos | unit->yPos << 5] & 0x7f))
-            {
-                unit->alpha = 0x1f;
-            }
-        }
-    }
+    SetRoofUnitAlpha(this->unk_38, 0x1F);
 }
 
 void ProcRoofOpen::Loop(void)
