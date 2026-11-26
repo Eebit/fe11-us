@@ -28,7 +28,6 @@ EC void func_ov000_021bfa60(ProcPtr);
 EC void func_ov000_021bfaf0(ProcPtr);
 
 EC BOOL IsLinkArena(void);
-EC void func_ov000_021be21c(void);
 
 EC s32 func_ov000_021d49f4(s32, s32, s32);
 
@@ -45,6 +44,7 @@ namespace map
 class BMapMenu : public Menu
 {
 public:
+    /* 000 */ virtual void vfunc_00(void);
     /* 008 */ virtual void vfunc_08(void); // func_ov000_021be588
     /* 01C */ virtual void vfunc_1c(void); // func_ov000_021be640
     /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be978
@@ -76,7 +76,7 @@ public:
 
     /* 000 */ virtual void vfunc_00(void)
     {
-        func_ov000_021be21c();
+        this->BMapMenu::vfunc_00();
         this->unk_40 = 1;
         return;
     }

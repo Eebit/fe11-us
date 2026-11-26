@@ -23,7 +23,6 @@ EC void func_0202b260(void *, s32, s32, s32, s32);
 EC BOOL func_0201f680(void);
 EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
 
-EC void func_ov000_021be21c(void);
 EC void StartChoice_TemporarySave(ProcPtr);
 EC void StartChoice_Surrender(ProcPtr);
 EC void StartSubtitleHelp(char *, s32);
@@ -71,6 +70,7 @@ public:
 class BMapMenu : public Menu
 {
 public:
+    /* 000 */ virtual void vfunc_00(void);
     /* 008 */ virtual void vfunc_08(void); // func_ov000_021be588
     /* 01C */ virtual void vfunc_1c(void); // func_ov000_021be640
     /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be978
@@ -117,7 +117,7 @@ class MapMenu : public BSystemMapMenu
 public:
     /* 000 */ virtual void vfunc_00(void)
     {
-        func_ov000_021be21c();
+        this->BMapMenu::vfunc_00();
         this->unk_40 = 1;
         return;
     }
