@@ -6,11 +6,10 @@
 #include "menu.hpp"
 #include "proc_ex.hpp"
 
+#include "unknown_data.h"
 #include "unknown_funcs.h"
 #include "unknown_types.h"
 #include "unknown_types.hpp"
-
-extern struct UnkStruct_02196f24 * data_02196f24;
 
 namespace menu
 {
