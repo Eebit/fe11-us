@@ -11,11 +11,6 @@
 #include "unknown_types.h"
 #include "unknown_types.hpp"
 
-static inline void ResetBlendEffect(void)
-{
-    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
-}
-
 void map::BMapMenu::vfunc_00(void)
 {
     VmMap_Common * vmMap;
@@ -260,11 +255,6 @@ void map::BMapScrollMenu::vfunc_10(void)
     return;
 }
 
-map::BMapScrollMenu::~BMapScrollMenu()
-{
-    ResetBlendEffect();
-}
-
 s32 map::BMapScrollMenu::vfunc_bc(void)
 {
     return func_ov000_021a471c() != 0;
@@ -293,12 +283,4 @@ s32 map::BMapMenu::vfunc_ac(void)
 BOOL map::BMapMenu::vfunc_a0(void)
 {
     return gMapStateManager->inputHandler->_021a5650(0) != 0;
-}
-
-map::BMapMenu::~BMapMenu()
-{
-    if (this->unk_04 == NULL)
-    {
-        ResetBlendEffect();
-    }
 }

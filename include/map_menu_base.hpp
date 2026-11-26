@@ -6,6 +6,11 @@
 #include "hardware.hpp"
 #include "menu.hpp"
 
+static inline void ResetBlendEffect(void)
+{
+    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
+}
+
 namespace map
 {
 class BMapMenu : public Menu
@@ -17,7 +22,13 @@ public:
     /* 0A0 */ virtual BOOL vfunc_a0(void);
     /* 0AC */ virtual s32 vfunc_ac(void);
 
-    virtual ~BMapMenu();
+    virtual ~BMapMenu()
+    {
+        if (this->unk_04 == NULL)
+        {
+            ResetBlendEffect();
+        }
+    }
 };
 
 class BMapSystemMenu : public BMapMenu
@@ -59,7 +70,10 @@ public:
         gpActiveScreenSt->dispIo->bldcnt.target2_bd_on = 1;
     }
 
-    virtual ~BMapScrollMenu();
+    virtual ~BMapScrollMenu()
+    {
+        ResetBlendEffect();
+    }
 };
 
 class BMapDialogYesNo : public DialogYesNo
