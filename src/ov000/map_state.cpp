@@ -9,6 +9,7 @@
 #include "database.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "proc_ex.hpp"
 #include "save.hpp"
 #include "sound_manager.hpp"
@@ -21,7 +22,6 @@ extern struct UnkStruct_02196f0c * data_02196f0c;
 extern struct UnkStruct_02196f24 * data_02196f24;
 extern struct UnkStruct_021974fc * data_021974fc;
 
-EC void func_ov000_021d4874(void);
 EC void func_0204f080(struct UnkStruct_021974fc *);
 
 EC void func_ov000_021a2eb0(struct SaveBuffer *, s32);
@@ -35,14 +35,12 @@ extern u8 data_ov000_021e3320[];
 
 EC void func_ov000_021baafc(void *, struct Unit *, BOOL);
 
-EC void func_ov000_021d537c(void *);
 EC void func_ov000_021a3364(void);
 EC void func_ov000_021a340c(void);
 EC void func_ov000_021a35a0(void);
 EC void func_ov000_021a37c4(void);
 EC void func_ov000_021a48b0(u32);
 EC void func_ov000_021d4004(s8, s8);
-EC void func_ov000_021d5528(void *, s32);
 EC void func_02040094(struct MapStateManager_1C *, s32);
 EC void func_020401d8(struct MapStateManager_1C *, u8);
 EC void func_ov000_021a37c4(void);
@@ -88,7 +86,6 @@ EC void func_ov000_021b9bac(struct MapStateManager_14 *);
 
 EC void func_ov000_021d4094(void);
 EC void func_ov000_021b9bec(struct MapStateManager_14 *);
-EC void func_ov000_021d492c(void);
 EC void func_0204000c(void);
 
 EC void func_ov000_021a8304(void);

@@ -5,6 +5,7 @@
 #include "hardware.hpp"
 #include "item.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "unit.hpp"
@@ -29,8 +30,6 @@ EC void func_ov000_021bfaf0(ProcPtr);
 
 EC BOOL IsLinkArena(void);
 EC void func_ov000_021be21c(void);
-
-EC s32 func_ov000_021d49f4(s32, s32, s32);
 
 EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);

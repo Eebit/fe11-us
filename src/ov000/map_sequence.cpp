@@ -1019,7 +1019,6 @@ EC void func_ov000_021a9044(ProcSeq * proc)
     return;
 }
 
-extern s32 data_ov000_021e24c0;
 EC BOOL func_ov000_021a2a50(struct UnkStruct_021E3324 * self);
 
 EC void func_ov000_021a9138(void)
@@ -1427,8 +1426,6 @@ EC void EventFixed_StartAreaEvent(EventFixed * proc)
     EventCaller::TryStartAreaEvent(proc, proc->unk_38, proc->unk_3c);
     return;
 }
-
-EC s32 func_ov000_021d49f4(s32, s32, s32);
 
 EC void EventFixed_StartDecoyEvent(EventFixed * proc)
 {
@@ -5437,8 +5434,6 @@ EC void ProcMind_ov000_021b0510(void)
     gSoundManager->unk_a4->vfunc_68(8);
     return;
 }
-
-extern s32 data_ov000_021e24c0;
 
 EC void ProcMind_ov000_021b0538(ProcPtr proc)
 {

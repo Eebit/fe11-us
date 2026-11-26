@@ -20,7 +20,6 @@ EC struct Proc * func_ov000_021ccaf8(Unit *, struct JobData *, ProcPtr);
 EC struct Proc * StartMapEffectQuake(s32, ProcPtr, s32);
 EC struct Proc * func_ov000_021d3b00(Unit *, ProcPtr, s32, s32);
 EC void func_ov000_021d4004(s32, s32);
-EC void func_ov000_021d4cb4(s32, Event *);
 
 struct MovingMapSprite
 {
