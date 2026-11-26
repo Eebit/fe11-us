@@ -24,6 +24,7 @@ struct Event;
 struct JobData;
 struct MoveUnit;
 struct BgConfig;
+struct UnkStruct_Func_ov000_021d51c8;
 
 EXTERN_C
 
@@ -1199,7 +1200,7 @@ EC s32 Interpolate(s32, s32, s32, s32, s32);
 // EC ??? func_02020b50
 // EC ??? Decompress
 // EC ??? func_02020c0c
-// EC ??? func_02020c18
+EC void * func_02020c18(void *);
 // EC ??? func_02020c4c
 // EC ??? func_02020cd8
 // EC ??? func_02020d70
@@ -2548,7 +2549,7 @@ EC void func_0204eb24(void);
 // EC ??? func_0204ec84
 // EC ??? func_0204eca8
 // EC ??? func_0204ed04
-// EC ??? func_0204ed4c
+EC void func_0204ed4c(void *, void *, s32, s32);
 // EC ??? func_0204edb4
 // EC ??? func_0204ef20
 // EC ??? func_0204f058
@@ -3233,7 +3234,7 @@ EC void func_0206cf30(s32, s32, s32, u32, u32, s32, s32);
 // EC ??? func_0206cfcc
 // EC ??? func_0206d088
 // EC ??? func_0206d1a4
-// EC ??? func_0206d27c
+EC void func_0206d27c(s32, s32, s32, s32, s32);
 EC s32 func_0206d2ac(s32, s32, s32, s32, s32, s32, s32);
 // EC ??? func_0206d2e8
 // EC ??? func_0206d464
@@ -3281,8 +3282,8 @@ EC s32 func_0206d2ac(s32, s32, s32, s32, s32, s32, s32);
 // EC ??? func_0206e570
 // EC ??? func_0206e584
 // EC ??? func_0206e5c0
-// EC ??? func_0206e5f4
-// EC ??? func_0206e608
+EC void func_0206e5f4(struct UnkStruct_Func_ov000_021d51c8 *, s32);
+EC void func_0206e608(struct UnkStruct_Func_ov000_021d51c8 *, s32, s32, s32, s32);
 // EC ??? func_0206e64c
 // EC ??? func_0206e66c
 // EC ??? func_0206e69c
@@ -6918,9 +6919,9 @@ EC void TryShowTutCardForMenu(ProcPtr, u32);
 // EC ??? MapRenderState_GetUnk00
 // EC ??? Map_GetMinimapSprite
 // EC ??? Map_FindLayer
-// EC ??? Map_SetLayerAlphaAt
-// EC ??? Map_SetAllKind3LayersAlpha
-// EC ??? Map_SetLayerAlphaById
+EC BOOL Map_SetLayerAlphaAt(struct MapFile *, s32, s32, s32);
+EC void Map_SetAllKind3LayersAlpha(struct MapFile *, s32);
+EC void Map_SetLayerAlphaById(struct MapFile *, s32, s32);
 // EC ??? func_ov000_021d7c90
 // EC ??? func_ov000_021d7cd8
 // EC ??? _ZN5arena5Arena9_021d7d1cEv

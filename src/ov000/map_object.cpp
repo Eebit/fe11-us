@@ -8,8 +8,8 @@
 #include "hashtable.hpp"
 #include "proc_ex.hpp"
 
-EC BOOL Map_SetLayerAlphaAt(struct MapFile * map, s32 x, s32 y, s32 alpha);
 #include "unknown_funcs.h"
+#include "unknown_data.h"
 #include "map.hpp"
 #include "unit.hpp"
 #include "anime.hpp"
@@ -18,6 +18,9 @@ EC BOOL Map_SetLayerAlphaAt(struct MapFile * map, s32 x, s32 y, s32 alpha);
 #include "constants/sounds.h"
 #include "database.hpp"
 #include "hardware.hpp"
+
+EC void * func_ov000_021d3350(char *, s32, s32, s32, s32, ProcPtr, s32, s32, s32);
+extern vu32 gElapsedFrames;
 
 struct UnkStruct_Func_ov000_021d4968_Ret
 {
@@ -43,11 +46,6 @@ struct UnkStruct_Func_ov000_021d51c8
 
 extern struct UnkStruct_Func_ov000_021d4968_Ret * data_ov000_021e34e8;
 extern s32 data_ov000_021e24c0;
-extern vu32 gElapsedFrames;
-
-EC void func_0206d27c(s32, s32, s32, s32, s32);
-EC void func_0206e5f4(struct UnkStruct_Func_ov000_021d51c8 *, s32);
-EC void func_0206e608(struct UnkStruct_Func_ov000_021d51c8 *, s32, s32, s32, s32);
 
 class ProcRoofOpen : public ProcEx
 {
@@ -60,9 +58,6 @@ public:
     virtual ~ProcRoofOpen();
     virtual void Loop(void);
 };
-
-EC void * func_ov000_021d3350(char *, s32, s32, s32, s32, ProcPtr, s32, s32, s32);
-extern struct ProcCmd ProcScr_020ce750[];
 
 class ProcVillageCollapse : public ProcEx
 {
@@ -90,8 +85,6 @@ inline ProcVillageCollapse::ProcVillageCollapse(s32 self)
     this->unk_3c = 0;
     this->unk_40 = FALSE;
 }
-
-EC void Map_SetLayerAlphaById(struct MapFile * map, s32 layerIdx, s32 alpha);
 
 static inline u8 TestFlag(u8 * arr, u32 i)
 {
@@ -138,9 +131,6 @@ struct UnkStruct_Func_ov000_021d4e44_Map
     /* 00 */ STRUCT_PAD(0x00, 0x28);
     /* 28 */ void * unk_28;
 };
-
-EC void * func_02020c18(void *);
-EC void func_0204ed4c(void *, void *, s32, s32);
 
 EC void func_ov000_021d4804(s32 x, s32 y, s32 kind, s32 flags)
 {
@@ -294,7 +284,6 @@ EC void func_ov000_021d4a48(struct UnkStruct_Func_ov000_021d4968_Ret * self, s32
     return;
 }
 
-EC void func_ov000_021d4a48(struct UnkStruct_Func_ov000_021d4968_Ret * self, s32 alpha);
 EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self)
 {
     u8 tile = gMapStateManager->unk_828[self->unk_04 | self->unk_05 << 5];
@@ -364,7 +353,6 @@ EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self)
     return;
 }
 
-EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self);
 EC void func_ov000_021d4bec(s32 tt, struct Event * ev)
 {
     struct UnkStruct_Func_ov000_021d4968_Ret * self = (struct UnkStruct_Func_ov000_021d4968_Ret *)tt;
@@ -422,7 +410,6 @@ EC void func_ov000_021d4cb4(s32 tt, struct Event * ev)
     return;
 }
 
-EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * tt);
 EC void func_ov000_021d4d80(s32 self, ProcPtr parent, BOOL arg)
 {
     struct UnkStruct_Func_ov000_021d4968_Ret * tt = (struct UnkStruct_Func_ov000_021d4968_Ret *)self;
@@ -500,7 +487,6 @@ EC void func_ov000_021d4e44(s32 id, struct Event * ev)
     return;
 }
 
-EC void Map_SetAllKind3LayersAlpha(struct MapFile * map, s32 alpha);
 EC void func_ov000_021d5084(s32 state)
 {
     struct MapFile * map = static_cast<struct MapFile *>(HashTable::Get1("Map"));
