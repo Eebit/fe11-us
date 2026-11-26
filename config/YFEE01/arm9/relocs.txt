@@ -1517,7 +1517,7 @@ from:0x0200f1d0 kind:load to:0x027e125c module:dtcm
 from:0x0200f1d4 kind:load to:0x027e1258 module:dtcm
 from:0x0200f1d8 kind:load to:0x027e1268 module:dtcm
 from:0x0200f1dc kind:load to:0x027e1264 module:dtcm
-from:0x0200f1e4 kind:load to:0x027e0000 module:dtcm
+from:0x0200f1e4 kind:link_time_const(__DTCM_LO)
 from:0x0200f208 kind:load to:0x020e4df4 module:main
 from:0x0200f230 kind:arm_call to:0x020a977c module:main
 from:0x0200f244 kind:load to:0x020e4df4 module:main

@@ -77,8 +77,7 @@ struct DispStat
 struct BgCnt
 {
     /* bit  0 */ u16 priority : 2;
-    /* bit  2 */ u16 charBaseBlock : 2;
-    /* bit  4 */ u16 dummy : 2;
+    /* bit  2 */ u16 charBaseBlock : 4;
     /* bit  6 */ u16 mosaic : 1;
     /* bit  7 */ u16 colorMode : 1;
     /* bit  8 */ u16 screenBaseBlock : 5;
@@ -177,8 +176,8 @@ struct DispIo
     /* 14 */ struct BgAffineDstData bg2affin;
     /* 24 */ struct BgAffineDstData bg3affin;
     u32 unk_34;
-    s16 unk_38[4];
-    s16 unk_40[4];
+    u16 unk_38[4];
+    u16 unk_40[4];
     // +48-50 win0/win1
     u8 unk_48;
     u8 unk_49;
@@ -206,12 +205,13 @@ public:
     /* 20 */ u16 * tilemap[4];
     void * unk_30;
     void * unk_34;
-    s16 unk_38;
-    s16 unk_3a;
+    vs16 unk_38;
+    vs16 unk_3a;
     s16 unk_3c;
     u8 unk_3e;
     STRUCT_PAD(0x3F, 0x40);
     u8 unk_40;
+    STRUCT_PAD(0x41, 0x42);
     u8 unk_42;
 };
 

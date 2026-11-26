@@ -23,6 +23,7 @@ struct Dialog;
 struct Event;
 struct JobData;
 struct MoveUnit;
+struct BgConfig;
 
 EXTERN_C
 
@@ -493,20 +494,20 @@ EC void func_02010398(void);
 EC void func_0201079c(void);
 // EC ??? func_020107d8
 // EC ??? func_02010810
-// EC ??? func_0201082c
-// EC ??? func_02010894
-// EC ??? func_020108c4
-// EC ??? func_020108f4
-EC void func_02010c84(void *);
+EC void SetBackgroundTileDataOffset(u8, u8);
+EC void SetBackgroundMapDataOffset(u8, u8);
+EC void SetBackgroundScreenSize(u8, u8);
+EC void SetupBackgrounds(const struct BgConfig *, BOOL);
+EC void func_02010c84(const struct BgConfig *);
 // EC ??? func_02010d04
 // EC ??? func_02010d18
-EC void func_02010d98(void *, u32, u32, u32);
+EC void func_02010d98(u16 *, s32, u32, u32);
 // EC ??? func_02010dcc
 // EC ??? func_02010dfc
 // EC ??? func_02010e74
 // EC ??? func_02010ee0
 // EC ??? func_02010f40
-EC void func_02010f98(u16 *, s32, s32);
+EC void func_02010f98(u16 *, u16, u16);
 // EC ??? func_02010fdc
 // EC ??? func_02011078
 // EC ??? func_020110a8
@@ -689,7 +690,7 @@ EC void func_020136bc(ProcPtr);
 // EC ??? func_0201456c
 EC void func_020146a0(void);
 // EC ??? func_020146c4
-// EC ??? func_02014728
+EC void func_02014728(void);
 // EC ??? func_02014758
 // EC ??? func_02014768
 // EC ??? func_02014798
@@ -3386,7 +3387,7 @@ EC void func_0207058c(s32);
 // EC ??? func_020705c0
 // EC ??? func_02070678
 // EC ??? func_02070790
-// EC ??? func_020707f0
+EC void func_020707f0(void);
 // EC ??? func_0207080c
 // EC ??? func_02070838
 // EC ??? func_020708a0
@@ -4628,7 +4629,7 @@ EC void func_020a09b0(void);
 // EC ??? func_020a1378
 // EC ??? func_020a1418
 // EC ??? func_020a1448
-// EC ??? func_020a1478
+EC void func_020a1478(u16);
 // EC ??? func_020a1488
 // EC ??? func_020a151c
 // EC ??? func_020a1580
@@ -5072,7 +5073,7 @@ EC void func_020ab6c0(void);
 // EC ??? func_020abc74
 // EC ??? func_020abc8c
 // EC ??? func_020abce8
-// EC ??? func_020abd14
+EC void func_020abd14(s32, s32, s32);
 // EC ??? func_020abf54
 // EC ??? func_020ac04c
 // EC ??? func_020ac06c
@@ -5613,7 +5614,7 @@ EC void func_01ff976c(void *, void *);
 // EC ??? func_01ff97a0
 // EC ??? func_01ff97f4
 // EC ??? func_01ff9850
-// EC ??? func_01ff9894
+EC s32 func_01ff9894(u8, u8);
 // EC ??? func_01ff9948
 // EC ??? func_01ff9998
 // EC ??? func_01ff99cc

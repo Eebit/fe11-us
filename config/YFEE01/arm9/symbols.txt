@@ -463,10 +463,10 @@ func_0201076c kind:function(arm,size=0x30) addr:0x0201076c
 func_0201079c kind:function(arm,size=0x3c) addr:0x0201079c
 func_020107d8 kind:function(arm,size=0x38) addr:0x020107d8
 func_02010810 kind:function(arm,size=0x1c) addr:0x02010810
-func_0201082c kind:function(arm,size=0x68) addr:0x0201082c
-func_02010894 kind:function(arm,size=0x30) addr:0x02010894
-func_020108c4 kind:function(arm,size=0x30) addr:0x020108c4
-func_020108f4 kind:function(arm,size=0x390) addr:0x020108f4
+SetBackgroundTileDataOffset kind:function(arm,size=0x68) addr:0x0201082c
+SetBackgroundMapDataOffset kind:function(arm,size=0x30) addr:0x02010894
+SetBackgroundScreenSize kind:function(arm,size=0x30) addr:0x020108c4
+SetupBackgrounds kind:function(arm,size=0x390) addr:0x020108f4
 func_02010c84 kind:function(arm,size=0x80) addr:0x02010c84
 func_02010d04 kind:function(arm,size=0x14) addr:0x02010d04
 func_02010d18 kind:function(arm,size=0x80) addr:0x02010d18
@@ -5874,7 +5874,7 @@ data_020ca608 kind:data(any) addr:0x020ca608
 gKeySt kind:data(any) addr:0x020ca61c
 gTouchSt kind:data(any) addr:0x020ca620
 data_020ca624 kind:data(any) addr:0x020ca624
-data_020ca64c kind:data(any) addr:0x020ca64c
+ProcScr_020ca64c kind:data(any) addr:0x020ca64c
 data_020ca67c kind:data(any) addr:0x020ca67c
 data_020ca688 kind:data(any) addr:0x020ca688
 data_020ca694 kind:data(any) addr:0x020ca694
