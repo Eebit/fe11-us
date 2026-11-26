@@ -277,7 +277,7 @@ public:
 class ObjCtrl : public AbstCtrl
 {
 public:
-    STRUCT_PAD(0x0C, 0x10);
+    s32 unk_0c;
 
     virtual s32 vfunc_00(void); // func_02004830
     virtual s32 vfunc_04(void); // func_0207020c

@@ -465,7 +465,7 @@ EC void func_0200f350(s32);
 EC void InitScreenStates(void);
 // EC ??? func_0200f4f0
 // EC ??? func_0200f570
-// EC ??? IsAddressInVramRange
+EC BOOL IsAddressInVramRange(u32);
 // EC ??? func_0200f630
 // EC ??? func_0200f700
 // EC ??? func_0200f864
@@ -3312,7 +3312,7 @@ EC void func_0206f0fc(struct AbstCtrl *, s32, s32, s32, s32);
 // EC ??? func_0206f33c
 // EC ??? func_0206f470
 // EC ??? func_0206f4a0
-EC void func_0206f4e0(void *, u32);
+EC void func_0206f4e0(struct BGCtrl *, u8);
 EC void func_0206f580(struct AbstCtrl *, s32);
 // EC ??? func_0206f5d0
 // EC ??? func_0206f718
@@ -3321,7 +3321,7 @@ EC void func_0206f580(struct AbstCtrl *, s32);
 // EC ??? func_0206f97c
 // EC ??? func_0206f9ec
 // EC ??? func_0206fa74
-EC void func_0206fafc(void *, u32, u32, u32, u32, u32, u32, u32);
+EC void func_0206fafc(struct AbstCtrl *, s32, s32, s32, s32, s32, s32, s32);
 EC void func_0206fc44(struct AbstCtrl *, s32);
 // EC ??? func_0206fd38
 // EC ??? func_0206fda8
@@ -3330,8 +3330,8 @@ EC void func_0206fc44(struct AbstCtrl *, s32);
 // EC ??? func_0206fe48
 EC void SetDispEnable_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32); // SetDispEnable
 EC void SetBgPriority_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32); // SetBgPriority
-EC void SetBldTargetA_Maybe(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetA
-EC void SetBldTargetB_Maybe(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetB
+EC void SetBldTargetA_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32, s32); // SetBldTargetA
+EC void SetBldTargetB_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32, s32); // SetBldTargetB
 EC void func_02070148(struct UnkStruct_02197798 *, s32);
 // EC ??? func_0207020c
 // EC ??? func_0207021c
