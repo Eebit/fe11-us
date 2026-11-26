@@ -3,9 +3,6 @@
 #include "hardware.hpp"
 #include "unknown_funcs.h"
 
-EC void Decompress(void const * src, void * dst);
-EC void func_020206ac(s32, s32, s32, s32, u8);
-EC void func_0202079c(s32, s32, s32, s32, u8);
 extern AbstCtrl * data_021976f8[10];
 
 struct UnkStruct_02197798
@@ -44,11 +41,6 @@ static inline s16 cos(u16 angle)
 {
     return data_020c53b0[(angle >> 4) * 2 + 1];
 }
-
-EC void func_0209dba4(UnkStruct_Func_0209dba4_Ret * dst, s32 x, s32 y);
-EC void func_0209dbb0(UnkStruct_Func_0209dba4_Ret * dst, s32 sinValue, s32 cosValue);
-EC void func_0209dbbc(UnkStruct_Func_0209dba4_Ret * a, UnkStruct_Func_0209dba4_Ret * b,
-                      UnkStruct_Func_0209dba4_Ret * dst);
 
 static inline void InitGfxEngine(UnkStruct_02197798 * engine, ScreenState * screenSt)
 {
@@ -763,8 +755,6 @@ EC void SetBldTargetB_Maybe(struct UnkStruct_02197798 * gfx, s32 bg0, s32 bg1, s
     return;
 }
 
-EC void func_0201bc40(s32 value);
-EC void func_0201bd04(s32 value);
 EC void func_02070148(struct UnkStruct_02197798 * engine, s32 brightness)
 {
     ScreenState * activeSt;

@@ -24,6 +24,7 @@ struct Event;
 struct JobData;
 struct MoveUnit;
 struct BgConfig;
+struct UnkStruct_Func_0209dba4_Ret;
 
 EXTERN_C
 
@@ -1056,12 +1057,12 @@ EC void func_02019c30(void);
 // EC ??? _ZN5anime13EffectAlpha3D8SetAlphaEl
 // EC ??? _ZN5anime13EffectAlpha3D4TickEv
 EC void func_0201bc28(void);
-// EC ??? func_0201bc40
+EC void func_0201bc40(s32);
 // EC ??? func_0201bc80
 // EC ??? func_0201bca4
 EC s32 func_0201bce4(void);
 EC s32 func_0201bcf4(void);
-// EC ??? func_0201bd04
+EC void func_0201bd04(s32);
 // EC ??? func_0201bd44
 EC BOOL func_0201bd6c(void);
 // EC ??? func_0201bdac
@@ -1182,9 +1183,9 @@ EC void func_02020488(void *, s32, s32, s32);
 // EC ??? func_02020530
 EC void func_020205a4(u16 *, s32, s32, BOOL);
 // EC ??? func_02020624
-// EC ??? func_020206ac
+EC void func_020206ac(s32, s32, s32, s32, u8);
 // EC ??? func_02020714
-// EC ??? func_0202079c
+EC void func_0202079c(s32, s32, s32, s32, u8);
 // EC ??? func_02020804
 // EC ??? func_02020820
 // EC ??? func_02020824
@@ -1197,7 +1198,7 @@ EC s32 IntSys_Mod(s32, s32); // IntSys_Mod
 EC u16 IntSys_Sqrt(u32);
 EC s32 Interpolate(s32, s32, s32, s32, s32);
 // EC ??? func_02020b50
-// EC ??? Decompress
+EC void Decompress(void const *, void *);
 // EC ??? func_02020c0c
 // EC ??? func_02020c18
 // EC ??? func_02020c4c
@@ -4477,9 +4478,10 @@ EC void func_0209ca9c(u32);
 // EC ??? func_0209dad8
 // EC ??? func_0209db04
 // EC ??? func_0209db54
-// EC ??? func_0209dba4
-// EC ??? func_0209dbb0
-// EC ??? func_0209dbbc
+EC void func_0209dba4(struct UnkStruct_Func_0209dba4_Ret *, s32, s32);
+EC void func_0209dbb0(struct UnkStruct_Func_0209dba4_Ret *, s32, s32);
+EC void func_0209dbbc(
+    struct UnkStruct_Func_0209dba4_Ret *, struct UnkStruct_Func_0209dba4_Ret *, struct UnkStruct_Func_0209dba4_Ret *);
 // EC ??? func_0209dc6c
 // EC ??? func_0209dc90
 // EC ??? func_0209dd50
