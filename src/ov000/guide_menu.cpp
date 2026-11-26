@@ -1,6 +1,7 @@
 #include "global.h"
 
 #include "database.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
 #include "menu.hpp"
@@ -13,16 +14,7 @@ extern struct UnkStruct_02196f20 * data_02196f20;
 EC BOOL _IsProcTutCardActive(void);
 EC BOOL func_02050304(s32);
 
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-
-EC s32 func_020295ec(struct UnkStruct_021970c4 *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
+EC s32 func_020295ec(struct Font *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
 
 namespace menu
 {

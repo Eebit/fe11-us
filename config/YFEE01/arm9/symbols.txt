@@ -6836,7 +6836,7 @@ __vt__10DebugMenu2 kind:data(any) addr:0x020d3628
 __vt__9DebugMenu kind:data(any) addr:0x020d3768
 __vt__16DebugDialogYesNo kind:data(any) addr:0x020d38a8
 data_020d39e0 kind:data(any) addr:0x020d39e0
-data_020d39e4 kind:data(any) addr:0x020d39e4
+ProcScr_020d39e4 kind:data(any) addr:0x020d39e4
 data_020d39fc kind:data(any) addr:0x020d39fc
 data_020d3a1c kind:data(any) addr:0x020d3a1c
 data_020d3ae0 kind:data(any) addr:0x020d3ae0
@@ -8623,6 +8623,7 @@ data_021970ac kind:bss addr:0x021970ac
 data_021970bc kind:bss addr:0x021970bc
 data_021970c0 kind:bss addr:0x021970c0
 data_021970c4 kind:bss addr:0x021970c4
+data_021970c8 kind:bss addr:0x021970c8
 data_021970cc kind:bss addr:0x021970cc
 data_021970d0 kind:bss addr:0x021970d0
 data_021970d4 kind:bss addr:0x021970d4

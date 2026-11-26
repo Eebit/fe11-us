@@ -4,6 +4,7 @@
 
 #include "action.hpp"
 #include "anime.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
@@ -312,20 +313,8 @@ public:
 EC void func_020303bc(Dialog *, char *, void *, ProcPtr, s32, s32);
 EC void func_01ff9948(s32);
 
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-    void * unk_0c;
-    void * unk_10;
-    void * unk_14;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-
-EC u32 func_02028e7c(UnkStruct_021970c4 *, char *, s32);
-EC s32 func_020290f4(struct UnkStruct_021970c4 *, char *);
+EC u32 func_02028e7c(Font *, char *, s32);
+EC s32 func_020290f4(struct Font *, char *);
 
 void mapsave::MapSave::_021d59d0(void)
 {

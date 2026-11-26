@@ -4,6 +4,7 @@
 
 #include "database.hpp"
 #include "event.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "heap.hpp"
@@ -82,17 +83,8 @@ public:
     virtual void Loop(void);
 };
 
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-
-EC s32 func_02028e7c(struct UnkStruct_021970c4 *, void *, s32);
-EC s32 func_02029ae8(struct UnkStruct_021970c4 *, void *, void *, s32, s32, s32, s32);
+EC s32 func_02028e7c(struct Font *, void *, s32);
+EC s32 func_02029ae8(struct Font *, void *, void *, s32, s32, s32, s32);
 
 EC char * func_020b6d18(char *, char *, s32);
 
