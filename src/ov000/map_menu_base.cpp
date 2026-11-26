@@ -68,7 +68,7 @@ public:
     virtual void vfunc_04(/* ? */); // func_020337c8
     virtual void vfunc_08(/* ? */); // func_020338fc
     virtual void vfunc_0c(/* ? */); // func_02033990
-    virtual void vfunc_10(/* ? */); // func_02003f84
+    virtual void vfunc_10(void); // func_02003f84
     virtual void vfunc_14(/* ? */); // func_020316a4
     virtual void vfunc_18(/* ? */); // func_02032f14
     virtual s32 vfunc_1c(void); // func_02033b84
@@ -107,11 +107,11 @@ public:
     virtual void vfunc_a0(/* ? */); // func_02003ed0
     virtual void vfunc_a4(/* ? */); // func_02003ea0
     virtual void vfunc_a8(/* ? */); // func_02003e98
-    virtual void vfunc_ac(/* ? */); // func_02003e90
+    virtual BOOL vfunc_ac(void); // func_02003e90
     virtual void vfunc_b0(/* ? */); // func_02003e88
     virtual void vfunc_b4(/* ? */); // func_02003e80
     virtual void vfunc_b8(/* ? */); // func_02003e78
-    virtual void vfunc_bc(/* ? */); // func_02003e70
+    virtual s32 vfunc_bc(void); // func_02003e70
     virtual void vfunc_c0(/* ? */); // func_02032800
     virtual void vfunc_c4(/* ? */); // func_0203288c
     virtual void vfunc_c8(/* ? */); // func_02032918
@@ -164,6 +164,10 @@ public:
 class BMapScrollMenu : public menu::ScrollMenu
 {
 public:
+    /* 010 */ virtual void vfunc_10(void);
+    /* 0AC */ virtual BOOL vfunc_ac(void);
+    /* 0BC */ virtual s32 vfunc_bc(void);
+
     virtual ~BMapScrollMenu();
 };
 
@@ -389,37 +393,37 @@ void map::BMapDialogYesNo::vfunc_00(void)
     return;
 }
 
-EC void func_ov000_021be768(map::BMapScrollMenu * self)
+void map::BMapScrollMenu::vfunc_10(void)
 {
     VmMap_Common * vmMap;
 
     vmMap = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_FontMenu"));
-    self->unk_44 = vmMap->unk_07;
-    self->unk_24 = vmMap->unk_04;
-    self->unk_28 = vmMap->unk_06;
+    this->unk_44 = vmMap->unk_07;
+    this->unk_24 = vmMap->unk_04;
+    this->unk_28 = vmMap->unk_06;
 
     vmMap = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_Window"));
-    self->unk_48 = vmMap->unk_07;
-    self->unk_2c = vmMap->unk_04;
-    self->unk_30 = vmMap->unk_06;
+    this->unk_48 = vmMap->unk_07;
+    this->unk_2c = vmMap->unk_04;
+    this->unk_30 = vmMap->unk_06;
 
     vmMap = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_MenuCursor"));
-    self->unk_34 = vmMap->unk_04;
-    self->unk_38 = vmMap->unk_06;
+    this->unk_34 = vmMap->unk_04;
+    this->unk_38 = vmMap->unk_06;
 
     vmMap = static_cast<VmMap_Common *>(HashTable::Get2("VmMap_OBJFree2"));
-    self->unk_3c = vmMap->unk_04;
-    self->unk_40 = vmMap->unk_06;
+    this->unk_3c = vmMap->unk_04;
+    this->unk_40 = vmMap->unk_06;
 
-    self->unk_56 = 1;
-    self->unk_57 = 2;
+    this->unk_56 = 1;
+    this->unk_57 = 2;
 
     if (data_02196f24->controlSettings == 0)
     {
-        self->unk_7f = 0;
+        this->unk_7f = 0;
     }
 
-    self->unk_4d = 4;
+    this->unk_4d = 4;
 
     return;
 }
@@ -429,12 +433,12 @@ map::BMapScrollMenu::~BMapScrollMenu()
     ResetBlendEffect();
 }
 
-EC BOOL func_ov000_021be8d8(void)
+s32 map::BMapScrollMenu::vfunc_bc(void)
 {
     return func_ov000_021a471c() != 0;
 }
 
-EC BOOL func_ov000_021be8f0(void)
+BOOL map::BMapScrollMenu::vfunc_ac(void)
 {
     return gMapStateManager->inputHandler->_021a5650(0) != 0;
 }
