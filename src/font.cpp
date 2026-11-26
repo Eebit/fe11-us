@@ -14,8 +14,6 @@ s32 data_021970c0[1];
 struct Glyph ** data_021970bc;
 u16 ** data_021970cc;
 
-EC void func_02028d30(struct Font * out, s32 index);
-
 inline Font::Font(s32 index)
 {
     func_02028d30(this, index);

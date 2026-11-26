@@ -1181,18 +1181,7 @@ extern struct ProcCmd ProcScr_020cec14[];
 // extern ??? __vt__10DebugMenu2
 // extern ??? __vt__9DebugMenu
 // extern ??? __vt__16DebugDialogYesNo
-extern char * data_020d39e0;
-extern struct ProcCmd ProcScr_020d39e4[];
-// extern ??? data_020d39fc
-extern char data_020d3a1c[][2];
-// extern ??? data_020d3ae0
-// extern ??? data_020d3ae8
-// extern ??? data_020d3af4
-// extern ??? data_020d3af8
-extern char data_020d3afc[];
-extern char data_020d3b00[];
-extern char data_020d3b04[];
-extern char data_020d3b08[];
+/* font.hpp */
 // extern ??? __typeinfo__10LineDialog
 // extern ??? __typeinfo__18WindowAnimeProcess
 // extern ??? __typestr__10LineDialog
@@ -2963,10 +2952,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 // extern ??? data_021970a4
 // extern ??? data_021970a8
 // extern ??? data_021970ac
-// extern ??? data_021970bc
-// extern ??? data_021970c0
-// extern u16 data_021970c4[];
-// extern ??? data_021970cc
+/* font.hpp */
 // extern ??? data_021970d0
 // extern ??? data_021970d4
 // extern ??? data_021970d8

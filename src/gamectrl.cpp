@@ -8,6 +8,7 @@
 
 #include "database.hpp"
 #include "event.hpp"
+#include "font.hpp"
 #include "gamectrl.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
