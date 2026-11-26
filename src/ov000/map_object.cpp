@@ -8,6 +8,7 @@
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "proc_ex.hpp"
 #include "save.hpp"
 #include "sound_manager.hpp"
@@ -20,20 +21,6 @@
 
 EC void * func_ov000_021d3350(char *, s32, s32, s32, s32, ProcPtr, s32, s32, s32);
 extern vu32 gElapsedFrames;
-
-struct UnkStruct_Func_ov000_021d4968_Ret
-{
-    /* 00 */ struct UnkStruct_Func_ov000_021d4968_Ret * unk_00;
-    /* 04 */ s8 unk_04;
-    /* 05 */ s8 unk_05;
-    /* 06 */ u8 unk_06;
-    /* 07 */ u8 unk_07;
-
-    inline BOOL CheckUnk07()
-    {
-        return (this->unk_07 & 3) == 0;
-    }
-};
 
 struct UnkStruct_Func_ov000_021d51c8
 {
