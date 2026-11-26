@@ -443,6 +443,11 @@ BOOL map::BMapScrollMenu::vfunc_ac(void)
     return gMapStateManager->inputHandler->_021a5650(0) != 0;
 }
 
+s32 map::BMapDialogYesNo::vfunc_ac(void)
+{
+    return func_ov000_021a471c() != 0;
+}
+
 BOOL map::BMapDialogYesNo::vfunc_a0(void)
 {
     return gMapStateManager->inputHandler->_021a5650(0) != 0;
@@ -464,8 +469,4 @@ map::BMapMenu::~BMapMenu()
     {
         ResetBlendEffect();
     }
-}
-s32 map::BMapDialogYesNo::vfunc_ac(void)
-{
-    return func_ov000_021a471c() != 0;
 }
