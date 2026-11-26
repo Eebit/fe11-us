@@ -65,21 +65,21 @@ public:
     /* 3C */ s32 unk_3c;
     /* 40 */ u8 unk_40;
 
-    ProcVillageCollapse(s32 self);
+    ProcVillageCollapse(s32 tt);
 
     virtual ~ProcVillageCollapse();
     virtual void Loop(void);
 };
 
-inline ProcVillageCollapse::ProcVillageCollapse(s32 self)
+inline ProcVillageCollapse::ProcVillageCollapse(s32 tt)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * tt = (struct UnkStruct_Func_ov000_021d4968_Ret *)self;
+    struct UnkStruct_Func_ov000_021d4968_Ret * obj = (struct UnkStruct_Func_ov000_021d4968_Ret *)tt;
     s32 size;
 
-    this->unk_38 = self;
+    this->unk_38 = tt;
 
     size = GetTileSize();
-    func_ov000_021d3350("VillageCollapse", size * tt->unk_04 + (size >> 1), size * tt->unk_05, 0, 0, this, 0, 1, 1);
+    func_ov000_021d3350("VillageCollapse", size * obj->unk_04 + (size >> 1), size * obj->unk_05, 0, 0, this, 0, 1, 1);
 
     this->unk_3c = 0;
     this->unk_40 = FALSE;
@@ -204,7 +204,7 @@ EC void func_ov000_021d492c(void)
     return;
 }
 
-EC s32 func_ov000_021d4968(s32 x, s32 y, BOOL kind)
+EC s32 func_ov000_021d4968(s32 x, s32 y, s32 kind)
 {
     struct UnkStruct_Func_ov000_021d4968_Ret * it;
 
@@ -221,7 +221,7 @@ EC s32 func_ov000_021d4968(s32 x, s32 y, BOOL kind)
         }
     }
 
-    return NULL;
+    return 0;
 }
 
 EC struct UnkStruct_Func_ov000_021d4968_Ret * func_ov000_021d49b8(struct UnkStruct_Func_ov000_021d4968_Ret * prev,
@@ -242,11 +242,11 @@ EC struct UnkStruct_Func_ov000_021d4968_Ret * func_ov000_021d49b8(struct UnkStru
     return NULL;
 }
 
-EC BOOL func_ov000_021d49f4(s32 x, s32 y, BOOL arg)
+EC BOOL func_ov000_021d49f4(s32 x, s32 y, s32 kind)
 {
     struct UnkStruct_Func_ov000_021d4968_Ret * tt;
 
-    tt = (struct UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(x, y, arg);
+    tt = (struct UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(x, y, kind);
 
     if (tt == NULL)
     {
@@ -409,14 +409,14 @@ EC void func_ov000_021d4cb4(s32 tt, struct Event * ev)
     return;
 }
 
-EC void func_ov000_021d4d80(s32 self, ProcPtr parent, BOOL arg)
+EC void func_ov000_021d4d80(s32 tt, ProcPtr parent, BOOL arg)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * tt = (struct UnkStruct_Func_ov000_021d4968_Ret *)self;
+    struct UnkStruct_Func_ov000_021d4968_Ret * self = (struct UnkStruct_Func_ov000_021d4968_Ret *)tt;
     ProcVillageCollapse * proc;
 
-    if (parent != NULL && tt->unk_06 == 8)
+    if (parent != NULL && self->unk_06 == 8)
     {
-        proc = new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcVillageCollapse(self);
+        proc = new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcVillageCollapse(tt);
 
         if (arg)
         {
@@ -426,9 +426,9 @@ EC void func_ov000_021d4d80(s32 self, ProcPtr parent, BOOL arg)
         return;
     }
 
-    tt->unk_07 = 0;
-    tt->unk_07 |= 2;
-    func_ov000_021d4a7c(tt);
+    self->unk_07 = 0;
+    self->unk_07 |= 2;
+    func_ov000_021d4a7c(self);
 
     return;
 }

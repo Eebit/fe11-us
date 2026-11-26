@@ -6839,7 +6839,7 @@ EC struct Proc * func_ov000_021d42b0(s32, s32, s32);
 // EC ??? func_ov000_021d4804
 // EC ??? func_ov000_021d4874
 // EC ??? func_ov000_021d492c
-EC s32 func_ov000_021d4968(s32, s32, BOOL);
+EC s32 func_ov000_021d4968(s32, s32, s32);
 // EC ??? func_ov000_021d49b8
 // EC ??? func_ov000_021d49f4
 // EC ??? func_ov000_021d4a1c
