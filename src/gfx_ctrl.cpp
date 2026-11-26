@@ -1,17 +1,10 @@
 #include "global.h"
 
+#include "gfx_ctrl.hpp"
 #include "hardware.hpp"
 #include "unknown_funcs.h"
 
 extern AbstCtrl * data_021976f8[10];
-
-struct UnkStruct_02197798
-{
-    ScreenState * unk_00;
-    DispIo * unk_04;
-    BGCtrl unk_08[4];
-    ObjCtrl unk_68;
-};
 
 struct UnkStruct_027e12f4
 {
