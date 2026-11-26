@@ -97,6 +97,22 @@ public:
 
     void Update(void);
 
+    inline void func_0201a078(s32 arg)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->func_0201a078(arg);
+        }
+    }
+
+    inline void DrawInternal(s32 x, s32 y)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->DrawInternal(x, y);
+        }
+    }
+
     inline void SetFlag16(s32 arg)
     {
         if (this->interpreter != NULL)

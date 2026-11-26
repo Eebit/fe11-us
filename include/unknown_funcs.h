@@ -6846,7 +6846,7 @@ EC s32 func_ov000_021d4968(s32, s32, BOOL);
 // EC ??? func_ov000_021d4a7c
 EC void func_ov000_021d4bec(s32, struct Event *);
 // EC ??? func_ov000_021d4cb4
-EC s32 func_ov000_021d4d80(s32, ProcPtr, BOOL);
+EC void func_ov000_021d4d80(s32, ProcPtr, BOOL);
 EC void func_ov000_021d4e44(s32, struct Event *);
 EC void func_ov000_021d5084(s32);
 // EC ??? func_ov000_021d50cc

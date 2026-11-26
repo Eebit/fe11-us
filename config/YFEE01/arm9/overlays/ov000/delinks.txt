@@ -40,6 +40,11 @@ src/ov000/guide_menu.cpp:
 src/ov000/map_battle.cpp:
     .text       start:0x021ca974 end:0x021ccf94
 
+src/ov000/map_object.cpp:
+    .text       start:0x021d4804 end:0x021d59d0
+    .data       start:0x021e24c0 end:0x021e2564
+    .bss        start:0x021e34e8 end:0x021e34ec
+
 src/ov000/map_save.cpp:
     .text       start:0x021d59d0 end:0x021d6754
 
