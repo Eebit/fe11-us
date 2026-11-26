@@ -2416,10 +2416,7 @@ extern s32 data_020d6254;
 // extern ??? data_020dba44
 // extern ??? __vt__16VramAllocaterStr
 // extern ??? __vt__17VramAllocaterFast
-// extern ??? _ZTS7ObjCtrl
-// extern ??? _ZTI7ObjCtrl
-// extern ??? _ZTV6BGCtrl
-// extern ??? _ZTV7ObjCtrl
+/* gfx_ctrl.hpp */
 // extern ??? data_020dbaec
 // extern ??? data_020dbaf8
 // extern ??? data_020dbb04
@@ -3031,8 +3028,7 @@ extern struct UnkStruct_021974fc * data_021974fc;
 // extern ??? data_02197714
 // extern ??? data_02197718
 // extern ??? data_0219771c
-// extern ??? gfxEngineA
-// extern ??? gfxEngineB
+/* gfx_ctrl.hpp */
 // extern ??? data_02197810
 // extern ??? data_02197814
 // extern ??? data_02197858

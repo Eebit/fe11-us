@@ -10,6 +10,7 @@
 #include "event.hpp"
 #include "font.hpp"
 #include "gamectrl.hpp"
+#include "gfx_ctrl.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "heap.hpp"
