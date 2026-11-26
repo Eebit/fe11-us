@@ -3,6 +3,7 @@
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
+#include "map_menu_base.hpp"
 #include "menu.hpp"
 
 #include "unknown_data.h"
@@ -14,53 +15,6 @@ static inline void ResetBlendEffect(void)
 {
     gpActiveScreenSt->dispIo->bldcnt.effect = 0;
 }
-
-namespace map
-{
-class BMapMenu : public Menu
-{
-public:
-    /* 000 */ virtual void vfunc_00(void);
-    /* 008 */ virtual void vfunc_08(void);
-    /* 01C */ virtual void vfunc_1c(void);
-    /* 0A0 */ virtual BOOL vfunc_a0(void);
-    /* 0AC */ virtual s32 vfunc_ac(void);
-
-    virtual ~BMapMenu();
-};
-
-class BMapSystemMenu : public BMapMenu
-{
-public:
-    /* 008 */ virtual void vfunc_08(void);
-
-    virtual ~BMapSystemMenu()
-    {
-    }
-};
-
-class BMapScrollMenu : public menu::ScrollMenu
-{
-public:
-    /* 010 */ virtual void vfunc_10(void);
-    /* 0AC */ virtual BOOL vfunc_ac(void);
-    /* 0BC */ virtual s32 vfunc_bc(void);
-
-    virtual ~BMapScrollMenu();
-};
-
-class BMapDialogYesNo : public DialogYesNo
-{
-public:
-    /* 000 */ virtual void vfunc_00(void);
-    /* 0A0 */ virtual BOOL vfunc_a0(void);
-    /* 0AC */ virtual s32 vfunc_ac(void);
-
-    virtual ~BMapDialogYesNo()
-    {
-    }
-};
-} // namespace map
 
 void map::BMapMenu::vfunc_00(void)
 {
