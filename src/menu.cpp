@@ -148,7 +148,7 @@ s32 MenuItem::vfunc_ac(MenuItemState * menuItemState, s32 bg, s32 tileNum, s32 p
 
     if (this->vfunc_04(menuItemState) != NULL)
     {
-        data_021970c4->unk_08 = data_021970cc[this->vfunc_10(menuItemState)];
+        data_021970c4->colorTable = data_021970cc[this->vfunc_10(menuItemState)];
 
         screenSt = gpActiveScreenSt;
 
@@ -851,7 +851,7 @@ void Menu::vfunc_d8(void)
         pMVar2 = pMVar2 + 1;
     }
 
-    data_021970c4->unk_08 = data_021970cc[1];
+    data_021970c4->colorTable = data_021970cc[1];
     gpActiveScreenSt->unk_3e |= 1 << this->unk_2c;
 
     return;

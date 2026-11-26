@@ -234,13 +234,13 @@ public:
 
         if (!this->check())
         {
-            data_021970c4->unk_08 = data_021970cc[2];
+            data_021970c4->colorTable = data_021970cc[2];
         }
 
         func_0202972c(
             data_021970c4, func_02037fc8(this->unk_40->pJobData), gpActiveScreenSt->bgTiles[1],
             gpActiveScreenSt->tilemap[1], 0x14, 0x14, 0x3F, 0, 0x38, 1, 0);
-        data_021970c4->unk_08 = data_021970cc[1];
+        data_021970c4->colorTable = data_021970cc[1];
 
         unk_35 = this->unk_38[this->unk_44]->unk_35;
 
@@ -310,14 +310,14 @@ public:
 
             if (!this->check())
             {
-                data_021970c4->unk_08 = data_021970cc[2];
+                data_021970c4->colorTable = data_021970cc[2];
             }
 
             func_0202972c(
                 data_021970c4, func_02037fc8(this->unk_40->pJobData), gpActiveScreenSt->bgTiles[1],
                 gpActiveScreenSt->tilemap[1], 0x14, 0x14, 0x3F, 0, 0x38, 1, 0);
 
-            data_021970c4->unk_08 = data_021970cc[1];
+            data_021970c4->colorTable = data_021970cc[1];
 
             unk_35 = this->unk_38[this->unk_44]->unk_35;
             func_020113d0(((u16 *)gpActiveScreenSt->tilemap[1]) + 0x98, unk_35 * 4 + 1, 8);
@@ -385,14 +385,14 @@ public:
 
             if (!this->check())
             {
-                data_021970c4->unk_08 = data_021970cc[2];
+                data_021970c4->colorTable = data_021970cc[2];
             }
 
             func_0202972c(
                 data_021970c4, func_02037fc8(this->unk_40->pJobData), gpActiveScreenSt->bgTiles[1],
                 gpActiveScreenSt->tilemap[1], 0x14, 0x14, 0x3F, 0, 0x38, 1, 0);
 
-            data_021970c4->unk_08 = data_021970cc[1];
+            data_021970c4->colorTable = data_021970cc[1];
 
             unk_35 = this->unk_38[this->unk_44]->unk_35;
             func_020113d0(((u16 *)gpActiveScreenSt->tilemap[1]) + 0x98, unk_35 * 4 + 1, 8);
@@ -471,13 +471,13 @@ public:
 
                 if (!this->check())
                 {
-                    data_021970c4->unk_08 = data_021970cc[2];
+                    data_021970c4->colorTable = data_021970cc[2];
                 }
 
                 func_0202972c(
                     data_021970c4, func_02037fc8(this->unk_40->pJobData), gpActiveScreenSt->bgTiles[1],
                     gpActiveScreenSt->tilemap[1], 0x14, 0x14, 0x3F, 0, 0x38, 1, 0);
-                data_021970c4->unk_08 = data_021970cc[1];
+                data_021970c4->colorTable = data_021970cc[1];
 
                 unk_35 = this->unk_38[this->unk_44]->unk_35;
                 func_020113d0(((u16 *)gpActiveScreenSt->tilemap[1]) + 0x98, unk_35 * 4 + 1, 8);

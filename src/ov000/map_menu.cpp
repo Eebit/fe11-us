@@ -210,11 +210,11 @@ public:
 
         if (iVar5 != 0)
         {
-            data_021970c4->unk_08 = data_021970cc[5];
+            data_021970c4->colorTable = data_021970cc[5];
         }
         else
         {
-            data_021970c4->unk_08 = data_021970cc[2];
+            data_021970c4->colorTable = data_021970cc[2];
         }
 
         // "Free Units"
@@ -224,14 +224,14 @@ public:
 
         if (iVar5 != 0)
         {
-            data_021970c4->unk_08 = data_021970cc[1];
+            data_021970c4->colorTable = data_021970cc[1];
         }
 
         func_02029850(
             data_021970c4, iVar5, gpActiveScreenSt->bgTiles[this->unk_2c], gpActiveScreenSt->tilemap[this->unk_2c],
             0x1e, iVar7, uVar3 + iVar10, uVar2, 0);
 
-        data_021970c4->unk_08 = data_021970cc[1];
+        data_021970c4->colorTable = data_021970cc[1];
 
         return;
     }

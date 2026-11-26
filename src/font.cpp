@@ -66,7 +66,7 @@ EC void func_02028d30(struct Font * out, s32 index)
 {
     out->glyphs = data_021970bc;
     out->spacing = data_021970c0[index];
-    out->unk_08 = data_021970cc[1];
+    out->colorTable = data_021970cc[1];
     return;
 }
 
@@ -363,8 +363,8 @@ EC void func_0202915c(struct Font * self, char * str, u32 * out, s32 shift, s32 
 
     for (i = 0; i < 16; i++)
     {
-        lo = self->unk_08[data[0]];
-        hi = self->unk_08[data[1]];
+        lo = self->colorTable[data[0]];
+        hi = self->colorTable[data[1]];
         value = lo | ((u64)hi << 16);
         data += 2;
 
@@ -427,8 +427,8 @@ EC void func_02029254(struct Font * self, char * str, u32 * out, s32 shift, s32 
 
     for (i = 0; i < 8; i++)
     {
-        lo = self->unk_08[*data++];
-        hi = self->unk_08[*data++];
+        lo = self->colorTable[*data++];
+        hi = self->colorTable[*data++];
         value = lo | ((u64)hi << 16);
 
         out[0] = (mask & out[0]) | (u32)(value << bits);
@@ -443,8 +443,8 @@ EC void func_02029254(struct Font * self, char * str, u32 * out, s32 shift, s32 
 
     for (; i < 16; i++)
     {
-        lo = self->unk_08[*data++];
-        hi = self->unk_08[*data++];
+        lo = self->colorTable[*data++];
+        hi = self->colorTable[*data++];
         value = lo | ((u64)hi << 16);
 
         out[0] = (mask & out[0]) | (u32)(value << bits);
@@ -469,8 +469,8 @@ EC void func_02029418(struct Font * self, s32 chr, u32 * out)
 
     for (i = 0; i < 16; i++)
     {
-        u32 lo = self->unk_08[data[0]];
-        u32 hi = self->unk_08[data[1]];
+        u32 lo = self->colorTable[data[0]];
+        u32 hi = self->colorTable[data[1]];
         data += 2;
         *out++ = lo | (hi << 16);
     }
@@ -497,7 +497,7 @@ EC void func_02029480(struct Font * self, char * str, u32 * out, s32 x, s32 flag
             }
             else if (*str == 31)
             {
-                self->unk_08 = data_021970cc[str[1]];
+                self->colorTable = data_021970cc[str[1]];
             }
             str += func_02028e44(self, str);
         }

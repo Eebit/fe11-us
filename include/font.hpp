@@ -15,7 +15,7 @@ struct Font
 {
     /* 00 */ Glyph ** glyphs;
     /* 04 */ s32 spacing;
-    /* 08 */ u16 * unk_08;
+    /* 08 */ u16 * colorTable;
 
     Font(s32 index);
 };
