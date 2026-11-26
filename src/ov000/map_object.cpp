@@ -46,7 +46,7 @@ struct UnkStruct_Func_ov000_021d51c8
 s32 data_ov000_021e24c0 = 1;
 struct UnkStruct_Func_ov000_021d4968_Ret * data_ov000_021e34e8;
 
-class ProcRoofOpen : public ProcEx
+class ProcRoofOpen : ProcEx
 {
 public:
     /* 38 */ s32 unk_38;
