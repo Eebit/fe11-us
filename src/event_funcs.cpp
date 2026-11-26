@@ -4,6 +4,7 @@
 #include "event.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "sound_manager.hpp"
 #include "unit.hpp"
 #include "unknown_data.h"
@@ -42,12 +43,6 @@ struct CpuSeqData
 {
     /* 00 */ STRUCT_PAD(0x00, 0x04);
     /* 04 */ u8 unk_04;
-};
-
-struct UnkStruct_Func_ov000_021d4968_Ret
-{
-    /* 00 */ STRUCT_PAD(0x00, 0x07);
-    /* 07 */ u8 unk_07;
 };
 
 EC s16 func_020424f4(EventEngine * self, s32 index)

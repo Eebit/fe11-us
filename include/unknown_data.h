@@ -4054,17 +4054,7 @@ extern void * _ZTVN3map15BMapDialogYesNoE[];
 // extern ??? data_ov000_021e24b4
 // extern ??? data_ov000_021e24b8
 // extern ??? data_ov000_021e24bc
-// extern ??? data_ov000_021e24c0
-// extern ??? data_ov000_021e24c4
-// extern ??? _ZTI19ProcVillageCollapse
-// extern ??? _ZTS12ProcRoofOpen
-// extern ??? data_ov000_021e24e4
-// extern ??? _ZTS19ProcVillageCollapse
-// extern ??? _ZTV12ProcRoofOpen
-// extern ??? _ZTI12ProcRoofOpen
-// extern ??? _ZTV19ProcVillageCollapse
-// extern ??? data_ov000_021e2554
-// extern ??? data_ov000_021e2558
+/* map_object.hpp */
 // extern ??? data_ov000_021e2564
 // extern ??? __typeinfo__N7mapsave13PointSaveMenuE
 // extern ??? data_ov000_021e2574
@@ -4232,7 +4222,7 @@ extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 // extern ??? data_ov000_021e34d8
 // extern ??? sGuideMenuItems
 // extern ??? data_ov000_021e34e4
-// extern ??? data_ov000_021e34e8
+/* map_object.hpp */
 // extern ??? data_ov000_021e34ec
 // extern ??? data_ov000_021e34f8
 // extern ??? gMapRenderState

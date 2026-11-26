@@ -6836,30 +6836,7 @@ EC struct Proc * func_ov000_021d42b0(s32, s32, s32);
 // EC ??? func_ov000_021d47d8
 // EC ??? func_ov000_021d47ec
 // EC ??? func_ov000_021d47f0
-// EC ??? func_ov000_021d4804
-// EC ??? func_ov000_021d4874
-// EC ??? func_ov000_021d492c
-EC s32 func_ov000_021d4968(s32, s32, s32);
-// EC ??? func_ov000_021d49b8
-// EC ??? func_ov000_021d49f4
-// EC ??? func_ov000_021d4a1c
-// EC ??? func_ov000_021d4a48
-// EC ??? func_ov000_021d4a7c
-EC void func_ov000_021d4bec(s32, struct Event *);
-// EC ??? func_ov000_021d4cb4
-EC void func_ov000_021d4d80(s32, ProcPtr, BOOL);
-EC void func_ov000_021d4e44(s32, struct Event *);
-EC void func_ov000_021d5084(s32);
-// EC ??? func_ov000_021d50cc
-// EC ??? func_ov000_021d51c8
-// EC ??? func_ov000_021d537c
-// EC ??? func_ov000_021d5528
-// EC ??? func_ov000_021d56e0
-// EC ??? func_ov000_021d5784
-// EC ??? func_ov000_021d5820
-// EC ??? func_ov000_021d58fc
-// EC ??? func_ov000_021d593c
-// EC ??? func_ov000_021d5974
+/* map_object.hpp */
 // EC ??? _ZN7mapsave7MapSave9_021d59d0Ev
 // EC ??? _ZN7mapsave7MapSave9_021d5d70Ev
 // EC ??? _ZN7mapsave7MapSave9_021d5dd4Ev

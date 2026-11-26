@@ -12,6 +12,7 @@
 #include "gamectrl.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"

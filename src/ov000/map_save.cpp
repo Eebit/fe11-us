@@ -8,6 +8,7 @@
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -369,8 +370,6 @@ void mapsave::MapSave::_021d59d0(void)
 
     return;
 }
-
-EC void func_ov000_021d4cb4(s32, s32);
 
 void mapsave::MapSave::_021d5d70(void)
 {
