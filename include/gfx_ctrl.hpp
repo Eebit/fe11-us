@@ -53,12 +53,12 @@ EC void func_0206f718(struct AbstCtrl *, u16 *, s32, s32, s32, s32, s32);
 EC void func_0206f7cc(struct BGCtrl *, s32, s32, s32, s32, u16);
 EC void func_0206f8a0(struct AbstCtrl *, s32, s32, s32, s32, u16);
 EC s32 func_0206f97c(struct BGCtrl *);
-// EC ??? func_0206f9ec
-// EC ??? func_0206fa74
+// EC ??? _ZN6BGCtrl8vfunc_0cEmmmm
+// EC ??? _ZN6BGCtrl8vfunc_10Ellllh
 EC void func_0206fafc(struct AbstCtrl *, s32, s32, s32, s32, s32, s32, s32);
 EC void func_0206fc44(struct AbstCtrl *, s32);
-// EC ??? func_0206fd38
-// EC ??? func_0206fda8
+// EC ??? _ZN7ObjCtrl8vfunc_0cEmmmm
+// EC ??? _ZN7ObjCtrl8vfunc_10Ellllh
 EC void func_0206fe18(struct AbstCtrl *, s32);
 EC void func_0206fe20(struct AbstCtrl *, s32, s32);
 EC void func_0206fe48(struct AbstCtrl *, s32);
@@ -67,7 +67,7 @@ EC void SetBgPriority_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32); //
 EC void SetBldTargetA_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32, s32); // SetBldTargetA
 EC void SetBldTargetB_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32, s32); // SetBldTargetB
 EC void func_02070148(struct UnkStruct_02197798 *, s32);
-// EC ??? func_0207020c
-// EC ??? __sinit_020c50f0
+// EC ??? _ZN7ObjCtrl8vfunc_04Ev
+// EC ??? __sinit_gfx_ctrl.cpp
 
 #endif // GFX_CTRL_HPP
