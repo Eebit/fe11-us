@@ -32,7 +32,7 @@ void map::BMapMenu::vfunc_00(void)
     this->unk_41 = 1;
     this->unk_42 = 2;
 
-    if (data_02196f24->controlSettings == 0)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
     {
         this->unk_44 = 0;
     }
@@ -212,7 +212,7 @@ void map::BMapDialogYesNo::vfunc_00(void)
     this->unk_24 = vmMap->unk_04;
     this->unk_28 = vmMap->unk_06;
 
-    if (data_02196f24->controlSettings == 0)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
     {
         this->unk_44 = 0;
     }
@@ -245,7 +245,7 @@ void map::BMapScrollMenu::vfunc_10(void)
     this->unk_56 = 1;
     this->unk_57 = 2;
 
-    if (data_02196f24->controlSettings == 0)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
     {
         this->unk_7f = 0;
     }

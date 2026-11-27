@@ -103,7 +103,7 @@ public:
         this->unk_41 = 1;
         this->unk_42 = 2;
 
-        if (data_02196f24->controlSettings == 0)
+        if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
         {
             this->unk_44 = 0;
         }
