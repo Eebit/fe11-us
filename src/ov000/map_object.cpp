@@ -18,6 +18,7 @@
 #include "unknown_types.h"
 
 #include "constants/sounds.h"
+#include "constants/terrains.h"
 
 EC void * func_ov000_021d3350(char *, s32, s32, s32, s32, ProcPtr, s32, s32, s32);
 extern vu32 gElapsedFrames;
@@ -277,17 +278,17 @@ void MapObject::Refresh(void)
         case MAP_OBJECT_KIND_VILLAGE:
             if (this->flags & 2)
             {
-                tile = 0x28;
+                tile = TERRAIN_RUINS;
                 this->SetAlpha(2);
             }
             else if (this->flags & 1)
             {
-                tile = 0x27;
+                tile = TERRAIN_CLOSED_VILLAGE;
                 this->SetAlpha(1);
             }
             else
             {
-                tile = 3;
+                tile = TERRAIN_VILLAGE;
                 this->SetAlpha(0);
             }
             break;
@@ -295,12 +296,12 @@ void MapObject::Refresh(void)
         case MAP_OBJECT_KIND_DOOR:
             if (this->flags & 1)
             {
-                tile = 0xe;
+                tile = TERRAIN_FLOOR;
                 this->SetAlpha(1);
             }
             else
             {
-                tile = 0x1b;
+                tile = TERRAIN_DOOR;
                 this->SetAlpha(0);
             }
             break;
@@ -319,12 +320,12 @@ void MapObject::Refresh(void)
         case MAP_OBJECT_KIND_DRAWBRIDGE:
             if (this->flags & 1)
             {
-                tile = 0xc;
+                tile = TERRAIN_BRIDGE;
                 this->SetAlpha(1);
             }
             else
             {
-                tile = 0x1c;
+                tile = TERRAIN_DRAWBRIDGE;
                 this->SetAlpha(0);
             }
             break;
