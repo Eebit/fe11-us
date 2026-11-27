@@ -1204,7 +1204,7 @@ EC void func_02009864(void)
     func_0206fc44(data_02197718, 0x200010);
     func_0206ef9c(data_02197700, 0, 0, 24, 0, 0);
 
-    data_02197700->SetScroll(-32, 0xFF75);
+    data_02197700->SetScroll(-32, -139);
 
     func_0206f0fc(data_021976f8, 0, 0, 28, 0);
 }
@@ -1223,7 +1223,7 @@ EC void func_02009984(Talk * talk)
     func_0206fc44(data_02197718, 0x200010);
     func_0206ef9c(data_02197700, 0, 0, 24, 0, 0);
 
-    data_02197700->SetScroll(-32, 0xFF75);
+    data_02197700->SetScroll(-32, -139);
 
     func_0206f0fc(data_021976f8, 0, 0, 28, 0);
 
@@ -2790,7 +2790,7 @@ EC void func_0200e4cc(TalkName * name)
     func_0206f4e0(data_0219771c, 1);
     func_0206f580(data_0219771c, 0);
     data_0219771c->unk_0c->priority = 0;
-    data_0219771c->unk_04->dispIo->unk_40[data_0219771c->unk_10] = 0xFF88;
+    data_0219771c->unk_04->dispIo->unk_40[data_0219771c->unk_10] = -120;
 
     switch (name->unk_38)
     {
@@ -2828,7 +2828,7 @@ EC void func_0200e674(TalkName * name)
     func_0206f4e0(data_0219771c, 1);
     func_0206f580(data_0219771c, 0);
     data_0219771c->unk_0c->priority = 0;
-    data_0219771c->unk_04->dispIo->unk_40[data_0219771c->unk_10] = 0xFF88;
+    data_0219771c->unk_04->dispIo->unk_40[data_0219771c->unk_10] = -120;
 
     switch (name->unk_38)
     {
