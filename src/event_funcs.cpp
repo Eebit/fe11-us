@@ -2225,11 +2225,11 @@ EC u32 MindGetPhase(void)
 
 EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 tt;
+    s32 mapObject;
     Event * ev;
 
-    tt = func_ov000_021d4968(x, y, arg);
-    if (!tt)
+    mapObject = func_ov000_021d4968(x, y, arg);
+    if (!mapObject)
     {
         return FALSE;
     }
@@ -2251,7 +2251,7 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4bec(tt, ev);
+    func_ov000_021d4bec(mapObject, ev);
 
     if (gMapStateManager->unk_04->pUnit == NULL && (arg == 5 || arg == 7))
     {
@@ -2268,7 +2268,7 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 tt;
+    s32 mapObject;
     Event * ev;
     s16 ix;
     s16 iy;
@@ -2278,8 +2278,8 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
     s16 yMax;
     s32 row;
 
-    tt = func_ov000_021d4968(x, y, arg);
-    if (!tt)
+    mapObject = func_ov000_021d4968(x, y, arg);
+    if (!mapObject)
     {
         return FALSE;
     }
@@ -2301,7 +2301,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4cb4(tt, ev);
+    func_ov000_021d4cb4(mapObject, ev);
 
     if (arg == 5)
     {
@@ -2349,10 +2349,10 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 tt = func_ov000_021d4968(x, y, arg);
+    s32 mapObject = func_ov000_021d4968(x, y, arg);
     Event * ev;
 
-    if (!tt)
+    if (!mapObject)
     {
         return FALSE;
     }
@@ -2374,7 +2374,7 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4d80(tt, ev, FALSE);
+    func_ov000_021d4d80(mapObject, ev, FALSE);
 
     if (ev != NULL && ev->proc_lockCnt != 0)
     {
@@ -2386,14 +2386,14 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL TTIsEnable(EventEngine * unused, s32 x, s32 y, s32 arg)
 {
-    UnkStruct_Func_ov000_021d4968_Ret * tt = (UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(x, y, arg);
+    MapObject * mapObject = (MapObject *)func_ov000_021d4968(x, y, arg);
 
-    if (!tt)
+    if (!mapObject)
     {
         return FALSE;
     }
 
-    if (tt->unk_07 & 3)
+    if (mapObject->flags & 3)
     {
         return FALSE;
     }

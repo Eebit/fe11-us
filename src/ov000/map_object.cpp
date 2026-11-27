@@ -31,7 +31,7 @@ struct UnkStruct_Func_ov000_021d51c8
 };
 
 s32 data_ov000_021e24c0 = 1;
-struct UnkStruct_Func_ov000_021d4968_Ret * data_ov000_021e34e8;
+MapObject * data_ov000_021e34e8;
 
 class ProcRoofOpen : ProcEx
 {
@@ -52,21 +52,21 @@ public:
     /* 3C */ s32 unk_3c;
     /* 40 */ u8 unk_40;
 
-    ProcVillageCollapse(s32 tt);
+    ProcVillageCollapse(s32 mapObject);
 
     virtual ~ProcVillageCollapse();
     virtual void Loop(void);
 };
 
-inline ProcVillageCollapse::ProcVillageCollapse(s32 tt)
+inline ProcVillageCollapse::ProcVillageCollapse(s32 mapObject)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * obj = (struct UnkStruct_Func_ov000_021d4968_Ret *)tt;
+    MapObject * obj = (MapObject *)mapObject;
     s32 size;
 
-    this->unk_38 = tt;
+    this->unk_38 = mapObject;
 
     size = GetTileSize();
-    func_ov000_021d3350("VillageCollapse", size * obj->unk_04 + (size >> 1), size * obj->unk_05, 0, 0, this, 0, 1, 1);
+    func_ov000_021d3350("VillageCollapse", size * obj->x + (size >> 1), size * obj->y, 0, 0, this, 0, 1, 1);
 
     this->unk_3c = 0;
     this->unk_40 = FALSE;
@@ -120,27 +120,27 @@ struct UnkStruct_Func_ov000_021d4e44_Map
 
 EC void func_ov000_021d4804(s32 x, s32 y, s32 kind, s32 flags)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * tt;
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
+    MapObject * mapObject;
+    MapObject * it;
 
-    tt = new UnkStruct_Func_ov000_021d4968_Ret;
-    tt->unk_04 = x;
-    tt->unk_05 = y;
-    tt->unk_06 = kind;
-    tt->unk_07 = flags;
-    tt->unk_00 = NULL;
+    mapObject = new MapObject;
+    mapObject->x = x;
+    mapObject->y = y;
+    mapObject->kind = kind;
+    mapObject->flags = flags;
+    mapObject->next = NULL;
 
     if (data_ov000_021e34e8 == NULL)
     {
-        data_ov000_021e34e8 = tt;
+        data_ov000_021e34e8 = mapObject;
         return;
     }
 
-    for (it = data_ov000_021e34e8; it->unk_00 != NULL; it = it->unk_00)
+    for (it = data_ov000_021e34e8; it->next != NULL; it = it->next)
     {
     }
 
-    it->unk_00 = tt;
+    it->next = mapObject;
 
     return;
 }
@@ -177,12 +177,12 @@ EC void func_ov000_021d4874(void)
 
 EC void func_ov000_021d492c(void)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
-    struct UnkStruct_Func_ov000_021d4968_Ret * next;
+    MapObject * it;
+    MapObject * next;
 
     for (it = data_ov000_021e34e8; it != NULL; it = next)
     {
-        next = it->unk_00;
+        next = it->next;
         delete it;
     }
 
@@ -193,16 +193,16 @@ EC void func_ov000_021d492c(void)
 
 EC s32 func_ov000_021d4968(s32 x, s32 y, s32 kind)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
+    MapObject * it;
 
-    for (it = data_ov000_021e34e8; it != NULL; it = it->unk_00)
+    for (it = data_ov000_021e34e8; it != NULL; it = it->next)
     {
-        if (kind != 0 && it->unk_06 != kind)
+        if (kind != 0 && it->kind != kind)
         {
             continue;
         }
 
-        if (it->unk_04 == x && it->unk_05 == y)
+        if (it->x == x && it->y == y)
         {
             return (s32)it;
         }
@@ -211,14 +211,13 @@ EC s32 func_ov000_021d4968(s32 x, s32 y, s32 kind)
     return 0;
 }
 
-EC struct UnkStruct_Func_ov000_021d4968_Ret *
-func_ov000_021d49b8(struct UnkStruct_Func_ov000_021d4968_Ret * prev, s32 kind)
+EC MapObject * func_ov000_021d49b8(MapObject * prev, s32 kind)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
+    MapObject * it;
 
-    for (it = prev == NULL ? data_ov000_021e34e8 : prev->unk_00; it != NULL; it = it->unk_00)
+    for (it = prev == NULL ? data_ov000_021e34e8 : prev->next; it != NULL; it = it->next)
     {
-        if (kind != 0 && it->unk_06 != kind)
+        if (kind != 0 && it->kind != kind)
         {
             continue;
         }
@@ -231,24 +230,24 @@ func_ov000_021d49b8(struct UnkStruct_Func_ov000_021d4968_Ret * prev, s32 kind)
 
 EC BOOL func_ov000_021d49f4(s32 x, s32 y, s32 kind)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * tt;
+    MapObject * mapObject;
 
-    tt = (struct UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(x, y, kind);
+    mapObject = (MapObject *)func_ov000_021d4968(x, y, kind);
 
-    if (tt == NULL)
+    if (mapObject == NULL)
     {
         return FALSE;
     }
 
-    return tt->CheckUnk07();
+    return mapObject->IsEnabled();
 }
 
 EC s32 func_ov000_021d4a1c(void)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
+    MapObject * it;
     s32 count = 0;
 
-    for (it = data_ov000_021e34e8; it != NULL; it = it->unk_00)
+    for (it = data_ov000_021e34e8; it != NULL; it = it->next)
     {
         count++;
     }
@@ -256,7 +255,7 @@ EC s32 func_ov000_021d4a1c(void)
     return count;
 }
 
-EC void func_ov000_021d4a48(struct UnkStruct_Func_ov000_021d4968_Ret * self, s32 alpha)
+EC void func_ov000_021d4a48(MapObject * self, s32 alpha)
 {
     struct MapFile * map = static_cast<struct MapFile *>(HashTable::Get1("Map"));
 
@@ -265,24 +264,24 @@ EC void func_ov000_021d4a48(struct UnkStruct_Func_ov000_021d4968_Ret * self, s32
         return;
     }
 
-    Map_SetLayerAlphaAt(map, self->unk_04, self->unk_05, alpha);
+    Map_SetLayerAlphaAt(map, self->x, self->y, alpha);
 
     return;
 }
 
-EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self)
+EC void func_ov000_021d4a7c(MapObject * self)
 {
-    u8 tile = gMapStateManager->unk_828[self->unk_04 | self->unk_05 << 5];
+    u8 tile = gMapStateManager->unk_828[self->x | self->y << 5];
 
-    switch (self->unk_06)
+    switch (self->kind)
     {
         case 8:
-            if (self->unk_07 & 2)
+            if (self->flags & 2)
             {
                 tile = 0x28;
                 func_ov000_021d4a48(self, 2);
             }
-            else if (self->unk_07 & 1)
+            else if (self->flags & 1)
             {
                 tile = 0x27;
                 func_ov000_021d4a48(self, 1);
@@ -295,7 +294,7 @@ EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self)
             break;
 
         case 5:
-            if (self->unk_07 & 1)
+            if (self->flags & 1)
             {
                 tile = 0xe;
                 func_ov000_021d4a48(self, 1);
@@ -308,7 +307,7 @@ EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self)
             break;
 
         case 6:
-            if (self->unk_07 & 1)
+            if (self->flags & 1)
             {
                 func_ov000_021d4a48(self, 1);
             }
@@ -319,7 +318,7 @@ EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self)
             break;
 
         case 7:
-            if (self->unk_07 & 1)
+            if (self->flags & 1)
             {
                 tile = 0xc;
                 func_ov000_021d4a48(self, 1);
@@ -332,20 +331,19 @@ EC void func_ov000_021d4a7c(struct UnkStruct_Func_ov000_021d4968_Ret * self)
             break;
     }
 
-    gMapStateManager->unk_828[self->unk_04 | self->unk_05 << 5] = tile;
-    gMapStateManager->unk_830[self->unk_04 | self->unk_05 << 5] =
-        GetTerrainCategoryDBIndex(gFE11Database->pTerrain[tile].unk_08);
+    gMapStateManager->unk_828[self->x | self->y << 5] = tile;
+    gMapStateManager->unk_830[self->x | self->y << 5] = GetTerrainCategoryDBIndex(gFE11Database->pTerrain[tile].unk_08);
 
     return;
 }
 
-EC void func_ov000_021d4bec(s32 tt, struct Event * ev)
+EC void func_ov000_021d4bec(s32 mapObject, struct Event * ev)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * self = (struct UnkStruct_Func_ov000_021d4968_Ret *)tt;
+    MapObject * self = (MapObject *)mapObject;
 
     if (ev != NULL)
     {
-        switch (self->unk_06)
+        switch (self->kind)
         {
             case 5:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_DOOR_OPEN1, 0, 0);
@@ -361,19 +359,19 @@ EC void func_ov000_021d4bec(s32 tt, struct Event * ev)
         }
     }
 
-    self->unk_07 = 0;
+    self->flags = 0;
     func_ov000_021d4a7c(self);
 
     return;
 }
 
-EC void func_ov000_021d4cb4(s32 tt, struct Event * ev)
+EC void func_ov000_021d4cb4(s32 mapObject, struct Event * ev)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * self = (struct UnkStruct_Func_ov000_021d4968_Ret *)tt;
+    MapObject * self = (MapObject *)mapObject;
 
     if (ev != NULL)
     {
-        switch (self->unk_06)
+        switch (self->kind)
         {
             case 5:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_DOOR_OPEN1, 0, 0);
@@ -389,21 +387,21 @@ EC void func_ov000_021d4cb4(s32 tt, struct Event * ev)
         }
     }
 
-    self->unk_07 = 0;
-    self->unk_07 |= 1;
+    self->flags = 0;
+    self->flags |= 1;
     func_ov000_021d4a7c(self);
 
     return;
 }
 
-EC void func_ov000_021d4d80(s32 tt, ProcPtr parent, BOOL arg)
+EC void func_ov000_021d4d80(s32 mapObject, ProcPtr parent, BOOL arg)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * self = (struct UnkStruct_Func_ov000_021d4968_Ret *)tt;
+    MapObject * self = (MapObject *)mapObject;
     ProcVillageCollapse * proc;
 
-    if (parent != NULL && self->unk_06 == 8)
+    if (parent != NULL && self->kind == 8)
     {
-        proc = new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcVillageCollapse(tt);
+        proc = new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcVillageCollapse(mapObject);
 
         if (arg)
         {
@@ -413,8 +411,8 @@ EC void func_ov000_021d4d80(s32 tt, ProcPtr parent, BOOL arg)
         return;
     }
 
-    self->unk_07 = 0;
-    self->unk_07 |= 2;
+    self->flags = 0;
+    self->flags |= 2;
     func_ov000_021d4a7c(self);
 
     return;
@@ -491,7 +489,7 @@ EC void func_ov000_021d5084(s32 state)
 
 EC void func_ov000_021d50cc(void)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
+    MapObject * it;
     Anime * anime;
     s32 alpha;
     s32 mapAlpha;
@@ -524,11 +522,11 @@ EC void func_ov000_021d50cc(void)
 
     size = GetTileSize();
 
-    for (; it != NULL; it = it->unk_00)
+    for (; it != NULL; it = it->next)
     {
-        if (it->unk_06 == 14)
+        if (it->kind == 14)
         {
-            gMapStateManager->camera->_021a51b8(it->unk_04, it->unk_05, &pos);
+            gMapStateManager->camera->_021a51b8(it->x, it->y, &pos);
             anime->DrawInternal(pos.x + (size >> 1), pos.y + (size >> 1));
         }
     }
@@ -543,7 +541,7 @@ EC void func_ov000_021d50cc(void)
 
 EC void func_ov000_021d51c8(void)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
+    MapObject * it;
     s32 size;
     s32 value;
     struct UnkStruct_Func_ov000_021d51c8 * psave;
@@ -594,11 +592,11 @@ EC void func_ov000_021d51c8(void)
 
     value = psave->unk_10;
 
-    for (; it != NULL; it = it->unk_00)
+    for (; it != NULL; it = it->next)
     {
-        if (it->unk_06 == 16 && it->CheckUnk07())
+        if (it->kind == 16 && it->IsEnabled())
         {
-            if (gMapStateManager->camera->_021a51b8(it->unk_04, it->unk_05, &pos))
+            if (gMapStateManager->camera->_021a51b8(it->x, it->y, &pos))
             {
                 func_0206e5f4(psave, mapAlpha);
                 func_0206e608(psave, 0, offset, 0, 0);
@@ -619,7 +617,7 @@ EC void func_ov000_021d51c8(void)
 
 EC void func_ov000_021d537c(struct SaveBuffer * buf)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * it;
+    MapObject * it;
     s16 x;
     s16 y;
     u8 tile;
@@ -627,12 +625,12 @@ EC void func_ov000_021d537c(struct SaveBuffer * buf)
 
     buf->WriteShort(func_ov000_021d4a1c());
 
-    for (it = data_ov000_021e34e8; it != NULL; it = it->unk_00)
+    for (it = data_ov000_021e34e8; it != NULL; it = it->next)
     {
-        buf->WriteByte(it->unk_04);
-        buf->WriteByte(it->unk_05);
-        buf->WriteByte(it->unk_06);
-        buf->WriteByte(it->unk_07);
+        buf->WriteByte(it->x);
+        buf->WriteByte(it->y);
+        buf->WriteByte(it->kind);
+        buf->WriteByte(it->flags);
     }
 
     func_020a5824(flags, 0, sizeof(flags));
@@ -661,7 +659,7 @@ EC void func_ov000_021d537c(struct SaveBuffer * buf)
 
 EC void func_ov000_021d5528(struct SaveBuffer * buf, s32 unused)
 {
-    struct UnkStruct_Func_ov000_021d4968_Ret * tt;
+    MapObject * mapObject;
     s32 i;
     s32 count;
     s16 x;
@@ -678,12 +676,12 @@ EC void func_ov000_021d5528(struct SaveBuffer * buf, s32 unused)
         u8 kind = buf->ReadByte();
         u8 state = buf->ReadByte();
 
-        tt = (struct UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(xTile, yTile, kind);
+        mapObject = (MapObject *)func_ov000_021d4968(xTile, yTile, kind);
 
-        if (tt != NULL)
+        if (mapObject != NULL)
         {
-            tt->unk_07 = state;
-            func_ov000_021d4a7c(tt);
+            mapObject->flags = state;
+            func_ov000_021d4a7c(mapObject);
         }
     }
 
