@@ -499,7 +499,7 @@ EC void func_ov000_021d50cc(void)
         return;
     }
 
-    alpha = anime->interpreter != NULL ? anime->interpreter->alpha : 0x1f;
+    alpha = anime->GetAlpha();
     mapAlpha = data_ov000_021e3324->unk_14;
 
     if (mapAlpha == 0)
@@ -509,10 +509,7 @@ EC void func_ov000_021d50cc(void)
 
     if (mapAlpha < alpha)
     {
-        if (anime->interpreter != NULL)
-        {
-            anime->interpreter->SetAlpha(mapAlpha);
-        }
+        anime->SetAlpha(mapAlpha);
     }
 
     size = GetTileSize();
@@ -522,14 +519,11 @@ EC void func_ov000_021d50cc(void)
         if (it->kind == MAP_OBJECT_KIND_SEIZE)
         {
             gMapStateManager->camera->_021a51b8(it->x, it->y, &pos);
-            anime->DrawInternal(pos.x + (size >> 1), pos.y + (size >> 1));
+            anime->Draw(pos.x + (size >> 1), pos.y + (size >> 1));
         }
     }
 
-    if (anime->interpreter != NULL)
-    {
-        anime->interpreter->SetAlpha(alpha);
-    }
+    anime->SetAlpha(alpha);
 
     return;
 }
@@ -555,7 +549,7 @@ EC void func_ov000_021d51c8(void)
         return;
     }
 
-    alpha = anime->interpreter != NULL ? anime->interpreter->alpha : 0x1f;
+    alpha = anime->GetAlpha();
     mapAlpha = data_ov000_021e3324->unk_15;
 
     if (mapAlpha == 0)
@@ -565,10 +559,7 @@ EC void func_ov000_021d51c8(void)
 
     if (mapAlpha < alpha)
     {
-        if (anime->interpreter != NULL)
-        {
-            anime->interpreter->SetAlpha(mapAlpha);
-        }
+        anime->SetAlpha(mapAlpha);
     }
 
     size = GetTileSize();
@@ -598,14 +589,11 @@ EC void func_ov000_021d51c8(void)
                 func_0206d27c(pos.x, pos.y, value, size, size);
             }
 
-            anime->DrawInternal(pos.x + (size >> 1), pos.y + (size >> 1));
+            anime->Draw(pos.x + (size >> 1), pos.y + (size >> 1));
         }
     }
 
-    if (anime->interpreter != NULL)
-    {
-        anime->interpreter->SetAlpha(alpha);
-    }
+    anime->SetAlpha(alpha);
 
     return;
 }

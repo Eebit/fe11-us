@@ -105,11 +105,24 @@ public:
         }
     }
 
-    inline void DrawInternal(s32 x, s32 y)
+    inline void Draw(s32 x, s32 y)
     {
         if (this->interpreter != NULL)
         {
             this->interpreter->DrawInternal(x, y);
+        }
+    }
+
+    inline s32 GetAlpha(void)
+    {
+        return this->interpreter != NULL ? this->interpreter->alpha : 0x1f;
+    }
+
+    inline void SetAlpha(s32 alpha)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->SetAlpha(alpha);
         }
     }
 
