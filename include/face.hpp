@@ -28,18 +28,14 @@ public:
         u32 flags;
         struct
         {
-            u32 unk_0c_0 : 2;
+            u32 unk_0c_0 : 1;
+            u32 unk_0c_1 : 1;
             u32 isFlipped : 1;
             u32 isSmiling : 1;
             u32 unk_0c_4_5 : 2;
             u32 unk_0c_6_7 : 2;
             u32 unk_0c_8_9 : 2;
             u32 unk_0c_a : 22;
-        };
-        struct
-        {
-            u32 : 1;
-            u32 unk_0c_1 : 1;
         };
     };
     /* 10 */ s16 xBase;
