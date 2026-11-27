@@ -282,11 +282,7 @@ public:
     /* 124 */ virtual void vfunc_124(void);
     /* 128 */ virtual void vfunc_128(void);
     /* 12C */ virtual void vfunc_12c(void);
-    /* 130 */ virtual void vfunc_130(/* ? */); // ?
-    /* 134 */ virtual void vfunc_134(/* ? */); // ?
-    virtual s32 vfunc_138(void);
-
-    virtual ~Menu();
+    /* 130 */ virtual ~Menu();
 
     void _0202d6fc(s32);
     void _0202f020(s32, s32);
@@ -626,10 +622,7 @@ public:
         this->unk_38->vfunc_dc();
         this->unk_38->vfunc_ec();
 
-        if (this->unk_38 != NULL)
-        {
-            this->unk_38->vfunc_134();
-        }
+        delete this->unk_38;
     }
 
     inline void ProcMenu_0202d688()

@@ -43,6 +43,12 @@ public:
     virtual s32 vfunc_f4(void);
 };
 
+class SaveMenu : public SplitMenu
+{
+public:
+    /* 138 */ virtual s32 vfunc_138(void);
+};
+
 namespace mapsave
 {
 
@@ -71,7 +77,7 @@ public:
     void _021d5f00(void);
 };
 
-class PointSaveMenu : public Menu
+class PointSaveMenu : public SaveMenu
 {
 public:
     Anime * unk_50;
