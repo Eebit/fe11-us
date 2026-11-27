@@ -1069,9 +1069,8 @@ EC s32 func_02008a48(char ** ppStr)
     }
 
     value = 0;
-    i = 0;
 
-    while ((c = **ppStr) != '|' && i < 8)
+    for (i = 0; (c = **ppStr) != '|' && i < 8; i++)
     {
         value = value * 10;
         if (c >= '0' && c <= '9')
@@ -1079,7 +1078,6 @@ EC s32 func_02008a48(char ** ppStr)
             value += c - '0';
         }
         (*ppStr)++;
-        i++;
     }
 
     (*ppStr)++;
