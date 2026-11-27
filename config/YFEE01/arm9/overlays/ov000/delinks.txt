@@ -27,6 +27,10 @@ src/ov000/map_sequence.cpp:
 src/ov000/target_select.cpp:
     .text       start:0x021b4224 end:0x021b7abc
 
+src/ov000/map_menu_base.cpp:
+    .text       start:0x021be21c end:0x021beaf4
+    .data       start:0x021dcd30 end:0x021dd19c
+
 src/ov000/map_menu.cpp:
     .text       start:0x021beaf4 end:0x021bfa60
 

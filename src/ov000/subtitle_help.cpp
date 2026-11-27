@@ -414,12 +414,12 @@ EC void func_ov000_021d6e30(u32 param_1)
 
 EC BOOL func_ov000_021d6ed4(void)
 {
-    if (data_02196f24->controlSettings == 0)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
     {
         return FALSE;
     }
 
-    if (data_02196f24->controlSettings == 2)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_STYLUS)
     {
         return TRUE;
     }

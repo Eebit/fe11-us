@@ -152,6 +152,13 @@ public:
     }
 };
 
+enum
+{
+    CONTROL_SETTINGS_BUTTONS = 0,
+    CONTROL_SETTINGS_AUTO = 1,
+    CONTROL_SETTINGS_STYLUS = 2,
+};
+
 struct UnkStruct_02196f24
 {
     /* 00 */ u8 gameSpeed;

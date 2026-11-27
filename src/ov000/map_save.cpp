@@ -9,6 +9,7 @@
 #include "hashtable.hpp"
 #include "heap.hpp"
 #include "map.hpp"
+#include "map_menu_base.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -71,7 +72,7 @@ public:
     void _021d5f00(void);
 };
 
-class PointSaveMenu : public Menu
+class PointSaveMenu : public SaveMenu
 {
 public:
     Anime * unk_50;
@@ -103,7 +104,7 @@ public:
         this->unk_41 = 1;
         this->unk_42 = 2;
 
-        if (data_02196f24->controlSettings == 0)
+        if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
         {
             this->unk_44 = 0;
         }
@@ -295,21 +296,6 @@ public:
 };
 
 } // namespace mapsave
-
-namespace map
-{
-
-class BMapDialogYesNo : public DialogYesNo
-{
-public:
-    /* 000 */ virtual void vfunc_00(void); // func_ov000_021be6d8
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be934
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be91c
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov000_021bea74
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov000_021beab0
-};
-
-} // namespace map
 
 EC void func_020303bc(Dialog *, char *, void *, ProcPtr, s32, s32);
 EC void func_01ff9948(s32);
