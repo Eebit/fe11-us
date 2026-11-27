@@ -1238,7 +1238,7 @@ EC void func_02009984(Talk * talk)
 
 EC void func_02009afc(void)
 {
-    if (IsOverlayLoaded(2) && data_ov002_021faf8c.unk_bc == 0)
+    if (IsOverlayLoaded(OVERLAY_ID_2) && data_ov002_021faf8c.unk_bc == 0)
     {
         data_020e3d44 |= 0x80;
     }
@@ -1248,7 +1248,7 @@ EC void func_02009b3c(Talk * talk)
 {
     struct UnkStruct_02006604 loader;
 
-    if (IsOverlayLoaded(2) && data_ov002_021faf8c.unk_bc == 0)
+    if (IsOverlayLoaded(OVERLAY_ID_2) && data_ov002_021faf8c.unk_bc == 0)
     {
         data_020e3d44 |= 0x80;
     }
