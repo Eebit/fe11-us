@@ -213,6 +213,11 @@ public:
     u8 unk_40;
     STRUCT_PAD(0x41, 0x42);
     u8 unk_42;
+
+    void ResetBlendEffect(void)
+    {
+        this->dispIo->bldcnt.effect = 0;
+    }
 };
 
 struct KeyState

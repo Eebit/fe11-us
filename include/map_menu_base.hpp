@@ -6,11 +6,6 @@
 #include "hardware.hpp"
 #include "menu.hpp"
 
-static inline void ResetBlendEffect(void)
-{
-    gpActiveScreenSt->dispIo->bldcnt.effect = 0;
-}
-
 namespace map
 {
 class BMapMenu : public Menu
@@ -26,7 +21,7 @@ public:
     {
         if (this->unk_04 == NULL)
         {
-            ResetBlendEffect();
+            gpActiveScreenSt->ResetBlendEffect();
         }
     }
 };
@@ -72,7 +67,7 @@ public:
 
     virtual ~BMapScrollMenu()
     {
-        ResetBlendEffect();
+        gpActiveScreenSt->ResetBlendEffect();
     }
 };
 
