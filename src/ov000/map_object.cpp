@@ -48,25 +48,24 @@ public:
 class ProcVillageCollapse : public ProcEx
 {
 public:
-    /* 38 */ s32 unk_38;
+    /* 38 */ MapObject * pMapObject;
     /* 3C */ s32 unk_3c;
     /* 40 */ u8 unk_40;
 
-    ProcVillageCollapse(s32 mapObject);
+    ProcVillageCollapse(MapObject * mapObject);
 
     virtual ~ProcVillageCollapse();
     virtual void Loop(void);
 };
 
-inline ProcVillageCollapse::ProcVillageCollapse(s32 mapObject)
+inline ProcVillageCollapse::ProcVillageCollapse(MapObject * mapObject)
 {
-    MapObject * obj = (MapObject *)mapObject;
     s32 size;
 
-    this->unk_38 = mapObject;
+    this->pMapObject = mapObject;
 
     size = GetTileSize();
-    func_ov000_021d3350("VillageCollapse", size * obj->x + (size >> 1), size * obj->y, 0, 0, this, 0, 1, 1);
+    func_ov000_021d3350("VillageCollapse", size * mapObject->x + (size >> 1), size * mapObject->y, 0, 0, this, 0, 1, 1);
 
     this->unk_3c = 0;
     this->unk_40 = FALSE;
@@ -191,7 +190,7 @@ EC void FreeMapObjects(void)
     return;
 }
 
-EC s32 FindMapObject(s32 x, s32 y, s32 kind)
+EC MapObject * FindMapObject(s32 x, s32 y, s32 kind)
 {
     MapObject * it;
 
@@ -204,11 +203,11 @@ EC s32 FindMapObject(s32 x, s32 y, s32 kind)
 
         if (it->x == x && it->y == y)
         {
-            return (s32)it;
+            return it;
         }
     }
 
-    return 0;
+    return NULL;
 }
 
 EC MapObject * FindNextMapObject(MapObject * prev, s32 kind)
@@ -232,7 +231,7 @@ EC BOOL func_ov000_021d49f4(s32 x, s32 y, s32 kind)
 {
     MapObject * mapObject;
 
-    mapObject = (MapObject *)FindMapObject(x, y, kind);
+    mapObject = FindMapObject(x, y, kind);
 
     if (mapObject == NULL)
     {
@@ -255,7 +254,7 @@ EC s32 CountMapObjects(void)
     return count;
 }
 
-EC void func_ov000_021d4a48(MapObject * self, s32 alpha)
+void MapObject::SetAlpha(s32 alpha)
 {
     struct MapFile * map = static_cast<struct MapFile *>(HashTable::Get1("Map"));
 
@@ -264,86 +263,84 @@ EC void func_ov000_021d4a48(MapObject * self, s32 alpha)
         return;
     }
 
-    Map_SetLayerAlphaAt(map, self->x, self->y, alpha);
+    Map_SetLayerAlphaAt(map, this->x, this->y, alpha);
 
     return;
 }
 
-EC void func_ov000_021d4a7c(MapObject * self)
+void MapObject::Refresh(void)
 {
-    u8 tile = gMapStateManager->unk_828[self->x | self->y << 5];
+    u8 tile = gMapStateManager->unk_828[this->x | this->y << 5];
 
-    switch (self->kind)
+    switch (this->kind)
     {
         case MAP_OBJECT_KIND_VILLAGE:
-            if (self->flags & 2)
+            if (this->flags & 2)
             {
                 tile = 0x28;
-                func_ov000_021d4a48(self, 2);
+                this->SetAlpha(2);
             }
-            else if (self->flags & 1)
+            else if (this->flags & 1)
             {
                 tile = 0x27;
-                func_ov000_021d4a48(self, 1);
+                this->SetAlpha(1);
             }
             else
             {
                 tile = 3;
-                func_ov000_021d4a48(self, 0);
+                this->SetAlpha(0);
             }
             break;
 
         case MAP_OBJECT_KIND_DOOR:
-            if (self->flags & 1)
+            if (this->flags & 1)
             {
                 tile = 0xe;
-                func_ov000_021d4a48(self, 1);
+                this->SetAlpha(1);
             }
             else
             {
                 tile = 0x1b;
-                func_ov000_021d4a48(self, 0);
+                this->SetAlpha(0);
             }
             break;
 
         case MAP_OBJECT_KIND_CHEST:
-            if (self->flags & 1)
+            if (this->flags & 1)
             {
-                func_ov000_021d4a48(self, 1);
+                this->SetAlpha(1);
             }
             else
             {
-                func_ov000_021d4a48(self, 0);
+                this->SetAlpha(0);
             }
             break;
 
         case MAP_OBJECT_KIND_DRAWBRIDGE:
-            if (self->flags & 1)
+            if (this->flags & 1)
             {
                 tile = 0xc;
-                func_ov000_021d4a48(self, 1);
+                this->SetAlpha(1);
             }
             else
             {
                 tile = 0x1c;
-                func_ov000_021d4a48(self, 0);
+                this->SetAlpha(0);
             }
             break;
     }
 
-    gMapStateManager->unk_828[self->x | self->y << 5] = tile;
-    gMapStateManager->unk_830[self->x | self->y << 5] = GetTerrainCategoryDBIndex(gFE11Database->pTerrain[tile].unk_08);
+    gMapStateManager->unk_828[this->x | this->y << 5] = tile;
+    gMapStateManager->unk_830[this->x | this->y << 5] = GetTerrainCategoryDBIndex(gFE11Database->pTerrain[tile].unk_08);
 
     return;
 }
 
-EC void func_ov000_021d4bec(s32 mapObject, struct Event * ev)
+void MapObject::_021d4bec(struct Event * ev)
 {
-    MapObject * self = (MapObject *)mapObject;
-
     if (ev != NULL)
     {
-        switch (self->kind)
+        switch (this->kind)
         {
             case MAP_OBJECT_KIND_DOOR:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_DOOR_OPEN1, 0, 0);
@@ -359,19 +356,17 @@ EC void func_ov000_021d4bec(s32 mapObject, struct Event * ev)
         }
     }
 
-    self->flags = 0;
-    func_ov000_021d4a7c(self);
+    this->flags = 0;
+    this->Refresh();
 
     return;
 }
 
-EC void func_ov000_021d4cb4(s32 mapObject, struct Event * ev)
+void MapObject::_021d4cb4(struct Event * ev)
 {
-    MapObject * self = (MapObject *)mapObject;
-
     if (ev != NULL)
     {
-        switch (self->kind)
+        switch (this->kind)
         {
             case MAP_OBJECT_KIND_DOOR:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_DOOR_OPEN1, 0, 0);
@@ -387,21 +382,20 @@ EC void func_ov000_021d4cb4(s32 mapObject, struct Event * ev)
         }
     }
 
-    self->flags = 0;
-    self->flags |= 1;
-    func_ov000_021d4a7c(self);
+    this->flags = 0;
+    this->flags |= 1;
+    this->Refresh();
 
     return;
 }
 
-EC void func_ov000_021d4d80(s32 mapObject, ProcPtr parent, BOOL arg)
+void MapObject::StartVillageCollapse(ProcPtr parent, BOOL arg)
 {
-    MapObject * self = (MapObject *)mapObject;
     ProcVillageCollapse * proc;
 
-    if (parent != NULL && self->kind == MAP_OBJECT_KIND_VILLAGE)
+    if (parent != NULL && this->kind == MAP_OBJECT_KIND_VILLAGE)
     {
-        proc = new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcVillageCollapse(mapObject);
+        proc = new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcVillageCollapse(this);
 
         if (arg)
         {
@@ -411,9 +405,9 @@ EC void func_ov000_021d4d80(s32 mapObject, ProcPtr parent, BOOL arg)
         return;
     }
 
-    self->flags = 0;
-    self->flags |= 2;
-    func_ov000_021d4a7c(self);
+    this->flags = 0;
+    this->flags |= 2;
+    this->Refresh();
 
     return;
 }
@@ -676,12 +670,12 @@ EC void LoadMapObjects(struct SaveBuffer * buf, s32 unused)
         u8 kind = buf->ReadByte();
         u8 state = buf->ReadByte();
 
-        mapObject = (MapObject *)FindMapObject(xTile, yTile, kind);
+        mapObject = FindMapObject(xTile, yTile, kind);
 
         if (mapObject != NULL)
         {
             mapObject->flags = state;
-            func_ov000_021d4a7c(mapObject);
+            mapObject->Refresh();
         }
     }
 
@@ -746,7 +740,7 @@ ProcVillageCollapse::~ProcVillageCollapse()
 {
     if (this->unk_40 == 0)
     {
-        func_ov000_021d4d80(this->unk_38, NULL, FALSE);
+        this->pMapObject->StartVillageCollapse(NULL, FALSE);
     }
 }
 
@@ -756,7 +750,7 @@ void ProcVillageCollapse::Loop(void)
 
     if (this->unk_3c == 10)
     {
-        func_ov000_021d4d80(this->unk_38, NULL, FALSE);
+        this->pMapObject->StartVillageCollapse(NULL, FALSE);
         this->unk_40 = TRUE;
     }
 

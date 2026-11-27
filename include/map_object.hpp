@@ -33,6 +33,12 @@ public:
     {
         return (this->flags & 3) == 0;
     }
+
+    void SetAlpha(s32 alpha);
+    void Refresh(void);
+    void _021d4bec(struct Event * ev);
+    void _021d4cb4(struct Event * ev);
+    void StartVillageCollapse(ProcPtr parent, BOOL arg);
 };
 
 extern s32 data_ov000_021e24c0;
@@ -51,15 +57,10 @@ extern MapObject * gMapObjects;
 EC void AddMapObject(s32, s32, s32, s32);
 EC void func_ov000_021d4874(void);
 EC void FreeMapObjects(void);
-EC s32 FindMapObject(s32, s32, s32);
+EC MapObject * FindMapObject(s32, s32, s32);
 EC MapObject * FindNextMapObject(MapObject *, s32);
 EC BOOL func_ov000_021d49f4(s32, s32, s32);
 EC s32 CountMapObjects(void);
-EC void func_ov000_021d4a48(MapObject *, s32);
-EC void func_ov000_021d4a7c(MapObject *);
-EC void func_ov000_021d4bec(s32, struct Event *);
-EC void func_ov000_021d4cb4(s32, struct Event *);
-EC void func_ov000_021d4d80(s32, ProcPtr, BOOL);
 EC void OpenRoof(s32, struct Event *);
 EC void func_ov000_021d5084(s32);
 EC void func_ov000_021d50cc(void);

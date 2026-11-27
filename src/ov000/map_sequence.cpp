@@ -5250,15 +5250,15 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
         case 0x15:
         {
-            s32 uVar2 = FindMapObject(gActionSt->xDecision, gActionSt->yDecision, MAP_OBJECT_KIND_VILLAGE);
+            MapObject * mapObject = FindMapObject(gActionSt->xDecision, gActionSt->yDecision, MAP_OBJECT_KIND_VILLAGE);
 
             if (!gCpSkip->Check06_State4())
             {
-                func_ov000_021d4d80(uVar2, proc, 1);
+                mapObject->StartVillageCollapse(proc, TRUE);
             }
             else
             {
-                func_ov000_021d4d80(uVar2, 0, 0);
+                mapObject->StartVillageCollapse(NULL, FALSE);
             }
 
             Proc_Goto(proc, 1, 0);

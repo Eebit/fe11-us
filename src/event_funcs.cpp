@@ -2225,7 +2225,7 @@ EC u32 MindGetPhase(void)
 
 EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 mapObject;
+    MapObject * mapObject;
     Event * ev;
 
     mapObject = FindMapObject(x, y, arg);
@@ -2251,7 +2251,7 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4bec(mapObject, ev);
+    mapObject->_021d4bec(ev);
 
     if (gMapStateManager->unk_04->pUnit == NULL && (arg == MAP_OBJECT_KIND_DOOR || arg == MAP_OBJECT_KIND_DRAWBRIDGE))
     {
@@ -2268,7 +2268,7 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 mapObject;
+    MapObject * mapObject;
     Event * ev;
     s16 ix;
     s16 iy;
@@ -2301,7 +2301,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4cb4(mapObject, ev);
+    mapObject->_021d4cb4(ev);
 
     if (arg == MAP_OBJECT_KIND_DOOR)
     {
@@ -2349,7 +2349,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 mapObject = FindMapObject(x, y, arg);
+    MapObject * mapObject = FindMapObject(x, y, arg);
     Event * ev;
 
     if (!mapObject)
@@ -2374,7 +2374,7 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4d80(mapObject, ev, FALSE);
+    mapObject->StartVillageCollapse(ev, FALSE);
 
     if (ev != NULL && ev->proc_lockCnt != 0)
     {
@@ -2386,7 +2386,7 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL TTIsEnable(EventEngine * unused, s32 x, s32 y, s32 arg)
 {
-    MapObject * mapObject = (MapObject *)FindMapObject(x, y, arg);
+    MapObject * mapObject = FindMapObject(x, y, arg);
 
     if (!mapObject)
     {
