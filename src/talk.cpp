@@ -460,10 +460,9 @@ inline s32 Talk::RunCommand()
             name = func_02008ae4(&this->unk_40);
             if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
             {
-                if (data_021974f0 != 0)
+                if (data_021974f0 != NULL)
                 {
-                    func_0206e7b8(
-                        fidBuf, func_02037ef0(((Unit *)data_021974f0)->pPersonData, (Unit *)data_021974f0), 64);
+                    func_0206e7b8(fidBuf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
                 }
                 else
                 {
@@ -853,10 +852,9 @@ inline void Talk::SkipText()
                 name = func_02008ae4(&this->unk_40);
                 if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
                 {
-                    if (data_021974f0 != 0)
+                    if (data_021974f0 != NULL)
                     {
-                        func_0206e7b8(
-                            buf, func_02037ef0(((Unit *)data_021974f0)->pPersonData, (Unit *)data_021974f0), 64);
+                        func_0206e7b8(buf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
                     }
                     else
                     {
@@ -1421,10 +1419,9 @@ scanned:
                     name = func_02008ae4(&p);
                     if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
                     {
-                        if (data_021974f0 != 0)
+                        if (data_021974f0 != NULL)
                         {
-                            func_0206e7b8(
-                                buf, func_02037ef0(((Unit *)data_021974f0)->pPersonData, (Unit *)data_021974f0), 64);
+                            func_0206e7b8(buf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
                         }
                         else
                         {

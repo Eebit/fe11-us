@@ -7,6 +7,7 @@
 #include "unknown_types.hpp"
 
 #include "database.hpp"
+#include "event.hpp"
 #include "hashtable.hpp"
 #include "map.hpp"
 #include "proc_ex.hpp"
@@ -56,8 +57,6 @@ EC void func_ov000_021a3a30(u8 *, u32);
 extern struct UnkStruct_021e3528 data_ov000_021e3528;
 
 EC void func_ov000_021a3ad0(u8 *, s16, s16, s32);
-
-extern struct Unit * data_021974f0;
 
 EC BOOL AreAllEnemiesDefeated(u32);
 
