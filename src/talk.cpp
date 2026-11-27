@@ -287,20 +287,7 @@ public:
 
     void ApplyScroll()
     {
-        BGCtrl * bg;
-        s32 scroll;
-        s16 value;
-
-        scroll = this->unk_44;
-        bg = data_0219770c;
-        value = 0;
-        if (bg->unk_12 != 0)
-        {
-            value = bg->unk_16;
-        }
-
-        bg->unk_04->dispIo->unk_38[bg->unk_10] = value;
-        bg->unk_04->dispIo->unk_40[bg->unk_10] = scroll;
+        data_0219770c->SetScroll(0, this->unk_44);
     }
 };
 
@@ -746,8 +733,6 @@ inline TalkLogViewer::TalkLogViewer(ILogStream * log) : unk_38(log)
 {
     struct UnkStruct_02197798 * screen;
     DispIo * dispIo;
-    BGCtrl * bg;
-    s16 value;
     s32 i;
 
     this->unk_44 = (log->vfunc_04() - 11) * 16;
@@ -771,14 +756,7 @@ inline TalkLogViewer::TalkLogViewer(ILogStream * log) : unk_38(log)
     SetBgPriority_Maybe(func_0206eca4(), 2, 0, 3, 2);
     func_0206ef9c(data_0219770c, 0, 0, 26, 0, 0);
 
-    bg = data_0219770c;
-    value = 0;
-    if (bg->unk_12 != 0)
-    {
-        value = bg->unk_16;
-    }
-    bg->unk_04->dispIo->unk_38[bg->unk_10] = value;
-    bg->unk_04->dispIo->unk_40[bg->unk_10] = 0;
+    data_0219770c->SetScroll(0, 0);
     func_0206eee0(data_0219770c, 0, 0, 32);
 
     this->unk_3c = new UnkStruct_0200d770(data_0219770c->vfunc_00() + 32, data_0219770c->vfunc_08(), 1);
@@ -1206,8 +1184,6 @@ void Talk::Init()
 EC void func_02009864(void)
 {
     struct UnkStruct_02197798 * screen;
-    BGCtrl * bg;
-    s32 scroll;
 
     screen = func_0206ecb0();
     screen->unk_04->dispcnt.win0_on = 0;
@@ -1220,14 +1196,7 @@ EC void func_02009864(void)
     func_0206fc44(data_02197718, 0x200010);
     func_0206ef9c(data_02197700, 0, 0, 24, 0, 0);
 
-    bg = data_02197700;
-    scroll = -32;
-    if (bg->unk_12 != 0)
-    {
-        scroll = bg->unk_16 + 32;
-    }
-    bg->unk_04->dispIo->unk_38[bg->unk_10] = scroll;
-    bg->unk_04->dispIo->unk_40[bg->unk_10] = 0xFF75;
+    data_02197700->SetScroll(-32, 0xFF75);
 
     func_0206f0fc(data_021976f8, 0, 0, 28, 0);
 }
@@ -1235,8 +1204,6 @@ EC void func_02009864(void)
 EC void func_02009984(Talk * talk)
 {
     struct UnkStruct_02197798 * screen;
-    BGCtrl * bg;
-    s32 scroll;
     ScreenState * saved;
 
     func_02006b70(&data_020e3cf8);
@@ -1252,14 +1219,7 @@ EC void func_02009984(Talk * talk)
     func_0206fc44(data_02197718, 0x200010);
     func_0206ef9c(data_02197700, 0, 0, 24, 0, 0);
 
-    bg = data_02197700;
-    scroll = -32;
-    if (bg->unk_12 != 0)
-    {
-        scroll = bg->unk_16 + 32;
-    }
-    bg->unk_04->dispIo->unk_38[bg->unk_10] = scroll;
-    bg->unk_04->dispIo->unk_40[bg->unk_10] = 0xFF75;
+    data_02197700->SetScroll(-32, 0xFF75);
 
     func_0206f0fc(data_021976f8, 0, 0, 28, 0);
 
@@ -1283,8 +1243,6 @@ EC void func_02009afc(void)
 EC void func_02009b3c(Talk * talk)
 {
     struct UnkStruct_02006604 loader;
-    BGCtrl * bg;
-    s16 value;
     DispIo * dispIo;
     struct UnkStruct_02197798 * screen;
 
@@ -1293,14 +1251,7 @@ EC void func_02009b3c(Talk * talk)
         data_020e3d44 |= 0x80;
     }
     func_0206f580(data_021976f8, 0);
-    bg = data_021976f8;
-    value = 0;
-    if (bg->unk_12 != 0)
-    {
-        value = bg->unk_16;
-    }
-    bg->unk_04->dispIo->unk_38[bg->unk_10] = value;
-    bg->unk_04->dispIo->unk_40[bg->unk_10] = 0;
+    data_021976f8->SetScroll(0, 0);
 
     func_02006604(&loader, data_020ca174, data_021976f8);
     func_02006694(&loader, 0x2000);
@@ -1330,8 +1281,6 @@ EC void func_02009d38(Talk * talk)
     char buf[64];
     char * p;
     struct UnkStruct_02006604 loader;
-    BGCtrl * bg;
-    s16 value;
     char * name;
     char * path;
     BOOL found;
@@ -1340,14 +1289,7 @@ EC void func_02009d38(Talk * talk)
     Face * face;
 
     func_0206f580(data_021976f8, 0);
-    bg = data_021976f8;
-    value = 0;
-    if (bg->unk_12 != 0)
-    {
-        value = bg->unk_16;
-    }
-    bg->unk_04->dispIo->unk_38[bg->unk_10] = value;
-    bg->unk_04->dispIo->unk_40[bg->unk_10] = 0;
+    data_021976f8->SetScroll(0, 0);
 
     func_02006604(&loader, data_020ca174, data_021976f8);
     func_02006694(&loader, 0x2000);
@@ -2266,9 +2208,6 @@ EC void func_0200cc84(TalkLogViewer * viewer)
 
 void TalkLogViewer::Loop()
 {
-    BGCtrl * bg;
-    s16 value;
-    s32 scroll;
     s32 prev;
     s32 cur;
     s32 line;
@@ -2348,16 +2287,7 @@ void TalkLogViewer::Loop()
         Proc_Break(this, 0);
     }
 
-    scroll = this->unk_44;
-    bg = data_0219770c;
-    value = 0;
-    if (bg->unk_12 != 0)
-    {
-        value = bg->unk_16;
-    }
-
-    bg->unk_04->dispIo->unk_38[bg->unk_10] = value;
-    bg->unk_04->dispIo->unk_40[bg->unk_10] = scroll;
+    this->ApplyScroll();
 }
 
 EC void func_0200cfb0(ILogStream * log, ProcPtr parent)

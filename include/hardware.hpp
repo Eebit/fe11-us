@@ -267,6 +267,18 @@ public:
     s16 unk_14;
     s16 unk_16;
 
+    inline void SetScroll(s32 x, s32 y)
+    {
+        s32 value = x;
+
+        if (this->unk_12 != 0)
+        {
+            value = this->unk_16 - x;
+        }
+        this->unk_04->dispIo->unk_38[this->unk_10] = value;
+        this->unk_04->dispIo->unk_40[this->unk_10] = y;
+    }
+
     virtual s32 vfunc_00(void); // func_02008a28
     virtual s32 vfunc_04(void); // func_02008a3c
     virtual u16 * vfunc_08(void); // func_020069f4
