@@ -736,13 +736,13 @@ inline s32 Talk::GetDelay()
 {
     switch (data_02196f24->messageSpeed)
     {
-        case 0:
+        case MESSAGE_SPEED_SLOW:
             return 6;
-        case 1:
+        case MESSAGE_SPEED_NORMAL:
             return 3;
-        case 2:
+        case MESSAGE_SPEED_FAST:
             return 1;
-        case 3:
+        case MESSAGE_SPEED_MAX:
             return 1;
     }
     return 3;
@@ -1148,7 +1148,7 @@ void Talk::Loop()
     s32 count;
 
     this->unk_38--;
-    count = (data_02196f24->messageSpeed == 3) ? 0xFFFF : 1;
+    count = (data_02196f24->messageSpeed == MESSAGE_SPEED_MAX) ? 0xFFFF : 1;
     data_020e3d44 |= 0x4000;
 
     if (EventSkip::IsSkipState4() || (data_020e3d44 & 0x14))

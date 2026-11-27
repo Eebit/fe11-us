@@ -152,6 +152,14 @@ public:
     }
 };
 
+enum
+{
+    MESSAGE_SPEED_SLOW = 0,
+    MESSAGE_SPEED_NORMAL = 1,
+    MESSAGE_SPEED_FAST = 2,
+    MESSAGE_SPEED_MAX = 3,
+};
+
 struct UnkStruct_02196f24
 {
     /* 00 */ u8 gameSpeed;
