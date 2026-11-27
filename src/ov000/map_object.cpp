@@ -34,44 +34,6 @@ struct UnkStruct_Func_ov000_021d51c8
 s32 data_ov000_021e24c0 = 1;
 MapObject * gMapObjects;
 
-class ProcRoofOpen : ProcEx
-{
-public:
-    /* 38 */ s32 unk_38;
-    /* 3C */ s32 unk_3c;
-
-    ProcRoofOpen(s32 id);
-
-    virtual ~ProcRoofOpen();
-    virtual void Loop(void);
-};
-
-class ProcVillageCollapse : public ProcEx
-{
-public:
-    /* 38 */ MapObject * pMapObject;
-    /* 3C */ s32 unk_3c;
-    /* 40 */ u8 unk_40;
-
-    ProcVillageCollapse(MapObject * mapObject);
-
-    virtual ~ProcVillageCollapse();
-    virtual void Loop(void);
-};
-
-inline ProcVillageCollapse::ProcVillageCollapse(MapObject * mapObject)
-{
-    s32 size;
-
-    this->pMapObject = mapObject;
-
-    size = GetTileSize();
-    func_ov000_021d3350("VillageCollapse", size * mapObject->x + (size >> 1), size * mapObject->y, 0, 0, this, 0, 1, 1);
-
-    this->unk_3c = 0;
-    this->unk_40 = FALSE;
-}
-
 static inline u8 TestFlag(u8 * arr, u32 i)
 {
     return (arr[i / 8] & (1 << (i & 7)));
@@ -101,16 +63,51 @@ inline void SetRoofLayerAlpha(s32 id, s32 alpha)
     Map_SetLayerAlphaById(map, id - 1, alpha);
 }
 
-inline ProcRoofOpen::ProcRoofOpen(s32 id)
+class ProcRoofOpen : ProcEx
 {
-    this->unk_38 = id;
-    this->unk_3c = 0;
+public:
+    /* 38 */ s32 unk_38;
+    /* 3C */ s32 unk_3c;
 
-    SetRoofLayerAlpha(id, 0x1f);
-    SetRoofUnitAlpha(id, 0);
+    ProcRoofOpen(s32 id)
+    {
+        this->unk_38 = id;
+        this->unk_3c = 0;
 
-    gSoundManager->unk_b0->vfunc_28(SE_MAP_AREA_OPEN1, 0, 0);
-}
+        SetRoofLayerAlpha(id, 0x1f);
+        SetRoofUnitAlpha(id, 0);
+
+        gSoundManager->unk_b0->vfunc_28(SE_MAP_AREA_OPEN1, 0, 0);
+    }
+
+    /* 00 */ virtual ~ProcRoofOpen();
+    /* 08 */ virtual void Loop(void);
+};
+
+class ProcVillageCollapse : public ProcEx
+{
+public:
+    /* 38 */ MapObject * pMapObject;
+    /* 3C */ s32 unk_3c;
+    /* 40 */ u8 unk_40;
+
+    ProcVillageCollapse(MapObject * mapObject)
+    {
+        s32 size;
+
+        this->pMapObject = mapObject;
+
+        size = GetTileSize();
+        func_ov000_021d3350(
+            "VillageCollapse", size * mapObject->x + (size >> 1), size * mapObject->y, 0, 0, this, 0, 1, 1);
+
+        this->unk_3c = 0;
+        this->unk_40 = FALSE;
+    }
+
+    /* 00 */ virtual ~ProcVillageCollapse();
+    /* 08 */ virtual void Loop(void);
+};
 
 struct UnkStruct_Func_ov000_021d4e44_Map
 {
