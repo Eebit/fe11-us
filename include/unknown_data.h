@@ -158,10 +158,6 @@ EXTERN_C
 // extern ??? data_020ca12c
 // extern ??? data_020ca138
 // extern ??? data_020ca144
-extern char data_020ca148[];
-extern char data_020ca14c[];
-extern char data_020ca154[];
-extern char data_020ca15c[];
 /* talk.hpp */
 // extern ??? data_020ca5cc
 // extern ??? gOverlayList

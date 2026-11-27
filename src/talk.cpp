@@ -433,7 +433,7 @@ inline s32 Talk::RunCommand()
             if (gFaceHandle->faces[this->unk_39].HasFaceInfo())
             {
                 p = &this->unk_40[1];
-                func_0206e7b8(buf, data_020ca14c, 64);
+                func_0206e7b8(buf, "FID_", 64);
                 func_0206e7f4(buf, func_02008ae4(&p), 64);
                 if (func_020b6e2c(gFaceHandle->faces[this->unk_39].GetFid(), buf) == 0)
                 {
@@ -468,7 +468,7 @@ inline s32 Talk::RunCommand()
             }
             else
             {
-                func_0206e7b8(fidBuf, data_020ca15c, 64);
+                func_0206e7b8(fidBuf, "FID_", 64);
                 func_0206e7f4(fidBuf, name, 64);
             }
             gFaceHandle->faces[this->unk_39].unk_0c_1 = (data_020e3d44 & 0x40) ? TRUE : FALSE;
@@ -595,7 +595,7 @@ inline s32 Talk::RunCommand()
             path = func_02008ae4(&this->unk_40);
             if (this->unk_3d != 5)
             {
-                func_020a8f40(data_020ca148);
+                func_020a8f40("/s");
                 if (path == NULL || !FileExists(path))
                 {
                     if (path == NULL || *path == '\0')
@@ -604,7 +604,7 @@ inline s32 Talk::RunCommand()
                     }
                     else
                     {
-                        func_0206e7b8(fullPath, data_020ca154, 32);
+                        func_0206e7b8(fullPath, "PID_", 32);
                         func_0206e7f4(fullPath, path, 32);
                         path = func_ov000_021a418c(fullPath);
                     }
@@ -861,7 +861,7 @@ inline void Talk::SkipText()
                 }
                 else
                 {
-                    func_0206e7b8(buf, data_020ca15c, 64);
+                    func_0206e7b8(buf, "FID_", 64);
                     func_0206e7f4(buf, name, 64);
                 }
                 gFaceHandle->faces[this->unk_39].unk_0c_1 = (data_020e3d44 & 0x40) ? TRUE : FALSE;
@@ -1429,7 +1429,7 @@ scanned:
                     }
                     else
                     {
-                        func_0206e7b8(buf, data_020ca15c, 64);
+                        func_0206e7b8(buf, "FID_", 64);
                         func_0206e7f4(buf, name, 64);
                     }
                     gFaceHandle->faces[talk->unk_39].unk_0c_1 = (data_020e3d44 & 0x40) ? TRUE : FALSE;
@@ -1541,7 +1541,7 @@ scanned:
 
     if (talk->unk_3d != 5)
     {
-        func_020a8f40(data_020ca148);
+        func_020a8f40("/s");
         if (path == NULL || !FileExists(path))
         {
             if (path == NULL || *path == '\0')
@@ -1550,7 +1550,7 @@ scanned:
             }
             else
             {
-                func_0206e7b8(fullPath, data_020ca154, 32);
+                func_0206e7b8(fullPath, "PID_", 32);
                 func_0206e7f4(fullPath, path, 32);
                 path = func_ov000_021a418c(fullPath);
             }
