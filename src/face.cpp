@@ -3,6 +3,7 @@
 #include <new>
 
 #include "face.hpp"
+#include "gfx_ctrl.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "heap.hpp"
@@ -222,27 +223,6 @@ void Face::_02007874(char * fidStr, s32 x, s32 y)
     return;
 }
 
-struct UnkStruct_02197798
-{
-    ScreenState * unk_00;
-    DispIo * unk_04;
-    BGCtrl unk_08[4];
-    ObjCtrl unk_68;
-
-    void SetBlendEffect(s32 effect)
-    {
-        DispIo * disp = this->unk_00->dispIo;
-        disp->bldcnt.effect = effect;
-    }
-
-    void SetBlendCoeffs(s32 a)
-    {
-        this->unk_00->dispIo->blend_coeff_a = a;
-        this->unk_00->dispIo->blend_coeff_b = 16 - a;
-    }
-};
-EC struct UnkStruct_02197798 * func_0206ecb0(void);
-
 void Face::Update(void)
 {
     u8 alpha;
@@ -316,8 +296,6 @@ void Face::Update(void)
 }
 
 EC s32 IsAddressInVramRange(s32);
-EC void SetBldTargetA_Maybe(void *, s32, s32, s32, s32, s32, s32);
-EC void SetBldTargetB_Maybe(void *, s32, s32, s32, s32, s32, s32);
 EC void func_01ffc404(u16, u16, u16, void *, s32);
 
 static inline void PutSpriteActiveScreen(u16 xOam1, u16 yOam0, u16 oam2, u16 * sprite, u8 temp_r4)
@@ -415,7 +393,6 @@ EC void func_020a5780(void *, void *, s32);
 
 EC void func_0206ebd4(void *, s32);
 
-EC void func_0206ee78(AbstCtrl *, void *, s32, s32);
 EC void func_0206ea7c(void *, void *, s32, s32, s32, s32, s32, s32);
 
 void Face::LoadGfx(char * fidStr)
@@ -733,9 +710,6 @@ EC void func_02008414(u16 * tm, u32 tile)
 
 EC void func_020083d0(u16 *, u32);
 EC void func_02008414(u16 *, u32);
-EC void func_0206f0fc(AbstCtrl *, s32, s32, s32, s32);
-EC void func_0206f4e0(AbstCtrl *, u8);
-EC void func_0206f580(AbstCtrl *, s32);
 
 void Face::_02008454(void)
 {
@@ -796,8 +770,6 @@ void Face::_02008454(void)
 
     return;
 }
-
-EC void func_0206f580(AbstCtrl *, s32);
 
 void Face::_02008780(void)
 {

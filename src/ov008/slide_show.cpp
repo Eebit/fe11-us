@@ -5,6 +5,7 @@
 #include "unknown_types.h"
 #include "unknown_funcs.h"
 
+#include "gfx_ctrl.hpp"
 #include "hardware.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -54,14 +55,6 @@ EC void SlideShow_ov008_022052d4(SlideShow * proc)
 }
 
 extern u32 data_020eea30;
-
-struct UnkStruct_02197798
-{
-    ScreenState * unk_00;
-    DispIo * unk_04;
-    BGCtrl unk_08[4];
-    ObjCtrl unk_68;
-};
 
 static inline int max(int a, int b)
 {

@@ -24,6 +24,7 @@ struct Event;
 struct JobData;
 struct MoveUnit;
 struct BgConfig;
+struct UnkStruct_Func_0209dba4_Ret;
 
 EXTERN_C
 
@@ -465,7 +466,7 @@ EC void func_0200f350(s32);
 EC void InitScreenStates(void);
 // EC ??? func_0200f4f0
 // EC ??? func_0200f570
-// EC ??? IsAddressInVramRange
+EC BOOL IsAddressInVramRange(u32);
 // EC ??? func_0200f630
 // EC ??? func_0200f700
 // EC ??? func_0200f864
@@ -1056,12 +1057,12 @@ EC void func_02019c30(void);
 // EC ??? _ZN5anime13EffectAlpha3D8SetAlphaEl
 // EC ??? _ZN5anime13EffectAlpha3D4TickEv
 EC void func_0201bc28(void);
-// EC ??? func_0201bc40
+EC void func_0201bc40(s32);
 // EC ??? func_0201bc80
 // EC ??? func_0201bca4
 EC s32 func_0201bce4(void);
 EC s32 func_0201bcf4(void);
-// EC ??? func_0201bd04
+EC void func_0201bd04(s32);
 // EC ??? func_0201bd44
 EC BOOL func_0201bd6c(void);
 // EC ??? func_0201bdac
@@ -1182,9 +1183,9 @@ EC void func_02020488(void *, s32, s32, s32);
 // EC ??? func_02020530
 EC void func_020205a4(u16 *, s32, s32, BOOL);
 // EC ??? func_02020624
-// EC ??? func_020206ac
+EC void func_020206ac(s32, s32, s32, s32, u8);
 // EC ??? func_02020714
-// EC ??? func_0202079c
+EC void func_0202079c(s32, s32, s32, s32, u8);
 // EC ??? func_02020804
 // EC ??? func_02020820
 // EC ??? func_02020824
@@ -1197,7 +1198,7 @@ EC s32 IntSys_Mod(s32, s32); // IntSys_Mod
 EC u16 IntSys_Sqrt(u32);
 EC s32 Interpolate(s32, s32, s32, s32, s32);
 // EC ??? func_02020b50
-// EC ??? Decompress
+EC void Decompress(void const *, void *);
 // EC ??? func_02020c0c
 // EC ??? func_02020c18
 // EC ??? func_02020c4c
@@ -3298,42 +3299,7 @@ EC void AdjustPaletteBrightness(u8 *, void *, u32, u32);
 // EC ??? func_0206ebd4
 // EC ??? func_0206ec5c
 EC BOOL func_0206ec80(u32);
-EC struct UnkStruct_02197798 * func_0206eca4(void);
-EC struct UnkStruct_02197798 * func_0206ecb0(void);
-EC void func_0206ecbc(void);
-// EC ??? func_0206ee78
-EC void func_0206eeb0(struct AbstCtrl *, u32, u32);
-EC void func_0206eee0(struct AbstCtrl *, s32, s32, s32);
-EC void func_0206ef14(struct AbstCtrl *, u32, u32, u32, u32);
-// EC ??? func_0206ef60
-EC void func_0206ef9c(struct AbstCtrl *, s32, s32, s32, s32, s32);
-EC void func_0206f0fc(struct AbstCtrl *, s32, s32, s32, s32);
-// EC ??? func_0206f218
-// EC ??? func_0206f33c
-// EC ??? func_0206f470
-// EC ??? func_0206f4a0
-EC void func_0206f4e0(void *, u32);
-EC void func_0206f580(struct AbstCtrl *, s32);
-// EC ??? func_0206f5d0
-// EC ??? func_0206f718
-// EC ??? func_0206f7cc
-// EC ??? func_0206f8a0
-// EC ??? func_0206f97c
-// EC ??? func_0206f9ec
-// EC ??? func_0206fa74
-EC void func_0206fafc(void *, u32, u32, u32, u32, u32, u32, u32);
-EC void func_0206fc44(struct AbstCtrl *, s32);
-// EC ??? func_0206fd38
-// EC ??? func_0206fda8
-// EC ??? func_0206fe18
-// EC ??? func_0206fe20
-// EC ??? func_0206fe48
-EC void SetDispEnable_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32, s32); // SetDispEnable
-EC void SetBgPriority_Maybe(struct UnkStruct_02197798 *, s32, s32, s32, s32); // SetBgPriority
-EC void SetBldTargetA_Maybe(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetA
-EC void SetBldTargetB_Maybe(void *, u32, u32, u32, u32, u32, u32); // SetBldTargetB
-EC void func_02070148(struct UnkStruct_02197798 *, s32);
-// EC ??? func_0207020c
+/* gfx_ctrl.hpp */
 // EC ??? func_0207021c
 // EC ??? func_0207025c
 // EC ??? func_020702c0
@@ -4477,9 +4443,10 @@ EC void func_0209ca9c(u32);
 // EC ??? func_0209dad8
 // EC ??? func_0209db04
 // EC ??? func_0209db54
-// EC ??? func_0209dba4
-// EC ??? func_0209dbb0
-// EC ??? func_0209dbbc
+EC void func_0209dba4(struct UnkStruct_Func_0209dba4_Ret *, s32, s32);
+EC void func_0209dbb0(struct UnkStruct_Func_0209dba4_Ret *, s32, s32);
+EC void func_0209dbbc(
+    struct UnkStruct_Func_0209dba4_Ret *, struct UnkStruct_Func_0209dba4_Ret *, struct UnkStruct_Func_0209dba4_Ret *);
 // EC ??? func_0209dc6c
 // EC ??? func_0209dc90
 // EC ??? func_0209dd50
@@ -5549,7 +5516,7 @@ EC void * __cxa_vec_new(s32, s32, s32, s32, s32);
 // EC ??? __sinit_020c5064
 // EC ??? __sinit_020c50c0
 // EC ??? __sinit_020c50d8
-// EC ??? __sinit_020c50f0
+/* gfx_ctrl.hpp */
 
 // ==============================
 // itcm
