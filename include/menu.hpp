@@ -600,6 +600,12 @@ public:
     }
 };
 
+class SaveMenu : public SplitMenu
+{
+public:
+    /* 138 */ virtual s32 vfunc_138(void);
+};
+
 class ProcMenu : public ProcEx
 {
 public:
