@@ -5458,7 +5458,7 @@ EC void * __cxa_vec_new(s32, s32, s32, s32, s32);
 // EC ??? func_020c4684
 // EC ??? __sinit_020c4cdc
 // EC ??? __sinit_020c4cfc
-// EC ??? __sinit_020c4d10
+/* talk.hpp */
 // EC ??? __sinit_020c4d28
 // EC ??? __sinit_020c4d2c
 // EC ??? __sinit_020c4d58

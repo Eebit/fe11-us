@@ -16,7 +16,10 @@ src/face.cpp:
 
 src/talk.cpp:
     .text       start:0x02008a48 end:0x0200edf0
+    .init       start:0x020c4d10 end:0x020c4d28
+    .ctor       start:0x020c9b18 end:0x020c9b1c
     .data       start:0x020ca148 end:0x020ca5cc
+    .bss        start:0x020e3d48 end:0x020e4dcc
 
 src/hardware.cpp:
     .text       start:0x0200edf0 end:0x02011458

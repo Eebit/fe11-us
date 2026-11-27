@@ -50,6 +50,10 @@ public:
     void _0200ca38(char * name);
 };
 
+char data_020e3d48[32];
+char data_020e3d68[64];
+TalkLog data_020e3da8;
+
 struct UnkStruct_0200c084
 {
     /* 00 */ u32 unk_00;

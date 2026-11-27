@@ -56,6 +56,9 @@ extern u16 data_020ca54c[4];
 // extern ??? _ZTV8TalkName
 extern struct ProcCmd ProcScr_TalkName[];
 extern char data_020ca5c0[];
+extern char data_020e3d48[];
+extern char data_020e3d68[];
+extern struct TalkLog data_020e3da8;
 
 EC s32 func_02008a48(char **);
 EC char * func_02008ae4(char **);
@@ -179,5 +182,6 @@ EC BOOL func_0200e8e4(void);
 // EC ??? _ZN8TalkNameD1Ev
 // EC ??? _ZN8NameFont8vfunc_08EPmlP9TalkGlyph
 // EC ??? _ZN8NameFontD0Ev
+// EC ??? __sinit_talk.cpp
 
 #endif // TALK_HPP

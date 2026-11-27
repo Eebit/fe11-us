@@ -5664,7 +5664,7 @@ func_020c4684 kind:function(arm,size=0xc) addr:0x020c4684
 @EX@020c4684 kind:data(word[3]) addr:0x020c4cd0
 __sinit_020c4cdc kind:function(arm,size=0x20) addr:0x020c4cdc
 __sinit_020c4cfc kind:function(arm,size=0x14) addr:0x020c4cfc
-__sinit_020c4d10 kind:function(arm,size=0x18) addr:0x020c4d10
+__sinit_talk.cpp kind:function(arm,size=0x18) addr:0x020c4d10
 __sinit_020c4d28 kind:function(arm,size=0x4) addr:0x020c4d28
 __sinit_020c4d2c kind:function(arm,size=0x2c) addr:0x020c4d2c
 __sinit_020c4d58 kind:function(arm,size=0x248) addr:0x020c4d58
@@ -5721,7 +5721,7 @@ data_020c9af0 kind:data(any) addr:0x020c9af0
 data_020c9b00 kind:data(any) addr:0x020c9b00
 .p__sinit_020c4cdc kind:data(word) addr:0x020c9b10
 .p__sinit_020c4cfc kind:data(word) addr:0x020c9b14
-.p__sinit_020c4d10 kind:data(word) addr:0x020c9b18
+.p__sinit_talk.cpp kind:data(word) addr:0x020c9b18
 .p__sinit_020c4d28 kind:data(word) addr:0x020c9b1c
 .p__sinit_020c4d2c kind:data(word) addr:0x020c9b20
 .p__sinit_020c4d58 kind:data(word) addr:0x020c9b24
