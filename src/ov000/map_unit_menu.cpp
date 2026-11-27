@@ -581,7 +581,7 @@ public:
         }
 
         if (func_ov000_021d49f4(
-                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_09))
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_HOUSE))
         {
             return MENU_ENABLED;
         }

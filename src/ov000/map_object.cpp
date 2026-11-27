@@ -150,10 +150,10 @@ EC void func_ov000_021d4874(void)
                 case MAP_OBJECT_KIND_CHEST:
                 case MAP_OBJECT_KIND_DRAWBRIDGE:
                 case MAP_OBJECT_KIND_VILLAGE:
-                case MAP_OBJECT_KIND_09:
+                case MAP_OBJECT_KIND_HOUSE:
                 case MAP_OBJECT_KIND_SEIZE:
                 case MAP_OBJECT_KIND_SAVE_POINT:
-                case MAP_OBJECT_KIND_12:
+                case MAP_OBJECT_KIND_CASTLE:
                 case MAP_OBJECT_KIND_DECOY:
                     AddMapObject(it->args[0], it->args[1], it->args[2], 0);
                     break;
