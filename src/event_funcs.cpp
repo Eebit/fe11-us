@@ -2253,7 +2253,7 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 
     func_ov000_021d4bec(mapObject, ev);
 
-    if (gMapStateManager->unk_04->pUnit == NULL && (arg == 5 || arg == 7))
+    if (gMapStateManager->unk_04->pUnit == NULL && (arg == MAP_OBJECT_KIND_DOOR || arg == MAP_OBJECT_KIND_DRAWBRIDGE))
     {
         func_ov000_021a36e0();
     }
@@ -2303,7 +2303,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
     func_ov000_021d4cb4(mapObject, ev);
 
-    if (arg == 5)
+    if (arg == MAP_OBJECT_KIND_DOOR)
     {
         xMin = MAX(x - 1, gMapStateManager->unk_24);
         yMin = MAX(y - 1, gMapStateManager->unk_25);
@@ -2333,7 +2333,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
     if (gMapStateManager->unk_04->pUnit == NULL)
     {
-        if (arg == 5 || arg == 7)
+        if (arg == MAP_OBJECT_KIND_DOOR || arg == MAP_OBJECT_KIND_DRAWBRIDGE)
         {
             func_ov000_021a36e0();
         }

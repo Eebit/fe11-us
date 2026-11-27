@@ -571,7 +571,8 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 8))
+        if (func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_VILLAGE))
         {
             if (gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_1))
             {
@@ -579,7 +580,8 @@ public:
             }
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 9))
+        if (func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_09))
         {
             return MENU_ENABLED;
         }
@@ -690,7 +692,7 @@ public:
                     continue;
                 }
 
-                if (!func_ov000_021d49f4(ix, iy, 5))
+                if (!func_ov000_021d49f4(ix, iy, MAP_OBJECT_KIND_DOOR))
                 {
                     continue;
                 }
@@ -790,7 +792,7 @@ public:
                     continue;
                 }
 
-                if (!func_ov000_021d49f4(ix, iy, 7))
+                if (!func_ov000_021d49f4(ix, iy, MAP_OBJECT_KIND_DRAWBRIDGE))
                 {
                     continue;
                 }
@@ -1349,7 +1351,9 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0x10))
+        if (func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos,
+                MAP_OBJECT_KIND_SAVE_POINT))
         {
             if (!func_0201f680())
             {
@@ -1552,7 +1556,8 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (!func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0x13))
+        if (!func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_DECOY))
         {
             return MENU_NOTSHOWN;
         }

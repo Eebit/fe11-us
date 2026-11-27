@@ -155,15 +155,15 @@ EC void func_ov000_021d4874(void)
         {
             switch (it->args[2])
             {
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 14:
-                case 16:
-                case 18:
-                case 19:
+                case MAP_OBJECT_KIND_DOOR:
+                case MAP_OBJECT_KIND_CHEST:
+                case MAP_OBJECT_KIND_DRAWBRIDGE:
+                case MAP_OBJECT_KIND_VILLAGE:
+                case MAP_OBJECT_KIND_09:
+                case MAP_OBJECT_KIND_SEIZE:
+                case MAP_OBJECT_KIND_SAVE_POINT:
+                case MAP_OBJECT_KIND_12:
+                case MAP_OBJECT_KIND_DECOY:
                     AddMapObject(it->args[0], it->args[1], it->args[2], 0);
                     break;
             }
@@ -275,7 +275,7 @@ EC void func_ov000_021d4a7c(MapObject * self)
 
     switch (self->kind)
     {
-        case 8:
+        case MAP_OBJECT_KIND_VILLAGE:
             if (self->flags & 2)
             {
                 tile = 0x28;
@@ -293,7 +293,7 @@ EC void func_ov000_021d4a7c(MapObject * self)
             }
             break;
 
-        case 5:
+        case MAP_OBJECT_KIND_DOOR:
             if (self->flags & 1)
             {
                 tile = 0xe;
@@ -306,7 +306,7 @@ EC void func_ov000_021d4a7c(MapObject * self)
             }
             break;
 
-        case 6:
+        case MAP_OBJECT_KIND_CHEST:
             if (self->flags & 1)
             {
                 func_ov000_021d4a48(self, 1);
@@ -317,7 +317,7 @@ EC void func_ov000_021d4a7c(MapObject * self)
             }
             break;
 
-        case 7:
+        case MAP_OBJECT_KIND_DRAWBRIDGE:
             if (self->flags & 1)
             {
                 tile = 0xc;
@@ -345,15 +345,15 @@ EC void func_ov000_021d4bec(s32 mapObject, struct Event * ev)
     {
         switch (self->kind)
         {
-            case 5:
+            case MAP_OBJECT_KIND_DOOR:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_DOOR_OPEN1, 0, 0);
                 break;
 
-            case 6:
+            case MAP_OBJECT_KIND_CHEST:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_KEY_OPEN1, 0, 0);
                 break;
 
-            case 7:
+            case MAP_OBJECT_KIND_DRAWBRIDGE:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_BRIDGE1, 0, 0);
                 break;
         }
@@ -373,15 +373,15 @@ EC void func_ov000_021d4cb4(s32 mapObject, struct Event * ev)
     {
         switch (self->kind)
         {
-            case 5:
+            case MAP_OBJECT_KIND_DOOR:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_DOOR_OPEN1, 0, 0);
                 break;
 
-            case 6:
+            case MAP_OBJECT_KIND_CHEST:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_KEY_OPEN1, 0, 0);
                 break;
 
-            case 7:
+            case MAP_OBJECT_KIND_DRAWBRIDGE:
                 gSoundManager->unk_b0->vfunc_28(SE_MAP_BRIDGE1, 0, 0);
                 break;
         }
@@ -399,7 +399,7 @@ EC void func_ov000_021d4d80(s32 mapObject, ProcPtr parent, BOOL arg)
     MapObject * self = (MapObject *)mapObject;
     ProcVillageCollapse * proc;
 
-    if (parent != NULL && self->kind == 8)
+    if (parent != NULL && self->kind == MAP_OBJECT_KIND_VILLAGE)
     {
         proc = new (Proc_StartBlocking(ProcScr_020ce750, parent)) ProcVillageCollapse(mapObject);
 
@@ -524,7 +524,7 @@ EC void func_ov000_021d50cc(void)
 
     for (; it != NULL; it = it->next)
     {
-        if (it->kind == 14)
+        if (it->kind == MAP_OBJECT_KIND_SEIZE)
         {
             gMapStateManager->camera->_021a51b8(it->x, it->y, &pos);
             anime->DrawInternal(pos.x + (size >> 1), pos.y + (size >> 1));
@@ -594,7 +594,7 @@ EC void func_ov000_021d51c8(void)
 
     for (; it != NULL; it = it->next)
     {
-        if (it->kind == 16 && it->IsEnabled())
+        if (it->kind == MAP_OBJECT_KIND_SAVE_POINT && it->IsEnabled())
         {
             if (gMapStateManager->camera->_021a51b8(it->x, it->y, &pos))
             {

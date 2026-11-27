@@ -7,6 +7,19 @@
 struct Event;
 struct SaveBuffer;
 
+enum
+{
+    MAP_OBJECT_KIND_DOOR = 0x05,
+    MAP_OBJECT_KIND_CHEST = 0x06,
+    MAP_OBJECT_KIND_DRAWBRIDGE = 0x07,
+    MAP_OBJECT_KIND_VILLAGE = 0x08,
+    MAP_OBJECT_KIND_09 = 0x09,
+    MAP_OBJECT_KIND_SEIZE = 0x0E,
+    MAP_OBJECT_KIND_SAVE_POINT = 0x10,
+    MAP_OBJECT_KIND_12 = 0x12,
+    MAP_OBJECT_KIND_DECOY = 0x13,
+};
+
 class MapObject
 {
 public:
