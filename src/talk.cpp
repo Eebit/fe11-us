@@ -166,6 +166,25 @@ struct UnkStruct_02197798
 {
     ScreenState * unk_00;
     DispIo * unk_04;
+
+    void DisableWindows()
+    {
+        this->unk_04->dispcnt.win0_on = 0;
+        this->unk_04->dispcnt.win1_on = 0;
+        this->unk_04->dispcnt.objWin_on = 0;
+    }
+
+    void SetBlendEffect(s32 effect)
+    {
+        DispIo * disp = this->unk_00->dispIo;
+        disp->bldcnt.effect = effect;
+    }
+
+    void SetBlendCoeffs(s32 a)
+    {
+        this->unk_00->dispIo->blend_coeff_a = a;
+        this->unk_00->dispIo->blend_coeff_b = 16 - a;
+    }
 };
 
 struct UnkStruct_02006604
@@ -731,8 +750,6 @@ inline s32 Talk::GetDelay()
 
 inline TalkLogViewer::TalkLogViewer(ILogStream * log) : unk_38(log)
 {
-    struct UnkStruct_02197798 * screen;
-    DispIo * dispIo;
     s32 i;
 
     this->unk_44 = (log->vfunc_04() - 11) * 16;
@@ -746,12 +763,8 @@ inline TalkLogViewer::TalkLogViewer(ILogStream * log) : unk_38(log)
     }
 
     func_0206eca4()->unk_04->dispcnt.mode = 0;
-    screen = func_0206eca4();
-    screen->unk_04->dispcnt.win0_on = 0;
-    screen->unk_04->dispcnt.win1_on = 0;
-    screen->unk_04->dispcnt.objWin_on = 0;
-    dispIo = func_0206eca4()->unk_00->dispIo;
-    dispIo->bldcnt.effect = 0;
+    func_0206eca4()->DisableWindows();
+    func_0206eca4()->SetBlendEffect(0);
     SetDispEnable_Maybe(func_0206eca4(), 1, 1, 0, 1, 1);
     SetBgPriority_Maybe(func_0206eca4(), 2, 0, 3, 2);
     func_0206ef9c(data_0219770c, 0, 0, 26, 0, 0);
@@ -1183,12 +1196,7 @@ void Talk::Init()
 
 EC void func_02009864(void)
 {
-    struct UnkStruct_02197798 * screen;
-
-    screen = func_0206ecb0();
-    screen->unk_04->dispcnt.win0_on = 0;
-    screen->unk_04->dispcnt.win1_on = 0;
-    screen->unk_04->dispcnt.objWin_on = 0;
+    func_0206ecb0()->DisableWindows();
 
     SetDispEnable_Maybe(func_0206ecb0(), 0, 1, 0, 0, 1);
     SetBgPriority_Maybe(func_0206ecb0(), 1, 3, 1, 1);
@@ -1203,15 +1211,11 @@ EC void func_02009864(void)
 
 EC void func_02009984(Talk * talk)
 {
-    struct UnkStruct_02197798 * screen;
     ScreenState * saved;
 
     func_02006b70(&data_020e3cf8);
 
-    screen = func_0206ecb0();
-    screen->unk_04->dispcnt.win0_on = 0;
-    screen->unk_04->dispcnt.win1_on = 0;
-    screen->unk_04->dispcnt.objWin_on = 0;
+    func_0206ecb0()->DisableWindows();
 
     SetDispEnable_Maybe(func_0206ecb0(), 0, 1, 0, 0, 1);
     SetBgPriority_Maybe(func_0206ecb0(), 1, 3, 1, 1);
@@ -1243,8 +1247,6 @@ EC void func_02009afc(void)
 EC void func_02009b3c(Talk * talk)
 {
     struct UnkStruct_02006604 loader;
-    DispIo * dispIo;
-    struct UnkStruct_02197798 * screen;
 
     if (IsOverlayLoaded(2) && data_ov002_021faf8c.unk_bc == 0)
     {
@@ -1265,13 +1267,10 @@ EC void func_02009b3c(Talk * talk)
     func_02006624(&loader);
 
     SetDispEnable_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1);
-    dispIo = func_0206ecb0()->unk_00->dispIo;
-    dispIo->bldcnt.effect = 1;
+    func_0206ecb0()->SetBlendEffect(1);
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 1, 0, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 0, 1, 1, 1);
-    screen = func_0206ecb0();
-    screen->unk_00->dispIo->blend_coeff_a = 0;
-    screen->unk_00->dispIo->blend_coeff_b = 16;
+    func_0206ecb0()->SetBlendCoeffs(0);
     func_02006204(func_0206ecb0(), 16, 0, 8, talk);
 }
 
@@ -1586,8 +1585,6 @@ EC void func_0200ab0c(ProcPtr proc)
     s32 i;
     Face * face;
     Face * faces;
-    struct UnkStruct_02197798 * screen;
-    DispIo * io;
 
     faces = gFaceHandle->faces;
     face = faces;
@@ -1603,13 +1600,10 @@ EC void func_0200ab0c(ProcPtr proc)
 
     Proc_Break(proc, 0);
 
-    io = func_0206ecb0()->unk_00->dispIo;
-    io->bldcnt.effect = 1;
+    func_0206ecb0()->SetBlendEffect(1);
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 1, 0, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 0, 1, 1, 1);
-    screen = func_0206ecb0();
-    screen->unk_00->dispIo->blend_coeff_a = 16;
-    screen->unk_00->dispIo->blend_coeff_b = 0;
+    func_0206ecb0()->SetBlendCoeffs(16);
     func_02006204(func_0206ecb0(), 0, 16, 8, (ProcEx *)proc);
 }
 
@@ -2167,10 +2161,7 @@ char * TalkLog::vfunc_08(s32 line)
 
 EC void func_0200cab4(ProcPtr parent)
 {
-    DispIo * dispIo;
-
-    dispIo = func_0206eca4()->unk_00->dispIo;
-    dispIo->bldcnt.effect = 3;
+    func_0206eca4()->SetBlendEffect(3);
     SetBldTargetA_Maybe(func_0206eca4(), 1, 0, 0, 1, 0, 0);
     SetBldTargetB_Maybe(func_0206eca4(), 0, 0, 0, 0, 0, 0);
     func_0206eca4()->unk_00->dispIo->blend_y = 0;
@@ -2794,8 +2785,6 @@ void TalkName::Loop()
 EC void func_0200e4cc(TalkName * name)
 {
     s32 value;
-    struct UnkStruct_02197798 * screen;
-    DispIo * io;
 
     func_0206f0fc(data_0219771c, 0, 1, 30, 2);
     func_0206f4e0(data_0219771c, 1);
@@ -2821,14 +2810,11 @@ EC void func_0200e4cc(TalkName * name)
 
     func_0206f8a0(data_0219771c, value, 0, 10, 3, 0xF001);
 
-    io = func_0206ecb0()->unk_00->dispIo;
-    io->bldcnt.effect = 1;
+    func_0206ecb0()->SetBlendEffect(1);
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 0, 1, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1, 1);
     func_0200e254(name->unk_38, name->unk_3d);
-    screen = func_0206ecb0();
-    screen->unk_00->dispIo->blend_coeff_a = 0;
-    screen->unk_00->dispIo->blend_coeff_b = 16;
+    func_0206ecb0()->SetBlendCoeffs(0);
     func_02006204(func_0206ecb0(), 16, 0, 8, name);
     func_020190ec((struct Proc *)name);
 }
@@ -2836,8 +2822,6 @@ EC void func_0200e4cc(TalkName * name)
 EC void func_0200e674(TalkName * name)
 {
     s32 value;
-    struct UnkStruct_02197798 * screen;
-    DispIo * io;
 
     name->unk_3c = 1;
     func_0206f0fc(data_0219771c, 0, 1, 30, 2);
@@ -2864,13 +2848,10 @@ EC void func_0200e674(TalkName * name)
 
     func_0206f8a0(data_0219771c, value, 0, 10, 3, 0xF001);
 
-    io = func_0206ecb0()->unk_00->dispIo;
-    io->bldcnt.effect = 1;
+    func_0206ecb0()->SetBlendEffect(1);
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 0, 1, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1, 1);
-    screen = func_0206ecb0();
-    screen->unk_00->dispIo->blend_coeff_a = 16;
-    screen->unk_00->dispIo->blend_coeff_b = 0;
+    func_0206ecb0()->SetBlendCoeffs(16);
     func_02006204(func_0206ecb0(), 0, 16, 8, name);
     func_020190ec((struct Proc *)name);
 }
