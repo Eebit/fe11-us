@@ -451,7 +451,7 @@ inline s32 Talk::RunCommand()
                     return 1;
                 }
                 face = &gFaceHandle->faces[this->unk_39];
-                if ((face->unk_18 == 0) ? TRUE : FALSE)
+                if (face->IsUnk18Zero())
                 {
                     face->unk_18 = 8;
                     func_0200e8e4();
@@ -486,7 +486,7 @@ inline s32 Talk::RunCommand()
             return 2;
         case 9:
             face = &gFaceHandle->faces[this->unk_39];
-            if ((face->unk_18 == 0) ? TRUE : FALSE)
+            if (face->IsUnk18Zero())
             {
                 face->unk_18 = 8;
                 func_0200e8e4();
@@ -830,7 +830,7 @@ inline void Talk::SkipText()
                 face = &gFaceHandle->faces[this->unk_39];
                 if (face->HasFaceInfo())
                 {
-                    if ((face->unk_18 == 0) ? TRUE : FALSE)
+                    if (face->IsUnk18Zero())
                     {
                         gTalkLog._0200c8b0();
                         gFaceHandle->faces[this->unk_39].unk_18 = 8;

@@ -67,6 +67,11 @@ public:
         return (this->alpha != 0 && this->alpha != 0x10) ? TRUE : FALSE;
     }
 
+    inline BOOL IsUnk18Zero(void)
+    {
+        return (this->unk_18 == 0) ? TRUE : FALSE;
+    }
+
     char * GetFid(void);
     char * GetName(void);
     u16 * GetSprite(void);
