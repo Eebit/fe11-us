@@ -22,9 +22,9 @@
 class ILogStream
 {
 public:
-    virtual s32 vfunc_00();
-    virtual s32 vfunc_04();
-    virtual char * vfunc_08(s32 line);
+    /* 00 */ virtual s32 vfunc_00();
+    /* 04 */ virtual s32 vfunc_04();
+    /* 08 */ virtual char * vfunc_08(s32 line);
 };
 
 class TalkLog : public ILogStream
@@ -37,9 +37,9 @@ public:
     /* 1008 */ u32 unk_1008;
     /* 100C */ char unk_100c[24];
 
-    s32 vfunc_00();
-    s32 vfunc_04();
-    char * vfunc_08(s32 line);
+    /* 00 */ s32 vfunc_00();
+    /* 04 */ s32 vfunc_04();
+    /* 08 */ char * vfunc_08(s32 line);
 
     void _0200c850();
     void _0200c89c();
@@ -75,8 +75,8 @@ public:
     /* 08 */ u8 unk_08;
 
     TalkFont(char * name);
-    virtual ~TalkFont();
-    virtual void vfunc_08(u32 * dst, s32 x, TalkGlyph * glyph);
+    /* 00 */ virtual ~TalkFont();
+    /* 08 */ virtual void vfunc_08(u32 * dst, s32 x, TalkGlyph * glyph);
 
     char * _0200c4d0(u32 * dst, s32 x, char * str);
     char * _0200c530(u32 * dst, s32 x, char * str);
@@ -93,8 +93,8 @@ public:
     NameFont(char * name) : TalkFont(name)
     {
     }
-    virtual ~NameFont();
-    virtual void vfunc_08(u32 * dst, s32 x, TalkGlyph * glyph);
+    /* 00 */ virtual ~NameFont();
+    /* 08 */ virtual void vfunc_08(u32 * dst, s32 x, TalkGlyph * glyph);
 };
 
 struct UnkStruct_0200d770
@@ -141,9 +141,9 @@ public:
     /* 61 */ s8 unk_61;
 
     TalkWindow();
-    virtual ~TalkWindow();
-    void Init();
-    virtual void vfunc_10();
+    /* 00 */ virtual ~TalkWindow();
+    /* 0C */ void Init();
+    /* 10 */ virtual void vfunc_10();
 
     void _0200db64();
     char * _0200dbb0(char * str);
@@ -210,8 +210,8 @@ public:
         this->unk_38 = param;
         this->unk_3c = count * 8;
     }
-    virtual ~TalkScroll();
-    virtual void Loop();
+    /* 00 */ virtual ~TalkScroll();
+    /* 08 */ virtual void Loop();
 };
 
 class KW : public ProcEx
@@ -229,9 +229,9 @@ public:
         func_0206eeb0(data_02197718, data->unk_04, 0xE000);
         func_0206ef14(data_02197718, data->unk_0c, 0, 0, 0x20);
     }
-    virtual ~KW();
-    virtual void Loop();
-    virtual void Init();
+    /* 00 */ virtual ~KW();
+    /* 08 */ virtual void Loop();
+    /* 0C */ virtual void Init();
 };
 
 class TalkLogViewer : public ProcEx
@@ -247,8 +247,8 @@ public:
     /* 54 */ s32 unk_54;
 
     TalkLogViewer(ILogStream * log);
-    virtual ~TalkLogViewer();
-    void Loop();
+    /* 00 */ virtual ~TalkLogViewer();
+    /* 08 */ void Loop();
 
     void DrawLine(s32 line)
     {
@@ -312,15 +312,15 @@ public:
     BG1Clr(s32 param) : unk_38(param)
     {
     }
-    virtual ~BG1Clr();
-    virtual void Loop();
+    /* 00 */ virtual ~BG1Clr();
+    /* 08 */ virtual void Loop();
 };
 
 class TalkInput : public ProcEx
 {
 public:
-    virtual ~TalkInput();
-    virtual void Loop();
+    /* 00 */ virtual ~TalkInput();
+    /* 08 */ virtual void Loop();
 };
 
 class PalFader : public ProcEx
@@ -334,8 +334,8 @@ public:
     PalFader(s32 a, s32 b, s32 c, s32 d) : unk_38(a), unk_3c(b), unk_40(c), unk_44(d)
     {
     }
-    virtual ~PalFader();
-    virtual void Loop();
+    /* 00 */ virtual ~PalFader();
+    /* 08 */ virtual void Loop();
 };
 
 class TalkWait : public ProcEx
@@ -346,8 +346,8 @@ public:
     TalkWait(s32 param) : unk_38(param)
     {
     }
-    virtual ~TalkWait();
-    virtual void Loop();
+    /* 00 */ virtual ~TalkWait();
+    /* 08 */ virtual void Loop();
 };
 
 class Talk : public ProcEx
@@ -368,9 +368,9 @@ public:
     /* 50 */ u8 * unk_50;
 
     Talk(char * str, s32 flag);
-    virtual ~Talk();
-    virtual void Loop();
-    virtual void Init();
+    /* 00 */ virtual ~Talk();
+    /* 08 */ virtual void Loop();
+    /* 0C */ virtual void Init();
 
     s32 RunCommand();
     s32 Advance();
@@ -392,8 +392,8 @@ public:
         func_0206e7b8(this->unk_3d, name, 40);
         this->unk_3c = 1;
     }
-    virtual ~TalkName();
-    virtual void Loop();
+    /* 00 */ virtual ~TalkName();
+    /* 08 */ virtual void Loop();
 };
 
 inline s32 Talk::RunCommand()
