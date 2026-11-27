@@ -7,6 +7,7 @@
 #include "font.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
+#include "heap.hpp"
 #include "map.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
@@ -327,7 +328,7 @@ void mapsave::MapSave::_021d59d0(void)
         func_020295ec(
             data_021970c4, GetText("MNT_SAVE"), gpActiveScreenSt->bgTiles[iVar3->unk_07],
             gpActiveScreenSt->tilemap[iVar3->unk_07],
-            0x100 - (func_02028e7c(data_021970c4, GetText("MNT_SAVE"), 0) + 7 & ~7) >> 4,
+            0x100 - ALIGN_UP(func_02028e7c(data_021970c4, GetText("MNT_SAVE"), 0), 8) >> 4,
             0xc - func_020290f4(data_021970c4, GetText("MNT_SAVE")), iVar3->unk_04, iVar3->unk_06, 0, 0);
 
         gpActiveScreenSt->unk_3e |= 1 << iVar3->unk_07;
