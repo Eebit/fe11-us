@@ -454,7 +454,7 @@ inline s32 Talk::RunCommand()
                 if (face->IsUnk18Zero())
                 {
                     face->unk_18 = 8;
-                    func_0200e8e4();
+                    TryBreakTalkName();
                     this->pTalkWindow->_0200de18(this);
                     return 2;
                 }
@@ -489,7 +489,7 @@ inline s32 Talk::RunCommand()
             if (face->IsUnk18Zero())
             {
                 face->unk_18 = 8;
-                func_0200e8e4();
+                TryBreakTalkName();
                 this->pTalkWindow->_0200de18(this);
                 return 2;
             }
@@ -701,7 +701,7 @@ inline s32 Talk::Advance()
         {
             this->unk_3a = this->unk_39;
             this->pTalkWindow->_0200de18(this);
-            func_0200e8e4();
+            TryBreakTalkName();
             return 2;
         }
 
@@ -720,7 +720,7 @@ inline s32 Talk::Advance()
         index = this->unk_39;
         if (gFaceHandle->faces[index].HasFaceInfo())
         {
-            if (func_0200e83c(index, gFaceHandle->faces[index].GetName(), (struct Proc *)this))
+            if (TryStartTalkName(index, gFaceHandle->faces[index].GetName(), (struct Proc *)this))
             {
                 return 2;
             }
@@ -1576,7 +1576,7 @@ EC void func_0200a618(Talk * talk)
 
 EC void func_0200aaf0(Talk * talk)
 {
-    func_0200e8e4();
+    TryBreakTalkName();
     talk->pTalkWindow->_0200de18(talk);
 }
 
@@ -2749,7 +2749,7 @@ inline NameFont::~NameFont()
 {
 }
 
-EC void func_0200e3e8(TalkName * name)
+EC void TalkName_Loop(TalkName * name)
 {
     name->Loop();
 }
@@ -2862,7 +2862,7 @@ EC void func_0200e814(struct Proc * proc)
     func_02019124(proc);
 }
 
-EC BOOL func_0200e83c(s32 mode, char * name, struct Proc * parent)
+EC BOOL TryStartTalkName(s32 mode, char * name, struct Proc * parent)
 {
     if (Proc_Find(ProcScr_TalkName) != NULL)
     {
@@ -2887,7 +2887,7 @@ EC BOOL func_0200e83c(s32 mode, char * name, struct Proc * parent)
     return TRUE;
 }
 
-EC BOOL func_0200e8e4(void)
+EC BOOL TryBreakTalkName(void)
 {
     TalkName * name = static_cast<TalkName *>(Proc_Find(ProcScr_TalkName));
 

@@ -171,13 +171,13 @@ EC void func_0200e0dc(void);
 EC void func_0200e208(void);
 // EC ??? func_0200e254
 // EC ??? _ZN8NameFontD1Ev
-// EC ??? func_0200e3e8
+// EC ??? TalkName_Loop
 // EC ??? _ZN8TalkName4LoopEv
 // EC ??? func_0200e4cc
 // EC ??? func_0200e674
 // EC ??? func_0200e814
-EC BOOL func_0200e83c(s32, char *, struct Proc *);
-EC BOOL func_0200e8e4(void);
+EC BOOL TryStartTalkName(s32, char *, struct Proc *);
+EC BOOL TryBreakTalkName(void);
 // EC ??? _ZN8TalkNameD0Ev
 // EC ??? _ZN8TalkNameD1Ev
 // EC ??? _ZN8NameFont8vfunc_08EPmlP9TalkGlyph
