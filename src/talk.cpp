@@ -1677,7 +1677,7 @@ EC void func_0200ac20(char * text, ProcPtr parent, s32 flag)
     char * str;
 
     str = GetText(text);
-    talk = (Talk *)Proc_Find(ProcScr_Talk);
+    talk = static_cast<Talk *>(Proc_Find(ProcScr_Talk));
     if (talk == NULL)
     {
         if (IsRootProcess((struct Proc *)parent))
@@ -2978,7 +2978,7 @@ EC BOOL func_0200e83c(s32 mode, char * name, struct Proc * parent)
 
 EC BOOL func_0200e8e4(void)
 {
-    TalkName * name = (TalkName *)Proc_Find(ProcScr_TalkName);
+    TalkName * name = static_cast<TalkName *>(Proc_Find(ProcScr_TalkName));
 
     if (name == NULL)
     {
