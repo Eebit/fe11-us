@@ -720,7 +720,7 @@ inline s32 Talk::Advance()
         index = this->unk_39;
         if (gFaceHandle->faces[index].HasFaceInfo())
         {
-            if (TryStartTalkName(index, gFaceHandle->faces[index].GetName(), (struct Proc *)this))
+            if (TryStartTalkName(index, gFaceHandle->faces[index].GetName(), this))
             {
                 return 2;
             }
@@ -2862,7 +2862,7 @@ EC void func_0200e814(struct Proc * proc)
     func_02019124(proc);
 }
 
-EC BOOL TryStartTalkName(s32 mode, char * name, struct Proc * parent)
+EC BOOL TryStartTalkName(s32 mode, char * name, ProcPtr parent)
 {
     if (Proc_Find(ProcScr_TalkName) != NULL)
     {

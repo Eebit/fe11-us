@@ -176,7 +176,7 @@ EC void func_0200e208(void);
 // EC ??? func_0200e4cc
 // EC ??? func_0200e674
 // EC ??? func_0200e814
-EC BOOL TryStartTalkName(s32, char *, struct Proc *);
+EC BOOL TryStartTalkName(s32, char *, ProcPtr);
 EC BOOL TryBreakTalkName(void);
 // EC ??? _ZN8TalkNameD0Ev
 // EC ??? _ZN8TalkNameD1Ev
