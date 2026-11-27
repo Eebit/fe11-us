@@ -203,6 +203,8 @@ struct MapFile
     /* 1C */ struct MapTexture * pTextures;
     u8 unk_20;
     u8 unk_21;
+    /* 22 */ STRUCT_PAD(0x22, 0x28);
+    /* 28 */ void * unk_28;
 };
 
 // Overlay 000:

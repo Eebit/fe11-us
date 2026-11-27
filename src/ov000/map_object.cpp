@@ -109,12 +109,6 @@ public:
     /* 08 */ virtual void Loop(void);
 };
 
-struct UnkStruct_Func_ov000_021d4e44_Map
-{
-    /* 00 */ STRUCT_PAD(0x00, 0x28);
-    /* 28 */ void * unk_28;
-};
-
 EC void AddMapObject(s32 x, s32 y, s32 kind, s32 flags)
 {
     MapObject * mapObject;
@@ -412,7 +406,7 @@ void MapObject::StartVillageCollapse(ProcPtr parent, BOOL arg)
 
 EC void OpenRoof(s32 id, struct Event * ev)
 {
-    struct UnkStruct_Func_ov000_021d4e44_Map * map;
+    struct MapFile * map;
     s32 vram;
     void * buf;
     struct Unit * unit;
@@ -424,7 +418,7 @@ EC void OpenRoof(s32 id, struct Event * ev)
         return;
     }
 
-    map = static_cast<struct UnkStruct_Func_ov000_021d4e44_Map *>(HashTable::Get1("Map"));
+    map = static_cast<struct MapFile *>(HashTable::Get1("Map"));
     buf = func_02020c18(map->unk_28);
     vram = gpSubScreenSt->objVram;
 
