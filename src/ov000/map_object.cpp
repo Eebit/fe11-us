@@ -31,7 +31,7 @@ struct UnkStruct_Func_ov000_021d51c8
 };
 
 s32 data_ov000_021e24c0 = 1;
-MapObject * data_ov000_021e34e8;
+MapObject * gMapObjects;
 
 class ProcRoofOpen : ProcEx
 {
@@ -118,7 +118,7 @@ struct UnkStruct_Func_ov000_021d4e44_Map
     /* 28 */ void * unk_28;
 };
 
-EC void func_ov000_021d4804(s32 x, s32 y, s32 kind, s32 flags)
+EC void AddMapObject(s32 x, s32 y, s32 kind, s32 flags)
 {
     MapObject * mapObject;
     MapObject * it;
@@ -130,13 +130,13 @@ EC void func_ov000_021d4804(s32 x, s32 y, s32 kind, s32 flags)
     mapObject->flags = flags;
     mapObject->next = NULL;
 
-    if (data_ov000_021e34e8 == NULL)
+    if (gMapObjects == NULL)
     {
-        data_ov000_021e34e8 = mapObject;
+        gMapObjects = mapObject;
         return;
     }
 
-    for (it = data_ov000_021e34e8; it->next != NULL; it = it->next)
+    for (it = gMapObjects; it->next != NULL; it = it->next)
     {
     }
 
@@ -164,7 +164,7 @@ EC void func_ov000_021d4874(void)
                 case 16:
                 case 18:
                 case 19:
-                    func_ov000_021d4804(it->args[0], it->args[1], it->args[2], 0);
+                    AddMapObject(it->args[0], it->args[1], it->args[2], 0);
                     break;
             }
         }
@@ -175,27 +175,27 @@ EC void func_ov000_021d4874(void)
     return;
 }
 
-EC void func_ov000_021d492c(void)
+EC void FreeMapObjects(void)
 {
     MapObject * it;
     MapObject * next;
 
-    for (it = data_ov000_021e34e8; it != NULL; it = next)
+    for (it = gMapObjects; it != NULL; it = next)
     {
         next = it->next;
         delete it;
     }
 
-    data_ov000_021e34e8 = NULL;
+    gMapObjects = NULL;
 
     return;
 }
 
-EC s32 func_ov000_021d4968(s32 x, s32 y, s32 kind)
+EC s32 FindMapObject(s32 x, s32 y, s32 kind)
 {
     MapObject * it;
 
-    for (it = data_ov000_021e34e8; it != NULL; it = it->next)
+    for (it = gMapObjects; it != NULL; it = it->next)
     {
         if (kind != 0 && it->kind != kind)
         {
@@ -211,11 +211,11 @@ EC s32 func_ov000_021d4968(s32 x, s32 y, s32 kind)
     return 0;
 }
 
-EC MapObject * func_ov000_021d49b8(MapObject * prev, s32 kind)
+EC MapObject * FindNextMapObject(MapObject * prev, s32 kind)
 {
     MapObject * it;
 
-    for (it = prev == NULL ? data_ov000_021e34e8 : prev->next; it != NULL; it = it->next)
+    for (it = prev == NULL ? gMapObjects : prev->next; it != NULL; it = it->next)
     {
         if (kind != 0 && it->kind != kind)
         {
@@ -232,7 +232,7 @@ EC BOOL func_ov000_021d49f4(s32 x, s32 y, s32 kind)
 {
     MapObject * mapObject;
 
-    mapObject = (MapObject *)func_ov000_021d4968(x, y, kind);
+    mapObject = (MapObject *)FindMapObject(x, y, kind);
 
     if (mapObject == NULL)
     {
@@ -242,12 +242,12 @@ EC BOOL func_ov000_021d49f4(s32 x, s32 y, s32 kind)
     return mapObject->IsEnabled();
 }
 
-EC s32 func_ov000_021d4a1c(void)
+EC s32 CountMapObjects(void)
 {
     MapObject * it;
     s32 count = 0;
 
-    for (it = data_ov000_021e34e8; it != NULL; it = it->next)
+    for (it = gMapObjects; it != NULL; it = it->next)
     {
         count++;
     }
@@ -418,7 +418,7 @@ EC void func_ov000_021d4d80(s32 mapObject, ProcPtr parent, BOOL arg)
     return;
 }
 
-EC void func_ov000_021d4e44(s32 id, struct Event * ev)
+EC void OpenRoof(s32 id, struct Event * ev)
 {
     struct UnkStruct_Func_ov000_021d4e44_Map * map;
     s32 vram;
@@ -496,7 +496,7 @@ EC void func_ov000_021d50cc(void)
     s32 size;
     Vec3 pos;
 
-    it = data_ov000_021e34e8;
+    it = gMapObjects;
     anime = gMapStateManager->unk_14->unk_1c;
 
     if (anime == NULL)
@@ -552,7 +552,7 @@ EC void func_ov000_021d51c8(void)
     s32 frame;
     Vec3 pos;
 
-    it = data_ov000_021e34e8;
+    it = gMapObjects;
     anime = gMapStateManager->unk_14->unk_20;
 
     if (anime == NULL)
@@ -615,7 +615,7 @@ EC void func_ov000_021d51c8(void)
     return;
 }
 
-EC void func_ov000_021d537c(struct SaveBuffer * buf)
+EC void SaveMapObjects(struct SaveBuffer * buf)
 {
     MapObject * it;
     s16 x;
@@ -623,9 +623,9 @@ EC void func_ov000_021d537c(struct SaveBuffer * buf)
     u8 tile;
     u8 flags[0x10];
 
-    buf->WriteShort(func_ov000_021d4a1c());
+    buf->WriteShort(CountMapObjects());
 
-    for (it = data_ov000_021e34e8; it != NULL; it = it->next)
+    for (it = gMapObjects; it != NULL; it = it->next)
     {
         buf->WriteByte(it->x);
         buf->WriteByte(it->y);
@@ -657,7 +657,7 @@ EC void func_ov000_021d537c(struct SaveBuffer * buf)
     return;
 }
 
-EC void func_ov000_021d5528(struct SaveBuffer * buf, s32 unused)
+EC void LoadMapObjects(struct SaveBuffer * buf, s32 unused)
 {
     MapObject * mapObject;
     s32 i;
@@ -676,7 +676,7 @@ EC void func_ov000_021d5528(struct SaveBuffer * buf, s32 unused)
         u8 kind = buf->ReadByte();
         u8 state = buf->ReadByte();
 
-        mapObject = (MapObject *)func_ov000_021d4968(xTile, yTile, kind);
+        mapObject = (MapObject *)FindMapObject(xTile, yTile, kind);
 
         if (mapObject != NULL)
         {

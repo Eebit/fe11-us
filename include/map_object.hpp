@@ -33,26 +33,26 @@ extern s32 data_ov000_021e24c0;
 // extern ??? _ZTV19ProcVillageCollapse
 // extern ??? data_ov000_021e2554
 // extern ??? data_ov000_021e2558
-extern MapObject * data_ov000_021e34e8;
+extern MapObject * gMapObjects;
 
-EC void func_ov000_021d4804(s32, s32, s32, s32);
+EC void AddMapObject(s32, s32, s32, s32);
 EC void func_ov000_021d4874(void);
-EC void func_ov000_021d492c(void);
-EC s32 func_ov000_021d4968(s32, s32, s32);
-EC MapObject * func_ov000_021d49b8(MapObject *, s32);
+EC void FreeMapObjects(void);
+EC s32 FindMapObject(s32, s32, s32);
+EC MapObject * FindNextMapObject(MapObject *, s32);
 EC BOOL func_ov000_021d49f4(s32, s32, s32);
-EC s32 func_ov000_021d4a1c(void);
+EC s32 CountMapObjects(void);
 EC void func_ov000_021d4a48(MapObject *, s32);
 EC void func_ov000_021d4a7c(MapObject *);
 EC void func_ov000_021d4bec(s32, struct Event *);
 EC void func_ov000_021d4cb4(s32, struct Event *);
 EC void func_ov000_021d4d80(s32, ProcPtr, BOOL);
-EC void func_ov000_021d4e44(s32, struct Event *);
+EC void OpenRoof(s32, struct Event *);
 EC void func_ov000_021d5084(s32);
 EC void func_ov000_021d50cc(void);
 EC void func_ov000_021d51c8(void);
-EC void func_ov000_021d537c(struct SaveBuffer *);
-EC void func_ov000_021d5528(struct SaveBuffer *, s32);
+EC void SaveMapObjects(struct SaveBuffer *);
+EC void LoadMapObjects(struct SaveBuffer *, s32);
 // EC ??? _ZN12ProcRoofOpenD0Ev
 // EC ??? _ZN12ProcRoofOpenD1Ev
 // EC ??? _ZN12ProcRoofOpen4LoopEv

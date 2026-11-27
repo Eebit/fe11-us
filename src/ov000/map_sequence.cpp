@@ -5250,7 +5250,7 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
         case 0x15:
         {
-            s32 uVar2 = func_ov000_021d4968(gActionSt->xDecision, gActionSt->yDecision, 8);
+            s32 uVar2 = FindMapObject(gActionSt->xDecision, gActionSt->yDecision, 8);
 
             if (!gCpSkip->Check06_State4())
             {

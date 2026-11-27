@@ -2228,7 +2228,7 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
     s32 mapObject;
     Event * ev;
 
-    mapObject = func_ov000_021d4968(x, y, arg);
+    mapObject = FindMapObject(x, y, arg);
     if (!mapObject)
     {
         return FALSE;
@@ -2278,7 +2278,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
     s16 yMax;
     s32 row;
 
-    mapObject = func_ov000_021d4968(x, y, arg);
+    mapObject = FindMapObject(x, y, arg);
     if (!mapObject)
     {
         return FALSE;
@@ -2324,7 +2324,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
                     if ((u8)(v & 0x80))
                     {
-                        func_ov000_021d4e44(v & 0x7f, ev);
+                        OpenRoof(v & 0x7f, ev);
                     }
                 }
             }
@@ -2349,7 +2349,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 mapObject = func_ov000_021d4968(x, y, arg);
+    s32 mapObject = FindMapObject(x, y, arg);
     Event * ev;
 
     if (!mapObject)
@@ -2386,7 +2386,7 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL TTIsEnable(EventEngine * unused, s32 x, s32 y, s32 arg)
 {
-    MapObject * mapObject = (MapObject *)func_ov000_021d4968(x, y, arg);
+    MapObject * mapObject = (MapObject *)FindMapObject(x, y, arg);
 
     if (!mapObject)
     {
@@ -2427,7 +2427,7 @@ EC BOOL _RoofOpen(EventEngine * self, s32 x, s32 y)
 
     if ((u8)(tile & 0x80))
     {
-        func_ov000_021d4e44(tile & 0x7f, ev);
+        OpenRoof(tile & 0x7f, ev);
     }
     else
     {

@@ -254,7 +254,7 @@ EC void func_ov000_021a2574(void)
     }
     data_ov000_021e334c = NULL;
 
-    func_ov000_021d492c();
+    FreeMapObjects();
     func_020424ac();
 
     if (gMapStateManager != NULL)
@@ -534,7 +534,7 @@ EC void func_ov000_021a2b08(struct SaveBuffer * buf)
         buf->WriteByte(gMapStateManager->unk_eb4[i]);
     }
 
-    func_ov000_021d537c(buf);
+    SaveMapObjects(buf);
 
     for (i = 0; i < 4; i++)
     {
@@ -614,7 +614,7 @@ EC void func_ov000_021a2eb0(struct SaveBuffer * buf, s32 arg_1)
         }
     }
 
-    func_ov000_021d5528(buf, arg_1);
+    LoadMapObjects(buf, arg_1);
     func_ov000_021a3364();
     func_02000c7c(gMapStateManager->unk_08);
     func_ov000_021a340c();

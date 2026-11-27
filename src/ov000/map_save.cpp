@@ -377,7 +377,7 @@ void mapsave::MapSave::_021d5d70(void)
 
     if (this->unk_38 == 0x1c)
     {
-        func_ov000_021d4cb4(func_ov000_021d4968(gActionSt->xDecision, gActionSt->yDecision, 0x10), 0);
+        func_ov000_021d4cb4(FindMapObject(gActionSt->xDecision, gActionSt->yDecision, 0x10), 0);
     }
 
     return;
