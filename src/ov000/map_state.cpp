@@ -302,7 +302,7 @@ MapStateManager::~MapStateManager()
 
     if (this->unk_18 != NULL)
     {
-        func_020379c0();
+        func_020379c0(this->unk_18);
     }
 
     func_ov000_021a83d0();
@@ -314,8 +314,7 @@ MapStateManager::~MapStateManager()
 
     delete this->unk_14;
 
-    HashTable::Get1("Map");
-    func_020379c0();
+    func_020379c0(HashTable::Get1("Map"));
 }
 
 /* NONMATCHING: https://decomp.me/scratch/caqO6 */

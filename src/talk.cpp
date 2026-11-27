@@ -1953,7 +1953,7 @@ TalkFont::~TalkFont()
 {
     if (this->unk_04 != NULL)
     {
-        ((void (*)(void *))func_020379c0)(this->unk_04);
+        func_020379c0(this->unk_04);
         this->unk_04 = NULL;
     }
 }
