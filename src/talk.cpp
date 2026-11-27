@@ -368,9 +368,9 @@ public:
     /* 3D */ u8 unk_3d;
     STRUCT_PAD(0x3E, 0x40);
     /* 40 */ char * unk_40;
-    /* 44 */ TalkWindow * unk_44;
+    /* 44 */ TalkWindow * pTalkWindow;
     /* 48 */ struct UnkStruct_0200de90 * unk_48;
-    /* 4C */ ProcPtr unk_4c;
+    /* 4C */ ProcPtr pTalkInput;
     /* 50 */ u8 * unk_50;
 
     Talk(char * str, s32 flag);
@@ -421,11 +421,11 @@ inline s32 Talk::RunCommand()
             return 0;
         case 10:
             this->unk_40++;
-            this->unk_44->_0200dc44();
+            this->pTalkWindow->_0200dc44();
             return 1;
         case 16:
             this->unk_40++;
-            this->unk_44->_0200de18(this);
+            this->pTalkWindow->_0200de18(this);
             return 2;
         case 21:
             gTalkLog._0200c904();
@@ -437,7 +437,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_0c_6_7 = 0;
             }
-            this->unk_44->_0200de90(this->unk_48, this);
+            this->pTalkWindow->_0200de90(this->unk_48, this);
             return 2;
         case 8:
             if (gFaceHandle->faces[this->unk_39].HasFaceInfo())
@@ -455,7 +455,7 @@ inline s32 Talk::RunCommand()
                 {
                     face->unk_18 = 8;
                     func_0200e8e4();
-                    this->unk_44->_0200de18(this);
+                    this->pTalkWindow->_0200de18(this);
                     return 2;
                 }
                 face->Hide();
@@ -490,7 +490,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_18 = 8;
                 func_0200e8e4();
-                this->unk_44->_0200de18(this);
+                this->pTalkWindow->_0200de18(this);
                 return 2;
             }
             this->unk_40++;
@@ -658,7 +658,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_0c_6_7 = 0;
             }
-            this->unk_44->_0200df24(num, this);
+            this->pTalkWindow->_0200df24(num, this);
             return 2;
         case 18:
             this->unk_40++;
@@ -700,14 +700,14 @@ inline s32 Talk::Advance()
         if (this->unk_3a != this->unk_39)
         {
             this->unk_3a = this->unk_39;
-            this->unk_44->_0200de18(this);
+            this->pTalkWindow->_0200de18(this);
             func_0200e8e4();
             return 2;
         }
 
-        if (this->unk_44->_0200dc68())
+        if (this->pTalkWindow->_0200dc68())
         {
-            this->unk_44->_0200ddd8(this);
+            this->pTalkWindow->_0200ddd8(this);
             return 2;
         }
 
@@ -727,7 +727,7 @@ inline s32 Talk::Advance()
         }
 
         gFaceHandle->faces[this->unk_39].unk_0c_6_7 = this->unk_3b;
-        this->unk_40 = this->unk_44->_0200dbb0(this->unk_40);
+        this->unk_40 = this->pTalkWindow->_0200dbb0(this->unk_40);
         return 3;
     }
 }
@@ -932,8 +932,8 @@ inline void Talk::SkipText()
 }
 
 inline Talk::Talk(char * str, s32 flag)
-    : unk_38(1), unk_39(0), unk_3a(0), unk_3b(1), unk_3c(16), unk_3d(4), unk_40(str), unk_44(NULL), unk_48(NULL),
-      unk_4c(NULL), unk_50(NULL)
+    : unk_38(1), unk_39(0), unk_3a(0), unk_3b(1), unk_3c(16), unk_3d(4), unk_40(str), pTalkWindow(NULL), unk_48(NULL),
+      pTalkInput(NULL), unk_50(NULL)
 {
     data_020e3d44 &= 0x1000;
     gTalkLog._0200c89c();
@@ -955,7 +955,7 @@ inline Talk::Talk(char * str, s32 flag)
     }
 
     func_0200e0dc();
-    this->unk_4c = new (Proc_Start(ProcScr_020ce750, PROC_TREE_8)) TalkInput();
+    this->pTalkInput = new (Proc_Start(ProcScr_020ce750, PROC_TREE_8)) TalkInput();
     this->unk_48 = static_cast<struct UnkStruct_0200de90 *>(func_02004450(data_020ca180));
     if (func_ov000_021ccbdc())
     {
@@ -1263,7 +1263,7 @@ EC void func_02009b3c(Talk * talk)
     func_0206eee0(data_02197700, 0, 0, 64);
     func_0206f580(data_02197700, 0);
 
-    talk->unk_44 = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
+    talk->pTalkWindow = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
     func_02006624(&loader);
 
     SetDispEnable_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1);
@@ -1298,7 +1298,7 @@ EC void func_02009d38(Talk * talk)
     func_0206eee0(data_02197700, 0, 0, 64);
     func_0206f580(data_02197700, 0);
 
-    talk->unk_44 = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
+    talk->pTalkWindow = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
     func_02006624(&loader);
 
     SetDispEnable_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1);
@@ -1577,7 +1577,7 @@ EC void func_0200a618(Talk * talk)
 EC void func_0200aaf0(Talk * talk)
 {
     func_0200e8e4();
-    talk->unk_44->_0200de18(talk);
+    talk->pTalkWindow->_0200de18(talk);
 }
 
 EC void func_0200ab0c(ProcPtr proc)
@@ -1658,9 +1658,9 @@ Talk::~Talk()
         this->unk_50 = NULL;
     }
 
-    if (this->unk_4c != NULL)
+    if (this->pTalkInput != NULL)
     {
-        Proc_End(this->unk_4c);
+        Proc_End(this->pTalkInput);
     }
 
     if (this->unk_48 != NULL)
@@ -1668,9 +1668,9 @@ Talk::~Talk()
         func_02004460(this->unk_48);
     }
 
-    if (this->unk_44 != NULL)
+    if (this->pTalkWindow != NULL)
     {
-        Proc_End(this->unk_44);
+        Proc_End(this->pTalkWindow);
     }
 
     func_0200e208();
