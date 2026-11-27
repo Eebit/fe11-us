@@ -58,7 +58,7 @@ extern struct ProcCmd ProcScr_TalkName[];
 extern char data_020ca5c0[];
 extern char data_020e3d48[];
 extern char data_020e3d68[];
-extern struct TalkLog data_020e3da8;
+extern struct TalkLog gTalkLog;
 
 EC s32 func_02008a48(char **);
 EC char * func_02008ae4(char **);

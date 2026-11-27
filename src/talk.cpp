@@ -52,7 +52,7 @@ public:
 
 char data_020e3d48[32];
 char data_020e3d68[64];
-TalkLog data_020e3da8;
+TalkLog gTalkLog;
 
 struct UnkStruct_0200c084
 {
@@ -411,7 +411,7 @@ inline s32 Talk::RunCommand()
     switch (*this->unk_40)
     {
         case 0:
-            data_020e3da8._0200c8b0();
+            gTalkLog._0200c8b0();
             return 0;
         case 10:
             this->unk_40++;
@@ -422,7 +422,7 @@ inline s32 Talk::RunCommand()
             this->unk_44->_0200de18(this);
             return 2;
         case 21:
-            data_020e3da8._0200c904();
+            gTalkLog._0200c904();
             return 1;
         case 17:
             this->unk_40++;
@@ -821,15 +821,15 @@ inline void Talk::SkipText()
         switch (*this->unk_40)
         {
             case 0:
-                data_020e3da8._0200c8b0();
+                gTalkLog._0200c8b0();
                 return;
             case 21:
-                data_020e3da8._0200c904();
+                gTalkLog._0200c904();
                 this->unk_40++;
                 break;
             case 10:
             case 16:
-                data_020e3da8._0200c8b0();
+                gTalkLog._0200c8b0();
             case 14:
             case 15:
             case 17:
@@ -842,7 +842,7 @@ inline void Talk::SkipText()
                 {
                     if ((face->unk_18 == 0) ? TRUE : FALSE)
                     {
-                        data_020e3da8._0200c8b0();
+                        gTalkLog._0200c8b0();
                         gFaceHandle->faces[this->unk_39].unk_18 = 8;
                     }
                     gFaceHandle->faces[this->unk_39].Clear();
@@ -874,7 +874,7 @@ inline void Talk::SkipText()
                 break;
             case 9:
                 this->unk_40++;
-                data_020e3da8._0200c8b0();
+                gTalkLog._0200c8b0();
                 break;
             case 4:
             case 13:
@@ -920,22 +920,22 @@ inline void Talk::SkipText()
                 if (this->unk_3a != this->unk_39)
                 {
                     this->unk_3a = this->unk_39;
-                    data_020e3da8._0200c8b0();
+                    gTalkLog._0200c8b0();
                     break;
                 }
                 if (gFaceHandle->faces[this->unk_39].GetName() != NULL)
                 {
-                    data_020e3da8._0200ca38(gFaceHandle->faces[this->unk_39].GetName());
+                    gTalkLog._0200ca38(gFaceHandle->faces[this->unk_39].GetName());
                 }
                 for (i = 0; i < 3; i++)
                 {
                     gFaceHandle->faces[i].unk_18 = 8;
                 }
                 gFaceHandle->faces[this->unk_39].unk_18 = 0;
-                data_020e3da8._0200c984(*this->unk_40++);
+                gTalkLog._0200c984(*this->unk_40++);
                 if (func_0206e768(this->unk_40))
                 {
-                    data_020e3da8._0200c984(*this->unk_40++);
+                    gTalkLog._0200c984(*this->unk_40++);
                 }
                 break;
         }
@@ -947,7 +947,7 @@ inline Talk::Talk(char * str, s32 flag)
       unk_4c(NULL), unk_50(NULL)
 {
     data_020e3d44 &= 0x1000;
-    data_020e3da8._0200c89c();
+    gTalkLog._0200c89c();
     StartFaceHandle(0);
 
     if (EventSkip::IsSkipState4())
@@ -1454,7 +1454,7 @@ scanned:
                     break;
                 case 21:
                     p++;
-                    data_020e3da8._0200c904();
+                    gTalkLog._0200c904();
                     break;
                 case 18:
                     p++;
@@ -2123,7 +2123,7 @@ void TalkLog::_0200c850()
 
 EC void func_0200c888(void)
 {
-    data_020e3da8._0200c850();
+    gTalkLog._0200c850();
 }
 
 void TalkLog::_0200c89c()
@@ -2582,11 +2582,11 @@ void TalkWindow::_0200db64()
 char * TalkWindow::_0200dbb0(char * str)
 {
     this->vfunc_10();
-    data_020e3da8._0200c984(str[0]);
+    gTalkLog._0200c984(str[0]);
 
     if (func_0206e768(str))
     {
-        data_020e3da8._0200c984(str[1]);
+        gTalkLog._0200c984(str[1]);
     }
 
     return this->unk_3c[this->unk_61]._0200d6e0(str);
@@ -2599,7 +2599,7 @@ void TalkWindow::vfunc_10()
 
 void TalkWindow::_0200dc44()
 {
-    data_020e3da8._0200c8b0();
+    gTalkLog._0200c8b0();
     this->unk_61++;
 }
 
@@ -2672,7 +2672,7 @@ void TalkWindow::_0200ddd8(ProcPtr parent)
 
 void TalkWindow::_0200de18(ProcPtr parent)
 {
-    data_020e3da8._0200c8b0();
+    gTalkLog._0200c8b0();
 
     if (data_020e3d44 & 2)
     {
@@ -2722,7 +2722,7 @@ void KW::Loop()
     }
     else if (gKeySt->pressed & KEY_BUTTON_R)
     {
-        func_0200cfb0(&data_020e3da8, this);
+        func_0200cfb0(&gTalkLog, this);
     }
 }
 
@@ -2974,7 +2974,7 @@ EC BOOL func_0200e83c(s32 mode, char * name, struct Proc * parent)
         }
     }
 
-    data_020e3da8._0200ca38(name);
+    gTalkLog._0200ca38(name);
     new (Proc_Start(ProcScr_TalkName, parent)) TalkName(mode, name);
     return TRUE;
 }
