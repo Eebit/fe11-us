@@ -838,9 +838,7 @@ public:
     virtual void vfunc_e0(/* ? */); // func_02032e98
     virtual void vfunc_e4(/* ? */); // func_02031040
     virtual void vfunc_e8(void); // func_02033efc
-    virtual void vfunc_ec(/* ? */); // func_02030fb4
-    virtual void vfunc_f0(); // func_02031044
-    virtual ~ScrollMenu();
+    virtual ~ScrollMenu(); // D1 func_02030fb4, D0 func_02031044
 
     ScrollMenu();
     void func_02031944();
