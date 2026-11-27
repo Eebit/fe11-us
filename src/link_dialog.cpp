@@ -331,7 +331,7 @@ public:
         this->unk_5a = this->unk_36;
 
         iVar1 = func_02028e7c(data_021970c4, this->unk_54, 0);
-        iVar1 = (((iVar1 + 7) & ~7) / 8) + 2;
+        iVar1 = (ALIGN_UP(iVar1, 8) / 8) + 2;
 
         if (this->unk_5a < iVar1)
         {
