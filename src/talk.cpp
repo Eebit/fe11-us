@@ -283,12 +283,12 @@ public:
         if (*str == '~')
         {
             this->unk_40[(s16)row]._0200d6a4(&str[1]);
-            this->unk_40[(s16)row]._0200d73c(2, row * 2, 61440);
+            this->unk_40[(s16)row]._0200d73c(2, row * 2, 0xF000);
         }
         else
         {
             this->unk_40[(s16)row]._0200d6a4(str);
-            this->unk_40[(s16)row]._0200d73c(4, row * 2, 57344);
+            this->unk_40[(s16)row]._0200d73c(4, row * 2, 0xE000);
         }
     }
 
@@ -445,8 +445,8 @@ inline s32 Talk::RunCommand()
             if (gFaceHandle->faces[this->unk_39].HasFaceInfo())
             {
                 p = &this->unk_40[1];
-                func_0206e7b8(buf, "FID_", 64);
-                func_0206e7f4(buf, func_02008ae4(&p), 64);
+                func_0206e7b8(buf, "FID_", sizeof(buf));
+                func_0206e7f4(buf, func_02008ae4(&p), sizeof(buf));
                 if (func_020b6e2c(gFaceHandle->faces[this->unk_39].GetFid(), buf) == 0)
                 {
                     this->unk_40 = p;
@@ -470,17 +470,17 @@ inline s32 Talk::RunCommand()
             {
                 if (gActiveEventUnit != NULL)
                 {
-                    func_0206e7b8(fidBuf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), 64);
+                    func_0206e7b8(fidBuf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), sizeof(fidBuf));
                 }
                 else
                 {
-                    func_0206e7b8(fidBuf, "FID_DUMMY", 64);
+                    func_0206e7b8(fidBuf, "FID_DUMMY", sizeof(fidBuf));
                 }
             }
             else
             {
-                func_0206e7b8(fidBuf, "FID_", 64);
-                func_0206e7f4(fidBuf, name, 64);
+                func_0206e7b8(fidBuf, "FID_", sizeof(fidBuf));
+                func_0206e7f4(fidBuf, name, sizeof(fidBuf));
             }
             gFaceHandle->faces[this->unk_39].unk_0c_1 = (gTalkFlags & TALK_FLAG_6) ? TRUE : FALSE;
             gFaceHandle->faces[this->unk_39].unk_18 = 8;
@@ -615,8 +615,8 @@ inline s32 Talk::RunCommand()
                     }
                     else
                     {
-                        func_0206e7b8(fullPath, "PID_", 32);
-                        func_0206e7f4(fullPath, path, 32);
+                        func_0206e7b8(fullPath, "PID_", sizeof(fullPath));
+                        func_0206e7f4(fullPath, path, sizeof(fullPath));
                         path = func_ov000_021a418c(fullPath);
                     }
                 }
@@ -847,17 +847,17 @@ inline void Talk::SkipText()
                 {
                     if (gActiveEventUnit != NULL)
                     {
-                        func_0206e7b8(buf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), 64);
+                        func_0206e7b8(buf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), sizeof(buf));
                     }
                     else
                     {
-                        func_0206e7b8(buf, "FID_DUMMY", 64);
+                        func_0206e7b8(buf, "FID_DUMMY", sizeof(buf));
                     }
                 }
                 else
                 {
-                    func_0206e7b8(buf, "FID_", 64);
-                    func_0206e7f4(buf, name, 64);
+                    func_0206e7b8(buf, "FID_", sizeof(buf));
+                    func_0206e7f4(buf, name, sizeof(buf));
                 }
                 gFaceHandle->faces[this->unk_39].unk_0c_1 = (gTalkFlags & TALK_FLAG_6) ? TRUE : FALSE;
                 gFaceHandle->faces[this->unk_39].unk_18 = 8;
@@ -1362,17 +1362,17 @@ scanned:
                     {
                         if (gActiveEventUnit != NULL)
                         {
-                            func_0206e7b8(buf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), 64);
+                            func_0206e7b8(buf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), sizeof(buf));
                         }
                         else
                         {
-                            func_0206e7b8(buf, "FID_DUMMY", 64);
+                            func_0206e7b8(buf, "FID_DUMMY", sizeof(buf));
                         }
                     }
                     else
                     {
-                        func_0206e7b8(buf, "FID_", 64);
-                        func_0206e7f4(buf, name, 64);
+                        func_0206e7b8(buf, "FID_", sizeof(buf));
+                        func_0206e7f4(buf, name, sizeof(buf));
                     }
                     gFaceHandle->faces[talk->unk_39].unk_0c_1 = (gTalkFlags & TALK_FLAG_6) ? TRUE : FALSE;
                     gFaceHandle->faces[talk->unk_39].unk_18 = 8;
@@ -1492,8 +1492,8 @@ scanned:
             }
             else
             {
-                func_0206e7b8(fullPath, "PID_", 32);
-                func_0206e7f4(fullPath, path, 32);
+                func_0206e7b8(fullPath, "PID_", sizeof(fullPath));
+                func_0206e7f4(fullPath, path, sizeof(fullPath));
                 path = func_ov000_021a418c(fullPath);
             }
         }
@@ -2330,10 +2330,10 @@ void PalFader::Loop()
     this->unk_40++;
     level = Interpolate(0, this->unk_38, this->unk_3c, this->unk_40, this->unk_44);
 
-    func_0200c7ac(data_0219770c->vfunc_04() + 384, 0, 16927);
-    func_0200c7ac(data_0219770c->vfunc_04() + 416, 0, 32536);
-    func_0200c7ac(data_0219770c->vfunc_04() + 448, 0, 32767);
-    func_0200c7ac(data_0219770c->vfunc_04() + 480, 0, 895);
+    func_0200c7ac(data_0219770c->vfunc_04() + 384, 0, RGB(31, 16, 16));
+    func_0200c7ac(data_0219770c->vfunc_04() + 416, 0, RGB(24, 24, 31));
+    func_0200c7ac(data_0219770c->vfunc_04() + 448, 0, RGB(31, 31, 31));
+    func_0200c7ac(data_0219770c->vfunc_04() + 480, 0, RGB(31, 27, 0));
 
     if (level != 16)
     {
@@ -2457,7 +2457,7 @@ TalkWindow::TalkWindow()
         this->unk_3c[i]._0200d628(this->unk_38, 32);
     }
 
-    func_0200c7ac(data_02197700->vfunc_04(), 8, 32767);
+    func_0200c7ac(data_02197700->vfunc_04(), 8, RGB(31, 31, 31));
     data_02197700->unk_04->unk_3e |= 16;
     this->_0200db64();
     this->Init();
