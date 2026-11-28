@@ -2298,15 +2298,8 @@ s32 TalkLog::vfunc_00()
 
 TalkLogViewer::~TalkLogViewer()
 {
-    struct UnkStruct_0200d770 * data;
-
     delete[] this->unk_40;
-
-    data = this->unk_3c;
-    if (data != NULL)
-    {
-        delete data;
-    }
+    delete this->unk_3c;
 }
 
 BG1Clr::~BG1Clr()
