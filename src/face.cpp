@@ -452,7 +452,7 @@ void Face::LoadGfx(char * fidStr)
     func_0206ea7c(palBuf, palBuf + 0x600, 0x80, 0, 0, 0, 0, 0xB);
     func_0206ea7c(palBuf, palBuf + 0x800, 0x80, 0, 0, 0, 0, 0xA);
 
-    if (this->unk_0c_0 != 0)
+    if (this->unk_0c_1 != 0)
     {
         func_0206ebd4(palBuf, 0x280);
     }

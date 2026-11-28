@@ -28,7 +28,8 @@ public:
         u32 flags;
         struct
         {
-            u32 unk_0c_0 : 2;
+            u32 unk_0c_0 : 1;
+            u32 unk_0c_1 : 1;
             u32 isFlipped : 1;
             u32 isSmiling : 1;
             u32 unk_0c_4_5 : 2;
@@ -64,6 +65,11 @@ public:
     inline BOOL CheckUnk15(void)
     {
         return (this->alpha != 0 && this->alpha != 0x10) ? TRUE : FALSE;
+    }
+
+    inline BOOL IsUnk18Zero(void)
+    {
+        return (this->unk_18 == 0) ? TRUE : FALSE;
     }
 
     char * GetFid(void);

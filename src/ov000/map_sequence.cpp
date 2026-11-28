@@ -1773,7 +1773,7 @@ EC void func_ov000_021a9d98(Unit * unit)
     func_ov000_021a7214(gMapStateManager->unk_04, unit, 0);
 
     gMapStateManager->unk_04->unk_08 = 1;
-    data_021974f0 = (u32)unit;
+    gActiveEventUnit = unit;
 
     pMsm08 = gMapStateManager->unk_08;
 
@@ -4421,7 +4421,7 @@ EC void CpuPhase_021ae7b4(ProcPtr proc)
     pUnit = GetUnit(gActionSt->unitId);
 
     func_ov000_021ae324(pUnit);
-    data_021974f0 = (u32)pUnit;
+    gActiveEventUnit = pUnit;
 
     if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit))
     {
@@ -4778,7 +4778,7 @@ EC void func_ov000_021af3cc(ProcPtr proc)
     pUnit = GetUnit(gActionSt->unitId);
 
     func_ov000_021aeb70(pUnit);
-    data_021974f0 = (u32)pUnit;
+    gActiveEventUnit = pUnit;
 
     if (func_02002038(gMapStateManager->unk_08, gMapStateManager->unk_04->pUnit))
     {

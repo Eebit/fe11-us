@@ -158,67 +158,12 @@ EXTERN_C
 // extern ??? data_020ca12c
 // extern ??? data_020ca138
 // extern ??? data_020ca144
-// extern ??? data_020ca148
-// extern ??? data_020ca14c
-// extern ??? data_020ca154
-// extern ??? data_020ca15c
-// extern ??? __typestr__4Talk
-// extern ??? data_020ca16c
-// extern ??? data_020ca174
-// extern ??? data_020ca180
-// extern ??? data_020ca18c
-// extern ??? __typestr__9TalkInput
-// extern ??? __typeinfo__4Talk
-// extern ??? __typeinfo__9TalkInput
-// extern ??? __vt__9TalkInput
-// extern ??? __vt__4Talk
-// extern ??? data_020ca1ec
-// extern ??? data_020ca31c
-// extern ??? __typeinfo__8TalkFont
-// extern ??? __typestr__8TalkFont
-// extern ??? data_020ca33c
-// extern ??? data_020ca348
-// extern ??? __typestr__6BG1Clr
-// extern ??? __typeinfo__10ILogStream
-// extern ??? __typestr__7TalkLog
-// extern ??? __typestr__8PalFader
-// extern ??? __typeinfo__7TalkLog
-// extern ??? __typeinfo__6BG1Clr
-// extern ??? __typeinfo__8PalFader
-// extern ??? __typeinfo__13TalkLogViewer
-// extern ??? __typestr__10ILogStream
-// extern ??? __typestr__13TalkLogViewer
-// extern ??? __vt__7TalkLog
-// extern ??? __vt__6BG1Clr
-// extern ??? __vt__8PalFader
-// extern ??? __vt__13TalkLogViewer
-// extern ??? data_020ca428
-// extern ??? data_020ca458
-// extern ??? __typestr__8TalkWait
-// extern ??? __typeinfo__10TalkScroll
-// extern ??? __typeinfo__8TalkWait
-// extern ??? data_020ca480
-// extern ??? __typeinfo__10TalkWindow
-// extern ??? __typestr__10TalkWindow
-// extern ??? __typestr__10TalkScroll
-// extern ??? __vt__8TalkWait
-// extern ??? data_020ca4d8
-// extern ??? __vt__10TalkScroll
-// extern ??? __vt__10TalkWindow
-// extern ??? __typestr__8NameFont
-// extern ??? __typestr__8TalkName
-// extern ??? __typeinfo__8NameFont
-// extern ??? __typeinfo__8TalkName
-// extern ??? data_020ca54c
-// extern ??? __vt__8NameFont
-// extern ??? __vt__8TalkName
-// extern ??? data_020ca588
-// extern ??? data_020ca5c0
+/* talk.hpp */
 // extern ??? data_020ca5cc
 // extern ??? gOverlayList
 // extern ??? data_020ca608
 extern struct KeyState * gKeySt;
-// extern ??? gTouchSt
+extern struct TouchState * gTouchSt;
 // extern ??? data_020ca624
 extern struct ProcCmd ProcScr_020ca64c[];
 extern struct BgConfig data_020ca67c;
@@ -2831,15 +2776,13 @@ extern s32 data_020d6254;
 // extern ??? data_020e3cbc
 // extern ??? data_020e3ccc
 // extern ??? data_020e3cdc
-// extern ??? data_020e3cf8
+extern struct UnkStruct_020e3cf8 data_020e3cf8;
 // extern ??? gFaceHandle
-// extern ??? data_020e3d44
-// extern ??? data_020e3d48
-// extern ??? data_020e3d68
-// extern ??? data_020e3da8
-// extern ??? data_020e4dcc
-// extern ??? data_020e4dd4
-// extern ??? data_020e4dd8
+extern u32 gTalkFlags;
+/* talk.hpp */
+extern u32 data_020e4dcc[];
+extern struct UnkStruct_02006604 * data_020e4dd4;
+extern u8 data_020e4dd8;
 // extern ??? data_020e4df0
 // extern ??? gActiveOverlayLut
 // extern ??? data_020e4e00
@@ -2971,7 +2914,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 extern struct Item * gConvoy;
 // extern ??? data_021974e4
 // extern ??? data_021974e8
-// extern ??? data_021974f0
+// extern ??? gActiveEventUnit
 // extern ??? data_021974f8
 extern struct UnkStruct_021974fc * data_021974fc;
 // extern ??? data_02197500
@@ -3021,16 +2964,16 @@ extern struct UnkStruct_021974fc * data_021974fc;
 // extern ??? data_021976e4
 // extern ??? data_021976e8
 // extern ??? data_021976ec
-// extern ??? data_021976f8
+extern struct BGCtrl * data_021976f8;
 // extern ??? data_021976fc
-// extern ??? data_02197700
+extern struct BGCtrl * data_02197700;
 // extern ??? data_02197704
 // extern ??? data_02197708
-// extern ??? data_0219770c
+extern struct BGCtrl * data_0219770c;
 // extern ??? data_02197710
 // extern ??? data_02197714
 // extern ??? data_02197718
-// extern ??? data_0219771c
+extern struct BGCtrl * data_0219771c;
 // extern ??? data_02197720
 // extern ??? data_02197728
 // extern ??? data_02197788

@@ -26,6 +26,8 @@ EXTERN_C
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
+#define RGB(r, g, b) ((r) | ((g) << 5) | ((b) << 10))
+
 #pragma define_section force_text ".text"
 
 EXTERN_C_END
