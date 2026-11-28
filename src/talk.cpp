@@ -182,10 +182,10 @@ struct UnkStruct_02197798
         disp->bldcnt.effect = effect;
     }
 
-    void SetBlendCoeffs(s32 a)
+    void SetBlendCoeffs(s32 a, s32 b)
     {
         this->unk_00->dispIo->blend_coeff_a = a;
-        this->unk_00->dispIo->blend_coeff_b = 16 - a;
+        this->unk_00->dispIo->blend_coeff_b = b;
     }
 };
 
@@ -1270,7 +1270,7 @@ EC void func_02009b3c(Talk * talk)
     func_0206ecb0()->SetBlendEffect(1);
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 1, 0, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 0, 1, 1, 1);
-    func_0206ecb0()->SetBlendCoeffs(0);
+    func_0206ecb0()->SetBlendCoeffs(0, 16);
     func_02006204(func_0206ecb0(), 16, 0, 8, talk);
 }
 
@@ -1603,7 +1603,7 @@ EC void func_0200ab0c(ProcPtr proc)
     func_0206ecb0()->SetBlendEffect(1);
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 1, 0, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 0, 1, 1, 1);
-    func_0206ecb0()->SetBlendCoeffs(16);
+    func_0206ecb0()->SetBlendCoeffs(16, 0);
     func_02006204(func_0206ecb0(), 0, 16, 8, (ProcEx *)proc);
 }
 
@@ -2814,7 +2814,7 @@ EC void func_0200e4cc(TalkName * name)
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 0, 1, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1, 1);
     func_0200e254(name->unk_38, name->unk_3d);
-    func_0206ecb0()->SetBlendCoeffs(0);
+    func_0206ecb0()->SetBlendCoeffs(0, 16);
     func_02006204(func_0206ecb0(), 16, 0, 8, name);
     func_020190ec((struct Proc *)name);
 }
@@ -2851,7 +2851,7 @@ EC void func_0200e674(TalkName * name)
     func_0206ecb0()->SetBlendEffect(1);
     SetBldTargetA_Maybe(func_0206ecb0(), 0, 0, 0, 1, 0, 0);
     SetBldTargetB_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1, 1);
-    func_0206ecb0()->SetBlendCoeffs(16);
+    func_0206ecb0()->SetBlendCoeffs(16, 0);
     func_02006204(func_0206ecb0(), 0, 16, 8, name);
     func_020190ec((struct Proc *)name);
 }
