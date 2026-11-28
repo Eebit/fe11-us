@@ -10,6 +10,7 @@
 #include "heap.hpp"
 #include "map.hpp"
 #include "map_menu_base.hpp"
+#include "map_object.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -357,15 +358,13 @@ void mapsave::MapSave::_021d59d0(void)
     return;
 }
 
-EC void func_ov000_021d4cb4(s32, s32);
-
 void mapsave::MapSave::_021d5d70(void)
 {
     gpActiveScreenSt->dispIo->bldcnt.effect = 0;
 
     if (this->unk_38 == 0x1c)
     {
-        func_ov000_021d4cb4(func_ov000_021d4968(gActionSt->xDecision, gActionSt->yDecision, 0x10), 0);
+        FindMapObject(gActionSt->xDecision, gActionSt->yDecision, MAP_OBJECT_KIND_SAVE_POINT)->_021d4cb4(NULL);
     }
 
     return;

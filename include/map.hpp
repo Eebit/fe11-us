@@ -381,8 +381,8 @@ public:
     /* 10 */ u32 unk_10;
     /* 14 */ u32 unk_14;
     /* 18 */ u32 unk_18;
-    /* 1C */ u32 unk_1c;
-    /* 20 */ u32 unk_20;
+    /* 1C */ class Anime * unk_1c;
+    /* 20 */ class Anime * unk_20;
     /* 24 */ u8 unk_24;
     /* 25 */ s8 unk_25;
     /* 26 */ u8 unk_26;

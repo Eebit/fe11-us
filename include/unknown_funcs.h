@@ -24,6 +24,7 @@ struct Event;
 struct JobData;
 struct MoveUnit;
 struct BgConfig;
+struct UnkStruct_Func_ov000_021d51c8;
 
 EXTERN_C
 
@@ -1199,7 +1200,7 @@ EC s32 Interpolate(s32, s32, s32, s32, s32);
 // EC ??? func_02020b50
 // EC ??? Decompress
 // EC ??? func_02020c0c
-// EC ??? func_02020c18
+EC void * func_02020c18(void *);
 // EC ??? func_02020c4c
 // EC ??? func_02020cd8
 // EC ??? func_02020d70
@@ -2548,7 +2549,7 @@ EC void func_0204eb24(void);
 // EC ??? func_0204ec84
 // EC ??? func_0204eca8
 // EC ??? func_0204ed04
-// EC ??? func_0204ed4c
+EC void func_0204ed4c(void *, void *, s32, s32);
 // EC ??? func_0204edb4
 // EC ??? func_0204ef20
 // EC ??? func_0204f058
@@ -3233,7 +3234,7 @@ EC void func_0206cf30(s32, s32, s32, u32, u32, s32, s32);
 // EC ??? func_0206cfcc
 // EC ??? func_0206d088
 // EC ??? func_0206d1a4
-// EC ??? func_0206d27c
+EC void func_0206d27c(s32, s32, s32, s32, s32);
 EC s32 func_0206d2ac(s32, s32, s32, s32, s32, s32, s32);
 // EC ??? func_0206d2e8
 // EC ??? func_0206d464
@@ -3281,8 +3282,8 @@ EC s32 func_0206d2ac(s32, s32, s32, s32, s32, s32, s32);
 // EC ??? func_0206e570
 // EC ??? func_0206e584
 // EC ??? func_0206e5c0
-// EC ??? func_0206e5f4
-// EC ??? func_0206e608
+EC void func_0206e5f4(struct UnkStruct_Func_ov000_021d51c8 *, s32);
+EC void func_0206e608(struct UnkStruct_Func_ov000_021d51c8 *, s32, s32, s32, s32);
 // EC ??? func_0206e64c
 // EC ??? func_0206e66c
 // EC ??? func_0206e69c
@@ -6818,30 +6819,7 @@ EC struct Proc * func_ov000_021d42b0(s32, s32, s32);
 // EC ??? func_ov000_021d47d8
 // EC ??? func_ov000_021d47ec
 // EC ??? func_ov000_021d47f0
-// EC ??? func_ov000_021d4804
-// EC ??? func_ov000_021d4874
-// EC ??? func_ov000_021d492c
-EC s32 func_ov000_021d4968(s32, s32, BOOL);
-// EC ??? func_ov000_021d49b8
-// EC ??? func_ov000_021d49f4
-// EC ??? func_ov000_021d4a1c
-// EC ??? func_ov000_021d4a48
-// EC ??? func_ov000_021d4a7c
-EC void func_ov000_021d4bec(s32, struct Event *);
-// EC ??? func_ov000_021d4cb4
-EC s32 func_ov000_021d4d80(s32, ProcPtr, BOOL);
-EC void func_ov000_021d4e44(s32, struct Event *);
-EC void func_ov000_021d5084(s32);
-// EC ??? func_ov000_021d50cc
-// EC ??? func_ov000_021d51c8
-// EC ??? func_ov000_021d537c
-// EC ??? func_ov000_021d5528
-// EC ??? func_ov000_021d56e0
-// EC ??? func_ov000_021d5784
-// EC ??? func_ov000_021d5820
-// EC ??? func_ov000_021d58fc
-// EC ??? func_ov000_021d593c
-// EC ??? func_ov000_021d5974
+/* map_object.hpp */
 // EC ??? _ZN7mapsave7MapSave9_021d59d0Ev
 // EC ??? _ZN7mapsave7MapSave9_021d5d70Ev
 // EC ??? _ZN7mapsave7MapSave9_021d5dd4Ev
@@ -6901,9 +6879,9 @@ EC void TryShowTutCardForMenu(ProcPtr, u32);
 // EC ??? MapRenderState_GetUnk00
 // EC ??? Map_GetMinimapSprite
 // EC ??? Map_FindLayer
-// EC ??? Map_SetLayerAlphaAt
-// EC ??? Map_SetAllKind3LayersAlpha
-// EC ??? Map_SetLayerAlphaById
+EC BOOL Map_SetLayerAlphaAt(struct MapFile *, s32, s32, s32);
+EC void Map_SetAllKind3LayersAlpha(struct MapFile *, s32);
+EC void Map_SetLayerAlphaById(struct MapFile *, s32, s32);
 // EC ??? func_ov000_021d7c90
 // EC ??? func_ov000_021d7cd8
 // EC ??? _ZN5arena5Arena9_021d7d1cEv

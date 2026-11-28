@@ -12,6 +12,7 @@
 #include "gamectrl.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -1018,7 +1019,6 @@ EC void func_ov000_021a9044(ProcSeq * proc)
     return;
 }
 
-extern s32 data_ov000_021e24c0;
 EC BOOL func_ov000_021a2a50(struct UnkStruct_021E3324 * self);
 
 EC void func_ov000_021a9138(void)
@@ -1426,8 +1426,6 @@ EC void EventFixed_StartAreaEvent(EventFixed * proc)
     EventCaller::TryStartAreaEvent(proc, proc->unk_38, proc->unk_3c);
     return;
 }
-
-EC s32 func_ov000_021d49f4(s32, s32, s32);
 
 EC void EventFixed_StartDecoyEvent(EventFixed * proc)
 {
@@ -5252,15 +5250,15 @@ EC void ProcMind_ov000_021af9bc(ProcEx * proc)
 
         case 0x15:
         {
-            s32 uVar2 = func_ov000_021d4968(gActionSt->xDecision, gActionSt->yDecision, 8);
+            MapObject * mapObject = FindMapObject(gActionSt->xDecision, gActionSt->yDecision, MAP_OBJECT_KIND_VILLAGE);
 
             if (!gCpSkip->Check06_State4())
             {
-                func_ov000_021d4d80(uVar2, proc, 1);
+                mapObject->StartVillageCollapse(proc, TRUE);
             }
             else
             {
-                func_ov000_021d4d80(uVar2, 0, 0);
+                mapObject->StartVillageCollapse(NULL, FALSE);
             }
 
             Proc_Goto(proc, 1, 0);
@@ -5436,8 +5434,6 @@ EC void ProcMind_ov000_021b0510(void)
     gSoundManager->unk_a4->vfunc_68(8);
     return;
 }
-
-extern s32 data_ov000_021e24c0;
 
 EC void ProcMind_ov000_021b0538(ProcPtr proc)
 {

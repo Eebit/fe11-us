@@ -6,6 +6,7 @@
 #include "item.hpp"
 #include "map.hpp"
 #include "map_menu_base.hpp"
+#include "map_object.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "unit.hpp"
@@ -29,8 +30,6 @@ EC void func_ov000_021bfa60(ProcPtr);
 EC void func_ov000_021bfaf0(ProcPtr);
 
 EC BOOL IsLinkArena(void);
-
-EC s32 func_ov000_021d49f4(s32, s32, s32);
 
 EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
@@ -547,7 +546,8 @@ public:
 
     /* 14 */ virtual s32 vfunc_14(void)
     {
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 8))
+        if (func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_VILLAGE))
         {
             if (gMapStateManager->unk_04->pUnit->CheckAttribute(CA_UNK_1))
             {
@@ -555,7 +555,8 @@ public:
             }
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 9))
+        if (func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_HOUSE))
         {
             return MENU_ENABLED;
         }
@@ -666,7 +667,7 @@ public:
                     continue;
                 }
 
-                if (!func_ov000_021d49f4(ix, iy, 5))
+                if (!func_ov000_021d49f4(ix, iy, MAP_OBJECT_KIND_DOOR))
                 {
                     continue;
                 }
@@ -766,7 +767,7 @@ public:
                     continue;
                 }
 
-                if (!func_ov000_021d49f4(ix, iy, 7))
+                if (!func_ov000_021d49f4(ix, iy, MAP_OBJECT_KIND_DRAWBRIDGE))
                 {
                     continue;
                 }
@@ -1325,7 +1326,9 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0x10))
+        if (func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos,
+                MAP_OBJECT_KIND_SAVE_POINT))
         {
             if (!func_0201f680())
             {
@@ -1528,7 +1531,8 @@ public:
             return MENU_NOTSHOWN;
         }
 
-        if (!func_ov000_021d49f4(gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, 0x13))
+        if (!func_ov000_021d49f4(
+                gMapStateManager->unk_04->pUnit->xPos, gMapStateManager->unk_04->pUnit->yPos, MAP_OBJECT_KIND_DECOY))
         {
             return MENU_NOTSHOWN;
         }

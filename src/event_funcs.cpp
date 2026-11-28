@@ -4,6 +4,7 @@
 #include "event.hpp"
 #include "hardware.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "sound_manager.hpp"
 #include "unit.hpp"
 #include "unknown_data.h"
@@ -19,7 +20,6 @@ EC struct Proc * func_ov000_021ccaf8(Unit *, struct JobData *, ProcPtr);
 EC struct Proc * StartMapEffectQuake(s32, ProcPtr, s32);
 EC struct Proc * func_ov000_021d3b00(Unit *, ProcPtr, s32, s32);
 EC void func_ov000_021d4004(s32, s32);
-EC void func_ov000_021d4cb4(s32, Event *);
 
 struct MovingMapSprite
 {
@@ -42,12 +42,6 @@ struct CpuSeqData
 {
     /* 00 */ STRUCT_PAD(0x00, 0x04);
     /* 04 */ u8 unk_04;
-};
-
-struct UnkStruct_Func_ov000_021d4968_Ret
-{
-    /* 00 */ STRUCT_PAD(0x00, 0x07);
-    /* 07 */ u8 unk_07;
 };
 
 EC s16 func_020424f4(EventEngine * self, s32 index)
@@ -2231,11 +2225,11 @@ EC u32 MindGetPhase(void)
 
 EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 tt;
+    MapObject * mapObject;
     Event * ev;
 
-    tt = func_ov000_021d4968(x, y, arg);
-    if (!tt)
+    mapObject = FindMapObject(x, y, arg);
+    if (!mapObject)
     {
         return FALSE;
     }
@@ -2257,9 +2251,9 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4bec(tt, ev);
+    mapObject->_021d4bec(ev);
 
-    if (gMapStateManager->unk_04->pUnit == NULL && (arg == 5 || arg == 7))
+    if (gMapStateManager->unk_04->pUnit == NULL && (arg == MAP_OBJECT_KIND_DOOR || arg == MAP_OBJECT_KIND_DRAWBRIDGE))
     {
         func_ov000_021a36e0();
     }
@@ -2274,7 +2268,7 @@ EC BOOL _TTEnable(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 tt;
+    MapObject * mapObject;
     Event * ev;
     s16 ix;
     s16 iy;
@@ -2284,8 +2278,8 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
     s16 yMax;
     s32 row;
 
-    tt = func_ov000_021d4968(x, y, arg);
-    if (!tt)
+    mapObject = FindMapObject(x, y, arg);
+    if (!mapObject)
     {
         return FALSE;
     }
@@ -2307,9 +2301,9 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4cb4(tt, ev);
+    mapObject->_021d4cb4(ev);
 
-    if (arg == 5)
+    if (arg == MAP_OBJECT_KIND_DOOR)
     {
         xMin = MAX(x - 1, gMapStateManager->unk_24);
         yMin = MAX(y - 1, gMapStateManager->unk_25);
@@ -2330,7 +2324,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
                     if ((u8)(v & 0x80))
                     {
-                        func_ov000_021d4e44(v & 0x7f, ev);
+                        OpenRoof(v & 0x7f, ev);
                     }
                 }
             }
@@ -2339,7 +2333,7 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
     if (gMapStateManager->unk_04->pUnit == NULL)
     {
-        if (arg == 5 || arg == 7)
+        if (arg == MAP_OBJECT_KIND_DOOR || arg == MAP_OBJECT_KIND_DRAWBRIDGE)
         {
             func_ov000_021a36e0();
         }
@@ -2355,10 +2349,10 @@ EC BOOL _TTDone(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 {
-    s32 tt = func_ov000_021d4968(x, y, arg);
+    MapObject * mapObject = FindMapObject(x, y, arg);
     Event * ev;
 
-    if (!tt)
+    if (!mapObject)
     {
         return FALSE;
     }
@@ -2380,7 +2374,7 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
         }
     }
 
-    func_ov000_021d4d80(tt, ev, FALSE);
+    mapObject->StartVillageCollapse(ev, FALSE);
 
     if (ev != NULL && ev->proc_lockCnt != 0)
     {
@@ -2392,14 +2386,14 @@ EC BOOL _TTDestroy(EventEngine * self, s32 x, s32 y, s32 arg)
 
 EC BOOL TTIsEnable(EventEngine * unused, s32 x, s32 y, s32 arg)
 {
-    UnkStruct_Func_ov000_021d4968_Ret * tt = (UnkStruct_Func_ov000_021d4968_Ret *)func_ov000_021d4968(x, y, arg);
+    MapObject * mapObject = FindMapObject(x, y, arg);
 
-    if (!tt)
+    if (!mapObject)
     {
         return FALSE;
     }
 
-    if (tt->unk_07 & 3)
+    if (mapObject->flags & 3)
     {
         return FALSE;
     }
@@ -2433,7 +2427,7 @@ EC BOOL _RoofOpen(EventEngine * self, s32 x, s32 y)
 
     if ((u8)(tile & 0x80))
     {
-        func_ov000_021d4e44(tile & 0x7f, ev);
+        OpenRoof(tile & 0x7f, ev);
     }
     else
     {

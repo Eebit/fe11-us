@@ -4038,17 +4038,7 @@ extern int data_027e00e0;
 // extern ??? data_ov000_021e24b4
 // extern ??? data_ov000_021e24b8
 // extern ??? data_ov000_021e24bc
-// extern ??? data_ov000_021e24c0
-// extern ??? data_ov000_021e24c4
-// extern ??? __typeinfo__19ProcVillageCollapse
-// extern ??? __typestr__12ProcRoofOpen
-// extern ??? data_ov000_021e24e4
-// extern ??? __typestr__19ProcVillageCollapse
-// extern ??? __vt__12ProcRoofOpen
-// extern ??? __typeinfo__12ProcRoofOpen
-// extern ??? __vt__19ProcVillageCollapse
-// extern ??? data_ov000_021e2554
-// extern ??? data_ov000_021e2558
+/* map_object.hpp */
 // extern ??? data_ov000_021e2564
 // extern ??? __typeinfo__N7mapsave13PointSaveMenuE
 // extern ??? data_ov000_021e2574
@@ -4216,7 +4206,7 @@ extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 // extern ??? data_ov000_021e34d8
 // extern ??? sGuideMenuItems
 // extern ??? data_ov000_021e34e4
-// extern ??? data_ov000_021e34e8
+/* map_object.hpp */
 // extern ??? data_ov000_021e34ec
 // extern ??? data_ov000_021e34f8
 // extern ??? gMapRenderState

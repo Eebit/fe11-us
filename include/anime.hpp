@@ -97,6 +97,35 @@ public:
 
     void Update(void);
 
+    inline void func_0201a078(s32 arg)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->func_0201a078(arg);
+        }
+    }
+
+    inline void Draw(s32 x, s32 y)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->DrawInternal(x, y);
+        }
+    }
+
+    inline s32 GetAlpha(void)
+    {
+        return this->interpreter != NULL ? this->interpreter->alpha : 0x1f;
+    }
+
+    inline void SetAlpha(s32 alpha)
+    {
+        if (this->interpreter != NULL)
+        {
+            this->interpreter->SetAlpha(alpha);
+        }
+    }
+
     inline void SetFlag16(s32 arg)
     {
         if (this->interpreter != NULL)

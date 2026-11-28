@@ -125,6 +125,7 @@ enum
     PROC_MARK_6 = 0x6,
     PROC_MARK_8 = 0x8,
     PROC_MARK_A = 0xA,
+    PROC_MARK_B = 0xB,
 };
 
 #define PROC_TREE_3     ((ProcPtr) 3)
