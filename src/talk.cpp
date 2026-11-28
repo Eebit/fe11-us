@@ -474,7 +474,7 @@ inline s32 Talk::RunCommand()
                 }
                 else
                 {
-                    func_0206e7b8(fidBuf, data_020ca18c, 64);
+                    func_0206e7b8(fidBuf, "FID_DUMMY", 64);
                 }
             }
             else
@@ -851,7 +851,7 @@ inline void Talk::SkipText()
                     }
                     else
                     {
-                        func_0206e7b8(buf, data_020ca18c, 64);
+                        func_0206e7b8(buf, "FID_DUMMY", 64);
                     }
                 }
                 else
@@ -958,7 +958,7 @@ inline Talk::Talk(char * str, s32 flag)
 
     func_0200e0dc();
     this->pTalkInput = new (Proc_Start(ProcScr_020ce750, PROC_TREE_8)) TalkInput();
-    this->unk_48 = static_cast<struct UnkStruct_0200de90 *>(func_02004450(data_020ca180));
+    this->unk_48 = static_cast<struct UnkStruct_0200de90 *>(func_02004450("/bw/page"));
     if (func_ov000_021ccbdc())
     {
         gTalkFlags |= TALK_FLAG_NO_LOG_VIEWER | TALK_FLAG_NOSKIP;
@@ -1255,7 +1255,7 @@ EC void func_02009b3c(Talk * talk)
     func_0206f580(data_021976f8, 0);
     data_021976f8->SetScroll(0, 0);
 
-    func_02006604(&loader, data_020ca174, data_021976f8);
+    func_02006604(&loader, "/bw/talk", data_021976f8);
     func_02006694(&loader, 0x2000);
     func_020066ec(&loader, 0x100);
     func_02006808(&loader, 0, 17, 0x8100);
@@ -1290,7 +1290,7 @@ EC void func_02009d38(Talk * talk)
     func_0206f580(data_021976f8, 0);
     data_021976f8->SetScroll(0, 0);
 
-    func_02006604(&loader, data_020ca174, data_021976f8);
+    func_02006604(&loader, "/bw/talk", data_021976f8);
     func_02006694(&loader, 0x2000);
     func_020066ec(&loader, 0x100);
     func_02006808(&loader, 0, 17, 0x8100);
@@ -1366,7 +1366,7 @@ scanned:
                         }
                         else
                         {
-                            func_0206e7b8(buf, data_020ca18c, 64);
+                            func_0206e7b8(buf, "FID_DUMMY", 64);
                         }
                     }
                     else
@@ -1873,7 +1873,7 @@ TalkFont::TalkFont(char * name)
     if (name == NULL)
     {
         this->unk_08 = TRUE;
-        name = data_020ca348;
+        name = "/fonts/talk";
     }
     this->unk_04 = NULL;
     if (func_0206ec5c(GetFileSize(name)))
@@ -2690,7 +2690,7 @@ EC void func_0200e0dc(void)
     loader = new UnkStruct_02006604;
     if (loader != NULL)
     {
-        loader = func_02006604(loader, data_020ca5c0, data_0219771c);
+        loader = func_02006604(loader, "/bw/name", data_0219771c);
     }
     data_020e4dd4 = loader;
 

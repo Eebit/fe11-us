@@ -26,9 +26,6 @@ enum
 
 // extern ??? _ZTS4Talk
 extern char data_020ca16c[];
-extern char data_020ca174[];
-extern char data_020ca180[];
-extern char data_020ca18c[];
 // extern ??? _ZTS9TalkInput
 // extern ??? _ZTI4Talk
 // extern ??? _ZTI9TalkInput
@@ -39,7 +36,6 @@ extern char data_020ca31c[];
 // extern ??? _ZTI8TalkFont
 // extern ??? _ZTS8TalkFont
 // extern ??? _ZTV8TalkFont
-extern char data_020ca348[];
 // extern ??? _ZTS6BG1Clr
 // extern ??? _ZTI10ILogStream
 // extern ??? _ZTS7TalkLog
@@ -75,7 +71,6 @@ extern u16 data_020ca54c[4];
 // extern ??? _ZTV8NameFont
 // extern ??? _ZTV8TalkName
 extern struct ProcCmd ProcScr_TalkName[];
-extern char data_020ca5c0[];
 extern char data_020e3d48[];
 extern char data_020e3d68[];
 extern struct TalkLog gTalkLog;
