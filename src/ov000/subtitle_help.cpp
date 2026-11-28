@@ -293,7 +293,7 @@ EC void StartSubtitleHelp(char * param_1, char * param_2)
 
     if (param_1 != NULL)
     {
-        proc->unk_44 = func_02028e7c(data_021970c4, param_1, 0) + 7 & ~7;
+        proc->unk_44 = ALIGN_UP(func_02028e7c(data_021970c4, param_1, 0), 8);
 
         if (param_2 == NULL)
         {
@@ -301,7 +301,7 @@ EC void StartSubtitleHelp(char * param_1, char * param_2)
         }
         else
         {
-            proc->unk_48 = func_02028e7c(data_021970c4, param_2, 0) + 7 & ~7;
+            proc->unk_48 = ALIGN_UP(func_02028e7c(data_021970c4, param_2, 0), 8);
         }
 
         buf = param_1;
@@ -318,7 +318,7 @@ EC void StartSubtitleHelp(char * param_1, char * param_2)
 
         if (proc->unk_44 >> 3 > 0x30)
         {
-            proc->unk_40 = gHeap.Alloc(((proc->unk_44 >> 2) + 7 & ~7) << 5);
+            proc->unk_40 = gHeap.Alloc(ALIGN_UP(proc->unk_44 >> 2, 8) << 5);
             proc->unk_4c = func_02029ae8(data_021970c4, buf, proc->unk_40, 0, 0, 0, 0);
         }
         else
@@ -414,12 +414,12 @@ EC void func_ov000_021d6e30(u32 param_1)
 
 EC BOOL func_ov000_021d6ed4(void)
 {
-    if (data_02196f24->controlSettings == 0)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
     {
         return FALSE;
     }
 
-    if (data_02196f24->controlSettings == 2)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_STYLUS)
     {
         return TRUE;
     }

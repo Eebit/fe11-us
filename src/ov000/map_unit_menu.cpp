@@ -5,6 +5,7 @@
 #include "hardware.hpp"
 #include "item.hpp"
 #include "map.hpp"
+#include "map_menu_base.hpp"
 #include "map_object.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
@@ -29,7 +30,6 @@ EC void func_ov000_021bfa60(ProcPtr);
 EC void func_ov000_021bfaf0(ProcPtr);
 
 EC BOOL IsLinkArena(void);
-EC void func_ov000_021be21c(void);
 
 EC BOOL func_0202dad0(MenuItemState * menuItemState, Menu * menu);
 EC void PlayerPhase_GotoLabel(s32, s32, s32);
@@ -41,32 +41,7 @@ extern struct UnkStruct_021e3340 * data_ov000_021e3340;
 namespace map
 {
 
-class BMapMenu : public Menu
-{
-public:
-    /* 008 */ virtual void vfunc_08(void); // func_ov000_021be588
-    /* 01C */ virtual void vfunc_1c(void); // func_ov000_021be640
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be978
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be960
-
-    virtual ~BMapMenu()
-    {
-        if (this->unk_04 == NULL)
-        {
-            gpActiveScreenSt->dispIo->bldcnt.effect = 0;
-        }
-    }
-};
-
-class BSystemMapMenu : public BMapMenu
-{
-public:
-    virtual ~BSystemMapMenu()
-    {
-    }
-};
-
-class UnitMenu : public BSystemMapMenu
+class UnitMenu : public BMapSystemMenu
 {
 public:
     virtual ~UnitMenu()
@@ -75,7 +50,7 @@ public:
 
     /* 000 */ virtual void vfunc_00(void)
     {
-        func_ov000_021be21c();
+        this->BMapMenu::vfunc_00();
         this->unk_40 = 1;
         return;
     }
@@ -1627,16 +1602,6 @@ public:
         func_ov000_021d6dfc(0);
         return MENU_ACTION_x40 | MENU_ACTION_x1;
     }
-};
-
-class BMapDialogYesNo : public DialogYesNo
-{
-public:
-    /* 000 */ virtual void vfunc_00(void); // func_ov000_021be6d8
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be934
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be91c
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov000_021bea74
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov000_021beab0
 };
 
 } // namespace map

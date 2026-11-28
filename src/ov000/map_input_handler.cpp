@@ -136,7 +136,7 @@ void InputHandler::DestroyButtons(void)
 
 BOOL InputHandler::_021a5650(s32 param_2)
 {
-    if (data_02196f24->controlSettings == 0)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
     {
         return FALSE;
     }
@@ -269,7 +269,7 @@ void InputHandler::_021a585c(s32 param_2)
 {
     struct Vec3 auStack_18;
 
-    if (data_02196f24->controlSettings == 0)
+    if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
     {
         return;
     }

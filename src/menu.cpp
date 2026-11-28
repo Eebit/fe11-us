@@ -182,7 +182,7 @@ u32 MenuItem::vfunc_c8(MenuItemState * menuItemState)
 
     if (this->vfunc_04(menuItemState) != NULL)
     {
-        return (func_02028e7c(data_021970c4, this->vfunc_04(menuItemState), 0) + 7 & ~7) / 8;
+        return ALIGN_UP(func_02028e7c(data_021970c4, this->vfunc_04(menuItemState), 0), 8) / 8;
     }
 
     return 0;
