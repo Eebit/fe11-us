@@ -1260,7 +1260,7 @@ EC void * func_ov000_021a418c(s32 arg_0)
     }
     else
     {
-        unit = data_021974f0;
+        unit = gActiveEventUnit;
     }
 
     if (unit == NULL)

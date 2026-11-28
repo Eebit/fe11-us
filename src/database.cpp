@@ -216,13 +216,13 @@ EC char * func_02037eb8(struct PersonData * pPerson)
     return "NoName";
 }
 
-EC char * func_02037ef0(struct PersonData * pPerson, Unit * pUnit)
+EC char * GetFidFor(struct PersonData * pPerson, Unit * pUnit)
 {
     BOOL bVar4 = FALSE;
 
     if (pUnit != NULL)
     {
-        if ((func_02037ef0(pUnit->pPersonData, NULL) == 0) && (pUnit->pJobData->unk_48 != NULL))
+        if ((GetFidFor(pUnit->pPersonData, NULL) == 0) && (pUnit->pJobData->unk_48 != NULL))
         {
             return pUnit->pJobData->unk_48;
         }
@@ -250,7 +250,7 @@ EC char * func_02037ef0(struct PersonData * pPerson, Unit * pUnit)
 
 EC void * func_02037f88(struct PersonData * pPerson, Unit * pUnit)
 {
-    return HashTable::Get1(func_02037ef0(pPerson, pUnit));
+    return HashTable::Get1(GetFidFor(pPerson, pUnit));
 }
 
 EC s32 GetJobDBIndex(struct JobData * pJob)

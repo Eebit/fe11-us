@@ -25,6 +25,8 @@ public:
     /* 00 */ virtual s32 vfunc_00();
     /* 04 */ virtual s32 vfunc_04();
     /* 08 */ virtual char * vfunc_08(s32 line);
+
+    void StartLogViewer(ProcPtr parent);
 };
 
 class TalkLog : public ILogStream
@@ -151,10 +153,10 @@ public:
     BOOL _0200dc68();
     void _0200dc80();
     void _0200dcb4();
-    void _0200ddd8(ProcPtr parent);
+    void StartScroll(ProcPtr parent);
     void _0200de18(ProcPtr parent);
-    void _0200de90(struct UnkStruct_0200de90 * data, ProcPtr parent);
-    void _0200df24(s32 param, ProcPtr parent);
+    void StartKW(struct UnkStruct_0200de90 * data, ProcPtr parent);
+    void StartWait(s32 param, ProcPtr parent);
 
     UnkStruct_0200d628 * GetUnk3c(u32 index)
     {
@@ -437,7 +439,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_0c_6_7 = 0;
             }
-            this->pTalkWindow->_0200de90(this->unk_48, this);
+            this->pTalkWindow->StartKW(this->unk_48, this);
             return 2;
         case 8:
             if (gFaceHandle->faces[this->unk_39].HasFaceInfo())
@@ -466,9 +468,9 @@ inline s32 Talk::RunCommand()
             name = func_02008ae4(&this->unk_40);
             if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
             {
-                if (data_021974f0 != NULL)
+                if (gActiveEventUnit != NULL)
                 {
-                    func_0206e7b8(fidBuf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
+                    func_0206e7b8(fidBuf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), 64);
                 }
                 else
                 {
@@ -658,7 +660,7 @@ inline s32 Talk::RunCommand()
             {
                 face->unk_0c_6_7 = 0;
             }
-            this->pTalkWindow->_0200df24(num, this);
+            this->pTalkWindow->StartWait(num, this);
             return 2;
         case 18:
             this->unk_40++;
@@ -707,7 +709,7 @@ inline s32 Talk::Advance()
 
         if (this->pTalkWindow->_0200dc68())
         {
-            this->pTalkWindow->_0200ddd8(this);
+            this->pTalkWindow->StartScroll(this);
             return 2;
         }
 
@@ -843,9 +845,9 @@ inline void Talk::SkipText()
                 name = func_02008ae4(&this->unk_40);
                 if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
                 {
-                    if (data_021974f0 != NULL)
+                    if (gActiveEventUnit != NULL)
                     {
-                        func_0206e7b8(buf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
+                        func_0206e7b8(buf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), 64);
                     }
                     else
                     {
@@ -1358,9 +1360,9 @@ scanned:
                     name = func_02008ae4(&p);
                     if (name[0] == 'M' && name[1] == 'E' && name[2] == '\0')
                     {
-                        if (data_021974f0 != NULL)
+                        if (gActiveEventUnit != NULL)
                         {
-                            func_0206e7b8(buf, func_02037ef0(data_021974f0->pPersonData, data_021974f0), 64);
+                            func_0206e7b8(buf, GetFidFor(gActiveEventUnit->pPersonData, gActiveEventUnit), 64);
                         }
                         else
                         {
@@ -1605,7 +1607,7 @@ EC void func_0200ab0c(ProcPtr proc)
     func_02006204(func_0206ecb0(), 0, 16, 8, (ProcEx *)proc);
 }
 
-EC void func_0200ac20(char * text, ProcPtr parent, s32 flag)
+EC void StartTalk(char * text, ProcPtr parent, s32 flag)
 {
     Talk * talk;
     char * str;
@@ -1631,12 +1633,12 @@ EC void func_0200ac20(char * text, ProcPtr parent, s32 flag)
     talk->ScanText();
 }
 
-EC BOOL func_0200be60(void)
+EC BOOL IsTalkActive(void)
 {
     return Proc_Find(ProcScr_Talk) != NULL;
 }
 
-EC BOOL func_0200be80(void)
+EC BOOL IsTalkFlag5Clear(void)
 {
     if (Proc_Find(ProcScr_Talk) == NULL)
     {
@@ -2279,14 +2281,14 @@ void TalkLogViewer::Loop()
     this->ApplyScroll();
 }
 
-EC void func_0200cfb0(ILogStream * log, ProcPtr parent)
+void ILogStream::StartLogViewer(ProcPtr parent)
 {
     if (data_020e3d44 & 0x200)
     {
         return;
     }
 
-    new (Proc_StartBlocking(ProcScr_TalkLogViewer, parent)) TalkLogViewer(log);
+    new (Proc_StartBlocking(ProcScr_TalkLogViewer, parent)) TalkLogViewer(this);
 }
 
 s32 TalkLog::vfunc_00()
@@ -2581,7 +2583,7 @@ void TalkWindow::_0200dcb4()
     }
 }
 
-void TalkWindow::_0200ddd8(ProcPtr parent)
+void TalkWindow::StartScroll(ProcPtr parent)
 {
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkScroll(this);
 }
@@ -2599,12 +2601,12 @@ void TalkWindow::_0200de18(ProcPtr parent)
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkScroll(this, this->unk_61 + 1);
 }
 
-void TalkWindow::_0200de90(struct UnkStruct_0200de90 * data, ProcPtr parent)
+void TalkWindow::StartKW(struct UnkStruct_0200de90 * data, ProcPtr parent)
 {
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) KW(data);
 }
 
-void TalkWindow::_0200df24(s32 param, ProcPtr parent)
+void TalkWindow::StartWait(s32 param, ProcPtr parent)
 {
     new (Proc_StartBlocking(ProcScr_020ce750, parent)) TalkWait(param);
 }
@@ -2638,7 +2640,7 @@ void KW::Loop()
     }
     else if (gKeySt->pressed & KEY_BUTTON_R)
     {
-        func_0200cfb0(&gTalkLog, this);
+        gTalkLog.StartLogViewer(this);
     }
 }
 

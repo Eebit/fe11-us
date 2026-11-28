@@ -1038,7 +1038,7 @@ inline void EventCaller::RestoreUnk64()
 {
     if (this->unk_68 != 0)
     {
-        data_021974f0 = this->unk_64;
+        gActiveEventUnit = this->unk_64;
     }
 }
 

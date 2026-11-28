@@ -78,9 +78,9 @@ EC char * func_02008ae4(char **);
 // EC ??? func_0200a618
 // EC ??? func_0200aaf0
 // EC ??? func_0200ab0c
-// EC ??? func_0200ac20
-// EC ??? func_0200be60
-// EC ??? func_0200be80
+// EC ??? StartTalk
+// EC ??? IsTalkActive
+// EC ??? IsTalkFlag5Clear
 // EC ??? _ZN4TalkD0Ev
 // EC ??? _ZN4TalkD1Ev
 // EC ??? _ZN9TalkInput4LoopEv
@@ -118,7 +118,7 @@ EC void func_0200c888(void);
 // EC ??? func_0200cc14
 // EC ??? func_0200cc84
 // EC ??? _ZN13TalkLogViewer4LoopEv
-// EC ??? func_0200cfb0
+// EC ??? _ZN10ILogStream14StartLogViewerEPv
 // EC ??? _ZN7TalkLog8vfunc_00Ev
 // EC ??? _ZN13TalkLogViewerD0Ev
 // EC ??? _ZN13TalkLogViewerD1Ev
@@ -153,10 +153,10 @@ EC void func_0200c888(void);
 // EC ??? _ZN10TalkWindow9_0200dc68Ev
 // EC ??? _ZN10TalkWindow9_0200dc80Ev
 // EC ??? _ZN10TalkWindow9_0200dcb4Ev
-// EC ??? _ZN10TalkWindow9_0200ddd8EPv
+// EC ??? _ZN10TalkWindow11StartScrollEPv
 // EC ??? _ZN10TalkWindow9_0200de18EPv
-// EC ??? _ZN10TalkWindow9_0200de90EP18UnkStruct_0200de90Pv
-// EC ??? _ZN10TalkWindow9_0200df24ElPv
+// EC ??? _ZN10TalkWindow7StartKWEP18UnkStruct_0200de90Pv
+// EC ??? _ZN10TalkWindow9StartWaitElPv
 // EC ??? _ZN8TalkWait4LoopEv
 // EC ??? _ZN2KW4InitEv
 // EC ??? _ZN2KW4LoopEv

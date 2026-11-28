@@ -2914,7 +2914,7 @@ extern struct UnkStruct_02196f24 * data_02196f24;
 extern struct Item * gConvoy;
 // extern ??? data_021974e4
 // extern ??? data_021974e8
-// extern ??? data_021974f0
+// extern ??? gActiveEventUnit
 // extern ??? data_021974f8
 extern struct UnkStruct_021974fc * data_021974fc;
 // extern ??? data_02197500

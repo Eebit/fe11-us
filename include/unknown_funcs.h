@@ -1765,7 +1765,7 @@ EC void * func_02037c9c(char * str);
 // EC ??? func_02037e44
 // EC ??? GetPersonDBIndex
 EC char * func_02037eb8(struct PersonData *);
-EC char * func_02037ef0(struct PersonData *, struct Unit *);
+EC char * GetFidFor(struct PersonData *, struct Unit *);
 // EC ??? func_02037f88
 EC s32 GetJobDBIndex(struct JobData *);
 // EC ??? func_02037fc8

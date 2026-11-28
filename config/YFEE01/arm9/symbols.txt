@@ -312,9 +312,9 @@ func_0200a5a4 kind:function(arm,size=0x74) addr:0x0200a5a4
 func_0200a618 kind:function(arm,size=0x4d8) addr:0x0200a618
 func_0200aaf0 kind:function(arm,size=0x1c) addr:0x0200aaf0
 func_0200ab0c kind:function(arm,size=0x114) addr:0x0200ab0c
-func_0200ac20 kind:function(arm,size=0x1240) addr:0x0200ac20
-func_0200be60 kind:function(arm,size=0x20) addr:0x0200be60
-func_0200be80 kind:function(arm,size=0x38) addr:0x0200be80
+StartTalk kind:function(arm,size=0x1240) addr:0x0200ac20
+IsTalkActive kind:function(arm,size=0x20) addr:0x0200be60
+IsTalkFlag5Clear kind:function(arm,size=0x38) addr:0x0200be80
 _ZN4TalkD0Ev kind:function(arm,size=0x78) addr:0x0200beb8
 _ZN4TalkD1Ev kind:function(arm,size=0x70) addr:0x0200bf30
 _ZN9TalkInput4LoopEv kind:function(arm,size=0xcc) addr:0x0200bfa0
@@ -352,7 +352,7 @@ func_0200cb8c kind:function(arm,size=0x88) addr:0x0200cb8c
 func_0200cc14 kind:function(arm,size=0x70) addr:0x0200cc14
 func_0200cc84 kind:function(arm,size=0x14) addr:0x0200cc84
 _ZN13TalkLogViewer4LoopEv kind:function(arm,size=0x318) addr:0x0200cc98
-func_0200cfb0 kind:function(arm,size=0x3d4) addr:0x0200cfb0
+_ZN10ILogStream14StartLogViewerEPv kind:function(arm,size=0x3d4) addr:0x0200cfb0
 _ZN7TalkLog8vfunc_00Ev kind:function(arm,size=0x8) addr:0x0200d384
 _ZN13TalkLogViewerD0Ev kind:function(arm,size=0x48) addr:0x0200d38c
 _ZN13TalkLogViewerD1Ev kind:function(arm,size=0x40) addr:0x0200d3d4
@@ -387,10 +387,10 @@ _ZN10TalkWindow9_0200dc44Ev kind:function(arm,size=0x24) addr:0x0200dc44
 _ZN10TalkWindow9_0200dc68Ev kind:function(arm,size=0x18) addr:0x0200dc68
 _ZN10TalkWindow9_0200dc80Ev kind:function(arm,size=0x34) addr:0x0200dc80
 _ZN10TalkWindow9_0200dcb4Ev kind:function(arm,size=0x124) addr:0x0200dcb4
-_ZN10TalkWindow9_0200ddd8EPv kind:function(arm,size=0x40) addr:0x0200ddd8
+_ZN10TalkWindow11StartScrollEPv kind:function(arm,size=0x40) addr:0x0200ddd8
 _ZN10TalkWindow9_0200de18EPv kind:function(arm,size=0x78) addr:0x0200de18
-_ZN10TalkWindow9_0200de90EP18UnkStruct_0200de90Pv kind:function(arm,size=0x94) addr:0x0200de90
-_ZN10TalkWindow9_0200df24ElPv kind:function(arm,size=0x30) addr:0x0200df24
+_ZN10TalkWindow7StartKWEP18UnkStruct_0200de90Pv kind:function(arm,size=0x94) addr:0x0200de90
+_ZN10TalkWindow9StartWaitElPv kind:function(arm,size=0x30) addr:0x0200df24
 _ZN8TalkWait4LoopEv kind:function(arm,size=0x1c) addr:0x0200df54
 _ZN2KW4InitEv kind:function(arm,size=0x2c) addr:0x0200df70
 _ZN2KW4LoopEv kind:function(arm,size=0x6c) addr:0x0200df9c
@@ -1890,7 +1890,7 @@ func_02037dfc kind:function(arm,size=0x48) addr:0x02037dfc
 func_02037e44 kind:function(arm,size=0x48) addr:0x02037e44
 GetPersonDBIndex kind:function(arm,size=0x2c) addr:0x02037e8c
 func_02037eb8 kind:function(arm,size=0x38) addr:0x02037eb8
-func_02037ef0 kind:function(arm,size=0x98) addr:0x02037ef0
+GetFidFor kind:function(arm,size=0x98) addr:0x02037ef0
 func_02037f88 kind:function(arm,size=0x10) addr:0x02037f88
 GetJobDBIndex kind:function(arm,size=0x30) addr:0x02037f98
 func_02037fc8 kind:function(arm,size=0x10) addr:0x02037fc8
@@ -8643,7 +8643,7 @@ gForces kind:bss addr:0x021974dc
 gConvoy kind:bss addr:0x021974e0
 data_021974e4 kind:bss addr:0x021974e4
 data_021974e8 kind:bss addr:0x021974e8
-data_021974f0 kind:bss addr:0x021974f0
+gActiveEventUnit kind:bss addr:0x021974f0
 data_021974f8 kind:bss addr:0x021974f8
 data_021974fc kind:bss addr:0x021974fc
 data_02197500 kind:bss addr:0x02197500

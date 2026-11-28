@@ -167,7 +167,7 @@ extern "C"
 {
     extern struct ProcCmd ProcScr_EventCaller[];
     extern struct ProcCmd ProcScr_Event[];
-    extern Unit * data_021974f0;
+    extern Unit * gActiveEventUnit;
 }
 
 class Event : public ProcEx
@@ -312,8 +312,8 @@ public:
         func_020a5780(input, &this->unk_44, 0x20);
         if (arg_2 != 0)
         {
-            this->unk_64 = data_021974f0;
-            data_021974f0 = (Unit *)arg_2;
+            this->unk_64 = gActiveEventUnit;
+            gActiveEventUnit = (Unit *)arg_2;
             this->unk_68 = 1;
         }
         else

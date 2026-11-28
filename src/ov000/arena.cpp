@@ -24,7 +24,7 @@ namespace arena
 class Arena;
 };
 
-EC void func_0200ac20(char *, ProcPtr, s32);
+EC void StartTalk(char *, ProcPtr, s32);
 EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
 EC void func_01ff9948(u8);
 EC void func_02011a30(char *, u16 *, u32, u32);
@@ -1359,21 +1359,21 @@ EC void Arena_ov000_021d91e4(arena::Arena * proc)
 EC void Arena_WelcomeDialogue(arena::Arena * proc)
 {
     // "BBG23|Well, well. This 'ere's an arena.[NL]You 'ere for a fight, mate?"
-    func_0200ac20("M闘技場_WELCOME", proc, 0);
+    StartTalk("M闘技場_WELCOME", proc, 0);
     return;
 }
 
 EC void Arena_WagerDialogue(arena::Arena * proc)
 {
     // "The wager's 0 gold."
-    func_0200ac20("M闘技場_PRICE", proc, 0);
+    StartTalk("M闘技場_PRICE", proc, 0);
     return;
 }
 
 EC void Arena_UpToTheChallengeDialogue(arena::Arena * proc)
 {
     // "Reckon you're up to the challenge?"
-    func_0200ac20("M闘技場_CHALLENGE", proc, 0);
+    StartTalk("M闘技場_CHALLENGE", proc, 0);
     return;
 }
 
@@ -1413,21 +1413,21 @@ EC void Arena_ov000_021d9250(arena::Arena * proc)
 EC void Arena_BattleInstructionsDialogue(arena::Arena * proc)
 {
     // "Rules is easy: keep tradin' blows till one of[NL]ya drops, or press the B Button to yield.[NL]Don't get yerself killed, huh?"
-    func_0200ac20("M闘技場_BATTLE", proc, 0);
+    StartTalk("M闘技場_BATTLE", proc, 0);
     return;
 }
 
 EC void Arena_CancelDialogue(arena::Arena * proc)
 {
     // "If you ain't payin', you ain't stayin'.[NL]Beat it."
-    func_0200ac20("M闘技場_GETOUT", proc, 0);
+    StartTalk("M闘技場_GETOUT", proc, 0);
     return;
 }
 
 EC void Arena_InsufficientGoldDialogue(arena::Arena * proc)
 {
     // "What, no gold?[NL]Then it's time you strolled."
-    func_0200ac20("M闘技場_POOR", proc, 0);
+    StartTalk("M闘技場_POOR", proc, 0);
     return;
 }
 
@@ -1435,7 +1435,7 @@ EC void Arena_OnVictory(arena::Arena * proc)
 {
     func_02039f40(0, proc->unk_54);
     // "ARENA|Nice fightin', mate.[NL]'Ere's yer reward: 0 gold."
-    func_0200ac20("M闘技場_WIN", proc, 0);
+    StartTalk("M闘技場_WIN", proc, 0);
 
     if (!data_02196f24->enableBgm)
     {
@@ -1450,42 +1450,42 @@ EC void Arena_OnVictory(arena::Arena * proc)
 EC void Arena_OnDefeat(arena::Arena * proc)
 {
     // "ARENA|Agh, another 'un bites the dust...[NL]No profit in death, eh?"
-    func_0200ac20("M闘技場_LOSE", proc, 0);
+    StartTalk("M闘技場_LOSE", proc, 0);
     return;
 }
 
 EC void Arena_OnDraw(arena::Arena * proc)
 {
     // "ARENA|Looks like nobody wins.[NL]But everybody lives, and ain't that what[NL]counts?"
-    func_0200ac20("M闘技場_DRAW", proc, 0);
+    StartTalk("M闘技場_DRAW", proc, 0);
     return;
 }
 
 EC void Arena_OnYield(arena::Arena * proc)
 {
     // "ARENA|What, givin' up already?"
-    func_0200ac20("M闘技場_STOP", proc, 0);
+    StartTalk("M闘技場_STOP", proc, 0);
     return;
 }
 
 EC void Arena_ForfeitGoldDialogue(arena::Arena * proc)
 {
     // "Guess I'll be pocketin' yer wager."
-    func_0200ac20("M闘技場_FORFEIT", proc, 0);
+    StartTalk("M闘技場_FORFEIT", proc, 0);
     return;
 }
 
 EC void Arena_RetryDialogue(arena::Arena * proc)
 {
     // "Feel like goin' another round?"
-    func_0200ac20("M闘技場_RETRY", proc, 0);
+    StartTalk("M闘技場_RETRY", proc, 0);
     return;
 }
 
 EC void Arena_ExitDialogue(arena::Arena * proc)
 {
     // "So long, then."
-    func_0200ac20("M闘技場_BYE", proc, 0);
+    StartTalk("M闘技場_BYE", proc, 0);
     return;
 }
 
