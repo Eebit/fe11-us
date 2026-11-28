@@ -169,11 +169,11 @@ struct UnkStruct_02197798
     ScreenState * unk_00;
     DispIo * unk_04;
 
-    void DisableWindows()
+    void SetWinEnable(s32 win0, s32 win1, s32 objWin)
     {
-        this->unk_04->dispcnt.win0_on = 0;
-        this->unk_04->dispcnt.win1_on = 0;
-        this->unk_04->dispcnt.objWin_on = 0;
+        this->unk_04->dispcnt.win0_on = win0;
+        this->unk_04->dispcnt.win1_on = win1;
+        this->unk_04->dispcnt.objWin_on = objWin;
     }
 
     void SetBlendEffect(s32 effect)
@@ -765,7 +765,7 @@ inline TalkLogViewer::TalkLogViewer(ILogStream * log) : unk_38(log)
     }
 
     func_0206eca4()->unk_04->dispcnt.mode = 0;
-    func_0206eca4()->DisableWindows();
+    func_0206eca4()->SetWinEnable(0, 0, 0);
     func_0206eca4()->SetBlendEffect(0);
     SetDispEnable_Maybe(func_0206eca4(), 1, 1, 0, 1, 1);
     SetBgPriority_Maybe(func_0206eca4(), 2, 0, 3, 2);
@@ -1196,7 +1196,7 @@ void Talk::Init()
 
 EC void func_02009864(void)
 {
-    func_0206ecb0()->DisableWindows();
+    func_0206ecb0()->SetWinEnable(0, 0, 0);
 
     SetDispEnable_Maybe(func_0206ecb0(), 0, 1, 0, 0, 1);
     SetBgPriority_Maybe(func_0206ecb0(), 1, 3, 1, 1);
@@ -1215,7 +1215,7 @@ EC void func_02009984(Talk * talk)
 
     func_02006b70(&data_020e3cf8);
 
-    func_0206ecb0()->DisableWindows();
+    func_0206ecb0()->SetWinEnable(0, 0, 0);
 
     SetDispEnable_Maybe(func_0206ecb0(), 0, 1, 0, 0, 1);
     SetBgPriority_Maybe(func_0206ecb0(), 1, 3, 1, 1);
