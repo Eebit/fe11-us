@@ -169,20 +169,20 @@ struct UnkStruct_02197798
     ScreenState * unk_00;
     DispIo * unk_04;
 
-    void SetWinEnable(s32 win0, s32 win1, s32 objWin)
+    inline void SetWinEnable(s32 win0, s32 win1, s32 objWin)
     {
         this->unk_04->dispcnt.win0_on = win0;
         this->unk_04->dispcnt.win1_on = win1;
         this->unk_04->dispcnt.objWin_on = objWin;
     }
 
-    void SetBlendEffect(s32 effect)
+    inline void SetBlendEffect(s32 effect)
     {
         DispIo * disp = this->unk_00->dispIo;
         disp->bldcnt.effect = effect;
     }
 
-    void SetBlendCoeffs(s32 a, s32 b)
+    inline void SetBlendCoeffs(s32 a, s32 b)
     {
         this->unk_00->dispIo->blend_coeff_a = a;
         this->unk_00->dispIo->blend_coeff_b = b;
