@@ -189,9 +189,13 @@ struct UnkStruct_02197798
     }
 };
 
-struct UnkStruct_02006604
+class UnkStruct_02006604
 {
+public:
     STRUCT_PAD(0x00, 0x08);
+
+    UnkStruct_02006604(const char * name, AbstCtrl * ctrl);
+    ~UnkStruct_02006604();
 };
 
 struct UnkStruct_020e3cf8
@@ -1246,8 +1250,6 @@ EC void func_02009afc(void)
 
 EC void func_02009b3c(Talk * talk)
 {
-    struct UnkStruct_02006604 loader;
-
     if (IsOverlayLoaded(OVERLAY_ID_2) && data_ov002_021faf8c.unk_bc == 0)
     {
         gTalkFlags |= TALK_FLAG_SWAP_SLOTS;
@@ -1255,16 +1257,17 @@ EC void func_02009b3c(Talk * talk)
     func_0206f580(data_021976f8, 0);
     data_021976f8->SetScroll(0, 0);
 
-    func_02006604(&loader, "/bw/talk", data_021976f8);
-    func_02006694(&loader, 0x2000);
-    func_020066ec(&loader, 0x100);
-    func_02006808(&loader, 0, 17, 0x8100);
-    func_02006670(&loader);
-    func_0206eee0(data_02197700, 0, 0, 64);
-    func_0206f580(data_02197700, 0);
+    {
+        UnkStruct_02006604 loader("/bw/talk", data_021976f8);
+        func_02006694(&loader, 0x2000);
+        func_020066ec(&loader, 0x100);
+        func_02006808(&loader, 0, 17, 0x8100);
+        func_02006670(&loader);
+        func_0206eee0(data_02197700, 0, 0, 64);
+        func_0206f580(data_02197700, 0);
 
-    talk->pTalkWindow = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
-    func_02006624(&loader);
+        talk->pTalkWindow = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
+    }
 
     SetDispEnable_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1);
     func_0206ecb0()->SetBlendEffect(1);
@@ -1279,7 +1282,6 @@ EC void func_02009d38(Talk * talk)
     char fullPath[32];
     char buf[64];
     char * p;
-    struct UnkStruct_02006604 loader;
     char * name;
     char * path;
     BOOL found;
@@ -1290,16 +1292,17 @@ EC void func_02009d38(Talk * talk)
     func_0206f580(data_021976f8, 0);
     data_021976f8->SetScroll(0, 0);
 
-    func_02006604(&loader, "/bw/talk", data_021976f8);
-    func_02006694(&loader, 0x2000);
-    func_020066ec(&loader, 0x100);
-    func_02006808(&loader, 0, 17, 0x8100);
-    func_02006670(&loader);
-    func_0206eee0(data_02197700, 0, 0, 64);
-    func_0206f580(data_02197700, 0);
+    {
+        UnkStruct_02006604 loader("/bw/talk", data_021976f8);
+        func_02006694(&loader, 0x2000);
+        func_020066ec(&loader, 0x100);
+        func_02006808(&loader, 0, 17, 0x8100);
+        func_02006670(&loader);
+        func_0206eee0(data_02197700, 0, 0, 64);
+        func_0206f580(data_02197700, 0);
 
-    talk->pTalkWindow = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
-    func_02006624(&loader);
+        talk->pTalkWindow = new (Proc_Start(ProcScr_020ce750, talk)) TalkWindow();
+    }
 
     SetDispEnable_Maybe(func_0206ecb0(), 1, 1, 1, 0, 1);
 
@@ -2670,7 +2673,6 @@ TalkWait::~TalkWait()
 
 EC void func_0200e0dc(void)
 {
-    struct UnkStruct_02006604 * loader;
     u16 * palBuf;
     s32 size;
 
@@ -2680,12 +2682,7 @@ EC void func_0200e0dc(void)
         return;
     }
 
-    loader = new UnkStruct_02006604;
-    if (loader != NULL)
-    {
-        loader = func_02006604(loader, "/bw/name", data_0219771c);
-    }
-    data_020e4dd4 = loader;
+    data_020e4dd4 = new UnkStruct_02006604("/bw/name", data_0219771c);
 
     palBuf = static_cast<u16 *>(gHeap._01ffb9bc(512));
     size = func_02006b0c(data_020e4dd4);
@@ -2698,19 +2695,12 @@ EC void func_0200e0dc(void)
 
 EC void func_0200e208(void)
 {
-    struct UnkStruct_02006604 * loader;
-
     if (data_020e4dd4 == NULL)
     {
         return;
     }
     func_02006670(data_020e4dd4);
-    loader = data_020e4dd4;
-    if (loader != NULL)
-    {
-        func_02006624(loader);
-        delete loader;
-    }
+    delete data_020e4dd4;
     data_020e4dd4 = NULL;
 }
 

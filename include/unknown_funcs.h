@@ -242,8 +242,8 @@ EC void func_02006398(void *, u32, u32, struct ProcEx *);
 // EC ??? func_020065dc
 // EC ??? func_020065e0
 // EC ??? func_020065f4
-EC struct UnkStruct_02006604 * func_02006604(struct UnkStruct_02006604 *, const char *, struct BGCtrl *);
-EC void func_02006624(struct UnkStruct_02006604 *);
+// EC ??? _ZN18UnkStruct_02006604C1EPKcP8AbstCtrl
+// EC ??? _ZN18UnkStruct_02006604D1Ev
 // EC ??? func_02006638
 // EC ??? func_02006640
 EC void func_02006670(struct UnkStruct_02006604 *);
