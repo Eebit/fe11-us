@@ -9,9 +9,11 @@
 #include "constants/sounds.h"
 
 #include "database.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "item.hpp"
+#include "map_menu_base.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -21,8 +23,6 @@ namespace arena
 {
 class Arena;
 };
-
-extern struct UnkStruct_021970c4 * data_021970c4;
 
 EC void func_0200ac20(char *, ProcPtr, s32);
 EC void StartSoundWaitTo_02017518(void *, void *, s32, s32, s32);
@@ -1170,20 +1170,6 @@ EC void func_ov000_021d8d4c(s32 arg_0)
     proc->unk_58 = arg_0;
     return;
 }
-
-namespace map
-{
-class BMapDialogYesNo : public DialogYesNo
-{
-public:
-    /* 000 */ virtual void vfunc_00(void); // func_ov000_021be6d8
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be934
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be91c
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov000_021bea74
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov000_021beab0
-};
-
-} // namespace map
 
 class DI_ArenaYes : public DialogItemYes
 {

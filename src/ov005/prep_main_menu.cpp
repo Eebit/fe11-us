@@ -3,6 +3,7 @@
 #include <new>
 
 #include "button.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
@@ -16,16 +17,6 @@
 
 extern struct UnkStruct_02196f0c * data_02196f0c;
 
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-extern struct UnkStruct_021970c4 * data_021970cc;
-
 namespace sally
 {
 
@@ -33,8 +24,6 @@ class SallyMenu : public Menu
 {
 public:
     // vtable
-
-    virtual ~SallyMenu();
 
     /* 000 */ virtual void vfunc_00(void);
     /* 024 */ virtual s32 vfunc_24(void *, s32);
@@ -46,8 +35,7 @@ public:
     /* 0EC */ virtual void vfunc_ec(void);
     /* 120 */ virtual void vfunc_120(void);
     /* 124 */ virtual void vfunc_124(void);
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov005_02206800
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov005_02206814
+    /* 130 */ virtual ~SallyMenu(); // D1 func_ov005_02206800, D0 func_ov005_02206814
 };
 
 class MIS_SallyEnd : public MenuItem
@@ -164,8 +152,6 @@ public:
 };
 
 extern UnkStruct_02217560 * data_ov005_02217560;
-
-extern struct UnkStruct_021970c4 * data_021970c4;
 
 namespace sally
 {
@@ -332,15 +318,13 @@ public:
     /* 000 */ virtual void vfunc_00(void);
     /* 0A0 */ virtual BOOL vfunc_a0(void);
     /* 0C0 */ virtual void vfunc_c0(void);
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov005_02206700
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov005_0220673c
+    /* 130 */ virtual ~SallyDialogYesNo(); // D1 func_ov005_02206700, D0 func_ov005_0220673c
 };
 
 class SallyCancelDialogYesNo : public SallyDialogYesNo
 {
     /* 0C0 */ virtual void vfunc_c0(void);
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov005_02206780
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov005_022067bc
+    /* 130 */ virtual ~SallyCancelDialogYesNo(); // D1 func_ov005_02206780, D0 func_ov005_022067bc
 };
 
 } // namespace sally

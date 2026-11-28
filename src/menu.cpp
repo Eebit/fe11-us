@@ -2,6 +2,7 @@
 
 #include <new>
 
+#include "font.hpp"
 #include "hardware.hpp"
 #include "heap.hpp"
 #include "menu.hpp"
@@ -134,16 +135,6 @@ void Menu::_0202d6fc(s32 param_2)
     return;
 }
 
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-extern struct UnkStruct_021970c4 * data_021970cc;
-
 s32 MenuItem::vfunc_ac(MenuItemState * menuItemState, s32 bg, s32 tileNum, s32 param_5, s32 param_6)
 {
     s32 x;
@@ -157,7 +148,7 @@ s32 MenuItem::vfunc_ac(MenuItemState * menuItemState, s32 bg, s32 tileNum, s32 p
 
     if (this->vfunc_04(menuItemState) != NULL)
     {
-        data_021970c4->unk_08 = (void *)((u32 *)(data_021970cc->unk_00))[this->vfunc_10(menuItemState)];
+        data_021970c4->colorTable = data_021970cc[this->vfunc_10(menuItemState)];
 
         screenSt = gpActiveScreenSt;
 
@@ -178,7 +169,7 @@ s32 MenuItem::vfunc_ac(MenuItemState * menuItemState, s32 bg, s32 tileNum, s32 p
     return uVar6;
 }
 
-EC u32 func_02028e7c(UnkStruct_021970c4 *, char *, s32);
+EC u32 func_02028e7c(Font *, char *, s32);
 
 u32 MenuItem::vfunc_c8(MenuItemState * menuItemState)
 {
@@ -191,7 +182,7 @@ u32 MenuItem::vfunc_c8(MenuItemState * menuItemState)
 
     if (this->vfunc_04(menuItemState) != NULL)
     {
-        return (func_02028e7c(data_021970c4, this->vfunc_04(menuItemState), 0) + 7 & ~7) / 8;
+        return ALIGN_UP(func_02028e7c(data_021970c4, this->vfunc_04(menuItemState), 0), 8) / 8;
     }
 
     return 0;
@@ -860,7 +851,7 @@ void Menu::vfunc_d8(void)
         pMVar2 = pMVar2 + 1;
     }
 
-    data_021970c4->unk_08 = data_021970cc->unk_04;
+    data_021970c4->colorTable = data_021970cc[1];
     gpActiveScreenSt->unk_3e |= 1 << this->unk_2c;
 
     return;

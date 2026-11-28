@@ -1049,7 +1049,7 @@ EC s32 RollRN(s32, s32);
 // EC ??? func_02020108
 // EC ??? func_02020158
 // EC ??? func_0202016c
-// EC ??? func_02020178
+EC ProcPtr func_02020178(ProcPtr, void *, s32, s32);
 // EC ??? func_020201ec
 EC s32 func_0202025c(u16, u32, u8, u8);
 // EC ??? func_020202e8
@@ -1372,42 +1372,7 @@ EC void func_02025344(void);
 // EC ??? func_02028bd4
 // EC ??? func_02028c1c
 // EC ??? func_02028c38
-EC void func_02028c68(void);
-// EC ??? func_02028d00
-// EC ??? func_02028d1c
-// EC ??? func_02028d30
-// EC ??? func_02028d60
-// EC ??? func_02028df8
-// EC ??? func_02028e14
-// EC ??? func_02028e24
-// EC ??? func_02028e44
-// EC ??? func_02028e58
-// EC ??? func_02028e60
-// EC ??? func_02028e7c
-// EC ??? func_02028f48
-// EC ??? func_02029034
-// EC ??? func_020290f4
-// EC ??? func_0202915c
-// EC ??? func_02029254
-// EC ??? func_02029418
-// EC ??? func_02029480
-// EC ??? func_0202957c
-EC s32 func_020295ec(struct UnkStruct_021970c4 *, char *, void *, void *, u32, u32, u32, u32, u32, u32);
-EC s32 func_0202972c(struct UnkStruct_021970c4 *, char *, void *, u16 *, u32, u32, u32, u32, u32, u32, u32);
-EC void func_02029850(struct UnkStruct_021970c4 *, s32, void *, u16 *, u32, u32, u32, u32, u32);
-EC void func_02029a1c(struct UnkStruct_021970c4 *, u32, void *, void *, u32, u32, u32, u32);
-// EC ??? func_02029ae8
-// EC ??? func_02029ee0
-// EC ??? func_0202a1e0
-// EC ??? func_0202a208
-// EC ??? func_0202a30c
-// EC ??? func_0202a470
-EC void func_0202a4dc(s32, s32);
-// EC ??? func_0202a504
-// EC ??? func_0202a53c
-EC ProcPtr func_0202a564(s32);
-EC void func_0202a5a8(ProcPtr);
-// EC ??? func_0202a5cc
+/* font.hpp */
 // EC ??? func_0202a5e0
 // EC ??? func_0202a5f8
 // EC ??? func_0202a614
@@ -5499,10 +5464,10 @@ EC void func_01ff976c(void *, void *);
 // EC ??? func_01ff9850
 EC s32 func_01ff9894(u8, u8);
 // EC ??? func_01ff9948
-// EC ??? func_01ff9998
+EC void func_01ff9998(void *, s32, s32);
 // EC ??? func_01ff99cc
-// EC ??? func_01ff9a00
-// EC ??? func_01ff9a34
+EC void func_01ff9a00(void *, s32, s32);
+EC void func_01ff9a34(u16 *, s32, s32);
 // EC ??? func_01ff9a68
 // EC ??? func_01ff9a8c
 EC void func_01ff9af8(void);
@@ -6084,24 +6049,7 @@ EC void func_ov000_021bc9e4(void *);
 // EC ??? func_ov000_021bda20
 // EC ??? func_ov000_021bdc14
 // EC ??? func_ov000_021be0c4
-// EC ??? func_ov000_021be21c
-// EC ??? func_ov000_021be4d0
-// EC ??? func_ov000_021be588
-// EC ??? func_ov000_021be640
-// EC ??? func_ov000_021be6d8
-// EC ??? func_ov000_021be768
-// EC ??? func_ov000_021be828
-// EC ??? func_ov000_021be884
-// EC ??? func_ov000_021be8d8
-// EC ??? func_ov000_021be8f0
-// EC ??? func_ov000_021be91c
-// EC ??? func_ov000_021be934
-// EC ??? func_ov000_021be960
-// EC ??? func_ov000_021be978
-// EC ??? func_ov000_021be9a4
-// EC ??? func_ov000_021bea10
-// EC ??? func_ov000_021bea74
-// EC ??? func_ov000_021beab0
+/* map_menu_base.hpp */
 // EC ??? StartChoice_TemporarySave
 // EC ??? StartChoice_Surrender
 EC void StartMapMenu(ProcPtr);

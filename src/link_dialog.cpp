@@ -2,6 +2,7 @@
 
 #include <new>
 
+#include "font.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
 #include "heap.hpp"
@@ -10,18 +11,8 @@
 #include "menu.hpp"
 #include "proc_ex.hpp"
 
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-extern struct UnkStruct_021970c4 * data_021970cc;
-
-EC s32 func_020290f4(struct UnkStruct_021970c4 *, s32);
-EC s32 func_02028e7c(struct UnkStruct_021970c4 *, s32, s32);
+EC s32 func_020290f4(struct Font *, s32);
+EC s32 func_02028e7c(struct Font *, s32, s32);
 
 struct VmMap_Common
 {
@@ -340,7 +331,7 @@ public:
         this->unk_5a = this->unk_36;
 
         iVar1 = func_02028e7c(data_021970c4, this->unk_54, 0);
-        iVar1 = (((iVar1 + 7) & ~7) / 8) + 2;
+        iVar1 = (ALIGN_UP(iVar1, 8) / 8) + 2;
 
         if (this->unk_5a < iVar1)
         {

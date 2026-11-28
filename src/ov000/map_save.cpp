@@ -4,9 +4,12 @@
 
 #include "action.hpp"
 #include "anime.hpp"
+#include "font.hpp"
 #include "hardware.hpp"
 #include "hashtable.hpp"
+#include "heap.hpp"
 #include "map.hpp"
+#include "map_menu_base.hpp"
 #include "menu.hpp"
 #include "proc_ex.hpp"
 #include "sound_manager.hpp"
@@ -69,7 +72,7 @@ public:
     void _021d5f00(void);
 };
 
-class PointSaveMenu : public Menu
+class PointSaveMenu : public SaveMenu
 {
 public:
     Anime * unk_50;
@@ -101,7 +104,7 @@ public:
         this->unk_41 = 1;
         this->unk_42 = 2;
 
-        if (data_02196f24->controlSettings == 0)
+        if (data_02196f24->controlSettings == CONTROL_SETTINGS_BUTTONS)
         {
             this->unk_44 = 0;
         }
@@ -294,38 +297,11 @@ public:
 
 } // namespace mapsave
 
-namespace map
-{
-
-class BMapDialogYesNo : public DialogYesNo
-{
-public:
-    /* 000 */ virtual void vfunc_00(void); // func_ov000_021be6d8
-    /* 0A0 */ virtual BOOL vfunc_a0(void); // func_ov000_021be934
-    /* 0AC */ virtual s32 vfunc_ac(void); // func_ov000_021be91c
-    /* 130 */ virtual void vfunc_130(/* ? */); // func_ov000_021bea74
-    /* 134 */ virtual void vfunc_134(/* ? */); // func_ov000_021beab0
-};
-
-} // namespace map
-
 EC void func_020303bc(Dialog *, char *, void *, ProcPtr, s32, s32);
 EC void func_01ff9948(s32);
 
-struct UnkStruct_021970c4
-{
-    void * unk_00;
-    void * unk_04;
-    void * unk_08;
-    void * unk_0c;
-    void * unk_10;
-    void * unk_14;
-};
-
-extern struct UnkStruct_021970c4 * data_021970c4;
-
-EC u32 func_02028e7c(UnkStruct_021970c4 *, char *, s32);
-EC s32 func_020290f4(struct UnkStruct_021970c4 *, char *);
+EC u32 func_02028e7c(Font *, char *, s32);
+EC s32 func_020290f4(struct Font *, char *);
 
 void mapsave::MapSave::_021d59d0(void)
 {
@@ -338,7 +314,7 @@ void mapsave::MapSave::_021d59d0(void)
         func_020295ec(
             data_021970c4, GetText("MNT_SAVE"), gpActiveScreenSt->bgTiles[iVar3->unk_07],
             gpActiveScreenSt->tilemap[iVar3->unk_07],
-            0x100 - (func_02028e7c(data_021970c4, GetText("MNT_SAVE"), 0) + 7 & ~7) >> 4,
+            0x100 - ALIGN_UP(func_02028e7c(data_021970c4, GetText("MNT_SAVE"), 0), 8) >> 4,
             0xc - func_020290f4(data_021970c4, GetText("MNT_SAVE")), iVar3->unk_04, iVar3->unk_06, 0, 0);
 
         gpActiveScreenSt->unk_3e |= 1 << iVar3->unk_07;
