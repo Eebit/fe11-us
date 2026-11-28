@@ -401,7 +401,7 @@ public:
 
     TalkName(s32 param, char * name) : unk_38(param)
     {
-        func_0206e7b8(this->unk_3d, name, 40);
+        func_0206e7b8(this->unk_3d, name, sizeof(this->unk_3d));
         this->unk_3c = 1;
     }
     /* 00 */ virtual ~TalkName();
@@ -1403,7 +1403,7 @@ scanned:
                     break;
                 case 13:
                     p++;
-                    func_0206e7b8(data_020e3d48, func_02008ae4(&p), 32);
+                    func_0206e7b8(data_020e3d48, func_02008ae4(&p), sizeof(data_020e3d48));
                     goto done;
                 case 19:
                     p++;
@@ -2151,7 +2151,7 @@ void TalkLog::_0200ca38(char * name)
         return;
     }
 
-    func_0206e7b8(this->unk_100c, name, 24);
+    func_0206e7b8(this->unk_100c, name, sizeof(this->unk_100c));
     this->_0200c984('~');
     this->_0200c9f0(name);
     this->_0200c8b0();
@@ -2687,7 +2687,7 @@ EC void func_0200e0dc(void)
     palBuf = static_cast<u16 *>(gHeap._01ffb9bc(512));
     size = func_02006b0c(data_020e4dd4);
     func_020a5780(func_02006b24(data_020e4dd4), palBuf, size);
-    func_0200c7ac((s32)&palBuf[240], 0x216D, 0x7FFF);
+    func_0200c7ac((s32)&palBuf[240], RGB(13, 11, 8), RGB(31, 31, 31));
     data_0219771c->vfunc_10((s32)palBuf, 0, 0x1E00, 512, 0);
     data_02197718->vfunc_10((s32)palBuf, 0, 0x1400, 512, 1);
     data_0219771c->unk_12 = 0;
