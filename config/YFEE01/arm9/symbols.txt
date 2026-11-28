@@ -8498,7 +8498,7 @@ data_020e3ccc kind:bss addr:0x020e3ccc
 data_020e3cdc kind:bss addr:0x020e3cdc
 data_020e3cf8 kind:bss addr:0x020e3cf8
 gFaceHandle kind:bss addr:0x020e3d40
-data_020e3d44 kind:bss addr:0x020e3d44
+gTalkFlags kind:bss addr:0x020e3d44
 data_020e3d48 kind:bss addr:0x020e3d48
 data_020e3d68 kind:bss addr:0x020e3d68
 gTalkLog kind:bss addr:0x020e3da8

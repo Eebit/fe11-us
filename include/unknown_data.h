@@ -2778,7 +2778,7 @@ extern s32 data_020d6254;
 // extern ??? data_020e3cdc
 extern struct UnkStruct_020e3cf8 data_020e3cf8;
 // extern ??? gFaceHandle
-extern u32 data_020e3d44;
+extern u32 gTalkFlags;
 /* talk.hpp */
 extern u32 data_020e4dcc[];
 extern struct UnkStruct_02006604 * data_020e4dd4;

@@ -4,6 +4,26 @@
 #include "global.h"
 #include "proc.h"
 
+enum
+{
+    TALK_FLAG_ADVANCE = (1 << 0),
+    TALK_FLAG_FAST = (1 << 1),
+    TALK_FLAG_2 = (1 << 2),
+    TALK_FLAG_3 = (1 << 3),
+    TALK_FLAG_SKIP = (1 << 4),
+    TALK_FLAG_HOLD = (1 << 5),
+    TALK_FLAG_6 = (1 << 6),
+    TALK_FLAG_SWAP_SLOTS = (1 << 7),
+    TALK_FLAG_8 = (1 << 8),
+    TALK_FLAG_NO_LOG_VIEWER = (1 << 9),
+    TALK_FLAG_NOSKIP = (1 << 10),
+    TALK_FLAG_12 = (1 << 12),
+    TALK_FLAG_NO_LOG = (1 << 13),
+    TALK_FLAG_14 = (1 << 14),
+    TALK_FLAG_15 = (1 << 15),
+    TALK_FLAG_16 = (1 << 16),
+};
+
 // extern ??? _ZTS4Talk
 extern char data_020ca16c[];
 extern char data_020ca174[];

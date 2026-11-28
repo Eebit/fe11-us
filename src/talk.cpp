@@ -482,9 +482,9 @@ inline s32 Talk::RunCommand()
                 func_0206e7b8(fidBuf, "FID_", 64);
                 func_0206e7f4(fidBuf, name, 64);
             }
-            gFaceHandle->faces[this->unk_39].unk_0c_1 = (data_020e3d44 & 0x40) ? TRUE : FALSE;
+            gFaceHandle->faces[this->unk_39].unk_0c_1 = (gTalkFlags & TALK_FLAG_6) ? TRUE : FALSE;
             gFaceHandle->faces[this->unk_39].unk_18 = 8;
-            gFaceHandle->faces[this->unk_39]._020077b8(fidBuf, this->unk_39, 0, data_020e3d44 & 0x80);
+            gFaceHandle->faces[this->unk_39]._020077b8(fidBuf, this->unk_39, 0, gTalkFlags & TALK_FLAG_SWAP_SLOTS);
             return 2;
         case 9:
             face = &gFaceHandle->faces[this->unk_39];
@@ -532,7 +532,7 @@ inline s32 Talk::RunCommand()
                     func_02019124((struct Proc *)this);
                     return 1;
                 case 'h':
-                    data_020e3d44 |= 0x20;
+                    gTalkFlags |= TALK_FLAG_HOLD;
                     this->unk_40 -= 2;
                     face = &gFaceHandle->faces[this->unk_39];
                     if (face->unk_0c_6_7 != 2)
@@ -569,13 +569,13 @@ inline s32 Talk::RunCommand()
                     switch (this->unk_40[-1])
                     {
                         case 'l':
-                            data_020e3d44 |= 0x200;
+                            gTalkFlags |= TALK_FLAG_NO_LOG_VIEWER;
                             return 1;
                         case 's':
-                            data_020e3d44 |= 0x400;
+                            gTalkFlags |= TALK_FLAG_NOSKIP;
                             return 1;
                         case 'a':
-                            data_020e3d44 |= 0x2000;
+                            gTalkFlags |= TALK_FLAG_NO_LOG;
                             return 1;
                     }
                     return 4;
@@ -624,7 +624,7 @@ inline s32 Talk::RunCommand()
                 {
                     path = data_020ca16c;
                 }
-                func_02006e38(&data_020e3cf8, path, (data_020e3d44 & 0x40) ? 1 : 0, 0);
+                func_02006e38(&data_020e3cf8, path, (gTalkFlags & TALK_FLAG_6) ? 1 : 0, 0);
                 func_02006d3c(&data_020e3cf8);
             }
             return 1;
@@ -651,7 +651,7 @@ inline s32 Talk::RunCommand()
         case 11:
             this->unk_40++;
             num = 1 << (*this->unk_40++ - '0');
-            if (data_020e3d44 & 1)
+            if (gTalkFlags & TALK_FLAG_ADVANCE)
             {
                 return 1;
             }
@@ -664,7 +664,7 @@ inline s32 Talk::RunCommand()
             return 2;
         case 18:
             this->unk_40++;
-            data_020e3d44 ^= 0x40;
+            gTalkFlags ^= TALK_FLAG_6;
             return 1;
         case 19:
             this->unk_40++;
@@ -806,7 +806,7 @@ inline void Talk::SkipText()
     Face * face;
     s32 i;
 
-    data_020e3d44 &= ~0x20;
+    gTalkFlags &= ~TALK_FLAG_HOLD;
 
     while (TRUE)
     {
@@ -859,9 +859,9 @@ inline void Talk::SkipText()
                     func_0206e7b8(buf, "FID_", 64);
                     func_0206e7f4(buf, name, 64);
                 }
-                gFaceHandle->faces[this->unk_39].unk_0c_1 = (data_020e3d44 & 0x40) ? TRUE : FALSE;
+                gFaceHandle->faces[this->unk_39].unk_0c_1 = (gTalkFlags & TALK_FLAG_6) ? TRUE : FALSE;
                 gFaceHandle->faces[this->unk_39].unk_18 = 8;
-                gFaceHandle->faces[this->unk_39]._020077b8(buf, this->unk_39, 0, data_020e3d44 & 0x80);
+                gFaceHandle->faces[this->unk_39]._020077b8(buf, this->unk_39, 0, gTalkFlags & TALK_FLAG_SWAP_SLOTS);
                 break;
             case 9:
                 this->unk_40++;
@@ -893,7 +893,7 @@ inline void Talk::SkipText()
                         func_02019124((struct Proc *)this);
                         break;
                     case 'h':
-                        data_020e3d44 |= 0x20;
+                        gTalkFlags |= TALK_FLAG_HOLD;
                         this->unk_40 -= 2;
                         return;
                 }
@@ -937,7 +937,7 @@ inline Talk::Talk(char * str, s32 flag)
     : unk_38(1), unk_39(0), unk_3a(0), unk_3b(1), unk_3c(16), unk_3d(4), unk_40(str), pTalkWindow(NULL), unk_48(NULL),
       pTalkInput(NULL), unk_50(NULL)
 {
-    data_020e3d44 &= 0x1000;
+    gTalkFlags &= TALK_FLAG_12;
     gTalkLog._0200c89c();
     StartFaceHandle(0);
 
@@ -945,7 +945,7 @@ inline Talk::Talk(char * str, s32 flag)
     {
         this->SkipText();
         this->unk_3d = 8;
-        if (data_020e3d44 & 0x20)
+        if (gTalkFlags & TALK_FLAG_HOLD)
         {
             Proc_Goto(this, 7, 0);
         }
@@ -961,7 +961,7 @@ inline Talk::Talk(char * str, s32 flag)
     this->unk_48 = static_cast<struct UnkStruct_0200de90 *>(func_02004450(data_020ca180));
     if (func_ov000_021ccbdc())
     {
-        data_020e3d44 |= 0x600;
+        gTalkFlags |= TALK_FLAG_NO_LOG_VIEWER | TALK_FLAG_NOSKIP;
     }
 
     if (data_020e3cf8.HasUnk18())
@@ -983,7 +983,7 @@ inline Talk::Talk(char * str, s32 flag)
     this->unk_3d = 4;
     if (flag)
     {
-        data_020e3d44 |= 0x100;
+        gTalkFlags |= TALK_FLAG_8;
     }
     Proc_Goto(this, 0, 0);
 }
@@ -992,17 +992,17 @@ inline void Talk::Restart(char * str, s32 flag)
 {
     gKeySt->pressed = 0;
     this->unk_40 = str;
-    data_020e3d44 &= ~0x120;
+    gTalkFlags &= ~(TALK_FLAG_HOLD | TALK_FLAG_8);
     if (flag)
     {
-        data_020e3d44 |= 0x100;
+        gTalkFlags |= TALK_FLAG_8;
     }
     func_020190ec((struct Proc *)this);
 
-    if (EventSkip::IsSkipState4() || (data_020e3d44 & 0x8000))
+    if (EventSkip::IsSkipState4() || (gTalkFlags & TALK_FLAG_15))
     {
         this->SkipText();
-        if (!(data_020e3d44 & 0x20))
+        if (!(gTalkFlags & TALK_FLAG_HOLD))
         {
             Proc_Goto(this, this->unk_3d, 0);
             return;
@@ -1016,7 +1016,7 @@ inline void Talk::ScanText()
 {
     char * p;
 
-    data_020e3d44 &= ~0x10000;
+    gTalkFlags &= ~TALK_FLAG_16;
     p = this->unk_40;
 
     while (TRUE)
@@ -1040,7 +1040,7 @@ inline void Talk::ScanText()
             case 1:
                 if (p[1] == 'h')
                 {
-                    data_020e3d44 |= 0x10000;
+                    gTalkFlags |= TALK_FLAG_16;
                 }
                 p += 2;
                 break;
@@ -1149,15 +1149,15 @@ void Talk::Loop()
 
     this->unk_38--;
     count = (data_02196f24->messageSpeed == MESSAGE_SPEED_MAX) ? 0xFFFF : 1;
-    data_020e3d44 |= 0x4000;
+    gTalkFlags |= TALK_FLAG_14;
 
-    if (EventSkip::IsSkipState4() || (data_020e3d44 & 0x14))
+    if (EventSkip::IsSkipState4() || (gTalkFlags & (TALK_FLAG_2 | TALK_FLAG_SKIP)))
     {
         Proc_Goto(this, 6, 0);
         return;
     }
 
-    if (data_020e3d44 & 1)
+    if (gTalkFlags & TALK_FLAG_ADVANCE)
     {
         this->unk_38 = 0;
         count = 0xFFFF;
@@ -1240,7 +1240,7 @@ EC void func_02009afc(void)
 {
     if (IsOverlayLoaded(OVERLAY_ID_2) && data_ov002_021faf8c.unk_bc == 0)
     {
-        data_020e3d44 |= 0x80;
+        gTalkFlags |= TALK_FLAG_SWAP_SLOTS;
     }
 }
 
@@ -1250,7 +1250,7 @@ EC void func_02009b3c(Talk * talk)
 
     if (IsOverlayLoaded(OVERLAY_ID_2) && data_ov002_021faf8c.unk_bc == 0)
     {
-        data_020e3d44 |= 0x80;
+        gTalkFlags |= TALK_FLAG_SWAP_SLOTS;
     }
     func_0206f580(data_021976f8, 0);
     data_021976f8->SetScroll(0, 0);
@@ -1374,9 +1374,9 @@ scanned:
                         func_0206e7b8(buf, "FID_", 64);
                         func_0206e7f4(buf, name, 64);
                     }
-                    gFaceHandle->faces[talk->unk_39].unk_0c_1 = (data_020e3d44 & 0x40) ? TRUE : FALSE;
+                    gFaceHandle->faces[talk->unk_39].unk_0c_1 = (gTalkFlags & TALK_FLAG_6) ? TRUE : FALSE;
                     gFaceHandle->faces[talk->unk_39].unk_18 = 8;
-                    gFaceHandle->faces[talk->unk_39]._020077b8(buf, talk->unk_39, 0, data_020e3d44 & 0x80);
+                    gFaceHandle->faces[talk->unk_39]._020077b8(buf, talk->unk_39, 0, gTalkFlags & TALK_FLAG_SWAP_SLOTS);
                     break;
                 case 6:
                     talk->unk_39 = 0;
@@ -1396,7 +1396,7 @@ scanned:
                     break;
                 case 18:
                     p++;
-                    data_020e3d44 ^= 0x40;
+                    gTalkFlags ^= TALK_FLAG_6;
                     break;
                 case 13:
                     p++;
@@ -1443,13 +1443,13 @@ scanned:
                             switch (p[-1])
                             {
                                 case 'l':
-                                    data_020e3d44 |= 0x200;
+                                    gTalkFlags |= TALK_FLAG_NO_LOG_VIEWER;
                                     break;
                                 case 's':
-                                    data_020e3d44 |= 0x400;
+                                    gTalkFlags |= TALK_FLAG_NOSKIP;
                                     break;
                                 case 'a':
-                                    data_020e3d44 |= 0x2000;
+                                    gTalkFlags |= TALK_FLAG_NO_LOG;
                                     break;
                             }
                             break;
@@ -1501,13 +1501,13 @@ scanned:
         {
             path = data_020ca16c;
         }
-        func_02006e38(&data_020e3cf8, path, (data_020e3d44 & 0x40) ? 1 : 0, 0);
+        func_02006e38(&data_020e3cf8, path, (gTalkFlags & TALK_FLAG_6) ? 1 : 0, 0);
         func_02006d3c(&data_020e3cf8);
     }
 
     pending = talk->unk_3c;
     func_02006398(func_0206ecb0(), 0, pending, talk);
-    if ((data_020e3d44 & 0x100) || ((data_020e3d44 & 0x10) && !(data_020e3d44 & 0x1000)))
+    if ((gTalkFlags & TALK_FLAG_8) || ((gTalkFlags & TALK_FLAG_SKIP) && !(gTalkFlags & TALK_FLAG_12)))
     {
         func_02006398(func_0206eca4(), 0, pending, talk);
     }
@@ -1527,7 +1527,7 @@ EC void func_0200a500(Talk * talk)
     param = talk->unk_3c;
     func_02006398(func_0206ecb0(), -16, param, talk);
 
-    if ((data_020e3d44 & 0x100) || ((data_020e3d44 & 0x10) && !(data_020e3d44 & 0x1000)))
+    if ((gTalkFlags & TALK_FLAG_8) || ((gTalkFlags & TALK_FLAG_SKIP) && !(gTalkFlags & TALK_FLAG_12)))
     {
         func_02006398(func_0206eca4(), -16, param, talk);
     }
@@ -1545,7 +1545,7 @@ EC void func_0200a590(Talk * talk)
 
 EC void func_0200a5a4(Talk * talk)
 {
-    data_020e3d44 |= 0x8000;
+    gTalkFlags |= TALK_FLAG_15;
 
     if (talk->unk_3d != 4)
     {
@@ -1554,7 +1554,7 @@ EC void func_0200a5a4(Talk * talk)
 
     func_02006398(func_0206ecb0(), -16, 8, talk);
 
-    if ((data_020e3d44 & 0x100) || ((data_020e3d44 & 0x10) && !(data_020e3d44 & 0x1000)))
+    if ((gTalkFlags & TALK_FLAG_8) || ((gTalkFlags & TALK_FLAG_SKIP) && !(gTalkFlags & TALK_FLAG_12)))
     {
         func_02006398(func_0206eca4(), -16, 8, talk);
     }
@@ -1564,11 +1564,11 @@ EC void func_0200a618(Talk * talk)
 {
     talk->SkipText();
 
-    if ((data_020e3d44 & 0x10) && !(data_020e3d44 & 0x1000))
+    if ((gTalkFlags & TALK_FLAG_SKIP) && !(gTalkFlags & TALK_FLAG_12))
     {
         EventSkip::SkipTransitionFrom0To2();
     }
-    if (data_020e3d44 & 0x20)
+    if (gTalkFlags & TALK_FLAG_HOLD)
     {
         Proc_Goto(talk, 7, 0);
     }
@@ -1645,7 +1645,7 @@ EC BOOL IsTalkFlag5Clear(void)
         return FALSE;
     }
 
-    return (data_020e3d44 & 0x20) == 0;
+    return (gTalkFlags & TALK_FLAG_HOLD) == 0;
 }
 
 Talk::~Talk()
@@ -1679,43 +1679,43 @@ Talk::~Talk()
 
 void TalkInput::Loop()
 {
-    if (data_020e3d44 & 0x20)
+    if (gTalkFlags & TALK_FLAG_HOLD)
     {
         return;
     }
 
-    if (!(data_020e3d44 & 0x4000))
+    if (!(gTalkFlags & TALK_FLAG_14))
     {
         return;
     }
 
-    data_020e3d44 &= ~3;
+    gTalkFlags &= ~(TALK_FLAG_ADVANCE | TALK_FLAG_FAST);
 
     if ((gKeySt->pressed & (KEY_BUTTON_A | KEY_BUTTON_B)) || gTouchSt->unk_14 != 0)
     {
-        data_020e3d44 |= 1;
+        gTalkFlags |= TALK_FLAG_ADVANCE;
     }
 
     if (gKeySt->pressed & KEY_BUTTON_R)
     {
-        data_020e3d44 |= 8;
+        gTalkFlags |= TALK_FLAG_3;
     }
 
     if (gKeySt->pressed & KEY_BUTTON_START)
     {
-        if (data_020e3d44 & 0x400)
+        if (gTalkFlags & TALK_FLAG_NOSKIP)
         {
-            data_020e3d44 |= 1;
+            gTalkFlags |= TALK_FLAG_ADVANCE;
         }
         else
         {
-            data_020e3d44 |= 0x10;
+            gTalkFlags |= TALK_FLAG_SKIP;
         }
     }
 
     if ((gKeySt->held & (KEY_BUTTON_A | KEY_DPAD_DOWN)) == (KEY_BUTTON_A | KEY_DPAD_DOWN))
     {
-        data_020e3d44 |= 3;
+        gTalkFlags |= TALK_FLAG_ADVANCE | TALK_FLAG_FAST;
     }
 }
 
@@ -2072,7 +2072,7 @@ void TalkLog::_0200c8b0()
     {
         return;
     }
-    if (data_020e3d44 & 0x2000)
+    if (gTalkFlags & TALK_FLAG_NO_LOG)
     {
         return;
     }
@@ -2085,7 +2085,7 @@ void TalkLog::_0200c8b0()
 void TalkLog::_0200c904()
 {
 
-    if (data_020e3d44 & 0x2000)
+    if (gTalkFlags & TALK_FLAG_NO_LOG)
     {
         return;
     }
@@ -2107,7 +2107,7 @@ void TalkLog::_0200c984(char chr)
 {
     s32 pos;
 
-    if (data_020e3d44 & 0x2000)
+    if (gTalkFlags & TALK_FLAG_NO_LOG)
     {
         return;
     }
@@ -2124,7 +2124,7 @@ void TalkLog::_0200c984(char chr)
 
 void TalkLog::_0200c9f0(char * str)
 {
-    if (data_020e3d44 & 0x2000)
+    if (gTalkFlags & TALK_FLAG_NO_LOG)
     {
         return;
     }
@@ -2143,7 +2143,7 @@ void TalkLog::_0200ca38(char * name)
         return;
     }
 
-    if (data_020e3d44 & 0x2000)
+    if (gTalkFlags & TALK_FLAG_NO_LOG)
     {
         return;
     }
@@ -2179,9 +2179,9 @@ EC void func_0200cb8c(ProcPtr parent)
 EC void func_0200cc14(void)
 {
     SetDispEnable_Maybe(func_0206eca4(), 1, 0, 0, 1, 1);
-    data_020e3d44 &= ~0x1F;
+    gTalkFlags &= ~(TALK_FLAG_ADVANCE | TALK_FLAG_FAST | TALK_FLAG_2 | TALK_FLAG_3 | TALK_FLAG_SKIP);
 
-    if (data_020e3d44 & 0x1000)
+    if (gTalkFlags & TALK_FLAG_12)
     {
         return;
     }
@@ -2283,7 +2283,7 @@ void TalkLogViewer::Loop()
 
 void ILogStream::StartLogViewer(ProcPtr parent)
 {
-    if (data_020e3d44 & 0x200)
+    if (gTalkFlags & TALK_FLAG_NO_LOG_VIEWER)
     {
         return;
     }
@@ -2592,7 +2592,7 @@ void TalkWindow::_0200de18(ProcPtr parent)
 {
     gTalkLog._0200c8b0();
 
-    if (data_020e3d44 & 2)
+    if (gTalkFlags & TALK_FLAG_FAST)
     {
         this->_0200db64();
         return;
@@ -2634,7 +2634,7 @@ void KW::Loop()
     }
 
     func_020045fc(&this->unk_38);
-    if (data_020e3d44 & 0x15)
+    if (gTalkFlags & (TALK_FLAG_ADVANCE | TALK_FLAG_2 | TALK_FLAG_SKIP))
     {
         Proc_End(this);
     }
@@ -2869,7 +2869,7 @@ EC BOOL TryStartTalkName(s32 mode, char * name, ProcPtr parent)
         return FALSE;
     }
 
-    if (data_020e3d44 & 0x80)
+    if (gTalkFlags & TALK_FLAG_SWAP_SLOTS)
     {
         switch (mode)
         {
